@@ -1,0 +1,41 @@
+; Engine configuration file.
+; Pinned engine: Godot 4.7.2-stable (standard build, GDScript only).
+
+config_version=5
+
+[application]
+
+config/name="Ironbound Streets"
+config/description="Original persistent online beat 'em up RPG (browser client)."
+config/version="0.1.0"
+run/main_scene="res://scenes/world/TestZone.tscn"
+config/features=PackedStringArray("4.7", "GL Compatibility")
+boot_splash/bg_color=Color(0.06, 0.06, 0.09, 1)
+boot_splash/show_image=false
+
+[autoload]
+
+BuildInfo="*res://scripts/core/BuildInfo.gd"
+InputSetup="*res://scripts/core/InputSetup.gd"
+
+[debug]
+
+gdscript/warnings/untyped_declaration=1
+gdscript/warnings/inferred_declaration=0
+
+[display]
+
+window/size/viewport_width=640
+window/size/viewport_height=360
+window/size/window_width_override=1280
+window/size/window_height_override=720
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+textures/canvas_textures/default_texture_filter=0
+textures/vram_compression/import_etc2_astc=true
+2d/snap/snap_2d_transforms_to_pixel=true

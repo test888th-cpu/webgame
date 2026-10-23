@@ -1,0 +1,7 @@
+build/
+node_modules/
+.env
+.env.*
+!.env.example
+*.log
+smoke-screenshot.png
