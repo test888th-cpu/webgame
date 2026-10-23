@@ -4,6 +4,25 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — Milestone 2, part 1: combat core
+- Deterministic 60 Hz combat simulation in `client/sim/` (`CombatRules`, `Fighter`,
+  `FighterInput`, `CombatEvent`): light combo jab → cross → body hook (chains only
+  after a connected hit), guard-breaking haymaker, dodge with invulnerability frames,
+  guard (front only, chip damage, energy drain, guard break), hit stun, knockback,
+  knockdown, KO, simultaneous-hit trades.
+- Attacks are data: `client/data/moves.json`, loaded and validated by `MoveLibrary`.
+- Test zone: training dummy with HP bar and respawn, HUD HP/energy bars, floating
+  damage numbers, keyboard/gamepad/touch bindings for light, heavy, dodge, guard.
+- 23 new tests (39 total). Browser smoke test now lands a combo on the dummy.
+- `pages.yml` plays the live HTTPS site after each deploy.
+
+### Changed
+- CI jobs have time limits. The smoke test installs only Chromium's headless shell
+  (cached) instead of `--with-deps`, which spent 10+ minutes on a slow apt mirror.
+- Light hits push less (jab 4 px, cross 6 px) so the combo stays in reach.
+
+## [0.1.0] — 2026-10-23 (Milestone 1 / Task 001)
+
 ### Added — Milestone 1 / Task 001: cloud build pipeline
 - Godot 4.7.2 client project (`client/`): test street, placeholder hero with lane movement
   (keyboard, gamepad, touch), bounded camera, HUD.

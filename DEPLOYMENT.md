@@ -29,6 +29,11 @@ Security workflow. Recommended on the same page: Dependabot alerts, Secret Prote
 push protection, and private vulnerability reporting. **Settings →
 Branches** → protect `main`: require PRs and the CI + Security checks.
 
+## Post-deploy verification
+After publishing, `pages.yml`'s **verify** job plays the live site over HTTPS (boot,
+movement, a combo on the dummy) and uploads a `live-screenshot` artifact. A red verify
+job means the site is up but broken: roll back as below.
+
 ## Rollback (client)
 Actions → *Deploy web client (GitHub Pages)* → **Run workflow** → enter the run ID of an
 earlier green CI run. That run's artifact is redeployed. Artifacts are kept for 30 days;

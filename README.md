@@ -3,11 +3,13 @@
 A browser-first, persistent online beat 'em up RPG built with **Godot 4.7.2 (GDScript)**.
 All characters, places, art, audio and code are original to this project.
 
-> **Status: Milestone 1 / Task 001 — build pipeline.** The repository contains a small
-> playable test street (one placeholder hero you can walk around, a bounded camera,
-> a HUD and touch controls), the CI pipeline that builds and browser-tests it, and the
-> first slice of the account API. There is **no combat, no online play and no game
-> server yet**. See [docs/ROADMAP.md](docs/ROADMAP.md) for what comes next.
+> **Status: Milestone 2 in progress — combat core.** A playable test street: one
+> placeholder hero against a training dummy, with a light combo (jab → cross → body
+> hook), a guard-breaking heavy, a dodge with invulnerability frames, a guard,
+> hit stun, knockback, knockdown, HP/energy bars and damage numbers. Combat rules are
+> data-driven (`client/data/moves.json`) and run in a deterministic 60 Hz simulation
+> that the future zone server will reuse. There are **no enemies with AI, no loot,
+> no online play and no game server yet**. See [docs/ROADMAP.md](docs/ROADMAP.md).
 
 | | Version |
 |---|---|
@@ -31,8 +33,13 @@ You do not need any local tools. All building and testing happens in GitHub Acti
   host such as GitHub Pages, Cloudflare Pages, Netlify or itch.io (HTML5 project, upload
   the zip). No special headers are required.
 
-Controls: arrow keys or WASD, a gamepad's left stick or d-pad, or the on-screen pad on
-touch devices.
+| Action | Keyboard | Gamepad | Touch |
+|---|---|---|---|
+| Move | Arrows / WASD | Left stick, d-pad | On-screen pad (left) |
+| Light attack (combo) | J or Z | X / Square | Red button |
+| Heavy attack (breaks guard, costs energy) | K or X | Y / Triangle | Orange button |
+| Dodge (invulnerable, costs energy) | Space or L | A / Cross | Blue button |
+| Guard (hold; drains energy) | Shift or I | LB / L1 | Green button |
 
 ### See test results
 
@@ -42,8 +49,8 @@ GitHub → **Actions** → **CI**. Each run has these jobs:
 |---|---|
 | Repository policy | Required docs exist; `.env.example` has placeholders only; no key files tracked |
 | GDScript lint and format | `gdlint` and `gdformat --check` (gdtoolkit 4.5.0) |
-| Godot project opens and tests pass | Headless import with no script errors; 16 unit/scene tests |
-| Web export and browser smoke test | Release web export; headless Chromium loads it, waits for boot, **holds real keys and checks the hero moves**; uploads the build, a manifest with SHA-256s and a screenshot |
+| Godot project opens and tests pass | Headless import with no script errors; 39 unit/scene tests (combat rules, content validation, zone) |
+| Web export and browser smoke test | Release web export; headless Chromium loads it, waits for boot, **holds real keys, checks the hero moves, then walks to the dummy and lands a combo**; uploads the build, a manifest with SHA-256s and a screenshot |
 | Backend typecheck, tests and migrations | `tsc`, API + migration tests against a real PostgreSQL, fresh-DB migration, API reaches `/readyz` |
 | Backend image build, container scan and SBOM | Docker image builds, runs as non-root on the pinned Node, Trivy scan, CycloneDX SBOM |
 
@@ -62,7 +69,8 @@ dependency review on pull requests. It also runs weekly.
 ```
 client/            Godot project (the browser client; later also the headless zone server)
   sim/             Pure game rules shared by client and server (no nodes, no rendering)
-  scenes/          Presentation: world, player, UI
+  data/            Content as data (moves.json: every attack's timing, damage, reach)
+  scenes/          Presentation: world, fighter views, UI
   scripts/core/    Autoloads: BuildInfo, InputSetup
   tests/           Headless test runner and tests (excluded from exports)
 backend/           Account/persistence API (Node.js + TypeScript + Fastify + PostgreSQL)
