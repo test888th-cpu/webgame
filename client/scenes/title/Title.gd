@@ -1,11 +1,14 @@
 extends Node2D
 ## Title screen. A slow pan along Saltmarket Street at night behind the logo
-## and menu, the hero and a Murk creature in the foreground. Continue comes
-## first when a save exists; New game asks before replacing a save.
+## and menu, the heroes and a Murk creature in the foreground. Continue comes
+## first when a save exists, with a card showing who you continue as; New
+## game (after a confirmation if it would replace a save) opens hero
+## creation.
 ## Prints the boot marker the browser smoke test waits for.
 
 const BOOT_MARKER := "BOOT_OK"
 const GAME_SCENE := "res://scenes/game/Game.tscn"
+const CREATE_SCENE := "res://scenes/create/CharacterCreate.tscn"
 const BACKDROP_AREA := "saltmarket"
 const PAN_SECONDS := 45.0
 
@@ -87,8 +90,20 @@ func _build_ui(content: ContentDB) -> void:
 	menu.add_child(UiKit.menu_button("Credits", _credits))
 	UiKit.focus_first(menu)
 
-	_showcase(content, "hero_mika", Vector2(480, 326), 2.5, false)
-	_showcase(content, "smogling", Vector2(585, 326), 2.0, true)
+	# The saved hero leads the line-up; otherwise the whole roster.
+	var heroes: Array = content.hero_order.duplicate()
+	var saved := SaveStore.load_profile(content) if SaveStore.has_save() else null
+	if saved:
+		heroes.erase(saved.hero)
+		heroes.push_front(saved.hero)
+		_save_card(content, saved)
+	# Back to front, so the leading hero is drawn last (on top).
+	for i in range(heroes.size() - 1, -1, -1):
+		var sprites: Dictionary = content.hero(heroes[i])["sprites"]
+		Showcase.add(
+			_ui, content, sprites["default"], Vector2(470 - i * 46, 326 - i * 4), 2.5 - i * 0.3
+		)
+	Showcase.add(_ui, content, "smogling", Vector2(590, 326), 2.0, true)
 
 	var version := UiKit.label(BuildInfo.summary(), UiTheme.SIZE_CAPTION, UiTheme.TEXT_FAINT)
 	version.position = Vector2(UiTheme.SCREEN_MARGIN, 344)
@@ -100,30 +115,6 @@ func _build_ui(content: ContentDB) -> void:
 	hints.add_child(UiKit.key_hint("W S", "Move"))
 	hints.add_child(UiKit.key_hint("Esc", "Back"))
 	_ui.add_child(hints)
-
-
-func _showcase(content: ContentDB, id: String, at: Vector2, size: float, face_left: bool) -> void:
-	var entry: Dictionary = content.art.get(id, {})
-	if entry.get("status") != "imported":
-		return
-	var shadow := Polygon2D.new()
-	shadow.color = Color(0, 0, 0, 0.45)
-	var points := PackedVector2Array()
-	for i in 16:
-		var angle := TAU * i / 16.0
-		points.append(at + Vector2(cos(angle) * 11.0 * size, sin(angle) * 2.5 * size))
-	shadow.polygon = points
-	_ui.add_child(shadow)
-	var sprite := AnimatedSprite2D.new()
-	sprite.sprite_frames = load(str(entry["sheet"]).get_base_dir().path_join(id + ".tres"))
-	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	sprite.centered = false
-	sprite.offset = -Vector2(entry["origin"][0], entry["origin"][1])
-	sprite.scale = Vector2(size, size)
-	sprite.position = at
-	sprite.flip_h = face_left
-	_ui.add_child(sprite)
-	sprite.play("idle")
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -140,8 +131,43 @@ func _process(delta: float) -> void:
 
 
 func _new_game() -> void:
-	GameSession.start_new_game()
-	get_tree().change_scene_to_file(GAME_SCENE)
+	get_tree().change_scene_to_file(CREATE_SCENE)
+
+
+## Who you continue as: portrait, name, hero, level and where.
+func _save_card(content: ContentDB, saved: PlayerProfile) -> void:
+	var card := PanelContainer.new()
+	card.name = "SaveCard"
+	var style := UiTheme.panel_style()
+	style.bg_color = Color(0.05, 0.05, 0.09, 0.82)
+	style.set_content_margin_all(5)
+	card.add_theme_stylebox_override("panel", style)
+	card.position = Vector2(190, 150)
+	_ui.add_child(card)
+	var line := HBoxContainer.new()
+	line.add_theme_constant_override("separation", 6)
+	card.add_child(line)
+	var hero := content.hero(saved.hero)
+	var picture := TextureRect.new()
+	picture.texture = UiKit.portrait(content, str(hero["sprites"]["default"]))
+	picture.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	picture.custom_minimum_size = Vector2(32, 32)
+	line.add_child(picture)
+	var text := VBoxContainer.new()
+	text.add_theme_constant_override("separation", 0)
+	line.add_child(text)
+	text.add_child(UiKit.label(saved.name, UiTheme.SIZE_H2, UiTheme.TEXT))
+	text.add_child(
+		UiKit.label(
+			"%s  -  Level %d" % [hero["title"], saved.level], UiTheme.SIZE_SMALL, UiTheme.ACCENT
+		)
+	)
+	text.add_child(
+		UiKit.label(
+			str(content.area(saved.area).get("name", "")), UiTheme.SIZE_CAPTION, UiTheme.TEXT_DIM
+		)
+	)
 
 
 func _confirm_new_game() -> void:

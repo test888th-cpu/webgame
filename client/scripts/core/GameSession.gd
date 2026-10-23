@@ -23,6 +23,19 @@ func _ready() -> void:
 	if project_theme:
 		project_theme.merge_with(UiTheme.build())
 	_load_settings()
+	_add_font_fallbacks()
+
+
+## The engine's default font has no Thai glyphs; Noto Sans Thai (OFL) is
+## added as a fallback so Thai player names and text render.
+func _add_font_fallbacks() -> void:
+	var path := str(content.fonts.get("thai", {}).get("file", ""))
+	var font: Font = ThemeDB.fallback_font
+	if path == "" or font == null:
+		return
+	var fallbacks := font.fallbacks
+	fallbacks.append(load(path))
+	font.fallbacks = fallbacks
 
 
 func set_setting(key: String, value: Variant) -> void:
@@ -46,8 +59,8 @@ func _load_settings() -> void:
 			settings[key] = json.data[key]
 
 
-func start_new_game() -> void:
-	profile = PlayerProfile.new_game(content)
+func start_new_game(hero_id := "", player_name := "") -> void:
+	profile = PlayerProfile.new_game(content, hero_id, player_name)
 
 
 ## Returns false when there is no usable save.

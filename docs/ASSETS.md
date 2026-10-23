@@ -86,6 +86,13 @@ the manifest's `ui` section. Each item in `items.json` names its `icon`. The
 validator regenerates the sheet in memory and fails when it is stale or an item
 names an unknown icon. See [UI.md](UI.md).
 
+## Fonts
+
+`client/assets/fonts/NotoSansThai-SemiBold.ttf` (Noto Sans Thai 2.002, SIL Open Font
+License 1.1, licence beside it) is added at startup as a fallback to the engine's
+default font, so Thai names and text render. The manifest's `fonts` section pins its
+source URL and SHA-256; `validate.py` checks both and that the licence file is present.
+
 ## Effects, sounds and the training dummy (original, generated)
 
 All MIT, drawn or synthesised by code, checked for freshness by `validate.py` and

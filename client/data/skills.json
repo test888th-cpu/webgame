@@ -8,7 +8,8 @@
       "icon": "skill_uppercut",
       "fx": "uppercut",
       "sound": "skill_uppercut",
-      "description": "A fast upward blow that knocks one foe down. Cancels a landed combo."
+      "description": "A fast upward blow that knocks one foe down. Cancels a landed combo.",
+      "fx_at": "front"
     },
     "whirlwind_kick": {
       "name": "Whirlwind Kick",
@@ -18,7 +19,8 @@
       "icon": "skill_whirlwind",
       "fx": "whirlwind",
       "sound": "skill_whirlwind",
-      "description": "A spinning kick that hits enemies on both sides."
+      "description": "A spinning kick that hits enemies on both sides.",
+      "fx_at": "self"
     },
     "shoulder_rush": {
       "name": "Shoulder Rush",
@@ -28,7 +30,8 @@
       "icon": "skill_rush",
       "fx": "rush",
       "sound": "skill_rush",
-      "description": "Charge forward through a line of foes. Breaks guard."
+      "description": "Charge forward through a line of foes. Breaks guard.",
+      "fx_at": "trail"
     },
     "furnace_slam": {
       "name": "Furnace Slam",
@@ -38,7 +41,52 @@
       "icon": "skill_slam",
       "fx": "slam",
       "sound": "skill_slam",
-      "description": "Smash the street with a burning fist. Heavy damage all around. Breaks guard."
+      "description": "Smash the street with a burning fist. Heavy damage all around. Breaks guard.",
+      "fx_at": "self"
+    },
+    "headbutt": {
+      "name": "Headbutt",
+      "move": "headbutt",
+      "cooldown": 300,
+      "unlock_level": 1,
+      "icon": "skill_headbutt",
+      "fx": "hit_heavy",
+      "fx_at": "front",
+      "sound": "skill_uppercut",
+      "description": "A crushing headbutt that stuns one foe for a long time. Breaks guard."
+    },
+    "clothesline": {
+      "name": "Clothesline",
+      "move": "clothesline",
+      "cooldown": 360,
+      "unlock_level": 1,
+      "icon": "skill_clothesline",
+      "fx": "rush",
+      "fx_at": "trail",
+      "sound": "swing_heavy",
+      "description": "Step in with a long arm sweep that knocks down everything in front."
+    },
+    "shoulder_charge": {
+      "name": "Shoulder Charge",
+      "move": "shoulder_charge",
+      "cooldown": 420,
+      "unlock_level": 2,
+      "icon": "skill_charge",
+      "fx": "rush",
+      "fx_at": "trail",
+      "sound": "skill_rush",
+      "description": "Barrel forward like a freight train, flattening a whole line. Breaks guard."
+    },
+    "earthshaker": {
+      "name": "Earthshaker",
+      "move": "earthshaker",
+      "cooldown": 1320,
+      "unlock_level": 3,
+      "icon": "skill_earthshaker",
+      "fx": "slam",
+      "fx_at": "self",
+      "sound": "skill_slam",
+      "description": "Pound the street hard enough to crack it. Huge damage all around. Breaks guard."
     }
   },
   "hotbar": [
@@ -50,19 +98,19 @@
     },
     {
       "type": "skill",
-      "id": "rising_uppercut"
+      "hero_skill": 0
     },
     {
       "type": "skill",
-      "id": "whirlwind_kick"
+      "hero_skill": 1
     },
     {
       "type": "skill",
-      "id": "shoulder_rush"
+      "hero_skill": 2
     },
     {
       "type": "skill",
-      "id": "furnace_slam"
+      "hero_skill": 3
     },
     {
       "type": "item",

@@ -79,7 +79,10 @@ static func _status(game: Game) -> Control:
 	left.add_theme_constant_override("separation", UiTheme.GAP)
 	left.custom_minimum_size.x = 200
 	columns.add_child(left)
-	var hero_box := UiKit.section("Mika  -  Level %d" % profile.level)
+	var hero_data := content.hero(profile.hero)
+	var hero_box := UiKit.section(
+		"%s  -  %s  -  Level %d" % [profile.name, hero_data["title"], profile.level]
+	)
 	left.add_child(hero_box)
 	hero_box.add_child(_meter("HP", hero.hp, hero.max_hp, UiTheme.HP))
 	hero_box.add_child(_meter("Energy", hero.energy, CombatRules.MAX_ENERGY, UiTheme.EP))

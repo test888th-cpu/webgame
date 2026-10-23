@@ -68,10 +68,11 @@ func attach(p_zone: ZoneSim, p_profile: PlayerProfile, p_content: ContentDB) -> 
 	profile = p_profile
 	content = p_content
 	_area.text = str(zone.area.get("name", ""))
+	_name.text = profile.name.to_upper()
 	_money_icon_once()
 	if _hotbar == null:
 		_hotbar = Hotbar.new()
-		_hotbar.build(content)
+		_hotbar.build(content, profile.hero)
 		_hotbar.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
 		_hotbar.grow_horizontal = Control.GROW_DIRECTION_BOTH
 		_hotbar.grow_vertical = Control.GROW_DIRECTION_BEGIN

@@ -1,0 +1,70 @@
+{
+  "order": [
+    "mika",
+    "oren"
+  ],
+  "heroes": {
+    "mika": {
+      "name": "Mika Tanabe",
+      "default_name": "Mika",
+      "title": "The Brawler",
+      "gender": "Female",
+      "tagline": "Fast hands, long combos, never stays down.",
+      "bio": "A dock-crane operator who learned to fight on night shifts at the Depot. Mika chains quick strikes into long combos and slips out of trouble before it lands.",
+      "style": [
+        "Combos",
+        "Mobility",
+        "All-rounder"
+      ],
+      "difficulty": 1,
+      "color": "#f2a54a",
+      "stats": {
+        "max_hp": 100,
+        "power": 1.0,
+        "defense": 0,
+        "speed": 1.0
+      },
+      "sprites": {
+        "default": "hero_mika",
+        "armoured": "hero_mika_armoured"
+      },
+      "skills": [
+        "rising_uppercut",
+        "whirlwind_kick",
+        "shoulder_rush",
+        "furnace_slam"
+      ]
+    },
+    "oren": {
+      "name": "Oren Vale",
+      "default_name": "Oren",
+      "title": "The Bruiser",
+      "gender": "Male",
+      "tagline": "Slow to start, impossible to stop.",
+      "bio": "A former harbour wrestler who hauls freight for the Depot crew. Oren hits harder and takes more punishment than anyone, but every blow has weight behind it, so timing matters.",
+      "style": [
+        "Heavy hits",
+        "Tough",
+        "Crowd control"
+      ],
+      "difficulty": 2,
+      "color": "#e0524a",
+      "stats": {
+        "max_hp": 130,
+        "power": 1.15,
+        "defense": 2,
+        "speed": 0.85
+      },
+      "sprites": {
+        "default": "hero_oren",
+        "armoured": "hero_oren_armoured"
+      },
+      "skills": [
+        "headbutt",
+        "clothesline",
+        "shoulder_charge",
+        "earthshaker"
+      ]
+    }
+  }
+}

@@ -19,11 +19,17 @@ harbour district, which becomes their home base.
 
 | Hero | Archetype | Feel | Signature |
 |---|---|---|---|
-| Mika Tanabe | Brawler | Balanced, long combo strings | Rising elbow launcher |
-| Oren Vale | Bruiser | Slow, heavy, best guard | Shoulder charge that breaks guard |
+| Mika Tanabe **[built]** | Brawler (female) | Balanced, long combo strings | Rising Uppercut, Whirlwind Kick, Shoulder Rush, Furnace Slam |
+| Oren Vale **[built]** | Bruiser (male) | Slow, heavy, tough: 130 HP, 115% power, 2 defense, 85% speed | Headbutt, Clothesline, Shoulder Charge, Earthshaker |
 | Sela Ruiz | Striker | Fast kicks, dodge-cancels | Spinning heel through a crowd |
 | Juno Okafor | Tinkerer | Mid-range gadgets, traps | Deployable shock coil |
 | Ivy Marlow | Medic | Support, buffs, sustain | Adrenaline field for the party |
+
+**[built]** New game opens hero creation: pick a hero (portrait cards, a large animated
+preview, bio, play style, difficulty, stats compared across the roster, skills) and
+name them (2–16 letters of any script, including Thai). Heroes are data
+(`client/data/heroes.json`); each brings its own base stats, sprites (and armoured
+look) and four skills to the hotbar. The save stores the hero and the name.
 
 The player picks a main hero and develops all five. Persistent data (level, skills,
 equipment) is stored per hero. Temporary combat state is never persisted.

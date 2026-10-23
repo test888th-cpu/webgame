@@ -4,6 +4,25 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — Hero creation and a second hero
+- Hero creation screen after New game: roster cards with portraits, a large animated
+  preview, bio, play style, difficulty, stats compared across heroes, the hero's four
+  skills, and a name field (2–16 characters, any script including Thai; Random
+  suggestions). Keyboard, gamepad, mouse and touch.
+- Oren Vale, a male bruiser (LPC, OGA-BY): 130 HP, 115% power, 2 defense, 85% speed,
+  with Headbutt, Clothesline, Shoulder Charge and Earthshaker (new moves and icons) and
+  an armoured look.
+- Heroes are data (`data/heroes.json`): stats, sprites and looks, skills. The hotbar
+  template fills its skill slots from the hero. Items change looks by name (`look`).
+- Saves (version 2) store the hero and the player's name; version 1 saves become Mika.
+- The title shows the saved hero (card and line-up). Credits now include the Godot
+  licence and the bundled font.
+- Noto Sans Thai (OFL) as a font fallback, pinned by SHA-256 and validated in CI.
+- 8 new tests (105 total); the smoke test picks Oren and types a name.
+
+### Changed
+- `progression.json` no longer holds hero stats; they live with each hero.
+
 ### Added — Skills, combat feedback and sound
 - Skill hotbar (`data/skills.json`): slot 1 attack, slots 2–5 Rising Uppercut, Whirlwind
   Kick, Shoulder Rush and Furnace Slam, slots 6–7 Steamed Bun and Ginger Tea. Skills

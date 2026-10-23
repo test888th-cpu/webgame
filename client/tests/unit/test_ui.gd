@@ -230,3 +230,29 @@ func test_skill_effect_plays_on_the_hero() -> void:
 	var effects := hero_view.find_children("*", "AnimatedSprite2D", false, false)
 	assert_true(effects.size() >= 2, "the whirlwind plays on the hero (%d)" % effects.size())
 	_done(game)
+
+
+func test_character_creation_shows_heroes_and_validates_the_name() -> void:
+	var screen: Node = load("res://scenes/create/CharacterCreate.tscn").instantiate()
+	tree.root.add_child(screen)
+	await _settle()
+	assert_eq(screen.cards.size(), 2, "two hero cards")
+	assert_eq(screen.selected, "mika", "first hero selected")
+	_check_layout(screen.get_node("Ui"), "character creation")
+	var owner := tree.root.gui_get_focus_owner()
+	assert_true(owner == screen.cards["mika"], "the selected card has focus")
+	screen.cards["oren"].grab_focus()
+	await _settle()
+	assert_eq(screen.selected, "oren", "focus selects")
+	assert_eq(screen.name_field.text, "Oren", "suggests the hero's name")
+	screen.name_field.text = "x"
+	screen.name_field.text_changed.emit("x")
+	assert_true(screen.start_button.disabled, "a one-letter name cannot start")
+	screen.name_field.text = "Big Tank"
+	screen.name_field.text_changed.emit("Big Tank")
+	assert_true(not screen.start_button.disabled, "a valid name can")
+	screen.cards["mika"].grab_focus()
+	await _settle()
+	assert_eq(screen.name_field.text, "Big Tank", "a typed name is kept when switching hero")
+	screen.free()
+	SaveStore.path = SaveStore.DEFAULT_PATH

@@ -148,6 +148,154 @@
       "source": "lpc",
       "status": "imported"
     },
+    "hero_oren": {
+      "animations": {
+        "dodge": {
+          "fps": 12,
+          "frames": 5,
+          "loop": false,
+          "row": 6,
+          "source": "jump"
+        },
+        "down": {
+          "fps": 10,
+          "frames": 6,
+          "loop": false,
+          "row": 5,
+          "source": "hurt"
+        },
+        "heavy": {
+          "fps": 9,
+          "frames": 6,
+          "loop": false,
+          "row": 3,
+          "source": "slash"
+        },
+        "hurt": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 4,
+          "source": "hurt"
+        },
+        "idle": {
+          "fps": 4,
+          "frames": 3,
+          "loop": true,
+          "row": 0,
+          "source": "combat"
+        },
+        "light": {
+          "fps": 16,
+          "frames": 6,
+          "loop": false,
+          "row": 2,
+          "source": "1h_halfslash"
+        },
+        "walk": {
+          "fps": 10,
+          "frames": 8,
+          "loop": true,
+          "row": 1,
+          "source": "walk"
+        }
+      },
+      "credits": "res://assets/characters/hero_oren/credits.json",
+      "facing": "right",
+      "frame_size": [
+        64,
+        64
+      ],
+      "generator": {
+        "recipe": "art/lpc/characters.json#hero_oren",
+        "repo": "LPC"
+      },
+      "licenses": [
+        "OGA-BY 3.0"
+      ],
+      "origin": [
+        32,
+        62
+      ],
+      "role": "hero",
+      "sheet": "res://assets/characters/hero_oren/sheet.png",
+      "source": "lpc",
+      "status": "imported"
+    },
+    "hero_oren_armoured": {
+      "animations": {
+        "dodge": {
+          "fps": 12,
+          "frames": 5,
+          "loop": false,
+          "row": 6,
+          "source": "jump"
+        },
+        "down": {
+          "fps": 10,
+          "frames": 6,
+          "loop": false,
+          "row": 5,
+          "source": "hurt"
+        },
+        "heavy": {
+          "fps": 9,
+          "frames": 6,
+          "loop": false,
+          "row": 3,
+          "source": "slash"
+        },
+        "hurt": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 4,
+          "source": "hurt"
+        },
+        "idle": {
+          "fps": 4,
+          "frames": 3,
+          "loop": true,
+          "row": 0,
+          "source": "combat"
+        },
+        "light": {
+          "fps": 16,
+          "frames": 6,
+          "loop": false,
+          "row": 2,
+          "source": "1h_halfslash"
+        },
+        "walk": {
+          "fps": 10,
+          "frames": 8,
+          "loop": true,
+          "row": 1,
+          "source": "walk"
+        }
+      },
+      "credits": "res://assets/characters/hero_oren_armoured/credits.json",
+      "facing": "right",
+      "frame_size": [
+        64,
+        64
+      ],
+      "generator": {
+        "recipe": "art/lpc/characters.json#hero_oren_armoured",
+        "repo": "LPC"
+      },
+      "licenses": [
+        "OGA-BY 3.0"
+      ],
+      "origin": [
+        32,
+        62
+      ],
+      "role": "hero",
+      "sheet": "res://assets/characters/hero_oren_armoured/sheet.png",
+      "source": "lpc",
+      "status": "imported"
+    },
     "npc_ama": {
       "animations": {
         "dodge": {
@@ -1323,6 +1471,17 @@
       "sheet": "res://assets/environment/props.png"
     }
   },
+  "fonts": {
+    "thai": {
+      "authors": "The Noto Project Authors",
+      "file": "res://assets/fonts/NotoSansThai-SemiBold.ttf",
+      "license": "OFL-1.1",
+      "license_file": "res://assets/fonts/NotoSansThai-OFL.txt",
+      "sha256": "b2a12b0b6bd669a57cf5aadec29c184cf234e2265d4112af61a8fc33c2d4e6e6",
+      "source": "https://github.com/notofonts/thai/releases/download/NotoSansThai-v2.002/NotoSansThai-v2.002.zip",
+      "version": "2.002"
+    }
+  },
   "fx": {
     "effects": {
       "block": {
@@ -1516,6 +1675,30 @@
         ],
         "skill_attack": [
           0,
+          32,
+          24,
+          24
+        ],
+        "skill_charge": [
+          168,
+          32,
+          24,
+          24
+        ],
+        "skill_clothesline": [
+          144,
+          32,
+          24,
+          24
+        ],
+        "skill_earthshaker": [
+          192,
+          32,
+          24,
+          24
+        ],
+        "skill_headbutt": [
+          120,
           32,
           24,
           24

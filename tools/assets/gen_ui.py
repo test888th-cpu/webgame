@@ -197,6 +197,66 @@ def skill_slam(d: ImageDraw.ImageDraw) -> None:
     fist(d, 8, 9, SKIN)
 
 
+SKIN_DARK = (150, 96, 60, 255)
+SHIRT = (200, 50, 44, 255)
+
+
+def skill_headbutt(d: ImageDraw.ImageDraw) -> None:
+    backdrop(d, (150, 50, 120), (30, 6, 30), cx=15)
+    star = [(19, 4), (20, 9), (23, 9), (21, 12), (23, 16), (19, 14), (16, 17), (17, 12), (14, 9), (18, 9)]
+    d.polygon(star, fill=(255, 236, 140, 255))
+    d.polygon([(19, 7), (20, 10), (21, 11), (19, 12), (18, 11)], fill=(255, 255, 255, 255))
+    d.ellipse((2, 5, 15, 18), fill=OUTLINE)
+    d.ellipse((3, 6, 14, 17), fill=SKIN_DARK)
+    d.pieslice((3, 5, 14, 16), 180, 360, fill=(30, 26, 30, 255))
+    d.line((12, 11, 14, 11), fill=OUTLINE)
+    d.rectangle((5, 18, 12, 23), fill=OUTLINE)
+    d.rectangle((6, 18, 11, 23), fill=SHIRT)
+
+
+def skill_clothesline(d: ImageDraw.ImageDraw) -> None:
+    backdrop(d, (200, 110, 30), (50, 16, 6))
+    d.arc((1, 3, 23, 23), 200, 340, fill=(255, 230, 160, 255), width=2)
+    d.rectangle((1, 11, 7, 17), fill=OUTLINE)
+    d.rectangle((2, 12, 6, 16), fill=SHIRT)
+    d.rectangle((6, 12, 19, 16), fill=OUTLINE)
+    d.rectangle((7, 13, 18, 15), fill=SKIN_DARK)
+    d.rounded_rectangle((17, 11, 23, 17), radius=2, fill=OUTLINE)
+    d.rounded_rectangle((18, 12, 22, 16), radius=1, fill=SKIN_DARK)
+    for y in (19, 21):
+        d.line((4, y, 14, y), fill=(255, 210, 140, 255))
+
+
+def skill_charge(d: ImageDraw.ImageDraw) -> None:
+    backdrop(d, (180, 40, 30), (40, 6, 6), cx=16)
+    for y, x0 in ((5, 0), (9, 2), (13, 0), (17, 3)):
+        d.line((x0, y, x0 + 8, y), fill=(255, 220, 160, 255))
+    d.ellipse((15, 2, 22, 9), fill=OUTLINE)
+    d.ellipse((16, 3, 21, 8), fill=SKIN_DARK)
+    d.pieslice((16, 2, 21, 7), 180, 360, fill=(30, 26, 30, 255))
+    d.polygon([(8, 9), (21, 8), (23, 16), (11, 18)], fill=OUTLINE)
+    d.polygon([(9, 10), (20, 9), (22, 15), (12, 17)], fill=SHIRT)
+    d.ellipse((17, 9, 23, 15), fill=SKIN_DARK, outline=OUTLINE)
+    d.line((12, 18, 8, 23), fill=OUTLINE, width=3)
+    d.line((17, 18, 20, 23), fill=OUTLINE, width=3)
+
+
+def skill_earthshaker(d: ImageDraw.ImageDraw) -> None:
+    backdrop(d, (170, 100, 40), (40, 20, 8), cy=18)
+    d.rectangle((0, 17, 23, 23), fill=(70, 46, 30, 255))
+    d.line((0, 17, 23, 17), fill=(255, 200, 110, 255))
+    for points in (((12, 17), (9, 20), (10, 23)), ((12, 17), (15, 21), (19, 22)), ((12, 17), (5, 19), (2, 22))):
+        d.line(points, fill=(255, 150, 40, 255), width=1)
+    for x in (4, 19):
+        d.polygon([(x - 2, 16), (x, 10), (x + 2, 16)], fill=(150, 120, 90, 255))
+    d.rounded_rectangle((7, 4, 17, 14), radius=2, fill=OUTLINE)
+    d.rounded_rectangle((8, 5, 16, 13), radius=2, fill=SKIN_DARK)
+    for k in (10, 12, 14):
+        d.line((k, 11, k, 13), fill=(110, 70, 44, 255))
+    d.rectangle((9, 0, 15, 4), fill=OUTLINE)
+    d.rectangle((10, 0, 14, 4), fill=SHIRT)
+
+
 def lock(d: ImageDraw.ImageDraw) -> None:
     d.arc((4, 1, 11, 9), 180, 360, fill=OUTLINE, width=3)
     d.arc((5, 2, 10, 8), 180, 360, fill=(170, 176, 190, 255))
@@ -211,6 +271,10 @@ SKILL_ICONS = {
     "skill_whirlwind": skill_whirlwind,
     "skill_rush": skill_rush,
     "skill_slam": skill_slam,
+    "skill_headbutt": skill_headbutt,
+    "skill_clothesline": skill_clothesline,
+    "skill_charge": skill_charge,
+    "skill_earthshaker": skill_earthshaker,
 }
 
 

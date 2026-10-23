@@ -240,6 +240,22 @@ def validate_audio(audio: dict) -> list[str]:
     return problems
 
 
+def validate_fonts(fonts: dict) -> list[str]:
+    """Bundled fonts are the pinned files (SHA-256), with their licence beside them."""
+    import hashlib
+
+    problems: list[str] = []
+    for font_id, font in sorted(fonts.items()):
+        path, licence = res_path(font["file"]), res_path(font["license_file"])
+        if not path.exists() or hashlib.sha256(path.read_bytes()).hexdigest() != font.get("sha256"):
+            problems.append(f"fonts: {font_id} is missing or not the pinned file")
+        if not licence.exists():
+            problems.append(f"fonts: {font_id} has no licence file")
+        if font.get("license") not in ("OFL-1.1", "MIT", "CC0"):
+            problems.append(f"fonts: {font_id} licence {font.get('license')!r} is not allowed")
+    return problems
+
+
 def main() -> int:
     manifest = json.loads(MANIFEST.read_text())
     allowed = json.loads(POLICY.read_text())["license_policy"]["allowed"]
@@ -254,6 +270,7 @@ def main() -> int:
     problems += validate_fx(manifest.get("fx", {}))
     problems += validate_dummy(manifest.get("assets", {}))
     problems += validate_audio(manifest.get("audio", {}))
+    problems += validate_fonts(manifest.get("fonts", {}))
     for problem in problems:
         print(f"INVALID {problem}")
     count = len(manifest.get("assets", {}))

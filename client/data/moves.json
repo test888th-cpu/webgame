@@ -251,6 +251,66 @@
       "guard_break": true,
       "knockdown": true,
       "anim": "heavy"
+    },
+    "headbutt": {
+      "startup": 8,
+      "active": 4,
+      "recovery": 20,
+      "damage": 18,
+      "hitstun": 44,
+      "knockback": 20,
+      "reach_offset": 2,
+      "reach": 24,
+      "depth_tolerance": 12,
+      "energy_cost": 10,
+      "guard_break": true,
+      "anim": "heavy"
+    },
+    "clothesline": {
+      "startup": 10,
+      "active": 8,
+      "recovery": 20,
+      "damage": 15,
+      "hitstun": 30,
+      "knockback": 70,
+      "reach_offset": 0,
+      "reach": 48,
+      "depth_tolerance": 18,
+      "energy_cost": 15,
+      "advance": 24,
+      "knockdown": true,
+      "anim": "heavy"
+    },
+    "shoulder_charge": {
+      "startup": 8,
+      "active": 14,
+      "recovery": 22,
+      "damage": 18,
+      "hitstun": 32,
+      "knockback": 90,
+      "reach_offset": 0,
+      "reach": 28,
+      "depth_tolerance": 16,
+      "energy_cost": 20,
+      "advance": 110,
+      "guard_break": true,
+      "knockdown": true,
+      "anim": "heavy"
+    },
+    "earthshaker": {
+      "startup": 22,
+      "active": 6,
+      "recovery": 30,
+      "damage": 36,
+      "hitstun": 44,
+      "knockback": 110,
+      "reach_offset": -64,
+      "reach": 128,
+      "depth_tolerance": 30,
+      "energy_cost": 45,
+      "guard_break": true,
+      "knockdown": true,
+      "anim": "heavy"
     }
   }
 }

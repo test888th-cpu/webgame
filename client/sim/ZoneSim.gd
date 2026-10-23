@@ -93,7 +93,8 @@ func refresh_hero() -> void:
 	hero.defense = stats["defense"]
 	hero.hp = clampi(profile.hp, 1, hero.max_hp)
 	profile.hp = hero.hp
-	hero.skills = SkillRules.unlocked(content, profile.level)
+	hero.speed = stats["speed"]
+	hero.skills = SkillRules.unlocked(content, profile.hero, profile.level)
 
 
 func spawn_enemy(kind: String, position: Vector2) -> Fighter:
@@ -310,7 +311,7 @@ func _defeat(enemy: Fighter, events: Array[ZoneEvent]) -> void:
 		profile.hp = hero.hp
 		var unlocked: Array[String] = []
 		for level in range(profile.level - levels + 1, profile.level + 1):
-			unlocked.append_array(SkillRules.unlocked_at(content, level))
+			unlocked.append_array(SkillRules.unlocked_at(content, profile.hero, level))
 		events.append(ZoneEvent.make("level_up", {"level": profile.level, "skills": unlocked}))
 	for quest_id in QuestRules.on_defeat(profile, enemy.kind, content):
 		events.append(ZoneEvent.make("quest_complete", {"quest": quest_id}))

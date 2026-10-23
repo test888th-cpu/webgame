@@ -18,7 +18,7 @@ func _content() -> ContentDB:
 ## behind).
 func _pair(level := 1, gap := 24.0) -> Array[Fighter]:
 	var hero := Fighter.new(1, 1, Vector2(500, 300), 100)
-	hero.skills = SkillRules.unlocked(_content(), level)
+	hero.skills = SkillRules.unlocked(_content(), "mika", level)
 	var foe := Fighter.new(2, 2, Vector2(500 + gap, 300), 200)
 	foe.facing = -1 if gap > 0 else 1
 	var fighters: Array[Fighter] = [hero, foe]
@@ -40,11 +40,13 @@ func _run(fighters: Array[Fighter], first: FighterInput, ticks: int) -> Array[Co
 
 
 func test_skills_unlock_by_level() -> void:
-	var level_1 := SkillRules.unlocked(_content(), 1)
+	var level_1 := SkillRules.unlocked(_content(), "mika", 1)
 	assert_true(level_1.has("rising_uppercut") and level_1.has("whirlwind_kick"), "two at Lv 1")
 	assert_true(not level_1.has("furnace_slam"), "slam is locked at Lv 1")
-	assert_eq(SkillRules.unlocked(_content(), 3).size(), 4, "all four by Lv 3")
-	assert_eq(SkillRules.unlocked_at(_content(), 3), ["furnace_slam"] as Array[String], "Lv 3")
+	assert_eq(SkillRules.unlocked(_content(), "mika", 3).size(), 4, "all four by Lv 3")
+	assert_eq(
+		SkillRules.unlocked_at(_content(), "mika", 3), ["furnace_slam"] as Array[String], "Lv 3"
+	)
 
 
 func test_a_skill_costs_energy_hits_and_starts_its_cooldown() -> void:
@@ -157,9 +159,9 @@ func test_zone_reports_skill_swings_and_unlocks_on_level_up() -> void:
 func test_hotbar_content_is_validated() -> void:
 	var db := ContentDB.load_all()
 	assert_true(db.is_valid(), "shipped content is valid")
-	db.hotbar[1] = {"type": "skill", "id": "teleport"}
+	db.hotbar[1] = {"type": "skill", "hero_skill": 9}
 	db.skills["rising_uppercut"]["move"] = "nope"
 	db.errors.clear()
 	db.validate()
-	assert_true(" ".join(db.errors).contains("unknown skill"), "unknown hotbar skill reported")
+	assert_true(" ".join(db.errors).contains("hero_skill must be"), "bad hotbar slot reported")
 	assert_true(" ".join(db.errors).contains("unknown move"), "unknown skill move reported")

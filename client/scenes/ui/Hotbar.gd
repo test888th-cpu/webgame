@@ -1,18 +1,21 @@
 class_name Hotbar
 extends PanelContainer
 ## The seven-slot action bar along the bottom of the screen, laid out by
-## data/skills.json: 1 attack, 2-5 skills, 6-7 consumables. It shows what the
+## data/skills.json and the hero's skills: 1 attack, 2-5 skills, 6-7
+## consumables. It shows what the
 ## simulation says (cooldowns, energy, unlocks, counts) and reports presses;
 ## whether a press does anything is decided by the game and the simulation.
 
 signal slot_pressed(index: int)
 
 var slots: Array[HotbarSlot] = []
+var entries: Array[Dictionary] = []
 var _content: ContentDB
 
 
-func build(content: ContentDB) -> void:
+func build(content: ContentDB, hero_id: String) -> void:
 	_content = content
+	entries = content.hotbar_for(hero_id)
 	name = "Hotbar"
 	var style := UiTheme.panel_style()
 	style.bg_color = Color(0.04, 0.04, 0.07, 0.72)
@@ -22,8 +25,8 @@ func build(content: ContentDB) -> void:
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 3)
 	add_child(row)
-	for i in content.hotbar.size():
-		var entry: Dictionary = content.hotbar[i]
+	for i in entries.size():
+		var entry := entries[i]
 		var slot := HotbarSlot.new()
 		slot.name = "Slot%d" % (i + 1)
 		slot.key = str(i + 1)
@@ -44,7 +47,7 @@ func build(content: ContentDB) -> void:
 func refresh(zone: ZoneSim, profile: PlayerProfile) -> void:
 	var hero := zone.hero
 	for i in slots.size():
-		var entry: Dictionary = _content.hotbar[i]
+		var entry := entries[i]
 		var slot := slots[i]
 		match entry["type"]:
 			"skill":
