@@ -19,7 +19,8 @@ var profile: PlayerProfile
 var content: ContentDB
 
 var _toast_left := 0.0
-var _level: Label
+var _portrait: HeroPortrait
+var _title: Label
 var _name: Label
 var _hp: StatBar
 var _energy: StatBar
@@ -68,7 +69,12 @@ func attach(p_zone: ZoneSim, p_profile: PlayerProfile, p_content: ContentDB) -> 
 	profile = p_profile
 	content = p_content
 	_area.text = str(zone.area.get("name", ""))
-	_name.text = profile.name.to_upper()
+	_name.text = profile.name
+	var hero_data := content.hero(profile.hero)
+	var color := Color.from_string(str(hero_data.get("color", "")), UiTheme.ACCENT)
+	_portrait.color = color
+	_title.text = str(hero_data.get("title", "")).to_upper()
+	_title.add_theme_color_override("font_color", color)
 	_money_icon_once()
 	if _hotbar == null:
 		_hotbar = Hotbar.new()
@@ -91,6 +97,7 @@ func flash_slot(index: int, accepted: bool) -> void:
 ## Red edges for a moment: the hero was hit.
 func hurt(strength := 1.0) -> void:
 	_hurt = maxf(_hurt, 0.35 * strength)
+	_portrait.flash()
 
 
 ## The big level-up announcement, naming any skills it unlocked.
@@ -135,7 +142,8 @@ func _process(delta: float) -> void:
 	if zone == null:
 		return
 	var hero := zone.hero
-	_level.text = str(profile.level)
+	_portrait.set_art(content, content.hero_art(profile))
+	_portrait.set_state(profile.level, float(hero.hp) / maxi(1, hero.max_hp))
 	_hp.set_values(hero.hp, hero.max_hp)
 	_energy.set_values(hero.energy, CombatRules.MAX_ENERGY)
 	_xp.set_values(profile.xp, profile.xp_to_next(content))
@@ -159,30 +167,21 @@ func _build_hero_card(root: Control) -> void:
 	var line := HBoxContainer.new()
 	line.add_theme_constant_override("separation", 6)
 	card.add_child(line)
-	var badge := PanelContainer.new()
-	var badge_style := StyleBoxFlat.new()
-	badge_style.bg_color = Color("2a1d10")
-	badge_style.border_color = UiTheme.ACCENT
-	badge_style.set_border_width_all(1)
-	badge_style.set_corner_radius_all(3)
-	badge.add_theme_stylebox_override("panel", badge_style)
-	badge.custom_minimum_size = Vector2(26, 26)
-	line.add_child(badge)
-	var badge_text := VBoxContainer.new()
-	badge_text.alignment = BoxContainer.ALIGNMENT_CENTER
-	badge_text.add_theme_constant_override("separation", -4)
-	badge.add_child(badge_text)
-	var lv := UiKit.label("LV", UiTheme.SIZE_CAPTION, UiTheme.ACCENT)
-	lv.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	badge_text.add_child(lv)
-	_level = UiKit.label("1", UiTheme.SIZE_H2, UiTheme.TEXT)
-	_level.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	badge_text.add_child(_level)
+	_portrait = HeroPortrait.new()
+	_portrait.name = "Portrait"
+	line.add_child(_portrait)
 	var bars := VBoxContainer.new()
 	bars.add_theme_constant_override("separation", 2)
 	line.add_child(bars)
-	_name = UiKit.label("MIKA", UiTheme.SIZE_CAPTION, UiTheme.TEXT_DIM)
-	bars.add_child(_name)
+	bars.alignment = BoxContainer.ALIGNMENT_CENTER
+	var names := HBoxContainer.new()
+	names.add_theme_constant_override("separation", 5)
+	bars.add_child(names)
+	_name = UiKit.overlay_label("", UiTheme.SIZE_SMALL, UiTheme.TEXT)
+	names.add_child(_name)
+	_title = UiKit.label("", UiTheme.SIZE_CAPTION, UiTheme.TEXT_DIM)
+	_title.size_flags_vertical = Control.SIZE_SHRINK_END
+	names.add_child(_title)
 	_hp = _bar(UiTheme.HP, Vector2(BAR_WIDTH, 9), true)
 	bars.add_child(_hp)
 	_energy = _bar(UiTheme.EP, Vector2(BAR_WIDTH, 5), false)

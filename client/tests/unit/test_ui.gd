@@ -309,3 +309,18 @@ func test_character_creation_shows_heroes_and_validates_the_name() -> void:
 	assert_eq(screen.name_field.text, "Big Tank", "a typed name is kept when switching hero")
 	screen.free()
 	SaveStore.path = SaveStore.DEFAULT_PATH
+
+
+func test_hud_portrait_shows_the_hero_level_and_low_hp() -> void:
+	var game := _game()
+	await _settle()
+	var portrait: HeroPortrait = game.get_node("Hud").find_child("Portrait", true, false)
+	assert_true(portrait != null, "portrait on the hero card")
+	assert_eq(portrait.level, 1, "level badge")
+	assert_true(not portrait.low_hp, "healthy")
+	game.zone.hero.hp = 10
+	game.profile.level = 4
+	await _settle()
+	assert_eq(portrait.level, 4, "badge follows the level")
+	assert_true(portrait.low_hp, "low HP warning")
+	_done(game)
