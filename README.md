@@ -3,11 +3,15 @@
 A browser-first, persistent online beat 'em up RPG built with **Godot 4.7.2 (GDScript)**.
 All characters, places, art, audio and code are original to this project.
 
-> **Status: Milestone 1 / Task 001 — build pipeline.** The repository contains a small
-> playable test street (one placeholder hero you can walk around, a bounded camera,
-> a HUD and touch controls), the CI pipeline that builds and browser-tests it, and the
-> first slice of the account API. There is **no combat, no online play and no game
-> server yet**. See [docs/ROADMAP.md](docs/ROADMAP.md) for what comes next.
+> **Status: Milestone 2 — playable single-player loop.** Title screen, three areas
+> (home base with a shop, a quest giver and a training dummy; a street of enemy waves;
+> a boss zone), five enemy types including an elite and a two-phase boss, combos,
+> guard, dodge, loot, money, XP and levels, equipment, quests, local saves, pause and
+> inventory. All rules run in a deterministic 60 Hz simulation (`client/sim/`) that the
+> future zone server will reuse; all content is validated JSON (`client/data/`).
+> Characters are LPC pixel-art sprites and the scenery is original generated pixel
+> art, both from the cloud asset pipeline ([docs/ASSETS.md](docs/ASSETS.md)). There is **no online play
+> or game server yet**. See [docs/ROADMAP.md](docs/ROADMAP.md).
 
 | | Version |
 |---|---|
@@ -31,8 +35,16 @@ You do not need any local tools. All building and testing happens in GitHub Acti
   host such as GitHub Pages, Cloudflare Pages, Netlify or itch.io (HTML5 project, upload
   the zip). No special headers are required.
 
-Controls: arrow keys or WASD, a gamepad's left stick or d-pad, or the on-screen pad on
-touch devices.
+| Action | Keyboard | Gamepad | Touch |
+|---|---|---|---|
+| Move | Arrows / WASD | Left stick, d-pad | On-screen pad (left) |
+| Light attack (combo) | J or Z | X / Square | Red button |
+| Heavy attack (breaks guard, costs energy) | K or X | Y / Triangle | Orange button |
+| Dodge (invulnerable, costs energy) | Space or L | A / Cross | Blue button |
+| Guard (hold; drains energy) | Shift or I | LB / L1 | Green button |
+| Talk / shop (near an NPC) | E or U | B / Circle | TALK |
+| Eat (quick heal) | H or Q | RB / R1 | EAT |
+| Pause, inventory, quests, save | Esc or P | Start | II |
 
 ### See test results
 
@@ -42,8 +54,8 @@ GitHub → **Actions** → **CI**. Each run has these jobs:
 |---|---|
 | Repository policy | Required docs exist; `.env.example` has placeholders only; no key files tracked |
 | GDScript lint and format | `gdlint` and `gdformat --check` (gdtoolkit 4.5.0) |
-| Godot project opens and tests pass | Headless import with no script errors; 16 unit/scene tests |
-| Web export and browser smoke test | Release web export; headless Chromium loads it, waits for boot, **holds real keys and checks the hero moves**; uploads the build, a manifest with SHA-256s and a screenshot |
+| Godot project opens and tests pass | Headless import with no script errors; 69 unit/scene tests (combat, AI, encounters, loot, quests, shop, saves, game scenes) |
+| Web export and browser smoke test | Release web export; headless Chromium loads it, waits for boot, **plays it with real keys: title → new game → combo on the dummy → pause → next area → a real fight**; uploads the build, a manifest with SHA-256s and a screenshot |
 | Backend typecheck, tests and migrations | `tsc`, API + migration tests against a real PostgreSQL, fresh-DB migration, API reaches `/readyz` |
 | Backend image build, container scan and SBOM | Docker image builds, runs as non-root on the pinned Node, Trivy scan, CycloneDX SBOM |
 
@@ -62,7 +74,8 @@ dependency review on pull requests. It also runs weekly.
 ```
 client/            Godot project (the browser client; later also the headless zone server)
   sim/             Pure game rules shared by client and server (no nodes, no rendering)
-  scenes/          Presentation: world, player, UI
+  data/            Content as data: moves, enemies, items, areas, quests, shops, progression
+  scenes/          Presentation: world, fighter views, UI
   scripts/core/    Autoloads: BuildInfo, InputSetup
   tests/           Headless test runner and tests (excluded from exports)
 backend/           Account/persistence API (Node.js + TypeScript + Fastify + PostgreSQL)
@@ -70,6 +83,9 @@ backend/           Account/persistence API (Node.js + TypeScript + Fastify + Pos
 infra/             docker-compose for the local/dev stack
 tools/ci/          Pinned, hash-verified Godot installer; repository policy checks
 tools/web-smoke/   Headless-Chromium browser smoke test (Playwright)
+tools/assets/      Asset pipeline: LPC builder, UnitForge importer, SpriteFrames, validator
+art/               Asset sources: LPC recipes, UnitForge uploads
+client/assets/     Imported art + manifest.json (what the game loads)
 docs/              Repository audit, roadmap and backlog
 ```
 

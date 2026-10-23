@@ -38,11 +38,14 @@ then Chrome Android and Safari iOS. CI verifies **headless Chromium only** (Play
 - Gamepad support depends on the browser's Gamepad API mapping.
 
 ## What the smoke test can and cannot prove
-It **does**: serve the export, load it in Chromium, wait for `BOOT_OK`, fail on page
-errors, console errors or HTTP errors, hold ArrowRight / W / ArrowLeft, and check through
-`window.ironboundProbe` that the hero moved and turned. It saves a screenshot.
+It **does**: serve the export (or open a deployed URL with `--url=`), load it in
+Chromium, wait for `BOOT_OK`, fail on page errors, console errors or HTTP errors, hold
+ArrowRight / W / ArrowLeft, check through `window.ironboundProbe` that the hero moved
+and turned, then walk to the training dummy and press J three times and check the hits
+landed and the dummy lost HP. It saves a screenshot. After every Pages deployment,
+`pages.yml` runs the same test against the live HTTPS site.
 
 It **does not**: test touch input or gamepads (Playwright cannot emulate the Gamepad API;
 touch holds are not reliably reproducible), real GPUs, frame rate (SwiftShader is software
-rendering), Firefox or Safari, or HTTPS hosting. Those need the manual checklist in
+rendering), or Firefox and Safari. Those need the manual checklist in
 PERFORMANCE.md.

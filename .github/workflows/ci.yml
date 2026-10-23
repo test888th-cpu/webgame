@@ -20,6 +20,7 @@ jobs:
   repo-policy:
     name: Repository policy
     runs-on: ubuntu-24.04
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - run: tools/ci/check-repo.sh
@@ -27,6 +28,7 @@ jobs:
   gdscript-lint:
     name: GDScript lint and format
     runs-on: ubuntu-24.04
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
@@ -40,9 +42,25 @@ jobs:
         working-directory: client
         run: gdformat --check .
 
+  assets:
+    name: Asset manifest, sheets, licences and pipeline tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.13"
+      - run: pip install -r tools/assets/requirements.txt
+      - name: Pipeline unit tests
+        run: python3 -m unittest tools/assets/test_pipeline.py -v
+      - name: Validate every asset (files, frames, transparency, licences, SpriteFrames up to date)
+        run: python3 tools/assets/validate.py
+
   godot-tests:
     name: Godot project opens and tests pass
     runs-on: ubuntu-24.04
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
@@ -61,6 +79,7 @@ jobs:
   backend:
     name: Backend typecheck, tests and migrations
     runs-on: ubuntu-24.04
+    timeout-minutes: 15
     services:
       postgres:
         image: postgres:16.10-bookworm
@@ -103,6 +122,7 @@ jobs:
   backend-image:
     name: Backend image build, container scan and SBOM
     runs-on: ubuntu-24.04
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
@@ -139,6 +159,7 @@ jobs:
   web-export:
     name: Web export and browser smoke test
     runs-on: ubuntu-24.04
+    timeout-minutes: 30
     needs: [godot-tests]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -161,11 +182,18 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
           cache-dependency-path: tools/web-smoke/package-lock.json
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ hashFiles('tools/web-smoke/package-lock.json') }}
       - name: Smoke test in headless Chromium
         working-directory: tools/web-smoke
+        # Only the headless shell, without --with-deps: the runner image already
+        # has the shared libraries, and --with-deps pulls optional fonts from apt
+        # mirrors that have taken over 10 minutes.
         run: |
           npm ci --no-audit --no-fund
-          npx playwright install --with-deps chromium
+          npx playwright install --only-shell chromium
           node smoke.ts ../../build/web --screenshot=../../smoke-screenshot.png
       - name: Record build manifest
         run: |

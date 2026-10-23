@@ -1,0 +1,13 @@
+{
+  "shops": {
+    "depot_stall": {
+      "name": "Ama's Stall",
+      "items": [
+        "steamed_bun",
+        "ginger_tea",
+        "taped_knuckles",
+        "work_jacket"
+      ]
+    }
+  }
+}

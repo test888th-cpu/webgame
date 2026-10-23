@@ -16,6 +16,11 @@ Acceptance criteria:
 
 ## Milestone 2 — Browser vertical slice (single player, server-ready rules)
 
+Progress: part 2 (playable loop) done — criteria 1–7 met with placeholder art (enemy
+AI, elite, boss, loot, HUD, pause, all inputs, browser plays a fight); 8–9 (measured
+performance, download size) and real sprites remain. Earlier: part 1 (combat core) done — criteria 2 (except the special) and 6 are met,
+5 is partly met (HP/energy bars, damage numbers, all input methods; no pause menu).
+
 Acceptance criteria:
 1. One original street zone with props, depth lanes and a camera that follows the hero.
 2. One hero with light ×3 combo, heavy, dodge (with i-frames), guard and one special.

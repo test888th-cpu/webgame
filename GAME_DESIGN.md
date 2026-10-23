@@ -5,9 +5,8 @@ content is taken from River City Ransom, Kunio-kun or any other game. The genre 
 used (side-scrolling street brawling with depth lanes, RPG progression, shops) are not
 owned by anyone.
 
-**Implemented so far:** one test street, one placeholder hero who walks along the street
-and in depth, a camera and a HUD. Everything below that is not marked otherwise is design
-intent.
+**Implemented so far:** one test street with a placeholder hero and a training dummy,
+and the combat core below marked **[built]**. Everything else is design intent.
 
 ## Premise
 
@@ -33,8 +32,14 @@ equipment) is stored per hero. Temporary combat state is never persisted.
 
 - Movement along the street (x) and in depth (y). Depth is slower, a deliberate genre feel.
   **[built]**
-- Light, light, light combo; heavy finisher; dodge with invulnerability frames; guard
-  costs energy; specials use meter.
+- **[built]** Light, light, light combo (jab → cross → body hook; each link opens only
+  after the previous hit connects); heavy haymaker from neutral or as a finisher, which
+  breaks guard and costs energy; dodge with invulnerability frames (ticks 2–13 of 20)
+  that costs energy; guard that blocks from the front only, takes 20% chip damage,
+  drains energy and breaks when energy runs out; knockdown with invulnerable get-up.
+  Simultaneous hits trade. Specials (meter) are not built yet.
+- **[built]** All timings, damage, reach and knockback are data in
+  `client/data/moves.json`, validated on load.
 - Hits have hit stun, knockback and recovery. Elites telegraph their attacks. Only a few
   enemies attack at the same time (attack tokens) so crowds stay readable.
 - All rules live in `client/sim/` as data plus pure functions, so the server can be the

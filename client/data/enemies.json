@@ -1,0 +1,206 @@
+{
+  "enemies": {
+    "training_dummy": {
+      "name": "Training Dummy",
+      "max_hp": 120,
+      "speed": 0,
+      "moveset": {},
+      "ai": null,
+      "xp": 0,
+      "loot": {
+        "money": [
+          0,
+          0
+        ],
+        "drops": []
+      },
+      "respawn_ticks": 120,
+      "color": "#8c806b",
+      "training": true
+    },
+    "smogling": {
+      "name": "Smogling",
+      "max_hp": 30,
+      "speed": 0.75,
+      "moveset": {
+        "light": "smog_swipe"
+      },
+      "ai": {
+        "spacing": 56,
+        "reaction": 14,
+        "cooldown": 50,
+        "cooldown_jitter": 40,
+        "heavy_chance": 0
+      },
+      "xp": 8,
+      "loot": {
+        "money": [
+          2,
+          5
+        ],
+        "drops": [
+          {
+            "item": "steamed_bun",
+            "chance": 0.12
+          }
+        ]
+      },
+      "color": "#6f8a74",
+      "sprite": "smogling"
+    },
+    "tar_hound": {
+      "name": "Tar Rat",
+      "max_hp": 22,
+      "speed": 1.25,
+      "moveset": {
+        "light": "hound_lunge"
+      },
+      "ai": {
+        "spacing": 70,
+        "reaction": 8,
+        "cooldown": 40,
+        "cooldown_jitter": 30,
+        "heavy_chance": 0
+      },
+      "xp": 10,
+      "loot": {
+        "money": [
+          3,
+          6
+        ],
+        "drops": [
+          {
+            "item": "steamed_bun",
+            "chance": 0.1
+          }
+        ]
+      },
+      "color": "#3c3a44",
+      "sprite": "tar_hound"
+    },
+    "pipe_brute": {
+      "name": "Pipe Brute",
+      "max_hp": 70,
+      "speed": 0.55,
+      "defense": 1,
+      "moveset": {
+        "light": "brute_jab",
+        "heavy": "brute_slam"
+      },
+      "ai": {
+        "spacing": 64,
+        "reaction": 18,
+        "cooldown": 70,
+        "cooldown_jitter": 40,
+        "heavy_chance": 0.4
+      },
+      "xp": 20,
+      "loot": {
+        "money": [
+          6,
+          12
+        ],
+        "drops": [
+          {
+            "item": "ginger_tea",
+            "chance": 0.15
+          },
+          {
+            "item": "taped_knuckles",
+            "chance": 0.04
+          }
+        ]
+      },
+      "color": "#8a5a3c",
+      "scale": 1.2,
+      "sprite": "pipe_brute"
+    },
+    "smog_warden": {
+      "name": "Smog Warden",
+      "max_hp": 140,
+      "speed": 0.95,
+      "power": 1.1,
+      "defense": 1,
+      "elite": true,
+      "moveset": {
+        "light": "warden_rake",
+        "heavy": "warden_crush"
+      },
+      "ai": {
+        "spacing": 60,
+        "reaction": 10,
+        "cooldown": 40,
+        "cooldown_jitter": 30,
+        "heavy_chance": 0.35
+      },
+      "xp": 60,
+      "loot": {
+        "money": [
+          20,
+          35
+        ],
+        "drops": [
+          {
+            "item": "ginger_tea",
+            "chance": 0.6
+          },
+          {
+            "item": "work_jacket",
+            "chance": 0.2
+          }
+        ]
+      },
+      "color": "#4f7a8c",
+      "scale": 1.25,
+      "sprite": "smog_warden"
+    },
+    "sludge_foreman": {
+      "name": "The Sludge Foreman",
+      "max_hp": 420,
+      "speed": 0.7,
+      "power": 1.0,
+      "defense": 2,
+      "boss": true,
+      "moveset": {
+        "light": "foreman_jab",
+        "heavy": "foreman_wrench"
+      },
+      "ai": {
+        "spacing": 66,
+        "reaction": 12,
+        "cooldown": 46,
+        "cooldown_jitter": 30,
+        "heavy_chance": 0.35
+      },
+      "phases": [
+        {
+          "below": 0.5,
+          "speed": 0.95,
+          "power": 1.2,
+          "cooldown": 30,
+          "heavy_chance": 0.5,
+          "moveset": {
+            "light": "foreman_jab",
+            "heavy": "foreman_sweep"
+          }
+        }
+      ],
+      "xp": 220,
+      "loot": {
+        "money": [
+          90,
+          130
+        ],
+        "drops": [
+          {
+            "item": "foreman_wrench",
+            "chance": 1.0
+          }
+        ]
+      },
+      "color": "#5b4a7a",
+      "scale": 1.5,
+      "sprite": "sludge_foreman"
+    }
+  }
+}

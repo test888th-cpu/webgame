@@ -18,10 +18,10 @@ func test_renderer_is_web_compatible() -> void:
 		assert_eq(ProjectSettings.get_setting(setting), "gl_compatibility", setting)
 
 
-func test_main_scene_is_the_test_zone() -> void:
+func test_main_scene_is_the_title() -> void:
 	assert_eq(
 		ProjectSettings.get_setting("application/run/main_scene"),
-		"res://scenes/world/TestZone.tscn",
+		"res://scenes/title/Title.tscn",
 		"main scene"
 	)
 
@@ -47,11 +47,22 @@ func test_web_preset_is_single_threaded_release() -> void:
 	assert_true(found, "a Web export preset exists")
 
 
-func test_movement_actions_have_keyboard_and_gamepad_bindings() -> void:
-	for action in ["move_left", "move_right", "move_up", "move_down"]:
+func test_actions_have_keyboard_and_gamepad_bindings() -> void:
+	for action in InputSetup.KEYS:
 		assert_true(InputMap.has_action(action), "%s exists" % action)
 		var kinds := {}
 		for event in InputMap.action_get_events(action):
 			kinds[event.get_class()] = true
-		for kind in ["InputEventKey", "InputEventJoypadButton", "InputEventJoypadMotion"]:
+		var expected := ["InputEventKey", "InputEventJoypadButton"]
+		if action.begins_with("move_"):
+			expected.append("InputEventJoypadMotion")
+		for kind in expected:
 			assert_true(kinds.has(kind), "%s has a %s binding" % [action, kind])
+
+
+func test_physics_rate_matches_simulation_rate() -> void:
+	assert_eq(
+		Engine.physics_ticks_per_second,
+		CombatRules.TICK_RATE,
+		"one physics frame is one combat tick"
+	)

@@ -1,0 +1,66 @@
+name: Assets
+
+# Rebuilds or imports character art in the cloud and commits the result back
+# to the branch it runs on. Run it from the Actions tab:
+#   lpc-build         rebuild LPC characters from art/lpc/characters.json
+#   unitforge-import  import UnitForge exports uploaded to art/unitforge/<id>/
+# Commits made with GITHUB_TOKEN do not start CI by themselves; open or update
+# a pull request (or push any change) to run CI on the result.
+
+on:
+  workflow_dispatch:
+    inputs:
+      task:
+        description: "What to do"
+        required: true
+        type: choice
+        options: [lpc-build, unitforge-import]
+      only:
+        description: "Optional: space-separated asset ids (default: all)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: assets-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  assets:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.13"
+      - run: pip install -r tools/assets/requirements.txt
+      - name: Build LPC characters
+        if: inputs.task == 'lpc-build'
+        env:
+          ONLY: ${{ inputs.only }}
+        run: |
+          # shellcheck disable=SC2086
+          python3 tools/assets/lpc_build.py ${ONLY:+--only $ONLY}
+      - name: Import UnitForge exports
+        if: inputs.task == 'unitforge-import'
+        env:
+          ONLY: ${{ inputs.only }}
+        run: |
+          # shellcheck disable=SC2086
+          python3 tools/assets/unitforge_import.py $ONLY
+      - name: Generate scenery and SpriteFrames, then validate
+        run: |
+          python3 tools/assets/gen_environment.py
+          python3 tools/assets/make_spriteframes.py
+          python3 tools/assets/validate.py
+      - name: Commit the result
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add client/assets
+          if git diff --cached --quiet; then echo "no changes"; exit 0; fi
+          git commit -m "Assets: ${{ inputs.task }} ${{ inputs.only }}"
+          git push

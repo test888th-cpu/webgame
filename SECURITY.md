@@ -23,6 +23,7 @@ for security problems.
 |---|---|
 | Secret scanning of full history (gitleaks 8.30.1, checksum-verified) | security.yml |
 | `npm audit --audit-level=high` for every npm package | security.yml, weekly too |
+| Dependency review also covers `tools/assets/requirements.txt` (Python, build-time only) | security.yml |
 | Dependency review on PRs (fails on high) | security.yml |
 | Container image scan (Trivy 0.76.1, fixable HIGH/CRITICAL fail) | ci.yml |
 | SBOM (CycloneDX) for the API's production dependencies | ci.yml artifact |

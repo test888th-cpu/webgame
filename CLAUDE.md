@@ -25,7 +25,7 @@ in GitHub Actions, and instructions for the owner must be browser-dashboard step
 | Presentation | `client/scenes/` | Reads input and renders. Calls `sim/`; never re-implements rules. |
 | Networking | `client/net/` (M3) | Message schemas and versioning only. |
 | Persistence/economy | `backend/` | The only writer of durable player state. |
-| Content | `client/data/` (M2) | Data-driven definitions (`.tres`/JSON); adding a monster or item must not need code changes. |
+| Content | `client/data/` | Data-driven definitions (JSON, validated on load, e.g. `moves.json` via `MoveLibrary`); adding a move, monster or item must not need code changes. |
 
 ## Coding rules
 
@@ -48,6 +48,8 @@ cd backend && npm run typecheck && TEST_DATABASE_URL=... npm test
 
 - Godot tests live in `client/tests/unit/test_*.gd` and extend `TestCase`. Any engine or
   script error logged during a test fails it.
+- Combat runs at a fixed 60 ticks/s (`CombatRules.TICK_RATE`, equal to the physics
+  rate). Timings are in ticks, never seconds or frames-per-second.
 - New gameplay rules get unit tests in `sim/`. New scenes get a scene test. New endpoints
   get authorisation and validation tests. New migrations get a fresh-DB test and an
   existing-DB test.

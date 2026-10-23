@@ -4,6 +4,66 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — Character art pipeline and first art pack
+- `tools/assets/`: LPC character builder (pinned generator commit, licence policy,
+  recolouring, credits), UnitForge "Godot 4" export importer, SpriteFrames
+  generator, asset validator and 14 pipeline unit tests; `Assets` workflow to
+  build/import in the cloud; CI job validating every asset. See `docs/ASSETS.md`.
+- Nine LPC-built characters (CC0/OGA-BY/CC-BY only): hero Mika and an armoured
+  variant (shown when the Work Jacket is equipped), NPCs Ama and Chief Odo, and all
+  five enemy types including the elite and the boss. `FighterView` plays them with
+  `AnimatedSprite2D`, attack frames stepped by simulation ticks.
+- Title screen: Characters (gallery) and Credits.
+- Tar Hound renamed "Tar Rat" to match its art.
+- Generated scenery for every area (`tools/assets/gen_environment.py`, original
+  MIT art): sky and parallax skyline, themed facades (depot warehouses and
+  containers, market shophouses and stalls, canal factories and water), detailed
+  street, props and lamp glow. Validated for freshness in CI.
+
+### Added — Milestone 2, part 2: playable single-player loop
+- Title screen (New game / Continue), pause menu, inventory and equipment, shop,
+  quest dialog and log, game over with a coin penalty, notifications, boss HP bar.
+- Three areas from `data/areas.json`: Depot Yard (home: vendor, quest giver, training
+  dummy, heals on entry), Saltmarket Street and Canal Works, joined by exits.
+- Enemies from `data/enemies.json`: Smogling, Tar Hound, Pipe Brute, elite Smog Warden
+  and a two-phase boss, the Sludge Foreman. `EnemyBrain` AI keeps spacing, lines up,
+  reacts and swings; at most two attack at once (attack tokens); telegraphed heavies
+  show a warning. Enemies push apart instead of stacking.
+- Encounters with waves lock the arena until cleared and reset on re-entry (farming).
+- Rewards decided by the zone simulation from a seeded generator: XP and levels,
+  money and item drops from loot tables, quest progress. Items, shops, quests and
+  progression are data (`items.json`, `shops.json`, `quests.json`, `progression.json`),
+  validated together with cross-references by `ContentDB`.
+- `PlayerProfile` with versioned, sanitising (de)serialisation; local save via
+  `SaveStore` (atomic write; IndexedDB in browsers), autosave on area change, defeat,
+  purchase and quest hand-in.
+- 30 new tests (69 total); the test runner now ignores warnings but still fails on
+  errors. The browser smoke test plays title -> new game -> dummy combo -> pause ->
+  next area -> a real street fight.
+
+### Added — Milestone 2, part 1: combat core
+- Deterministic 60 Hz combat simulation in `client/sim/` (`CombatRules`, `Fighter`,
+  `FighterInput`, `CombatEvent`): light combo jab → cross → body hook (chains only
+  after a connected hit), guard-breaking haymaker, dodge with invulnerability frames,
+  guard (front only, chip damage, energy drain, guard break), hit stun, knockback,
+  knockdown, KO, simultaneous-hit trades.
+- Attacks are data: `client/data/moves.json`, loaded and validated by `MoveLibrary`.
+- Test zone: training dummy with HP bar and respawn, HUD HP/energy bars, floating
+  damage numbers, keyboard/gamepad/touch bindings for light, heavy, dodge, guard.
+- 23 new tests (39 total). Browser smoke test now lands a combo on the dummy.
+- `pages.yml` plays the live HTTPS site after each deploy.
+
+### Security
+- Asset tools pin Pillow 13.0.0: dependency review flagged 20+ HIGH advisories in
+  12.3.0 (PDF, TIFF, JPEG, GIF decoders). Rebuilt assets are byte-identical.
+
+### Changed
+- CI jobs have time limits. The smoke test installs only Chromium's headless shell
+  (cached) instead of `--with-deps`, which spent 10+ minutes on a slow apt mirror.
+- Light hits push less (jab 4 px, cross 6 px) so the combo stays in reach.
+
+## [0.1.0] — 2026-10-23 (Milestone 1 / Task 001)
+
 ### Added — Milestone 1 / Task 001: cloud build pipeline
 - Godot 4.7.2 client project (`client/`): test street, placeholder hero with lane movement
   (keyboard, gamepad, touch), bounded camera, HUD.

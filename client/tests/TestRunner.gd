@@ -8,7 +8,7 @@ extends SceneTree
 const UNIT_DIR := "res://tests/unit"
 
 
-## Records errors the engine logs while a test runs. Godot keeps executing a
+## Records errors (not warnings) the engine logs while a test runs. Godot keeps executing a
 ## function after most script errors, so without this a crashing test would
 ## still count as passed.
 class ErrorCapture:
@@ -24,9 +24,12 @@ class ErrorCapture:
 		code: String,
 		rationale: String,
 		_editor_notify: bool,
-		_error_type: int,
+		error_type: int,
 		_script_backtraces: Array[ScriptBacktrace]
 	) -> void:
+		# Warnings (expected, handled situations) are printed, not failures.
+		if error_type == Logger.ERROR_TYPE_WARNING:
+			return
 		_mutex.lock()
 		errors.append("%s (%s:%d in %s)" % [rationale if rationale else code, file, line, function])
 		_mutex.unlock()

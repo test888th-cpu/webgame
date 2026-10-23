@@ -1,0 +1,197 @@
+{
+  "starters": {
+    "light": "jab",
+    "heavy": "haymaker"
+  },
+  "moves": {
+    "jab": {
+      "startup": 4,
+      "active": 3,
+      "recovery": 9,
+      "damage": 6,
+      "hitstun": 16,
+      "knockback": 4,
+      "reach_offset": 6,
+      "reach": 30,
+      "depth_tolerance": 12,
+      "chains": {
+        "light": "cross",
+        "heavy": "haymaker"
+      }
+    },
+    "cross": {
+      "startup": 5,
+      "active": 3,
+      "recovery": 11,
+      "damage": 8,
+      "hitstun": 18,
+      "knockback": 6,
+      "reach_offset": 6,
+      "reach": 32,
+      "depth_tolerance": 12,
+      "chains": {
+        "light": "body_hook",
+        "heavy": "haymaker"
+      }
+    },
+    "body_hook": {
+      "startup": 7,
+      "active": 4,
+      "recovery": 18,
+      "damage": 12,
+      "hitstun": 26,
+      "knockback": 70,
+      "reach_offset": 4,
+      "reach": 34,
+      "depth_tolerance": 12,
+      "knockdown": true,
+      "chains": {
+        "heavy": "haymaker"
+      }
+    },
+    "haymaker": {
+      "startup": 12,
+      "active": 4,
+      "recovery": 22,
+      "damage": 18,
+      "hitstun": 30,
+      "knockback": 90,
+      "reach_offset": 8,
+      "reach": 34,
+      "depth_tolerance": 14,
+      "energy_cost": 15,
+      "guard_break": true,
+      "knockdown": true,
+      "anim": "heavy"
+    },
+    "smog_swipe": {
+      "startup": 10,
+      "active": 3,
+      "recovery": 18,
+      "damage": 5,
+      "hitstun": 14,
+      "knockback": 10,
+      "reach_offset": 4,
+      "reach": 28,
+      "depth_tolerance": 12
+    },
+    "hound_lunge": {
+      "startup": 12,
+      "active": 4,
+      "recovery": 22,
+      "damage": 6,
+      "hitstun": 14,
+      "knockback": 14,
+      "reach_offset": 6,
+      "reach": 36,
+      "depth_tolerance": 10
+    },
+    "brute_jab": {
+      "startup": 9,
+      "active": 3,
+      "recovery": 16,
+      "damage": 7,
+      "hitstun": 16,
+      "knockback": 10,
+      "reach_offset": 6,
+      "reach": 30,
+      "depth_tolerance": 12
+    },
+    "brute_slam": {
+      "startup": 28,
+      "active": 5,
+      "recovery": 30,
+      "damage": 16,
+      "hitstun": 30,
+      "knockback": 80,
+      "reach_offset": 6,
+      "reach": 36,
+      "depth_tolerance": 16,
+      "guard_break": true,
+      "knockdown": true,
+      "telegraph": true,
+      "anim": "heavy"
+    },
+    "warden_rake": {
+      "startup": 8,
+      "active": 3,
+      "recovery": 12,
+      "damage": 7,
+      "hitstun": 16,
+      "knockback": 8,
+      "reach_offset": 4,
+      "reach": 30,
+      "depth_tolerance": 12,
+      "chains": {
+        "light": "warden_rake_2"
+      }
+    },
+    "warden_rake_2": {
+      "startup": 7,
+      "active": 3,
+      "recovery": 18,
+      "damage": 9,
+      "hitstun": 20,
+      "knockback": 40,
+      "reach_offset": 4,
+      "reach": 32,
+      "depth_tolerance": 12
+    },
+    "warden_crush": {
+      "startup": 24,
+      "active": 5,
+      "recovery": 28,
+      "damage": 18,
+      "hitstun": 30,
+      "knockback": 90,
+      "reach_offset": 6,
+      "reach": 38,
+      "depth_tolerance": 16,
+      "guard_break": true,
+      "knockdown": true,
+      "telegraph": true,
+      "anim": "heavy"
+    },
+    "foreman_jab": {
+      "startup": 10,
+      "active": 3,
+      "recovery": 16,
+      "damage": 9,
+      "hitstun": 18,
+      "knockback": 14,
+      "reach_offset": 6,
+      "reach": 34,
+      "depth_tolerance": 14
+    },
+    "foreman_wrench": {
+      "startup": 26,
+      "active": 5,
+      "recovery": 30,
+      "damage": 22,
+      "hitstun": 32,
+      "knockback": 110,
+      "reach_offset": 6,
+      "reach": 42,
+      "depth_tolerance": 18,
+      "guard_break": true,
+      "knockdown": true,
+      "telegraph": true,
+      "anim": "heavy"
+    },
+    "foreman_sweep": {
+      "startup": 20,
+      "active": 8,
+      "recovery": 30,
+      "damage": 16,
+      "hitstun": 28,
+      "knockback": 70,
+      "reach_offset": -10,
+      "reach": 64,
+      "depth_tolerance": 20,
+      "guard_break": true,
+      "knockdown": true,
+      "telegraph": true,
+      "anim": "heavy"
+    }
+  }
+}

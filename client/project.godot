@@ -8,7 +8,7 @@ config_version=5
 config/name="Ironbound Streets"
 config/description="Original persistent online beat 'em up RPG (browser client)."
 config/version="0.1.0"
-run/main_scene="res://scenes/world/TestZone.tscn"
+run/main_scene="res://scenes/title/Title.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 boot_splash/bg_color=Color(0.06, 0.06, 0.09, 1)
 boot_splash/show_image=false
@@ -17,6 +17,8 @@ boot_splash/show_image=false
 
 BuildInfo="*res://scripts/core/BuildInfo.gd"
 InputSetup="*res://scripts/core/InputSetup.gd"
+SaveStore="*res://scripts/core/SaveStore.gd"
+GameSession="*res://scripts/core/GameSession.gd"
 
 [debug]
 
@@ -39,3 +41,7 @@ renderer/rendering_method.mobile="gl_compatibility"
 textures/canvas_textures/default_texture_filter=0
 textures/vram_compression/import_etc2_astc=true
 2d/snap/snap_2d_transforms_to_pixel=true
+
+[physics]
+
+common/physics_ticks_per_second=60
