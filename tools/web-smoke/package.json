@@ -1,0 +1,13 @@
+{
+  "name": "web-smoke",
+  "private": true,
+  "description": "Loads the exported Godot web build in headless Chromium and waits for the boot marker.",
+  "type": "module",
+  "engines": { "node": ">=24.22.1 <25" },
+  "scripts": {
+    "smoke": "node smoke.ts ../../build/web"
+  },
+  "devDependencies": {
+    "playwright": "1.56.1"
+  }
+}

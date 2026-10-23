@@ -1,0 +1,25 @@
+{
+  "name": "ironbound-api",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Account, persistence and economy API for the online beat 'em up RPG.",
+  "type": "module",
+  "engines": {
+    "node": ">=24.22.1 <25"
+  },
+  "scripts": {
+    "start": "node src/main.ts",
+    "migrate": "node src/db/migrate-cli.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test --test-concurrency=1 \"test/**/*.test.ts\""
+  },
+  "dependencies": {
+    "fastify": "5.12.7",
+    "pg": "8.23.1"
+  },
+  "devDependencies": {
+    "@types/node": "24.19.2",
+    "@types/pg": "8.23.1",
+    "typescript": "5.9.3"
+  }
+}
