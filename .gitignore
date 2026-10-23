@@ -5,3 +5,5 @@ node_modules/
 !.env.example
 *.log
 smoke-screenshot.png
+.cache/
+__pycache__/

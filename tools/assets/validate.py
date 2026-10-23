@@ -1,0 +1,145 @@
+#!/usr/bin/env python3
+"""Validates client/assets/manifest.json against the files it describes.
+
+  python3 tools/assets/validate.py
+
+For every asset: the sheet exists and is an RGBA PNG with real transparency;
+its size matches the frame grid; every animation row is within the sheet and
+none of its frames is empty; frame counts, fps and origin are sane; credits
+exist, name authors and licences, and every licence is allowed by the policy
+in art/lpc/characters.json; the generated SpriteFrames resource is up to date.
+Pending manual imports (e.g. UnitForge exports not yet uploaded) are listed,
+not failed. Exits non-zero on any problem, printing each one.
+"""
+
+from __future__ import annotations
+
+import json
+import sys
+from pathlib import Path
+
+from PIL import Image
+
+sys.path.insert(0, str(Path(__file__).parent))
+from make_spriteframes import render_tres  # noqa: E402
+
+ROOT = Path(__file__).resolve().parents[2]
+CLIENT = ROOT / "client"
+MANIFEST = CLIENT / "assets" / "manifest.json"
+POLICY = ROOT / "art" / "lpc" / "characters.json"
+SOURCES = {"lpc", "unitforge", "original"}
+STATUSES = {"imported", "pending_manual_export"}
+REQUIRED_ANIMATIONS = {"hero": {"idle", "walk", "light", "heavy", "hurt", "down"},
+                       "enemy": {"idle", "walk", "light", "hurt", "down"},
+                       "boss": {"idle", "walk", "light", "heavy", "hurt", "down"},
+                       "npc": {"idle"}}
+
+
+def res_path(res: str) -> Path:
+    if not res.startswith("res://"):
+        raise ValueError(f"not a res:// path: {res}")
+    return CLIENT / res.removeprefix("res://")
+
+
+def license_ok(name: str, allowed: list[str]) -> bool:
+    for family in allowed:
+        if name == family or name.startswith(family + " ") or name.startswith(family + "+"):
+            if family == "CC-BY" and name.startswith("CC-BY-SA"):
+                continue
+            return True
+    return False
+
+
+def validate_asset(asset_id: str, asset: dict, allowed: list[str]) -> list[str]:
+    problems: list[str] = []
+    where = f"{asset_id}:"
+    if asset.get("source") not in SOURCES:
+        problems.append(f"{where} unknown source {asset.get('source')!r}")
+    status = asset.get("status")
+    if status not in STATUSES:
+        problems.append(f"{where} unknown status {status!r}")
+    if status == "pending_manual_export":
+        return problems
+    width, height = asset.get("frame_size", [0, 0])
+    if width <= 0 or height <= 0:
+        return problems + [f"{where} frame_size must be positive"]
+    sheet_path = res_path(asset["sheet"])
+    if not sheet_path.exists():
+        return problems + [f"{where} missing sheet {sheet_path.relative_to(ROOT)}"]
+    with Image.open(sheet_path) as opened:
+        if opened.format != "PNG":
+            problems.append(f"{where} sheet is {opened.format}, not PNG")
+        sheet = opened.convert("RGBA")
+        if opened.mode not in ("RGBA", "LA", "P"):
+            problems.append(f"{where} sheet has no alpha channel (mode {opened.mode})")
+    if sheet.width % width or sheet.height % height:
+        problems.append(f"{where} sheet {sheet.size} is not a whole number of {width}x{height} frames")
+    alpha = sheet.getchannel("A")
+    if alpha.getextrema()[0] == 255:
+        problems.append(f"{where} sheet has no transparent pixels")
+    animations = asset.get("animations", {})
+    role = asset.get("role")
+    missing = REQUIRED_ANIMATIONS.get(role, set()) - set(animations)
+    if missing:
+        problems.append(f"{where} role {role} is missing animations {sorted(missing)}")
+    rows_used = set()
+    for name, anim in animations.items():
+        row, frames = anim.get("row", -1), anim.get("frames", 0)
+        if row in rows_used:
+            problems.append(f"{where} animation {name} reuses row {row}")
+        rows_used.add(row)
+        if not (0 <= row < sheet.height // height):
+            problems.append(f"{where} animation {name} row {row} is outside the sheet")
+            continue
+        if not (1 <= frames <= sheet.width // width):
+            problems.append(f"{where} animation {name} has {frames} frames; the sheet fits {sheet.width // width}")
+            continue
+        if not (0 < anim.get("fps", 0) <= 60):
+            problems.append(f"{where} animation {name} fps must be in (0, 60]")
+        for frame in range(frames):
+            cell = alpha.crop((frame * width, row * height, (frame + 1) * width, (row + 1) * height))
+            if cell.getbbox() is None:
+                problems.append(f"{where} animation {name} frame {frame} is empty")
+    ox, oy = asset.get("origin", [-1, -1])
+    if not (0 <= ox <= width and 0 <= oy <= height):
+        problems.append(f"{where} origin {asset.get('origin')} is outside the frame")
+    credits_path = res_path(asset.get("credits", "res://missing"))
+    if not credits_path.exists():
+        problems.append(f"{where} missing credits file")
+    else:
+        credits = json.loads(credits_path.read_text())
+        if not credits:
+            problems.append(f"{where} credits are empty")
+        for credit in credits:
+            if not credit.get("authors") and not credit.get("license", "").startswith("CC0"):
+                problems.append(f"{where} credit for {credit.get('file')} names no authors")
+            if not license_ok(credit.get("license", ""), allowed):
+                problems.append(f"{where} {credit.get('file')} uses disallowed licence {credit.get('license')!r}")
+    tres = sheet_path.with_name(f"{asset_id}.tres")
+    if not tres.exists():
+        problems.append(f"{where} missing {tres.relative_to(ROOT)}; run tools/assets/make_spriteframes.py")
+    elif tres.read_text() != render_tres(asset_id, asset):
+        problems.append(f"{where} {tres.name} is out of date; run tools/assets/make_spriteframes.py")
+    return problems
+
+
+def main() -> int:
+    manifest = json.loads(MANIFEST.read_text())
+    allowed = json.loads(POLICY.read_text())["license_policy"]["allowed"]
+    problems: list[str] = []
+    pending: list[str] = []
+    for asset_id, asset in sorted(manifest.get("assets", {}).items()):
+        problems += validate_asset(asset_id, asset, allowed)
+        if asset.get("status") == "pending_manual_export":
+            pending.append(asset_id)
+    for problem in problems:
+        print(f"INVALID {problem}")
+    count = len(manifest.get("assets", {}))
+    print(f"assets: {count} checked, {len(problems)} problem(s), {len(pending)} pending manual export")
+    for asset_id in pending:
+        print(f"PENDING {asset_id}: {manifest['assets'][asset_id].get('manual_steps', 'see docs/ASSETS.md')}")
+    return 1 if problems else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
