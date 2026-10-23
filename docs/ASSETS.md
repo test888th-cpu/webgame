@@ -59,7 +59,8 @@ angles are authored once per game animation in `weapon_pose` in the recipe file 
 the LPC source they were drawn against): a swing arc for `light`, straight ahead for
 `stab`. The
 game draws a held weapon at the socket of the frame on screen, so it follows every
-swing.
+swing, then draws the weapon hand again on top from `hands.png` (the sheet's pixels
+under the near-hand glove mask, one per frame), so the fist closes around the handle.
 
 Animations: `idle`, `walk`, `light` (LPC half-slash), `heavy` (slash), `hurt`,
 `down`, `dodge` (jump) for the hero. Bodies LPC did not draw an animation for use

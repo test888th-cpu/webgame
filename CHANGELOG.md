@@ -8,6 +8,9 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 - A held weapon now always sits in the same (near) hand, through idle, walk, swing, hit
   and dodge. Before, the socket followed whichever hand was closest, so the weapon
   jumped between hands.
+- The fist closes around the handle: the weapon hand is drawn again over the weapon
+  (a per-character `hands.png` cut from each frame with LPC's glove mask), so the
+  handle sits inside the hand instead of lying across the back of it.
 - Each weapon moves like itself: the knife **stabs** straight forward (new `stab`
   animation from LPC's one-handed slash, arm extended), while the bottle, plank, steel
   pipe, machete and chair **swing**: wound up behind the head, then brought forward and

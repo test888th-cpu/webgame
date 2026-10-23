@@ -69,6 +69,7 @@
         "recipe": "art/lpc/characters.json#dock_thug",
         "repo": "LPC"
       },
+      "hand_sheet": "res://assets/characters/dock_thug/hands.png",
       "hands": {
         "dodge": [
           [
@@ -378,6 +379,7 @@
         "recipe": "art/lpc/characters.json#furnace_baron",
         "repo": "LPC"
       },
+      "hand_sheet": "res://assets/characters/furnace_baron/hands.png",
       "hands": {
         "dodge": [
           [
@@ -688,6 +690,7 @@
         "recipe": "art/lpc/characters.json#hero_mika",
         "repo": "LPC"
       },
+      "hand_sheet": "res://assets/characters/hero_mika/hands.png",
       "hands": {
         "dodge": [
           [
@@ -997,6 +1000,7 @@
         "recipe": "art/lpc/characters.json#hero_mika_armoured",
         "repo": "LPC"
       },
+      "hand_sheet": "res://assets/characters/hero_mika_armoured/hands.png",
       "hands": {
         "dodge": [
           [
@@ -1306,6 +1310,7 @@
         "recipe": "art/lpc/characters.json#hero_oren",
         "repo": "LPC"
       },
+      "hand_sheet": "res://assets/characters/hero_oren/hands.png",
       "hands": {
         "dodge": [
           [
@@ -1615,6 +1620,7 @@
         "recipe": "art/lpc/characters.json#hero_oren_armoured",
         "repo": "LPC"
       },
+      "hand_sheet": "res://assets/characters/hero_oren_armoured/hands.png",
       "hands": {
         "dodge": [
           [
@@ -1924,6 +1930,7 @@
         "recipe": "art/lpc/characters.json#market_punk",
         "repo": "LPC"
       },
+      "hand_sheet": "res://assets/characters/market_punk/hands.png",
       "hands": {
         "dodge": [
           [
@@ -2234,6 +2241,7 @@
         "recipe": "art/lpc/characters.json#npc_ama",
         "repo": "LPC"
       },
+      "hand_sheet": "res://assets/characters/npc_ama/hands.png",
       "hands": {
         "dodge": [
           [
@@ -2544,6 +2552,7 @@
         "recipe": "art/lpc/characters.json#npc_kenji",
         "repo": "LPC"
       },
+      "hand_sheet": "res://assets/characters/npc_kenji/hands.png",
       "hands": {
         "dodge": [
           [
@@ -2854,6 +2863,7 @@
         "recipe": "art/lpc/characters.json#npc_odo",
         "repo": "LPC"
       },
+      "hand_sheet": "res://assets/characters/npc_odo/hands.png",
       "hands": {
         "dodge": [
           [
@@ -3156,6 +3166,7 @@
         "recipe": "art/lpc/characters.json#pipe_brute",
         "repo": "LPC"
       },
+      "hand_sheet": "res://assets/characters/pipe_brute/hands.png",
       "hands": {
         "down": [
           [
@@ -3439,6 +3450,7 @@
         "recipe": "art/lpc/characters.json#rail_bruiser",
         "repo": "LPC"
       },
+      "hand_sheet": "res://assets/characters/rail_bruiser/hands.png",
       "hands": {
         "dodge": [
           [
@@ -3749,6 +3761,7 @@
         "recipe": "art/lpc/characters.json#refinery_enforcer",
         "repo": "LPC"
       },
+      "hand_sheet": "res://assets/characters/refinery_enforcer/hands.png",
       "hands": {
         "dodge": [
           [
@@ -4052,6 +4065,7 @@
         "recipe": "art/lpc/characters.json#sludge_foreman",
         "repo": "LPC"
       },
+      "hand_sheet": "res://assets/characters/sludge_foreman/hands.png",
       "hands": {
         "down": [
           [
@@ -4321,6 +4335,7 @@
         "recipe": "art/lpc/characters.json#smog_warden",
         "repo": "LPC"
       },
+      "hand_sheet": "res://assets/characters/smog_warden/hands.png",
       "hands": {
         "down": [
           [
@@ -4572,6 +4587,7 @@
         "recipe": "art/lpc/characters.json#smogling",
         "repo": "LPC"
       },
+      "hand_sheet": "res://assets/characters/smogling/hands.png",
       "hands": {
         "down": [
           [
@@ -4820,6 +4836,7 @@
         "recipe": "art/lpc/characters.json#tar_hound",
         "repo": "LPC"
       },
+      "hand_sheet": "res://assets/characters/tar_hound/hands.png",
       "hands": {
         "down": [
           [

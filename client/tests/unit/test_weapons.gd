@@ -126,6 +126,9 @@ func test_the_hero_view_draws_the_held_weapon() -> void:
 	view.sync()
 	held = hero_view.get_node("Weapon") as Sprite2D
 	assert_true(held.visible and held.texture != null, "the pipe is in hand")
+	var fist := hero_view.get_node("Fist") as Sprite2D
+	assert_true(fist.visible and fist.texture != null, "the fist is drawn over the handle")
+	assert_true(fist.get_index() > held.get_index(), "in front of the weapon")
 	var knife := zone.place_weapon("knife", zone.hero.position + Vector2(200, 0), 14)
 	view.sync()
 	assert_true(
