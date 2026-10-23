@@ -142,11 +142,15 @@ static func _step_idle(
 	elif input.guard:
 		f.enter(Fighter.State.GUARD)
 	else:
-		f.position = LaneMovement.step(f.position, input.move, TICK_SECONDS, bounds, f.speed)
+		f.position = LaneMovement.step(
+			f.position, input.move, TICK_SECONDS, bounds, f.speed * f.weapon_speed
+		)
 
 
 ## The move a button starts from neutral for this fighter ("" if none).
 static func starter(f: Fighter, library: MoveLibrary, input: String) -> String:
+	if f.weapon_moveset.has(input):
+		return f.weapon_moveset[input]
 	if f.moveset.is_empty():
 		return library.starters.get(input, "")
 	return f.moveset.get(input, "")

@@ -38,6 +38,7 @@ var _toast_text: Label
 var _fps: Label
 var _touch: Control
 var _hotbar: Hotbar
+var _weapon: WeaponBadge
 var _vignette: TextureRect
 var _hurt := 0.0
 var _banner: VBoxContainer
@@ -68,7 +69,7 @@ func attach(p_zone: ZoneSim, p_profile: PlayerProfile, p_content: ContentDB) -> 
 	zone = p_zone
 	profile = p_profile
 	content = p_content
-	_area.text = str(zone.area.get("name", ""))
+	_area.text = "%s  ·  Lv %d" % [zone.area.get("name", ""), zone.level]
 	_name.text = profile.name
 	var hero_data := content.hero(profile.hero)
 	var color := Color.from_string(str(hero_data.get("color", "")), UiTheme.ACCENT)
@@ -153,6 +154,7 @@ func _process(delta: float) -> void:
 	_energy.set_values(hero.energy, CombatRules.MAX_ENERGY)
 	_xp.set_values(profile.xp, profile.xp_to_next(content))
 	_money.text = str(profile.money)
+	_weapon.show_weapon(content, hero.weapon, hero.weapon_uses)
 	_update_quest()
 	if _hotbar:
 		_hotbar.refresh(zone, profile)
@@ -193,6 +195,10 @@ func _build_hero_card(root: Control) -> void:
 	bars.add_child(_energy)
 	_xp = _bar(UiTheme.XP, Vector2(BAR_WIDTH, 3), false)
 	bars.add_child(_xp)
+	_weapon = WeaponBadge.new()
+	_weapon.name = "Weapon"
+	_weapon.position = Vector2(6, 62)
+	root.add_child(_weapon)
 
 
 func _build_top_right(root: Control) -> void:
@@ -285,6 +291,7 @@ func _build_hints(root: Control) -> void:
 	hints.add_child(UiKit.key_hint("X", "Heavy"))
 	hints.add_child(UiKit.key_hint("Space", "Dodge"))
 	hints.add_child(UiKit.key_hint("Shift", "Guard"))
+	hints.add_child(UiKit.key_hint("E", "Grab"))
 	hints.modulate.a = 0.8
 	root.add_child(hints)
 

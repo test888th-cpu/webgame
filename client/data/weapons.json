@@ -1,0 +1,94 @@
+{
+  "weapons": {
+    "knife": {
+      "name": "Knife",
+      "sprite": "weapon_knife",
+      "grip": "hand",
+      "durability": 14,
+      "speed": 1.0,
+      "weight": 30,
+      "min_level": 1,
+      "moveset": {
+        "light": "knife_slash",
+        "heavy": "knife_lunge"
+      },
+      "material": "metal",
+      "description": "Quick slashes and a lunging stab. Lasts a while."
+    },
+    "bottle": {
+      "name": "Bottle",
+      "sprite": "weapon_bottle",
+      "grip": "hand",
+      "durability": 2,
+      "speed": 1.0,
+      "weight": 40,
+      "min_level": 1,
+      "moveset": {
+        "light": "bottle_swing",
+        "heavy": "bottle_smash"
+      },
+      "material": "glass",
+      "description": "Hits hard, then shatters. Two blows at most."
+    },
+    "plank": {
+      "name": "Wooden Plank",
+      "sprite": "weapon_plank",
+      "grip": "hand",
+      "durability": 8,
+      "speed": 0.95,
+      "weight": 30,
+      "min_level": 1,
+      "moveset": {
+        "light": "plank_swing",
+        "heavy": "plank_overhead"
+      },
+      "material": "wood",
+      "description": "Long reach, sweeping swings. Splinters after a few fights."
+    },
+    "pipe": {
+      "name": "Steel Pipe",
+      "sprite": "weapon_pipe",
+      "grip": "hand",
+      "durability": 10,
+      "speed": 0.92,
+      "weight": 16,
+      "min_level": 3,
+      "moveset": {
+        "light": "pipe_swing",
+        "heavy": "pipe_slam"
+      },
+      "material": "metal",
+      "description": "Heavy and long. The slam breaks any guard."
+    },
+    "machete": {
+      "name": "Machete",
+      "sprite": "weapon_machete",
+      "grip": "hand",
+      "durability": 12,
+      "speed": 1.0,
+      "weight": 8,
+      "min_level": 5,
+      "moveset": {
+        "light": "machete_slash",
+        "heavy": "machete_cleave"
+      },
+      "material": "metal",
+      "description": "A long blade. The deadliest thing on the street."
+    },
+    "chair": {
+      "name": "Folding Chair",
+      "sprite": "weapon_chair",
+      "grip": "overhead",
+      "durability": 4,
+      "speed": 0.8,
+      "weight": 12,
+      "min_level": 2,
+      "moveset": {
+        "light": "chair_swing",
+        "heavy": "chair_slam"
+      },
+      "material": "wood",
+      "description": "Raise it high and bring it down. Every swing knocks down. Slows you."
+    }
+  }
+}

@@ -43,6 +43,20 @@ changes the hero's look). `ContentDB` fails if any of these names a missing asse
 | pipe_brute | enemy | green body, orc head, suspenders | OGA-BY 3.0(+) |
 | smog_warden | elite | skeleton body, plate armour | OGA-BY 3.0 |
 | sludge_foreman | boss | boarman head, suspenders | CC-BY 3.0, OGA-BY 3.0 |
+| dock_thug | enemy | male body, bandana, trimmed beard, t-shirt, pants, boots | OGA-BY 3.0 |
+| rail_bruiser | enemy | buzzcut, beard, sleeveless shirt, overalls | OGA-BY 3.0(+) |
+| market_punk | enemy | pink spiked hair, long sleeves, open vest, cuffed pants | CC-BY 4.0, OGA-BY 3.0 |
+| refinery_enforcer | elite | headband, legion armour, armoured legs | OGA-BY 3.0(+) |
+| furnace_baron | boss | walrus moustache, balding, leather cap, trench coat | OGA-BY 3.0(+) |
+| npc_kenji | NPC, night-market vendor | topknot, headband, long sleeves, apron | OGA-BY 3.0(+) |
+
+**Hand sockets.** For every character the builder also records, per animation frame,
+where the front hand is and at what angle a held weapon points (`hands` in the
+manifest: `[x, y, degrees]` per frame). Positions come from LPC's glove layer (hands
+only, OGA-BY) for the character's body type, which is read but never shipped; the
+angles are authored once per LPC animation in `weapon_pose` in the recipe file. The
+game draws a held weapon at the socket of the frame on screen, so it follows every
+swing.
 
 Animations: `idle`, `walk`, `light` (LPC half-slash), `heavy` (slash), `hurt`,
 `down`, `dodge` (jump) for the hero. Bodies LPC did not draw an animation for use
@@ -85,6 +99,12 @@ coin, quest marks) into `client/assets/ui/icons.png` and records their regions i
 the manifest's `ui` section. Each item in `items.json` names its `icon`. The
 validator regenerates the sheet in memory and fails when it is stale or an item
 names an unknown icon. See [UI.md](UI.md).
+
+The same sheet holds the street weapons (knife, bottle, plank, steel pipe, machete,
+folding chair) as 16x32 sprites drawn upright with the grip at `weapon_grip` (8, 27),
+so the game can turn them about the hand; `weapons.json` names each one's `sprite`
+and the validator checks it exists. The chair is drawn upside down, held by the top
+of its back, the way one swings a folding chair.
 
 ## Fonts
 

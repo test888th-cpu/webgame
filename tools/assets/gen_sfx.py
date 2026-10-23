@@ -243,6 +243,35 @@ def arena_lock(s: Sound) -> None:
     s.noise(0, 0.05, 0.5, low=0.6, attack=0.001, decay=50)
 
 
+def weapon_grab(s: Sound) -> None:
+    s.noise(0, 0.06, 0.4, low=0.5, high=0.5, attack=0.001, decay=40)
+    s.tone(0.02, 0.12, 300, 520, "triangle", 0.4, attack=0.002, decay=16)
+
+
+def weapon_drop(s: Sound) -> None:
+    for i, start in enumerate((0.0, 0.07, 0.12)):
+        s.tone(start, 0.08, 700 - i * 90, 640 - i * 90, "square", 0.18 - i * 0.04, attack=0.0005, decay=40)
+        s.noise(start, 0.04, 0.35, low=0.6, high=0.5, attack=0.0005, decay=70)
+
+
+def break_glass(s: Sound) -> None:
+    s.noise(0, 0.35, 0.8, low=0.95, high=0.85, attack=0.0005, decay=10)
+    for i, start in enumerate((0.0, 0.03, 0.08, 0.15)):
+        s.tone(start, 0.12, 2600 + i * 420, 2300 + i * 400, "triangle", 0.18, attack=0.0005, decay=28)
+
+
+def break_wood(s: Sound) -> None:
+    s.noise(0, 0.25, 0.9, low=0.4, low_end=0.15, attack=0.0005, decay=14)
+    s.tone(0, 0.12, 220, 90, "square", 0.3, attack=0.0005, decay=24)
+    s.noise(0.08, 0.15, 0.5, low=0.6, high=0.4, attack=0.001, decay=20)
+
+
+def break_metal(s: Sound) -> None:
+    s.tone(0, 0.45, 1180, 1120, "triangle", 0.4, attack=0.0005, decay=7, vibrato=9)
+    s.tone(0, 0.45, 1760, 1700, "sine", 0.3, attack=0.0005, decay=9)
+    s.noise(0, 0.05, 0.6, low=0.9, high=0.6, attack=0.0005, decay=60)
+
+
 # id -> (painter, seconds)
 SOUNDS = {
     "swing_light": (swing_light, 0.14),
@@ -270,6 +299,11 @@ SOUNDS = {
     "denied": (denied, 0.18),
     "boss_roar": (boss_roar, 0.95),
     "arena_lock": (arena_lock, 0.38),
+    "weapon_grab": (weapon_grab, 0.16),
+    "weapon_drop": (weapon_drop, 0.22),
+    "break_glass": (break_glass, 0.4),
+    "break_wood": (break_wood, 0.32),
+    "break_metal": (break_metal, 0.5),
 }
 
 

@@ -2,21 +2,32 @@ class_name EnemyBrain
 extends RefCounted
 ## Decides one enemy's input each tick. Waits at its preferred spacing until
 ## the zone grants it an attack token, then closes in, lines up in the lane,
-## pauses for its reaction time and swings. Parameters come from the enemy's
-## "ai" block in enemies.json. Randomness comes only from the zone's seeded
-## generator, so a zone replays identically from the same seed and inputs.
+## pauses for its reaction time and swings. Higher-level enemies also read
+## the hero's wind-ups: they may guard or hop back out of reach, and they go
+## and pick up weapons lying nearby (LevelRules sets these chances).
+## Parameters come from the enemy's "ai" block in enemies.json. Randomness
+## comes only from the zone's seeded generator, so a zone replays identically
+## from the same seed and inputs.
 
 ## How far from the target's lane depth this enemy waits, so a crowd spreads
 ## out instead of stacking on one line.
 const LANE_SPREAD := 24.0
 ## Slack in px around the move's reach when deciding to swing.
 const RANGE_MARGIN := 4.0
+## How far an enemy will walk to fetch a weapon, and how close is "on it".
+const SCAVENGE_RANGE := 110.0
+const PICK_REACH := 10.0
 
 var spacing := 56.0
 var reaction_ticks := 12
 var cooldown_ticks := 50
 var cooldown_jitter := 30
 var heavy_chance := 0.0
+## Chance to guard, or to dodge away, when the target winds up an attack
+## nearby; whether to fetch weapons.
+var guard_chance := 0.0
+var dodge_chance := 0.0
+var scavenge := false
 
 ## Ticks until this enemy may attack again.
 var cooldown := 0
@@ -25,6 +36,10 @@ var reaction := 0
 var lane_offset := 0.0
 ## The button chosen for the next attack, rolled once per opportunity.
 var planned := ""
+## Ticks left holding guard after reading an attack.
+var guarding := 0
+## The target attack (by its start tick) already reacted to.
+var _read_attack := -1
 
 
 func _init(ai: Dictionary, rng: RandomNumberGenerator) -> void:
@@ -33,23 +48,47 @@ func _init(ai: Dictionary, rng: RandomNumberGenerator) -> void:
 	cooldown_ticks = int(ai.get("cooldown", cooldown_ticks))
 	cooldown_jitter = int(ai.get("cooldown_jitter", cooldown_jitter))
 	heavy_chance = float(ai.get("heavy_chance", 0.0))
+	guard_chance = float(ai.get("guard_chance", 0.0))
+	dodge_chance = float(ai.get("dodge_chance", 0.0))
+	scavenge = bool(ai.get("scavenge", false))
 	lane_offset = rng.randf_range(-LANE_SPREAD, LANE_SPREAD)
 	# Freshly spawned enemies hesitate before their first attack.
 	cooldown = rng.randi_range(30, 30 + cooldown_jitter)
 	reaction = reaction_ticks
 
 
+## `loot_at` is the nearest weapon on the ground (Vector2.INF if none).
 func think(
-	me: Fighter, target: Fighter, may_attack: bool, library: MoveLibrary, rng: RandomNumberGenerator
+	me: Fighter,
+	target: Fighter,
+	may_attack: bool,
+	library: MoveLibrary,
+	rng: RandomNumberGenerator,
+	loot_at := Vector2.INF,
+	tick := 0
 ) -> FighterInput:
 	var input := FighterInput.new()
 	cooldown = maxi(0, cooldown - 1)
+	if guarding > 0 and me.state in [Fighter.State.IDLE, Fighter.State.GUARD]:
+		guarding -= 1
+		input.guard = true
+		return input
 	if me.state != Fighter.State.IDLE or target == null or target.is_ko():
 		return input
 	var dx := target.position.x - me.position.x
 	var dir_x := 1 if dx >= 0.0 else -1
 	var distance := absf(dx)
 	input.face = dir_x
+	if _react_to_attack(me, target, distance, dir_x, input, rng, tick):
+		return input
+	if scavenge and me.weapon == "" and loot_at != Vector2.INF and not may_attack:
+		var to_loot := loot_at - me.position
+		if to_loot.length() <= SCAVENGE_RANGE:
+			if absf(to_loot.x) <= PICK_REACH and absf(to_loot.y) <= PICK_REACH:
+				input.pick = true
+			else:
+				input.move = to_loot.normalized()
+			return input
 	if may_attack and cooldown == 0:
 		return _press_attack(me, target, input, distance, dir_x, library, rng)
 	# Without a token: hold at spacing, drift to this enemy's own lane depth.
@@ -62,6 +101,48 @@ func think(
 	var move_y := signf(to_lane) * 0.6 if absf(to_lane) > 4.0 else 0.0
 	input.move = Vector2(move_x, move_y)
 	return input
+
+
+## Reads the target winding up an attack aimed this way: maybe guard for its
+## duration, maybe hop back. One roll per attack. Returns true if it reacted.
+func _react_to_attack(
+	me: Fighter,
+	target: Fighter,
+	distance: float,
+	dir_x: int,
+	input: FighterInput,
+	rng: RandomNumberGenerator,
+	tick: int
+) -> bool:
+	if not _sees_wind_up(target, distance, dir_x, tick):
+		return false
+	_read_attack = tick - target.state_tick
+	var roll := rng.randf()
+	if roll < dodge_chance and me.energy >= CombatRules.DODGE_COST:
+		input.face = -dir_x
+		input.dodge = true
+		return true
+	if roll < dodge_chance + guard_chance:
+		guarding = target.move.startup + target.move.active - target.state_tick + 2
+		input.guard = true
+		return true
+	return false
+
+
+## The target is winding up an attack, aimed this way and close enough to
+## matter, that this brain has not reacted to yet.
+func _sees_wind_up(target: Fighter, distance: float, dir_x: int, tick: int) -> bool:
+	if guard_chance <= 0.0 and dodge_chance <= 0.0:
+		return false
+	if target.state != Fighter.State.ATTACK or target.move == null:
+		return false
+	var threat := target.move.reach_offset + target.move.reach + 16.0
+	return (
+		tick - target.state_tick != _read_attack
+		and target.facing == -dir_x
+		and distance <= threat
+		and target.state_tick < target.move.startup
+	)
 
 
 ## True when this brain is ready to use an attack token.

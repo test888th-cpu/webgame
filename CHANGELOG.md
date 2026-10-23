@@ -4,6 +4,26 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — Three new areas, street weapons and smarter enemies
+- The street goes on past the Sludge Foreman: **Rail Yards** (level 4), **Night Market**
+  (level 6, with Kenji's Night Stall) and **Smokestack Refinery** (level 8, boss: the
+  Furnace Baron). Every area has a level; enemies scale with it (HP, damage, defense,
+  speed, XP, coins) and get smarter: faster reactions, guarding against wind-ups (from
+  level 3), hopping back and grabbing weapons (from level 5). Enemy level shows over
+  their heads and the area level on the HUD. New enemies with their own outfits: Dock
+  Thug, Rail Bruiser, Market Punk, Refinery Enforcer (elite), Furnace Baron (boss).
+- **Street weapons**: knife, bottle, wooden plank, steel pipe, machete and folding chair
+  lie around (random by area and level; two in the Depot Yard to practise with). E picks
+  one up or puts it down; it gives Z/X its own moves, wears out per landed blow (pips on
+  the HUD), breaks with a sound, and is **drawn in the hand, following every frame of
+  the swing**. Anyone knocked down drops their weapon and has to pick it up again.
+  Wielding enemies may start armed.
+- Quests Rail Yard Rumble, Market Lights and The Furnace Baron; six new items (rare to
+  legendary, levels 5-8) with their own icons.
+- Sprite builder: per-frame hand sockets from LPC's glove layer; weapon sprites and
+  sounds (grab, drop, glass/wood/metal break) generated like the other assets.
+- Smoke test picks up a weapon in the yard. 17 new tests (134 total), 2 pipeline tests.
+
 ### Changed — Skills worth their cooldown
 - The heavy attack (X/K) has no cooldown, so it no longer rivals skills: 13 damage
   (was 18) and 20 energy (was 15). Skills hit harder: Mika 26/22/28/45, Oren

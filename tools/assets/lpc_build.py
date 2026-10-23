@@ -218,7 +218,73 @@ def feet_y(sheet: Image.Image, animations: dict) -> int:
     return box[3] if box else FRAME
 
 
-def build_character(lpc: Lpc, char_id: str, recipe: dict, game_anims: dict, allowed: list[str]) -> dict:
+# Hand sockets: where a held weapon goes in each frame. Positions come from
+# LPC's glove layer (hands only) for the character's body type: the hand in
+# front in the first frame, then whichever hand is nearest the previous frame's
+# socket, so the weapon stays in one hand through a walk cycle. Angles (degrees
+# clockwise from "up", facing right) are authored per LPC frame in the recipes'
+# "weapon_pose", since the sheets carry no notion of a held object's angle.
+HANDS_DEF = "arms/arms_gloves.json"
+MIN_HAND_PIXELS = 12
+
+
+def hand_clusters(cell: Image.Image) -> list[tuple[float, float]]:
+    """Centres of the separate opaque blobs (hands) in one glove frame."""
+    alpha = cell.getchannel("A").load()
+    seen: set[tuple[int, int]] = set()
+    centres = []
+    for y in range(FRAME):
+        for x in range(FRAME):
+            if alpha[x, y] == 0 or (x, y) in seen:
+                continue
+            stack, blob = [(x, y)], []
+            seen.add((x, y))
+            while stack:
+                px, py = stack.pop()
+                blob.append((px, py))
+                for nx in (px - 1, px, px + 1):
+                    for ny in (py - 1, py, py + 1):
+                        if 0 <= nx < FRAME and 0 <= ny < FRAME and (nx, ny) not in seen and alpha[nx, ny] > 0:
+                            seen.add((nx, ny))
+                            stack.append((nx, ny))
+            if len(blob) >= MIN_HAND_PIXELS:
+                centres.append((sum(p[0] for p in blob) / len(blob), sum(p[1] for p in blob) / len(blob)))
+    return centres
+
+
+def hand_sockets(lpc: Lpc, body_type: str, game_anims: dict, poses: dict) -> dict:
+    layer = lpc.definition(HANDS_DEF)["layer_1"]
+    if body_type not in layer:
+        return {}
+    lpc.fetch([sprite_path(layer[body_type], ANIMATIONS[a["lpc"]][0], None) for a in game_anims.values()])
+    sockets = {}
+    for game_name, anim in game_anims.items():
+        folder, row_count, cycle = ANIMATIONS[anim["lpc"]]
+        image = lpc.image(sprite_path(layer[body_type], folder, None))
+        angles = poses.get(anim["lpc"])
+        if image is None or angles is None:
+            continue
+        row = RIGHT_ROW if row_count == 4 else 0
+        previous = None
+        frames = []
+        for frame in anim.get("frames", cycle):
+            cell = image.crop((frame * FRAME, row * FRAME, (frame + 1) * FRAME, (row + 1) * FRAME))
+            centres = hand_clusters(cell)
+            if not centres:
+                hand = previous or (FRAME / 2, FRAME / 2)
+            elif previous is None:
+                hand = max(centres)
+            else:
+                hand = min(centres, key=lambda c: (c[0] - previous[0]) ** 2 + (c[1] - previous[1]) ** 2)
+            previous = hand
+            frames.append([round(hand[0]), round(hand[1]), angles[frame]])
+        sockets[game_name] = frames
+    return sockets
+
+
+def build_character(
+    lpc: Lpc, char_id: str, recipe: dict, game_anims: dict, allowed: list[str], poses: dict | None = None
+) -> dict:
     body_type = recipe["body_type"]
     layers = []  # (zPos, order, definition, layer dict, item spec)
     for order, item in enumerate(recipe["layers"]):
@@ -323,6 +389,7 @@ def build_character(lpc: Lpc, char_id: str, recipe: dict, game_anims: dict, allo
         "origin": [FRAME // 2, feet_y(sheet, animations)],
         "facing": "right",
         "animations": animations,
+        "hands": hand_sockets(lpc, body_type, game_anims, poses or {}),
         "licenses": sorted({c["license"] for c in credits}),
         "credits": f"res://assets/characters/{char_id}/credits.json",
         "generator": {"repo": "LPC", "recipe": f"art/lpc/characters.json#{char_id}"},
@@ -353,7 +420,9 @@ def main() -> int:
                 continue
             anims[name] = overrides.get(name) or base
         try:
-            manifest["assets"][char_id] = build_character(lpc, char_id, recipe, anims, allowed)
+            manifest["assets"][char_id] = build_character(
+                lpc, char_id, recipe, anims, allowed, recipes.get("weapon_pose", {})
+            )
             print(f"built {char_id}: {', '.join(manifest['assets'][char_id]['licenses'])}")
         except BuildError as error:
             failures += 1

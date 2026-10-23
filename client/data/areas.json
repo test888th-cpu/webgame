@@ -54,7 +54,18 @@
         }
       ],
       "encounters": [],
-      "theme": "depot"
+      "weapons": {
+        "count": [
+          2,
+          2
+        ],
+        "pool": {
+          "plank": 1,
+          "knife": 1
+        }
+      },
+      "theme": "depot",
+      "level": 1
     },
     "saltmarket": {
       "name": "Saltmarket Street",
@@ -141,7 +152,19 @@
           ]
         }
       ],
-      "theme": "market"
+      "theme": "market",
+      "level": 1,
+      "weapons": {
+        "count": [
+          2,
+          3
+        ],
+        "pool": {
+          "bottle": 4,
+          "plank": 3,
+          "knife": 2
+        }
+      }
     },
     "canal_works": {
       "name": "Canal Works",
@@ -162,6 +185,10 @@
         "west": {
           "to": "saltmarket",
           "entry": "east"
+        },
+        "east": {
+          "to": "rail_yards",
+          "entry": "west"
         }
       },
       "npcs": [],
@@ -204,7 +231,328 @@
           ]
         }
       ],
-      "theme": "canal"
+      "theme": "canal",
+      "level": 2,
+      "weapons": {
+        "count": [
+          2,
+          4
+        ],
+        "pool": {
+          "bottle": 3,
+          "plank": 3,
+          "knife": 2,
+          "chair": 2
+        }
+      }
+    },
+    "rail_yards": {
+      "name": "Rail Yards",
+      "level": 4,
+      "width": 2400,
+      "safe": false,
+      "theme": "depot",
+      "palette": {
+        "sky": "#3a2030",
+        "buildings": [
+          "#3a2a2a",
+          "#4a3028",
+          "#33262e"
+        ],
+        "windows": "#f2a050",
+        "sidewalk": "#5a5048",
+        "street": "#2e2826"
+      },
+      "exits": {
+        "west": {
+          "to": "canal_works",
+          "entry": "east"
+        },
+        "east": {
+          "to": "night_market",
+          "entry": "west"
+        }
+      },
+      "weapons": {
+        "count": [
+          3,
+          5
+        ],
+        "pool": {
+          "plank": 4,
+          "pipe": 4,
+          "bottle": 3,
+          "chair": 2,
+          "knife": 2
+        }
+      },
+      "encounters": [
+        {
+          "trigger_x": 420,
+          "arena": [
+            200,
+            900
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "dock_thug",
+              "dock_thug"
+            ],
+            [
+              "dock_thug",
+              "smogling",
+              "dock_thug"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1150,
+          "arena": [
+            940,
+            1640
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "rail_bruiser",
+              "dock_thug"
+            ],
+            [
+              "tar_hound",
+              "tar_hound",
+              "dock_thug"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1900,
+          "arena": [
+            1700,
+            2380
+          ],
+          "max_alive": 4,
+          "waves": [
+            [
+              "rail_bruiser",
+              "dock_thug",
+              "dock_thug"
+            ],
+            [
+              "rail_bruiser",
+              "rail_bruiser"
+            ]
+          ]
+        }
+      ]
+    },
+    "night_market": {
+      "name": "Night Market",
+      "level": 6,
+      "width": 2600,
+      "safe": false,
+      "theme": "market",
+      "palette": {
+        "sky": "#140c2a",
+        "buildings": [
+          "#24183a",
+          "#2c1c44",
+          "#1c1430"
+        ],
+        "windows": "#5fe0d0",
+        "sidewalk": "#3e3a52",
+        "street": "#201c2c"
+      },
+      "exits": {
+        "west": {
+          "to": "rail_yards",
+          "entry": "east"
+        },
+        "east": {
+          "to": "refinery",
+          "entry": "west"
+        }
+      },
+      "weapons": {
+        "count": [
+          4,
+          6
+        ],
+        "pool": {
+          "bottle": 4,
+          "knife": 3,
+          "chair": 3,
+          "machete": 2,
+          "plank": 2
+        }
+      },
+      "npcs": [
+        {
+          "id": "vendor_kenji",
+          "name": "Kenji",
+          "role": "shop",
+          "shop": "night_stall",
+          "x": 300,
+          "y": 262,
+          "color": "#d0a050",
+          "line": "Fresh gear for the long night. Better than what Ama sells, and priced like it.",
+          "sprite": "npc_kenji"
+        }
+      ],
+      "encounters": [
+        {
+          "trigger_x": 620,
+          "arena": [
+            460,
+            1160
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "market_punk",
+              "market_punk"
+            ],
+            [
+              "market_punk",
+              "dock_thug",
+              "market_punk"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1400,
+          "arena": [
+            1200,
+            1900
+          ],
+          "max_alive": 4,
+          "waves": [
+            [
+              "market_punk",
+              "rail_bruiser",
+              "market_punk"
+            ],
+            [
+              "smog_warden",
+              "market_punk"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 2150,
+          "arena": [
+            1940,
+            2580
+          ],
+          "max_alive": 4,
+          "waves": [
+            [
+              "market_punk",
+              "market_punk",
+              "dock_thug",
+              "rail_bruiser"
+            ],
+            [
+              "smog_warden",
+              "smog_warden"
+            ]
+          ]
+        }
+      ]
+    },
+    "refinery": {
+      "name": "Smokestack Refinery",
+      "level": 8,
+      "width": 2200,
+      "safe": false,
+      "theme": "canal",
+      "palette": {
+        "sky": "#1a2018",
+        "buildings": [
+          "#2a3020",
+          "#323a24",
+          "#24281c"
+        ],
+        "windows": "#e0c050",
+        "sidewalk": "#4a4c40",
+        "street": "#24261e"
+      },
+      "exits": {
+        "west": {
+          "to": "night_market",
+          "entry": "east"
+        }
+      },
+      "weapons": {
+        "count": [
+          3,
+          5
+        ],
+        "pool": {
+          "pipe": 4,
+          "machete": 3,
+          "chair": 2,
+          "bottle": 2
+        }
+      },
+      "encounters": [
+        {
+          "trigger_x": 420,
+          "arena": [
+            200,
+            900
+          ],
+          "max_alive": 4,
+          "waves": [
+            [
+              "refinery_enforcer",
+              "dock_thug",
+              "market_punk"
+            ],
+            [
+              "rail_bruiser",
+              "market_punk",
+              "market_punk"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1150,
+          "arena": [
+            940,
+            1640
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "refinery_enforcer",
+              "refinery_enforcer"
+            ],
+            [
+              "rail_bruiser",
+              "market_punk",
+              "dock_thug"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1800,
+          "arena": [
+            1500,
+            2180
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "furnace_baron"
+            ],
+            [
+              "market_punk",
+              "dock_thug"
+            ]
+          ]
+        }
+      ]
     }
   }
 }

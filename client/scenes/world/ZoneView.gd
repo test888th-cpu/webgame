@@ -22,6 +22,7 @@ var effects: Node2D
 var _entities: Node2D
 var _views := {}
 var _pickups := {}
+var _weapons := {}
 var _npc_marks := {}
 var _npc_prompts := {}
 var _shake := 0.0
@@ -69,6 +70,7 @@ func sync() -> void:
 		if not present.has(id):
 			_pickups[id].collect()
 			_pickups.erase(id)
+	_sync_weapons()
 	_update_prompts()
 	_follow_hero()
 
@@ -145,9 +147,10 @@ func hero_art() -> String:
 func _make_fighter_view(f: Fighter) -> FighterView:
 	var view: FighterView = FIGHTER_SCENE.instantiate()
 	view.fighter = f
+	view.content = content
 	_entities.add_child(view)
 	if f.team == ZoneSim.ENEMY_TEAM:
-		view.setup_enemy(content.enemy(f.kind), content.art)
+		view.setup_enemy(content.enemy(f.kind), content.art, zone.enemy_level(f.id))
 	return view
 
 
@@ -177,11 +180,33 @@ func shake(pixels: float) -> void:
 		_shake = maxf(_shake, pixels)
 
 
-## Shows "[E] Talk" (or Shop) over the NPC the hero can talk to right now.
+## Shows "[E] Talk" (or Shop) over the NPC the hero can talk to right now,
+## or else "[E] Pick up" over the weapon at the hero's feet.
 func _update_prompts() -> void:
 	var near := npc_near(zone.hero)
 	for npc_id: String in _npc_prompts:
 		_npc_prompts[npc_id].visible = not near.is_empty() and near["id"] == npc_id
+	var reach := zone.weapon_in_reach(zone.hero.position) if near.is_empty() else -1
+	var lit: int = zone.ground_weapons[reach]["id"] if reach >= 0 else -1
+	if zone.hero.state != Fighter.State.IDLE:
+		lit = -1
+	for id: int in _weapons:
+		_weapons[id].set_highlight(id == lit)
+
+
+func _sync_weapons() -> void:
+	var present := {}
+	for entry: Dictionary in zone.ground_weapons:
+		present[entry["id"]] = true
+		if not _weapons.has(entry["id"]):
+			var weapon := WeaponView.new()
+			weapon.setup(content, entry)
+			_entities.add_child(weapon)
+			_weapons[entry["id"]] = weapon
+	for id: int in _weapons.keys():
+		if not present.has(id):
+			_weapons[id].queue_free()
+			_weapons.erase(id)
 
 
 func _build_scenery() -> void:

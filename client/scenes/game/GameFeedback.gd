@@ -44,6 +44,13 @@ func on_event(event: ZoneEvent) -> void:
 			view.shake(4.0)
 		"hero_down":
 			Sfx.play("ko")
+		"weapon_pickup":
+			Sfx.play("weapon_grab", -3.0)
+		"weapon_drop":
+			Sfx.play_later("weapon_drop", 0.12, -4.0)
+		"weapon_break":
+			Sfx.play("break_" + str(event.data["material"]), -2.0)
+			Fx.spawn(view.effects, content, "dust", event.data["at"] + CHEST)
 
 
 func level_up(level: int, skills: Array) -> void:

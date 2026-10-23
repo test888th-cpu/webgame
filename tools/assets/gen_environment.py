@@ -357,7 +357,7 @@ def draw_ground(area_id: str, area: dict, theme: str) -> Image.Image:
     for x in range(10, width, 80):
         draw.rectangle((x, LANE_MARK_Y, x + 39, LANE_MARK_Y + 2), fill=(*mark, 255))
         for _ in range(6):
-            image.putpixel((x + rng.randrange(40), LANE_MARK_Y + rng.randrange(3)), (*shade(street, 1.05), 255))
+            image.putpixel((min(width - 1, x + rng.randrange(40)), LANE_MARK_Y + rng.randrange(3)), (*shade(street, 1.05), 255))
     # Manholes and drains.
     for x in range(rng.randrange(60, 200), width - 30, rng.randrange(260, 420)):
         y = rng.randrange(40, GROUND_H - 22)
