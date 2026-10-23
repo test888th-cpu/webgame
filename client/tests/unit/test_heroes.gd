@@ -60,6 +60,16 @@ func test_each_hero_has_their_own_skills() -> void:
 	assert_near(zone.hero.speed, 0.85, "Oren walks slower")
 
 
+func test_each_hero_starts_with_a_kit() -> void:
+	var mika := PlayerProfile.new_game(_content(), "mika")
+	assert_eq(mika.equipment["feet"], "canvas_sneakers", "Mika starts in sneakers")
+	assert_eq(mika.count("steamed_bun"), 3, "with buns")
+	var oren := PlayerProfile.new_game(_content(), "oren")
+	assert_eq(oren.equipment["body"], "padded_vest", "Oren starts in a vest")
+	assert_eq(oren.money, 30, "and some coins")
+	assert_eq(oren.hp, oren.stats(_content())["max_hp"], "at full health")
+
+
 func test_saves_remember_the_hero_and_name() -> void:
 	var db := _content()
 	var profile := PlayerProfile.new_game(db, "oren", "Big Oren")
@@ -84,6 +94,7 @@ func test_hero_art_follows_the_hero_and_armour() -> void:
 	tree.root.add_child(game)
 	game.set_physics_process(false)
 	assert_eq(game.view.hero_art(), "hero_oren", "Oren's sprite")
+	game.profile.level = 2
 	game.profile.add_item("work_jacket")
 	game._equip("work_jacket")
 	assert_eq(game.view.hero_art(), "hero_oren_armoured", "armoured look")

@@ -1,7 +1,7 @@
 // Captures screenshots of key UI states from a web export, for visual review.
 //   node shots.ts <export-dir> <out-dir> [steps...]
 // Each step is "key:<Key>" (press), "hold:<Key>:<ms>", "wait:<ms>", "shot:<name>" or
-// "type:<text>" or "walk:<x>:<y>" (walks the hero there, steering by the read-only probe).
+// "type:<text>", "click:<x>:<y>" (page pixels) or "walk:<x>:<y>" (walks the hero there, steering by the read-only probe).
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
 import { extname, join, resolve } from "node:path";
@@ -32,6 +32,7 @@ for (const step of steps) {
   const [kind, a, b] = step.split(":");
   if (kind === "key") await page.keyboard.press(a!);
   if (kind === "type") await page.keyboard.type(step.slice(5));
+  if (kind === "click") await page.mouse.click(Number(a), Number(b));
   // Characters with no key on a US layout (e.g. Thai), sent as key events.
   if (kind === "chars") {
     for (const ch of step.slice(6)) {

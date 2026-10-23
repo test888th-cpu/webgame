@@ -9,6 +9,9 @@ func _game() -> Node2D:
 	SaveStore.path = TEST_SAVE
 	SaveStore.delete()
 	GameSession.start_new_game()
+	# Tests count coins and items from zero, without the starter kit.
+	GameSession.profile.money = 0
+	GameSession.profile.inventory.clear()
 	var game: Node2D = load("res://scenes/game/Game.tscn").instantiate()
 	tree.root.add_child(game)
 	game.set_physics_process(false)  # tests drive ticks explicitly

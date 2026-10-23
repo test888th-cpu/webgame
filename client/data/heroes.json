@@ -33,7 +33,18 @@
         "whirlwind_kick",
         "shoulder_rush",
         "furnace_slam"
-      ]
+      ],
+      "starter": {
+        "money": 30,
+        "items": {
+          "steamed_bun": 3,
+          "fingerless_gloves": 1
+        },
+        "equipment": [
+          "canvas_sneakers",
+          "dock_beanie"
+        ]
+      }
     },
     "oren": {
       "name": "Oren Vale",
@@ -64,7 +75,18 @@
         "clothesline",
         "shoulder_charge",
         "earthshaker"
-      ]
+      ],
+      "starter": {
+        "money": 30,
+        "items": {
+          "steamed_bun": 3,
+          "canvas_sneakers": 1
+        },
+        "equipment": [
+          "padded_vest",
+          "fingerless_gloves"
+        ]
+      }
     }
   }
 }

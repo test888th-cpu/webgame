@@ -8,7 +8,9 @@ extends RefCounted
 
 const DATA_DIR := "res://data"
 const ART_MANIFEST := "res://assets/manifest.json"
-const ITEM_TYPES := ["consumable", "weapon", "armor", "accessory"]
+const ITEM_TYPES := ["consumable", "equipment"]
+## From most common to rarest; the UI colours names by rarity.
+const RARITIES := ["common", "uncommon", "rare", "epic", "legendary"]
 const EXIT_SIDES := ["west", "east"]
 const NPC_ROLES := ["shop", "quests"]
 const HOTBAR_TYPES := ["attack", "skill", "item"]
@@ -190,10 +192,28 @@ func _validate_loot(loot: Variant, where: String) -> void:
 func _validate_item(id: String, it: Dictionary) -> void:
 	var where := "items.%s" % id
 	_check(it.get("type") in ITEM_TYPES, "%s.type: expected one of %s" % [where, ITEM_TYPES])
+	_check(it.get("rarity") in RARITIES, "%s.rarity: expected one of %s" % [where, RARITIES])
+	_check(str(it.get("name", "")) != "", where + ".name: required")
+	_check(str(it.get("description", "")) != "", where + ".description: required")
 	_number(it, "price", where, 0)
-	for field in ["heal", "energy", "power", "defense", "max_hp"]:
+	for field in ["heal", "energy"]:
 		if it.has(field):
 			_number(it, field, where, 0)
+	if it.get("type") == "equipment":
+		_check(
+			it.get("slot") in PlayerProfile.SLOTS,
+			"%s.slot: expected one of %s" % [where, PlayerProfile.SLOTS]
+		)
+		_number(it, "level", where, 1)
+		var stats: Variant = it.get("stats")
+		_check(stats is Dictionary and not stats.is_empty(), where + ".stats: expected bonuses")
+		if stats is Dictionary:
+			for key: String in stats:
+				_check(key in PlayerProfile.STAT_KEYS, "%s.stats: unknown stat %s" % [where, key])
+				var value: Variant = stats[key]
+				_check(
+					value is float or value is int, "%s.stats.%s: expected a number" % [where, key]
+				)
 	if it.get("type") == "consumable":
 		_check(
 			it.has("heal") or it.has("energy"),
@@ -312,6 +332,16 @@ func _validate_heroes() -> void:
 		_check(
 			sprites is Dictionary and sprites.has("default"), where + ".sprites.default: required"
 		)
+		var starter: Variant = h.get("starter", {})
+		if starter is Dictionary:
+			for item_id: Variant in starter.get("equipment", []):
+				var gear := item(str(item_id))
+				_check(
+					gear.get("type") == "equipment" and int(gear.get("level", 1)) == 1,
+					"%s.starter: %s is not level 1 equipment" % [where, item_id]
+				)
+			for item_id: Variant in starter.get("items", {}):
+				_check(items.has(str(item_id)), "%s.starter: unknown item %s" % [where, item_id])
 		var hero_skills: Variant = h.get("skills")
 		_check(
 			hero_skills is Array and hero_skills.size() == HERO_SKILLS,

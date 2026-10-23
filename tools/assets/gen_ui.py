@@ -278,6 +278,114 @@ SKILL_ICONS = {
 }
 
 
+def rebar_pipe(d: ImageDraw.ImageDraw) -> None:
+    d.line((3, 13, 13, 3), fill=OUTLINE, width=4)
+    d.line((3, 13, 13, 3), fill=(150, 90, 70, 255), width=2)
+    for k in (5, 8, 11):
+        d.point((k, 15 - k), fill=(200, 130, 100, 255))
+    d.line((12, 2, 14, 4), fill=OUTLINE, width=2)
+
+
+def dock_beanie(d: ImageDraw.ImageDraw) -> None:
+    d.pieslice((2, 3, 14, 17), 180, 360, fill=OUTLINE)
+    d.pieslice((3, 4, 13, 16), 180, 360, fill=(60, 110, 170, 255))
+    d.rectangle((2, 9, 14, 13), fill=OUTLINE)
+    d.rectangle((3, 10, 13, 12), fill=(40, 80, 130, 255))
+    for x in (4, 7, 10):
+        d.line((x, 10, x, 12), fill=(80, 130, 190, 255))
+    d.ellipse((6, 1, 10, 5), fill=(230, 230, 236, 255), outline=OUTLINE)
+
+
+def hard_hat(d: ImageDraw.ImageDraw) -> None:
+    d.pieslice((3, 3, 13, 17), 180, 360, fill=OUTLINE)
+    d.pieslice((4, 4, 12, 16), 180, 360, fill=(242, 193, 74, 255))
+    d.rectangle((1, 9, 15, 12), fill=OUTLINE)
+    d.rectangle((2, 10, 14, 11), fill=(220, 160, 50, 255))
+    d.line((8, 4, 8, 9), fill=(255, 230, 150, 255))
+
+
+def padded_vest(d: ImageDraw.ImageDraw) -> None:
+    d.polygon([(4, 2), (7, 4), (9, 4), (12, 2), (13, 14), (3, 14)], fill=OUTLINE)
+    d.polygon([(5, 3), (7, 5), (9, 5), (11, 3), (12, 13), (4, 13)], fill=(130, 140, 110, 255))
+    for y in (7, 10):
+        d.line((5, y, 11, y), fill=(100, 110, 84, 255))
+    d.line((8, 5, 8, 13), fill=(90, 98, 76, 255))
+
+
+def fingerless_gloves(d: ImageDraw.ImageDraw) -> None:
+    d.rounded_rectangle((3, 5, 12, 14), radius=2, fill=OUTLINE)
+    d.rounded_rectangle((4, 6, 11, 13), radius=2, fill=(70, 60, 56, 255))
+    for x in (4, 6, 8, 10):
+        d.rectangle((x, 3, x + 1, 5), fill=(224, 170, 130, 255))
+    d.rectangle((11, 8, 13, 10), fill=(224, 170, 130, 255))
+    d.line((4, 12, 11, 12), fill=(200, 60, 50, 255))
+
+
+def iron_wraps(d: ImageDraw.ImageDraw) -> None:
+    d.rounded_rectangle((3, 3, 13, 13), radius=2, fill=OUTLINE)
+    d.rounded_rectangle((4, 4, 12, 12), radius=2, fill=(110, 80, 56, 255))
+    for y in (5, 8, 11):
+        for x in (5, 8, 11):
+            d.point((x, y), fill=(190, 196, 210, 255))
+    d.line((4, 6, 12, 6), fill=(150, 156, 170, 255))
+    d.line((4, 10, 12, 10), fill=(150, 156, 170, 255))
+
+
+def canvas_sneakers(d: ImageDraw.ImageDraw) -> None:
+    d.polygon([(2, 6), (7, 6), (9, 9), (14, 10), (14, 13), (2, 13)], fill=OUTLINE)
+    d.polygon([(3, 7), (7, 7), (8, 10), (13, 11), (13, 12), (3, 12)], fill=(220, 70, 60, 255))
+    d.line((2, 13, 14, 13), fill=(236, 236, 240, 255))
+    d.point((6, 9), fill=(255, 255, 255, 255))
+    d.point((8, 10), fill=(255, 255, 255, 255))
+
+
+def steel_toe_boots(d: ImageDraw.ImageDraw) -> None:
+    d.polygon([(3, 2), (8, 2), (8, 9), (14, 10), (14, 14), (3, 14)], fill=OUTLINE)
+    d.polygon([(4, 3), (7, 3), (7, 10), (13, 11), (13, 13), (4, 13)], fill=(120, 80, 50, 255))
+    d.rectangle((10, 11, 13, 13), fill=(170, 176, 190, 255))
+    d.line((4, 6, 7, 6), fill=(90, 58, 36, 255))
+
+
+def lucky_coin(d: ImageDraw.ImageDraw) -> None:
+    d.ellipse((2, 2, 13, 13), fill=OUTLINE)
+    d.ellipse((3, 3, 12, 12), fill=(200, 160, 90, 255))
+    d.ellipse((6, 6, 9, 9), fill=OUTLINE)
+    d.arc((4, 4, 11, 11), 200, 300, fill=(250, 220, 150, 255))
+    d.line((7, 0, 7, 3), fill=(180, 60, 50, 255))
+
+
+SILHOUETTE = (255, 255, 255, 46)
+
+
+def slot_weapon(d: ImageDraw.ImageDraw) -> None:
+    d.line((3, 13, 12, 4), fill=SILHOUETTE, width=3)
+    d.ellipse((10, 1, 15, 6), fill=SILHOUETTE)
+
+
+def slot_head(d: ImageDraw.ImageDraw) -> None:
+    d.pieslice((3, 3, 13, 17), 180, 360, fill=SILHOUETTE)
+    d.rectangle((2, 10, 14, 12), fill=SILHOUETTE)
+
+
+def slot_body(d: ImageDraw.ImageDraw) -> None:
+    d.polygon([(5, 2), (11, 2), (15, 5), (13, 8), (12, 7), (12, 14), (4, 14), (4, 7), (3, 8), (1, 5)], fill=SILHOUETTE)
+
+
+def slot_hands(d: ImageDraw.ImageDraw) -> None:
+    d.rounded_rectangle((3, 5, 12, 14), radius=2, fill=SILHOUETTE)
+    for x in (4, 6, 8, 10):
+        d.rectangle((x, 2, x + 1, 4), fill=SILHOUETTE)
+
+
+def slot_feet(d: ImageDraw.ImageDraw) -> None:
+    d.polygon([(3, 2), (8, 2), (8, 9), (14, 10), (14, 14), (3, 14)], fill=SILHOUETTE)
+
+
+def slot_charm(d: ImageDraw.ImageDraw) -> None:
+    d.ellipse((4, 5, 12, 13), fill=SILHOUETTE)
+    d.line((8, 1, 8, 5), fill=SILHOUETTE)
+
+
 ICONS = {
     "lock": lock,
     "steamed_bun": bun,
@@ -290,6 +398,21 @@ ICONS = {
     "quest": quest,
     "star": star,
     "heart": heart,
+    "rebar_pipe": rebar_pipe,
+    "dock_beanie": dock_beanie,
+    "hard_hat": hard_hat,
+    "padded_vest": padded_vest,
+    "fingerless_gloves": fingerless_gloves,
+    "iron_wraps": iron_wraps,
+    "canvas_sneakers": canvas_sneakers,
+    "steel_toe_boots": steel_toe_boots,
+    "lucky_coin": lucky_coin,
+    "slot_weapon": slot_weapon,
+    "slot_head": slot_head,
+    "slot_body": slot_body,
+    "slot_hands": slot_hands,
+    "slot_feet": slot_feet,
+    "slot_charm": slot_charm,
 }
 
 

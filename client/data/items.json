@@ -3,52 +3,199 @@
     "steamed_bun": {
       "name": "Steamed Bun",
       "type": "consumable",
+      "rarity": "common",
       "price": 10,
       "heal": 25,
-      "description": "Restores 25 HP.",
-      "icon": "steamed_bun"
+      "icon": "steamed_bun",
+      "description": "Still warm from Ama's steamer. A street fighter's best friend."
     },
     "ginger_tea": {
       "name": "Ginger Tea",
       "type": "consumable",
+      "rarity": "uncommon",
       "price": 25,
       "heal": 50,
       "energy": 40,
-      "description": "Restores 50 HP and 40 energy.",
-      "icon": "ginger_tea"
+      "icon": "ginger_tea",
+      "description": "Fiery enough to wake the dead. Restores body and breath."
     },
     "taped_knuckles": {
       "name": "Taped Knuckles",
-      "type": "weapon",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "common",
+      "level": 1,
       "price": 60,
-      "power": 0.15,
-      "description": "+15% damage.",
-      "icon": "taped_knuckles"
+      "stats": {
+        "power": 0.15
+      },
+      "icon": "taped_knuckles",
+      "description": "Cloth tape wound tight over the knuckles. Simple and honest."
+    },
+    "rebar_pipe": {
+      "name": "Rebar Pipe",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "uncommon",
+      "level": 3,
+      "price": 0,
+      "stats": {
+        "power": 0.25,
+        "speed": -0.05
+      },
+      "icon": "rebar_pipe",
+      "description": "Pried from a collapsed scaffold. Heavy, but it makes a point."
     },
     "foreman_wrench": {
       "name": "Foreman's Wrench",
-      "type": "weapon",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "epic",
+      "level": 4,
       "price": 0,
-      "power": 0.35,
-      "description": "+35% damage. Taken from the Sludge Foreman.",
-      "icon": "foreman_wrench"
+      "stats": {
+        "power": 0.35,
+        "max_hp": 10
+      },
+      "icon": "foreman_wrench",
+      "description": "Taken from the Sludge Foreman. It still smells of the Murk."
+    },
+    "dock_beanie": {
+      "name": "Dock Beanie",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "common",
+      "level": 1,
+      "price": 30,
+      "stats": {
+        "max_hp": 10
+      },
+      "icon": "dock_beanie",
+      "description": "Knitted wool, salt-stained. Keeps your head warm on night shifts."
+    },
+    "hard_hat": {
+      "name": "Hard Hat",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "uncommon",
+      "level": 3,
+      "price": 90,
+      "stats": {
+        "max_hp": 15,
+        "defense": 1
+      },
+      "icon": "hard_hat",
+      "description": "Depot issue. Rated for falling bolts and flying fists."
+    },
+    "padded_vest": {
+      "name": "Padded Vest",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "common",
+      "level": 1,
+      "price": 45,
+      "stats": {
+        "defense": 1
+      },
+      "icon": "padded_vest",
+      "description": "Quilted canvas over a cotton shirt. Takes the edge off a punch."
     },
     "work_jacket": {
       "name": "Work Jacket",
-      "type": "armor",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "uncommon",
+      "level": 2,
       "price": 80,
-      "defense": 2,
-      "description": "-2 damage from every hit.",
+      "stats": {
+        "defense": 2,
+        "max_hp": 10
+      },
       "icon": "work_jacket",
-      "look": "armoured"
+      "look": "armoured",
+      "description": "Thick leather with brass studs. Looks the part, too."
+    },
+    "fingerless_gloves": {
+      "name": "Fingerless Gloves",
+      "type": "equipment",
+      "slot": "hands",
+      "rarity": "common",
+      "level": 1,
+      "price": 35,
+      "stats": {
+        "power": 0.05
+      },
+      "icon": "fingerless_gloves",
+      "description": "A firmer grip and a little more bite on every jab."
+    },
+    "iron_wraps": {
+      "name": "Iron Wraps",
+      "type": "equipment",
+      "slot": "hands",
+      "rarity": "rare",
+      "level": 4,
+      "price": 0,
+      "stats": {
+        "power": 0.12,
+        "defense": 1
+      },
+      "icon": "iron_wraps",
+      "description": "Chain links sewn into leather wraps. The Warden's favourite."
+    },
+    "canvas_sneakers": {
+      "name": "Canvas Sneakers",
+      "type": "equipment",
+      "slot": "feet",
+      "rarity": "common",
+      "level": 1,
+      "price": 35,
+      "stats": {
+        "speed": 0.06
+      },
+      "icon": "canvas_sneakers",
+      "description": "Light on your feet, quick out of trouble."
+    },
+    "steel_toe_boots": {
+      "name": "Steel-toe Boots",
+      "type": "equipment",
+      "slot": "feet",
+      "rarity": "uncommon",
+      "level": 3,
+      "price": 95,
+      "stats": {
+        "defense": 1,
+        "max_hp": 10,
+        "speed": -0.03
+      },
+      "icon": "steel_toe_boots",
+      "description": "Heavy boots for heavy work. You will not be knocked off balance easily."
+    },
+    "lucky_coin": {
+      "name": "Lucky Coin",
+      "type": "equipment",
+      "slot": "charm",
+      "rarity": "uncommon",
+      "level": 2,
+      "price": 0,
+      "stats": {
+        "max_hp": 10,
+        "power": 0.03
+      },
+      "icon": "lucky_coin",
+      "description": "An old harbour coin with a hole punched through. Tar Rats hoard them."
     },
     "brass_whistle": {
       "name": "Brass Whistle",
-      "type": "accessory",
+      "type": "equipment",
+      "slot": "charm",
+      "rarity": "rare",
+      "level": 1,
       "price": 0,
-      "max_hp": 20,
-      "description": "+20 max HP. A gift from the Chief.",
-      "icon": "brass_whistle"
+      "stats": {
+        "max_hp": 20
+      },
+      "icon": "brass_whistle",
+      "description": "The Chief's own whistle, given for clearing Saltmarket. Calls the crew."
     }
   }
 }

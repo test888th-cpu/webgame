@@ -13,6 +13,9 @@ func _game() -> Game:
 	SaveStore.path = TEST_SAVE
 	SaveStore.delete()
 	GameSession.start_new_game()
+	# Tests count coins and items from zero, without the starter kit.
+	GameSession.profile.money = 0
+	GameSession.profile.inventory.clear()
 	var game: Game = load("res://scenes/game/Game.tscn").instantiate()
 	tree.root.add_child(game)
 	game.set_physics_process(false)
@@ -101,22 +104,72 @@ func test_every_pause_tab_fits_and_switches_with_the_tab_keys() -> void:
 	_done(game)
 
 
-func test_bag_lists_items_with_icons_and_keeps_the_selection_after_equipping() -> void:
+func test_equipment_tab_shows_the_doll_and_the_bag() -> void:
 	var game := _game()
 	game.profile.add_item("steamed_bun", 2)
 	game.profile.add_item("taped_knuckles")
 	game.open_inventory()
 	await _settle()
-	var list: ItemList = game.menu.find_children("*", "ItemList", true, false)[0]
-	assert_eq(list.item_count, 2, "bun and knuckles")
-	assert_true(list.get_item_icon(0) != null, "items show icons")
-	assert_true(_focus_in(game), "the list has focus")
+	_check_layout(game.menu, "equipment tab")
+	for slot: String in PlayerProfile.SLOTS:
+		assert_true(game.menu.find_child("Worn_" + slot, true, false) != null, "%s slot" % slot)
+	var bun: ItemSlot = game.menu.find_child("Bag_steamed_bun", true, false)
+	assert_eq(bun.count, 2, "stack count")
+	assert_true(bun.icon_texture != null, "icon")
+	assert_true(_focus_in(game), "something has focus")
+	_done(game)
+
+
+func test_item_card_equips_and_the_stats_follow() -> void:
+	var game := _game()
+	game.profile.add_item("taped_knuckles")
+	game.open_inventory()
+	await _settle()
+	game.inspect_item("taped_knuckles", "")
+	await _settle()
+	assert_true(game.item_card != null, "card open")
+	_check_layout(game.item_card, "item card")
+	var text := _texts(game.item_card)
+	assert_true(text.contains("+15 Attack"), "stats in player terms")
+	assert_true(text.contains("Requires level 1"), "level requirement")
+	assert_true(text.contains("Common Weapon"), "rarity and slot")
 	game._equip("taped_knuckles")
 	await _settle()
-	list = game.menu.find_children("*", "ItemList", true, false)[0]
-	assert_eq(list.get_selected_items(), PackedInt32Array([0]), "equipped item stays selected")
-	assert_true(list.get_item_text(0).contains("(on)"), "and is marked as worn")
+	assert_eq(game.profile.equipment["weapon"], "taped_knuckles", "worn")
+	var worn: ItemSlot = game.menu.find_child("Worn_weapon", true, false)
+	assert_eq(worn.item_id, "taped_knuckles", "shown on the doll")
+	assert_true(tree.root.gui_get_focus_owner() == worn, "focus follows the item")
+	GameMenus.switch_tab(game, GameMenus.TAB_STATUS)
+	await _settle()
+	assert_true(_texts(game.menu).contains("(+15 gear)"), "status shows the gear bonus")
 	_done(game)
+
+
+func test_level_requirements_and_discard() -> void:
+	var game := _game()
+	game.profile.add_item("hard_hat")
+	game.profile.add_item("steamed_bun", 2)
+	game._equip("hard_hat")
+	assert_eq(game.profile.equipment["head"], "dock_beanie", "level 1 cannot wear a level 3 hat")
+	assert_eq(game.profile.count("hard_hat"), 1, "still in the bag")
+	game.inspect_item("steamed_bun", "")
+	await _settle()
+	var discard: Button = null
+	for button: Button in game.item_card.find_children("*", "Button", true, false):
+		if button.text == "Discard":
+			discard = button
+	discard.pressed.emit()
+	assert_eq(game.profile.count("steamed_bun"), 2, "the first press only asks")
+	discard.pressed.emit()
+	assert_eq(game.profile.count("steamed_bun"), 1, "the second discards one")
+	_done(game)
+
+
+func _texts(root: Node) -> String:
+	var parts: Array[String] = []
+	for label: Label in root.find_children("*", "Label", true, false):
+		parts.append(label.text)
+	return " | ".join(parts)
 
 
 func test_shop_fits_and_focuses_the_wares() -> void:

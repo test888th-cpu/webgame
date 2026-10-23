@@ -10,8 +10,12 @@ func _content() -> ContentDB:
 	return content
 
 
+## A new profile with an empty bag and no coins (tests count from zero).
 func _profile() -> PlayerProfile:
-	return PlayerProfile.new_game(_content())
+	var p := PlayerProfile.new_game(_content())
+	p.money = 0
+	p.inventory.clear()
+	return p
 
 
 func test_new_game_starts_in_start_area_at_full_hp() -> void:
@@ -43,6 +47,7 @@ func test_big_xp_gives_several_levels_and_stops_at_cap() -> void:
 
 func test_equipment_changes_stats_and_swaps_back() -> void:
 	var p := _profile()
+	p.level = 4  # the wrench needs level 4
 	p.add_item("taped_knuckles")
 	p.add_item("foreman_wrench")
 	var base: float = p.stats(_content())["power"]
@@ -163,6 +168,6 @@ func test_bad_saves_are_rejected_or_sanitised() -> void:
 	assert_eq(p.hp, p.stats(_content())["max_hp"], "HP clamped")
 	assert_eq(p.inventory, {"steamed_bun": 2}, "unknown items dropped")
 	assert_eq(p.equipment["weapon"], "", "armour cannot sit in the weapon slot")
-	assert_eq(p.equipment["armor"], "work_jacket", "valid slot kept")
+	assert_eq(p.equipment["body"], "work_jacket", "valid slot kept (armor became body)")
 	assert_eq(p.quests, {}, "invalid quest states dropped")
 	assert_eq(p.area, _content().start_area, "unknown area falls back to start")

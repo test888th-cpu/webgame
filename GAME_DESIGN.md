@@ -78,8 +78,15 @@ elites) · boss arenas (instanced, multi-phase) · tunnel dungeons (party) · ra
 
 ## Progression
 
-Levels and XP per hero · skill unlocks and upgrades · equipment slots (weapon, armour,
-2 accessories) with rarity and affixes · enhancement and crafting from Murk residue and
+**[built]** Attributes (Max HP, Attack, Defense, Speed) are read-only: they come from
+the hero, the level and the equipment, and the Status tab shows them as total plus the
+gear bonus, with what the next level brings. **[built]** Six equipment slots (head, body,
+hands, weapon, feet, charm). Items have a rarity (common, uncommon, rare, epic,
+legendary), a required level, stat bonuses (penalties allowed, e.g. a heavy pipe slows
+you) and a description; 15 items so far, sold by Ama or dropped by enemies, and each hero
+starts with a small kit. Equipment changes stats at once and saves.
+
+Levels and XP per hero · skill unlocks and upgrades · equipment with affixes (later) · enhancement and crafting from Murk residue and
 salvage · daily and weekly contracts · account-bound and tradable items · currency sinks:
 repairs, enhancement, housing, travel.
 

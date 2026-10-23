@@ -140,7 +140,7 @@ func quests_of(npc: Dictionary) -> Array[String]:
 ## The hero's art: the equipped armour's look if it has one, else the default.
 func hero_art() -> String:
 	var sprites: Dictionary = content.hero(zone.profile.hero).get("sprites", {})
-	var look := str(content.item(zone.profile.equipment["armor"]).get("look", ""))
+	var look := str(content.item(zone.profile.equipment["body"]).get("look", ""))
 	return str(sprites.get(look, sprites.get("default", "")))
 
 

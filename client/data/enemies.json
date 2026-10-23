@@ -43,6 +43,10 @@
           {
             "item": "steamed_bun",
             "chance": 0.12
+          },
+          {
+            "item": "dock_beanie",
+            "chance": 0.04
           }
         ]
       },
@@ -73,6 +77,10 @@
           {
             "item": "steamed_bun",
             "chance": 0.1
+          },
+          {
+            "item": "lucky_coin",
+            "chance": 0.05
           }
         ]
       },
@@ -109,6 +117,10 @@
           {
             "item": "taped_knuckles",
             "chance": 0.04
+          },
+          {
+            "item": "rebar_pipe",
+            "chance": 0.08
           }
         ]
       },
@@ -148,6 +160,10 @@
           {
             "item": "work_jacket",
             "chance": 0.2
+          },
+          {
+            "item": "iron_wraps",
+            "chance": 0.35
           }
         ]
       },
