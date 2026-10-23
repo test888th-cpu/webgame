@@ -4,6 +4,27 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — Milestone 2, part 2: playable single-player loop
+- Title screen (New game / Continue), pause menu, inventory and equipment, shop,
+  quest dialog and log, game over with a coin penalty, notifications, boss HP bar.
+- Three areas from `data/areas.json`: Depot Yard (home: vendor, quest giver, training
+  dummy, heals on entry), Saltmarket Street and Canal Works, joined by exits.
+- Enemies from `data/enemies.json`: Smogling, Tar Hound, Pipe Brute, elite Smog Warden
+  and a two-phase boss, the Sludge Foreman. `EnemyBrain` AI keeps spacing, lines up,
+  reacts and swings; at most two attack at once (attack tokens); telegraphed heavies
+  show a warning. Enemies push apart instead of stacking.
+- Encounters with waves lock the arena until cleared and reset on re-entry (farming).
+- Rewards decided by the zone simulation from a seeded generator: XP and levels,
+  money and item drops from loot tables, quest progress. Items, shops, quests and
+  progression are data (`items.json`, `shops.json`, `quests.json`, `progression.json`),
+  validated together with cross-references by `ContentDB`.
+- `PlayerProfile` with versioned, sanitising (de)serialisation; local save via
+  `SaveStore` (atomic write; IndexedDB in browsers), autosave on area change, defeat,
+  purchase and quest hand-in.
+- 30 new tests (69 total); the test runner now ignores warnings but still fails on
+  errors. The browser smoke test plays title -> new game -> dummy combo -> pause ->
+  next area -> a real street fight.
+
 ### Added — Milestone 2, part 1: combat core
 - Deterministic 60 Hz combat simulation in `client/sim/` (`CombatRules`, `Fighter`,
   `FighterInput`, `CombatEvent`): light combo jab → cross → body hook (chains only

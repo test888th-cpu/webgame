@@ -3,13 +3,14 @@
 A browser-first, persistent online beat 'em up RPG built with **Godot 4.7.2 (GDScript)**.
 All characters, places, art, audio and code are original to this project.
 
-> **Status: Milestone 2 in progress — combat core.** A playable test street: one
-> placeholder hero against a training dummy, with a light combo (jab → cross → body
-> hook), a guard-breaking heavy, a dodge with invulnerability frames, a guard,
-> hit stun, knockback, knockdown, HP/energy bars and damage numbers. Combat rules are
-> data-driven (`client/data/moves.json`) and run in a deterministic 60 Hz simulation
-> that the future zone server will reuse. There are **no enemies with AI, no loot,
-> no online play and no game server yet**. See [docs/ROADMAP.md](docs/ROADMAP.md).
+> **Status: Milestone 2 — playable single-player loop.** Title screen, three areas
+> (home base with a shop, a quest giver and a training dummy; a street of enemy waves;
+> a boss zone), five enemy types including an elite and a two-phase boss, combos,
+> guard, dodge, loot, money, XP and levels, equipment, quests, local saves, pause and
+> inventory. All rules run in a deterministic 60 Hz simulation (`client/sim/`) that the
+> future zone server will reuse; all content is validated JSON (`client/data/`).
+> Characters are still **placeholder shapes**, and there is **no online play or game
+> server yet**. See [docs/ROADMAP.md](docs/ROADMAP.md).
 
 | | Version |
 |---|---|
@@ -40,6 +41,9 @@ You do not need any local tools. All building and testing happens in GitHub Acti
 | Heavy attack (breaks guard, costs energy) | K or X | Y / Triangle | Orange button |
 | Dodge (invulnerable, costs energy) | Space or L | A / Cross | Blue button |
 | Guard (hold; drains energy) | Shift or I | LB / L1 | Green button |
+| Talk / shop (near an NPC) | E or U | B / Circle | TALK |
+| Eat (quick heal) | H or Q | RB / R1 | EAT |
+| Pause, inventory, quests, save | Esc or P | Start | II |
 
 ### See test results
 
@@ -49,8 +53,8 @@ GitHub → **Actions** → **CI**. Each run has these jobs:
 |---|---|
 | Repository policy | Required docs exist; `.env.example` has placeholders only; no key files tracked |
 | GDScript lint and format | `gdlint` and `gdformat --check` (gdtoolkit 4.5.0) |
-| Godot project opens and tests pass | Headless import with no script errors; 39 unit/scene tests (combat rules, content validation, zone) |
-| Web export and browser smoke test | Release web export; headless Chromium loads it, waits for boot, **holds real keys, checks the hero moves, then walks to the dummy and lands a combo**; uploads the build, a manifest with SHA-256s and a screenshot |
+| Godot project opens and tests pass | Headless import with no script errors; 69 unit/scene tests (combat, AI, encounters, loot, quests, shop, saves, game scenes) |
+| Web export and browser smoke test | Release web export; headless Chromium loads it, waits for boot, **plays it with real keys: title → new game → combo on the dummy → pause → next area → a real fight**; uploads the build, a manifest with SHA-256s and a screenshot |
 | Backend typecheck, tests and migrations | `tsc`, API + migration tests against a real PostgreSQL, fresh-DB migration, API reaches `/readyz` |
 | Backend image build, container scan and SBOM | Docker image builds, runs as non-root on the pinned Node, Trivy scan, CycloneDX SBOM |
 
@@ -69,7 +73,7 @@ dependency review on pull requests. It also runs weekly.
 ```
 client/            Godot project (the browser client; later also the headless zone server)
   sim/             Pure game rules shared by client and server (no nodes, no rendering)
-  data/            Content as data (moves.json: every attack's timing, damage, reach)
+  data/            Content as data: moves, enemies, items, areas, quests, shops, progression
   scenes/          Presentation: world, fighter views, UI
   scripts/core/    Autoloads: BuildInfo, InputSetup
   tests/           Headless test runner and tests (excluded from exports)
