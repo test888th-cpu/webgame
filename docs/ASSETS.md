@@ -51,10 +51,13 @@ changes the hero's look). `ContentDB` fails if any of these names a missing asse
 | npc_kenji | NPC, night-market vendor | topknot, headband, long sleeves, apron | OGA-BY 3.0(+) |
 
 **Hand sockets.** For every character the builder also records, per animation frame,
-where the front hand is and at what angle a held weapon points (`hands` in the
+where the weapon hand (always the near arm, the one that swings) is and at what
+angle a held weapon points (`hands` in the
 manifest: `[x, y, degrees]` per frame). Positions come from LPC's glove layer (hands
 only, OGA-BY) for the character's body type, which is read but never shipped; the
-angles are authored once per LPC animation in `weapon_pose` in the recipe file. The
+angles are authored once per game animation in `weapon_pose` in the recipe file (for
+the LPC source they were drawn against): a swing arc for `light`, straight ahead for
+`stab`. The
 game draws a held weapon at the socket of the frame on screen, so it follows every
 swing.
 

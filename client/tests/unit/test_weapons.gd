@@ -163,3 +163,40 @@ func test_leaving_an_area_leaves_the_weapon_behind() -> void:
 	assert_eq(again.ground_weapons.back()["weapon"], "pipe", "still there on return")
 	var fresh := again.place_weapon("knife", Vector2(300, 300), 14)
 	assert_true(fresh["id"] > int(zone.ground_weapons.back()["id"]), "ids never repeat")
+
+
+func test_weapon_moves_play_on_every_armed_body() -> void:
+	var bodies: Array[String] = []
+	for hero_id: String in _content().heroes:
+		for look: String in _content().heroes[hero_id]["sprites"]:
+			bodies.append(str(_content().heroes[hero_id]["sprites"][look]))
+	for enemy_id: String in _content().enemies:
+		var enemy := _content().enemy(enemy_id)
+		if enemy.get("wields", false):
+			bodies.append(str(enemy["sprite"]))
+	for weapon_id: String in _content().weapons:
+		for button: String in _content().weapons[weapon_id]["moveset"]:
+			var move := _content().moves.get_move(_content().weapons[weapon_id]["moveset"][button])
+			for art_id in bodies:
+				var art: Dictionary = _content().art.get(art_id, {})
+				assert_true(
+					art.get("animations", {}).has(move.anim),
+					"%s has the %s animation for %s" % [art_id, move.anim, weapon_id]
+				)
+				assert_eq(
+					art.get("hands", {}).get(move.anim, []).size(),
+					int(art["animations"][move.anim]["frames"]),
+					"%s has a hand socket per %s frame" % [art_id, move.anim]
+				)
+
+
+func test_knives_stab_and_the_rest_swing() -> void:
+	for weapon_id: String in _content().weapons:
+		var light := _content().moves.get_move(_content().weapons[weapon_id]["moveset"]["light"])
+		var expected := "stab" if weapon_id == "knife" else "light"
+		assert_eq(light.anim, expected, "%s attack motion" % weapon_id)
+	# The swing carries the weapon from up and back to forward and down.
+	var hands: Array = _content().art["hero_oren"]["hands"]["light"]
+	assert_true(float(hands[0][2]) < 0.0, "wind-up points up and back")
+	assert_true(float(hands[3][2]) > 90.0, "the blow comes down in front")
+	assert_true(float(hands[3][0]) > float(hands[0][0]), "the hand travels forward")

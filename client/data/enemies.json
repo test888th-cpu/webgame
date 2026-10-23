@@ -171,9 +171,7 @@
       },
       "color": "#4f7a8c",
       "scale": 1.25,
-      "sprite": "smog_warden",
-      "wields": true,
-      "weapon_chance": 0.2
+      "sprite": "smog_warden"
     },
     "sludge_foreman": {
       "name": "The Sludge Foreman",

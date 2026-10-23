@@ -111,7 +111,8 @@ func _on_swing(data: Dictionary) -> void:
 	if skill_id == "":
 		var move := content.moves.get_move(data["move"])
 		var hero: bool = data["id"] == ZoneSim.HERO_ID
-		var sound := "swing_heavy" if move.anim == "heavy" else "swing_light"
+		var big := move.anim == "heavy" or move.knockdown
+		var sound := "swing_heavy" if big else "swing_light"
 		Sfx.play(sound, -6.0 if hero else -12.0)
 		return
 	var skill: Dictionary = content.skills[skill_id]

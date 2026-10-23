@@ -219,13 +219,16 @@ def feet_y(sheet: Image.Image, animations: dict) -> int:
 
 
 # Hand sockets: where a held weapon goes in each frame. Positions come from
-# LPC's glove layer (hands only) for the character's body type: the hand in
-# front in the first frame, then whichever hand is nearest the previous frame's
-# socket, so the weapon stays in one hand through a walk cycle. Angles (degrees
-# clockwise from "up", facing right) are authored per LPC frame in the recipes'
-# "weapon_pose", since the sheets carry no notion of a held object's angle.
+# LPC's glove layer (hands only) for the character's body type. The weapon is
+# always in the near arm (the one drawn over the body, which swings in the
+# one-handed slash): in a side view facing right that is the hand further back
+# when both show, or the only hand showing; when it is hidden the weapon stays
+# where it was. Angles (degrees clockwise from "up", facing right) are authored
+# per game animation in the recipes' "weapon_pose" for the LPC source they were
+# drawn against, since the sheets carry no notion of a held object's angle.
 HANDS_DEF = "arms/arms_gloves.json"
 MIN_HAND_PIXELS = 12
+DEFAULT_WEAPON_ANGLE = 45
 
 
 def hand_clusters(cell: Image.Image) -> list[tuple[float, float]]:
@@ -252,6 +255,12 @@ def hand_clusters(cell: Image.Image) -> list[tuple[float, float]]:
     return centres
 
 
+def near_hand(centres: list[tuple[float, float]], previous: tuple[float, float] | None) -> tuple[float, float]:
+    if not centres:
+        return previous or (FRAME / 2, FRAME / 2)
+    return min(centres)
+
+
 def hand_sockets(lpc: Lpc, body_type: str, game_anims: dict, poses: dict) -> dict:
     layer = lpc.definition(HANDS_DEF)["layer_1"]
     if body_type not in layer:
@@ -261,24 +270,21 @@ def hand_sockets(lpc: Lpc, body_type: str, game_anims: dict, poses: dict) -> dic
     for game_name, anim in game_anims.items():
         folder, row_count, cycle = ANIMATIONS[anim["lpc"]]
         image = lpc.image(sprite_path(layer[body_type], folder, None))
-        angles = poses.get(anim["lpc"])
-        if image is None or angles is None:
+        if image is None:
             continue
+        frames = anim.get("frames", cycle)
+        pose = poses.get(game_name, {})
+        angles = pose.get("angles", []) if pose.get("lpc") == anim["lpc"] else []
+        if len(angles) != len(frames):
+            angles = [DEFAULT_WEAPON_ANGLE] * len(frames)
         row = RIGHT_ROW if row_count == 4 else 0
         previous = None
-        frames = []
-        for frame in anim.get("frames", cycle):
+        out = []
+        for index, frame in enumerate(frames):
             cell = image.crop((frame * FRAME, row * FRAME, (frame + 1) * FRAME, (row + 1) * FRAME))
-            centres = hand_clusters(cell)
-            if not centres:
-                hand = previous or (FRAME / 2, FRAME / 2)
-            elif previous is None:
-                hand = max(centres)
-            else:
-                hand = min(centres, key=lambda c: (c[0] - previous[0]) ** 2 + (c[1] - previous[1]) ** 2)
-            previous = hand
-            frames.append([round(hand[0]), round(hand[1]), angles[frame]])
-        sockets[game_name] = frames
+            previous = near_hand(hand_clusters(cell), previous)
+            out.append([round(previous[0]), round(previous[1]), angles[index]])
+        sockets[game_name] = out
     return sockets
 
 

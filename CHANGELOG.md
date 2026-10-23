@@ -4,6 +4,17 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Fixed — Weapons stay in one hand and move like the weapon
+- A held weapon now always sits in the same (near) hand, through idle, walk, swing, hit
+  and dodge. Before, the socket followed whichever hand was closest, so the weapon
+  jumped between hands.
+- Each weapon moves like itself: the knife **stabs** straight forward (new `stab`
+  animation from LPC's one-handed slash, arm extended), while the bottle, plank, steel
+  pipe, machete and chair **swing**: wound up behind the head, then brought forward and
+  down in an arc. Before, every weapon pointed straight ahead and looked like a stab.
+- Only enemies that can wield weapons go and fetch them; the Smog Warden (skeleton
+  body, no one-handed swing in LPC) no longer wields. 3 new tests (138 total).
+
 ### Changed — Weapons sized to the hand
 - Held weapons are redrawn at the characters' scale (knife blade ~9 px, bottle ~12 px,
   plank and pipe ~23 px, folding chair ~20 px) with slim, unoutlined handles so the fist
