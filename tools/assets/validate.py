@@ -21,6 +21,7 @@ from pathlib import Path
 from PIL import Image
 
 sys.path.insert(0, str(Path(__file__).parent))
+import gen_environment  # noqa: E402
 from make_spriteframes import render_tres  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -123,6 +124,45 @@ def validate_asset(asset_id: str, asset: dict, allowed: list[str]) -> list[str]:
     return problems
 
 
+def validate_environment(environment: dict) -> list[str]:
+    """Every area has generated scenery; files exist, have the declared sizes,
+    span the area's width, and match what the generator produces now."""
+    problems: list[str] = []
+    areas = json.loads(gen_environment.AREAS.read_text())["areas"]
+    known = environment.get("areas", {})
+    for area_id, area in sorted(areas.items()):
+        entry = known.get(area_id)
+        if entry is None:
+            problems.append(f"environment: no scenery for area {area_id}; run tools/assets/gen_environment.py")
+            continue
+        theme = area.get("theme", "market")
+        expected = {
+            "sky": gen_environment.draw_sky(area_id, area["palette"]),
+            "far": gen_environment.draw_far(area_id, area["palette"], theme),
+            "buildings": gen_environment.draw_buildings(area_id, area, theme),
+            "ground": gen_environment.draw_ground(area_id, area, theme),
+        }
+        for name, image in expected.items():
+            layer = entry["layers"].get(name)
+            path = res_path(layer["file"]) if layer else None
+            if path is None or not path.exists():
+                problems.append(f"environment: {area_id} is missing its {name} layer")
+                continue
+            with Image.open(path) as saved:
+                if list(saved.size) != layer["size"]:
+                    problems.append(f"environment: {area_id}/{name} is {saved.size}, manifest says {layer['size']}")
+                elif saved.convert("RGBA").tobytes() != image.tobytes():
+                    problems.append(f"environment: {area_id}/{name} is out of date; run tools/assets/gen_environment.py")
+        if entry["layers"].get("buildings", {}).get("size", [0])[0] != int(area["width"]):
+            problems.append(f"environment: {area_id} facades do not span the area width")
+        if entry.get("props") != gen_environment.place_props(area_id, area, theme):
+            problems.append(f"environment: {area_id} prop placements are out of date")
+    for prop in {p["prop"] for e in known.values() for p in e.get("props", [])} | {"glow"}:
+        if prop not in environment.get("props", {}).get("regions", {}):
+            problems.append(f"environment: prop {prop} has no sprite region")
+    return problems
+
+
 def main() -> int:
     manifest = json.loads(MANIFEST.read_text())
     allowed = json.loads(POLICY.read_text())["license_policy"]["allowed"]
@@ -132,6 +172,7 @@ def main() -> int:
         problems += validate_asset(asset_id, asset, allowed)
         if asset.get("status") == "pending_manual_export":
             pending.append(asset_id)
+    problems += validate_environment(manifest.get("environment", {}))
     for problem in problems:
         print(f"INVALID {problem}")
     count = len(manifest.get("assets", {}))

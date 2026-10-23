@@ -9,8 +9,8 @@ All characters, places, art, audio and code are original to this project.
 > guard, dodge, loot, money, XP and levels, equipment, quests, local saves, pause and
 > inventory. All rules run in a deterministic 60 Hz simulation (`client/sim/`) that the
 > future zone server will reuse; all content is validated JSON (`client/data/`).
-> Characters are LPC pixel-art sprites built by the asset pipeline
-> ([docs/ASSETS.md](docs/ASSETS.md)); scenery is still simple. There is **no online play
+> Characters are LPC pixel-art sprites and the scenery is original generated pixel
+> art, both from the cloud asset pipeline ([docs/ASSETS.md](docs/ASSETS.md)). There is **no online play
 > or game server yet**. See [docs/ROADMAP.md](docs/ROADMAP.md).
 
 | | Version |

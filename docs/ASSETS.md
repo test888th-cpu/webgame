@@ -78,6 +78,26 @@ zombie body has no idle, so its idle is walk frame 0 (its standing pose).
   used or copied. Only its asset files and data definitions are read, at
   build time.
 
+## Scenery (original, generated)
+
+`tools/assets/gen_environment.py` draws every area's scenery in code: original pixel
+art, MIT-licensed with the rest of the project, so no attribution is needed. Each
+area in `client/data/areas.json` has a `theme` (`depot`, `market`, `canal`) and a
+palette. The generator writes `client/assets/environment/<area>/`:
+
+| Layer | In game |
+|---|---|
+| `sky.png` (gradient, stars, moon) | `Parallax2D`, fixed to the screen |
+| `far.png` (distant skyline; a crane at the depot) | `Parallax2D` at 30% scroll |
+| `buildings.png` (facades: brick or stucco shophouses with windows, fire escapes, awnings, signs and water towers; corrugated warehouses and containers at the depot; pipes, smokestacks and a polluted canal at Canal Works) | world layer |
+| `ground.png` (sidewalk slabs, kerb, asphalt, cracks, lane marks, manholes, drains, puddles) | world layer |
+| `props.png` + placements (lamps with additive glow, crates, barrels, bins, hydrants, market stalls, lantern strings, cones, valves, benches) | sprites along the sidewalk |
+
+Output depends only on the area data (seeded by area id). `validate.py` regenerates
+it in memory and fails if the committed images differ. A new area gets scenery
+just by adding it to `areas.json` and re-running the generator, or the **Assets**
+workflow, which runs it every time.
+
 ## Adding or changing characters
 
 **LPC (fully automatic):**

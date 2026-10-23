@@ -22,6 +22,8 @@ var shops: Dictionary = {}
 var progression: Dictionary = {}
 ## Imported art, from the asset manifest (asset id -> entry).
 var art: Dictionary = {}
+## Generated scenery: {"props": {...}, "areas": {area id -> layers and props}}.
+var environment: Dictionary = {}
 var errors: PackedStringArray = []
 
 
@@ -38,7 +40,9 @@ static func load_all(dir := DATA_DIR) -> ContentDB:
 	db.areas = area_file.get("areas", {})
 	db.start_area = str(area_file.get("start_area", ""))
 	db.progression = db._read(dir.path_join("progression.json"))
-	db.art = db._read(ART_MANIFEST).get("assets", {})
+	var manifest := db._read(ART_MANIFEST)
+	db.art = manifest.get("assets", {})
+	db.environment = manifest.get("environment", {})
 	db.validate()
 	return db
 

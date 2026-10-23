@@ -15,6 +15,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
   `AnimatedSprite2D`, attack frames stepped by simulation ticks.
 - Title screen: Characters (gallery) and Credits.
 - Tar Hound renamed "Tar Rat" to match its art.
+- Generated scenery for every area (`tools/assets/gen_environment.py`, original
+  MIT art): sky and parallax skyline, themed facades (depot warehouses and
+  containers, market shophouses and stalls, canal factories and water), detailed
+  street, props and lamp glow. Validated for freshness in CI.
 
 ### Added — Milestone 2, part 2: playable single-player loop
 - Title screen (New game / Continue), pause menu, inventory and equipment, shop,

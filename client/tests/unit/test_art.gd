@@ -95,3 +95,24 @@ func test_gallery_and_credits_build() -> void:
 	var text := CreditsText.build(GameSession.content)
 	assert_true(text.contains("OGA-BY"), "credits name licences")
 	assert_true(text.contains("Stephen Challener"), "credits name LPC authors")
+
+
+func test_every_area_has_layered_scenery() -> void:
+	var content := GameSession.content
+	for area_id: String in content.areas:
+		var scenery: Dictionary = content.environment.get("areas", {}).get(area_id, {})
+		assert_true(not scenery.is_empty(), "%s has generated scenery" % area_id)
+		var profile := PlayerProfile.new_game(content)
+		var view := ZoneView.new()
+		tree.root.add_child(view)
+		view.build(ZoneSim.new(content, profile, area_id, "", 1), content)
+		assert_eq(
+			view.find_children("*", "Parallax2D", false, false).size(),
+			2,
+			"%s sky and skyline" % area_id
+		)
+		assert_true(
+			view.find_children("*", "Sprite2D", false, false).size() > 5,
+			"%s facades, ground, props" % area_id
+		)
+		view.free()

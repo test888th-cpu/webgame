@@ -635,5 +635,609 @@
       "status": "imported"
     }
   },
+  "environment": {
+    "areas": {
+      "canal_works": {
+        "layers": {
+          "buildings": {
+            "file": "res://assets/environment/canal_works/buildings.png",
+            "size": [
+              1800,
+              230
+            ]
+          },
+          "far": {
+            "file": "res://assets/environment/canal_works/far.png",
+            "size": [
+              640,
+              230
+            ]
+          },
+          "ground": {
+            "file": "res://assets/environment/canal_works/ground.png",
+            "size": [
+              1800,
+              130
+            ]
+          },
+          "sky": {
+            "file": "res://assets/environment/canal_works/sky.png",
+            "size": [
+              640,
+              230
+            ]
+          }
+        },
+        "props": [
+          {
+            "prop": "barrel",
+            "x": 126,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 216,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 286,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 360,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 493,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 558,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 652,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 704,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 812,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 922,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 1033,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1105,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 1219,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1344,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1442,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1547,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1642,
+            "y": 244
+          },
+          {
+            "prop": "bin",
+            "x": 1745,
+            "y": 244
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 94,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 277,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 446,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 639,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 802,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 980,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1168,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1351,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1528,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1710,
+            "y": 246
+          }
+        ],
+        "theme": "canal"
+      },
+      "depot_yard": {
+        "layers": {
+          "buildings": {
+            "file": "res://assets/environment/depot_yard/buildings.png",
+            "size": [
+              960,
+              230
+            ]
+          },
+          "far": {
+            "file": "res://assets/environment/depot_yard/far.png",
+            "size": [
+              640,
+              230
+            ]
+          },
+          "ground": {
+            "file": "res://assets/environment/depot_yard/ground.png",
+            "size": [
+              960,
+              130
+            ]
+          },
+          "sky": {
+            "file": "res://assets/environment/depot_yard/sky.png",
+            "size": [
+              640,
+              230
+            ]
+          }
+        },
+        "props": [
+          {
+            "prop": "crate",
+            "x": 123,
+            "y": 244
+          },
+          {
+            "prop": "bench",
+            "x": 234,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 298,
+            "y": 244
+          },
+          {
+            "prop": "bench",
+            "x": 387,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 449,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 547,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 602,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 687,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 810,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 881,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 947,
+            "y": 244
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 93,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 271,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 459,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 627,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 802,
+            "y": 246
+          }
+        ],
+        "theme": "depot"
+      },
+      "saltmarket": {
+        "layers": {
+          "buildings": {
+            "file": "res://assets/environment/saltmarket/buildings.png",
+            "size": [
+              2400,
+              230
+            ]
+          },
+          "far": {
+            "file": "res://assets/environment/saltmarket/far.png",
+            "size": [
+              640,
+              230
+            ]
+          },
+          "ground": {
+            "file": "res://assets/environment/saltmarket/ground.png",
+            "size": [
+              2400,
+              130
+            ]
+          },
+          "sky": {
+            "file": "res://assets/environment/saltmarket/sky.png",
+            "size": [
+              640,
+              230
+            ]
+          }
+        },
+        "props": [
+          {
+            "prop": "lantern_string",
+            "x": 292,
+            "y": 196
+          },
+          {
+            "prop": "lantern_string",
+            "x": 935,
+            "y": 196
+          },
+          {
+            "prop": "lantern_string",
+            "x": 1347,
+            "y": 196
+          },
+          {
+            "prop": "hydrant",
+            "x": 215,
+            "y": 244
+          },
+          {
+            "prop": "stall",
+            "x": 455,
+            "y": 244
+          },
+          {
+            "prop": "stall",
+            "x": 628,
+            "y": 244
+          },
+          {
+            "prop": "stall",
+            "x": 705,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 802,
+            "y": 244
+          },
+          {
+            "prop": "hydrant",
+            "x": 1038,
+            "y": 244
+          },
+          {
+            "prop": "stall",
+            "x": 1206,
+            "y": 244
+          },
+          {
+            "prop": "stall",
+            "x": 1261,
+            "y": 244
+          },
+          {
+            "prop": "stall",
+            "x": 1422,
+            "y": 244
+          },
+          {
+            "prop": "hydrant",
+            "x": 1508,
+            "y": 244
+          },
+          {
+            "prop": "stall",
+            "x": 1615,
+            "y": 244
+          },
+          {
+            "prop": "stall",
+            "x": 1694,
+            "y": 244
+          },
+          {
+            "prop": "stall",
+            "x": 1747,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 1889,
+            "y": 244
+          },
+          {
+            "prop": "stall",
+            "x": 1985,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 2060,
+            "y": 244
+          },
+          {
+            "prop": "stall",
+            "x": 2250,
+            "y": 244
+          },
+          {
+            "prop": "stall",
+            "x": 2336,
+            "y": 244
+          },
+          {
+            "prop": "stall",
+            "x": 2416,
+            "y": 244
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 85,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 276,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 447,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 634,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 818,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 986,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1165,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1351,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1533,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1705,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1889,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 2067,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 2247,
+            "y": 246
+          }
+        ],
+        "theme": "market"
+      }
+    },
+    "license": "MIT (original art generated by tools/assets/gen_environment.py)",
+    "props": {
+      "regions": {
+        "barrel": [
+          36,
+          0,
+          14,
+          18
+        ],
+        "bench": [
+          128,
+          20,
+          32,
+          14
+        ],
+        "bin": [
+          50,
+          0,
+          16,
+          20
+        ],
+        "cones": [
+          192,
+          0,
+          12,
+          12
+        ],
+        "crate": [
+          16,
+          0,
+          20,
+          18
+        ],
+        "glow": [
+          0,
+          76,
+          48,
+          48
+        ],
+        "hydrant": [
+          66,
+          0,
+          10,
+          14
+        ],
+        "lamp": [
+          0,
+          0,
+          16,
+          72
+        ],
+        "lantern_string": [
+          128,
+          0,
+          64,
+          16
+        ],
+        "pipe_valve": [
+          204,
+          0,
+          18,
+          26
+        ],
+        "stall": [
+          76,
+          0,
+          52,
+          44
+        ]
+      },
+      "sheet": "res://assets/environment/props.png"
+    }
+  },
   "version": 1
 }

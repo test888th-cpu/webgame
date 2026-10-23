@@ -180,50 +180,98 @@ func _follow_hero() -> void:
 
 
 func _build_scenery() -> void:
+	var scenery: Dictionary = content.environment.get("areas", {}).get(zone.area_id, {})
+	if scenery.is_empty():
+		_build_flat_scenery()
+	else:
+		_build_layered_scenery(scenery)
+	_build_exit_signs()
+
+
+## Generated pixel-art layers (tools/assets/gen_environment.py): a sky fixed to
+## the screen, a skyline scrolling at 30%, then the street's facades and
+## ground in the world, and props with lamp glow along the sidewalk.
+func _build_layered_scenery(scenery: Dictionary) -> void:
+	var layers: Dictionary = scenery["layers"]
+	_parallax(layers["sky"], 0.0)
+	_parallax(layers["far"], 0.3)
+	_sprite(layers["buildings"]["file"], Vector2.ZERO)
+	_sprite(layers["ground"]["file"], Vector2(0, ZoneSim.LANE_TOP - 20.0))
+	var props: Dictionary = content.environment["props"]
+	var sheet: Texture2D = load(props["sheet"])
+	for placed: Dictionary in scenery["props"]:
+		var region: Array = props["regions"][placed["prop"]]
+		var atlas := AtlasTexture.new()
+		atlas.atlas = sheet
+		atlas.region = Rect2(region[0], region[1], region[2], region[3])
+		var prop := Sprite2D.new()
+		prop.texture = atlas
+		prop.centered = false
+		prop.position = Vector2(placed["x"] - region[2] / 2.0, placed["y"] - region[3])
+		add_child(prop)
+		if placed.get("glow", false):
+			var glow_region: Array = props["regions"]["glow"]
+			var glow_atlas := AtlasTexture.new()
+			glow_atlas.atlas = sheet
+			glow_atlas.region = Rect2(
+				glow_region[0], glow_region[1], glow_region[2], glow_region[3]
+			)
+			var glow := Sprite2D.new()
+			glow.texture = glow_atlas
+			glow.position = Vector2(placed["x"], placed["y"] - region[3] + 10)
+			glow.scale = Vector2(2.5, 2.5)
+			var additive := CanvasItemMaterial.new()
+			additive.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
+			glow.material = additive
+			add_child(glow)
+
+
+func _parallax(layer: Dictionary, scroll: float) -> void:
+	var parallax := Parallax2D.new()
+	parallax.scroll_scale = Vector2(scroll, 1.0)
+	parallax.repeat_size = Vector2(layer["size"][0], 0)
+	parallax.repeat_times = 4
+	add_child(parallax)
+	var sprite := Sprite2D.new()
+	sprite.texture = load(layer["file"])
+	sprite.centered = false
+	parallax.add_child(sprite)
+
+
+func _sprite(path: String, at: Vector2) -> void:
+	var sprite := Sprite2D.new()
+	sprite.texture = load(path)
+	sprite.centered = false
+	sprite.position = at
+	add_child(sprite)
+
+
+## Fallback for an area whose scenery has not been generated yet.
+func _build_flat_scenery() -> void:
 	var palette: Dictionary = zone.area.get("palette", {})
 	var width := float(zone.area.get("width", 960))
-	var windows := _color(palette, "windows", "#f2c96b")
-	var buildings: Array = palette.get("buildings", ["#2a2433"])
 	var ground := ZoneSim.LANE_TOP - 20.0
 	_rect(Rect2(0, 0, width, ground), _color(palette, "sky", "#1a1830"))
-	# Buildings come from a generator seeded by the area id, so an area looks
-	# the same on every visit and on every client.
-	var rng := RandomNumberGenerator.new()
-	rng.seed = hash(zone.area_id)
-	var x := 0.0
-	var index := 0
-	while x < width:
-		var w := rng.randf_range(90, 180)
-		var h := rng.randf_range(110, 200)
-		var tint := Color.from_string(str(buildings[index % buildings.size()]), Color.DIM_GRAY)
-		_rect(Rect2(x, ground - h, w - 6, h), tint)
-		var wy := ground - h + 14
-		while wy < ground - 10:
-			var wx := x + 10
-			while wx < x + w - 20:
-				if rng.randf() < 0.45:
-					_rect(Rect2(wx, wy, 8, 10), Color(windows, 0.8))
-				wx += 22
-			wy += 26
-		x += w
-		index += 1
 	_rect(Rect2(0, ground, width, 20), _color(palette, "sidewalk", "#5c5a60"))
 	_rect(
 		Rect2(0, ZoneSim.LANE_TOP, width, VIEW_HEIGHT - ZoneSim.LANE_TOP),
 		_color(palette, "street", "#38383f")
 	)
-	var mark := 0.0
-	while mark < width:
-		_rect(Rect2(mark + 10, 298, 40, 3), Color(0.8, 0.75, 0.4, 0.5))
-		mark += 80
+
+
+func _build_exit_signs() -> void:
+	var width := float(zone.area.get("width", 960))
+	var ground := ZoneSim.LANE_TOP - 20.0
 	var exits: Dictionary = zone.area.get("exits", {})
 	for side: String in exits:
 		var target := content.area(exits[side]["to"])
 		var exit_sign := Label.new()
 		exit_sign.add_theme_font_size_override("font_size", 8)
+		exit_sign.add_theme_color_override("font_outline_color", Color.BLACK)
+		exit_sign.add_theme_constant_override("outline_size", 3)
 		var place := str(target.get("name", ""))
 		exit_sign.text = "< " + place if side == "west" else place + " >"
-		exit_sign.position = Vector2(8 if side == "west" else width - 130, ground - 14)
+		exit_sign.position = Vector2(8 if side == "west" else width - 130, ground + 2)
 		exit_sign.size = Vector2(122, 12)
 		exit_sign.horizontal_alignment = (
 			HORIZONTAL_ALIGNMENT_LEFT if side == "west" else HORIZONTAL_ALIGNMENT_RIGHT
