@@ -82,6 +82,14 @@ def validate_asset(asset_id: str, asset: dict, allowed: list[str]) -> list[str]:
     alpha = sheet.getchannel("A")
     if alpha.getextrema()[0] == 255:
         problems.append(f"{where} sheet has no transparent pixels")
+    if asset.get("hand_sheet"):
+        hand_path = res_path(asset["hand_sheet"])
+        if not hand_path.exists():
+            problems.append(f"{where} missing hand sheet {hand_path.relative_to(ROOT)}")
+        else:
+            with Image.open(hand_path) as hands:
+                if hands.size != sheet.size:
+                    problems.append(f"{where} hand sheet {hands.size} does not match the sheet {sheet.size}")
     animations = asset.get("animations", {})
     role = asset.get("role")
     missing = REQUIRED_ANIMATIONS.get(role, set()) - set(animations)

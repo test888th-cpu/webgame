@@ -84,8 +84,9 @@ equipment) is stored per hero. Temporary combat state is never persisted.
   plank, steel pipe, machete and folding chair lie on the street (each area's
   `weapons` block says how many and which, by weight; stronger ones only from a
   minimum area level). E picks up the weapon underfoot (dropping the one in hand), or
-  puts the held one down. A weapon replaces Z/X with its own moves (knife: quick
-  slashes and a lunge; pipe: long swings and a guard-breaking slam; chair: every swing
+  puts the held one down. A weapon replaces Z/X with its own moves, always in the same hand: the knife
+  stabs straight ahead, everything else swings from behind the head forward and down
+  (knife: quick stabs and a lunge; pipe: long swings and a guard-breaking slam; chair: every swing
   knocks down but slows you), wears out with each blow that lands (a bottle breaks
   after two) and is drawn in the fighter's hand, following every swing. **Anyone
   knocked down drops their weapon** and must pick it up again. Skills and items work

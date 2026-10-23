@@ -150,6 +150,11 @@ class HandSocketTest(unittest.TestCase):
         centres = sorted(lpc_build.hand_clusters(cell))
         self.assertEqual(centres, [(21.5, 41.5), (41.5, 37.5)])
 
+    def test_the_weapon_stays_in_the_near_hand(self) -> None:
+        self.assertEqual(lpc_build.near_hand([(41, 40), (29, 44)], None), (29, 44))
+        self.assertEqual(lpc_build.near_hand([(50, 44)], (29, 44)), (50, 44))
+        self.assertEqual(lpc_build.near_hand([], (29, 44)), (29, 44))
+
     def test_every_character_has_sockets_for_its_animations(self) -> None:
         manifest = json.loads(lpc_build.MANIFEST.read_text())
         for char_id, asset in manifest["assets"].items():

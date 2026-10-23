@@ -219,20 +219,32 @@ def feet_y(sheet: Image.Image, animations: dict) -> int:
 
 
 # Hand sockets: where a held weapon goes in each frame. Positions come from
-# LPC's glove layer (hands only) for the character's body type: the hand in
-# front in the first frame, then whichever hand is nearest the previous frame's
-# socket, so the weapon stays in one hand through a walk cycle. Angles (degrees
-# clockwise from "up", facing right) are authored per LPC frame in the recipes'
-# "weapon_pose", since the sheets carry no notion of a held object's angle.
+# LPC's glove layer (hands only) for the character's body type. The weapon is
+# always in the near arm (the one drawn over the body, which swings in the
+# one-handed slash): in a side view facing right that is the hand further back
+# when both show, or the only hand showing; when it is hidden the weapon stays
+# where it was. Angles (degrees clockwise from "up", facing right) are authored
+# per game animation in the recipes' "weapon_pose" for the LPC source they were
+# drawn against, since the sheets carry no notion of a held object's angle.
 HANDS_DEF = "arms/arms_gloves.json"
 MIN_HAND_PIXELS = 12
+DEFAULT_WEAPON_ANGLE = 45
 
 
 def hand_clusters(cell: Image.Image) -> list[tuple[float, float]]:
     """Centres of the separate opaque blobs (hands) in one glove frame."""
+    return [centre(blob) for blob in hand_blobs(cell)]
+
+
+def centre(blob: list[tuple[int, int]]) -> tuple[float, float]:
+    return (sum(p[0] for p in blob) / len(blob), sum(p[1] for p in blob) / len(blob))
+
+
+def hand_blobs(cell: Image.Image) -> list[list[tuple[int, int]]]:
+    """The separate opaque blobs (hands) in one glove frame, as pixel lists."""
     alpha = cell.getchannel("A").load()
     seen: set[tuple[int, int]] = set()
-    centres = []
+    blobs = []
     for y in range(FRAME):
         for x in range(FRAME):
             if alpha[x, y] == 0 or (x, y) in seen:
@@ -248,38 +260,60 @@ def hand_clusters(cell: Image.Image) -> list[tuple[float, float]]:
                             seen.add((nx, ny))
                             stack.append((nx, ny))
             if len(blob) >= MIN_HAND_PIXELS:
-                centres.append((sum(p[0] for p in blob) / len(blob), sum(p[1] for p in blob) / len(blob)))
-    return centres
+                blobs.append(blob)
+    return blobs
 
 
-def hand_sockets(lpc: Lpc, body_type: str, game_anims: dict, poses: dict) -> dict:
+def near_hand(centres: list[tuple[float, float]], previous: tuple[float, float] | None) -> tuple[float, float]:
+    if not centres:
+        return previous or (FRAME / 2, FRAME / 2)
+    return min(centres)
+
+
+def hand_sockets(lpc: Lpc, body_type: str, game_anims: dict, poses: dict) -> tuple[dict, dict]:
+    """Per game animation: the [x, y, angle] socket of each frame, and the
+    pixels of the weapon hand in each frame (empty while it is hidden)."""
     layer = lpc.definition(HANDS_DEF)["layer_1"]
     if body_type not in layer:
-        return {}
+        return {}, {}
     lpc.fetch([sprite_path(layer[body_type], ANIMATIONS[a["lpc"]][0], None) for a in game_anims.values()])
-    sockets = {}
+    sockets: dict = {}
+    masks: dict = {}
     for game_name, anim in game_anims.items():
         folder, row_count, cycle = ANIMATIONS[anim["lpc"]]
         image = lpc.image(sprite_path(layer[body_type], folder, None))
-        angles = poses.get(anim["lpc"])
-        if image is None or angles is None:
+        if image is None:
             continue
+        frames = anim.get("frames", cycle)
+        pose = poses.get(game_name, {})
+        angles = pose.get("angles", []) if pose.get("lpc") == anim["lpc"] else []
+        if len(angles) != len(frames):
+            angles = [DEFAULT_WEAPON_ANGLE] * len(frames)
         row = RIGHT_ROW if row_count == 4 else 0
         previous = None
-        frames = []
-        for frame in anim.get("frames", cycle):
+        out, pixels = [], []
+        for index, frame in enumerate(frames):
             cell = image.crop((frame * FRAME, row * FRAME, (frame + 1) * FRAME, (row + 1) * FRAME))
-            centres = hand_clusters(cell)
-            if not centres:
-                hand = previous or (FRAME / 2, FRAME / 2)
-            elif previous is None:
-                hand = max(centres)
-            else:
-                hand = min(centres, key=lambda c: (c[0] - previous[0]) ** 2 + (c[1] - previous[1]) ** 2)
-            previous = hand
-            frames.append([round(hand[0]), round(hand[1]), angles[frame]])
-        sockets[game_name] = frames
-    return sockets
+            blobs = hand_blobs(cell)
+            previous = near_hand([centre(blob) for blob in blobs], previous)
+            out.append([round(previous[0]), round(previous[1]), angles[index]])
+            pixels.append(next((b for b in blobs if centre(b) == previous), []))
+        sockets[game_name] = out
+        masks[game_name] = pixels
+    return sockets, masks
+
+
+def hand_overlay(sheet: Image.Image, animations: dict, masks: dict) -> Image.Image:
+    """The weapon hand cut out of every frame of `sheet`. Drawn over a held
+    weapon, the fist closes around the handle instead of the handle covering it."""
+    overlay = Image.new("RGBA", sheet.size, (0, 0, 0, 0))
+    src, dst = sheet.load(), overlay.load()
+    for name, frames in masks.items():
+        top = animations[name]["row"] * FRAME
+        for index, pixels in enumerate(frames):
+            for x, y in pixels:
+                dst[index * FRAME + x, top + y] = src[index * FRAME + x, top + y]
+    return overlay
 
 
 def build_character(
@@ -380,6 +414,8 @@ def build_character(
     out = OUT_DIR / char_id
     out.mkdir(parents=True, exist_ok=True)
     sheet.save(out / "sheet.png", optimize=True)
+    sockets, masks = hand_sockets(lpc, body_type, game_anims, poses or {})
+    hand_overlay(sheet, animations, masks).save(out / "hands.png", optimize=True)
     (out / "credits.json").write_text(json.dumps(credits, indent=2) + "\n")
     return {
         "source": "lpc",
@@ -389,7 +425,8 @@ def build_character(
         "origin": [FRAME // 2, feet_y(sheet, animations)],
         "facing": "right",
         "animations": animations,
-        "hands": hand_sockets(lpc, body_type, game_anims, poses or {}),
+        "hands": sockets,
+        "hand_sheet": f"res://assets/characters/{char_id}/hands.png",
         "licenses": sorted({c["license"] for c in credits}),
         "credits": f"res://assets/characters/{char_id}/credits.json",
         "generator": {"repo": "LPC", "recipe": f"art/lpc/characters.json#{char_id}"},

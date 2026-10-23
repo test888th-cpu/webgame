@@ -128,9 +128,10 @@ func spawn_enemy(kind: String, position: Vector2) -> Fighter:
 	_enemy_level[enemy.id] = {"level": enemy_level, "stats": stats}
 	if data.get("ai") != null:
 		var has_heavy := enemy.moveset.has("heavy")
-		brains[enemy.id] = EnemyBrain.new(
-			LevelRules.enemy_ai(data["ai"], enemy_level, has_heavy), rng
-		)
+		var ai := LevelRules.enemy_ai(data["ai"], enemy_level, has_heavy)
+		# Only enemies that can hold a weapon (wields) go and fetch one.
+		ai["scavenge"] = ai["scavenge"] and data.get("wields", false)
+		brains[enemy.id] = EnemyBrain.new(ai, rng)
 	if rng.randf() < LevelRules.armed_chance(data, enemy_level):
 		var weapon_id := LevelRules.roll_weapon(content.weapons, enemy_level, rng)
 		if weapon_id:

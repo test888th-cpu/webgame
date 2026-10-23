@@ -11,7 +11,8 @@ extends Node2D
 ## art, a simple polygon figure is drawn instead.
 ##
 ## A held weapon is drawn in the fighter's hand: the art's per-frame hand
-## sockets (from the sprite builder) place and turn it with every frame.
+## sockets (from the sprite builder) place and turn it with every frame, and
+## the hand itself is drawn again over it so the fist closes on the handle.
 
 ## Pixels the fist travels out during an attack's active ticks (polygon art).
 const ARM_REACH := 14.0
@@ -40,7 +41,10 @@ var _flash := 0.0
 var _flash_color := Color.WHITE
 var _freeze := 0.0
 var _hands := {}
+var _rows := {}
+var _hand_sheet: Texture2D
 var _held: Sprite2D
+var _fist: Sprite2D
 var _held_id := ""
 
 @onready var _body: Node2D = $Body
@@ -86,6 +90,11 @@ func set_art(id: String, art: Dictionary) -> void:
 	art_id = id
 	var entry: Dictionary = art.get(id, {})
 	_hands = entry.get("hands", {})
+	_rows = {}
+	for anim: String in entry.get("animations", {}):
+		_rows[anim] = int(entry["animations"][anim]["row"])
+	var hand_path := str(entry.get("hand_sheet", ""))
+	_hand_sheet = load(hand_path) if hand_path and ResourceLoader.exists(hand_path) else null
 	if entry.get("status") != "imported":
 		if _sprite:
 			_sprite.queue_free()
@@ -167,6 +176,7 @@ func _update_held() -> void:
 		and fighter.state != Fighter.State.DOWN
 		and fighter.state != Fighter.State.KO
 	)
+	_update_fist()
 	if not _held.visible:
 		return
 	var hand := FALLBACK_HAND
@@ -185,6 +195,32 @@ func _update_held() -> void:
 	_held.position = hand
 	_held.rotation_degrees = angle * facing
 	_held.flip_h = facing < 0.0
+
+
+## The hand of the frame on screen, redrawn over the weapon's handle.
+func _update_fist() -> void:
+	var anim := str(_sprite.animation) if _sprite else ""
+	var show := _held.visible and _hand_sheet != null and _rows.has(anim)
+	if _fist == null:
+		if not show:
+			return
+		_fist = Sprite2D.new()
+		_fist.name = "Fist"
+		_fist.centered = false
+		_fist.region_enabled = true
+		_fist.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		add_child(_fist)
+		move_child(_fist, _held.get_index() + 1)
+	_fist.visible = show
+	if not show:
+		return
+	_fist.texture = _hand_sheet
+	_fist.material = _sprite.material
+	_fist.region_rect = Rect2(_sprite.frame * FRAME_WIDTH, _rows[anim] * FRAME_WIDTH, 64, 64)
+	_fist.offset = _sprite.offset
+	_fist.position = _sprite.position
+	_fist.flip_h = _sprite.flip_h
+	_fist.modulate = _sprite.modulate
 
 
 func _show_weapon(weapon_id: String) -> void:
