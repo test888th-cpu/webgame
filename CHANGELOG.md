@@ -4,6 +4,15 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — Readable loot
+- Items on the street show their own icon (at 2x, sharp) with a shadow, a glow and, for
+  uncommon and better, a light beam in the rarity colour (taller for rarer items); epic
+  and legendary items sparkle. Each shows its name in its rarity colour; coins spin and
+  show their amount. Drops pop out of the enemy in an arc and fly off when collected.
+- The bag and worn slots show icons at 2x in larger cells.
+- The Characters gallery shows every item as it looks on the ground.
+- 1 new test (117 total).
+
 ### Changed — Hero balance
 - Clear roles: Mika is damage and mobility (power 110%, speed 110%, 100 HP); Oren is
   toughness and control (power 100%, speed 85%, 130 HP, 2 defense, wider skills).

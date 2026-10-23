@@ -19,6 +19,7 @@ in diffs and checked by tests.
 | Feedback | `client/scenes/game/GameFeedback.gd`, `client/scenes/fx/Fx.gd`, `client/scripts/core/Sfx.gd` | Turns zone events into effects, impact flashes, shake, the hurt vignette, the level-up banner and sounds. Presentation only. |
 | Title | `client/scenes/title/Title.gd` | Live street backdrop, logo, menu, a card for the saved hero (portrait, name, role, level, area), the roster on the street, Characters, Credits. |
 | Hero creation | `client/scenes/create/CharacterCreate.gd` | Roster cards, animated spotlight, about/play style/difficulty/stats/skills panel, name field with validation and Random. Up/Down picks, Enter goes to the name, Enter starts, Esc steps back. Built from `heroes.json`, so new heroes need no UI changes. |
+| Loot | `client/scenes/world/LootView.gd` | Dropped items: icon at 2x, shadow, rarity glow and beam, sparkles for epic+, name or coin amount, pop-out arc and collect animation. |
 | World prompts | `client/scenes/world/ZoneView.gd` | `[E] Talk` / `[E] Shop` over the NPC in reach; `$` and `!` marks; camera shake. |
 | Icons | `tools/assets/gen_ui.py` | Original 16x16 item and interface icons (`client/assets/ui/icons.png`). Items name theirs in `items.json`. |
 

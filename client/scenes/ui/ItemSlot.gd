@@ -52,9 +52,15 @@ func _draw() -> void:
 	draw_rect(inner, frame_color if item_id else UiTheme.BORDER, false, 1.0)
 	var picture := icon_texture if icon_texture else placeholder
 	if picture:
-		var at := (rect.size - picture.get_size()) / 2.0
+		# Whole-number scaling only, so pixel art stays sharp.
+		var zoom := maxi(1, floori((rect.size.x - 4.0) / picture.get_width()))
+		var drawn := picture.get_size() * zoom
+		var at := ((rect.size - drawn) / 2.0).round()
 		var tint := Color(1, 0.55, 0.55) if too_high_level else Color.WHITE
-		draw_texture(picture, at.round(), tint)
+		if icon_texture:
+			# A dark drop shadow keeps the icon readable on any frame colour.
+			draw_texture_rect(picture, Rect2(at + Vector2(1, 1), drawn), false, Color(0, 0, 0, 0.5))
+		draw_texture_rect(picture, Rect2(at, drawn), false, tint)
 	if count > 1:
 		var font := get_theme_default_font()
 		var at := Vector2(0, rect.size.y - 2)

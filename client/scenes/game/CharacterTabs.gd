@@ -10,9 +10,10 @@ extends RefCounted
 
 const DOLL_LEFT := ["head", "body", "hands"]
 const DOLL_RIGHT := ["weapon", "feet", "charm"]
-const BAG_COLUMNS := 10
-const BAG_MIN_CELLS := 40
-const SLOT_SIZE := 28.0
+const BAG_COLUMNS := 9
+const BAG_MIN_CELLS := 36
+## Cells show 16 px icons at 2x.
+const SLOT_SIZE := 37.0
 
 
 static func status(game: Game) -> Control:

@@ -67,7 +67,7 @@ func sync() -> void:
 			_pickups[pickup["id"]] = _make_pickup_view(pickup)
 	for id: int in _pickups.keys():
 		if not present.has(id):
-			_pickups[id].queue_free()
+			_pickups[id].collect()
 			_pickups.erase(id)
 	_update_prompts()
 	_follow_hero()
@@ -152,32 +152,10 @@ func _make_fighter_view(f: Fighter) -> FighterView:
 
 
 func _make_pickup_view(pickup: Dictionary) -> Node2D:
-	var node := Node2D.new()
-	node.position = pickup["position"]
-	var shape := Polygon2D.new()
-	if pickup["kind"] == "money":
-		shape.color = Color(1.0, 0.82, 0.25)
-		shape.polygon = PackedVector2Array(
-			[
-				Vector2(-3, -6),
-				Vector2(3, -6),
-				Vector2(4, -3),
-				Vector2(3, 0),
-				Vector2(-3, 0),
-				Vector2(-4, -3)
-			]
-		)
-	else:
-		shape.color = Color(0.55, 0.85, 0.6)
-		shape.polygon = PackedVector2Array(
-			[Vector2(-4, -8), Vector2(4, -8), Vector2(4, 0), Vector2(-4, 0)]
-		)
-	node.add_child(shape)
-	var tween := node.create_tween().set_loops()
-	tween.tween_property(shape, "position:y", -3.0, 0.4)
-	tween.tween_property(shape, "position:y", 0.0, 0.4)
-	_entities.add_child(node)
-	return node
+	var loot := LootView.new()
+	loot.setup(content, pickup, pickup.get("from", pickup["position"]))
+	_entities.add_child(loot)
+	return loot
 
 
 func _follow_hero() -> void:
