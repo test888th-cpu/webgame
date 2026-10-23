@@ -4,6 +4,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — Hero portrait on the HUD
+- The hero card shows the hero's face (cut from the current sprite, so armour shows) on
+  a backdrop in the hero's colour, with the level in a gold badge on its corner, the
+  player's name and the hero's role. The portrait flashes red when the hero is hit and
+  its frame pulses red below 25% HP. 1 new test (109 total).
+
 ### Added — Character status, equipment and items
 - Status tab: the hero (sprite, level, role, HP/energy/XP), read-only attributes (Max HP,
   Attack, Defense, Speed) as total + gear bonus with a line of help each, what the next

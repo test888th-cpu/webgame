@@ -100,6 +100,14 @@ func hero(id: String) -> Dictionary:
 	return heroes.get(id, {})
 
 
+## The art a profile's hero shows: the look of the worn body item if the hero
+## has art for it (e.g. "armoured"), else the hero's default.
+func hero_art(profile: PlayerProfile) -> String:
+	var sprites: Dictionary = hero(profile.hero).get("sprites", {})
+	var look := str(item(profile.equipment["body"]).get("look", ""))
+	return str(sprites.get(look, sprites.get("default", "")))
+
+
 ## The hotbar for one hero: the template with its skill slots filled in.
 func hotbar_for(hero_id: String) -> Array[Dictionary]:
 	var hero_skills: Array = hero(hero_id).get("skills", [])
