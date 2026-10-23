@@ -76,12 +76,16 @@ try {
   });
   const started = Date.now();
   await page.goto(`http://127.0.0.1:${port}/index.html`);
+  let bootTimer: NodeJS.Timeout | undefined;
   bootLine = await Promise.race([
     booted,
-    new Promise<string>((_, fail) =>
-      setTimeout(() => fail(new Error(`no ${BOOT_MARKER} within ${timeoutMs} ms`)), timeoutMs),
-    ),
-  ]);
+    new Promise<string>((_, fail) => {
+      bootTimer = setTimeout(
+        () => fail(new Error(`no ${BOOT_MARKER} within ${timeoutMs} ms`)),
+        timeoutMs,
+      );
+    }),
+  ]).finally(() => clearTimeout(bootTimer)); // a pending timer would keep Node alive
   console.log(`booted in ${Date.now() - started} ms: ${bootLine}`);
   const canvas = page.locator("canvas");
   if ((await canvas.count()) === 0) throw new Error("no canvas element on the page");
