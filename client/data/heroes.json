@@ -13,16 +13,16 @@
       "bio": "A dock-crane operator who learned to fight on night shifts at the Depot. Mika chains quick strikes into long combos and slips out of trouble before it lands.",
       "style": [
         "Combos",
-        "Mobility",
-        "All-rounder"
+        "Damage",
+        "Mobility"
       ],
       "difficulty": 1,
       "color": "#f2a54a",
       "stats": {
         "max_hp": 100,
-        "power": 1.0,
+        "power": 1.1,
         "defense": 0,
-        "speed": 1.0
+        "speed": 1.1
       },
       "sprites": {
         "default": "hero_mika",
@@ -52,17 +52,17 @@
       "title": "The Bruiser",
       "gender": "Male",
       "tagline": "Slow to start, impossible to stop.",
-      "bio": "A former harbour wrestler who hauls freight for the Depot crew. Oren hits harder and takes more punishment than anyone, but every blow has weight behind it, so timing matters.",
+      "bio": "A former harbour wrestler who hauls freight for the Depot crew. Oren takes more punishment than anyone, and his skills hit wide and stun long, but every blow has weight behind it, so timing matters.",
       "style": [
-        "Heavy hits",
         "Tough",
-        "Crowd control"
+        "Crowd control",
+        "Stuns"
       ],
       "difficulty": 2,
       "color": "#e0524a",
       "stats": {
         "max_hp": 130,
-        "power": 1.15,
+        "power": 1.0,
         "defense": 2,
         "speed": 0.85
       },
