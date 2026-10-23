@@ -5,7 +5,8 @@
       "type": "consumable",
       "price": 10,
       "heal": 25,
-      "description": "Restores 25 HP."
+      "description": "Restores 25 HP.",
+      "icon": "steamed_bun"
     },
     "ginger_tea": {
       "name": "Ginger Tea",
@@ -13,21 +14,24 @@
       "price": 25,
       "heal": 50,
       "energy": 40,
-      "description": "Restores 50 HP and 40 energy."
+      "description": "Restores 50 HP and 40 energy.",
+      "icon": "ginger_tea"
     },
     "taped_knuckles": {
       "name": "Taped Knuckles",
       "type": "weapon",
       "price": 60,
       "power": 0.15,
-      "description": "+15% damage."
+      "description": "+15% damage.",
+      "icon": "taped_knuckles"
     },
     "foreman_wrench": {
       "name": "Foreman's Wrench",
       "type": "weapon",
       "price": 0,
       "power": 0.35,
-      "description": "+35% damage. Taken from the Sludge Foreman."
+      "description": "+35% damage. Taken from the Sludge Foreman.",
+      "icon": "foreman_wrench"
     },
     "work_jacket": {
       "name": "Work Jacket",
@@ -35,14 +39,16 @@
       "price": 80,
       "defense": 2,
       "description": "-2 damage from every hit.",
-      "hero_sprite": "hero_mika_armoured"
+      "hero_sprite": "hero_mika_armoured",
+      "icon": "work_jacket"
     },
     "brass_whistle": {
       "name": "Brass Whistle",
       "type": "accessory",
       "price": 0,
       "max_hp": 20,
-      "description": "+20 max HP. A gift from the Chief."
+      "description": "+20 max HP. A gift from the Chief.",
+      "icon": "brass_whistle"
     }
   }
 }

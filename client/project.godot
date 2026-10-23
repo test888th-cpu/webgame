@@ -25,6 +25,10 @@ GameSession="*res://scripts/core/GameSession.gd"
 gdscript/warnings/untyped_declaration=1
 gdscript/warnings/inferred_declaration=0
 
+[gui]
+
+theme/custom="res://scenes/ui/base_theme.tres"
+
 [display]
 
 window/size/viewport_width=640

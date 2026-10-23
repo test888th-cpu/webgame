@@ -19,6 +19,10 @@ const KEYS := {
 	"interact": [KEY_E, KEY_U],
 	"use_item": [KEY_H, KEY_Q],
 	"pause": [KEY_ESCAPE, KEY_P],
+	# Menu tabs. These share keys with interact and use_item, which do
+	# nothing while a menu is open.
+	"menu_prev": [KEY_Q],
+	"menu_next": [KEY_E],
 }
 
 const PAD_BUTTONS := {
@@ -33,6 +37,8 @@ const PAD_BUTTONS := {
 	"interact": JOY_BUTTON_B,
 	"use_item": JOY_BUTTON_RIGHT_SHOULDER,
 	"pause": JOY_BUTTON_START,
+	"menu_prev": JOY_BUTTON_LEFT_SHOULDER,
+	"menu_next": JOY_BUTTON_RIGHT_SHOULDER,
 }
 
 ## [axis, direction] for the left stick (movement only).
@@ -43,8 +49,16 @@ const PAD_AXES := {
 	"move_down": [JOY_AXIS_LEFT_Y, 1.0],
 }
 
+## Extra keys for the built-in UI navigation actions, so menus follow the
+## same WASD layout as walking.
+const UI_KEYS := {"ui_up": KEY_W, "ui_down": KEY_S, "ui_left": KEY_A, "ui_right": KEY_D}
+
 
 func _init() -> void:
+	for action: String in UI_KEYS:
+		var key := InputEventKey.new()
+		key.physical_keycode = UI_KEYS[action]
+		InputMap.action_add_event(action, key)
 	for action: String in KEYS:
 		if InputMap.has_action(action):
 			InputMap.erase_action(action)

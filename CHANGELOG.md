@@ -4,6 +4,30 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — Interface overhaul
+- One visual language (`UiTheme`: palette, type scale, control styles) applied to
+  every screen through the project theme, and a kit of building blocks (`UiKit`).
+  See `docs/UI.md`.
+- Title screen: live street backdrop, logo, Continue first when a save exists,
+  confirmation before a new game replaces a save, key hints.
+- HUD: hero card with level badge and HP/energy/XP bars (damage trail), coins
+  with icon, area name, tracked quest card, boss bar, notification banner, key
+  hints; touch controls on touch devices only.
+- Pause window with tabs (Status, Bag, Quests, Controls, Game) switched with Q/E or
+  LB/RB; bag and shop list items with icons and a detail panel; quest cards with
+  progress and rewards; options for screen shake and a frame-rate counter
+  (`user://settings.json`).
+- NPC conversations in a dialog box with a portrait; "[E] Talk/Shop" prompt over
+  the NPC in reach; knock-out screen; outlined names and damage numbers; camera
+  shake on heavy hits.
+- Generated item and interface icons (`tools/assets/gen_ui.py`), validated in CI.
+- `test_ui.gd`: screens fit the 640x360 base view, wrapping text has a width,
+  focus is set, tabs switch, prompts appear only near NPCs (82 tests total).
+- `tools/web-smoke/shots.ts` for screenshots of a web build.
+
+### Fixed
+- The title text wrapped one word per line (an autowrapping label without a width).
+
 ### Added — Character art pipeline and first art pack
 - `tools/assets/`: LPC character builder (pinned generator commit, licence policy,
   recolouring, credits), UnitForge "Godot 4" export importer, SpriteFrames

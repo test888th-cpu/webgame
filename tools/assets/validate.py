@@ -22,6 +22,7 @@ from PIL import Image
 
 sys.path.insert(0, str(Path(__file__).parent))
 import gen_environment  # noqa: E402
+import gen_ui  # noqa: E402
 from make_spriteframes import render_tres  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -163,6 +164,25 @@ def validate_environment(environment: dict) -> list[str]:
     return problems
 
 
+def validate_ui(ui: dict) -> list[str]:
+    """The icon sheet matches what gen_ui.py draws now, and every icon an item
+    names exists."""
+    problems: list[str] = []
+    sheet, regions = gen_ui.render()
+    icons = ui.get("icons", {})
+    path = res_path(icons["sheet"]) if icons.get("sheet") else None
+    if path is None or not path.exists():
+        return ["ui: icon sheet missing; run tools/assets/gen_ui.py"]
+    with Image.open(path) as saved:
+        if saved.convert("RGBA").tobytes() != sheet.tobytes() or icons.get("regions") != regions:
+            problems.append("ui: icons are out of date; run tools/assets/gen_ui.py")
+    items = json.loads((ROOT / "client" / "data" / "items.json").read_text())["items"]
+    for item_id, item in sorted(items.items()):
+        if item.get("icon") not in regions:
+            problems.append(f"ui: item {item_id} names unknown icon {item.get('icon')}")
+    return problems
+
+
 def main() -> int:
     manifest = json.loads(MANIFEST.read_text())
     allowed = json.loads(POLICY.read_text())["license_policy"]["allowed"]
@@ -173,6 +193,7 @@ def main() -> int:
         if asset.get("status") == "pending_manual_export":
             pending.append(asset_id)
     problems += validate_environment(manifest.get("environment", {}))
+    problems += validate_ui(manifest.get("ui", {}))
     for problem in problems:
         print(f"INVALID {problem}")
     count = len(manifest.get("assets", {}))

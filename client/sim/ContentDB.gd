@@ -24,6 +24,8 @@ var progression: Dictionary = {}
 var art: Dictionary = {}
 ## Generated scenery: {"props": {...}, "areas": {area id -> layers and props}}.
 var environment: Dictionary = {}
+## Generated interface art: {"icons": {"sheet": ..., "regions": {id: [x, y, w, h]}}}.
+var ui: Dictionary = {}
 var errors: PackedStringArray = []
 
 
@@ -43,6 +45,7 @@ static func load_all(dir := DATA_DIR) -> ContentDB:
 	var manifest := db._read(ART_MANIFEST)
 	db.art = manifest.get("assets", {})
 	db.environment = manifest.get("environment", {})
+	db.ui = manifest.get("ui", {})
 	db.validate()
 	return db
 
@@ -264,6 +267,12 @@ func _validate_art() -> void:
 	var hero: Variant = progression.get("hero")
 	if hero is Dictionary and hero.has("sprite"):
 		wanted[hero["sprite"]] = "progression.hero.sprite"
+	var icons: Dictionary = ui.get("icons", {}).get("regions", {})
+	for id: String in items:
+		var icon := str(items[id].get("icon", ""))
+		_check(
+			icon == "" or icons.has(icon), "items.%s.icon: no icon %s in the UI sheet" % [id, icon]
+		)
 	for sprite: String in wanted:
 		var entry: Dictionary = art.get(sprite, {})
 		_check(

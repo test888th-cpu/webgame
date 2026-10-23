@@ -78,6 +78,14 @@ zombie body has no idle, so its idle is walk frame 0 (its standing pose).
   used or copied. Only its asset files and data definitions are read, at
   build time.
 
+## Interface icons (original, generated)
+
+`tools/assets/gen_ui.py` draws the 16x16 item and interface icons (food, gear,
+coin, quest marks) into `client/assets/ui/icons.png` and records their regions in
+the manifest's `ui` section. Each item in `items.json` names its `icon`. The
+validator regenerates the sheet in memory and fails when it is stale or an item
+names an unknown icon. See [UI.md](UI.md).
+
 ## Scenery (original, generated)
 
 `tools/assets/gen_environment.py` draws every area's scenery in code: original pixel

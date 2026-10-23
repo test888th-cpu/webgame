@@ -87,6 +87,19 @@ class ValidateTest(unittest.TestCase):
         self.assertEqual(validate.validate_asset("u", asset, ALLOWED), [])
 
 
+class UiIconsTest(unittest.TestCase):
+    def setUp(self) -> None:
+        self.ui = json.loads(validate.MANIFEST.read_text())["ui"]
+
+    def test_committed_icons_are_current(self) -> None:
+        self.assertEqual(validate.validate_ui(self.ui), [])
+
+    def test_changed_regions_are_reported(self) -> None:
+        stale = json.loads(json.dumps(self.ui))
+        stale["icons"]["regions"]["coin"] = [0, 0, 8, 8]
+        self.assertIn("ui: icons are out of date; run tools/assets/gen_ui.py", validate.validate_ui(stale))
+
+
 class LicenceTest(unittest.TestCase):
     def test_picks_most_permissive_allowed_option(self) -> None:
         credit = {"licenses": ["CC-BY-SA 3.0", "GPL 3.0", "OGA-BY 3.0"]}
