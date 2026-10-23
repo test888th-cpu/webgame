@@ -1,8 +1,10 @@
 // Serves a Godot web export over HTTP, opens it in headless Chromium, waits
 // for the client's boot marker on the console, then holds real keys and checks
-// that the character moved (via the read-only window.ironboundProbe).
+// that the character moved and that attacks land on the training dummy (via
+// the read-only window.ironboundProbe).
 //
 //   node smoke.ts <export-dir> [--timeout-ms=60000] [--screenshot=path.png]
+//   node smoke.ts --url=https://example.org/game/ [...]   (a deployed build)
 //
 // Exits non-zero on timeout, uncaught page errors, failed requests, or if
 // input does not move the character, so CI fails when the browser build does
@@ -29,30 +31,44 @@ const root = resolve(args.find((a) => !a.startsWith("--")) ?? "../../build/web")
 const timeoutArg = args.find((a) => a.startsWith("--timeout-ms="));
 const timeoutMs = timeoutArg ? Number(timeoutArg.split("=")[1]) : 60_000;
 const screenshot = args.find((a) => a.startsWith("--screenshot="))?.split("=")[1];
+const remoteUrl = args.find((a) => a.startsWith("--url="))?.slice("--url=".length);
 
 interface Probe {
   x: number;
   y: number;
   facing: number;
+  hp: number;
+  energy: number;
+  state: string;
+  dummy: { x: number; y: number; hp: number };
+  hits: number;
 }
 
-const server = createServer(async (req, res) => {
-  const urlPath = decodeURIComponent(new URL(req.url ?? "/", "http://x").pathname);
-  const filePath = normalize(join(root, urlPath === "/" ? "index.html" : urlPath));
-  if (!filePath.startsWith(root)) {
-    res.writeHead(403).end();
-    return;
-  }
-  try {
-    if (!(await stat(filePath)).isFile()) throw new Error("not a file");
-    res.writeHead(200, { "Content-Type": MIME[extname(filePath)] ?? "application/octet-stream" });
-    res.end(await readFile(filePath));
-  } catch {
-    res.writeHead(404).end();
-  }
-});
-await new Promise<void>((done) => server.listen(0, "127.0.0.1", done));
-const { port } = server.address() as AddressInfo;
+// A deployed build is tested where it is; an export directory is served
+// locally over HTTP.
+let server: ReturnType<typeof createServer> | undefined;
+let pageUrl = remoteUrl;
+if (!pageUrl) {
+  server = createServer(async (req, res) => {
+    const urlPath = decodeURIComponent(new URL(req.url ?? "/", "http://x").pathname);
+    const filePath = normalize(join(root, urlPath === "/" ? "index.html" : urlPath));
+    if (!filePath.startsWith(root)) {
+      res.writeHead(403).end();
+      return;
+    }
+    try {
+      if (!(await stat(filePath)).isFile()) throw new Error("not a file");
+      res.writeHead(200, { "Content-Type": MIME[extname(filePath)] ?? "application/octet-stream" });
+      res.end(await readFile(filePath));
+    } catch {
+      res.writeHead(404).end();
+    }
+  });
+  const listening = server;
+  await new Promise<void>((done) => listening.listen(0, "127.0.0.1", done));
+  const { port } = listening.address() as AddressInfo;
+  pageUrl = `http://127.0.0.1:${port}/index.html`;
+}
 
 const problems: string[] = [];
 const browser = await chromium.launch({
@@ -75,7 +91,7 @@ try {
     });
   });
   const started = Date.now();
-  await page.goto(`http://127.0.0.1:${port}/index.html`);
+  await page.goto(pageUrl);
   let bootTimer: NodeJS.Timeout | undefined;
   bootLine = await Promise.race([
     booted,
@@ -113,6 +129,33 @@ try {
   await hold("ArrowLeft", 300);
   const left = await probe();
   if (left.facing !== -1) problems.push(`ArrowLeft did not turn the character (facing ${left.facing})`);
+
+  // Walk up to the training dummy, line up in its lane, and fight it.
+  let near = await probe();
+  for (let i = 0; i < 40 && Math.abs(near.y - near.dummy.y) > 3; i++) {
+    await hold(near.y > near.dummy.y ? "ArrowUp" : "ArrowDown", 60);
+    near = await probe();
+  }
+  for (let i = 0; i < 40 && near.dummy.x - near.x > 26; i++) {
+    await hold("ArrowRight", 80);
+    near = await probe();
+  }
+  const before = near;
+  for (const key of ["KeyJ", "KeyJ", "KeyJ"]) {
+    await page.keyboard.press(key);
+    await page.waitForTimeout(140);
+  }
+  const fought = await probe();
+  if (!(fought.hits > before.hits && fought.dummy.hp < before.dummy.hp)) {
+    problems.push(
+      `attacks did not land: hero (${near.x.toFixed(1)}, ${near.y.toFixed(1)}) ` +
+        `dummy (${near.dummy.x.toFixed(1)}, ${near.dummy.y.toFixed(1)}) ` +
+        `hits ${before.hits} -> ${fought.hits}, dummy hp ${before.dummy.hp} -> ${fought.dummy.hp}`,
+    );
+  }
+  console.log(
+    `combat: ${fought.hits - before.hits} hit(s), dummy hp ${before.dummy.hp} -> ${fought.dummy.hp}`,
+  );
   console.log(
     `input: start (${start.x.toFixed(1)}, ${start.y.toFixed(1)}) -> right x=${right.x.toFixed(1)}` +
       ` -> up y=${up.y.toFixed(1)} -> left facing=${left.facing}`,
@@ -122,7 +165,7 @@ try {
   problems.push(String(err));
 } finally {
   await browser.close();
-  server.close();
+  server?.close();
 }
 
 if (problems.length > 0) {
