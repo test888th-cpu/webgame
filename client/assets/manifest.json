@@ -633,6 +633,90 @@
       "sheet": "res://assets/characters/tar_hound/sheet.png",
       "source": "lpc",
       "status": "imported"
+    },
+    "training_dummy": {
+      "animations": {
+        "down": {
+          "fps": 12,
+          "frames": 5,
+          "loop": false,
+          "row": 4
+        },
+        "hurt": {
+          "fps": 12,
+          "frames": 4,
+          "loop": false,
+          "row": 3
+        },
+        "idle": {
+          "fps": 2,
+          "frames": 2,
+          "loop": true,
+          "row": 0
+        },
+        "light": {
+          "fps": 4,
+          "frames": 1,
+          "loop": false,
+          "row": 2
+        },
+        "walk": {
+          "fps": 2,
+          "frames": 2,
+          "loop": true,
+          "row": 1
+        }
+      },
+      "credits": "res://assets/characters/training_dummy/credits.json",
+      "facing": "right",
+      "frame_size": [
+        112,
+        64
+      ],
+      "generator": {
+        "script": "tools/assets/gen_dummy.py"
+      },
+      "licenses": [
+        "MIT"
+      ],
+      "origin": [
+        56,
+        61
+      ],
+      "role": "enemy",
+      "sheet": "res://assets/characters/training_dummy/sheet.png",
+      "source": "original",
+      "status": "imported"
+    }
+  },
+  "audio": {
+    "license": "MIT (original sounds synthesised by tools/assets/gen_sfx.py)",
+    "sounds": {
+      "arena_lock": "res://assets/audio/arena_lock.wav",
+      "boss_roar": "res://assets/audio/boss_roar.wav",
+      "coin": "res://assets/audio/coin.wav",
+      "denied": "res://assets/audio/denied.wav",
+      "dodge": "res://assets/audio/dodge.wav",
+      "guard_break": "res://assets/audio/guard_break.wav",
+      "heal": "res://assets/audio/heal.wav",
+      "hero_hurt": "res://assets/audio/hero_hurt.wav",
+      "hit_block": "res://assets/audio/hit_block.wav",
+      "hit_heavy": "res://assets/audio/hit_heavy.wav",
+      "hit_light": "res://assets/audio/hit_light.wav",
+      "knockdown": "res://assets/audio/knockdown.wav",
+      "ko": "res://assets/audio/ko.wav",
+      "level_up": "res://assets/audio/level_up.wav",
+      "pickup": "res://assets/audio/pickup.wav",
+      "quest": "res://assets/audio/quest.wav",
+      "skill_rush": "res://assets/audio/skill_rush.wav",
+      "skill_slam": "res://assets/audio/skill_slam.wav",
+      "skill_uppercut": "res://assets/audio/skill_uppercut.wav",
+      "skill_whirlwind": "res://assets/audio/skill_whirlwind.wav",
+      "swing_heavy": "res://assets/audio/swing_heavy.wav",
+      "swing_light": "res://assets/audio/swing_light.wav",
+      "ui_back": "res://assets/audio/ui_back.wav",
+      "ui_move": "res://assets/audio/ui_move.wav",
+      "ui_select": "res://assets/audio/ui_select.wav"
     }
   },
   "environment": {
@@ -1239,65 +1323,247 @@
       "sheet": "res://assets/environment/props.png"
     }
   },
+  "fx": {
+    "effects": {
+      "block": {
+        "blend": "add",
+        "fps": 24,
+        "frames": 4,
+        "origin": [
+          16,
+          16
+        ],
+        "size": [
+          32,
+          32
+        ],
+        "y": 80
+      },
+      "dust": {
+        "blend": "mix",
+        "fps": 16,
+        "frames": 5,
+        "origin": [
+          20,
+          14
+        ],
+        "size": [
+          40,
+          16
+        ],
+        "y": 112
+      },
+      "heal": {
+        "blend": "add",
+        "fps": 12,
+        "frames": 6,
+        "origin": [
+          16,
+          44
+        ],
+        "size": [
+          32,
+          48
+        ],
+        "y": 416
+      },
+      "hit": {
+        "blend": "add",
+        "fps": 30,
+        "frames": 5,
+        "origin": [
+          16,
+          16
+        ],
+        "size": [
+          32,
+          32
+        ],
+        "y": 0
+      },
+      "hit_heavy": {
+        "blend": "add",
+        "fps": 24,
+        "frames": 6,
+        "origin": [
+          24,
+          24
+        ],
+        "size": [
+          48,
+          48
+        ],
+        "y": 32
+      },
+      "levelup": {
+        "blend": "add",
+        "fps": 12,
+        "frames": 8,
+        "origin": [
+          32,
+          88
+        ],
+        "size": [
+          64,
+          96
+        ],
+        "y": 320
+      },
+      "rush": {
+        "blend": "add",
+        "fps": 20,
+        "frames": 5,
+        "origin": [
+          58,
+          28
+        ],
+        "size": [
+          64,
+          32
+        ],
+        "y": 240
+      },
+      "slam": {
+        "blend": "add",
+        "fps": 18,
+        "frames": 7,
+        "origin": [
+          64,
+          42
+        ],
+        "size": [
+          128,
+          48
+        ],
+        "y": 272
+      },
+      "uppercut": {
+        "blend": "add",
+        "fps": 24,
+        "frames": 6,
+        "origin": [
+          24,
+          60
+        ],
+        "size": [
+          48,
+          64
+        ],
+        "y": 128
+      },
+      "whirlwind": {
+        "blend": "add",
+        "fps": 20,
+        "frames": 6,
+        "origin": [
+          48,
+          42
+        ],
+        "size": [
+          96,
+          48
+        ],
+        "y": 192
+      }
+    },
+    "license": "MIT (original art generated by tools/assets/gen_fx.py)",
+    "sheet": "res://assets/fx/fx.png"
+  },
   "ui": {
     "icons": {
       "regions": {
         "brass_whistle": [
-          80,
-          0,
-          16,
-          16
-        ],
-        "coin": [
           96,
           0,
           16,
           16
         ],
-        "foreman_wrench": [
-          48,
-          0,
-          16,
-          16
-        ],
-        "ginger_tea": [
-          16,
-          0,
-          16,
-          16
-        ],
-        "heart": [
-          16,
-          16,
-          16,
-          16
-        ],
-        "quest": [
+        "coin": [
           112,
           0,
           16,
           16
         ],
-        "star": [
-          0,
-          16,
-          16,
-          16
-        ],
-        "steamed_bun": [
-          0,
+        "foreman_wrench": [
+          64,
           0,
           16,
           16
         ],
-        "taped_knuckles": [
+        "ginger_tea": [
           32,
           0,
           16,
           16
         ],
+        "heart": [
+          32,
+          16,
+          16,
+          16
+        ],
+        "lock": [
+          0,
+          0,
+          16,
+          16
+        ],
+        "quest": [
+          0,
+          16,
+          16,
+          16
+        ],
+        "skill_attack": [
+          0,
+          32,
+          24,
+          24
+        ],
+        "skill_rush": [
+          72,
+          32,
+          24,
+          24
+        ],
+        "skill_slam": [
+          96,
+          32,
+          24,
+          24
+        ],
+        "skill_uppercut": [
+          24,
+          32,
+          24,
+          24
+        ],
+        "skill_whirlwind": [
+          48,
+          32,
+          24,
+          24
+        ],
+        "star": [
+          16,
+          16,
+          16,
+          16
+        ],
+        "steamed_bun": [
+          16,
+          0,
+          16,
+          16
+        ],
+        "taped_knuckles": [
+          48,
+          0,
+          16,
+          16
+        ],
         "work_jacket": [
-          64,
+          80,
           0,
           16,
           16

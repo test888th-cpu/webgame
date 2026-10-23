@@ -2,6 +2,7 @@
   "enemies": {
     "training_dummy": {
       "name": "Training Dummy",
+      "sprite": "training_dummy",
       "max_hp": 120,
       "speed": 0,
       "moveset": {},

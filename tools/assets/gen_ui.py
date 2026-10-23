@@ -104,7 +104,118 @@ def heart(d: ImageDraw.ImageDraw) -> None:
     d.point((4, 5), fill=(255, 170, 160, 255))
 
 
+# Skill icons: 24x24, a glowing glyph over a radial backdrop, in the style of
+# action-RPG hotbars. The hotbar draws the frame around them.
+SKILL = 24
+
+
+def backdrop(d: ImageDraw.ImageDraw, inner: tuple, outer: tuple, cx: int = 12, cy: int = 12) -> None:
+    for y in range(SKILL):
+        for x in range(SKILL):
+            # Integer distance keeps the output identical on every platform.
+            t = min(256, ((x - cx) * (x - cx) + (y - cy) * (y - cy)) * 256 // 200)
+            d.point((x, y), fill=tuple((inner[i] * (256 - t) + outer[i] * t) // 256 for i in range(3)) + (255,))
+
+
+def fist(d: ImageDraw.ImageDraw, x: int, y: int, skin: tuple, up: bool = False) -> None:
+    """A taped fist, 10x9 with its top-left at (x, y): knuckles to the right,
+    or knuckles up when `up`. Finger creases are shaded, not outlined."""
+    shade = (196, 140, 100, 255)
+    tape = (236, 236, 240, 255)
+    if up:
+        d.rounded_rectangle((x, y, x + 9, y + 9), radius=2, fill=OUTLINE)
+        d.rounded_rectangle((x + 1, y + 1, x + 8, y + 8), radius=2, fill=skin)
+        for k in (x + 3, x + 5, x + 7):
+            d.line((k, y + 1, k, y + 3), fill=shade)
+        d.line((x + 1, y + 6, x + 6, y + 6), fill=shade)
+        d.rectangle((x + 2, y + 9, x + 7, y + 13), fill=OUTLINE)
+        d.rectangle((x + 3, y + 9, x + 6, y + 13), fill=tape)
+        d.line((x + 3, y + 11, x + 6, y + 11), fill=(190, 190, 200, 255))
+        return
+    d.rounded_rectangle((x, y, x + 9, y + 9), radius=2, fill=OUTLINE)
+    d.rounded_rectangle((x + 1, y + 1, x + 8, y + 8), radius=2, fill=skin)
+    for k in (y + 3, y + 5, y + 7):
+        d.line((x + 6, k, x + 8, k), fill=shade)
+    d.line((x + 3, y + 6, x + 3, y + 1), fill=shade)
+    d.rectangle((x - 4, y + 2, x, y + 7), fill=OUTLINE)
+    d.rectangle((x - 4, y + 3, x, y + 6), fill=tape)
+    d.line((x - 2, y + 3, x - 2, y + 6), fill=(190, 190, 200, 255))
+
+
+SKIN = (240, 196, 150, 255)
+
+
+def skill_attack(d: ImageDraw.ImageDraw) -> None:
+    backdrop(d, (150, 74, 30), (34, 14, 10))
+    for y, length in ((7, 6), (11, 8), (15, 5)):
+        d.line((2, y, 2 + length, y), fill=(255, 214, 140, 255))
+    fist(d, 12, 7, SKIN)
+    d.point((21, 8), fill=(255, 250, 220, 255))
+    d.point((22, 12), fill=(255, 250, 220, 255))
+
+
+def skill_uppercut(d: ImageDraw.ImageDraw) -> None:
+    backdrop(d, (190, 46, 30), (40, 8, 10), cy=16)
+    d.arc((3, 3, 21, 25), 200, 330, fill=(255, 226, 120, 255), width=2)
+    d.arc((5, 6, 19, 24), 210, 320, fill=(255, 140, 60, 255))
+    fist(d, 7, 4, SKIN, up=True)
+    for x, y in ((5, 20), (19, 19), (12, 22)):
+        d.point((x, y), fill=(255, 200, 90, 255))
+
+
+def skill_whirlwind(d: ImageDraw.ImageDraw) -> None:
+    backdrop(d, (40, 120, 190), (8, 16, 44))
+    d.arc((2, 4, 22, 20), 0, 300, fill=(200, 240, 255, 255), width=2)
+    d.arc((6, 7, 18, 17), 90, 400, fill=(110, 200, 240, 255), width=2)
+    d.arc((9, 9, 15, 15), 180, 480, fill=(255, 255, 255, 255))
+    d.polygon([(21, 9), (23, 13), (19, 12)], fill=(200, 240, 255, 255))
+
+
+def skill_rush(d: ImageDraw.ImageDraw) -> None:
+    backdrop(d, (210, 120, 30), (50, 20, 6), cx=15)
+    for y, x0 in ((6, 1), (10, 0), (14, 2), (18, 4)):
+        d.line((x0, y, x0 + 7, y), fill=(255, 230, 170, 255))
+    # A charging figure: head, leading shoulder, trailing leg.
+    d.ellipse((14, 3, 20, 9), fill=OUTLINE)
+    d.ellipse((15, 4, 19, 8), fill=SKIN)
+    d.polygon([(9, 9), (19, 9), (21, 15), (12, 16)], fill=OUTLINE)
+    d.polygon([(10, 10), (18, 10), (20, 14), (12, 15)], fill=(230, 120, 40, 255))
+    d.line((12, 16, 7, 21), fill=OUTLINE, width=3)
+    d.line((16, 16, 19, 21), fill=OUTLINE, width=3)
+    d.line((20, 11, 22, 13), fill=(255, 250, 220, 255))
+
+
+def skill_slam(d: ImageDraw.ImageDraw) -> None:
+    backdrop(d, (230, 90, 20), (50, 6, 4), cy=18)
+    for x, top in ((4, 9), (8, 5), (16, 6), (20, 10), (12, 3)):
+        d.polygon([(x - 2, 20), (x, top), (x + 2, 20)], fill=(255, 170, 40, 255))
+        d.line((x, top + 3, x, 19), fill=(255, 236, 140, 255))
+    d.rectangle((0, 20, 23, 23), fill=(60, 30, 20, 255))
+    d.line((1, 20, 22, 20), fill=(255, 220, 120, 255))
+    for x0, x1 in ((3, 7), (16, 21)):
+        d.line((x0, 22, x1, 21), fill=(20, 10, 8, 255))
+    fist(d, 8, 9, SKIN)
+
+
+def lock(d: ImageDraw.ImageDraw) -> None:
+    d.arc((4, 1, 11, 9), 180, 360, fill=OUTLINE, width=3)
+    d.arc((5, 2, 10, 8), 180, 360, fill=(170, 176, 190, 255))
+    d.rectangle((2, 6, 13, 14), fill=OUTLINE)
+    d.rectangle((3, 7, 12, 13), fill=(200, 160, 60, 255))
+    d.rectangle((7, 9, 8, 11), fill=OUTLINE)
+
+
+SKILL_ICONS = {
+    "skill_attack": skill_attack,
+    "skill_uppercut": skill_uppercut,
+    "skill_whirlwind": skill_whirlwind,
+    "skill_rush": skill_rush,
+    "skill_slam": skill_slam,
+}
+
+
 ICONS = {
+    "lock": lock,
     "steamed_bun": bun,
     "ginger_tea": tea,
     "taped_knuckles": knuckles,
@@ -119,9 +230,12 @@ ICONS = {
 
 
 def render() -> tuple[Image.Image, dict]:
+    """16px icons in rows of 8, then a row of 24px skill icons below."""
     columns = 8
     rows = (len(ICONS) + columns - 1) // columns
-    sheet = Image.new("RGBA", (columns * SIZE, rows * SIZE), (0, 0, 0, 0))
+    top = rows * SIZE
+    width = max(columns * SIZE, len(SKILL_ICONS) * SKILL)
+    sheet = Image.new("RGBA", (width, top + SKILL), (0, 0, 0, 0))
     regions = {}
     for index, (name, painter) in enumerate(ICONS.items()):
         cell = Image.new("RGBA", (SIZE, SIZE), (0, 0, 0, 0))
@@ -129,6 +243,11 @@ def render() -> tuple[Image.Image, dict]:
         x, y = (index % columns) * SIZE, (index // columns) * SIZE
         sheet.alpha_composite(cell, (x, y))
         regions[name] = [x, y, SIZE, SIZE]
+    for index, (name, painter) in enumerate(SKILL_ICONS.items()):
+        cell = Image.new("RGBA", (SKILL, SKILL), (0, 0, 0, 0))
+        painter(ImageDraw.Draw(cell))
+        sheet.alpha_composite(cell, (index * SKILL, top))
+        regions[name] = [index * SKILL, top, SKILL, SKILL]
     return sheet, regions
 
 

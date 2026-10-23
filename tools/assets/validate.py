@@ -22,6 +22,9 @@ from PIL import Image
 
 sys.path.insert(0, str(Path(__file__).parent))
 import gen_environment  # noqa: E402
+import gen_dummy  # noqa: E402
+import gen_fx  # noqa: E402
+import gen_sfx  # noqa: E402
 import gen_ui  # noqa: E402
 from make_spriteframes import render_tres  # noqa: E402
 
@@ -115,7 +118,9 @@ def validate_asset(asset_id: str, asset: dict, allowed: list[str]) -> list[str]:
         for credit in credits:
             if not credit.get("authors") and not credit.get("license", "").startswith("CC0"):
                 problems.append(f"{where} credit for {credit.get('file')} names no authors")
-            if not license_ok(credit.get("license", ""), allowed):
+            # The project's own generated art carries the project's licence.
+            own = asset.get("source") == "original" and credit.get("license") == "MIT"
+            if not own and not license_ok(credit.get("license", ""), allowed):
                 problems.append(f"{where} {credit.get('file')} uses disallowed licence {credit.get('license')!r}")
     tres = sheet_path.with_name(f"{asset_id}.tres")
     if not tres.exists():
@@ -183,6 +188,58 @@ def validate_ui(ui: dict) -> list[str]:
     return problems
 
 
+def validate_fx(fx: dict) -> list[str]:
+    """The effects sheet and its frame table match what gen_fx.py draws now."""
+    sheet, entries = gen_fx.render()
+    path = res_path(fx["sheet"]) if fx.get("sheet") else None
+    if path is None or not path.exists():
+        return ["fx: effects sheet missing; run tools/assets/gen_fx.py"]
+    with Image.open(path) as saved:
+        if saved.convert("RGBA").tobytes() != sheet.tobytes() or fx.get("effects") != entries:
+            return ["fx: effects are out of date; run tools/assets/gen_fx.py"]
+    return []
+
+
+def validate_dummy(assets: dict) -> list[str]:
+    """The generated training dummy matches gen_dummy.py."""
+    sheet, animations = gen_dummy.render()
+    entry = assets.get(gen_dummy.ASSET_ID)
+    if entry != gen_dummy.manifest_entry(animations):
+        return ["training_dummy: manifest entry is out of date; run tools/assets/gen_dummy.py"]
+    with Image.open(res_path(entry["sheet"])) as saved:
+        if saved.convert("RGBA").tobytes() != sheet.tobytes():
+            return ["training_dummy: sheet is out of date; run tools/assets/gen_dummy.py"]
+    return []
+
+
+def wav_samples(data: bytes) -> list[int]:
+    import array
+    import io
+    import wave
+
+    with wave.open(io.BytesIO(data)) as w:
+        return list(array.array("h", w.readframes(w.getnframes())))
+
+
+def validate_audio(audio: dict) -> list[str]:
+    """Every synthesised sound exists and matches gen_sfx.py within a few
+    steps of 16-bit rounding (floating-point sine can differ in the last bit
+    between machines)."""
+    problems: list[str] = []
+    sounds = audio.get("sounds", {})
+    for sound_id in gen_sfx.SOUNDS:
+        path = res_path(sounds[sound_id]) if sound_id in sounds else None
+        if path is None or not path.exists():
+            problems.append(f"audio: {sound_id} missing; run tools/assets/gen_sfx.py")
+            continue
+        saved, fresh = wav_samples(path.read_bytes()), wav_samples(gen_sfx.render(sound_id))
+        if len(saved) != len(fresh) or any(abs(a - b) > 4 for a, b in zip(saved, fresh)):
+            problems.append(f"audio: {sound_id} is out of date; run tools/assets/gen_sfx.py")
+    for sound_id in set(sounds) - set(gen_sfx.SOUNDS):
+        problems.append(f"audio: {sound_id} is listed but not generated")
+    return problems
+
+
 def main() -> int:
     manifest = json.loads(MANIFEST.read_text())
     allowed = json.loads(POLICY.read_text())["license_policy"]["allowed"]
@@ -194,6 +251,9 @@ def main() -> int:
             pending.append(asset_id)
     problems += validate_environment(manifest.get("environment", {}))
     problems += validate_ui(manifest.get("ui", {}))
+    problems += validate_fx(manifest.get("fx", {}))
+    problems += validate_dummy(manifest.get("assets", {}))
+    problems += validate_audio(manifest.get("audio", {}))
     for problem in problems:
         print(f"INVALID {problem}")
     count = len(manifest.get("assets", {}))

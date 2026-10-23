@@ -4,6 +4,22 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — Skills, combat feedback and sound
+- Skill hotbar (`data/skills.json`): slot 1 attack, slots 2–5 Rising Uppercut, Whirlwind
+  Kick, Shoulder Rush and Furnace Slam, slots 6–7 Steamed Bun and Ginger Tea. Skills
+  cost energy, have cooldowns, unlock at levels 1/1/2/3 and can cancel a landed attack.
+  Cooldowns, unlocks and a shared 2 s consumable cooldown are simulation rules
+  (`SkillRules`, `CombatRules.start_skill`, `ZoneSim.use_item`). New move fields:
+  `advance` (lunges). Knockback now pushes away from the attacker.
+- Hotbar UI: icons, key numbers, cooldown sweep and seconds, energy and lock states, item
+  counts, tooltips, click/tap; keys 1–7 and gamepad RT combinations.
+- Combat feedback: hit sparks, impact flash and freeze, dust, per-skill effects, camera
+  shake, hurt vignette, level-up light and banner naming unlocked skills.
+- Sound: 25 original synthesised effects and a sound-volume option.
+- Training dummy: an original wooden sparring post that rocks when hit and tips over.
+- Generators `gen_fx.py`, `gen_sfx.py`, `gen_dummy.py` and skill icons in `gen_ui.py`, all
+  validated in CI. 15 new tests (97 total); the smoke test casts a skill.
+
 ### Added — Interface overhaul
 - One visual language (`UiTheme`: palette, type scale, control styles) applied to
   every screen through the project theme, and a kit of building blocks (`UiKit`).

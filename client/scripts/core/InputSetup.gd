@@ -49,12 +49,32 @@ const PAD_AXES := {
 	"move_down": [JOY_AXIS_LEFT_Y, 1.0],
 }
 
+## Hotbar slots 1-7 on the number row and the numpad. On a gamepad, slots
+## are reached by holding the right trigger (skill_modifier) with a face
+## button; PlayerInput does that mapping.
+const HOTBAR_SLOTS := 7
+
 ## Extra keys for the built-in UI navigation actions, so menus follow the
 ## same WASD layout as walking.
 const UI_KEYS := {"ui_up": KEY_W, "ui_down": KEY_S, "ui_left": KEY_A, "ui_right": KEY_D}
 
 
 func _init() -> void:
+	for slot in range(1, HOTBAR_SLOTS + 1):
+		var action := "slot_%d" % slot
+		if InputMap.has_action(action):
+			InputMap.erase_action(action)
+		InputMap.add_action(action)
+		for keycode: int in [KEY_0 + slot, KEY_KP_0 + slot]:
+			var key := InputEventKey.new()
+			key.physical_keycode = keycode
+			InputMap.action_add_event(action, key)
+	if not InputMap.has_action("skill_modifier"):
+		InputMap.add_action("skill_modifier", 0.5)
+		var trigger := InputEventJoypadMotion.new()
+		trigger.axis = JOY_AXIS_TRIGGER_RIGHT
+		trigger.axis_value = 1.0
+		InputMap.action_add_event("skill_modifier", trigger)
 	for action: String in UI_KEYS:
 		var key := InputEventKey.new()
 		key.physical_keycode = UI_KEYS[action]

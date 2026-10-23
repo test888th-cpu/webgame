@@ -1,10 +1,15 @@
 extends CanvasLayer
 ## In-game heads-up display, built in code from UiKit/UiTheme:
 ##   top left   hero card: level badge, name, HP (with damage trail), energy, XP
+##   top centre boss bar (boss fights only)
 ##   top right  coins, area name, tracked quest card
-##   bottom     boss bar (boss fights only), key hints
-##   centre     notification banner
-## Touch buttons appear only on touch devices. The HUD only reads state.
+##   bottom     hotbar (attack, skills, items), key hints
+##   centre     notification banner, level-up banner
+##   edges      red vignette when the hero is hurt
+## Touch buttons appear only on touch devices. The HUD only reads state and
+## reports hotbar presses (slot_pressed).
+
+signal slot_pressed(index: int)
 
 const TOAST_SECONDS := 2.4
 const BAR_WIDTH := 118.0
@@ -31,6 +36,13 @@ var _toast: PanelContainer
 var _toast_text: Label
 var _fps: Label
 var _touch: Control
+var _hotbar: Hotbar
+var _vignette: TextureRect
+var _hurt := 0.0
+var _banner: VBoxContainer
+var _banner_level: Label
+var _banner_detail: Label
+var _banner_left := 0.0
 
 
 func _ready() -> void:
@@ -39,10 +51,12 @@ func _ready() -> void:
 	root.set_anchors_preset(Control.PRESET_FULL_RECT)
 	root.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(root)
+	_build_vignette(root)
 	_build_hero_card(root)
 	_build_top_right(root)
 	_build_boss_bar(root)
 	_build_toast(root)
+	_build_banner(root)
 	_build_hints(root)
 	_touch = TouchControls.build()
 	_touch.visible = DisplayServer.is_touchscreen_available()
@@ -55,6 +69,45 @@ func attach(p_zone: ZoneSim, p_profile: PlayerProfile, p_content: ContentDB) -> 
 	content = p_content
 	_area.text = str(zone.area.get("name", ""))
 	_money_icon_once()
+	if _hotbar == null:
+		_hotbar = Hotbar.new()
+		_hotbar.build(content)
+		_hotbar.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
+		_hotbar.grow_horizontal = Control.GROW_DIRECTION_BOTH
+		_hotbar.grow_vertical = Control.GROW_DIRECTION_BEGIN
+		_hotbar.offset_bottom = -4
+		_hotbar.offset_top = -4
+		_hotbar.slot_pressed.connect(slot_pressed.emit)
+		get_node("Root").add_child(_hotbar)
+
+
+## Flashes hotbar slot `index`: used (accepted) or refused.
+func flash_slot(index: int, accepted: bool) -> void:
+	if _hotbar:
+		_hotbar.slots[index].flash(accepted)
+
+
+## Red edges for a moment: the hero was hit.
+func hurt(strength := 1.0) -> void:
+	_hurt = maxf(_hurt, 0.35 * strength)
+
+
+## The big level-up announcement, naming any skills it unlocked.
+func level_up(level: int, unlocked: Array) -> void:
+	_banner_level.text = "Level %d" % level
+	var names: Array[String] = []
+	for skill_id: String in unlocked:
+		names.append(str(content.skills[skill_id]["name"]))
+	_banner_detail.text = (
+		"New skill: " + ", ".join(names) if names else "Max HP and damage increased"
+	)
+	_banner.visible = true
+	_banner.scale = Vector2(1.4, 1.4)
+	_banner.modulate.a = 1.0
+	_banner.pivot_offset = _banner.size / 2.0
+	_banner_left = 2.6
+	var tween := create_tween()
+	tween.tween_property(_banner, "scale", Vector2.ONE, 0.25).set_trans(Tween.TRANS_BACK)
 
 
 func toast(text: String) -> void:
@@ -65,6 +118,12 @@ func toast(text: String) -> void:
 
 
 func _process(delta: float) -> void:
+	_hurt = maxf(0.0, _hurt - delta)
+	_vignette.modulate.a = clampf(_hurt / 0.35, 0.0, 1.0) * 0.8
+	if _banner_left > 0.0:
+		_banner_left -= delta
+		_banner.modulate.a = clampf(_banner_left / 0.5, 0.0, 1.0)
+		_banner.visible = _banner_left > 0.0
 	if _toast_left > 0.0:
 		_toast_left -= delta
 		_toast.modulate.a = clampf(_toast_left / 0.4, 0.0, 1.0)
@@ -81,6 +140,8 @@ func _process(delta: float) -> void:
 	_xp.set_values(profile.xp, profile.xp_to_next(content))
 	_money.text = str(profile.money)
 	_update_quest()
+	if _hotbar:
+		_hotbar.refresh(zone, profile)
 	var boss := zone.fighter(zone.boss_id) if zone.boss_id else null
 	_boss.visible = boss != null and not boss.is_ko()
 	if _boss.visible:
@@ -177,13 +238,13 @@ func _build_boss_bar(root: Control) -> void:
 	_boss.name = "Boss"
 	_boss.visible = false
 	_boss.add_theme_constant_override("separation", 1)
-	_boss.position = Vector2(170, 318)
-	_boss.custom_minimum_size = Vector2(300, 0)
+	_boss.position = Vector2(190, 8)
+	_boss.custom_minimum_size = Vector2(260, 0)
 	root.add_child(_boss)
 	_boss_name = UiKit.overlay_label("", UiTheme.SIZE_SMALL, Color("ffb0a0"))
 	_boss_name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_boss.add_child(_boss_name)
-	_boss_bar = _bar(UiTheme.DANGER, Vector2(300, 8), false)
+	_boss_bar = _bar(UiTheme.DANGER, Vector2(260, 8), false)
 	_boss.add_child(_boss_bar)
 
 
@@ -216,12 +277,54 @@ func _build_hints(root: Control) -> void:
 	hints.add_theme_constant_override("separation", 8)
 	hints.position = Vector2(8, 346)
 	hints.add_child(UiKit.key_hint("Esc", "Menu"))
-	hints.add_child(UiKit.key_hint("H", "Eat"))
-	hints.add_child(UiKit.key_hint("J K", "Attack"))
+	hints.add_child(UiKit.key_hint("K", "Heavy"))
 	hints.add_child(UiKit.key_hint("Space", "Dodge"))
 	hints.add_child(UiKit.key_hint("Shift", "Guard"))
 	hints.modulate.a = 0.8
 	root.add_child(hints)
+
+
+func _build_vignette(root: Control) -> void:
+	var gradient := Gradient.new()
+	gradient.set_color(0, Color(0.8, 0.05, 0.05, 0.0))
+	gradient.set_color(1, Color(0.8, 0.05, 0.05, 0.75))
+	gradient.add_point(0.55, Color(0.8, 0.05, 0.05, 0.0))
+	var texture := GradientTexture2D.new()
+	texture.gradient = gradient
+	texture.fill = GradientTexture2D.FILL_RADIAL
+	texture.fill_from = Vector2(0.5, 0.5)
+	texture.fill_to = Vector2(1.05, 1.05)
+	texture.width = 128
+	texture.height = 72
+	_vignette = TextureRect.new()
+	_vignette.name = "Vignette"
+	_vignette.texture = texture
+	_vignette.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_vignette.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_vignette.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_vignette.modulate.a = 0.0
+	root.add_child(_vignette)
+
+
+func _build_banner(root: Control) -> void:
+	_banner = VBoxContainer.new()
+	_banner.name = "LevelUp"
+	_banner.visible = false
+	_banner.add_theme_constant_override("separation", 0)
+	_banner.set_anchors_preset(Control.PRESET_CENTER_TOP)
+	_banner.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	_banner.offset_top = 96
+	root.add_child(_banner)
+	var title := UiKit.overlay_label("LEVEL UP!", UiTheme.SIZE_LOGO - 6, UiTheme.GOLD)
+	title.add_theme_constant_override("outline_size", 6)
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_banner.add_child(title)
+	_banner_level = UiKit.overlay_label("", UiTheme.SIZE_H1, UiTheme.TEXT)
+	_banner_level.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_banner.add_child(_banner_level)
+	_banner_detail = UiKit.overlay_label("", UiTheme.SIZE_BODY, UiTheme.TEAL)
+	_banner_detail.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_banner.add_child(_banner_detail)
 
 
 func _update_quest() -> void:

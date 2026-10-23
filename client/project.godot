@@ -19,6 +19,7 @@ BuildInfo="*res://scripts/core/BuildInfo.gd"
 InputSetup="*res://scripts/core/InputSetup.gd"
 SaveStore="*res://scripts/core/SaveStore.gd"
 GameSession="*res://scripts/core/GameSession.gd"
+Sfx="*res://scripts/core/Sfx.gd"
 
 [debug]
 

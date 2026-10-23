@@ -36,6 +36,7 @@ static func button(text: String, on_press: Callable, disabled := false) -> Butto
 	node.text = text
 	node.disabled = disabled
 	node.focus_mode = Control.FOCUS_ALL
+	node.pressed.connect(Sfx.play.bind("ui_select", -4.0))
 	node.pressed.connect(on_press)
 	return node
 
@@ -49,6 +50,7 @@ static func menu_button(text: String, on_press: Callable, disabled := false) -> 
 	node.add_theme_font_size_override("font_size", UiTheme.SIZE_H2)
 	node.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	node.custom_minimum_size = Vector2(150, 22)
+	node.focus_entered.connect(Sfx.play.bind("ui_move", -6.0))
 	return node
 
 

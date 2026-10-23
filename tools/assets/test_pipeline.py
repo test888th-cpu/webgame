@@ -100,6 +100,27 @@ class UiIconsTest(unittest.TestCase):
         self.assertIn("ui: icons are out of date; run tools/assets/gen_ui.py", validate.validate_ui(stale))
 
 
+class GeneratedArtTest(unittest.TestCase):
+    def setUp(self) -> None:
+        self.manifest = json.loads(validate.MANIFEST.read_text())
+
+    def test_effects_dummy_and_sounds_are_current(self) -> None:
+        self.assertEqual(validate.validate_fx(self.manifest["fx"]), [])
+        self.assertEqual(validate.validate_dummy(self.manifest["assets"]), [])
+        self.assertEqual(validate.validate_audio(self.manifest["audio"]), [])
+
+    def test_a_changed_sound_is_reported(self) -> None:
+        audio = json.loads(json.dumps(self.manifest["audio"]))
+        audio["sounds"]["coin"] = audio["sounds"]["ko"]
+        self.assertIn("audio: coin is out of date; run tools/assets/gen_sfx.py", validate.validate_audio(audio))
+
+    def test_sounds_are_audible_and_not_clipped(self) -> None:
+        for sound_id in ("hit_light", "level_up", "skill_slam"):
+            samples = validate.wav_samples(validate.gen_sfx.render(sound_id))
+            self.assertGreater(max(map(abs, samples)), 8000, sound_id)
+            self.assertLessEqual(max(map(abs, samples)), 32000, sound_id)
+
+
 class LicenceTest(unittest.TestCase):
     def test_picks_most_permissive_allowed_option(self) -> None:
         credit = {"licenses": ["CC-BY-SA 3.0", "GPL 3.0", "OGA-BY 3.0"]}

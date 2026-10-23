@@ -1,0 +1,77 @@
+{
+  "skills": {
+    "rising_uppercut": {
+      "name": "Rising Uppercut",
+      "move": "rising_uppercut",
+      "cooldown": 240,
+      "unlock_level": 1,
+      "icon": "skill_uppercut",
+      "fx": "uppercut",
+      "sound": "skill_uppercut",
+      "description": "A fast upward blow that knocks one foe down. Cancels a landed combo."
+    },
+    "whirlwind_kick": {
+      "name": "Whirlwind Kick",
+      "move": "whirlwind_kick",
+      "cooldown": 420,
+      "unlock_level": 1,
+      "icon": "skill_whirlwind",
+      "fx": "whirlwind",
+      "sound": "skill_whirlwind",
+      "description": "A spinning kick that hits enemies on both sides."
+    },
+    "shoulder_rush": {
+      "name": "Shoulder Rush",
+      "move": "shoulder_rush",
+      "cooldown": 360,
+      "unlock_level": 2,
+      "icon": "skill_rush",
+      "fx": "rush",
+      "sound": "skill_rush",
+      "description": "Charge forward through a line of foes. Breaks guard."
+    },
+    "furnace_slam": {
+      "name": "Furnace Slam",
+      "move": "furnace_slam",
+      "cooldown": 1200,
+      "unlock_level": 3,
+      "icon": "skill_slam",
+      "fx": "slam",
+      "sound": "skill_slam",
+      "description": "Smash the street with a burning fist. Heavy damage all around. Breaks guard."
+    }
+  },
+  "hotbar": [
+    {
+      "type": "attack",
+      "icon": "skill_attack",
+      "name": "Attack",
+      "description": "Jab, cross, hook. Press again as each blow lands to keep the combo going."
+    },
+    {
+      "type": "skill",
+      "id": "rising_uppercut"
+    },
+    {
+      "type": "skill",
+      "id": "whirlwind_kick"
+    },
+    {
+      "type": "skill",
+      "id": "shoulder_rush"
+    },
+    {
+      "type": "skill",
+      "id": "furnace_slam"
+    },
+    {
+      "type": "item",
+      "id": "steamed_bun"
+    },
+    {
+      "type": "item",
+      "id": "ginger_tea"
+    }
+  ],
+  "item_cooldown": 120
+}

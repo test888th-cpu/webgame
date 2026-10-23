@@ -13,6 +13,8 @@ in diffs and checked by tests.
 | Bars | `client/scenes/ui/StatBar.gd` | HP/energy/XP/boss bars, drawn directly, with a damage trail. |
 | HUD | `client/scenes/ui/Hud.gd` | Hero card, coins, area, tracked quest, boss bar, notifications, key hints, touch controls. Reads state only. |
 | Game screens | `client/scenes/game/GameMenus.gd` | Pause window (Status, Bag, Quests, Controls, Game tabs), shop, NPC conversation, knock-out screen. Shows the profile and calls back into `Game.gd`, which owns every change and rebuilds the screen afterwards. |
+| Hotbar | `client/scenes/ui/Hotbar.gd`, `HotbarSlot.gd` | Seven slots from `data/skills.json` (attack, four skills, two consumables): icon, key, cooldown sweep with seconds, blue tint without energy, lock with unlock level, item count, tooltips. Keys 1–7; gamepad RT + X/Y/A/B (skills) and RT + RB (slot 7); click or tap. |
+| Feedback | `client/scenes/game/GameFeedback.gd`, `client/scenes/fx/Fx.gd`, `client/scripts/core/Sfx.gd` | Turns zone events into effects, impact flashes, shake, the hurt vignette, the level-up banner and sounds. Presentation only. |
 | Title | `client/scenes/title/Title.gd` | Live street backdrop, logo, menu, Characters, Credits. |
 | World prompts | `client/scenes/world/ZoneView.gd` | `[E] Talk` / `[E] Shop` over the NPC in reach; `$` and `!` marks; camera shake. |
 | Icons | `tools/assets/gen_ui.py` | Original 16x16 item and interface icons (`client/assets/ui/icons.png`). Items name theirs in `items.json`. |

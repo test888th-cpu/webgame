@@ -7,7 +7,9 @@ const SETTINGS_PATH := "user://settings.json"
 var content: ContentDB
 var profile: PlayerProfile
 ## Player preferences (not progression): kept in their own small file.
-var settings := {"show_fps": false, "screen_shake": true}
+## Effect animations, built on first use by Fx.
+var fx_library := {}
+var settings := {"show_fps": false, "screen_shake": true, "sfx_volume": 0.8}
 
 
 func _ready() -> void:

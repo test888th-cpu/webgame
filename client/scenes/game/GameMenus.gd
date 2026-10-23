@@ -329,6 +329,7 @@ static func _system(game: Game) -> Control:
 	column.add_child(options)
 	options.add_child(_toggle("Screen shake on heavy hits", "screen_shake"))
 	options.add_child(_toggle("Show frame rate", "show_fps"))
+	options.add_child(_volume())
 	column.add_child(
 		UiKit.label(
 			"Progress also saves on its own when you change area, shop or hand in a quest.",
@@ -338,6 +339,23 @@ static func _system(game: Game) -> Control:
 		)
 	)
 	return column
+
+
+static func _volume() -> Control:
+	var slider := HSlider.new()
+	slider.name = "Volume"
+	slider.min_value = 0.0
+	slider.max_value = 1.0
+	slider.step = 0.1
+	slider.value = float(GameSession.settings.get("sfx_volume", 0.8))
+	slider.custom_minimum_size = Vector2(120, 12)
+	slider.focus_mode = Control.FOCUS_ALL
+	slider.value_changed.connect(
+		func(value: float) -> void:
+			GameSession.set_setting("sfx_volume", value)
+			Sfx.play("ui_move")
+	)
+	return UiKit.row("Sound volume", slider)
 
 
 static func _toggle(text: String, key: String) -> CheckButton:
@@ -526,6 +544,7 @@ static func _item_list() -> ItemList:
 	list.fixed_icon_size = Vector2i(16, 16)
 	list.focus_mode = Control.FOCUS_ALL
 	list.allow_reselect = true
+	list.item_selected.connect(func(_index: int) -> void: Sfx.play("ui_move", -6.0))
 	return list
 
 

@@ -26,6 +26,9 @@ var menu_focus_equipped := false
 
 var _pending_exit := {}
 var _probe_timer := 0.0
+## A hotbar slot clicked or tapped since the last tick (-1: none).
+var _clicked_slot := -1
+var _feedback: GameFeedback
 
 @onready var _world: Node2D = $World
 @onready var _hud: CanvasLayer = $Hud
@@ -37,6 +40,8 @@ func _ready() -> void:
 	if GameSession.profile == null:
 		GameSession.start_new_game()
 	profile = GameSession.profile
+	_feedback = GameFeedback.new(content, _hud)
+	_hud.slot_pressed.connect(func(index: int) -> void: _clicked_slot = index)
 	enter_area(profile.area, "")
 	print("%s %s" % [READY_MARKER, BuildInfo.summary()])
 
@@ -51,6 +56,7 @@ func enter_area(area_id: String, entry: String) -> void:
 	_world.add_child(view)
 	view.build(zone, content)
 	view.update_npc_marks(profile)
+	_feedback.view = view
 	_hud.attach(zone, profile, content)
 	_hud.toast(str(zone.area.get("name", area_id)))
 	SaveStore.save(profile)
@@ -69,13 +75,62 @@ func _physics_process(_delta: float) -> void:
 				GameMenus.cycle_tab(menu, 1)
 		return
 	if Input.is_action_just_pressed("pause"):
+		Sfx.play("ui_select", -4.0)
 		open_pause()
 		return
-	if Input.is_action_just_pressed("interact") and try_interact():
+	var modifier := Input.is_action_pressed("skill_modifier")
+	if not modifier and Input.is_action_just_pressed("interact") and try_interact():
 		return
-	if Input.is_action_just_pressed("use_item"):
+	if not modifier and Input.is_action_just_pressed("use_item"):
 		quick_heal()
-	step(PlayerInput.read())
+	var input := PlayerInput.read()
+	var slot := PlayerInput.slot_pressed()
+	if _clicked_slot >= 0:
+		slot = _clicked_slot
+		_clicked_slot = -1
+	if slot >= 0:
+		use_slot(slot, input)
+	step(input)
+
+
+## Presses hotbar slot `index` for this tick's input. Checks here only give
+## the player feedback; the simulation decides again whether a skill fires.
+func use_slot(index: int, input: FighterInput) -> bool:
+	var entry: Dictionary = content.hotbar[index]
+	var ok := true
+	match entry["type"]:
+		"attack":
+			input.light = true
+		"skill":
+			var skill_id: String = entry["id"]
+			var skill: Dictionary = content.skills[skill_id]
+			var move := content.moves.get_move(str(skill["move"]))
+			if not zone.hero.skills.has(skill_id):
+				_hud.toast("%s unlocks at level %d" % [skill["name"], skill["unlock_level"]])
+				ok = false
+			elif zone.hero.cooldown_left(skill_id) > 0:
+				ok = false
+			elif zone.hero.energy < move.energy_cost:
+				_hud.toast("Not enough energy")
+				ok = false
+			else:
+				input.skill = skill_id
+		"item":
+			ok = _use_hotbar_item(str(entry["id"]))
+	_hud.flash_slot(index, ok)
+	if not ok:
+		Sfx.play("denied", -4.0)
+	return ok
+
+
+func _use_hotbar_item(item_id: String) -> bool:
+	if profile.count(item_id) == 0:
+		_hud.toast("No %s left" % content.item(item_id)["name"])
+		return false
+	if not zone.use_item(item_id):
+		return false
+	_feedback.healed()
+	return true
 
 
 ## Advances the zone one tick with the given hero input.
@@ -83,6 +138,7 @@ func step(input: FighterInput) -> Array[ZoneEvent]:
 	var events := zone.tick(input)
 	for event in events:
 		_handle(event)
+		_feedback.on_event(event)
 	view.sync()
 	if _pending_exit:
 		var exit := _pending_exit
@@ -104,8 +160,6 @@ func _handle(event: ZoneEvent) -> void:
 			if event.data.get("boss", false):
 				_hud.toast("%s defeated!" % data.get("name", "Boss"))
 			SaveStore.save(profile)
-		"level_up":
-			_hud.toast("Level up! Lv %d" % event.data["level"])
 		"quest_complete":
 			var quest: Dictionary = content.quests[event.data["quest"]]
 			_hud.toast("Quest complete: %s" % quest["name"])
@@ -150,14 +204,18 @@ func quick_heal() -> bool:
 			view.show_text(
 				str(content.item(item_id)["name"]), zone.hero.position, Color(0.6, 1, 0.7)
 			)
+			_feedback.healed()
 			return true
-	_hud.toast("Nothing to eat")
+	if zone.item_cooldown == 0:
+		_hud.toast("Nothing to eat")
+	Sfx.play("denied", -4.0)
 	return false
 
 
 func close_menu() -> void:
 	if menu:
 		menu.queue_free()
+		Sfx.play("ui_back", -4.0)
 	menu = null
 	menu_name = ""
 	menu_focus = ""
@@ -202,6 +260,9 @@ func open_game_over() -> void:
 func _use(item_id: String) -> void:
 	if zone.use_item(item_id):
 		_hud.toast("Used " + str(content.item(item_id)["name"]))
+		_feedback.healed()
+	elif zone.item_cooldown > 0:
+		_hud.toast("Wait a moment before using another item")
 	else:
 		_hud.toast("No effect right now")
 	_reopen_bag(item_id, false)
@@ -243,7 +304,13 @@ func _accept(npc: Dictionary, quest_id: String) -> void:
 
 
 func _turn_in(npc: Dictionary, quest_id: String) -> void:
+	var level := profile.level
 	var rewards := QuestRules.turn_in(profile, quest_id, content)
+	if profile.level > level:
+		var unlocked: Array[String] = []
+		for reached in range(level + 1, profile.level + 1):
+			unlocked.append_array(SkillRules.unlocked_at(content, reached))
+		_feedback.level_up(profile.level, unlocked)
 	if rewards:
 		_hud.toast("+%d coins  +%d XP" % [rewards["money"], rewards["xp"]])
 		zone.refresh_hero()
@@ -298,6 +365,7 @@ func _process(delta: float) -> void:
 				"enemies": foes,
 				"hits": hits,
 				"hero_hits": hero_hits,
+				"cooldowns": zone.hero.cooldowns,
 			}
 		)
 	)

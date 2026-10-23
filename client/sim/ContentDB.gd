@@ -11,6 +11,8 @@ const ART_MANIFEST := "res://assets/manifest.json"
 const ITEM_TYPES := ["consumable", "weapon", "armor", "accessory"]
 const EXIT_SIDES := ["west", "east"]
 const NPC_ROLES := ["shop", "quests"]
+const HOTBAR_TYPES := ["attack", "skill", "item"]
+const HOTBAR_SLOTS := 7
 
 var moves: MoveLibrary
 var enemies: Dictionary = {}
@@ -20,12 +22,21 @@ var start_area := ""
 var quests: Dictionary = {}
 var shops: Dictionary = {}
 var progression: Dictionary = {}
+## Hero skills (skill id -> definition) and the hotbar layout, from skills.json.
+var skills: Dictionary = {}
+var hotbar: Array = []
+## Ticks between uses of consumables (shared by all of them).
+var item_cooldown := 0
 ## Imported art, from the asset manifest (asset id -> entry).
 var art: Dictionary = {}
 ## Generated scenery: {"props": {...}, "areas": {area id -> layers and props}}.
 var environment: Dictionary = {}
 ## Generated interface art: {"icons": {"sheet": ..., "regions": {id: [x, y, w, h]}}}.
 var ui: Dictionary = {}
+## Generated effects ({"sheet", "effects": {id: frames}}) and sounds
+## ({"sounds": {id: path}}). Presentation only.
+var fx: Dictionary = {}
+var audio: Dictionary = {}
 var errors: PackedStringArray = []
 
 
@@ -42,10 +53,16 @@ static func load_all(dir := DATA_DIR) -> ContentDB:
 	db.areas = area_file.get("areas", {})
 	db.start_area = str(area_file.get("start_area", ""))
 	db.progression = db._read(dir.path_join("progression.json"))
+	var skill_file := db._read(dir.path_join("skills.json"))
+	db.skills = skill_file.get("skills", {})
+	db.hotbar = skill_file.get("hotbar", [])
+	db.item_cooldown = int(skill_file.get("item_cooldown", 0))
 	var manifest := db._read(ART_MANIFEST)
 	db.art = manifest.get("assets", {})
 	db.environment = manifest.get("environment", {})
 	db.ui = manifest.get("ui", {})
+	db.fx = manifest.get("fx", {})
+	db.audio = manifest.get("audio", {})
 	db.validate()
 	return db
 
@@ -80,6 +97,7 @@ func validate() -> void:
 	for id: String in areas:
 		_validate_area(id, areas[id])
 	_validate_progression()
+	_validate_skills()
 	_validate_art()
 
 
@@ -249,6 +267,42 @@ func _validate_progression() -> void:
 	if xp is Dictionary:
 		_number(xp, "base", "progression.xp", 1)
 		_number(xp, "growth", "progression.xp", 0)
+
+
+func _validate_skills() -> void:
+	var icons: Dictionary = ui.get("icons", {}).get("regions", {})
+	for id: String in skills:
+		var where := "skills.%s" % id
+		var skill: Variant = skills[id]
+		if not skill is Dictionary:
+			errors.append(where + ": expected an object")
+			continue
+		_check(moves.moves.has(str(skill.get("move"))), "%s.move: unknown move" % where)
+		_number(skill, "cooldown", where, 1)
+		_number(skill, "unlock_level", where, 1)
+		for field in ["name", "description"]:
+			_check(str(skill.get(field, "")) != "", "%s.%s: required" % [where, field])
+		_check(icons.has(str(skill.get("icon"))), "%s.icon: no such icon" % where)
+		_check(fx.get("effects", {}).has(str(skill.get("fx"))), "%s.fx: no such effect" % where)
+		_check(
+			audio.get("sounds", {}).has(str(skill.get("sound"))), "%s.sound: no such sound" % where
+		)
+	_check(hotbar.size() == HOTBAR_SLOTS, "skills.hotbar: expected %d slots" % HOTBAR_SLOTS)
+	for i in hotbar.size():
+		var slot: Variant = hotbar[i]
+		var where := "skills.hotbar[%d]" % i
+		if not slot is Dictionary or slot.get("type") not in HOTBAR_TYPES:
+			errors.append(where + ': expected {"type": attack|skill|item}')
+			continue
+		match slot["type"]:
+			"skill":
+				_check(skills.has(str(slot.get("id"))), where + ": unknown skill")
+			"item":
+				var item_data := item(str(slot.get("id")))
+				_check(item_data.get("type") == "consumable", where + ": not a consumable")
+			"attack":
+				_check(icons.has(str(slot.get("icon"))), where + ": no such icon")
+	_check(item_cooldown >= 0, "skills.item_cooldown: expected >= 0")
 
 
 ## Every sprite named by content must be an imported asset.

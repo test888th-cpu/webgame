@@ -192,6 +192,65 @@
       "knockdown": true,
       "telegraph": true,
       "anim": "heavy"
+    },
+    "rising_uppercut": {
+      "startup": 6,
+      "active": 4,
+      "recovery": 20,
+      "damage": 16,
+      "hitstun": 34,
+      "knockback": 30,
+      "reach_offset": 4,
+      "reach": 30,
+      "depth_tolerance": 14,
+      "energy_cost": 10,
+      "knockdown": true,
+      "anim": "heavy"
+    },
+    "whirlwind_kick": {
+      "startup": 8,
+      "active": 10,
+      "recovery": 18,
+      "damage": 13,
+      "hitstun": 26,
+      "knockback": 60,
+      "reach_offset": -38,
+      "reach": 76,
+      "depth_tolerance": 18,
+      "energy_cost": 20,
+      "knockdown": true,
+      "anim": "light"
+    },
+    "shoulder_rush": {
+      "startup": 6,
+      "active": 12,
+      "recovery": 18,
+      "damage": 15,
+      "hitstun": 30,
+      "knockback": 80,
+      "reach_offset": 0,
+      "reach": 26,
+      "depth_tolerance": 14,
+      "energy_cost": 15,
+      "advance": 90,
+      "guard_break": true,
+      "knockdown": true,
+      "anim": "heavy"
+    },
+    "furnace_slam": {
+      "startup": 18,
+      "active": 6,
+      "recovery": 26,
+      "damage": 30,
+      "hitstun": 40,
+      "knockback": 100,
+      "reach_offset": -56,
+      "reach": 112,
+      "depth_tolerance": 26,
+      "energy_cost": 40,
+      "guard_break": true,
+      "knockdown": true,
+      "anim": "heavy"
     }
   }
 }

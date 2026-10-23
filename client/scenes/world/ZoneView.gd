@@ -16,9 +16,10 @@ const SHAKE_FADE := 0.25
 var zone: ZoneSim
 var content: ContentDB
 var camera: Camera2D
+## Floating numbers and effects in world space.
+var effects: Node2D
 
 var _entities: Node2D
-var _effects: Node2D
 var _views := {}
 var _pickups := {}
 var _npc_marks := {}
@@ -35,9 +36,9 @@ func build(p_zone: ZoneSim, p_content: ContentDB) -> void:
 	_entities.y_sort_enabled = true
 	add_child(_entities)
 	_build_npcs()
-	_effects = Node2D.new()
-	_effects.name = "Effects"
-	add_child(_effects)
+	effects = Node2D.new()
+	effects.name = "Effects"
+	add_child(effects)
 	camera = Camera2D.new()
 	camera.position_smoothing_enabled = true
 	camera.position_smoothing_speed = 8.0
@@ -80,7 +81,7 @@ func show_hit(event: CombatEvent) -> void:
 	var label := DamageNumber.new()
 	label.add_theme_font_size_override("font_size", 10)
 	label.add_theme_constant_override("outline_size", 4)
-	_effects.add_child(label)
+	effects.add_child(label)
 	label.show_hit(event)
 	var heavy := event.knocked_down or event.guard_broken or event.ko
 	if (
@@ -97,7 +98,7 @@ func show_text(text: String, at: Vector2, color := Color.WHITE) -> void:
 	label.add_theme_font_size_override("font_size", 8)
 	label.add_theme_constant_override("outline_size", 3)
 	label.position = at + Vector2(-20, -60)
-	_effects.add_child(label)
+	effects.add_child(label)
 	var tween := label.create_tween().set_parallel()
 	tween.tween_property(label, "position:y", label.position.y - 16, 0.8)
 	tween.tween_property(label, "modulate:a", 0.0, 0.8)
@@ -193,6 +194,12 @@ func _follow_hero() -> void:
 	camera.position = Vector2(zone.hero.position.x, VIEW_HEIGHT / 2.0)
 	camera.offset = Vector2(randf_range(-1, 1), randf_range(-1, 1)) * _shake
 	_shake = maxf(0.0, _shake - SHAKE_FADE)
+
+
+## Shakes the camera by up to `pixels` (if the player has shake turned on).
+func shake(pixels: float) -> void:
+	if GameSession.settings.get("screen_shake", true):
+		_shake = maxf(_shake, pixels)
 
 
 ## Shows "[E] Talk" (or Shop) over the NPC the hero can talk to right now.

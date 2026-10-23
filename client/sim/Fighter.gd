@@ -38,6 +38,12 @@ var queued := ""
 ## Signed pixels of push still to apply along the street.
 var knockback_remaining := 0.0
 var dodge_dir := 1
+## Skills this fighter can use: skill id -> {"move": move id, "cooldown": ticks}.
+var skills := {}
+## Ticks until each skill can be used again (absent or 0: ready).
+var cooldowns := {}
+## A skill pressed during an attack, used if the attack can be cancelled.
+var queued_skill := ""
 
 
 func _init(p_id := 0, p_team := 0, p_position := Vector2.ZERO, p_max_hp := 100) -> void:
@@ -46,6 +52,10 @@ func _init(p_id := 0, p_team := 0, p_position := Vector2.ZERO, p_max_hp := 100) 
 	position = p_position
 	max_hp = p_max_hp
 	hp = p_max_hp
+
+
+func cooldown_left(skill_id: String) -> int:
+	return int(cooldowns.get(skill_id, 0))
 
 
 func is_ko() -> bool:
@@ -63,3 +73,4 @@ func enter(new_state: State, duration := 0) -> void:
 	if new_state != State.ATTACK:
 		move = null
 		queued = ""
+		queued_skill = ""

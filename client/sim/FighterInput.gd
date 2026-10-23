@@ -9,6 +9,9 @@ var light := false
 var heavy := false
 var dodge := false
 var guard := false
+## Skill id to use this tick ("" for none). The fighter must know the skill
+## and have it off cooldown; otherwise the press is ignored.
+var skill := ""
 ## Turn to face +1/-1 before acting (0: keep facing). Lets an AI turn toward a
 ## target without stepping.
 var face := 0

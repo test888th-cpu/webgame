@@ -20,6 +20,9 @@ var reach_offset := 0.0
 var reach := 0.0
 var depth_tolerance := 0.0
 var energy_cost := 0.0
+## Pixels the attacker travels forward during startup and active ticks (a
+## lunge). Zero for attacks that stay in place.
+var advance := 0.0
 ## Ignores guard entirely.
 var guard_break := false
 ## Leaves the defender on the ground (and briefly invulnerable).

@@ -111,6 +111,22 @@ static func build() -> Theme:
 	theme.set_color("font_color", "CheckButton", TEXT)
 	theme.set_font_size("font_size", "CheckButton", SIZE_BODY)
 
+	var track := _box(Color("10121c"), BORDER, 1, Vector4.ZERO)
+	track.content_margin_top = 2
+	track.content_margin_bottom = 2
+	theme.set_stylebox("slider", "HSlider", track)
+	theme.set_stylebox(
+		"grabber_area", "HSlider", _box(ACCENT_DARK, ACCENT_DARK, 0, Vector4(0, 2, 0, 2))
+	)
+	theme.set_stylebox(
+		"grabber_area_highlight", "HSlider", _box(ACCENT, ACCENT, 0, Vector4(0, 2, 0, 2))
+	)
+	theme.set_stylebox("focus", "HSlider", focus)
+	var tooltip := _box(Color("0b0c14f0"), ACCENT_DARK, 1, Vector4(6, 4, 6, 4))
+	theme.set_stylebox("panel", "TooltipPanel", tooltip)
+	theme.set_color("font_color", "TooltipLabel", TEXT)
+	theme.set_font_size("font_size", "TooltipLabel", SIZE_SMALL)
+
 	var separator := StyleBoxLine.new()
 	separator.color = BORDER
 	separator.thickness = 1
