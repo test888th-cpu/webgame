@@ -10,6 +10,8 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
   so Z/X (and J/K) seemed not to work when mashed.
 - A heavy attack or dodge without enough energy now plays a refusal sound and blinks the
   energy bar instead of silently doing nothing. 3 new tests (112 total).
+- The attack slot (1) lights up when Z/J is pressed and is labelled "1 Z", so it is
+  clear Z is the same basic attack (no cooldown); the key hint shows X for heavy.
 
 ### Added — Hero portrait on the HUD
 - The hero card shows the hero's face (cut from the current sprite, so armour shows) on

@@ -96,6 +96,9 @@ func _physics_process(_delta: float) -> void:
 		_clicked_slot = -1
 	if slot >= 0:
 		use_slot(slot, input)
+	elif input.light:
+		# Z/J are the attack slot too: light it up so the link is visible.
+		_hud.flash_slot(0, true)
 	step(input)
 
 

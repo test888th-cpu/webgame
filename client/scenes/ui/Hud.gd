@@ -282,7 +282,7 @@ func _build_hints(root: Control) -> void:
 	hints.add_theme_constant_override("separation", 8)
 	hints.position = Vector2(8, 346)
 	hints.add_child(UiKit.key_hint("Esc", "Menu"))
-	hints.add_child(UiKit.key_hint("K", "Heavy"))
+	hints.add_child(UiKit.key_hint("X", "Heavy"))
 	hints.add_child(UiKit.key_hint("Space", "Dodge"))
 	hints.add_child(UiKit.key_hint("Shift", "Guard"))
 	hints.modulate.a = 0.8
