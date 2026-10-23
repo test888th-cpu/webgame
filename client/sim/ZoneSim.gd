@@ -302,6 +302,14 @@ func _weapon_moves(moveset: Dictionary) -> Dictionary:
 	return found
 
 
+## Puts back the weapons left on this street earlier (replacing the fresh
+## scatter), so what was dropped is still there on return.
+func restore_weapons(entries: Array) -> void:
+	ground_weapons.assign(entries.duplicate(true))
+	for entry in ground_weapons:
+		_next_weapon = maxi(_next_weapon, int(entry["id"]) + 1)
+
+
 ## Index in ground_weapons of the closest weapon within reach of `at`, or -1.
 func weapon_in_reach(at: Vector2) -> int:
 	var found := -1
@@ -606,4 +614,7 @@ func _check_exit(input: FighterInput, events: Array[ZoneEvent]) -> void:
 	elif input.move.x > 0.0 and hero.position.x >= bounds.end.x - 0.5:
 		side = "east"
 	if side and exits.has(side):
+		# Street weapons belong to their street: leaving puts the weapon down.
+		if hero.weapon:
+			_drop_weapon(hero, hero.position, events)
 		events.append(ZoneEvent.make("exit", exits[side].duplicate()))

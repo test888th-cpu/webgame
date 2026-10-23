@@ -87,6 +87,21 @@ func test_walking_off_the_east_edge_changes_area_and_saves() -> void:
 	_done(game)
 
 
+func test_a_weapon_left_in_an_area_is_there_on_return() -> void:
+	var game := _game()
+	var depot: String = game.zone.area_id
+	game.zone.equip_weapon(game.zone.hero, "plank", 5)
+	game.zone.hero.position.x = game.zone.bounds.end.x
+	game.step(_walk(Vector2.RIGHT))
+	assert_eq(game.zone.hero.weapon, "", "arrived empty-handed")
+	game.enter_area(depot, "east")
+	var planks: Array = game.zone.ground_weapons.filter(
+		func(entry: Dictionary) -> bool: return entry["uses"] == 5
+	)
+	assert_eq(planks.size(), 1, "the dropped plank is still in the yard")
+	_done(game)
+
+
 func test_defeat_returns_to_the_depot_and_costs_coins() -> void:
 	var game := _game()
 	game.enter_area("saltmarket", "west")

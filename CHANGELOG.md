@@ -9,6 +9,11 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
   plank and pipe ~23 px, folding chair ~20 px) with slim, unoutlined handles so the fist
   still shows around the grip. Before, they were nearly half a character tall.
 
+### Changed — Weapons stay on their street
+- Walking into another area puts the held weapon down where the hero stood; it cannot be
+  carried between areas. Each area keeps the weapons lying in it for the session, so a
+  dropped weapon (with its wear) is still there on return. 2 new tests (136 total).
+
 ### Added — Three new areas, street weapons and smarter enemies
 - The street goes on past the Sludge Foreman: **Rail Yards** (level 4), **Night Market**
   (level 6, with Kenji's Night Stall) and **Smokestack Refinery** (level 8, boss: the

@@ -269,6 +269,7 @@ try {
   const street = await waitFor("the next area", (p) => p.area !== start.area, 20_000);
   const fight = await waitFor("an encounter", (p) => p.fighting && p.enemies.length > 0, 20_000);
   await page.keyboard.up("ArrowRight");
+  if (street.weapon) problems.push(`carried ${street.weapon} into ${street.area}; weapons must stay in their area`);
   console.log(`travelled: ${start.area} -> ${street.area}; encounter with ${fight.enemies.map((e) => e.kind).join(", ")}`);
   let state = fight;
   const until = Date.now() + 30_000;

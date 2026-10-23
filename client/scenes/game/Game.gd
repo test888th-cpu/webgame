@@ -27,6 +27,9 @@ var menu_focus := ""
 var item_card: Control = null
 
 var _pending_exit := {}
+## Weapons left lying in each area this session, by area id, so a street keeps
+## what was dropped on it (not saved: weapons are not lasting player state).
+var _street_weapons := {}
 var _probe_timer := 0.0
 ## A hotbar slot clicked or tapped since the last tick (-1: none).
 var _clicked_slot := -1
@@ -49,11 +52,15 @@ func _ready() -> void:
 
 
 func enter_area(area_id: String, entry: String) -> void:
+	if zone:
+		_street_weapons[zone.area_id] = zone.ground_weapons.duplicate(true)
 	if view:
 		_world.remove_child(view)
 		view.queue_free()
 	profile.area = area_id
 	zone = ZoneSim.new(content, profile, area_id, entry, randi())
+	if _street_weapons.has(area_id):
+		zone.restore_weapons(_street_weapons[area_id])
 	view = ZoneView.new()
 	_world.add_child(view)
 	view.build(zone, content)
