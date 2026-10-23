@@ -5,6 +5,9 @@ extends TestCase
 
 ## Same-slot skills of different heroes may differ by at most this share.
 const SLOT_TOLERANCE := 0.15
+## A skill waits on a cooldown, so it must clearly beat the heavy attack,
+## which has none.
+const SKILL_OVER_HEAVY := 1.5
 
 var content: ContentDB
 
@@ -29,8 +32,8 @@ func test_every_skill_out_damages_the_free_heavy_attack() -> void:
 		var heavy := _effective(hero_id, "haymaker")
 		for skill_id: String in _content().hero(hero_id)["skills"]:
 			assert_true(
-				_effective(hero_id, _skill_move(skill_id)) >= heavy,
-				"%s's %s hits at least as hard as the heavy attack" % [hero_id, skill_id]
+				_effective(hero_id, _skill_move(skill_id)) >= heavy * SKILL_OVER_HEAVY,
+				"%s's %s hits 1.5x the heavy attack" % [hero_id, skill_id]
 			)
 
 

@@ -322,6 +322,8 @@ func _drop(pickup: Dictionary, at: Vector2) -> void:
 	_next_pickup += 1
 	var scatter := Vector2(rng.randf_range(-18.0, 18.0), rng.randf_range(-8.0, 8.0))
 	pickup["position"] = LaneMovement.clamp_to(at + scatter, bounds)
+	# Where it dropped from, so views can show it flying out of the enemy.
+	pickup["from"] = at
 	pickups.append(pickup)
 
 

@@ -324,3 +324,32 @@ func test_hud_portrait_shows_the_hero_level_and_low_hp() -> void:
 	assert_eq(portrait.level, 4, "badge follows the level")
 	assert_true(portrait.low_hp, "low HP warning")
 	_done(game)
+
+
+func test_loot_shows_the_item_icon_name_and_rarity() -> void:
+	var game := _game()
+	game.zone.pickups.append(
+		{
+			"id": 900,
+			"kind": "item",
+			"item": "iron_wraps",
+			"amount": 1,
+			"position": Vector2(300, 300)
+		}
+	)
+	game.zone.pickups.append(
+		{"id": 901, "kind": "money", "amount": 12, "position": Vector2(330, 300)}
+	)
+	game.view.sync()
+	var loot: LootView = game.view.find_child("Loot900", true, false)
+	assert_true(loot != null, "item on the ground")
+	var name_label: Label = loot.get_node("Name")
+	assert_eq(name_label.text, "Iron Wraps", "named")
+	assert_eq(loot.color, ItemText.RARITY_COLORS["rare"], "in its rarity colour")
+	var coins: LootView = game.view.find_child("Loot901", true, false)
+	assert_eq((coins.get_node("Name") as Label).text, "12", "coins show the amount")
+	game.zone.pickups.clear()
+	game.view.sync()
+	await tree.create_timer(0.35).timeout
+	assert_true(not is_instance_valid(loot), "collected loot flies off and is freed")
+	_done(game)
