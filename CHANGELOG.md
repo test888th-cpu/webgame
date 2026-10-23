@@ -4,6 +4,18 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — Character art pipeline and first art pack
+- `tools/assets/`: LPC character builder (pinned generator commit, licence policy,
+  recolouring, credits), UnitForge "Godot 4" export importer, SpriteFrames
+  generator, asset validator and 14 pipeline unit tests; `Assets` workflow to
+  build/import in the cloud; CI job validating every asset. See `docs/ASSETS.md`.
+- Nine LPC-built characters (CC0/OGA-BY/CC-BY only): hero Mika and an armoured
+  variant (shown when the Work Jacket is equipped), NPCs Ama and Chief Odo, and all
+  five enemy types including the elite and the boss. `FighterView` plays them with
+  `AnimatedSprite2D`, attack frames stepped by simulation ticks.
+- Title screen: Characters (gallery) and Credits.
+- Tar Hound renamed "Tar Rat" to match its art.
+
 ### Added — Milestone 2, part 2: playable single-player loop
 - Title screen (New game / Continue), pause menu, inventory and equipment, shop,
   quest dialog and log, game over with a coin penalty, notifications, boss HP bar.

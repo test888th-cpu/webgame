@@ -47,6 +47,8 @@ func sync() -> void:
 		alive[f.id] = true
 		if not _views.has(f.id):
 			_views[f.id] = _make_fighter_view(f)
+		if f.id == ZoneSim.HERO_ID:
+			_views[f.id].set_art(hero_art(), content.art)
 		_views[f.id].sync()
 	for id: int in _views.keys():
 		if not alive.has(id):
@@ -120,12 +122,20 @@ func quests_of(npc: Dictionary) -> Array[String]:
 	return ids
 
 
+## The hero's art: the equipped armour's look if it has one, else the default.
+func hero_art() -> String:
+	var armour := content.item(zone.profile.equipment["armor"])
+	if armour.has("hero_sprite"):
+		return str(armour["hero_sprite"])
+	return str(content.progression.get("hero", {}).get("sprite", ""))
+
+
 func _make_fighter_view(f: Fighter) -> FighterView:
 	var view: FighterView = FIGHTER_SCENE.instantiate()
 	view.fighter = f
 	_entities.add_child(view)
 	if f.team == ZoneSim.ENEMY_TEAM:
-		view.setup_enemy(content.enemy(f.kind))
+		view.setup_enemy(content.enemy(f.kind), content.art)
 	return view
 
 
@@ -229,6 +239,7 @@ func _build_npcs() -> void:
 		view.fighter = stand_in
 		view.body_color = Color.from_string(str(npc.get("color", "#888888")), Color.GRAY)
 		_entities.add_child(view)
+		view.set_art(str(npc.get("sprite", "")), content.art)
 		view.sync()
 		var name_label := Label.new()
 		name_label.text = str(npc["name"])

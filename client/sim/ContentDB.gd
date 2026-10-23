@@ -7,6 +7,7 @@ extends RefCounted
 ## validation is what makes that safe.
 
 const DATA_DIR := "res://data"
+const ART_MANIFEST := "res://assets/manifest.json"
 const ITEM_TYPES := ["consumable", "weapon", "armor", "accessory"]
 const EXIT_SIDES := ["west", "east"]
 const NPC_ROLES := ["shop", "quests"]
@@ -19,6 +20,8 @@ var start_area := ""
 var quests: Dictionary = {}
 var shops: Dictionary = {}
 var progression: Dictionary = {}
+## Imported art, from the asset manifest (asset id -> entry).
+var art: Dictionary = {}
 var errors: PackedStringArray = []
 
 
@@ -35,6 +38,7 @@ static func load_all(dir := DATA_DIR) -> ContentDB:
 	db.areas = area_file.get("areas", {})
 	db.start_area = str(area_file.get("start_area", ""))
 	db.progression = db._read(dir.path_join("progression.json"))
+	db.art = db._read(ART_MANIFEST).get("assets", {})
 	db.validate()
 	return db
 
@@ -69,6 +73,7 @@ func validate() -> void:
 	for id: String in areas:
 		_validate_area(id, areas[id])
 	_validate_progression()
+	_validate_art()
 
 
 func _validate_enemy(id: String, e: Dictionary) -> void:
@@ -237,6 +242,30 @@ func _validate_progression() -> void:
 	if xp is Dictionary:
 		_number(xp, "base", "progression.xp", 1)
 		_number(xp, "growth", "progression.xp", 0)
+
+
+## Every sprite named by content must be an imported asset.
+func _validate_art() -> void:
+	var wanted := {}
+	for id: String in enemies:
+		if enemies[id].has("sprite"):
+			wanted[enemies[id]["sprite"]] = "enemies.%s.sprite" % id
+	for id: String in items:
+		if items[id].has("hero_sprite"):
+			wanted[items[id]["hero_sprite"]] = "items.%s.hero_sprite" % id
+	for id: String in areas:
+		for npc: Dictionary in areas[id].get("npcs", []):
+			if npc.has("sprite"):
+				wanted[npc["sprite"]] = "areas.%s.npcs.%s.sprite" % [id, npc.get("id")]
+	var hero: Variant = progression.get("hero")
+	if hero is Dictionary and hero.has("sprite"):
+		wanted[hero["sprite"]] = "progression.hero.sprite"
+	for sprite: String in wanted:
+		var entry: Dictionary = art.get(sprite, {})
+		_check(
+			entry.get("status") == "imported",
+			"%s: art %s is not an imported asset in assets/manifest.json" % [wanted[sprite], sprite]
+		)
 
 
 func _number(container: Dictionary, field: String, where: String, minimum: float) -> void:

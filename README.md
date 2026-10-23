@@ -9,8 +9,9 @@ All characters, places, art, audio and code are original to this project.
 > guard, dodge, loot, money, XP and levels, equipment, quests, local saves, pause and
 > inventory. All rules run in a deterministic 60 Hz simulation (`client/sim/`) that the
 > future zone server will reuse; all content is validated JSON (`client/data/`).
-> Characters are still **placeholder shapes**, and there is **no online play or game
-> server yet**. See [docs/ROADMAP.md](docs/ROADMAP.md).
+> Characters are LPC pixel-art sprites built by the asset pipeline
+> ([docs/ASSETS.md](docs/ASSETS.md)); scenery is still simple. There is **no online play
+> or game server yet**. See [docs/ROADMAP.md](docs/ROADMAP.md).
 
 | | Version |
 |---|---|
@@ -82,6 +83,9 @@ backend/           Account/persistence API (Node.js + TypeScript + Fastify + Pos
 infra/             docker-compose for the local/dev stack
 tools/ci/          Pinned, hash-verified Godot installer; repository policy checks
 tools/web-smoke/   Headless-Chromium browser smoke test (Playwright)
+tools/assets/      Asset pipeline: LPC builder, UnitForge importer, SpriteFrames, validator
+art/               Asset sources: LPC recipes, UnitForge uploads
+client/assets/     Imported art + manifest.json (what the game loads)
 docs/              Repository audit, roadmap and backlog
 ```
 

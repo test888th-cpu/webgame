@@ -27,6 +27,9 @@ var knockdown := false
 ## Shows a warning during startup. Used for slow, heavy enemy attacks so a
 ## player has time to react.
 var telegraph := false
+## Which sprite animation plays this move ("light" or "heavy"). Presentation
+## only; it never affects the rules.
+var anim := "light"
 ## Moves this one can be cancelled into once it has landed a hit.
 ## Keyed by input ("light" / "heavy").
 var chains := {}

@@ -32,7 +32,8 @@
           "x": 430,
           "y": 262,
           "color": "#c0576b",
-          "line": "Buns, tea, gear. Coin first, questions later."
+          "line": "Buns, tea, gear. Coin first, questions later.",
+          "sprite": "npc_ama"
         },
         {
           "id": "chief_odo",
@@ -41,7 +42,8 @@
           "x": 640,
           "y": 262,
           "color": "#4f6fb0",
-          "line": "The street needs clearing. You up for it?"
+          "line": "The street needs clearing. You up for it?",
+          "sprite": "npc_odo"
         }
       ],
       "placed": [

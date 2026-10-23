@@ -2,7 +2,8 @@
   "hero": {
     "max_hp": 100,
     "power": 1.0,
-    "defense": 0
+    "defense": 0,
+    "sprite": "hero_mika"
   },
   "max_level": 20,
   "xp": {

@@ -31,7 +31,7 @@ func test_title_screen_builds_with_new_game_focused() -> void:
 	var title: Control = load("res://scenes/title/Title.tscn").instantiate()
 	tree.root.add_child(title)
 	var buttons := title.find_children("*", "Button", true, false)
-	assert_eq(buttons.size(), 2, "New game and Continue")
+	assert_eq(buttons.size(), 4, "New game, Continue, Characters, Credits")
 	assert_eq((buttons[0] as Button).text, "New game", "New game first")
 	title.free()
 

@@ -31,6 +31,8 @@ func _ready() -> void:
 	list.add_child(tagline)
 	list.add_child(UiKit.button("New game", _new_game))
 	list.add_child(UiKit.button("Continue", _continue, not SaveStore.has_save()))
+	list.add_child(UiKit.button("Characters", _gallery))
+	list.add_child(UiKit.button("Credits", _credits))
 	const HELP := (
 		"Move WASD/arrows  Light J  Heavy K  Dodge Space  Guard Shift\n"
 		+ "Talk E  Eat H  Pause Esc  (gamepad and touch supported)"
@@ -51,6 +53,19 @@ func _process(delta: float) -> void:
 	if _probe_timer >= 0.1:
 		_probe_timer = 0.0
 		GameSession.publish_probe({"scene": "title", "has_save": SaveStore.has_save()})
+
+
+func _gallery() -> void:
+	get_tree().change_scene_to_file("res://scenes/tools/Gallery.tscn")
+
+
+func _credits() -> void:
+	var parts := UiKit.panel("Credits", 420)
+	var list: VBoxContainer = parts[1]
+	list.add_child(UiKit.label(CreditsText.build(GameSession.content), 7))
+	list.add_child(UiKit.button("Close", parts[0].queue_free))
+	add_child(parts[0])
+	UiKit.focus_first(parts[0])
 
 
 func _new_game() -> void:

@@ -34,7 +34,8 @@
       "type": "armor",
       "price": 80,
       "defense": 2,
-      "description": "-2 damage from every hit."
+      "description": "-2 damage from every hit.",
+      "hero_sprite": "hero_mika_armoured"
     },
     "brass_whistle": {
       "name": "Brass Whistle",

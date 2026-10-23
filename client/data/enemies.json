@@ -45,10 +45,11 @@
           }
         ]
       },
-      "color": "#6f8a74"
+      "color": "#6f8a74",
+      "sprite": "smogling"
     },
     "tar_hound": {
-      "name": "Tar Hound",
+      "name": "Tar Rat",
       "max_hp": 22,
       "speed": 1.25,
       "moveset": {
@@ -74,7 +75,8 @@
           }
         ]
       },
-      "color": "#3c3a44"
+      "color": "#3c3a44",
+      "sprite": "tar_hound"
     },
     "pipe_brute": {
       "name": "Pipe Brute",
@@ -110,7 +112,8 @@
         ]
       },
       "color": "#8a5a3c",
-      "scale": 1.2
+      "scale": 1.2,
+      "sprite": "pipe_brute"
     },
     "smog_warden": {
       "name": "Smog Warden",
@@ -148,7 +151,8 @@
         ]
       },
       "color": "#4f7a8c",
-      "scale": 1.25
+      "scale": 1.25,
+      "sprite": "smog_warden"
     },
     "sludge_foreman": {
       "name": "The Sludge Foreman",
@@ -195,7 +199,8 @@
         ]
       },
       "color": "#5b4a7a",
-      "scale": 1.5
+      "scale": 1.5,
+      "sprite": "sludge_foreman"
     }
   }
 }

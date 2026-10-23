@@ -1,0 +1,95 @@
+[
+  {
+    "file": "body/bodies/male",
+    "authors": [
+      "bluecarrot16",
+      "JaidynReiman",
+      "Benjamin K. Smith (BenCreating)",
+      "Evert",
+      "Eliza Wyatt (ElizaWy)",
+      "TheraHedwig",
+      "MuffinElZangano",
+      "Durrani",
+      "Johannes Sj\u00f6lund (wulax)",
+      "Stephen Challener (Redshrike)"
+    ],
+    "license": "OGA-BY 3.0",
+    "offered": [
+      "OGA-BY 3.0",
+      "CC-BY-SA 3.0",
+      "GPL 3.0"
+    ],
+    "urls": [
+      "https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles",
+      "https://opengameart.org/content/lpc-medieval-fantasy-character-sprites",
+      "https://opengameart.org/content/lpc-male-jumping-animation-by-durrani",
+      "https://opengameart.org/content/lpc-runcycle-and-diagonal-walkcycle",
+      "https://opengameart.org/content/lpc-revised-character-basics",
+      "https://opengameart.org/content/lpc-be-seated",
+      "https://opengameart.org/content/lpc-runcycle-for-male-muscular-and-pregnant-character-bases-with-modular-heads",
+      "https://opengameart.org/content/lpc-jump-expanded",
+      "https://opengameart.org/content/lpc-character-bases"
+    ],
+    "notes": "see details at https://opengameart.org/content/lpc-character-bases; 'Thick' Male Revised Run/Climb by JaidynReiman (based on ElizaWy's LPC Revised)"
+  },
+  {
+    "file": "legs/pants2/male",
+    "authors": [
+      "JaidynReiman",
+      "ElizaWy",
+      "Bluecarrot16",
+      "Johannes Sj\u00f6lund (wulax)",
+      "Stephen Challener (Redshrike)"
+    ],
+    "license": "OGA-BY 3.0",
+    "offered": [
+      "OGA-BY 3.0",
+      "GPL 3.0"
+    ],
+    "urls": [
+      "https://github.com/ElizaWy/LPC/tree/main/Characters/Clothing",
+      "https://opengameart.org/content/lpc-expanded-sit-run-jump-more",
+      "https://opengameart.org/content/lpc-expanded-pants"
+    ],
+    "notes": "original overalls by ElizaWy, base animations adapted from v3 overalls by bluecarrot16, pants by JaidynReiman"
+  },
+  {
+    "file": "legs/pants2",
+    "authors": [
+      "ElizaWy",
+      "JaidynReiman",
+      "Johannes Sj\u00f6lund (wulax)",
+      "Stephen Challener (Redshrike)"
+    ],
+    "license": "OGA-BY 3.0",
+    "offered": [
+      "OGA-BY 3.0"
+    ],
+    "urls": [
+      "https://github.com/ElizaWy/LPC/tree/main/Characters/Clothing",
+      "https://opengameart.org/content/lpc-expanded-sit-run-jump-more",
+      "https://opengameart.org/content/lpc-expanded-pants"
+    ],
+    "notes": "Original bases by Redshrike, thrust/shoot bases by Wulax, original pants by ElizaWy, climb/jump/run/sit/emotes/revised combat by JaidynReiman"
+  },
+  {
+    "file": "head/heads/rat",
+    "authors": [
+      "bluecarrot16",
+      "Stephen Challener (Redshrike)",
+      "Napsio (Vitruvian Studio)",
+      "JaidynReiman"
+    ],
+    "license": "OGA-BY 3.0",
+    "offered": [
+      "OGA-BY 3.0",
+      "CC-BY 3.0",
+      "CC-BY-SA 3.0"
+    ],
+    "urls": [
+      "https://opengameart.org/content/bunny-rabbit-lpc-style-for-pixelfarm",
+      "http://opengameart.org/content/lpc-folk"
+    ],
+    "notes": "original rabbit by Redshrike, adapted to modular head by bluecarrot16, modified to rat by bluecarrot16, color reduction by napsio (Vitruvian Studio) and JaidynReiman"
+  }
+]

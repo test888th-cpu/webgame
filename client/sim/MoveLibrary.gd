@@ -95,6 +95,11 @@ func _parse_move(id: String, raw: Variant) -> MoveData:
 			errors.append("%s.%s: expected true or false" % [id, field])
 			continue
 		move.set(field, value)
+	var anim: Variant = raw.get("anim", "light")
+	if anim in ["light", "heavy"]:
+		move.anim = anim
+	else:
+		errors.append('%s.anim: expected "light" or "heavy"' % id)
 	if move.active < 1:
 		errors.append("%s.active: must be at least 1 tick" % id)
 	var chains: Variant = raw.get("chains", {})
