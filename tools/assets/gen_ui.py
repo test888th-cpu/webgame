@@ -488,71 +488,65 @@ WOOD_DARK = (110, 74, 42, 255)
 
 
 def weapon_knife(d: ImageDraw.ImageDraw) -> None:
-    d.polygon([(6, 21), (6, 11), (8, 6), (10, 11), (10, 21)], fill=OUTLINE)
-    d.polygon([(7, 20), (7, 11), (8, 8), (9, 11), (9, 20)], fill=STEEL)
-    d.line((9, 11, 9, 20), fill=STEEL_DARK)
-    d.rectangle((4, 21, 12, 22), fill=OUTLINE)
-    d.rectangle((6, 22, 10, 30), fill=OUTLINE)
-    d.rectangle((7, 23, 9, 29), fill=(60, 44, 36, 255))
-    d.point((8, 25), fill=(200, 170, 90, 255))
+    # Hand-sized: the handle (no outline) sits in the fist, the blade is ~9 px.
+    d.rectangle((6, 15, 9, 24), fill=OUTLINE)
+    d.rectangle((7, 16, 8, 23), fill=STEEL)
+    d.point((8, 15), fill=STEEL)
+    d.line((8, 16, 8, 23), fill=STEEL_DARK)
+    d.line((5, 24, 10, 24), fill=OUTLINE)
+    d.rectangle((7, 25, 8, 29), fill=(60, 44, 36, 255))
 
 
 def weapon_bottle(d: ImageDraw.ImageDraw) -> None:
-    d.rounded_rectangle((4, 2, 12, 19), radius=2, fill=OUTLINE)
-    d.rounded_rectangle((5, 3, 11, 18), radius=2, fill=(54, 130, 70, 255))
-    d.rectangle((6, 18, 10, 30), fill=OUTLINE)
-    d.rectangle((7, 19, 9, 29), fill=(54, 130, 70, 255))
-    d.rectangle((5, 8, 11, 13), fill=(232, 220, 180, 255))
-    d.line((6, 4, 6, 16), fill=(150, 220, 160, 255))
-    d.rectangle((7, 29, 9, 30), fill=(200, 160, 60, 255))
+    d.rounded_rectangle((5, 10, 10, 21), radius=1, fill=OUTLINE)
+    d.rectangle((6, 11, 9, 20), fill=(54, 130, 70, 255))
+    d.rectangle((6, 14, 9, 16), fill=(232, 220, 180, 255))
+    d.line((6, 11, 6, 19), fill=(150, 220, 160, 255))
+    d.rectangle((7, 21, 8, 29), fill=(54, 130, 70, 255))
+    d.line((7, 29, 8, 29), fill=(200, 160, 60, 255))
 
 
 def weapon_plank(d: ImageDraw.ImageDraw) -> None:
-    d.rectangle((5, 0, 11, 30), fill=OUTLINE)
-    d.rectangle((6, 1, 10, 29), fill=WOOD)
-    for y in (5, 13, 20):
-        d.line((7, y, 9, y + 3), fill=WOOD_DARK)
-    d.point((8, 3), fill=STEEL)
-    d.line((10, 2, 12, 1), fill=STEEL)
-    d.rectangle((6, 23, 10, 29), fill=(90, 60, 40, 255))
+    d.rectangle((6, 6, 10, 29), fill=OUTLINE)
+    d.rectangle((7, 7, 9, 28), fill=WOOD)
+    for y in (10, 17):
+        d.line((8, y, 9, y + 2), fill=WOOD_DARK)
+    d.line((9, 8, 11, 7), fill=STEEL)
+    d.rectangle((7, 24, 9, 28), fill=(90, 60, 40, 255))
 
 
 def weapon_pipe(d: ImageDraw.ImageDraw) -> None:
-    d.rectangle((6, 0, 10, 30), fill=OUTLINE)
-    d.rectangle((7, 1, 9, 29), fill=STEEL_DARK)
-    d.line((7, 1, 7, 29), fill=STEEL)
-    d.rectangle((5, 0, 11, 2), fill=OUTLINE)
-    d.rectangle((6, 1, 10, 1), fill=STEEL)
-    for y in range(23, 30, 2):
-        d.line((7, y, 9, y), fill=(40, 40, 46, 255))
+    d.rectangle((6, 6, 9, 29), fill=OUTLINE)
+    d.rectangle((7, 7, 8, 28), fill=STEEL_DARK)
+    d.line((7, 7, 7, 28), fill=STEEL)
+    d.rectangle((5, 6, 10, 7), fill=OUTLINE)
+    for y in range(24, 29, 2):
+        d.line((7, y, 8, y), fill=(40, 40, 46, 255))
 
 
 def weapon_machete(d: ImageDraw.ImageDraw) -> None:
-    d.polygon([(5, 21), (5, 6), (8, 1), (11, 4), (11, 21)], fill=OUTLINE)
-    d.polygon([(6, 20), (6, 6), (8, 2), (10, 5), (10, 20)], fill=STEEL)
-    d.line((6, 6, 6, 20), fill=(240, 244, 250, 255))
-    d.line((10, 6, 10, 20), fill=STEEL_DARK)
-    d.rectangle((4, 21, 12, 22), fill=OUTLINE)
-    d.rectangle((6, 22, 10, 30), fill=OUTLINE)
-    d.rectangle((7, 23, 9, 29), fill=(40, 36, 34, 255))
-    for y in (24, 27):
-        d.point((8, y), fill=STEEL)
+    d.polygon([(5, 23), (5, 12), (8, 8), (10, 10), (10, 23)], fill=OUTLINE)
+    d.polygon([(6, 22), (6, 12), (8, 9), (9, 11), (9, 22)], fill=STEEL)
+    d.line((6, 12, 6, 22), fill=(240, 244, 250, 255))
+    d.line((9, 12, 9, 22), fill=STEEL_DARK)
+    d.line((5, 24, 10, 24), fill=OUTLINE)
+    d.rectangle((7, 25, 8, 29), fill=(40, 36, 34, 255))
 
 
 def weapon_chair(d: ImageDraw.ImageDraw) -> None:
     # A folding chair from the side, held upside down by the top of its back:
     # backrest at the grip, seat and crossed legs swinging out beyond it.
     metal = (110, 116, 130, 255)
-    d.line((4, 2, 4, 29), fill=OUTLINE, width=3)
-    d.line((4, 2, 4, 29), fill=metal)
-    d.rectangle((2, 21, 7, 29), fill=OUTLINE)
-    d.rectangle((3, 22, 6, 28), fill=(170, 60, 50, 255))
-    d.rectangle((3, 13, 14, 16), fill=OUTLINE)
-    d.rectangle((4, 14, 13, 15), fill=(170, 60, 50, 255))
-    d.line((5, 13, 13, 2), fill=OUTLINE, width=3)
-    d.line((5, 13, 13, 2), fill=metal)
-    d.line((13, 13, 5, 2), fill=OUTLINE, width=3)
-    d.line((13, 13, 5, 2), fill=metal)
+    d.line((6, 12, 6, 29), fill=OUTLINE, width=3)
+    d.line((6, 12, 6, 29), fill=metal)
+    d.rectangle((5, 23, 9, 29), fill=OUTLINE)
+    d.rectangle((6, 24, 8, 28), fill=(170, 60, 50, 255))
+    d.rectangle((5, 17, 13, 19), fill=OUTLINE)
+    d.line((6, 18, 12, 18), fill=(170, 60, 50, 255))
+    d.line((7, 17, 12, 9), fill=OUTLINE, width=3)
+    d.line((7, 17, 12, 9), fill=metal)
+    d.line((12, 17, 7, 9), fill=OUTLINE, width=3)
+    d.line((12, 17, 7, 9), fill=metal)
 
 
 WEAPONS = {

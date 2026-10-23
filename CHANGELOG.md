@@ -4,6 +4,11 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed — Weapons sized to the hand
+- Held weapons are redrawn at the characters' scale (knife blade ~9 px, bottle ~12 px,
+  plank and pipe ~23 px, folding chair ~20 px) with slim, unoutlined handles so the fist
+  still shows around the grip. Before, they were nearly half a character tall.
+
 ### Added — Three new areas, street weapons and smarter enemies
 - The street goes on past the Sludge Foreman: **Rail Yards** (level 4), **Night Market**
   (level 6, with Kenji's Night Stall) and **Smokestack Refinery** (level 8, boss: the
