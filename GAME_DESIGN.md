@@ -89,7 +89,8 @@ equipment) is stored per hero. Temporary combat state is never persisted.
   knocks down but slows you), wears out with each blow that lands (a bottle breaks
   after two) and is drawn in the fighter's hand, following every swing. **Anyone
   knocked down drops their weapon** and must pick it up again. Skills and items work
-  as usual while armed.
+  as usual while armed. Weapons belong to their street: leaving an area puts the
+  weapon down there, and it is still lying there on return (for the session).
 - **[built] Area levels** (`client/sim/LevelRules.gd`): each area has a level, and its
   enemies fight at it: +20% HP, +8% damage, +2% speed (capped at +30%) and +1 defense
   every 3 levels above 1, with XP +25% and coins +20% per level. They also think

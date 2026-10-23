@@ -146,3 +146,20 @@ func test_weapons_are_not_scattered_under_npcs() -> void:
 					absf(entry["position"].x - float(npc["x"])) >= ZoneSim.NPC_CLEARANCE,
 					"seed %d: weapon clear of %s" % [seed, npc["id"]]
 				)
+
+
+func test_leaving_an_area_leaves_the_weapon_behind() -> void:
+	var zone := _zone()
+	zone.equip_weapon(zone.hero, "pipe", 7)
+	zone.hero.position.x = zone.bounds.end.x
+	var walk := FighterInput.new()
+	walk.move = Vector2.RIGHT
+	var events := zone.tick(walk)
+	assert_eq(_types(events), ["weapon_drop", "exit"], "dropped, then left")
+	assert_eq(zone.hero.weapon, "", "nothing carried out")
+	assert_eq(zone.ground_weapons.back()["uses"], 7, "the pipe stays, worn as it was")
+	var again := _zone()
+	again.restore_weapons(zone.ground_weapons)
+	assert_eq(again.ground_weapons.back()["weapon"], "pipe", "still there on return")
+	var fresh := again.place_weapon("knife", Vector2(300, 300), 14)
+	assert_true(fresh["id"] > int(zone.ground_weapons.back()["id"]), "ids never repeat")

@@ -101,7 +101,7 @@ validator regenerates the sheet in memory and fails when it is stale or an item
 names an unknown icon. See [UI.md](UI.md).
 
 The same sheet holds the street weapons (knife, bottle, plank, steel pipe, machete,
-folding chair) as 16x32 sprites drawn upright with the grip at `weapon_grip` (8, 27),
+folding chair) as sprites in 16x32 cells, drawn upright at the characters' scale with the grip at `weapon_grip` (8, 27),
 so the game can turn them about the hand; `weapons.json` names each one's `sprite`
 and the validator checks it exists. The chair is drawn upside down, held by the top
 of its back, the way one swings a folding chair.
