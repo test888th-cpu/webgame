@@ -109,10 +109,13 @@ jobs:
         with:
           node-version-file: .nvmrc
       - run: docker build -t ironbound-api:ci backend
-      - name: Image runs as non-root on the pinned Node.js
+      - name: Image runs as non-root on the pinned Node.js, without build tools
         run: |
           test "$(docker run --rm ironbound-api:ci id -u)" != "0"
           test "$(docker run --rm ironbound-api:ci node -v)" = "v$(cat .nvmrc)"
+          if docker run --rm ironbound-api:ci sh -c 'command -v npm || command -v npx'; then
+            echo "npm/npx must not be present in the runtime image"; exit 1
+          fi
       - name: Install Trivy 0.76.1
         run: |
           base=https://github.com/aquasecurity/trivy/releases/download/v0.76.1

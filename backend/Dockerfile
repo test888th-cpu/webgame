@@ -1,13 +1,22 @@
 # API service image. Node runs the TypeScript sources directly (type stripping),
-# so there is no separate build stage.
+# so there is no compile step; the first stage only installs dependencies.
+FROM node:24.22.1-bookworm-slim AS deps
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev --no-audit --no-fund
+
 FROM node:24.22.1-bookworm-slim
+# npm, npx and corepack are build tools the service never runs. Removing them
+# also removes their bundled dependencies from the runtime attack surface
+# (Trivy flagged npm's bundled brace-expansion and undici).
+RUN rm -rf /usr/local/lib/node_modules/npm /usr/local/lib/node_modules/corepack \
+      /usr/local/bin/npm /usr/local/bin/npx /usr/local/bin/corepack \
+      /usr/local/bin/yarn /usr/local/bin/yarnpkg /opt/yarn-*
 
 ENV NODE_ENV=production
 WORKDIR /app
-
-COPY package.json package-lock.json ./
-RUN npm ci --omit=dev --no-audit --no-fund && npm cache clean --force
-
+COPY --from=deps /app/node_modules ./node_modules
+COPY package.json ./
 COPY src ./src
 COPY migrations ./migrations
 

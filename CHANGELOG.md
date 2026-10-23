@@ -18,3 +18,8 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
   Security: gitleaks, npm audit, dependency review. Gated GitHub Pages deployment of the
   CI artifact.
 - Documentation set and repository audit.
+
+### Security
+- Runtime image drops npm, npx and corepack (multi-stage build). Their bundled
+  `brace-expansion` 5.0.9 and `undici` 6.28.0 had HIGH CVEs (CVE-2026-102276,
+  CVE-2026-102278, CVE-2026-19534) reported by Trivy; the API never runs them.
