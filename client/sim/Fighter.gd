@@ -44,6 +44,8 @@ var skills := {}
 var cooldowns := {}
 ## A skill pressed during an attack, used if the attack can be cancelled.
 var queued_skill := ""
+## state_tick of the latest queued press (for the input buffer).
+var queued_tick := 0
 
 
 func _init(p_id := 0, p_team := 0, p_position := Vector2.ZERO, p_max_hp := 100) -> void:

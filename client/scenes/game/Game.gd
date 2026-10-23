@@ -89,6 +89,7 @@ func _physics_process(_delta: float) -> void:
 	if not modifier and Input.is_action_just_pressed("use_item"):
 		quick_heal()
 	var input := PlayerInput.read()
+	_explain_refusals(input)
 	var slot := PlayerInput.slot_pressed()
 	if _clicked_slot >= 0:
 		slot = _clicked_slot
@@ -96,6 +97,22 @@ func _physics_process(_delta: float) -> void:
 	if slot >= 0:
 		use_slot(slot, input)
 	step(input)
+
+
+## A heavy attack or dodge without the energy for it does nothing in the
+## simulation; say so with a sound and a blinking energy bar.
+func _explain_refusals(input: FighterInput) -> void:
+	var hero := zone.hero
+	if hero.state != Fighter.State.IDLE:
+		return
+	var heavy := content.moves.get_move(CombatRules.starter(hero, content.moves, "heavy"))
+	var short := (
+		(input.heavy and heavy and hero.energy < heavy.energy_cost)
+		or (input.dodge and hero.energy < CombatRules.DODGE_COST)
+	)
+	if short:
+		Sfx.play("denied", -6.0)
+		_hud.flash_energy()
 
 
 ## Presses hotbar slot `index` for this tick's input. Checks here only give
@@ -116,7 +133,7 @@ func use_slot(index: int, input: FighterInput) -> bool:
 			elif zone.hero.cooldown_left(skill_id) > 0:
 				ok = false
 			elif zone.hero.energy < move.energy_cost:
-				_hud.toast("Not enough energy")
+				_hud.flash_energy()
 				ok = false
 			else:
 				input.skill = skill_id

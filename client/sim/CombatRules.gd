@@ -26,6 +26,10 @@ const GUARD_DRAIN := 0.2
 const GUARD_BREAK_STUN := 40
 
 const KNOCKDOWN_TICKS := 50
+## A button pressed this many ticks or fewer before an attack ends is not
+## lost: it starts as soon as the attack is over (an input buffer), so
+## mashing during a missed swing still feels responsive.
+const INPUT_BUFFER_TICKS := 12
 ## Share of the remaining knockback applied each tick (ease-out slide).
 const KNOCKBACK_RATE := 0.25
 ## Half the width of a fighter's body for hit tests.
@@ -169,10 +173,13 @@ static func start_skill(f: Fighter, skill_id: String, library: MoveLibrary) -> b
 static func _step_attack(f: Fighter, input: FighterInput, library: MoveLibrary) -> void:
 	if input.skill:
 		f.queued_skill = input.skill
+		f.queued_tick = f.state_tick
 	elif input.heavy:
 		f.queued = "heavy"
+		f.queued_tick = f.state_tick
 	elif input.light:
 		f.queued = "light"
+		f.queued_tick = f.state_tick
 	var move := f.move
 	# Chains open once the hitbox has closed, and only after a connected hit.
 	# A queued skill cancels the rest of any attack that connected.
@@ -187,7 +194,16 @@ static func _step_attack(f: Fighter, input: FighterInput, library: MoveLibrary) 
 		if next_id and _start_move(f, library.get_move(next_id)):
 			return
 	if f.state_tick >= move.total_ticks():
+		var buffered := f.state_tick - f.queued_tick <= INPUT_BUFFER_TICKS
+		var skill_id := f.queued_skill
+		var button := f.queued
 		f.enter(Fighter.State.IDLE)
+		if not buffered:
+			return
+		if skill_id and start_skill(f, skill_id, library):
+			return
+		if button:
+			_start_move(f, library.get_move(starter(f, library, button)))
 
 
 ## Lunging moves carry the attacker forward until the hitbox closes.

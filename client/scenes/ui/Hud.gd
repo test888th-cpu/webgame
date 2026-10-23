@@ -94,6 +94,11 @@ func flash_slot(index: int, accepted: bool) -> void:
 		_hotbar.slots[index].flash(accepted)
 
 
+## The energy bar blinks: an action needed more energy than the hero has.
+func flash_energy() -> void:
+	_energy.flash()
+
+
 ## Red edges for a moment: the hero was hit.
 func hurt(strength := 1.0) -> void:
 	_hurt = maxf(_hurt, 0.35 * strength)
