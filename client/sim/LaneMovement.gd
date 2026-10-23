@@ -21,10 +21,14 @@ const MAX_STEP_SECONDS := 0.1
 static func step(position: Vector2, input: Vector2, delta: float, bounds: Rect2) -> Vector2:
 	var dt := clampf(delta, 0.0, MAX_STEP_SECONDS)
 	var dir := input.limit_length(1.0)
-	var moved := position + Vector2(dir.x * WALK_SPEED_X, dir.y * WALK_SPEED_Y) * dt
+	return clamp_to(position + Vector2(dir.x * WALK_SPEED_X, dir.y * WALK_SPEED_Y) * dt, bounds)
+
+
+## Keeps a position inside the walkable street.
+static func clamp_to(position: Vector2, bounds: Rect2) -> Vector2:
 	return Vector2(
-		clampf(moved.x, bounds.position.x, bounds.end.x),
-		clampf(moved.y, bounds.position.y, bounds.end.y)
+		clampf(position.x, bounds.position.x, bounds.end.x),
+		clampf(position.y, bounds.position.y, bounds.end.y)
 	)
 
 
