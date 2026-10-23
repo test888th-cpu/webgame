@@ -4,6 +4,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed — Skills worth their cooldown
+- The heavy attack (X/K) has no cooldown, so it no longer rivals skills: 13 damage
+  (was 18) and 20 energy (was 15). Skills hit harder: Mika 26/22/28/45, Oren
+  28/24/30/50 (base). `test_balance.gd` now requires every skill to hit at least 1.5x
+  the heavy attack.
+
 ### Added — Readable loot
 - Items on the street show their own icon (at 2x, sharp) with a shadow, a glow and, for
   uncommon and better, a light beam in the rarity colour (taller for rarer items); epic

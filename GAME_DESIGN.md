@@ -52,17 +52,18 @@ equipment) is stored per hero. Temporary combat state is never persisted.
 
   | Slot | Skill | Energy | Cooldown | Unlock | Role |
   |---|---|---|---|---|---|
-  | 2 | Rising Uppercut | 10 | 4 s | Lv 1 | 20 damage; fast single-target knockdown; combo ender |
-  | 3 | Whirlwind Kick | 20 | 7 s | Lv 1 | 18 damage; hits both sides; escape when surrounded |
-  | 4 | Shoulder Rush | 15 | 6 s | Lv 2 | 22 damage; 90 px charge through a line; breaks guard |
-  | 5 | Furnace Slam | 40 | 20 s | Lv 3 | 38 damage; big area knockdown; breaks guard |
+  | 2 | Rising Uppercut | 10 | 4 s | Lv 1 | 26 damage; fast single-target knockdown; combo ender |
+  | 3 | Whirlwind Kick | 20 | 7 s | Lv 1 | 22 damage; hits both sides; escape when surrounded |
+  | 4 | Shoulder Rush | 15 | 6 s | Lv 2 | 28 damage; 90 px charge through a line; breaks guard |
+  | 5 | Furnace Slam | 40 | 20 s | Lv 3 | 45 damage; big area knockdown; breaks guard |
 
   Balance (Mika / Oren): Mika is damage and mobility (power 110%, speed 110%, 100 HP,
   0 defense, shorter cooldowns, faster skills); Oren is toughness and control (power
   100%, speed 85%, 130 HP, 2 defense, wider skills and longer stuns, slower start-up).
-  Oren's skills carry more base damage (22/20/24/42) so that with his lower power each
-  slot lands within 15% of Mika's; every skill out-damages the free heavy attack (18),
-  and the slot-5 skill is each hero's strongest. `tests/unit/test_balance.gd` enforces
+  Oren's skills carry more base damage (28/24/30/50) so that with his lower power each
+  slot lands within 15% of Mika's. The heavy attack (X/K) has no cooldown, so it is the
+  weaker, energy-hungry option (13 damage, 20 energy) and every skill hits at least 1.5x
+  as hard; the slot-5 skill is each hero's strongest. `tests/unit/test_balance.gd` enforces
   these rules.
 
   Energy (which also pays for dodges, guard and the haymaker) is the shared budget,
