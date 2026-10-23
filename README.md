@@ -3,7 +3,8 @@
 A browser-first, persistent online beat 'em up RPG built with **Godot 4.7.2 (GDScript)**.
 All characters, places, art, audio and code are original to this project.
 
-> **Status: Milestone 2 — playable single-player loop.** Title screen, three areas
+> **Status: Milestone 2 — playable single-player loop.** Title screen, hero creation
+> (two heroes, Mika and Oren, each with their own stats and skills; name your hero), three areas
 > (home base with a shop, a quest giver and a training dummy; a street of enemy waves;
 > a boss zone), five enemy types including an elite and a two-phase boss, combos,
 > guard, dodge, loot, money, XP and levels, equipment, quests, local saves, pause and
@@ -56,8 +57,8 @@ GitHub → **Actions** → **CI**. Each run has these jobs:
 |---|---|
 | Repository policy | Required docs exist; `.env.example` has placeholders only; no key files tracked |
 | GDScript lint and format | `gdlint` and `gdformat --check` (gdtoolkit 4.5.0) |
-| Godot project opens and tests pass | Headless import with no script errors; 97 unit/scene tests (combat, skills, AI, encounters, loot, quests, shop, saves, game scenes, interface, effects) |
-| Web export and browser smoke test | Release web export; headless Chromium loads it, waits for boot, **plays it with real keys: title → new game → combo on the dummy → a skill from the hotbar → pause → next area → a real fight**; uploads the build, a manifest with SHA-256s and a screenshot |
+| Godot project opens and tests pass | Headless import with no script errors; 105 unit/scene tests (combat, skills, heroes, AI, encounters, loot, quests, shop, saves, game scenes, interface, effects) |
+| Web export and browser smoke test | Release web export; headless Chromium loads it, waits for boot, **plays it with real keys: title → new game → hero creation (pick a hero, type a name) → combo on the dummy → a skill from the hotbar → pause → next area → a real fight**; uploads the build, a manifest with SHA-256s and a screenshot |
 | Backend typecheck, tests and migrations | `tsc`, API + migration tests against a real PostgreSQL, fresh-DB migration, API reaches `/readyz` |
 | Backend image build, container scan and SBOM | Docker image builds, runs as non-root on the pinned Node, Trivy scan, CycloneDX SBOM |
 

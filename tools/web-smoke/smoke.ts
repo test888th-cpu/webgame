@@ -1,6 +1,6 @@
 // Serves a Godot web export over HTTP, opens it in headless Chromium, waits
 // for the client's boot marker on the console, then holds real keys and checks
-// that the game plays: title -> new game, movement, a combo on the training
+// that the game plays: title -> new game -> hero creation, movement, a combo on the training
 // dummy, the pause menu, walking to the next area and fighting its enemies
 // (all via the read-only window.ironboundProbe).
 //
@@ -58,6 +58,8 @@ interface Probe {
   hits: number;
   hero_hits: number;
   cooldowns: Record<string, number>;
+  hero?: string;
+  name?: string;
 }
 
 // A deployed build is tested where it is; an export directory is served
@@ -162,8 +164,20 @@ try {
   // Title screen -> New game (focused by default).
   await waitFor("the title screen", (p) => p.scene === "title", 10_000);
   await page.keyboard.press("Enter");
+  // Hero creation: pick the second hero with the keyboard, type a name, start.
+  await waitFor("hero creation", (p) => p.scene === "create", 10_000);
+  await page.keyboard.press("ArrowDown");
+  const chosen = await waitFor("the second hero", (p) => p.hero !== undefined && p.hero !== "mika", 3_000);
+  await page.keyboard.press("Enter");
+  await page.keyboard.press("Control+A");
+  await page.keyboard.type("Smoke Test");
+  await waitFor("the typed name", (p) => p.name === "Smoke Test", 3_000);
+  await page.keyboard.press("Enter");
   const start = await waitFor("the game to start", (p) => p.scene === "game", 15_000);
-  console.log(`new game: ${start.area}, level ${start.level}, ${start.enemies.length} enemy`);
+  if (start.hero !== chosen.hero || start.name !== "Smoke Test") {
+    problems.push(`started as ${start.hero}/${start.name}, expected ${chosen.hero}/Smoke Test`);
+  }
+  console.log(`new game: ${start.hero} "${start.name}" in ${start.area}, level ${start.level}, ${start.enemies.length} enemy`);
 
   // Movement.
   await hold("ArrowRight", 800);
@@ -209,18 +223,20 @@ try {
   }
   console.log(`combat: ${fought.hero_hits - before.hero_hits} hit(s), dummy hp ${dummyBefore} -> ${dummyAfter}`);
 
-  // Hotbar slot 3 (number key) casts the Whirlwind Kick, which reaches the
-  // dummy on either side and starts its cooldown.
+  // Hotbar slot 3 (number key) casts the hero's second skill, which reaches
+  // the dummy in front and starts its cooldown.
   await page.waitForTimeout(900); // the dummy gets back up
   const preSkill = await lineUp();
   await page.keyboard.press("Digit3");
-  const cast = await waitFor("the skill cooldown", (p) => (p.cooldowns?.whirlwind_kick ?? 0) > 0, 3_000);
+  const cooling = (p: Probe): string[] => Object.keys(p.cooldowns ?? {}).filter((id) => p.cooldowns[id] > 0);
+  const cast = await waitFor("a skill cooldown", (p) => cooling(p).length > 0, 3_000);
   await page.waitForTimeout(600);
   const afterSkill = await probe();
   if (!(afterSkill.hero_hits > preSkill.hero_hits)) {
-    problems.push(`the whirlwind kick did not hit: hits ${preSkill.hero_hits} -> ${afterSkill.hero_hits}`);
+    problems.push(`the skill did not hit: hits ${preSkill.hero_hits} -> ${afterSkill.hero_hits}`);
   }
-  console.log(`skill: whirlwind kick cast (cooldown ${cast.cooldowns.whirlwind_kick} ticks), hits ${preSkill.hero_hits} -> ${afterSkill.hero_hits}`);
+  const skill = cooling(cast)[0];
+  console.log(`skill: ${skill} cast (cooldown ${cast.cooldowns[skill]} ticks), hits ${preSkill.hero_hits} -> ${afterSkill.hero_hits}`);
 
   // Pause menu opens and closes.
   await page.keyboard.press("Escape");

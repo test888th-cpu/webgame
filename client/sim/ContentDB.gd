@@ -13,6 +13,9 @@ const EXIT_SIDES := ["west", "east"]
 const NPC_ROLES := ["shop", "quests"]
 const HOTBAR_TYPES := ["attack", "skill", "item"]
 const HOTBAR_SLOTS := 7
+## Skills each hero brings to the hotbar.
+const HERO_SKILLS := 4
+const HERO_STATS := ["max_hp", "power", "defense", "speed"]
 
 var moves: MoveLibrary
 var enemies: Dictionary = {}
@@ -22,6 +25,9 @@ var start_area := ""
 var quests: Dictionary = {}
 var shops: Dictionary = {}
 var progression: Dictionary = {}
+## Playable heroes (id -> definition) and the order the selection screen shows.
+var heroes: Dictionary = {}
+var hero_order: Array = []
 ## Hero skills (skill id -> definition) and the hotbar layout, from skills.json.
 var skills: Dictionary = {}
 var hotbar: Array = []
@@ -37,6 +43,8 @@ var ui: Dictionary = {}
 ## ({"sounds": {id: path}}). Presentation only.
 var fx: Dictionary = {}
 var audio: Dictionary = {}
+## Bundled fonts: {"thai": {"file", "license", ...}}.
+var fonts: Dictionary = {}
 var errors: PackedStringArray = []
 
 
@@ -53,6 +61,8 @@ static func load_all(dir := DATA_DIR) -> ContentDB:
 	db.areas = area_file.get("areas", {})
 	db.start_area = str(area_file.get("start_area", ""))
 	db.progression = db._read(dir.path_join("progression.json"))
+	db.heroes = db._section(dir, "heroes.json", "heroes")
+	db.hero_order = db._read(dir.path_join("heroes.json")).get("order", [])
 	var skill_file := db._read(dir.path_join("skills.json"))
 	db.skills = skill_file.get("skills", {})
 	db.hotbar = skill_file.get("hotbar", [])
@@ -63,6 +73,7 @@ static func load_all(dir := DATA_DIR) -> ContentDB:
 	db.ui = manifest.get("ui", {})
 	db.fx = manifest.get("fx", {})
 	db.audio = manifest.get("audio", {})
+	db.fonts = manifest.get("fonts", {})
 	db.validate()
 	return db
 
@@ -83,6 +94,22 @@ func area(id: String) -> Dictionary:
 	return areas.get(id, {})
 
 
+func hero(id: String) -> Dictionary:
+	return heroes.get(id, {})
+
+
+## The hotbar for one hero: the template with its skill slots filled in.
+func hotbar_for(hero_id: String) -> Array[Dictionary]:
+	var hero_skills: Array = hero(hero_id).get("skills", [])
+	var result: Array[Dictionary] = []
+	for slot: Dictionary in hotbar:
+		var entry := slot.duplicate()
+		if entry["type"] == "skill":
+			entry["id"] = str(hero_skills[int(entry["hero_skill"])])
+		result.append(entry)
+	return result
+
+
 func validate() -> void:
 	for id: String in enemies:
 		_validate_enemy(id, enemies[id])
@@ -97,6 +124,7 @@ func validate() -> void:
 	for id: String in areas:
 		_validate_area(id, areas[id])
 	_validate_progression()
+	_validate_heroes()
 	_validate_skills()
 	_validate_art()
 
@@ -256,11 +284,55 @@ func _validate_area(id: String, a: Dictionary) -> void:
 				)
 
 
+func _validate_heroes() -> void:
+	_check(not hero_order.is_empty(), "heroes.order: at least one hero")
+	for id: Variant in hero_order:
+		_check(heroes.has(str(id)), "heroes.order: unknown hero %s" % id)
+	for id: String in heroes:
+		var where := "heroes.%s" % id
+		var h: Variant = heroes[id]
+		if not h is Dictionary:
+			errors.append(where + ": expected an object")
+			continue
+		for field in ["name", "default_name", "title", "tagline", "bio"]:
+			_check(str(h.get(field, "")) != "", "%s.%s: required" % [where, field])
+		_check(
+			PlayerProfile.clean_name(str(h.get("default_name", ""))) != "",
+			"%s.default_name: not a valid player name" % where
+		)
+		var stats: Variant = h.get("stats")
+		_check(stats is Dictionary, where + ".stats: expected an object")
+		if stats is Dictionary:
+			for stat: String in HERO_STATS:
+				_number(stats, stat, where + ".stats", 0)
+			_check(float(stats.get("max_hp", 0)) >= 1, where + ".stats.max_hp: at least 1")
+			_check(float(stats.get("speed", 0)) > 0, where + ".stats.speed: above 0")
+		_number(h, "difficulty", where, 1)
+		var sprites: Variant = h.get("sprites")
+		_check(
+			sprites is Dictionary and sprites.has("default"), where + ".sprites.default: required"
+		)
+		var hero_skills: Variant = h.get("skills")
+		_check(
+			hero_skills is Array and hero_skills.size() == HERO_SKILLS,
+			"%s.skills: expected %d skills" % [where, HERO_SKILLS]
+		)
+		if hero_skills is Array:
+			for skill_id: Variant in hero_skills:
+				_check(skills.has(str(skill_id)), "%s.skills: unknown skill %s" % [where, skill_id])
+	# Every item look (e.g. "armoured") must exist for every hero.
+	for item_id: String in items:
+		var look := str(items[item_id].get("look", ""))
+		if look == "":
+			continue
+		for id: String in heroes:
+			_check(
+				heroes[id] is Dictionary and heroes[id].get("sprites", {}).has(look),
+				"items.%s.look: hero %s has no %s sprite" % [item_id, id, look]
+			)
+
+
 func _validate_progression() -> void:
-	var hero: Variant = progression.get("hero")
-	_check(hero is Dictionary, "progression.hero: expected an object")
-	if hero is Dictionary:
-		_number(hero, "max_hp", "progression.hero", 1)
 	_number(progression, "max_level", "progression", 1)
 	var xp: Variant = progression.get("xp")
 	_check(xp is Dictionary, "progression.xp: expected an object")
@@ -296,7 +368,11 @@ func _validate_skills() -> void:
 			continue
 		match slot["type"]:
 			"skill":
-				_check(skills.has(str(slot.get("id"))), where + ": unknown skill")
+				var index: Variant = slot.get("hero_skill")
+				_check(
+					(index is int or index is float) and index >= 0 and index < HERO_SKILLS,
+					where + ": hero_skill must be 0..%d" % (HERO_SKILLS - 1)
+				)
 			"item":
 				var item_data := item(str(slot.get("id")))
 				_check(item_data.get("type") == "consumable", where + ": not a consumable")
@@ -311,16 +387,15 @@ func _validate_art() -> void:
 	for id: String in enemies:
 		if enemies[id].has("sprite"):
 			wanted[enemies[id]["sprite"]] = "enemies.%s.sprite" % id
-	for id: String in items:
-		if items[id].has("hero_sprite"):
-			wanted[items[id]["hero_sprite"]] = "items.%s.hero_sprite" % id
 	for id: String in areas:
 		for npc: Dictionary in areas[id].get("npcs", []):
 			if npc.has("sprite"):
 				wanted[npc["sprite"]] = "areas.%s.npcs.%s.sprite" % [id, npc.get("id")]
-	var hero: Variant = progression.get("hero")
-	if hero is Dictionary and hero.has("sprite"):
-		wanted[hero["sprite"]] = "progression.hero.sprite"
+	for id: String in heroes:
+		if heroes[id] is Dictionary:
+			var sprites: Dictionary = heroes[id].get("sprites", {})
+			for look: String in sprites:
+				wanted[sprites[look]] = "heroes.%s.sprites.%s" % [id, look]
 	var icons: Dictionary = ui.get("icons", {}).get("regions", {})
 	for id: String in items:
 		var icon := str(items[id].get("icon", ""))

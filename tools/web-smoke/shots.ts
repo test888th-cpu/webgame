@@ -1,7 +1,7 @@
 // Captures screenshots of key UI states from a web export, for visual review.
 //   node shots.ts <export-dir> <out-dir> [steps...]
 // Each step is "key:<Key>" (press), "hold:<Key>:<ms>", "wait:<ms>", "shot:<name>" or
-// "walk:<x>:<y>" (walks the hero there, steering by the read-only probe).
+// "type:<text>" or "walk:<x>:<y>" (walks the hero there, steering by the read-only probe).
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
 import { extname, join, resolve } from "node:path";
@@ -31,6 +31,19 @@ await page.waitForTimeout(800);
 for (const step of steps) {
   const [kind, a, b] = step.split(":");
   if (kind === "key") await page.keyboard.press(a!);
+  if (kind === "type") await page.keyboard.type(step.slice(5));
+  // Characters with no key on a US layout (e.g. Thai), sent as key events.
+  if (kind === "chars") {
+    for (const ch of step.slice(6)) {
+      await page.evaluate((key) => {
+        const canvas = document.querySelector("canvas")!;
+        for (const type of ["keydown", "keypress", "keyup"]) {
+          canvas.dispatchEvent(new KeyboardEvent(type, { key, bubbles: true }));
+        }
+      }, ch);
+      await page.waitForTimeout(40);
+    }
+  }
   if (kind === "hold") { await page.keyboard.down(a!); await page.waitForTimeout(Number(b)); await page.keyboard.up(a!); }
   if (kind === "wait") await page.waitForTimeout(Number(a));
   if (kind === "shot") await page.screenshot({ path: `${out}/${a}.png` });

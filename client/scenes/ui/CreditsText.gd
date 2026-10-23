@@ -36,5 +36,28 @@ static func build(content: ContentDB) -> String:
 		+ "Sprite artists: %s.\n\n" % ", ".join(names)
 		+ "Licences used: %s.\n" % ", ".join(licenses)
 		+ "Per-file authors, licences and sources: assets/characters/*/credits.json\n"
-		+ "(%d source pages on OpenGameArt.org)." % sources.size()
+		+ "(%d source pages on OpenGameArt.org).\n\n" % sources.size()
+		+ "Scenery, effects, icons, sounds and the training dummy: original, generated\n"
+		+ "by the project's tools (MIT licence).\n\n"
+		+ _fonts(content)
+		+ "Made with the Godot Engine (godotengine.org/license):\n"
+		+ Engine.get_license_text()
 	)
+
+
+## Bundled fonts and their licences (the SIL Open Font License asks for the
+## copyright notice and licence to travel with the font).
+static func _fonts(content: ContentDB) -> String:
+	var text := ""
+	for font_id: String in content.fonts:
+		var font: Dictionary = content.fonts[font_id]
+		text += (
+			"Font: %s, %s (%s), %s\n\n"
+			% [
+				str(font["file"]).get_file().get_basename(),
+				font.get("authors", ""),
+				font.get("license", ""),
+				font.get("source", ""),
+			]
+		)
+	return text

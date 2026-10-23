@@ -96,7 +96,7 @@ func _physics_process(_delta: float) -> void:
 ## Presses hotbar slot `index` for this tick's input. Checks here only give
 ## the player feedback; the simulation decides again whether a skill fires.
 func use_slot(index: int, input: FighterInput) -> bool:
-	var entry: Dictionary = content.hotbar[index]
+	var entry: Dictionary = content.hotbar_for(profile.hero)[index]
 	var ok := true
 	match entry["type"]:
 		"attack":
@@ -309,7 +309,7 @@ func _turn_in(npc: Dictionary, quest_id: String) -> void:
 	if profile.level > level:
 		var unlocked: Array[String] = []
 		for reached in range(level + 1, profile.level + 1):
-			unlocked.append_array(SkillRules.unlocked_at(content, reached))
+			unlocked.append_array(SkillRules.unlocked_at(content, profile.hero, reached))
 		_feedback.level_up(profile.level, unlocked)
 	if rewards:
 		_hud.toast("+%d coins  +%d XP" % [rewards["money"], rewards["xp"]])
@@ -352,6 +352,8 @@ func _process(delta: float) -> void:
 			{
 				"scene": "game",
 				"area": zone.area_id,
+				"hero": profile.hero,
+				"name": profile.name,
 				"menu": menu_name,
 				"x": zone.hero.position.x,
 				"y": zone.hero.position.y,

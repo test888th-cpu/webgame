@@ -147,6 +147,106 @@
         }
       ]
     },
+    "hero_oren": {
+      "role": "hero",
+      "body_type": "male",
+      "layers": [
+        {
+          "def": "body/body.json",
+          "recolor": {
+            "color": "ulpc.brown"
+          }
+        },
+        {
+          "def": "head/heads/human/heads_human_male.json",
+          "recolor": {
+            "color_1": "ulpc.brown"
+          }
+        },
+        {
+          "def": "feet/boots/feet_boots_basic.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        },
+        {
+          "def": "legs/pants/legs_pants.json",
+          "recolor": {
+            "color": "ulpc.blue"
+          }
+        },
+        {
+          "def": "torso/shirts/sleeveless/torso_clothes_sleeveless2.json",
+          "recolor": {
+            "color": "ulpc.red"
+          }
+        },
+        {
+          "def": "hair/beards/beards_trimmed.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        },
+        {
+          "def": "hair/short/hair_plain.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        }
+      ]
+    },
+    "hero_oren_armoured": {
+      "role": "hero",
+      "body_type": "male",
+      "equipment_of": "hero_oren",
+      "layers": [
+        {
+          "def": "body/body.json",
+          "recolor": {
+            "color": "ulpc.brown"
+          }
+        },
+        {
+          "def": "head/heads/human/heads_human_male.json",
+          "recolor": {
+            "color_1": "ulpc.brown"
+          }
+        },
+        {
+          "def": "feet/boots/feet_boots_basic.json",
+          "recolor": {
+            "color": "ulpc.brown"
+          }
+        },
+        {
+          "def": "legs/pants/legs_pants.json",
+          "recolor": {
+            "color": "ulpc.blue"
+          }
+        },
+        {
+          "def": "torso/shirts/sleeveless/torso_clothes_sleeveless2.json",
+          "recolor": {
+            "color": "ulpc.red"
+          }
+        },
+        {
+          "def": "torso/armour/torso_armour_leather.json"
+        },
+        {
+          "def": "hair/beards/beards_trimmed.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        },
+        {
+          "def": "hair/short/hair_plain.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        }
+      ]
+    },
     "npc_ama": {
       "role": "npc",
       "body_type": "female",

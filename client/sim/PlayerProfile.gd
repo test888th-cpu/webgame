@@ -5,8 +5,17 @@ extends RefCounted
 ## for the backend in Milestone 4, when the server becomes the only writer.
 ## Temporary combat state (position, energy, cooldowns) never lives here.
 
-const SAVE_VERSION := 1
+const SAVE_VERSION := 2
 const SLOTS := ["weapon", "armor", "accessory"]
+## Player names: letters of any script (with their marks, e.g. Thai vowels),
+## digits, spaces, apostrophes, hyphens and dots.
+const NAME_MIN := 2
+const NAME_MAX := 16
+const NAME_PATTERN := "^[\\p{L}\\p{M}\\p{N}][\\p{L}\\p{M}\\p{N} '.\\-]*$"
+
+## Which playable hero (heroes.json id) and the name the player gave them.
+var hero := ""
+var name := ""
 
 var level := 1
 var xp := 0
@@ -24,21 +33,38 @@ var defeated := {}
 var area := ""
 
 
-static func new_game(content: ContentDB) -> PlayerProfile:
+## A fresh profile for `hero_id` (the first hero if empty or unknown), named
+## `player_name` if it is a valid name, else the hero's default name.
+static func new_game(content: ContentDB, hero_id := "", player_name := "") -> PlayerProfile:
 	var profile := PlayerProfile.new()
+	profile.hero = hero_id if content.heroes.has(hero_id) else str(content.hero_order[0])
+	profile.name = clean_name(player_name)
+	if profile.name == "":
+		profile.name = str(content.hero(profile.hero)["default_name"])
 	profile.area = content.start_area
 	profile.hp = profile.stats(content)["max_hp"]
 	return profile
 
 
-## Hero stats from base values, level and equipment.
+## Normalises a player name: trims and collapses spaces. Returns "" when it
+## is too short, too long or has characters outside NAME_PATTERN.
+static func clean_name(text: String) -> String:
+	var cleaned := " ".join(text.strip_edges().split(" ", false))
+	if cleaned.length() < NAME_MIN or cleaned.length() > NAME_MAX:
+		return ""
+	var pattern := RegEx.create_from_string(NAME_PATTERN)
+	return cleaned if pattern.search(cleaned) else ""
+
+
+## Hero stats from the hero's base values, level and equipment.
 func stats(content: ContentDB) -> Dictionary:
-	var hero: Dictionary = content.progression.get("hero", {})
+	var base: Dictionary = content.hero(hero).get("stats", {})
 	var per_level: Dictionary = content.progression.get("per_level", {})
 	var result := {
-		"max_hp": int(hero.get("max_hp", 100)) + int(per_level.get("max_hp", 0)) * (level - 1),
-		"power": float(hero.get("power", 1.0)) + float(per_level.get("power", 0.0)) * (level - 1),
-		"defense": int(hero.get("defense", 0)),
+		"max_hp": int(base.get("max_hp", 100)) + int(per_level.get("max_hp", 0)) * (level - 1),
+		"power": float(base.get("power", 1.0)) + float(per_level.get("power", 0.0)) * (level - 1),
+		"defense": int(base.get("defense", 0)),
+		"speed": float(base.get("speed", 1.0)),
 	}
 	for slot: String in SLOTS:
 		var item := content.item(equipment[slot])
@@ -134,6 +160,8 @@ func use_item(item_id: String, hero: Fighter, content: ContentDB) -> bool:
 func to_dict() -> Dictionary:
 	return {
 		"version": SAVE_VERSION,
+		"hero": hero,
+		"name": name,
 		"level": level,
 		"xp": xp,
 		"money": money,
@@ -156,6 +184,13 @@ static func from_dict(data: Variant, content: ContentDB) -> PlayerProfile:
 	if migrated.is_empty():
 		return null
 	var p := PlayerProfile.new()
+	var saved_hero := str(migrated.get("hero", ""))
+	if not content.heroes.has(saved_hero):
+		return null
+	p.hero = saved_hero
+	p.name = clean_name(str(migrated.get("name", "")))
+	if p.name == "":
+		p.name = str(content.hero(p.hero)["default_name"])
 	p.level = clampi(int(migrated.get("level", 1)), 1, p.max_level(content))
 	p.xp = clampi(int(migrated.get("xp", 0)), 0, p.xp_to_next(content) - 1)
 	p.money = maxi(0, int(migrated.get("money", 0)))
@@ -200,5 +235,10 @@ static func migrate(data: Dictionary) -> Dictionary:
 		return {}
 	if int(version) > SAVE_VERSION:
 		return {}
-	# Future versions add steps here, e.g. `if version == 1: data = _v1_to_v2(data)`.
-	return data.duplicate(true)
+	var migrated := data.duplicate(true)
+	if int(migrated["version"]) == 1:
+		# Version 1 saves predate hero selection: Mika was the only hero.
+		migrated["hero"] = "mika"
+		migrated["name"] = "Mika"
+		migrated["version"] = 2
+	return migrated
