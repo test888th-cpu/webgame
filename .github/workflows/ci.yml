@@ -126,7 +126,10 @@ jobs:
         run: ./trivy image --exit-code 1 --severity HIGH,CRITICAL --ignore-unfixed --no-progress ironbound-api:ci
       - name: SBOM (CycloneDX) for the API's npm dependencies
         working-directory: backend
-        run: npm sbom --omit=dev --sbom-format=cyclonedx > ../sbom-api.cdx.json
+        # npm sbom reads the installed tree, so install from the lockfile first.
+        run: |
+          npm ci --no-audit --no-fund
+          npm sbom --omit=dev --sbom-format=cyclonedx > ../sbom-api.cdx.json
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: sbom-${{ github.sha }}
