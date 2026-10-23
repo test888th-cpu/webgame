@@ -9,3 +9,6 @@ var light := false
 var heavy := false
 var dodge := false
 var guard := false
+## Turn to face +1/-1 before acting (0: keep facing). Lets an AI turn toward a
+## target without stepping.
+var face := 0

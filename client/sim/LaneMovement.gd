@@ -18,9 +18,12 @@ const MAX_STEP_SECONDS := 0.1
 
 ## Returns the new position after applying `input` (each axis in -1..1) for
 ## `delta` seconds, clamped to `bounds`.
-static func step(position: Vector2, input: Vector2, delta: float, bounds: Rect2) -> Vector2:
+## `speed_scale` is the walker's speed multiplier (enemies differ).
+static func step(
+	position: Vector2, input: Vector2, delta: float, bounds: Rect2, speed_scale := 1.0
+) -> Vector2:
 	var dt := clampf(delta, 0.0, MAX_STEP_SECONDS)
-	var dir := input.limit_length(1.0)
+	var dir := input.limit_length(1.0) * maxf(0.0, speed_scale)
 	return clamp_to(position + Vector2(dir.x * WALK_SPEED_X, dir.y * WALK_SPEED_Y) * dt, bounds)
 
 

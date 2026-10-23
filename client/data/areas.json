@@ -1,0 +1,205 @@
+{
+  "start_area": "depot_yard",
+  "areas": {
+    "depot_yard": {
+      "name": "Depot Yard",
+      "width": 960,
+      "safe": true,
+      "heal_on_enter": true,
+      "palette": {
+        "sky": "#1a1830",
+        "buildings": [
+          "#2a2433",
+          "#332a3a",
+          "#22283a"
+        ],
+        "windows": "#f2c96b",
+        "sidewalk": "#5c5a60",
+        "street": "#38383f"
+      },
+      "exits": {
+        "east": {
+          "to": "saltmarket",
+          "entry": "west"
+        }
+      },
+      "npcs": [
+        {
+          "id": "vendor_ama",
+          "name": "Ama",
+          "role": "shop",
+          "shop": "depot_stall",
+          "x": 430,
+          "y": 262,
+          "color": "#c0576b",
+          "line": "Buns, tea, gear. Coin first, questions later."
+        },
+        {
+          "id": "chief_odo",
+          "name": "Chief Odo",
+          "role": "quests",
+          "x": 640,
+          "y": 262,
+          "color": "#4f6fb0",
+          "line": "The street needs clearing. You up for it?"
+        }
+      ],
+      "placed": [
+        {
+          "enemy": "training_dummy",
+          "x": 260,
+          "y": 300
+        }
+      ],
+      "encounters": []
+    },
+    "saltmarket": {
+      "name": "Saltmarket Street",
+      "width": 2400,
+      "safe": false,
+      "palette": {
+        "sky": "#142030",
+        "buildings": [
+          "#1f2b3a",
+          "#28333f",
+          "#1c2430"
+        ],
+        "windows": "#9fd7c4",
+        "sidewalk": "#55595f",
+        "street": "#2f3238"
+      },
+      "exits": {
+        "west": {
+          "to": "depot_yard",
+          "entry": "east"
+        },
+        "east": {
+          "to": "canal_works",
+          "entry": "west"
+        }
+      },
+      "npcs": [],
+      "placed": [],
+      "encounters": [
+        {
+          "trigger_x": 420,
+          "arena": [
+            200,
+            880
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "smogling",
+              "smogling"
+            ],
+            [
+              "smogling",
+              "smogling",
+              "tar_hound"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1180,
+          "arena": [
+            960,
+            1640
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "tar_hound",
+              "smogling",
+              "smogling"
+            ],
+            [
+              "pipe_brute",
+              "smogling"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1900,
+          "arena": [
+            1700,
+            2380
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "pipe_brute",
+              "tar_hound",
+              "smogling"
+            ],
+            [
+              "smog_warden"
+            ]
+          ]
+        }
+      ]
+    },
+    "canal_works": {
+      "name": "Canal Works",
+      "width": 1800,
+      "safe": false,
+      "palette": {
+        "sky": "#24142a",
+        "buildings": [
+          "#2c1c30",
+          "#35223a",
+          "#26182c"
+        ],
+        "windows": "#e0806b",
+        "sidewalk": "#4f4a52",
+        "street": "#2a262e"
+      },
+      "exits": {
+        "west": {
+          "to": "saltmarket",
+          "entry": "east"
+        }
+      },
+      "npcs": [],
+      "placed": [],
+      "encounters": [
+        {
+          "trigger_x": 420,
+          "arena": [
+            200,
+            900
+          ],
+          "max_alive": 4,
+          "waves": [
+            [
+              "pipe_brute",
+              "smogling",
+              "tar_hound"
+            ],
+            [
+              "smog_warden",
+              "smogling"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1300,
+          "arena": [
+            1080,
+            1780
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "sludge_foreman"
+            ],
+            [
+              "smogling",
+              "smogling"
+            ]
+          ]
+        }
+      ]
+    }
+  }
+}

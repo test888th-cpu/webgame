@@ -1,0 +1,17 @@
+{
+  "hero": {
+    "max_hp": 100,
+    "power": 1.0,
+    "defense": 0
+  },
+  "max_level": 20,
+  "xp": {
+    "base": 40,
+    "growth": 30
+  },
+  "per_level": {
+    "max_hp": 10,
+    "power": 0.05
+  },
+  "defeat_money_loss": 0.1
+}

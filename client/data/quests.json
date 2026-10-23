@@ -1,0 +1,55 @@
+{
+  "quests": {
+    "clear_saltmarket": {
+      "name": "Smog on Saltmarket",
+      "giver": "chief_odo",
+      "description": "The Murk is pooling on Saltmarket Street. Knock down 8 of its creatures.",
+      "objective": {
+        "type": "defeat",
+        "enemy": "any",
+        "count": 8
+      },
+      "rewards": {
+        "money": 40,
+        "xp": 60,
+        "items": {
+          "ginger_tea": 2
+        }
+      }
+    },
+    "warden": {
+      "name": "The Warden",
+      "giver": "chief_odo",
+      "requires": "clear_saltmarket",
+      "description": "Something bigger guards the way to Canal Works. Defeat the Smog Warden.",
+      "objective": {
+        "type": "defeat",
+        "enemy": "smog_warden",
+        "count": 1
+      },
+      "rewards": {
+        "money": 60,
+        "xp": 100,
+        "items": {}
+      }
+    },
+    "foreman": {
+      "name": "The Sludge Foreman",
+      "giver": "chief_odo",
+      "requires": "warden",
+      "description": "The Murk answers to something at the end of Canal Works. End it.",
+      "objective": {
+        "type": "defeat",
+        "enemy": "sludge_foreman",
+        "count": 1
+      },
+      "rewards": {
+        "money": 150,
+        "xp": 250,
+        "items": {
+          "brass_whistle": 1
+        }
+      }
+    }
+  }
+}

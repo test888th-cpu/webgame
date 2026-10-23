@@ -1,0 +1,47 @@
+{
+  "items": {
+    "steamed_bun": {
+      "name": "Steamed Bun",
+      "type": "consumable",
+      "price": 10,
+      "heal": 25,
+      "description": "Restores 25 HP."
+    },
+    "ginger_tea": {
+      "name": "Ginger Tea",
+      "type": "consumable",
+      "price": 25,
+      "heal": 50,
+      "energy": 40,
+      "description": "Restores 50 HP and 40 energy."
+    },
+    "taped_knuckles": {
+      "name": "Taped Knuckles",
+      "type": "weapon",
+      "price": 60,
+      "power": 0.15,
+      "description": "+15% damage."
+    },
+    "foreman_wrench": {
+      "name": "Foreman's Wrench",
+      "type": "weapon",
+      "price": 0,
+      "power": 0.35,
+      "description": "+35% damage. Taken from the Sludge Foreman."
+    },
+    "work_jacket": {
+      "name": "Work Jacket",
+      "type": "armor",
+      "price": 80,
+      "defense": 2,
+      "description": "-2 damage from every hit."
+    },
+    "brass_whistle": {
+      "name": "Brass Whistle",
+      "type": "accessory",
+      "price": 0,
+      "max_hp": 20,
+      "description": "+20 max HP. A gift from the Chief."
+    }
+  }
+}

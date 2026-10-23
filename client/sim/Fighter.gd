@@ -9,6 +9,14 @@ enum State { IDLE, ATTACK, HITSTUN, DODGE, GUARD, DOWN, KO }
 var id := 0
 ## Fighters only hit fighters of other teams.
 var team := 0
+## Content id: "hero" or an enemy id from enemies.json.
+var kind := ""
+## Input -> move id. Empty means the library's default starters (the hero).
+var moveset := {}
+## Damage multiplier, flat damage reduction, and walk speed multiplier.
+var power := 1.0
+var defense := 0
+var speed := 1.0
 var position := Vector2.ZERO
 var facing := 1
 var max_hp := 100

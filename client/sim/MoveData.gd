@@ -13,7 +13,8 @@ var damage := 0
 var hitstun := 0
 ## Total distance in pixels the defender is pushed away.
 var knockback := 0.0
-## Hitbox in front of the attacker: starts `reach_offset` px ahead, extends
+## Hitbox in front of the attacker: starts `reach_offset` px ahead (negative
+## reaches behind, for sweeps), extends
 ## `reach` px, and hits defenders within `depth_tolerance` px of lane depth.
 var reach_offset := 0.0
 var reach := 0.0
@@ -23,6 +24,9 @@ var energy_cost := 0.0
 var guard_break := false
 ## Leaves the defender on the ground (and briefly invulnerable).
 var knockdown := false
+## Shows a warning during startup. Used for slow, heavy enemy attacks so a
+## player has time to react.
+var telegraph := false
 ## Moves this one can be cancelled into once it has landed a hit.
 ## Keyed by input ("light" / "heavy").
 var chains := {}

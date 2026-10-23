@@ -7,8 +7,10 @@ extends RefCounted
 const DEFAULT_PATH := "res://data/moves.json"
 
 const INT_FIELDS := ["startup", "active", "recovery", "damage", "hitstun"]
-const FLOAT_FIELDS := ["knockback", "reach_offset", "reach", "depth_tolerance", "energy_cost"]
-const BOOL_FIELDS := ["guard_break", "knockdown"]
+const FLOAT_FIELDS := ["knockback", "reach", "depth_tolerance", "energy_cost"]
+## May be negative: a sweep whose hitbox starts behind the attacker.
+const SIGNED_FLOAT_FIELDS := ["reach_offset"]
+const BOOL_FIELDS := ["guard_break", "knockdown", "telegraph"]
 const CHAIN_INPUTS := ["light", "heavy"]
 
 var moves: Dictionary = {}
@@ -28,7 +30,7 @@ static func load_file(path := DEFAULT_PATH) -> MoveLibrary:
 
 
 func get_move(id: String) -> MoveData:
-	return moves.get(id)
+	return moves.get(id) if id else null
 
 
 func is_valid() -> bool:
@@ -79,6 +81,12 @@ func _parse_move(id: String, raw: Variant) -> MoveData:
 		var value: Variant = raw.get(field, 0.0)
 		if not (value is float or value is int) or value < 0:
 			errors.append("%s.%s: expected a non-negative number" % [id, field])
+			continue
+		move.set(field, float(value))
+	for field: String in SIGNED_FLOAT_FIELDS:
+		var value: Variant = raw.get(field, 0.0)
+		if not (value is float or value is int):
+			errors.append("%s.%s: expected a number" % [id, field])
 			continue
 		move.set(field, float(value))
 	for field: String in BOOL_FIELDS:

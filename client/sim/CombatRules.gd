@@ -118,18 +118,33 @@ static func _step_idle(
 	f: Fighter, input: FighterInput, library: MoveLibrary, bounds: Rect2
 ) -> void:
 	f.facing = LaneMovement.facing(f.facing, input.move)
+	if input.face != 0:
+		f.facing = signi(input.face)
 	if input.dodge and f.energy >= DODGE_COST:
 		f.energy -= DODGE_COST
 		f.dodge_dir = f.facing
 		f.enter(Fighter.State.DODGE)
-	elif input.heavy and _start_move(f, library.get_move(library.starters["heavy"])):
+	elif input.heavy and _start_move(f, library.get_move(starter(f, library, "heavy"))):
 		pass
-	elif input.light and _start_move(f, library.get_move(library.starters["light"])):
+	elif input.light and _start_move(f, library.get_move(starter(f, library, "light"))):
 		pass
 	elif input.guard:
 		f.enter(Fighter.State.GUARD)
 	else:
-		f.position = LaneMovement.step(f.position, input.move, TICK_SECONDS, bounds)
+		f.position = LaneMovement.step(f.position, input.move, TICK_SECONDS, bounds, f.speed)
+
+
+## The move a button starts from neutral for this fighter ("" if none).
+static func starter(f: Fighter, library: MoveLibrary, input: String) -> String:
+	if f.moveset.is_empty():
+		return library.starters.get(input, "")
+	return f.moveset.get(input, "")
+
+
+## Damage a move deals before guard: scaled by the attacker's power, reduced
+## by the defender's defense, never below 1.
+static func damage_for(move: MoveData, attacker: Fighter, defender: Fighter) -> int:
+	return maxi(1, roundi(move.damage * attacker.power) - defender.defense)
 
 
 static func _step_attack(f: Fighter, input: FighterInput, library: MoveLibrary) -> void:
@@ -169,16 +184,17 @@ static func _apply_hit(attacker: Fighter, defender: Fighter, move: MoveData) -> 
 	event.position = defender.position
 	var from_front := signf(attacker.position.x - defender.position.x) != -defender.facing
 	event.blocked = (defender.state == Fighter.State.GUARD and not move.guard_break and from_front)
+	var full := damage_for(move, attacker, defender)
 	if event.blocked:
-		event.damage = maxi(1, roundi(move.damage * GUARD_DAMAGE_FACTOR))
-		defender.energy -= move.damage * GUARD_ENERGY_PER_DAMAGE
+		event.damage = maxi(1, roundi(full * GUARD_DAMAGE_FACTOR))
+		defender.energy -= full * GUARD_ENERGY_PER_DAMAGE
 		defender.knockback_remaining = attacker.facing * move.knockback * 0.5
 		if defender.energy <= 0.0:
 			defender.energy = 0.0
 			event.guard_broken = true
 			defender.enter(Fighter.State.HITSTUN, GUARD_BREAK_STUN)
 	else:
-		event.damage = move.damage
+		event.damage = full
 		defender.knockback_remaining = attacker.facing * move.knockback
 		defender.facing = -attacker.facing
 	defender.hp = maxi(0, defender.hp - event.damage)
