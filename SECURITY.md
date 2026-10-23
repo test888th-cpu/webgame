@@ -27,8 +27,10 @@ for security problems.
 | Container image scan (Trivy 0.76.1, fixable HIGH/CRITICAL fail) | ci.yml |
 | SBOM (CycloneDX) for the API's production dependencies | ci.yml artifact |
 | `.env.example` placeholder-only and no key files tracked | tools/ci/check-repo.sh |
-Also enable, under **Settings → Advanced Security**, the **Dependency graph** (required by the dependency-review job), **Secret Protection with push protection** and **Dependabot alerts**
-in repository settings (owner action, see DEPLOYMENT.md).
+
+Owner action (see DEPLOYMENT.md): under **Settings → Advanced Security**, enable the
+**Dependency graph** (required by the dependency-review job), **Secret Protection with push
+protection** and **Dependabot alerts**.
 
 ## Application rules
 - **Never trust the client** for damage, currency, item ownership, loot, XP or quest
