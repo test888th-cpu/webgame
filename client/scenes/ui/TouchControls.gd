@@ -15,7 +15,7 @@ const BUTTONS := [
 	["Heavy", "attack_heavy", Vector2(600, 250), Color(0.95, 0.6, 0.2, 0.45), "K"],
 	["Dodge", "dodge", Vector2(520, 250), Color(0.3, 0.6, 0.95, 0.45), "DODGE"],
 	["Guard", "guard", Vector2(560, 210), Color(0.4, 0.85, 0.5, 0.45), "GUARD"],
-	["Interact", "interact", Vector2(600, 170), Color(0.85, 0.85, 0.4, 0.45), "TALK"],
+	["Interact", "interact", Vector2(600, 170), Color(0.85, 0.85, 0.4, 0.45), "USE"],
 	["Item", "use_item", Vector2(520, 170), Color(0.6, 0.9, 0.7, 0.45), "EAT"],
 	["Pause", "pause", Vector2(303, 4), Color(1, 1, 1, 0.3), "II"],
 ]

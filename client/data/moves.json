@@ -311,6 +311,350 @@
       "guard_break": true,
       "knockdown": true,
       "anim": "heavy"
+    },
+    "knife_slash": {
+      "startup": 3,
+      "active": 3,
+      "recovery": 9,
+      "damage": 9,
+      "hitstun": 16,
+      "knockback": 4,
+      "reach_offset": 4,
+      "reach": 32,
+      "depth_tolerance": 14,
+      "chains": {
+        "light": "knife_slash2",
+        "heavy": "knife_lunge"
+      }
+    },
+    "knife_slash2": {
+      "startup": 4,
+      "active": 3,
+      "recovery": 11,
+      "damage": 10,
+      "hitstun": 18,
+      "knockback": 8,
+      "reach_offset": 4,
+      "reach": 32,
+      "depth_tolerance": 14,
+      "chains": {
+        "heavy": "knife_lunge"
+      }
+    },
+    "knife_lunge": {
+      "startup": 6,
+      "active": 5,
+      "recovery": 18,
+      "damage": 16,
+      "hitstun": 26,
+      "knockback": 40,
+      "reach_offset": 4,
+      "reach": 30,
+      "depth_tolerance": 14,
+      "advance": 30,
+      "knockdown": true,
+      "anim": "heavy"
+    },
+    "bottle_swing": {
+      "startup": 5,
+      "active": 3,
+      "recovery": 12,
+      "damage": 12,
+      "hitstun": 20,
+      "knockback": 10,
+      "reach_offset": 4,
+      "reach": 30,
+      "depth_tolerance": 14,
+      "chains": {
+        "heavy": "bottle_smash"
+      }
+    },
+    "bottle_smash": {
+      "startup": 9,
+      "active": 4,
+      "recovery": 20,
+      "damage": 18,
+      "hitstun": 30,
+      "knockback": 60,
+      "reach_offset": 4,
+      "reach": 30,
+      "depth_tolerance": 14,
+      "knockdown": true,
+      "anim": "heavy"
+    },
+    "plank_swing": {
+      "startup": 6,
+      "active": 4,
+      "recovery": 13,
+      "damage": 11,
+      "hitstun": 20,
+      "knockback": 20,
+      "reach_offset": 4,
+      "reach": 40,
+      "depth_tolerance": 16,
+      "chains": {
+        "light": "plank_swing2",
+        "heavy": "plank_overhead"
+      }
+    },
+    "plank_swing2": {
+      "startup": 6,
+      "active": 4,
+      "recovery": 16,
+      "damage": 12,
+      "hitstun": 22,
+      "knockback": 40,
+      "reach_offset": 4,
+      "reach": 40,
+      "depth_tolerance": 16,
+      "chains": {
+        "heavy": "plank_overhead"
+      }
+    },
+    "plank_overhead": {
+      "startup": 12,
+      "active": 4,
+      "recovery": 22,
+      "damage": 17,
+      "hitstun": 30,
+      "knockback": 70,
+      "reach_offset": 4,
+      "reach": 40,
+      "depth_tolerance": 16,
+      "knockdown": true,
+      "anim": "heavy"
+    },
+    "pipe_swing": {
+      "startup": 7,
+      "active": 4,
+      "recovery": 15,
+      "damage": 13,
+      "hitstun": 22,
+      "knockback": 24,
+      "reach_offset": 4,
+      "reach": 40,
+      "depth_tolerance": 16,
+      "chains": {
+        "light": "pipe_swing2",
+        "heavy": "pipe_slam"
+      }
+    },
+    "pipe_swing2": {
+      "startup": 7,
+      "active": 4,
+      "recovery": 18,
+      "damage": 14,
+      "hitstun": 24,
+      "knockback": 50,
+      "reach_offset": 4,
+      "reach": 40,
+      "depth_tolerance": 16,
+      "chains": {
+        "heavy": "pipe_slam"
+      }
+    },
+    "pipe_slam": {
+      "startup": 14,
+      "active": 5,
+      "recovery": 24,
+      "damage": 20,
+      "hitstun": 32,
+      "knockback": 80,
+      "reach_offset": 4,
+      "reach": 40,
+      "depth_tolerance": 16,
+      "guard_break": true,
+      "knockdown": true,
+      "anim": "heavy"
+    },
+    "machete_slash": {
+      "startup": 5,
+      "active": 3,
+      "recovery": 12,
+      "damage": 14,
+      "hitstun": 20,
+      "knockback": 10,
+      "reach_offset": 4,
+      "reach": 44,
+      "depth_tolerance": 14,
+      "chains": {
+        "light": "machete_slash2",
+        "heavy": "machete_cleave"
+      }
+    },
+    "machete_slash2": {
+      "startup": 5,
+      "active": 3,
+      "recovery": 14,
+      "damage": 16,
+      "hitstun": 22,
+      "knockback": 16,
+      "reach_offset": 4,
+      "reach": 44,
+      "depth_tolerance": 14,
+      "chains": {
+        "heavy": "machete_cleave"
+      }
+    },
+    "machete_cleave": {
+      "startup": 12,
+      "active": 5,
+      "recovery": 22,
+      "damage": 24,
+      "hitstun": 32,
+      "knockback": 80,
+      "reach_offset": 4,
+      "reach": 46,
+      "depth_tolerance": 16,
+      "knockdown": true,
+      "anim": "heavy"
+    },
+    "chair_swing": {
+      "startup": 10,
+      "active": 5,
+      "recovery": 18,
+      "damage": 16,
+      "hitstun": 28,
+      "knockback": 70,
+      "reach_offset": 4,
+      "reach": 44,
+      "depth_tolerance": 18,
+      "knockdown": true,
+      "anim": "heavy"
+    },
+    "chair_slam": {
+      "startup": 16,
+      "active": 5,
+      "recovery": 26,
+      "damage": 26,
+      "hitstun": 34,
+      "knockback": 90,
+      "reach_offset": -4,
+      "reach": 46,
+      "depth_tolerance": 20,
+      "guard_break": true,
+      "knockdown": true,
+      "anim": "heavy"
+    },
+    "thug_jab": {
+      "startup": 8,
+      "active": 3,
+      "recovery": 14,
+      "damage": 7,
+      "hitstun": 16,
+      "knockback": 8,
+      "reach_offset": 4,
+      "reach": 30,
+      "depth_tolerance": 12,
+      "chains": {
+        "light": "thug_jab2"
+      }
+    },
+    "thug_jab2": {
+      "startup": 7,
+      "active": 3,
+      "recovery": 16,
+      "damage": 8,
+      "hitstun": 18,
+      "knockback": 20,
+      "reach_offset": 4,
+      "reach": 30,
+      "depth_tolerance": 12
+    },
+    "thug_kick": {
+      "startup": 16,
+      "active": 4,
+      "recovery": 22,
+      "damage": 13,
+      "hitstun": 26,
+      "knockback": 70,
+      "reach_offset": 4,
+      "reach": 36,
+      "depth_tolerance": 14,
+      "knockdown": true,
+      "telegraph": true,
+      "anim": "heavy"
+    },
+    "punk_flurry": {
+      "startup": 5,
+      "active": 2,
+      "recovery": 8,
+      "damage": 5,
+      "hitstun": 12,
+      "knockback": 4,
+      "reach_offset": 4,
+      "reach": 28,
+      "depth_tolerance": 12,
+      "chains": {
+        "light": "punk_flurry2"
+      }
+    },
+    "punk_flurry2": {
+      "startup": 4,
+      "active": 2,
+      "recovery": 8,
+      "damage": 5,
+      "hitstun": 12,
+      "knockback": 4,
+      "reach_offset": 4,
+      "reach": 28,
+      "depth_tolerance": 12,
+      "chains": {
+        "light": "punk_flurry3"
+      }
+    },
+    "punk_flurry3": {
+      "startup": 5,
+      "active": 3,
+      "recovery": 16,
+      "damage": 8,
+      "hitstun": 20,
+      "knockback": 40,
+      "reach_offset": 4,
+      "reach": 30,
+      "depth_tolerance": 12
+    },
+    "baron_haymaker": {
+      "startup": 12,
+      "active": 4,
+      "recovery": 20,
+      "damage": 14,
+      "hitstun": 24,
+      "knockback": 30,
+      "reach_offset": 6,
+      "reach": 38,
+      "depth_tolerance": 16,
+      "chains": {
+        "light": "baron_uppercut"
+      }
+    },
+    "baron_uppercut": {
+      "startup": 10,
+      "active": 4,
+      "recovery": 24,
+      "damage": 18,
+      "hitstun": 30,
+      "knockback": 80,
+      "reach_offset": 6,
+      "reach": 36,
+      "depth_tolerance": 16,
+      "knockdown": true,
+      "anim": "heavy"
+    },
+    "baron_furnace": {
+      "startup": 28,
+      "active": 8,
+      "recovery": 34,
+      "damage": 28,
+      "hitstun": 36,
+      "knockback": 120,
+      "reach_offset": -40,
+      "reach": 110,
+      "depth_tolerance": 26,
+      "guard_break": true,
+      "knockdown": true,
+      "telegraph": true,
+      "anim": "heavy"
     }
   }
 }

@@ -50,6 +50,60 @@
           "brass_whistle": 1
         }
       }
+    },
+    "rail_rumble": {
+      "name": "Rail Yard Rumble",
+      "giver": "chief_odo",
+      "requires": "foreman",
+      "description": "Dock thugs are stripping the rail yards east of the canal. Put 8 of them on the ground.",
+      "objective": {
+        "type": "defeat",
+        "enemy": "dock_thug",
+        "count": 8
+      },
+      "rewards": {
+        "money": 120,
+        "xp": 300,
+        "items": {
+          "ginger_tea": 3
+        }
+      }
+    },
+    "market_lights": {
+      "name": "Market Lights",
+      "giver": "chief_odo",
+      "requires": "rail_rumble",
+      "description": "Punks run the Night Market after dark. Knock down 10 of them so the stalls can open.",
+      "objective": {
+        "type": "defeat",
+        "enemy": "market_punk",
+        "count": 10
+      },
+      "rewards": {
+        "money": 200,
+        "xp": 500,
+        "items": {
+          "street_runners": 1
+        }
+      }
+    },
+    "furnace_baron": {
+      "name": "The Furnace Baron",
+      "giver": "chief_odo",
+      "requires": "market_lights",
+      "description": "The smoke over the city comes from one man's furnace. Climb to the Smokestack Refinery and put out the Baron.",
+      "objective": {
+        "type": "defeat",
+        "enemy": "furnace_baron",
+        "count": 1
+      },
+      "rewards": {
+        "money": 500,
+        "xp": 1200,
+        "items": {
+          "jade_charm": 1
+        }
+      }
     }
   }
 }

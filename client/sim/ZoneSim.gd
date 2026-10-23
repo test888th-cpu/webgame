@@ -22,6 +22,12 @@ const CORPSE_TICKS := 90
 ## Enemies closer than this along the street (in the same lane) push apart.
 const CROWD_GAP := 18.0
 const PICKUP_REACH := Vector2(16.0, 12.0)
+## How close a fighter must stand to pick up a weapon from the street.
+const WEAPON_REACH := Vector2(18.0, 12.0)
+## Oldest weapons on the street vanish beyond this many.
+const MAX_GROUND_WEAPONS := 10
+## Weapons are never scattered closer than this to an NPC (along the street).
+const NPC_CLEARANCE := 40.0
 
 var content: ContentDB
 var profile: PlayerProfile
@@ -40,6 +46,13 @@ var tick_count := 0
 var boss_id := 0
 ## Ticks until the hero may use another consumable.
 var item_cooldown := 0
+## The area's difficulty level (enemies scale with it; see LevelRules).
+var level := 1
+## Weapons lying on the street: {id, weapon, position, uses}.
+var ground_weapons: Array[Dictionary] = []
+var _next_weapon := 1
+## Each enemy's level and money multiplier, by id.
+var _enemy_level := {}
 
 var _encounters: Array[Dictionary] = []
 var _active := -1
@@ -62,6 +75,7 @@ func _init(
 	profile = p_profile
 	area_id = p_area_id
 	area = content.area(area_id)
+	level = int(area.get("level", 1))
 	rng.seed = seed
 	var width := float(area.get("width", 960))
 	bounds = Rect2(EDGE_MARGIN, LANE_TOP, width - EDGE_MARGIN * 2.0, LANE_DEPTH)
@@ -83,6 +97,7 @@ func _init(
 		_home[enemy.id] = enemy.position
 	for encounter: Dictionary in area.get("encounters", []):
 		_encounters.append({"data": encounter, "state": "pending"})
+	_scatter_weapons()
 
 
 ## Applies profile stats (level, equipment) to the hero fighter.
@@ -99,17 +114,27 @@ func refresh_hero() -> void:
 
 func spawn_enemy(kind: String, position: Vector2) -> Fighter:
 	var data := content.enemy(kind)
-	var enemy := Fighter.new(_next_id, ENEMY_TEAM, position, int(data["max_hp"]))
+	var enemy_level := level + int(data.get("level_bonus", 0))
+	var stats := LevelRules.enemy_stats(data, enemy_level)
+	var enemy := Fighter.new(_next_id, ENEMY_TEAM, position, stats["max_hp"])
 	_next_id += 1
 	enemy.kind = kind
 	enemy.moveset = data.get("moveset", {}).duplicate()
-	enemy.power = float(data.get("power", 1.0))
-	enemy.defense = int(data.get("defense", 0))
-	enemy.speed = float(data.get("speed", 1.0))
+	enemy.power = stats["power"]
+	enemy.defense = stats["defense"]
+	enemy.speed = stats["speed"]
 	enemy.facing = -1 if hero.position.x < position.x else 1
 	fighters.append(enemy)
+	_enemy_level[enemy.id] = {"level": enemy_level, "stats": stats}
 	if data.get("ai") != null:
-		brains[enemy.id] = EnemyBrain.new(data["ai"], rng)
+		var has_heavy := enemy.moveset.has("heavy")
+		brains[enemy.id] = EnemyBrain.new(
+			LevelRules.enemy_ai(data["ai"], enemy_level, has_heavy), rng
+		)
+	if rng.randf() < LevelRules.armed_chance(data, enemy_level):
+		var weapon_id := LevelRules.roll_weapon(content.weapons, enemy_level, rng)
+		if weapon_id:
+			equip_weapon(enemy, weapon_id, int(content.weapons[weapon_id]["durability"]))
 	if data.get("boss", false):
 		boss_id = enemy.id
 	return enemy
@@ -145,7 +170,18 @@ func tick(hero_input: FighterInput) -> Array[ZoneEvent]:
 	for id: int in brains:
 		var enemy := fighter(id)
 		if enemy and not enemy.is_ko():
-			inputs[id] = brains[id].think(enemy, hero, allowed.has(id), content.moves, rng)
+			inputs[id] = brains[id].think(
+				enemy,
+				hero,
+				allowed.has(id),
+				content.moves,
+				rng,
+				_nearest_weapon(enemy.position),
+				tick_count
+			)
+	for id: int in inputs:
+		if inputs[id].pick:
+			_pick_or_drop(fighter(id), events)
 	for hit in CombatRules.tick(fighters, inputs, content.moves, arena):
 		var event := ZoneEvent.make("hit")
 		event.hit = hit
@@ -153,6 +189,11 @@ func tick(hero_input: FighterInput) -> Array[ZoneEvent]:
 		var defender := fighter(hit.defender_id)
 		if defender == hero:
 			profile.hp = hero.hp
+		_wear_weapon(fighter(hit.attacker_id), hit, events)
+		if (hit.knocked_down or hit.ko) and defender.weapon:
+			# A fighter knocked off their feet loses their grip.
+			var behind := Vector2(signf(defender.position.x - hit.position.x) * 14.0, 4.0)
+			_drop_weapon(defender, defender.position + behind, events)
 		if hit.ko:
 			if defender == hero:
 				_hero_down(events)
@@ -165,6 +206,149 @@ func tick(hero_input: FighterInput) -> Array[ZoneEvent]:
 	_collect_pickups(events)
 	_check_exit(hero_input, events)
 	return events
+
+
+## Gives `f` the weapon `weapon_id` with `uses` hits left.
+func equip_weapon(f: Fighter, weapon_id: String, uses: int) -> void:
+	var weapon: Dictionary = content.weapons[weapon_id]
+	f.weapon = weapon_id
+	f.weapon_uses = uses
+	f.weapon_moveset = weapon["moveset"].duplicate()
+	f.weapon_speed = float(weapon.get("speed", 1.0))
+
+
+## Puts a weapon on the street (oldest ones vanish past the limit).
+func place_weapon(weapon_id: String, at: Vector2, uses: int) -> Dictionary:
+	var entry := {
+		"id": _next_weapon,
+		"weapon": weapon_id,
+		"position": LaneMovement.clamp_to(at, bounds),
+		"uses": uses,
+	}
+	_next_weapon += 1
+	ground_weapons.append(entry)
+	while ground_weapons.size() > MAX_GROUND_WEAPONS:
+		ground_weapons.pop_front()
+	return entry
+
+
+func _clear_weapon(f: Fighter) -> void:
+	f.weapon = ""
+	f.weapon_uses = 0
+	f.weapon_moveset = {}
+	f.weapon_speed = 1.0
+
+
+func _drop_weapon(f: Fighter, at: Vector2, events: Array[ZoneEvent]) -> void:
+	var entry := place_weapon(f.weapon, at, f.weapon_uses)
+	events.append(
+		ZoneEvent.make(
+			"weapon_drop", {"id": f.id, "weapon": f.weapon, "ground": entry["id"], "at": at}
+		)
+	)
+	_clear_weapon(f)
+
+
+## The pick button: take the weapon underfoot (dropping any held one in its
+## place), or put the held weapon down if there is nothing to take.
+func _pick_or_drop(f: Fighter, events: Array[ZoneEvent]) -> void:
+	if f == null or f.state != Fighter.State.IDLE:
+		return
+	var found := weapon_in_reach(f.position)
+	if found < 0:
+		if f.weapon:
+			_drop_weapon(f, f.position + Vector2(f.facing * 10.0, 2.0), events)
+		return
+	var entry: Dictionary = ground_weapons[found]
+	ground_weapons.remove_at(found)
+	if f.weapon:
+		_drop_weapon(f, f.position, events)
+	equip_weapon(f, entry["weapon"], int(entry["uses"]))
+	events.append(
+		ZoneEvent.make(
+			"weapon_pickup", {"id": f.id, "weapon": entry["weapon"], "ground": entry["id"]}
+		)
+	)
+
+
+## Every landed weapon blow (not skills or fists) uses the weapon up.
+func _wear_weapon(attacker: Fighter, hit: CombatEvent, events: Array[ZoneEvent]) -> void:
+	if attacker == null or attacker.weapon == "":
+		return
+	if not _weapon_moves(attacker.weapon_moveset).has(hit.move_id):
+		return
+	attacker.weapon_uses -= 1
+	if attacker.weapon_uses > 0:
+		return
+	var weapon := attacker.weapon
+	var material := str(content.weapons[weapon].get("material", "wood"))
+	_clear_weapon(attacker)
+	var data := {"id": attacker.id, "weapon": weapon, "at": attacker.position, "material": material}
+	events.append(ZoneEvent.make("weapon_break", data))
+
+
+## Every move a weapon's moveset can reach, its chains included.
+func _weapon_moves(moveset: Dictionary) -> Dictionary:
+	var found := {}
+	var queue: Array = moveset.values()
+	while not queue.is_empty():
+		var move_id: String = queue.pop_back()
+		if found.has(move_id):
+			continue
+		found[move_id] = true
+		var move := content.moves.get_move(move_id)
+		if move:
+			queue.append_array(move.chains.values())
+	return found
+
+
+## Index in ground_weapons of the closest weapon within reach of `at`, or -1.
+func weapon_in_reach(at: Vector2) -> int:
+	var found := -1
+	var best := INF
+	for i in ground_weapons.size():
+		var offset: Vector2 = ground_weapons[i]["position"] - at
+		if absf(offset.x) <= WEAPON_REACH.x and absf(offset.y) <= WEAPON_REACH.y:
+			if offset.length() < best:
+				best = offset.length()
+				found = i
+	return found
+
+
+func _nearest_weapon(from: Vector2) -> Vector2:
+	var best := Vector2.INF
+	for entry: Dictionary in ground_weapons:
+		var at: Vector2 = entry["position"]
+		if best == Vector2.INF or at.distance_to(from) < best.distance_to(from):
+			best = at
+	return best
+
+
+## Weapons lying around a street at the start, from the area's "weapons"
+## block: how many and which (by weight, limited by the area's level).
+func _scatter_weapons() -> void:
+	var spec: Dictionary = area.get("weapons", {})
+	if spec.is_empty():
+		return
+	var count := rng.randi_range(int(spec["count"][0]), int(spec["count"][1]))
+	for i in count:
+		var weapon_id := LevelRules.roll_weapon(content.weapons, level, rng, spec.get("pool", {}))
+		if weapon_id == "":
+			continue
+		var at := Vector2(
+			rng.randf_range(bounds.position.x + 160.0, bounds.end.x - 40.0),
+			rng.randf_range(bounds.position.y + 6.0, bounds.end.y - 6.0)
+		)
+		# Not at a shopkeeper's feet, where E talks instead of picking up.
+		for npc: Dictionary in area.get("npcs", []):
+			if absf(at.x - float(npc["x"])) < NPC_CLEARANCE:
+				at.x += NPC_CLEARANCE * 2.0
+		place_weapon(weapon_id, at, int(content.weapons[weapon_id]["durability"]))
+
+
+## The level an enemy fights at (for its label), 0 if unknown.
+func enemy_level(id: int) -> int:
+	return int(_enemy_level.get(id, {}).get("level", 0))
 
 
 ## Uses a consumable from the inventory on the hero. Consumables share a
@@ -288,21 +472,18 @@ func _defeat(enemy: Fighter, events: Array[ZoneEvent]) -> void:
 	if data.get("training", false):
 		return
 	profile.defeated[enemy.kind] = int(profile.defeated.get(enemy.kind, 0)) + 1
-	var levels := profile.add_xp(int(data.get("xp", 0)), content)
+	var scaled: Dictionary = _enemy_level.get(enemy.id, {}).get("stats", {})
+	var xp := int(scaled.get("xp", data.get("xp", 0)))
+	var levels := profile.add_xp(xp, content)
 	var loot := LootRules.roll(data.get("loot", {}), rng)
-	if loot["money"] > 0:
-		_drop({"kind": "money", "amount": loot["money"]}, enemy.position)
+	var money := roundi(loot["money"] * float(scaled.get("money_scale", 1.0)))
+	if money > 0:
+		_drop({"kind": "money", "amount": money}, enemy.position)
 	for item_id: String in loot["items"]:
 		_drop({"kind": "item", "item": item_id, "amount": 1}, enemy.position)
 	events.append(
 		ZoneEvent.make(
-			"defeat",
-			{
-				"id": enemy.id,
-				"kind": enemy.kind,
-				"xp": int(data.get("xp", 0)),
-				"boss": enemy.id == boss_id
-			}
+			"defeat", {"id": enemy.id, "kind": enemy.kind, "xp": xp, "boss": enemy.id == boss_id}
 		)
 	)
 	if levels > 0:
@@ -396,6 +577,7 @@ func _update_downed(events: Array[ZoneEvent]) -> void:
 			fighters.erase(enemy)
 			brains.erase(id)
 			_phase.erase(id)
+			_enemy_level.erase(id)
 			events.append(ZoneEvent.make("despawn", {"id": id}))
 
 

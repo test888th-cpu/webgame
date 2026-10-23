@@ -9,6 +9,9 @@ extends Node2D
 ## stepped by simulation ticks rather than by wall-clock time, so a swing's
 ## frames line up exactly with its startup, active and recovery ticks. Without
 ## art, a simple polygon figure is drawn instead.
+##
+## A held weapon is drawn in the fighter's hand: the art's per-frame hand
+## sockets (from the sprite builder) place and turn it with every frame.
 
 ## Pixels the fist travels out during an attack's active ticks (polygon art).
 const ARM_REACH := 14.0
@@ -16,12 +19,18 @@ const HIT_FLASH_TICKS := 6
 ## Ticks over which the knock-down animation plays before holding its last frame.
 const DOWN_TICKS := 30
 const FLASH_SHADER := preload("res://scenes/fighter/flash.gdshader")
+## Where a weapon sits without hand sockets (polygon figure), facing right.
+const FALLBACK_HAND := Vector2(10, -24)
+const FALLBACK_ANGLE := 35.0
+const FRAME_WIDTH := 64.0
 
 @export var body_color := Color(0.86, 0.42, 0.2)
 @export var show_health_bar := false
 
 var fighter: Fighter
 var art_id := ""
+## Weapon sprites come from here; without it no weapon is drawn.
+var content: ContentDB
 
 var _sprite: AnimatedSprite2D
 var _last_position := Vector2.INF
@@ -30,6 +39,9 @@ var _last_position := Vector2.INF
 var _flash := 0.0
 var _flash_color := Color.WHITE
 var _freeze := 0.0
+var _hands := {}
+var _held: Sprite2D
+var _held_id := ""
 
 @onready var _body: Node2D = $Body
 @onready var _torso: Polygon2D = $Body/Torso
@@ -46,16 +58,22 @@ func _ready() -> void:
 	_health.visible = show_health_bar
 
 
-## Configures the view for an enemy from its enemies.json entry.
-func setup_enemy(data: Dictionary, art: Dictionary) -> void:
+## Configures the view for an enemy from its enemies.json entry, fighting at
+## `level` (shown over its head; 0 hides it).
+func setup_enemy(data: Dictionary, art: Dictionary, level := 0) -> void:
 	body_color = Color.from_string(str(data.get("color", "#777777")), Color.GRAY)
 	_torso.color = body_color
 	scale = Vector2.ONE * float(data.get("scale", 1.0))
 	# Bosses get the big HUD bar instead of a small one overhead.
 	show_health_bar = not data.get("boss", false)
 	_health.visible = show_health_bar
+	var tag := "Lv %d" % level if level > 0 and not data.get("training", false) else ""
 	if data.get("elite", false) or data.get("boss", false):
-		_name.text = str(data.get("name", ""))
+		_name.text = str(data.get("name", "")) + ("  " + tag if tag else "")
+		_name.visible = true
+	elif tag:
+		_name.text = tag
+		_name.add_theme_color_override("font_color", Color(0.8, 0.8, 0.88, 0.85))
 		_name.visible = true
 	if data.has("sprite"):
 		set_art(str(data["sprite"]), art)
@@ -67,6 +85,7 @@ func set_art(id: String, art: Dictionary) -> void:
 		return
 	art_id = id
 	var entry: Dictionary = art.get(id, {})
+	_hands = entry.get("hands", {})
 	if entry.get("status") != "imported":
 		if _sprite:
 			_sprite.queue_free()
@@ -133,6 +152,56 @@ func sync() -> void:
 		_pose_polygons()
 	if show_health_bar:
 		_health_fill.size.x = 24.0 * fighter.hp / fighter.max_hp
+	_update_held()
+
+
+## Draws the held weapon (if any) in the hand of the frame on screen.
+func _update_held() -> void:
+	if fighter.weapon != _held_id:
+		_held_id = fighter.weapon
+		_show_weapon(_held_id)
+	if _held == null:
+		return
+	_held.visible = (
+		_held.texture != null
+		and fighter.state != Fighter.State.DOWN
+		and fighter.state != Fighter.State.KO
+	)
+	if not _held.visible:
+		return
+	var hand := FALLBACK_HAND
+	var angle := FALLBACK_ANGLE
+	var frames: Array = _hands.get(str(_sprite.animation), []) if _sprite else []
+	if not frames.is_empty():
+		var socket: Array = frames[clampi(_sprite.frame, 0, frames.size() - 1)]
+		hand = Vector2(socket[0], socket[1]) + _sprite.offset + _sprite.position
+		angle = float(socket[2])
+	var facing := float(fighter.facing)
+	if _sprite and facing < 0.0:
+		# The sheet is drawn facing right; flipping mirrors it within its frame.
+		hand.x = 2.0 * (_sprite.offset.x + _sprite.position.x) + FRAME_WIDTH - hand.x
+	elif not _sprite:
+		hand.x *= facing
+	_held.position = hand
+	_held.rotation_degrees = angle * facing
+	_held.flip_h = facing < 0.0
+
+
+func _show_weapon(weapon_id: String) -> void:
+	if _held == null:
+		_held = Sprite2D.new()
+		_held.name = "Weapon"
+		_held.centered = false
+		_held.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		add_child(_held)
+		move_child(_held, _body.get_index() + 1)  # in front of the body, behind labels
+	_held.texture = null
+	if weapon_id == "" or content == null:
+		return
+	var sprite := str(content.weapons.get(weapon_id, {}).get("sprite", ""))
+	_held.texture = UiKit.icon(content, sprite)
+	var grip: Array = content.ui.get("weapon_grip", [8, 27])
+	_held.offset = -Vector2(grip[0], grip[1])
 
 
 func _animate_sprite(moved: bool) -> void:

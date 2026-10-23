@@ -58,6 +58,8 @@ interface Probe {
   hits: number;
   hero_hits: number;
   cooldowns: Record<string, number>;
+  weapon?: string;
+  street_weapons?: [number, number][];
   hero?: string;
   name?: string;
 }
@@ -237,6 +239,23 @@ try {
   }
   const skill = cooling(cast)[0];
   console.log(`skill: ${skill} cast (cooldown ${cast.cooldowns[skill]} ticks), hits ${preSkill.hero_hits} -> ${afterSkill.hero_hits}`);
+
+  // A weapon from the yard: walk onto it, E picks it up, Z swings it.
+  let armed = await probe();
+  const yardWeapon = (armed.street_weapons ?? [])[0];
+  if (!yardWeapon) {
+    problems.push("no weapon lying in the yard");
+  } else {
+    for (let i = 0; i < 120 && !armed.weapon; i++) {
+      const [wx, wy] = (armed.street_weapons ?? [])[0] ?? yardWeapon;
+      if (Math.abs(armed.y - wy) > 6) await hold(armed.y > wy ? "ArrowUp" : "ArrowDown", 40);
+      else if (Math.abs(armed.x - wx) > 10) await hold(armed.x < wx ? "ArrowRight" : "ArrowLeft", 40);
+      else await page.keyboard.press("KeyE");
+      armed = await probe();
+    }
+    if (!armed.weapon) problems.push(`could not pick up the weapon at ${yardWeapon}`);
+    console.log(`weapon: picked up ${armed.weapon || "nothing"} at (${yardWeapon.map((v) => v.toFixed(0)).join(", ")})`);
+  }
 
   // Pause menu opens and closes.
   await page.keyboard.press("Escape");

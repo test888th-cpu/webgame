@@ -80,7 +80,42 @@ equipment) is stored per hero. Temporary combat state is never persisted.
 - All rules live in `client/sim/` as data plus pure functions, so the server can be the
   authority.
 
+- **[built] Street weapons** (`client/data/weapons.json`): knife, bottle, wooden
+  plank, steel pipe, machete and folding chair lie on the street (each area's
+  `weapons` block says how many and which, by weight; stronger ones only from a
+  minimum area level). E picks up the weapon underfoot (dropping the one in hand), or
+  puts the held one down. A weapon replaces Z/X with its own moves (knife: quick
+  slashes and a lunge; pipe: long swings and a guard-breaking slam; chair: every swing
+  knocks down but slows you), wears out with each blow that lands (a bottle breaks
+  after two) and is drawn in the fighter's hand, following every swing. **Anyone
+  knocked down drops their weapon** and must pick it up again. Skills and items work
+  as usual while armed.
+- **[built] Area levels** (`client/sim/LevelRules.gd`): each area has a level, and its
+  enemies fight at it: +20% HP, +8% damage, +2% speed (capped at +30%) and +1 defense
+  every 3 levels above 1, with XP +25% and coins +20% per level. They also think
+  faster (shorter reactions and pauses), from level 3 may guard when they see a
+  wind-up, from level 5 may hop back out of reach and walk over to grab weapons, and
+  enemies that `wield` may start armed (more often at higher levels). Enemy level
+  shows over their heads.
+
 ## World structure
+
+**[built] The street so far**, east from the yard:
+
+| Area | Level | Enemies | Boss |
+|---|---|---|---|
+| Depot Yard | 1 | training dummy (safe; two weapons to practise with) | |
+| Saltmarket Street | 1 | Smoglings, Tar Rats, Pipe Brutes, Smog Warden (elite) | |
+| Canal Works | 2 | the same, tougher | Sludge Foreman |
+| Rail Yards | 4 | Dock Thugs, Rail Bruisers, Smoglings, Tar Rats | |
+| Night Market | 6 | Market Punks (fast combos), Thugs, Bruisers, Smog Warden; Kenji's Night Stall | |
+| Smokestack Refinery | 8 | Punks, Thugs, Bruisers, Refinery Enforcer (elite) | Furnace Baron (two phases) |
+
+Chief Odo's quest chain continues past the Foreman: Rail Yard Rumble, Market Lights,
+then The Furnace Baron. Better gear (rare to legendary, levels 5 to 8) drops and is sold
+further east.
+
+Long term:
 
 City hub (social, no combat) · harbour depot (personal housing) · open districts (light
 combat, gathering) · Murk farms (repeatable spawns) · elite hunting grounds (scheduled

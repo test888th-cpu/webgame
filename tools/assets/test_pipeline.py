@@ -139,6 +139,27 @@ class LicenceTest(unittest.TestCase):
         self.assertTrue(lpc_build.credit_covers("torso/vest/male/gray.png", "torso/vest/male/walk/gray.png"))
 
 
+class HandSocketTest(unittest.TestCase):
+    def test_finds_each_hand_and_ignores_specks(self) -> None:
+        cell = Image.new("RGBA", (64, 64))
+        for x in range(20, 24):
+            for y in range(40, 44):
+                cell.putpixel((x, y), (200, 150, 120, 255))
+                cell.putpixel((x + 20, y - 4), (200, 150, 120, 255))
+        cell.putpixel((5, 5), (255, 255, 255, 255))
+        centres = sorted(lpc_build.hand_clusters(cell))
+        self.assertEqual(centres, [(21.5, 41.5), (41.5, 37.5)])
+
+    def test_every_character_has_sockets_for_its_animations(self) -> None:
+        manifest = json.loads(lpc_build.MANIFEST.read_text())
+        for char_id, asset in manifest["assets"].items():
+            if asset.get("source") != "lpc":
+                continue
+            for name in ("idle", "walk", "light", "heavy"):
+                frames = asset["hands"].get(name, [])
+                self.assertEqual(len(frames), asset["animations"][name]["frames"], f"{char_id} {name}")
+
+
 class RecolourTest(unittest.TestCase):
     def test_maps_exact_colours_only(self) -> None:
         image = Image.new("RGBA", (2, 1))

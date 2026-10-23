@@ -30,6 +30,8 @@ var progression: Dictionary = {}
 ## Playable heroes (id -> definition) and the order the selection screen shows.
 var heroes: Dictionary = {}
 var hero_order: Array = []
+## Street weapons (id -> definition), from weapons.json.
+var weapons: Dictionary = {}
 ## Hero skills (skill id -> definition) and the hotbar layout, from skills.json.
 var skills: Dictionary = {}
 var hotbar: Array = []
@@ -63,6 +65,7 @@ static func load_all(dir := DATA_DIR) -> ContentDB:
 	db.areas = area_file.get("areas", {})
 	db.start_area = str(area_file.get("start_area", ""))
 	db.progression = db._read(dir.path_join("progression.json"))
+	db.weapons = db._section(dir, "weapons.json", "weapons")
 	db.heroes = db._section(dir, "heroes.json", "heroes")
 	db.hero_order = db._read(dir.path_join("heroes.json")).get("order", [])
 	var skill_file := db._read(dir.path_join("skills.json"))
@@ -134,6 +137,7 @@ func validate() -> void:
 	for id: String in areas:
 		_validate_area(id, areas[id])
 	_validate_progression()
+	_validate_weapons()
 	_validate_heroes()
 	_validate_skills()
 	_validate_art()
@@ -310,6 +314,38 @@ func _validate_area(id: String, a: Dictionary) -> void:
 					enemies.has(str(enemy_id)),
 					"%s.encounters: unknown enemy %s" % [where, enemy_id]
 				)
+
+
+func _validate_weapons() -> void:
+	for id: String in weapons:
+		var where := "weapons.%s" % id
+		var weapon: Variant = weapons[id]
+		if not weapon is Dictionary:
+			errors.append(where + ": expected an object")
+			continue
+		_check(str(weapon.get("name", "")) != "", where + ".name: required")
+		_number(weapon, "durability", where, 1)
+		_number(weapon, "weight", where, 0)
+		_number(weapon, "min_level", where, 1)
+		_number(weapon, "speed", where, 0.1)
+		_check(weapon.get("grip") in ["hand", "overhead"], where + ".grip: hand or overhead")
+		_check(
+			weapon.get("material") in ["wood", "metal", "glass"],
+			where + ".material: wood, metal or glass"
+		)
+		_validate_moveset(weapon.get("moveset", {}), where)
+		_check(not weapon.get("moveset", {}).is_empty(), where + ".moveset: required")
+	for id: String in areas:
+		var spec: Variant = areas[id].get("weapons", {})
+		if spec is Dictionary and not spec.is_empty():
+			var count: Variant = spec.get("count")
+			_check(
+				count is Array and count.size() == 2 and count[0] <= count[1],
+				"areas.%s.weapons.count: expected [min, max]" % id
+			)
+			for weapon_id: String in spec.get("pool", {}):
+				_check(weapons.has(weapon_id), "areas.%s.weapons: unknown %s" % [id, weapon_id])
+		_number(areas[id], "level", "areas.%s" % id, 1)
 
 
 func _validate_heroes() -> void:

@@ -185,6 +185,10 @@ def validate_ui(ui: dict) -> list[str]:
     for item_id, item in sorted(items.items()):
         if item.get("icon") not in regions:
             problems.append(f"ui: item {item_id} names unknown icon {item.get('icon')}")
+    weapons = json.loads((ROOT / "client" / "data" / "weapons.json").read_text())["weapons"]
+    for weapon_id, weapon in sorted(weapons.items()):
+        if weapon.get("sprite") not in regions:
+            problems.append(f"ui: weapon {weapon_id} names unknown sprite {weapon.get('sprite')}")
     return problems
 
 

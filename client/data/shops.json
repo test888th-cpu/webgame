@@ -14,6 +14,19 @@
         "hard_hat",
         "steel_toe_boots"
       ]
+    },
+    "night_stall": {
+      "name": "Kenji's Night Stall",
+      "items": [
+        "steamed_bun",
+        "ginger_tea",
+        "hard_hat",
+        "steel_toe_boots",
+        "riveted_jacket",
+        "street_runners",
+        "brass_knuckles",
+        "iron_helm"
+      ]
     }
   }
 }

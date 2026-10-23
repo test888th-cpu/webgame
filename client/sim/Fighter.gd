@@ -38,6 +38,13 @@ var queued := ""
 ## Signed pixels of push still to apply along the street.
 var knockback_remaining := 0.0
 var dodge_dir := 1
+## Held weapon (weapons.json id, "" for bare hands), hits left before it
+## breaks, its moves (input -> move id, used instead of the starters) and its
+## walk speed multiplier.
+var weapon := ""
+var weapon_uses := 0
+var weapon_moveset := {}
+var weapon_speed := 1.0
 ## Skills this fighter can use: skill id -> {"move": move id, "cooldown": ticks}.
 var skills := {}
 ## Ticks until each skill can be used again (absent or 0: ready).

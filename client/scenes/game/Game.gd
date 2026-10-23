@@ -84,11 +84,16 @@ func _physics_process(_delta: float) -> void:
 		open_pause()
 		return
 	var modifier := Input.is_action_pressed("skill_modifier")
-	if not modifier and Input.is_action_just_pressed("interact") and try_interact():
-		return
+	# E talks to a nearby NPC; anywhere else it picks up (or drops) a weapon.
+	var pick := false
+	if not modifier and Input.is_action_just_pressed("interact"):
+		if try_interact():
+			return
+		pick = true
 	if not modifier and Input.is_action_just_pressed("use_item"):
 		quick_heal()
 	var input := PlayerInput.read()
+	input.pick = pick
 	_explain_refusals(input)
 	var slot := PlayerInput.slot_pressed()
 	if _clicked_slot >= 0:
@@ -210,6 +215,14 @@ func _handle(event: ZoneEvent) -> void:
 			open_game_over.call_deferred()
 		"exit":
 			_pending_exit = event.data
+		"weapon_pickup", "weapon_break":
+			if event.data["id"] == ZoneSim.HERO_ID:
+				var weapon: Dictionary = content.weapons[event.data["weapon"]]
+				var broke := event.type == "weapon_break"
+				var text := ("%s broke!" if broke else "%s") % weapon["name"]
+				view.show_text(
+					text, zone.hero.position, Color(1, 0.6, 0.4) if broke else UiTheme.GOLD
+				)
 
 
 ## Talks to the NPC in reach, if any. Returns true when something opened.
@@ -430,6 +443,9 @@ func _process(delta: float) -> void:
 			foes.append(
 				{"x": enemy.position.x, "y": enemy.position.y, "hp": enemy.hp, "kind": enemy.kind}
 			)
+	var street_weapons: Array = []
+	for entry: Dictionary in zone.ground_weapons:
+		street_weapons.append([entry["position"].x, entry["position"].y])
 	(
 		GameSession
 		. publish_probe(
@@ -452,6 +468,8 @@ func _process(delta: float) -> void:
 				"hits": hits,
 				"hero_hits": hero_hits,
 				"cooldowns": zone.hero.cooldowns,
+				"weapon": zone.hero.weapon,
+				"street_weapons": street_weapons,
 			}
 		)
 	)

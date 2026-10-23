@@ -354,6 +354,61 @@ def lucky_coin(d: ImageDraw.ImageDraw) -> None:
     d.line((7, 0, 7, 3), fill=(180, 60, 50, 255))
 
 
+def riveted_jacket(d: ImageDraw.ImageDraw) -> None:
+    d.polygon([(5, 2), (10, 2), (14, 5), (13, 9), (11, 8), (11, 14), (4, 14), (4, 8), (2, 9), (1, 5)], fill=OUTLINE)
+    d.polygon([(5, 3), (10, 3), (13, 5), (12, 7), (10, 6), (10, 13), (5, 13), (5, 6), (3, 7), (2, 5)], fill=(70, 74, 84, 255))
+    d.line((7, 4, 7, 13), fill=(44, 46, 54, 255))
+    for x, y in ((6, 6), (6, 9), (6, 12), (9, 6), (9, 9), (9, 12), (3, 5), (12, 5)):
+        d.point((x, y), fill=(210, 214, 226, 255))
+
+
+def street_runners(d: ImageDraw.ImageDraw) -> None:
+    d.polygon([(2, 6), (7, 6), (9, 9), (14, 10), (14, 13), (2, 13)], fill=OUTLINE)
+    d.polygon([(3, 7), (7, 7), (8, 10), (13, 11), (13, 12), (3, 12)], fill=(60, 120, 220, 255))
+    d.line((3, 10, 9, 12), fill=(250, 210, 70, 255))
+    d.line((2, 13, 14, 13), fill=(236, 236, 240, 255))
+    d.point((5, 8), fill=(255, 255, 255, 255))
+
+
+def knuckle_ring(d: ImageDraw.ImageDraw, metal: tuple, shine: tuple) -> None:
+    d.rounded_rectangle((1, 5, 14, 10), radius=2, fill=OUTLINE)
+    for x in (2, 5, 8, 11):
+        d.ellipse((x, 5, x + 3, 9), fill=metal, outline=OUTLINE)
+        d.point((x + 1, 6), fill=shine)
+    d.polygon([(3, 10), (12, 10), (10, 14), (5, 14)], fill=OUTLINE)
+    d.polygon([(4, 10), (11, 10), (9, 13), (6, 13)], fill=metal)
+
+
+def brass_knuckles(d: ImageDraw.ImageDraw) -> None:
+    knuckle_ring(d, (214, 168, 64, 255), (255, 236, 160, 255))
+
+
+def baron_knuckledusters(d: ImageDraw.ImageDraw) -> None:
+    knuckle_ring(d, (70, 66, 74, 255), (255, 140, 50, 255))
+    for x in (3, 6, 9, 12):
+        d.point((x, 3), fill=(255, 120, 40, 255))
+        d.point((x, 4), fill=(200, 70, 30, 255))
+
+
+def iron_helm(d: ImageDraw.ImageDraw) -> None:
+    d.pieslice((2, 2, 14, 20), 180, 360, fill=OUTLINE)
+    d.pieslice((3, 3, 13, 19), 180, 360, fill=(150, 156, 170, 255))
+    d.rectangle((2, 10, 14, 14), fill=OUTLINE)
+    d.rectangle((3, 11, 13, 13), fill=(110, 116, 130, 255))
+    d.rectangle((7, 4, 9, 13), fill=(110, 116, 130, 255))
+    d.line((5, 5, 6, 4), fill=(220, 224, 236, 255))
+    d.line((4, 12, 6, 12), fill=OUTLINE)
+    d.line((10, 12, 12, 12), fill=OUTLINE)
+
+
+def jade_charm(d: ImageDraw.ImageDraw) -> None:
+    d.arc((3, 0, 13, 9), 200, 340, fill=(200, 60, 50, 255))
+    d.polygon([(8, 4), (13, 9), (8, 15), (3, 9)], fill=OUTLINE)
+    d.polygon([(8, 5), (12, 9), (8, 14), (4, 9)], fill=(60, 170, 110, 255))
+    d.polygon([(8, 6), (10, 9), (8, 12), (6, 9)], fill=(120, 220, 160, 255))
+    d.point((7, 7), fill=(230, 255, 240, 255))
+
+
 SILHOUETTE = (255, 255, 255, 46)
 
 
@@ -407,6 +462,12 @@ ICONS = {
     "canvas_sneakers": canvas_sneakers,
     "steel_toe_boots": steel_toe_boots,
     "lucky_coin": lucky_coin,
+    "riveted_jacket": riveted_jacket,
+    "street_runners": street_runners,
+    "brass_knuckles": brass_knuckles,
+    "baron_knuckledusters": baron_knuckledusters,
+    "iron_helm": iron_helm,
+    "jade_charm": jade_charm,
     "slot_weapon": slot_weapon,
     "slot_head": slot_head,
     "slot_body": slot_body,
@@ -416,13 +477,102 @@ ICONS = {
 }
 
 
+# Weapons a fighter can hold, drawn upright with the grip at WEAPON_GRIP so the
+# game can turn them about that point (in the hand, lying on the street).
+WEAPON_SIZE = (16, 32)
+WEAPON_GRIP = (8, 27)
+STEEL = (196, 202, 214, 255)
+STEEL_DARK = (130, 136, 150, 255)
+WOOD = (150, 104, 60, 255)
+WOOD_DARK = (110, 74, 42, 255)
+
+
+def weapon_knife(d: ImageDraw.ImageDraw) -> None:
+    d.polygon([(6, 21), (6, 11), (8, 6), (10, 11), (10, 21)], fill=OUTLINE)
+    d.polygon([(7, 20), (7, 11), (8, 8), (9, 11), (9, 20)], fill=STEEL)
+    d.line((9, 11, 9, 20), fill=STEEL_DARK)
+    d.rectangle((4, 21, 12, 22), fill=OUTLINE)
+    d.rectangle((6, 22, 10, 30), fill=OUTLINE)
+    d.rectangle((7, 23, 9, 29), fill=(60, 44, 36, 255))
+    d.point((8, 25), fill=(200, 170, 90, 255))
+
+
+def weapon_bottle(d: ImageDraw.ImageDraw) -> None:
+    d.rounded_rectangle((4, 2, 12, 19), radius=2, fill=OUTLINE)
+    d.rounded_rectangle((5, 3, 11, 18), radius=2, fill=(54, 130, 70, 255))
+    d.rectangle((6, 18, 10, 30), fill=OUTLINE)
+    d.rectangle((7, 19, 9, 29), fill=(54, 130, 70, 255))
+    d.rectangle((5, 8, 11, 13), fill=(232, 220, 180, 255))
+    d.line((6, 4, 6, 16), fill=(150, 220, 160, 255))
+    d.rectangle((7, 29, 9, 30), fill=(200, 160, 60, 255))
+
+
+def weapon_plank(d: ImageDraw.ImageDraw) -> None:
+    d.rectangle((5, 0, 11, 30), fill=OUTLINE)
+    d.rectangle((6, 1, 10, 29), fill=WOOD)
+    for y in (5, 13, 20):
+        d.line((7, y, 9, y + 3), fill=WOOD_DARK)
+    d.point((8, 3), fill=STEEL)
+    d.line((10, 2, 12, 1), fill=STEEL)
+    d.rectangle((6, 23, 10, 29), fill=(90, 60, 40, 255))
+
+
+def weapon_pipe(d: ImageDraw.ImageDraw) -> None:
+    d.rectangle((6, 0, 10, 30), fill=OUTLINE)
+    d.rectangle((7, 1, 9, 29), fill=STEEL_DARK)
+    d.line((7, 1, 7, 29), fill=STEEL)
+    d.rectangle((5, 0, 11, 2), fill=OUTLINE)
+    d.rectangle((6, 1, 10, 1), fill=STEEL)
+    for y in range(23, 30, 2):
+        d.line((7, y, 9, y), fill=(40, 40, 46, 255))
+
+
+def weapon_machete(d: ImageDraw.ImageDraw) -> None:
+    d.polygon([(5, 21), (5, 6), (8, 1), (11, 4), (11, 21)], fill=OUTLINE)
+    d.polygon([(6, 20), (6, 6), (8, 2), (10, 5), (10, 20)], fill=STEEL)
+    d.line((6, 6, 6, 20), fill=(240, 244, 250, 255))
+    d.line((10, 6, 10, 20), fill=STEEL_DARK)
+    d.rectangle((4, 21, 12, 22), fill=OUTLINE)
+    d.rectangle((6, 22, 10, 30), fill=OUTLINE)
+    d.rectangle((7, 23, 9, 29), fill=(40, 36, 34, 255))
+    for y in (24, 27):
+        d.point((8, y), fill=STEEL)
+
+
+def weapon_chair(d: ImageDraw.ImageDraw) -> None:
+    # A folding chair from the side, held upside down by the top of its back:
+    # backrest at the grip, seat and crossed legs swinging out beyond it.
+    metal = (110, 116, 130, 255)
+    d.line((4, 2, 4, 29), fill=OUTLINE, width=3)
+    d.line((4, 2, 4, 29), fill=metal)
+    d.rectangle((2, 21, 7, 29), fill=OUTLINE)
+    d.rectangle((3, 22, 6, 28), fill=(170, 60, 50, 255))
+    d.rectangle((3, 13, 14, 16), fill=OUTLINE)
+    d.rectangle((4, 14, 13, 15), fill=(170, 60, 50, 255))
+    d.line((5, 13, 13, 2), fill=OUTLINE, width=3)
+    d.line((5, 13, 13, 2), fill=metal)
+    d.line((13, 13, 5, 2), fill=OUTLINE, width=3)
+    d.line((13, 13, 5, 2), fill=metal)
+
+
+WEAPONS = {
+    "weapon_knife": weapon_knife,
+    "weapon_bottle": weapon_bottle,
+    "weapon_plank": weapon_plank,
+    "weapon_pipe": weapon_pipe,
+    "weapon_machete": weapon_machete,
+    "weapon_chair": weapon_chair,
+}
+
+
 def render() -> tuple[Image.Image, dict]:
-    """16px icons in rows of 8, then a row of 24px skill icons below."""
+    """16px icons in rows of 8, then a row of 24px skill icons, then a row of
+    weapons below."""
     columns = 8
     rows = (len(ICONS) + columns - 1) // columns
     top = rows * SIZE
-    width = max(columns * SIZE, len(SKILL_ICONS) * SKILL)
-    sheet = Image.new("RGBA", (width, top + SKILL), (0, 0, 0, 0))
+    width = max(columns * SIZE, len(SKILL_ICONS) * SKILL, len(WEAPONS) * WEAPON_SIZE[0])
+    sheet = Image.new("RGBA", (width, top + SKILL + WEAPON_SIZE[1]), (0, 0, 0, 0))
     regions = {}
     for index, (name, painter) in enumerate(ICONS.items()):
         cell = Image.new("RGBA", (SIZE, SIZE), (0, 0, 0, 0))
@@ -435,6 +585,12 @@ def render() -> tuple[Image.Image, dict]:
         painter(ImageDraw.Draw(cell))
         sheet.alpha_composite(cell, (index * SKILL, top))
         regions[name] = [index * SKILL, top, SKILL, SKILL]
+    for index, (name, painter) in enumerate(WEAPONS.items()):
+        cell = Image.new("RGBA", WEAPON_SIZE, (0, 0, 0, 0))
+        painter(ImageDraw.Draw(cell))
+        x = index * WEAPON_SIZE[0]
+        sheet.alpha_composite(cell, (x, top + SKILL))
+        regions[name] = [x, top + SKILL, *WEAPON_SIZE]
     return sheet, regions
 
 
@@ -446,6 +602,7 @@ def main() -> int:
     manifest["ui"] = {
         "license": "MIT (original art generated by tools/assets/gen_ui.py)",
         "icons": {"sheet": "res://assets/ui/icons.png", "regions": regions},
+        "weapon_grip": list(WEAPON_GRIP),
     }
     MANIFEST.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
     print(f"wrote {len(regions)} icons")

@@ -196,6 +196,90 @@
       },
       "icon": "brass_whistle",
       "description": "The Chief's own whistle, given for clearing Saltmarket. Calls the crew."
+    },
+    "riveted_jacket": {
+      "name": "Riveted Jacket",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "rare",
+      "level": 5,
+      "price": 220,
+      "stats": {
+        "defense": 3,
+        "max_hp": 20
+      },
+      "icon": "riveted_jacket",
+      "look": "armoured",
+      "description": "Rail-yard leather with steel rivets. Turns a knife."
+    },
+    "street_runners": {
+      "name": "Street Runners",
+      "type": "equipment",
+      "slot": "feet",
+      "rarity": "rare",
+      "level": 5,
+      "price": 200,
+      "stats": {
+        "speed": 0.1,
+        "defense": 1
+      },
+      "icon": "street_runners",
+      "description": "Night-market sneakers with soles that grip wet tiles."
+    },
+    "brass_knuckles": {
+      "name": "Brass Knuckles",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "rare",
+      "level": 5,
+      "price": 260,
+      "stats": {
+        "power": 0.3
+      },
+      "icon": "brass_knuckles",
+      "description": "Heavy brass rings. Every punch lands like a hammer."
+    },
+    "iron_helm": {
+      "name": "Iron Helm",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "rare",
+      "level": 6,
+      "price": 240,
+      "stats": {
+        "defense": 2,
+        "max_hp": 20
+      },
+      "icon": "iron_helm",
+      "description": "A refinery safety helmet, dented but solid."
+    },
+    "jade_charm": {
+      "name": "Jade Charm",
+      "type": "equipment",
+      "slot": "charm",
+      "rarity": "epic",
+      "level": 7,
+      "price": 0,
+      "stats": {
+        "max_hp": 25,
+        "power": 0.06
+      },
+      "icon": "jade_charm",
+      "description": "A carved jade tiger. The Baron never let it out of his sight."
+    },
+    "baron_knuckledusters": {
+      "name": "Baron's Knuckledusters",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "legendary",
+      "level": 8,
+      "price": 0,
+      "stats": {
+        "power": 0.45,
+        "max_hp": 20
+      },
+      "icon": "baron_knuckledusters",
+      "description": "Still hot from the furnace. Taken from the Baron himself."
     }
   }
 }
