@@ -19,11 +19,26 @@ var fighter: Fighter
 @onready var _shield: Polygon2D = $Body/Shield
 @onready var _health: Node2D = $Health
 @onready var _health_fill: ColorRect = $Health/Fill
+@onready var _warning: Label = $Warning
+@onready var _name: Label = $Name
 
 
 func _ready() -> void:
 	_torso.color = body_color
 	_health.visible = show_health_bar
+
+
+## Configures the view for an enemy from its enemies.json entry.
+func setup_enemy(data: Dictionary) -> void:
+	body_color = Color.from_string(str(data.get("color", "#777777")), Color.GRAY)
+	_torso.color = body_color
+	scale = Vector2.ONE * float(data.get("scale", 1.0))
+	# Bosses get the big HUD bar instead of a small one overhead.
+	show_health_bar = not data.get("boss", false)
+	_health.visible = show_health_bar
+	if data.get("elite", false) or data.get("boss", false):
+		_name.text = str(data.get("name", ""))
+		_name.visible = true
 
 
 func sync() -> void:
@@ -35,6 +50,7 @@ func sync() -> void:
 	_body.modulate = Color.WHITE
 	_arm.visible = false
 	_shield.visible = false
+	_warning.visible = false
 	match fighter.state:
 		Fighter.State.ATTACK:
 			_pose_attack()
@@ -60,6 +76,8 @@ func _pose_attack() -> void:
 	var tick := fighter.state_tick
 	_arm.visible = true
 	var extension := 0.0
+	# Telegraphed attacks show a warning for their whole wind-up.
+	_warning.visible = move.telegraph and tick < move.startup
 	if move.is_active_tick(tick):
 		extension = 1.0
 	elif tick >= move.startup + move.active:

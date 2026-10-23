@@ -18,10 +18,10 @@ func test_renderer_is_web_compatible() -> void:
 		assert_eq(ProjectSettings.get_setting(setting), "gl_compatibility", setting)
 
 
-func test_main_scene_is_the_test_zone() -> void:
+func test_main_scene_is_the_title() -> void:
 	assert_eq(
 		ProjectSettings.get_setting("application/run/main_scene"),
-		"res://scenes/world/TestZone.tscn",
+		"res://scenes/title/Title.tscn",
 		"main scene"
 	)
 

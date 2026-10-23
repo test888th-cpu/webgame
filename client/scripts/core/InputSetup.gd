@@ -16,6 +16,9 @@ const KEYS := {
 	"attack_heavy": [KEY_K, KEY_X],
 	"dodge": [KEY_SPACE, KEY_L],
 	"guard": [KEY_SHIFT, KEY_I],
+	"interact": [KEY_E, KEY_U],
+	"use_item": [KEY_H, KEY_Q],
+	"pause": [KEY_ESCAPE, KEY_P],
 }
 
 const PAD_BUTTONS := {
@@ -27,6 +30,9 @@ const PAD_BUTTONS := {
 	"attack_heavy": JOY_BUTTON_Y,
 	"dodge": JOY_BUTTON_A,
 	"guard": JOY_BUTTON_LEFT_SHOULDER,
+	"interact": JOY_BUTTON_B,
+	"use_item": JOY_BUTTON_RIGHT_SHOULDER,
+	"pause": JOY_BUTTON_START,
 }
 
 ## [axis, direction] for the left stick (movement only).
