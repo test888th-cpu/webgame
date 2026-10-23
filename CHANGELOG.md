@@ -53,6 +53,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 - 23 new tests (39 total). Browser smoke test now lands a combo on the dummy.
 - `pages.yml` plays the live HTTPS site after each deploy.
 
+### Security
+- Asset tools pin Pillow 13.0.0: dependency review flagged 20+ HIGH advisories in
+  12.3.0 (PDF, TIFF, JPEG, GIF decoders). Rebuilt assets are byte-identical.
+
 ### Changed
 - CI jobs have time limits. The smoke test installs only Chromium's headless shell
   (cached) instead of `--with-deps`, which spent 10+ minutes on a slow apt mirror.
