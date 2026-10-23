@@ -27,7 +27,7 @@ for security problems.
 | Container image scan (Trivy 0.76.1, fixable HIGH/CRITICAL fail) | ci.yml |
 | SBOM (CycloneDX) for the API's production dependencies | ci.yml artifact |
 | `.env.example` placeholder-only and no key files tracked | tools/ci/check-repo.sh |
-Also enable GitHub's built-in **secret scanning + push protection** and **Dependabot alerts**
+Also enable, under **Settings → Advanced Security**, the **Dependency graph** (required by the dependency-review job), **Secret Protection with push protection** and **Dependabot alerts**
 in repository settings (owner action, see DEPLOYMENT.md).
 
 ## Application rules

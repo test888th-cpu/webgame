@@ -23,8 +23,10 @@ deployment.
 5. Verify the game loads over HTTPS in Chrome or Edge and the hero moves. Record the result
    in CHANGELOG.
 
-Recommended at the same time: **Settings → Code security** → enable Dependabot alerts,
-secret scanning and push protection, and private vulnerability reporting. **Settings →
+Required for the *Dependency review* check: **Settings → Advanced Security** →
+**Dependency graph → Enable** (free for public repositories), then re-run the failed
+Security workflow. Recommended on the same page: Dependabot alerts, Secret Protection with
+push protection, and private vulnerability reporting. **Settings →
 Branches** → protect `main`: require PRs and the CI + Security checks.
 
 ## Rollback (client)
