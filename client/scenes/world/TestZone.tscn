@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scenes/world/TestZone.gd" id="1_zone"]
-[ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/fighter/FighterView.tscn" id="2_fighter"]
 [ext_resource type="PackedScene" path="res://scenes/ui/Hud.tscn" id="3_hud"]
 
 [node name="TestZone" type="Node2D"]
@@ -1373,7 +1373,19 @@ color = Color(0.8, 0.75, 0.4, 0.6)
 [node name="Entities" type="Node2D" parent="."]
 y_sort_enabled = true
 
-[node name="Player" parent="Entities" instance=ExtResource("2_player")]
+[node name="Dummy" parent="Entities" instance=ExtResource("2_fighter")]
+position = Vector2(300, 300)
+body_color = Color(0.55, 0.5, 0.42, 1)
+show_health_bar = true
+
+[node name="Hero" parent="Entities" instance=ExtResource("2_fighter")]
 position = Vector2(120, 300)
+
+[node name="Camera" type="Camera2D" parent="Entities/Hero"]
+position = Vector2(0, -60)
+position_smoothing_enabled = true
+position_smoothing_speed = 8.0
+
+[node name="Effects" type="Node2D" parent="."]
 
 [node name="Hud" parent="." instance=ExtResource("3_hud")]

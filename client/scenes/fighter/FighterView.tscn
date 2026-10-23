@@ -1,9 +1,9 @@
 [gd_scene load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://scenes/player/Player.gd" id="1_player"]
+[ext_resource type="Script" path="res://scenes/fighter/FighterView.gd" id="1_view"]
 
-[node name="Player" type="Node2D"]
-script = ExtResource("1_player")
+[node name="FighterView" type="Node2D"]
+script = ExtResource("1_view")
 
 [node name="Shadow" type="Polygon2D" parent="."]
 color = Color(0, 0, 0, 0.35)
@@ -19,6 +19,11 @@ polygon = PackedVector2Array(-6, -16, 6, -16, 6, 0, 2, 0, 0, -8, -2, 0, -6, 0)
 color = Color(0.86, 0.42, 0.2, 1)
 polygon = PackedVector2Array(-8, -32, 8, -32, 7, -16, -7, -16)
 
+[node name="Arm" type="Polygon2D" parent="Body"]
+visible = false
+color = Color(0.93, 0.78, 0.62, 1)
+polygon = PackedVector2Array(4, -29, 16, -29, 18, -27, 16, -24, 4, -24)
+
 [node name="Head" type="Polygon2D" parent="Body"]
 color = Color(0.93, 0.78, 0.62, 1)
 polygon = PackedVector2Array(-5, -42, 5, -42, 6, -36, 4, -32, -4, -32, -6, -36)
@@ -27,7 +32,21 @@ polygon = PackedVector2Array(-5, -42, 5, -42, 6, -36, 4, -32, -4, -32, -6, -36)
 color = Color(0.95, 0.85, 0.25, 1)
 polygon = PackedVector2Array(-6, -40, 6, -40, 6, -38, 10, -36, 9, -35, 5, -37, -6, -37)
 
-[node name="Camera" type="Camera2D" parent="."]
-position = Vector2(0, -60)
-position_smoothing_enabled = true
-position_smoothing_speed = 8.0
+[node name="Shield" type="Polygon2D" parent="Body"]
+visible = false
+color = Color(0.45, 0.75, 1, 0.55)
+polygon = PackedVector2Array(10, -40, 14, -36, 14, -10, 10, -6)
+
+[node name="Health" type="Node2D" parent="."]
+visible = false
+position = Vector2(-12, -52)
+
+[node name="Back" type="ColorRect" parent="Health"]
+offset_right = 24.0
+offset_bottom = 3.0
+color = Color(0.1, 0.1, 0.12, 0.8)
+
+[node name="Fill" type="ColorRect" parent="Health"]
+offset_right = 24.0
+offset_bottom = 3.0
+color = Color(0.9, 0.25, 0.25, 1)

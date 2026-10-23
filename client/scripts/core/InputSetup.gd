@@ -12,6 +12,10 @@ const KEYS := {
 	"move_right": [KEY_RIGHT, KEY_D],
 	"move_up": [KEY_UP, KEY_W],
 	"move_down": [KEY_DOWN, KEY_S],
+	"attack_light": [KEY_J, KEY_Z],
+	"attack_heavy": [KEY_K, KEY_X],
+	"dodge": [KEY_SPACE, KEY_L],
+	"guard": [KEY_SHIFT, KEY_I],
 }
 
 const PAD_BUTTONS := {
@@ -19,9 +23,13 @@ const PAD_BUTTONS := {
 	"move_right": JOY_BUTTON_DPAD_RIGHT,
 	"move_up": JOY_BUTTON_DPAD_UP,
 	"move_down": JOY_BUTTON_DPAD_DOWN,
+	"attack_light": JOY_BUTTON_X,
+	"attack_heavy": JOY_BUTTON_Y,
+	"dodge": JOY_BUTTON_A,
+	"guard": JOY_BUTTON_LEFT_SHOULDER,
 }
 
-## [axis, direction] for the left stick.
+## [axis, direction] for the left stick (movement only).
 const PAD_AXES := {
 	"move_left": [JOY_AXIS_LEFT_X, -1.0],
 	"move_right": [JOY_AXIS_LEFT_X, 1.0],
@@ -42,7 +50,8 @@ func _init() -> void:
 		var button := InputEventJoypadButton.new()
 		button.button_index = PAD_BUTTONS[action]
 		InputMap.action_add_event(action, button)
-		var motion := InputEventJoypadMotion.new()
-		motion.axis = PAD_AXES[action][0]
-		motion.axis_value = PAD_AXES[action][1]
-		InputMap.action_add_event(action, motion)
+		if PAD_AXES.has(action):
+			var motion := InputEventJoypadMotion.new()
+			motion.axis = PAD_AXES[action][0]
+			motion.axis_value = PAD_AXES[action][1]
+			InputMap.action_add_event(action, motion)

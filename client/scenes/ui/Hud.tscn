@@ -1,9 +1,12 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scenes/ui/Hud.gd" id="1_hud"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_btn"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_30"]
 size = Vector2(30, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_34"]
+size = Vector2(34, 34)
 
 [node name="Hud" type="CanvasLayer"]
 script = ExtResource("1_hud")
@@ -24,11 +27,36 @@ offset_bottom = 38.0
 theme_override_colors/font_color = Color(0.7, 0.72, 0.8, 1)
 theme_override_font_sizes/font_size = 8
 
+[node name="Bars" type="Node2D" parent="."]
+position = Vector2(8, 42)
+
+[node name="HpBack" type="ColorRect" parent="Bars"]
+offset_right = 120.0
+offset_bottom = 6.0
+color = Color(0.1, 0.1, 0.12, 0.85)
+
+[node name="HpFill" type="ColorRect" parent="Bars"]
+offset_right = 120.0
+offset_bottom = 6.0
+color = Color(0.9, 0.25, 0.25, 1)
+
+[node name="EnergyBack" type="ColorRect" parent="Bars"]
+offset_top = 8.0
+offset_right = 120.0
+offset_bottom = 12.0
+color = Color(0.1, 0.1, 0.12, 0.85)
+
+[node name="EnergyFill" type="ColorRect" parent="Bars"]
+offset_top = 8.0
+offset_right = 120.0
+offset_bottom = 12.0
+color = Color(0.35, 0.7, 1, 1)
+
 [node name="Status" type="Label" parent="."]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -208.0
+offset_left = -260.0
 offset_top = 6.0
 offset_right = -8.0
 offset_bottom = 22.0
@@ -47,7 +75,7 @@ offset_bottom = -6.0
 grow_vertical = 0
 theme_override_colors/font_color = Color(0.8, 0.82, 0.9, 1)
 theme_override_font_sizes/font_size = 8
-text = "Move: arrow keys / WASD / gamepad stick or d-pad / on-screen pad"
+text = "Move: arrows/WASD  Light: J/Z  Heavy: K/X  Dodge: Space/L  Guard: hold Shift/I"
 horizontal_alignment = 2
 
 [node name="Touch" type="Control" parent="."]
@@ -57,7 +85,7 @@ mouse_filter = 2
 
 [node name="Left" type="TouchScreenButton" parent="Touch"]
 position = Vector2(16, 276)
-shape = SubResource("RectangleShape2D_btn")
+shape = SubResource("RectangleShape2D_30")
 shape_centered = false
 action = "move_left"
 visibility_mode = 0
@@ -66,9 +94,17 @@ visibility_mode = 0
 color = Color(1, 1, 1, 0.22)
 polygon = PackedVector2Array(0, 0, 30, 0, 30, 30, 0, 30)
 
+[node name="Label" type="Label" parent="Touch/Left"]
+offset_right = 30.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 8
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Right" type="TouchScreenButton" parent="Touch"]
 position = Vector2(80, 276)
-shape = SubResource("RectangleShape2D_btn")
+shape = SubResource("RectangleShape2D_30")
 shape_centered = false
 action = "move_right"
 visibility_mode = 0
@@ -77,9 +113,17 @@ visibility_mode = 0
 color = Color(1, 1, 1, 0.22)
 polygon = PackedVector2Array(0, 0, 30, 0, 30, 30, 0, 30)
 
+[node name="Label" type="Label" parent="Touch/Right"]
+offset_right = 30.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 8
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Up" type="TouchScreenButton" parent="Touch"]
 position = Vector2(48, 244)
-shape = SubResource("RectangleShape2D_btn")
+shape = SubResource("RectangleShape2D_30")
 shape_centered = false
 action = "move_up"
 visibility_mode = 0
@@ -88,9 +132,17 @@ visibility_mode = 0
 color = Color(1, 1, 1, 0.22)
 polygon = PackedVector2Array(0, 0, 30, 0, 30, 30, 0, 30)
 
+[node name="Label" type="Label" parent="Touch/Up"]
+offset_right = 30.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 8
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Down" type="TouchScreenButton" parent="Touch"]
 position = Vector2(48, 308)
-shape = SubResource("RectangleShape2D_btn")
+shape = SubResource("RectangleShape2D_30")
 shape_centered = false
 action = "move_down"
 visibility_mode = 0
@@ -98,3 +150,87 @@ visibility_mode = 0
 [node name="Face" type="Polygon2D" parent="Touch/Down"]
 color = Color(1, 1, 1, 0.22)
 polygon = PackedVector2Array(0, 0, 30, 0, 30, 30, 0, 30)
+
+[node name="Label" type="Label" parent="Touch/Down"]
+offset_right = 30.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 8
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Light" type="TouchScreenButton" parent="Touch"]
+position = Vector2(560, 290)
+shape = SubResource("RectangleShape2D_34")
+shape_centered = false
+action = "attack_light"
+visibility_mode = 0
+
+[node name="Face" type="Polygon2D" parent="Touch/Light"]
+color = Color(0.9, 0.3, 0.3, 0.4)
+polygon = PackedVector2Array(0, 0, 34, 0, 34, 34, 0, 34)
+
+[node name="Label" type="Label" parent="Touch/Light"]
+offset_right = 34.0
+offset_bottom = 34.0
+theme_override_font_sizes/font_size = 8
+text = "J"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Heavy" type="TouchScreenButton" parent="Touch"]
+position = Vector2(600, 250)
+shape = SubResource("RectangleShape2D_34")
+shape_centered = false
+action = "attack_heavy"
+visibility_mode = 0
+
+[node name="Face" type="Polygon2D" parent="Touch/Heavy"]
+color = Color(0.95, 0.6, 0.2, 0.4)
+polygon = PackedVector2Array(0, 0, 34, 0, 34, 34, 0, 34)
+
+[node name="Label" type="Label" parent="Touch/Heavy"]
+offset_right = 34.0
+offset_bottom = 34.0
+theme_override_font_sizes/font_size = 8
+text = "K"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Dodge" type="TouchScreenButton" parent="Touch"]
+position = Vector2(520, 250)
+shape = SubResource("RectangleShape2D_34")
+shape_centered = false
+action = "dodge"
+visibility_mode = 0
+
+[node name="Face" type="Polygon2D" parent="Touch/Dodge"]
+color = Color(0.3, 0.6, 0.95, 0.4)
+polygon = PackedVector2Array(0, 0, 34, 0, 34, 34, 0, 34)
+
+[node name="Label" type="Label" parent="Touch/Dodge"]
+offset_right = 34.0
+offset_bottom = 34.0
+theme_override_font_sizes/font_size = 8
+text = "DODGE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Guard" type="TouchScreenButton" parent="Touch"]
+position = Vector2(560, 210)
+shape = SubResource("RectangleShape2D_34")
+shape_centered = false
+action = "guard"
+visibility_mode = 0
+
+[node name="Face" type="Polygon2D" parent="Touch/Guard"]
+color = Color(0.4, 0.85, 0.5, 0.4)
+polygon = PackedVector2Array(0, 0, 34, 0, 34, 34, 0, 34)
+
+[node name="Label" type="Label" parent="Touch/Guard"]
+offset_right = 34.0
+offset_bottom = 34.0
+theme_override_font_sizes/font_size = 8
+text = "GUARD"
+horizontal_alignment = 1
+vertical_alignment = 1
