@@ -15,6 +15,7 @@ const ARM_REACH := 14.0
 const HIT_FLASH_TICKS := 6
 ## Ticks over which the knock-down animation plays before holding its last frame.
 const DOWN_TICKS := 30
+const FLASH_SHADER := preload("res://scenes/fighter/flash.gdshader")
 
 @export var body_color := Color(0.86, 0.42, 0.2)
 @export var show_health_bar := false
@@ -24,6 +25,11 @@ var art_id := ""
 
 var _sprite: AnimatedSprite2D
 var _last_position := Vector2.INF
+## Impact feedback (presentation only): a colour flash fading out, and a
+## short freeze of the sprite's pose with a shiver.
+var _flash := 0.0
+var _flash_color := Color.WHITE
+var _freeze := 0.0
 
 @onready var _body: Node2D = $Body
 @onready var _torso: Polygon2D = $Body/Torso
@@ -72,6 +78,8 @@ func set_art(id: String, art: Dictionary) -> void:
 		_sprite.name = "Sprite"
 		_sprite.centered = false
 		_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		_sprite.material = ShaderMaterial.new()
+		_sprite.material.shader = FLASH_SHADER
 		add_child(_sprite)
 		move_child(_sprite, 1)  # above the shadow, below labels
 	var sheet := str(entry["sheet"])
@@ -82,6 +90,24 @@ func set_art(id: String, art: Dictionary) -> void:
 	for part in _body.get_children():
 		part.visible = part == _shield
 	_play("idle")
+
+
+## Flashes the sprite `color` (fading over `seconds`) and holds its pose for
+## `freeze` seconds: the weight of a landed blow.
+func impact(color: Color, seconds := 0.12, freeze := 0.0) -> void:
+	_flash_color = color
+	_flash = seconds
+	_freeze = maxf(_freeze, freeze)
+
+
+func _process(delta: float) -> void:
+	_flash = maxf(0.0, _flash - delta)
+	_freeze = maxf(0.0, _freeze - delta)
+	if _sprite:
+		var material := _sprite.material as ShaderMaterial
+		material.set_shader_parameter("flash", clampf(_flash / 0.12, 0.0, 0.85))
+		material.set_shader_parameter("flash_color", _flash_color)
+		_sprite.position.x = randf_range(-1.5, 1.5) if _freeze > 0.0 else 0.0
 
 
 func sync() -> void:
@@ -101,7 +127,8 @@ func sync() -> void:
 	if _sprite:
 		_sprite.flip_h = fighter.facing < 0
 		_sprite.modulate = Color.WHITE
-		_animate_sprite(moved)
+		if _freeze <= 0.0:
+			_animate_sprite(moved)
 	else:
 		_pose_polygons()
 	if show_health_bar:

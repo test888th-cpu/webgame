@@ -7,7 +7,7 @@ extends RefCounted
 const DEFAULT_PATH := "res://data/moves.json"
 
 const INT_FIELDS := ["startup", "active", "recovery", "damage", "hitstun"]
-const FLOAT_FIELDS := ["knockback", "reach", "depth_tolerance", "energy_cost"]
+const FLOAT_FIELDS := ["knockback", "reach", "depth_tolerance", "energy_cost", "advance"]
 ## May be negative: a sweep whose hitbox starts behind the attacker.
 const SIGNED_FLOAT_FIELDS := ["reach_offset"]
 const BOOL_FIELDS := ["guard_break", "knockdown", "telegraph"]

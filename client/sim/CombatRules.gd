@@ -80,6 +80,10 @@ static func in_reach(attacker: Fighter, defender: Fighter, move: MoveData) -> bo
 
 static func _step(f: Fighter, input: FighterInput, library: MoveLibrary, bounds: Rect2) -> void:
 	f.state_tick += 1
+	for skill_id: String in f.cooldowns.keys():
+		f.cooldowns[skill_id] -= 1
+		if f.cooldowns[skill_id] <= 0:
+			f.cooldowns.erase(skill_id)
 	match f.state:
 		Fighter.State.KO:
 			pass
@@ -96,6 +100,7 @@ static func _step(f: Fighter, input: FighterInput, library: MoveLibrary, bounds:
 			if f.state_tick >= DODGE_TICKS:
 				f.enter(Fighter.State.IDLE)
 		Fighter.State.ATTACK:
+			_advance(f, bounds)
 			_step_attack(f, input, library)
 		Fighter.State.GUARD:
 			if not input.guard:
@@ -124,6 +129,8 @@ static func _step_idle(
 		f.energy -= DODGE_COST
 		f.dodge_dir = f.facing
 		f.enter(Fighter.State.DODGE)
+	elif input.skill and start_skill(f, input.skill, library):
+		pass
 	elif input.heavy and _start_move(f, library.get_move(starter(f, library, "heavy"))):
 		pass
 	elif input.light and _start_move(f, library.get_move(starter(f, library, "light"))):
@@ -147,19 +154,49 @@ static func damage_for(move: MoveData, attacker: Fighter, defender: Fighter) -> 
 	return maxi(1, roundi(move.damage * attacker.power) - defender.defense)
 
 
+## Starts a skill if the fighter knows it, it is off cooldown and there is
+## energy for its move. Starts the cooldown. Returns false otherwise.
+static func start_skill(f: Fighter, skill_id: String, library: MoveLibrary) -> bool:
+	var skill: Dictionary = f.skills.get(skill_id, {})
+	if skill.is_empty() or f.cooldown_left(skill_id) > 0:
+		return false
+	if not _start_move(f, library.get_move(str(skill["move"]))):
+		return false
+	f.cooldowns[skill_id] = int(skill["cooldown"])
+	return true
+
+
 static func _step_attack(f: Fighter, input: FighterInput, library: MoveLibrary) -> void:
-	if input.heavy:
+	if input.skill:
+		f.queued_skill = input.skill
+	elif input.heavy:
 		f.queued = "heavy"
 	elif input.light:
 		f.queued = "light"
 	var move := f.move
 	# Chains open once the hitbox has closed, and only after a connected hit.
-	if f.hit_landed and f.queued and f.state_tick >= move.startup + move.active:
+	# A queued skill cancels the rest of any attack that connected.
+	var cancel_window := f.hit_landed and f.state_tick >= move.startup + move.active
+	if cancel_window and f.queued_skill:
+		var skill_id := f.queued_skill
+		f.queued_skill = ""
+		if start_skill(f, skill_id, library):
+			return
+	if cancel_window and f.queued:
 		var next_id: String = move.chains.get(f.queued, "")
 		if next_id and _start_move(f, library.get_move(next_id)):
 			return
 	if f.state_tick >= move.total_ticks():
 		f.enter(Fighter.State.IDLE)
+
+
+## Lunging moves carry the attacker forward until the hitbox closes.
+static func _advance(f: Fighter, bounds: Rect2) -> void:
+	var move := f.move
+	var ticks := move.startup + move.active
+	if move.advance > 0.0 and f.state_tick <= ticks:
+		var step := Vector2(f.facing * move.advance / ticks, 0)
+		f.position = LaneMovement.clamp_to(f.position + step, bounds)
 
 
 static func _start_move(f: Fighter, move: MoveData) -> bool:
@@ -171,6 +208,7 @@ static func _start_move(f: Fighter, move: MoveData) -> bool:
 	f.hit_landed = false
 	f.hit_ids = {}
 	f.queued = ""
+	f.queued_skill = ""
 	return true
 
 
@@ -195,8 +233,12 @@ static func _apply_hit(attacker: Fighter, defender: Fighter, move: MoveData) -> 
 			defender.enter(Fighter.State.HITSTUN, GUARD_BREAK_STUN)
 	else:
 		event.damage = full
-		defender.knockback_remaining = attacker.facing * move.knockback
-		defender.facing = -attacker.facing
+		# Away from the attacker, so sweeps that reach behind push outward.
+		var away := signf(defender.position.x - attacker.position.x)
+		if away == 0.0:
+			away = attacker.facing
+		defender.knockback_remaining = away * move.knockback
+		defender.facing = -int(away)
 	defender.hp = maxi(0, defender.hp - event.damage)
 	if defender.hp == 0:
 		event.ko = true

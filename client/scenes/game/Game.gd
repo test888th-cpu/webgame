@@ -1,9 +1,9 @@
+class_name Game
 extends Node2D
 ## The running game: owns the current zone simulation and its view, feeds the
 ## hero's input in at a fixed 60 ticks per second, reacts to zone events
 ## (damage numbers, rewards, area changes, defeat), and opens the menus
-## (pause/inventory, shop, quests, game over). While a menu is open the
-## simulation does not tick.
+## (built by GameMenus). While a menu is open the simulation does not tick.
 
 const READY_MARKER := "GAME_READY"
 const PROBE_INTERVAL := 0.1
@@ -19,9 +19,16 @@ var hits := 0
 var hero_hits := 0
 var menu: Control = null
 var menu_name := ""
+## The item the rebuilt bag or shop selects again, so acting on an item does
+## not jump the cursor back to the top.
+var menu_focus := ""
+var menu_focus_equipped := false
 
 var _pending_exit := {}
 var _probe_timer := 0.0
+## A hotbar slot clicked or tapped since the last tick (-1: none).
+var _clicked_slot := -1
+var _feedback: GameFeedback
 
 @onready var _world: Node2D = $World
 @onready var _hud: CanvasLayer = $Hud
@@ -33,6 +40,8 @@ func _ready() -> void:
 	if GameSession.profile == null:
 		GameSession.start_new_game()
 	profile = GameSession.profile
+	_feedback = GameFeedback.new(content, _hud)
+	_hud.slot_pressed.connect(func(index: int) -> void: _clicked_slot = index)
 	enter_area(profile.area, "")
 	print("%s %s" % [READY_MARKER, BuildInfo.summary()])
 
@@ -47,6 +56,7 @@ func enter_area(area_id: String, entry: String) -> void:
 	_world.add_child(view)
 	view.build(zone, content)
 	view.update_npc_marks(profile)
+	_feedback.view = view
 	_hud.attach(zone, profile, content)
 	_hud.toast(str(zone.area.get("name", area_id)))
 	SaveStore.save(profile)
@@ -54,17 +64,73 @@ func enter_area(area_id: String, entry: String) -> void:
 
 func _physics_process(_delta: float) -> void:
 	if menu:
-		if menu_name != "game_over" and Input.is_action_just_pressed("pause"):
+		if menu_name == "game_over":
+			return
+		if Input.is_action_just_pressed("pause"):
 			close_menu()
+		elif menu_name in GameMenus.TAB_MENU_NAMES:
+			if Input.is_action_just_pressed("menu_prev"):
+				GameMenus.cycle_tab(menu, -1)
+			elif Input.is_action_just_pressed("menu_next"):
+				GameMenus.cycle_tab(menu, 1)
 		return
 	if Input.is_action_just_pressed("pause"):
+		Sfx.play("ui_select", -4.0)
 		open_pause()
 		return
-	if Input.is_action_just_pressed("interact") and try_interact():
+	var modifier := Input.is_action_pressed("skill_modifier")
+	if not modifier and Input.is_action_just_pressed("interact") and try_interact():
 		return
-	if Input.is_action_just_pressed("use_item"):
+	if not modifier and Input.is_action_just_pressed("use_item"):
 		quick_heal()
-	step(PlayerInput.read())
+	var input := PlayerInput.read()
+	var slot := PlayerInput.slot_pressed()
+	if _clicked_slot >= 0:
+		slot = _clicked_slot
+		_clicked_slot = -1
+	if slot >= 0:
+		use_slot(slot, input)
+	step(input)
+
+
+## Presses hotbar slot `index` for this tick's input. Checks here only give
+## the player feedback; the simulation decides again whether a skill fires.
+func use_slot(index: int, input: FighterInput) -> bool:
+	var entry: Dictionary = content.hotbar[index]
+	var ok := true
+	match entry["type"]:
+		"attack":
+			input.light = true
+		"skill":
+			var skill_id: String = entry["id"]
+			var skill: Dictionary = content.skills[skill_id]
+			var move := content.moves.get_move(str(skill["move"]))
+			if not zone.hero.skills.has(skill_id):
+				_hud.toast("%s unlocks at level %d" % [skill["name"], skill["unlock_level"]])
+				ok = false
+			elif zone.hero.cooldown_left(skill_id) > 0:
+				ok = false
+			elif zone.hero.energy < move.energy_cost:
+				_hud.toast("Not enough energy")
+				ok = false
+			else:
+				input.skill = skill_id
+		"item":
+			ok = _use_hotbar_item(str(entry["id"]))
+	_hud.flash_slot(index, ok)
+	if not ok:
+		Sfx.play("denied", -4.0)
+	return ok
+
+
+func _use_hotbar_item(item_id: String) -> bool:
+	if profile.count(item_id) == 0:
+		_hud.toast("No %s left" % content.item(item_id)["name"])
+		return false
+	if not zone.use_item(item_id):
+		return false
+	_feedback.healed()
+	return true
 
 
 ## Advances the zone one tick with the given hero input.
@@ -72,6 +138,7 @@ func step(input: FighterInput) -> Array[ZoneEvent]:
 	var events := zone.tick(input)
 	for event in events:
 		_handle(event)
+		_feedback.on_event(event)
 	view.sync()
 	if _pending_exit:
 		var exit := _pending_exit
@@ -93,8 +160,6 @@ func _handle(event: ZoneEvent) -> void:
 			if event.data.get("boss", false):
 				_hud.toast("%s defeated!" % data.get("name", "Boss"))
 			SaveStore.save(profile)
-		"level_up":
-			_hud.toast("Level up! Lv %d" % event.data["level"])
 		"quest_complete":
 			var quest: Dictionary = content.quests[event.data["quest"]]
 			_hud.toast("Quest complete: %s" % quest["name"])
@@ -139,192 +204,87 @@ func quick_heal() -> bool:
 			view.show_text(
 				str(content.item(item_id)["name"]), zone.hero.position, Color(0.6, 1, 0.7)
 			)
+			_feedback.healed()
 			return true
-	_hud.toast("Nothing to eat")
+	if zone.item_cooldown == 0:
+		_hud.toast("Nothing to eat")
+	Sfx.play("denied", -4.0)
 	return false
 
 
 func close_menu() -> void:
 	if menu:
 		menu.queue_free()
+		Sfx.play("ui_back", -4.0)
 	menu = null
 	menu_name = ""
+	menu_focus = ""
 	zone.refresh_hero()
 	view.update_npc_marks(profile)
 
 
-func _show(name: String, parts: Array) -> void:
+func _show(name: String, screen: Control) -> void:
 	if menu:
 		menu.queue_free()
-	menu = parts[0]
+	menu = screen
 	menu_name = name
 	_menus.add_child(menu)
 	UiKit.focus_first(menu)
 
 
-func open_pause() -> void:
-	var parts := UiKit.panel("Paused")
-	var list: VBoxContainer = parts[1]
-	var stats := profile.stats(content)
-	(
-		list
-		. add_child(
-			(
-				UiKit
-				. label(
-					(
-						"Lv %d   XP %d/%d   HP %d/%d   Coins %d\nPower x%.2f   Defense %d"
-						% [
-							profile.level,
-							profile.xp,
-							profile.xp_to_next(content),
-							zone.hero.hp,
-							zone.hero.max_hp,
-							profile.money,
-							stats["power"],
-							stats["defense"],
-						]
-					)
-				)
-			)
-		)
-	)
-	list.add_child(UiKit.button("Resume", close_menu))
-	list.add_child(UiKit.button("Inventory", open_inventory))
-	list.add_child(UiKit.button("Quests", open_quest_log))
-	list.add_child(UiKit.button("Save game", _save_game))
-	list.add_child(UiKit.button("Quit to title", _quit_to_title))
-	_show("pause", parts)
+func open_pause(tab := GameMenus.TAB_STATUS) -> void:
+	_show(GameMenus.TAB_MENU_NAMES[tab], GameMenus.pause(self, tab))
 
 
 func open_inventory() -> void:
-	var parts := UiKit.panel("Inventory", 340)
-	var list: VBoxContainer = parts[1]
-	for slot: String in PlayerProfile.SLOTS:
-		var equipped: String = profile.equipment[slot]
-		var text := "%s: %s" % [slot.capitalize(), content.item(equipped).get("name", "-")]
-		var action := UiKit.button("Unequip", _unequip.bind(slot), not equipped)
-		list.add_child(UiKit.row(text, action))
-	if profile.inventory.is_empty():
-		list.add_child(UiKit.label("Your bag is empty.", 9, Color(0.7, 0.7, 0.75)))
-	for item_id: String in profile.inventory:
-		var item := content.item(item_id)
-		var text := (
-			"%s x%d  -  %s" % [item["name"], profile.count(item_id), item.get("description", "")]
-		)
-		var action: Button
-		if item["type"] == "consumable":
-			action = UiKit.button("Use", _use.bind(item_id))
-		else:
-			action = UiKit.button("Equip", _equip.bind(item_id))
-		list.add_child(UiKit.row(text, action))
-	list.add_child(UiKit.button("Back", open_pause))
-	_show("inventory", parts)
+	open_pause(GameMenus.TAB_BAG)
 
 
 func open_quest_log() -> void:
-	var parts := UiKit.panel("Quests", 340)
-	var list: VBoxContainer = parts[1]
-	var any := false
-	for quest_id: String in profile.quests:
-		any = true
-		list.add_child(UiKit.label(_quest_line(quest_id)))
-	if not any:
-		list.add_child(
-			UiKit.label(
-				"No quests yet. Chief Odo in Depot Yard has work.", 9, Color(0.7, 0.7, 0.75)
-			)
-		)
-	list.add_child(UiKit.button("Back", open_pause))
-	_show("quests", parts)
+	open_pause(GameMenus.TAB_QUESTS)
 
 
 func open_shop(npc: Dictionary) -> void:
-	var shop: Dictionary = content.shops[npc["shop"]]
-	var parts := UiKit.panel(str(shop["name"]), 340)
-	var list: VBoxContainer = parts[1]
-	list.add_child(
-		UiKit.label('%s: "%s"' % [npc["name"], npc.get("line", "")], 9, Color(0.8, 0.8, 0.9))
-	)
-	list.add_child(UiKit.label("Coins: %d" % profile.money, 10, Color(1, 0.85, 0.3)))
-	for item_id: String in shop["items"]:
-		var item := content.item(item_id)
-		var price := int(item["price"])
-		var text := (
-			"%s (%d)  -  %s  [own %d]"
-			% [item["name"], price, item.get("description", ""), profile.count(item_id)]
-		)
-		list.add_child(
-			UiKit.row(text, UiKit.button("Buy", _buy.bind(npc, item_id), profile.money < price))
-		)
-	list.add_child(UiKit.button("Leave", close_menu))
-	_show("shop", parts)
+	_show("shop", GameMenus.shop(self, npc))
 
 
 func open_quests(npc: Dictionary) -> void:
-	var parts := UiKit.panel(str(npc["name"]), 340)
-	var list: VBoxContainer = parts[1]
-	list.add_child(UiKit.label('"%s"' % npc.get("line", ""), 9, Color(0.8, 0.8, 0.9)))
-	for quest_id in view.quests_of(npc):
-		var state := QuestRules.status(profile, quest_id, content)
-		if state == "locked":
-			continue
-		var quest: Dictionary = content.quests[quest_id]
-		list.add_child(UiKit.label(_quest_line(quest_id), 9))
-		if state == "available":
-			list.add_child(UiKit.label(str(quest["description"]), 8, Color(0.75, 0.75, 0.8)))
-			list.add_child(
-				UiKit.button("Accept: " + str(quest["name"]), _accept.bind(npc, quest_id))
-			)
-		elif state == "complete":
-			list.add_child(
-				UiKit.button("Hand in: " + str(quest["name"]), _turn_in.bind(npc, quest_id))
-			)
-	list.add_child(UiKit.button("Goodbye", close_menu))
-	_show("quests_npc", parts)
+	_show("quests_npc", GameMenus.conversation(self, npc))
 
 
 func open_game_over() -> void:
 	var loss := int(profile.money * float(content.progression.get("defeat_money_loss", 0.0)))
-	var parts := UiKit.panel("Knocked out")
-	var list: VBoxContainer = parts[1]
-	list.add_child(UiKit.label("The crew drags you back to the depot."))
-	var start_name := str(content.area(content.start_area).get("name", "home"))
-	list.add_child(
-		UiKit.button("Return to %s (lose %d coins)" % [start_name, loss], _recover.bind(loss))
-	)
-	_show("game_over", parts)
-
-
-func _quest_line(quest_id: String) -> String:
-	var quest: Dictionary = content.quests[quest_id]
-	var state := QuestRules.status(profile, quest_id, content)
-	var count := int(quest["objective"]["count"])
-	match state:
-		"active":
-			return "%s  (%d/%d)" % [quest["name"], profile.quests[quest_id]["progress"], count]
-		"complete":
-			return "%s  - ready to hand in" % quest["name"]
-		"turned_in":
-			return "%s  - done" % quest["name"]
-	return str(quest["name"])
+	_show("game_over", GameMenus.knocked_out(self, loss))
 
 
 func _use(item_id: String) -> void:
-	if not zone.use_item(item_id):
+	if zone.use_item(item_id):
+		_hud.toast("Used " + str(content.item(item_id)["name"]))
+		_feedback.healed()
+	elif zone.item_cooldown > 0:
+		_hud.toast("Wait a moment before using another item")
+	else:
 		_hud.toast("No effect right now")
-	open_inventory()
+	_reopen_bag(item_id, false)
 
 
 func _equip(item_id: String) -> void:
 	profile.equip(item_id, content)
 	zone.refresh_hero()
-	open_inventory()
+	_hud.toast("Equipped " + str(content.item(item_id)["name"]))
+	_reopen_bag(item_id, true)
 
 
 func _unequip(slot: String) -> void:
+	var item_id: String = profile.equipment[slot]
 	profile.unequip(slot, content)
 	zone.refresh_hero()
+	_reopen_bag(item_id, false)
+
+
+func _reopen_bag(item_id: String, equipped: bool) -> void:
+	menu_focus = item_id
+	menu_focus_equipped = equipped
 	open_inventory()
 
 
@@ -332,6 +292,7 @@ func _buy(npc: Dictionary, item_id: String) -> void:
 	var error := ShopRules.buy(profile, npc["shop"], item_id, content)
 	_hud.toast("Bought " + str(content.item(item_id)["name"]) if not error else "Not enough coins")
 	SaveStore.save(profile)
+	menu_focus = item_id
 	open_shop(npc)
 
 
@@ -343,7 +304,13 @@ func _accept(npc: Dictionary, quest_id: String) -> void:
 
 
 func _turn_in(npc: Dictionary, quest_id: String) -> void:
+	var level := profile.level
 	var rewards := QuestRules.turn_in(profile, quest_id, content)
+	if profile.level > level:
+		var unlocked: Array[String] = []
+		for reached in range(level + 1, profile.level + 1):
+			unlocked.append_array(SkillRules.unlocked_at(content, reached))
+		_feedback.level_up(profile.level, unlocked)
 	if rewards:
 		_hud.toast("+%d coins  +%d XP" % [rewards["money"], rewards["xp"]])
 		zone.refresh_hero()
@@ -398,6 +365,7 @@ func _process(delta: float) -> void:
 				"enemies": foes,
 				"hits": hits,
 				"hero_hits": hero_hits,
+				"cooldowns": zone.hero.cooldowns,
 			}
 		)
 	)

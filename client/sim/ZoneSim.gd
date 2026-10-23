@@ -38,6 +38,8 @@ var pickups: Array[Dictionary] = []
 var tick_count := 0
 ## Id of the boss in the current fight, 0 if none.
 var boss_id := 0
+## Ticks until the hero may use another consumable.
+var item_cooldown := 0
 
 var _encounters: Array[Dictionary] = []
 var _active := -1
@@ -91,6 +93,7 @@ func refresh_hero() -> void:
 	hero.defense = stats["defense"]
 	hero.hp = clampi(profile.hp, 1, hero.max_hp)
 	profile.hp = hero.hp
+	hero.skills = SkillRules.unlocked(content, profile.level)
 
 
 func spawn_enemy(kind: String, position: Vector2) -> Fighter:
@@ -133,6 +136,7 @@ func in_encounter() -> bool:
 ## Advances the zone one tick. Returns everything that happened.
 func tick(hero_input: FighterInput) -> Array[ZoneEvent]:
 	tick_count += 1
+	item_cooldown = maxi(0, item_cooldown - 1)
 	var events: Array[ZoneEvent] = []
 	_update_encounter(events)
 	var inputs := {HERO_ID: hero_input}
@@ -153,6 +157,7 @@ func tick(hero_input: FighterInput) -> Array[ZoneEvent]:
 				_hero_down(events)
 			else:
 				_defeat(defender, events)
+	_report_actions(events)
 	_check_phases(events)
 	_separate_crowd()
 	_update_downed(events)
@@ -161,9 +166,31 @@ func tick(hero_input: FighterInput) -> Array[ZoneEvent]:
 	return events
 
 
-## Uses a consumable from the inventory on the hero.
+## Uses a consumable from the inventory on the hero. Consumables share a
+## short cooldown so healing cannot be spammed mid-combo.
 func use_item(item_id: String) -> bool:
-	return profile.use_item(item_id, hero, content)
+	if item_cooldown > 0 or hero.is_ko():
+		return false
+	if not profile.use_item(item_id, hero, content):
+		return false
+	item_cooldown = content.item_cooldown
+	return true
+
+
+## Reports attacks, skills and dodges that began this tick (for sounds and
+## effects; they change nothing).
+func _report_actions(events: Array[ZoneEvent]) -> void:
+	for f in fighters:
+		if f.state_tick != 0:
+			continue
+		if f.state == Fighter.State.ATTACK:
+			var data := {"id": f.id, "move": f.move.id, "skill": ""}
+			for skill_id: String in f.skills:
+				if f.skills[skill_id]["move"] == f.move.id:
+					data["skill"] = skill_id
+			events.append(ZoneEvent.make("swing", data))
+		elif f.state == Fighter.State.DODGE:
+			events.append(ZoneEvent.make("dodge", {"id": f.id}))
 
 
 func _attack_tokens() -> Dictionary:
@@ -281,7 +308,10 @@ func _defeat(enemy: Fighter, events: Array[ZoneEvent]) -> void:
 		refresh_hero()
 		hero.hp = hero.max_hp
 		profile.hp = hero.hp
-		events.append(ZoneEvent.make("level_up", {"level": profile.level}))
+		var unlocked: Array[String] = []
+		for level in range(profile.level - levels + 1, profile.level + 1):
+			unlocked.append_array(SkillRules.unlocked_at(content, level))
+		events.append(ZoneEvent.make("level_up", {"level": profile.level, "skills": unlocked}))
 	for quest_id in QuestRules.on_defeat(profile, enemy.kind, content):
 		events.append(ZoneEvent.make("quest_complete", {"quest": quest_id}))
 

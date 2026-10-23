@@ -1,0 +1,157 @@
+class_name GameFeedback
+extends RefCounted
+## Turns zone events into what the player sees and hears: hit sparks, impact
+## flashes and freezes, dust, skill effects, screen shake, sounds, the hurt
+## vignette and the level-up banner. Presentation only: it reads events and
+## never changes game state.
+
+## Damage at or above this reads as a heavy hit.
+const HEAVY_DAMAGE := 15
+## Hit sparks appear at chest height.
+const CHEST := Vector2(0, -26)
+
+var content: ContentDB
+var view: ZoneView
+var hud: Node
+
+
+func _init(p_content: ContentDB, p_hud: Node) -> void:
+	content = p_content
+	hud = p_hud
+
+
+func on_event(event: ZoneEvent) -> void:
+	match event.type:
+		"hit":
+			_on_hit(event.hit)
+		"swing":
+			_on_swing(event.data)
+		"dodge":
+			_dust(event.data["id"])
+			Sfx.play("dodge", -4.0)
+		"pickup":
+			Sfx.play("coin" if event.data["kind"] == "money" else "pickup", -3.0)
+		"level_up":
+			level_up(event.data["level"], event.data.get("skills", []))
+		"quest_complete":
+			Sfx.play("quest")
+		"encounter_start":
+			Sfx.play("arena_lock", -2.0)
+			if event.data.get("boss", false):
+				Sfx.play_later("boss_roar", 0.4)
+		"boss_phase":
+			Sfx.play("boss_roar")
+			view.shake(4.0)
+		"hero_down":
+			Sfx.play("ko")
+
+
+func level_up(level: int, skills: Array) -> void:
+	var hero := view.view_of(ZoneSim.HERO_ID)
+	if hero:
+		Fx.spawn(hero, content, "levelup", Vector2.ZERO)
+	Sfx.play("level_up")
+	hud.level_up(level, skills)
+
+
+func healed() -> void:
+	var hero := view.view_of(ZoneSim.HERO_ID)
+	if hero:
+		Fx.spawn(hero, content, "heal", Vector2.ZERO)
+	Sfx.play("heal", -2.0)
+
+
+func _on_hit(hit: CombatEvent) -> void:
+	var attacker := view.view_of(hit.attacker_id)
+	var defender := view.view_of(hit.defender_id)
+	var heavy := hit.knocked_down or hit.ko or hit.damage >= HEAVY_DAMAGE
+	# Sparks sit between the two fighters, on the side the blow came from.
+	var side := 1.0
+	if attacker and defender:
+		side = signf(attacker.position.x - defender.position.x)
+	var at := hit.position + CHEST + Vector2(side * 6.0, 0)
+	if hit.blocked:
+		Fx.spawn(view.effects, content, "block", at, side < 0)
+		Sfx.play("guard_break" if hit.guard_broken else "hit_block", -2.0)
+	else:
+		Fx.spawn(view.effects, content, "hit_heavy" if heavy else "hit", at)
+		Sfx.play("hit_heavy" if heavy else "hit_light")
+	var freeze := 0.09 if heavy else 0.05
+	if defender:
+		var hero_hit := hit.defender_id == ZoneSim.HERO_ID
+		var color := Color(1, 0.25, 0.2) if hero_hit else Color.WHITE
+		defender.impact(color, 0.12, 0.0 if hit.blocked else freeze)
+		if hero_hit and not hit.blocked:
+			Sfx.play("hero_hurt", -3.0)
+			hud.hurt(1.5 if heavy else 1.0)
+	if attacker and not hit.blocked:
+		attacker.impact(Color.WHITE, 0.0, freeze)
+	if hit.knocked_down or hit.ko:
+		Sfx.play_later("knockdown", 0.18, -2.0)
+		_dust(hit.defender_id, 0.2)
+	if hit.ko and hit.defender_id != ZoneSim.HERO_ID:
+		Sfx.play("ko", -4.0)
+
+
+## A skill gets its effect on its first active tick and its own sound; plain
+## attacks just whoosh (quieter for enemies, so the hero's blows stand out).
+func _on_swing(data: Dictionary) -> void:
+	var fighter := view.zone.fighter(data["id"])
+	var fighter_view := view.view_of(data["id"])
+	if fighter == null or fighter_view == null:
+		return
+	var skill_id: String = data["skill"]
+	if skill_id == "":
+		var move := content.moves.get_move(data["move"])
+		var hero: bool = data["id"] == ZoneSim.HERO_ID
+		var sound := "swing_heavy" if move.anim == "heavy" else "swing_light"
+		Sfx.play(sound, -6.0 if hero else -12.0)
+		return
+	var skill: Dictionary = content.skills[skill_id]
+	Sfx.play(str(skill["sound"]))
+	var delay := fighter.move.startup * CombatRules.TICK_SECONDS
+	var flip := fighter.facing < 0
+	var effect := str(skill["fx"])
+	match effect:
+		"rush":
+			# The trail follows the hero through the charge.
+			Fx.spawn(fighter_view, content, effect, Vector2(0, -10), flip)
+		"uppercut":
+			_later(delay, fighter_view, effect, Vector2(fighter.facing * 18.0, 0), flip)
+		_:
+			_later(delay, fighter_view, effect, Vector2.ZERO, flip)
+	if effect == "slam":
+		view.get_tree().create_timer(delay).timeout.connect(view.shake.bind(7.0))
+		_dust(data["id"], delay)
+
+
+func _later(seconds: float, parent: Node2D, effect: String, at: Vector2, flip: bool) -> void:
+	# By id: the view may be gone (area change) before the timer fires.
+	var parent_id := parent.get_instance_id()
+	parent.get_tree().create_timer(seconds).timeout.connect(
+		func() -> void:
+			var target := instance_from_id(parent_id) as Node2D
+			if target and target.is_inside_tree():
+				Fx.spawn(target, content, effect, at, flip)
+	)
+
+
+func _dust(fighter_id: int, delay := 0.0) -> void:
+	var fighter_view := view.view_of(fighter_id)
+	if fighter_view == null:
+		return
+	if delay <= 0.0:
+		Fx.spawn(view.effects, content, "dust", fighter_view.position)
+		return
+	_later_world(delay, fighter_id)
+
+
+func _later_world(seconds: float, fighter_id: int) -> void:
+	var view_id := view.get_instance_id()
+	view.get_tree().create_timer(seconds).timeout.connect(
+		func() -> void:
+			var zone_view := instance_from_id(view_id) as ZoneView
+			var fighter_view := zone_view.view_of(fighter_id) if zone_view else null
+			if fighter_view:
+				Fx.spawn(zone_view.effects, content, "dust", fighter_view.position)
+	)

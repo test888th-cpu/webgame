@@ -9,16 +9,22 @@ const FIGHTER_SCENE := preload("res://scenes/fighter/FighterView.tscn")
 const VIEW_HEIGHT := 360.0
 ## How close the hero must stand to talk to an NPC.
 const TALK_REACH := Vector2(34.0, 26.0)
+## Camera shake on heavy impacts, in pixels, and how much it fades per tick.
+const SHAKE_PIXELS := 3.0
+const SHAKE_FADE := 0.25
 
 var zone: ZoneSim
 var content: ContentDB
 var camera: Camera2D
+## Floating numbers and effects in world space.
+var effects: Node2D
 
 var _entities: Node2D
-var _effects: Node2D
 var _views := {}
 var _pickups := {}
 var _npc_marks := {}
+var _npc_prompts := {}
+var _shake := 0.0
 
 
 func build(p_zone: ZoneSim, p_content: ContentDB) -> void:
@@ -30,9 +36,9 @@ func build(p_zone: ZoneSim, p_content: ContentDB) -> void:
 	_entities.y_sort_enabled = true
 	add_child(_entities)
 	_build_npcs()
-	_effects = Node2D.new()
-	_effects.name = "Effects"
-	add_child(_effects)
+	effects = Node2D.new()
+	effects.name = "Effects"
+	add_child(effects)
 	camera = Camera2D.new()
 	camera.position_smoothing_enabled = true
 	camera.position_smoothing_speed = 8.0
@@ -63,6 +69,7 @@ func sync() -> void:
 		if not present.has(id):
 			_pickups[id].queue_free()
 			_pickups.erase(id)
+	_update_prompts()
 	_follow_hero()
 
 
@@ -73,8 +80,15 @@ func view_of(id: int) -> FighterView:
 func show_hit(event: CombatEvent) -> void:
 	var label := DamageNumber.new()
 	label.add_theme_font_size_override("font_size", 10)
-	_effects.add_child(label)
+	label.add_theme_constant_override("outline_size", 4)
+	effects.add_child(label)
 	label.show_hit(event)
+	var heavy := event.knocked_down or event.guard_broken or event.ko
+	if (
+		GameSession.settings.get("screen_shake", true)
+		and (heavy or (event.defender_id == ZoneSim.HERO_ID and not event.blocked))
+	):
+		_shake = SHAKE_PIXELS if heavy else SHAKE_PIXELS * 0.5
 
 
 func show_text(text: String, at: Vector2, color := Color.WHITE) -> void:
@@ -82,8 +96,9 @@ func show_text(text: String, at: Vector2, color := Color.WHITE) -> void:
 	label.text = text
 	label.modulate = color
 	label.add_theme_font_size_override("font_size", 8)
+	label.add_theme_constant_override("outline_size", 3)
 	label.position = at + Vector2(-20, -60)
-	_effects.add_child(label)
+	effects.add_child(label)
 	var tween := label.create_tween().set_parallel()
 	tween.tween_property(label, "position:y", label.position.y - 16, 0.8)
 	tween.tween_property(label, "modulate:a", 0.0, 0.8)
@@ -177,6 +192,21 @@ func _follow_hero() -> void:
 	camera.limit_top = 0
 	camera.limit_bottom = int(VIEW_HEIGHT)
 	camera.position = Vector2(zone.hero.position.x, VIEW_HEIGHT / 2.0)
+	camera.offset = Vector2(randf_range(-1, 1), randf_range(-1, 1)) * _shake
+	_shake = maxf(0.0, _shake - SHAKE_FADE)
+
+
+## Shakes the camera by up to `pixels` (if the player has shake turned on).
+func shake(pixels: float) -> void:
+	if GameSession.settings.get("screen_shake", true):
+		_shake = maxf(_shake, pixels)
+
+
+## Shows "[E] Talk" (or Shop) over the NPC the hero can talk to right now.
+func _update_prompts() -> void:
+	var near := npc_near(zone.hero)
+	for npc_id: String in _npc_prompts:
+		_npc_prompts[npc_id].visible = not near.is_empty() and near["id"] == npc_id
 
 
 func _build_scenery() -> void:
@@ -184,66 +214,8 @@ func _build_scenery() -> void:
 	if scenery.is_empty():
 		_build_flat_scenery()
 	else:
-		_build_layered_scenery(scenery)
+		Scenery.build(self, content, scenery)
 	_build_exit_signs()
-
-
-## Generated pixel-art layers (tools/assets/gen_environment.py): a sky fixed to
-## the screen, a skyline scrolling at 30%, then the street's facades and
-## ground in the world, and props with lamp glow along the sidewalk.
-func _build_layered_scenery(scenery: Dictionary) -> void:
-	var layers: Dictionary = scenery["layers"]
-	_parallax(layers["sky"], 0.0)
-	_parallax(layers["far"], 0.3)
-	_sprite(layers["buildings"]["file"], Vector2.ZERO)
-	_sprite(layers["ground"]["file"], Vector2(0, ZoneSim.LANE_TOP - 20.0))
-	var props: Dictionary = content.environment["props"]
-	var sheet: Texture2D = load(props["sheet"])
-	for placed: Dictionary in scenery["props"]:
-		var region: Array = props["regions"][placed["prop"]]
-		var atlas := AtlasTexture.new()
-		atlas.atlas = sheet
-		atlas.region = Rect2(region[0], region[1], region[2], region[3])
-		var prop := Sprite2D.new()
-		prop.texture = atlas
-		prop.centered = false
-		prop.position = Vector2(placed["x"] - region[2] / 2.0, placed["y"] - region[3])
-		add_child(prop)
-		if placed.get("glow", false):
-			var glow_region: Array = props["regions"]["glow"]
-			var glow_atlas := AtlasTexture.new()
-			glow_atlas.atlas = sheet
-			glow_atlas.region = Rect2(
-				glow_region[0], glow_region[1], glow_region[2], glow_region[3]
-			)
-			var glow := Sprite2D.new()
-			glow.texture = glow_atlas
-			glow.position = Vector2(placed["x"], placed["y"] - region[3] + 10)
-			glow.scale = Vector2(2.5, 2.5)
-			var additive := CanvasItemMaterial.new()
-			additive.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
-			glow.material = additive
-			add_child(glow)
-
-
-func _parallax(layer: Dictionary, scroll: float) -> void:
-	var parallax := Parallax2D.new()
-	parallax.scroll_scale = Vector2(scroll, 1.0)
-	parallax.repeat_size = Vector2(layer["size"][0], 0)
-	parallax.repeat_times = 4
-	add_child(parallax)
-	var sprite := Sprite2D.new()
-	sprite.texture = load(layer["file"])
-	sprite.centered = false
-	parallax.add_child(sprite)
-
-
-func _sprite(path: String, at: Vector2) -> void:
-	var sprite := Sprite2D.new()
-	sprite.texture = load(path)
-	sprite.centered = false
-	sprite.position = at
-	add_child(sprite)
 
 
 ## Fallback for an area whose scenery has not been generated yet.
@@ -292,18 +264,28 @@ func _build_npcs() -> void:
 		var name_label := Label.new()
 		name_label.text = str(npc["name"])
 		name_label.add_theme_font_size_override("font_size", 7)
+		name_label.add_theme_constant_override("outline_size", 3)
 		name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		name_label.position = Vector2(-40, -58)
 		name_label.size = Vector2(80, 10)
 		view.add_child(name_label)
 		var mark := Label.new()
 		mark.add_theme_font_size_override("font_size", 12)
+		mark.add_theme_constant_override("outline_size", 4)
 		mark.add_theme_color_override("font_color", Color(1, 0.85, 0.3))
 		mark.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		mark.position = Vector2(-10, -74)
 		mark.size = Vector2(20, 14)
 		view.add_child(mark)
 		_npc_marks[npc["id"]] = mark
+		var prompt := CenterContainer.new()
+		prompt.name = "Prompt"
+		prompt.position = Vector2(-40, -92)
+		prompt.size = Vector2(80, 12)
+		prompt.visible = false
+		prompt.add_child(UiKit.key_hint("E", "Shop" if npc["role"] == "shop" else "Talk"))
+		view.add_child(prompt)
+		_npc_prompts[npc["id"]] = prompt
 
 
 func _rect(rect: Rect2, color: Color) -> void:

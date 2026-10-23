@@ -57,6 +57,7 @@ interface Probe {
   enemies: Foe[];
   hits: number;
   hero_hits: number;
+  cooldowns: Record<string, number>;
 }
 
 // A deployed build is tested where it is; an export directory is served
@@ -180,16 +181,19 @@ try {
   );
 
   // Training dummy: line up, then a three-hit combo.
-  let near = await probe();
-  for (let i = 0; i < 60; i++) {
-    const dummy = nearest(near);
-    if (!dummy || (Math.abs(near.y - dummy.y) <= 3 && dummy.x - near.x <= 26 && near.facing === 1)) break;
-    // Line up without swinging, so the combo below starts on a fresh dummy.
-    if (Math.abs(near.y - dummy.y) > 3) await hold(near.y > dummy.y ? "ArrowUp" : "ArrowDown", 50);
-    else await hold("ArrowRight", 70);
-    near = await probe();
-  }
-  const before = near;
+  const lineUp = async (): Promise<Probe> => {
+    let near = await probe();
+    for (let i = 0; i < 60; i++) {
+      const dummy = nearest(near);
+      if (!dummy || (Math.abs(near.y - dummy.y) <= 3 && dummy.x - near.x <= 26 && near.facing === 1)) break;
+      // Line up without swinging, so the combo below starts on a fresh dummy.
+      if (Math.abs(near.y - dummy.y) > 3) await hold(near.y > dummy.y ? "ArrowUp" : "ArrowDown", 50);
+      else await hold("ArrowRight", 70);
+      near = await probe();
+    }
+    return near;
+  };
+  const before = await lineUp();
   for (let i = 0; i < 3; i++) {
     await page.keyboard.press("KeyJ");
     await page.waitForTimeout(140);
@@ -204,6 +208,19 @@ try {
     );
   }
   console.log(`combat: ${fought.hero_hits - before.hero_hits} hit(s), dummy hp ${dummyBefore} -> ${dummyAfter}`);
+
+  // Hotbar slot 3 (number key) casts the Whirlwind Kick, which reaches the
+  // dummy on either side and starts its cooldown.
+  await page.waitForTimeout(900); // the dummy gets back up
+  const preSkill = await lineUp();
+  await page.keyboard.press("Digit3");
+  const cast = await waitFor("the skill cooldown", (p) => (p.cooldowns?.whirlwind_kick ?? 0) > 0, 3_000);
+  await page.waitForTimeout(600);
+  const afterSkill = await probe();
+  if (!(afterSkill.hero_hits > preSkill.hero_hits)) {
+    problems.push(`the whirlwind kick did not hit: hits ${preSkill.hero_hits} -> ${afterSkill.hero_hits}`);
+  }
+  console.log(`skill: whirlwind kick cast (cooldown ${cast.cooldowns.whirlwind_kick} ticks), hits ${preSkill.hero_hits} -> ${afterSkill.hero_hits}`);
 
   // Pause menu opens and closes.
   await page.keyboard.press("Escape");

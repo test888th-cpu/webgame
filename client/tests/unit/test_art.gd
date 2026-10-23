@@ -26,7 +26,8 @@ func test_every_imported_asset_loads_as_spriteframes() -> void:
 				"%s %s frame count" % [id, anim]
 			)
 			var texture: AtlasTexture = frames.get_frame_texture(anim, 0)
-			assert_eq(texture.region.size, Vector2(64, 64), "%s %s frame size" % [id, anim])
+			var size := Vector2(entry["frame_size"][0], entry["frame_size"][1])
+			assert_eq(texture.region.size, size, "%s %s frame size" % [id, anim])
 
 
 func test_pixel_art_is_not_smoothed() -> void:

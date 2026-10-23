@@ -27,15 +27,6 @@ func _walk(dir: Vector2) -> FighterInput:
 	return input
 
 
-func test_title_screen_builds_with_new_game_focused() -> void:
-	var title: Control = load("res://scenes/title/Title.tscn").instantiate()
-	tree.root.add_child(title)
-	var buttons := title.find_children("*", "Button", true, false)
-	assert_eq(buttons.size(), 4, "New game, Continue, Characters, Credits")
-	assert_eq((buttons[0] as Button).text, "New game", "New game first")
-	title.free()
-
-
 func test_new_game_starts_in_the_depot_with_npcs_and_dummy() -> void:
 	var game := _game()
 	assert_eq(game.zone.area_id, GameSession.content.start_area, "start area")

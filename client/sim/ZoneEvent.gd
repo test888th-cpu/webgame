@@ -3,7 +3,8 @@ extends RefCounted
 ## Something that happened during one zone tick, for presentation, saving and
 ## (later) for the server to send to clients. `type` is one of:
 ## hit, spawn, despawn, defeat, pickup, level_up, quest_complete,
-## encounter_start, wave, encounter_clear, boss_phase, hero_down, exit.
+## encounter_start, wave, encounter_clear, boss_phase, hero_down, exit,
+## swing (an attack or skill began), dodge.
 
 var type := ""
 var data := {}

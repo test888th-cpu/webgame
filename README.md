@@ -43,8 +43,10 @@ You do not need any local tools. All building and testing happens in GitHub Acti
 | Dodge (invulnerable, costs energy) | Space or L | A / Cross | Blue button |
 | Guard (hold; drains energy) | Shift or I | LB / L1 | Green button |
 | Talk / shop (near an NPC) | E or U | B / Circle | TALK |
+| Hotbar: attack, skills, food (slots 1–7) | 1–7 | RT + X/Y/A/B for skills, RT + RB for slot 7 | Tap the slot |
 | Eat (quick heal) | H or Q | RB / R1 | EAT |
 | Pause, inventory, quests, save | Esc or P | Start | II |
+| Switch menu tabs | Q / E | LB / RB | Tap the tab |
 
 ### See test results
 
@@ -54,8 +56,8 @@ GitHub → **Actions** → **CI**. Each run has these jobs:
 |---|---|
 | Repository policy | Required docs exist; `.env.example` has placeholders only; no key files tracked |
 | GDScript lint and format | `gdlint` and `gdformat --check` (gdtoolkit 4.5.0) |
-| Godot project opens and tests pass | Headless import with no script errors; 69 unit/scene tests (combat, AI, encounters, loot, quests, shop, saves, game scenes) |
-| Web export and browser smoke test | Release web export; headless Chromium loads it, waits for boot, **plays it with real keys: title → new game → combo on the dummy → pause → next area → a real fight**; uploads the build, a manifest with SHA-256s and a screenshot |
+| Godot project opens and tests pass | Headless import with no script errors; 97 unit/scene tests (combat, skills, AI, encounters, loot, quests, shop, saves, game scenes, interface, effects) |
+| Web export and browser smoke test | Release web export; headless Chromium loads it, waits for boot, **plays it with real keys: title → new game → combo on the dummy → a skill from the hotbar → pause → next area → a real fight**; uploads the build, a manifest with SHA-256s and a screenshot |
 | Backend typecheck, tests and migrations | `tsc`, API + migration tests against a real PostgreSQL, fresh-DB migration, API reaches `/readyz` |
 | Backend image build, container scan and SBOM | Docker image builds, runs as non-root on the pinned Node, Trivy scan, CycloneDX SBOM |
 
@@ -111,7 +113,7 @@ TEST_DATABASE_URL=postgres://user:pass@localhost:5432/postgres npm test
 [PERFORMANCE](PERFORMANCE.md) · [DEPLOYMENT](DEPLOYMENT.md) ·
 [BACKUP_AND_RECOVERY](BACKUP_AND_RECOVERY.md) · [CONTRIBUTING](CONTRIBUTING.md) ·
 [CHANGELOG](CHANGELOG.md) · [Repository audit](docs/REPOSITORY_AUDIT.md) ·
-[Roadmap and backlog](docs/ROADMAP.md) · [CLAUDE.md](CLAUDE.md)
+[Roadmap and backlog](docs/ROADMAP.md) · [Interface](docs/UI.md) · [CLAUDE.md](CLAUDE.md)
 
 ## Licence
 
