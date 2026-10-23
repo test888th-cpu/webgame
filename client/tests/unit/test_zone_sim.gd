@@ -11,7 +11,10 @@ func _content() -> ContentDB:
 
 
 func _zone(area: String, seed := 7) -> ZoneSim:
-	return ZoneSim.new(_content(), PlayerProfile.new_game(_content()), area, "", seed)
+	var profile := PlayerProfile.new_game(_content())
+	profile.money = 0
+	profile.inventory.clear()
+	return ZoneSim.new(_content(), profile, area, "", seed)
 
 
 func _idle() -> FighterInput:

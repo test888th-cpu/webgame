@@ -5,8 +5,11 @@ extends RefCounted
 ## for the backend in Milestone 4, when the server becomes the only writer.
 ## Temporary combat state (position, energy, cooldowns) never lives here.
 
-const SAVE_VERSION := 2
-const SLOTS := ["weapon", "armor", "accessory"]
+const SAVE_VERSION := 3
+## Equipment slots, in the order the character screen shows them.
+const SLOTS := ["head", "body", "hands", "weapon", "feet", "charm"]
+## Stats an item can add, as stored in items.json "stats".
+const STAT_KEYS := ["max_hp", "power", "defense", "speed"]
 ## Player names: letters of any script (with their marks, e.g. Thai vowels),
 ## digits, spaces, apostrophes, hyphens and dots.
 const NAME_MIN := 2
@@ -25,7 +28,7 @@ var hp := 0
 ## Item id -> count.
 var inventory := {}
 ## Slot -> item id ("" when empty).
-var equipment := {"weapon": "", "armor": "", "accessory": ""}
+var equipment := {"head": "", "body": "", "hands": "", "weapon": "", "feet": "", "charm": ""}
 ## Quest id -> {"state": "active" | "complete" | "turned_in", "progress": int}.
 var quests := {}
 ## Enemy id -> total defeated.
@@ -42,6 +45,15 @@ static func new_game(content: ContentDB, hero_id := "", player_name := "") -> Pl
 	if profile.name == "":
 		profile.name = str(content.hero(profile.hero)["default_name"])
 	profile.area = content.start_area
+	# The hero's starter kit: worn gear, a few items and some coins.
+	var starter: Dictionary = content.hero(profile.hero).get("starter", {})
+	profile.money = int(starter.get("money", 0))
+	for item_id: String in starter.get("equipment", []):
+		profile.add_item(item_id)
+		profile.equip(item_id, content)
+	var items: Dictionary = starter.get("items", {})
+	for item_id: String in items:
+		profile.add_item(item_id, int(items[item_id]))
 	profile.hp = profile.stats(content)["max_hp"]
 	return profile
 
@@ -66,12 +78,35 @@ func stats(content: ContentDB) -> Dictionary:
 		"defense": int(base.get("defense", 0)),
 		"speed": float(base.get("speed", 1.0)),
 	}
-	for slot: String in SLOTS:
-		var item := content.item(equipment[slot])
-		result["max_hp"] += int(item.get("max_hp", 0))
-		result["power"] += float(item.get("power", 0.0))
-		result["defense"] += int(item.get("defense", 0))
+	var gear := gear_stats(content)
+	result["max_hp"] += int(gear["max_hp"])
+	result["power"] += float(gear["power"])
+	result["defense"] += int(gear["defense"])
+	result["speed"] = maxf(0.3, result["speed"] + float(gear["speed"]))
 	return result
+
+
+## What equipped items add, stat by stat (all STAT_KEYS present).
+func gear_stats(content: ContentDB) -> Dictionary:
+	var total := {"max_hp": 0, "power": 0.0, "defense": 0, "speed": 0.0}
+	for slot: String in SLOTS:
+		var bonus: Dictionary = content.item(equipment[slot]).get("stats", {})
+		for key: String in bonus:
+			total[key] += bonus[key]
+	return total
+
+
+## Why `item_id` cannot be equipped right now ("" if it can): not owned, not
+## equipment, or the hero's level is too low.
+func equip_problem(item_id: String, content: ContentDB) -> String:
+	var item := content.item(item_id)
+	if item.get("type") != "equipment":
+		return "not_equipment"
+	if count(item_id) == 0:
+		return "not_owned"
+	if level < int(item.get("level", 1)):
+		return "level"
+	return ""
 
 
 func xp_to_next(content: ContentDB) -> int:
@@ -120,10 +155,10 @@ func remove_item(item_id: String, amount := 1) -> bool:
 ## Equips an owned item into its slot; whatever was there goes back to the
 ## inventory. HP is kept but clamped to the new max HP.
 func equip(item_id: String, content: ContentDB) -> bool:
-	var item := content.item(item_id)
-	var slot := str(item.get("type", ""))
-	if slot not in SLOTS or not remove_item(item_id):
+	if equip_problem(item_id, content) != "":
 		return false
+	var slot := str(content.item(item_id)["slot"])
+	remove_item(item_id)
 	if equipment[slot]:
 		add_item(equipment[slot])
 	equipment[slot] = item_id
@@ -203,7 +238,7 @@ static func from_dict(data: Variant, content: ContentDB) -> PlayerProfile:
 	if saved_equipment is Dictionary:
 		for slot: String in SLOTS:
 			var item_id := str(saved_equipment.get(slot, ""))
-			if content.item(item_id).get("type") == slot:
+			if content.item(item_id).get("slot") == slot:
 				p.equipment[slot] = item_id
 	var saved_quests: Variant = migrated.get("quests", {})
 	if saved_quests is Dictionary:
@@ -241,4 +276,14 @@ static func migrate(data: Dictionary) -> Dictionary:
 		migrated["hero"] = "mika"
 		migrated["name"] = "Mika"
 		migrated["version"] = 2
+	if int(migrated["version"]) == 2:
+		# Version 3 has six slots; "armor" became "body", "accessory" "charm".
+		var old: Variant = migrated.get("equipment", {})
+		if old is Dictionary:
+			migrated["equipment"] = {
+				"weapon": old.get("weapon", ""),
+				"body": old.get("armor", ""),
+				"charm": old.get("accessory", ""),
+			}
+		migrated["version"] = 3
 	return migrated

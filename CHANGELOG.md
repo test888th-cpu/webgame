@@ -4,6 +4,22 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — Character status, equipment and items
+- Status tab: the hero (sprite, level, role, HP/energy/XP), read-only attributes (Max HP,
+  Attack, Defense, Speed) as total + gear bonus with a line of help each, what the next
+  level brings (stats and skills), and a record.
+- Equipment tab: six worn slots around the hero (head, body, hands, weapon, feet, charm,
+  with empty-slot silhouettes and a turnable preview), a stats summary, and the bag as a
+  grid with stack counts and rarity frames.
+- Item card on any item: icon, name in its rarity colour, rarity and slot, required
+  level, effects in player terms, comparison with what is worn, description, and
+  Equip / Unequip / Use / Discard (asks first). The shop shows the same details.
+- Items: rarity, required level, `stats` bonuses (penalties allowed), descriptions.
+  15 items with new icons; Ama sells ten, enemies drop the rest. Each hero starts with a
+  small kit (worn gear, buns, coins).
+- Saves (version 3) map the old `armor`/`accessory` slots to `body`/`charm`.
+- 3 new tests (108 total).
+
 ### Added — Hero creation and a second hero
 - Hero creation screen after New game: roster cards with portraits, a large animated
   preview, bio, play style, difficulty, stats compared across heroes, the hero's four

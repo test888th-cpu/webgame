@@ -21,8 +21,10 @@ var menu: Control = null
 var menu_name := ""
 ## The item the rebuilt bag or shop selects again, so acting on an item does
 ## not jump the cursor back to the top.
+## "bag:<item id>" or "worn:<slot>" on the Equipment tab.
 var menu_focus := ""
-var menu_focus_equipped := false
+## The item card open over the pause window, if any.
+var item_card: Control = null
 
 var _pending_exit := {}
 var _probe_timer := 0.0
@@ -66,7 +68,10 @@ func _physics_process(_delta: float) -> void:
 	if menu:
 		if menu_name == "game_over":
 			return
-		if Input.is_action_just_pressed("pause"):
+		if item_card and is_instance_valid(item_card):
+			if Input.is_action_just_pressed("pause"):
+				close_item_card()
+		elif Input.is_action_just_pressed("pause"):
 			close_menu()
 		elif menu_name in GameMenus.TAB_MENU_NAMES:
 			if Input.is_action_just_pressed("menu_prev"):
@@ -170,11 +175,12 @@ func _handle(event: ZoneEvent) -> void:
 					"+%d coins" % event.data["amount"], zone.hero.position, Color(1, 0.85, 0.3)
 				)
 			else:
+				var item := content.item(event.data["item"])
 				view.show_text(
-					"+" + str(content.item(event.data["item"]).get("name")),
-					zone.hero.position,
-					Color(0.6, 1, 0.7)
+					"+" + str(item.get("name")), zone.hero.position, ItemText.rarity_color(item)
 				)
+				if item.get("type") == "equipment":
+					_hud.toast("Found %s" % item["name"])
 		"encounter_start":
 			if event.data.get("boss", false):
 				_hud.toast("A boss approaches!")
@@ -219,6 +225,7 @@ func close_menu() -> void:
 	menu = null
 	menu_name = ""
 	menu_focus = ""
+	item_card = null
 	zone.refresh_hero()
 	view.update_npc_marks(profile)
 
@@ -229,7 +236,10 @@ func _show(name: String, screen: Control) -> void:
 	menu = screen
 	menu_name = name
 	_menus.add_child(menu)
-	UiKit.focus_first(menu)
+	if menu_focus.begins_with("bag:") or menu_focus.begins_with("worn:"):
+		_refocus.call_deferred()
+	else:
+		UiKit.focus_first(menu)
 
 
 func open_pause(tab := GameMenus.TAB_STATUS) -> void:
@@ -257,6 +267,43 @@ func open_game_over() -> void:
 	_show("game_over", GameMenus.knocked_out(self, loss))
 
 
+## Opens the card for `item_id` (worn in `worn_slot`, or "" if in the bag)
+## over the Equipment tab, with the actions that apply to it.
+func inspect_item(item_id: String, worn_slot: String) -> void:
+	close_item_card()
+	var item := content.item(item_id)
+	var actions: Array[Dictionary] = []
+	if worn_slot:
+		actions.append({"text": "Unequip", "call": _unequip.bind(worn_slot)})
+	elif item.get("type") == "equipment":
+		actions.append({"text": "Equip", "call": _equip.bind(item_id)})
+	else:
+		actions.append({"text": "Use", "call": _use.bind(item_id)})
+	if not worn_slot:
+		actions.append({"text": "Discard", "confirm": "Discard 1?", "call": _discard.bind(item_id)})
+	menu_focus = "worn:" + worn_slot if worn_slot else "bag:" + item_id
+	item_card = ItemCard.popup(menu, content, profile, item_id, worn_slot, actions, close_item_card)
+	Sfx.play("ui_select", -6.0)
+
+
+func close_item_card() -> void:
+	if item_card and is_instance_valid(item_card):
+		item_card.queue_free()
+		_refocus.call_deferred()
+	item_card = null
+
+
+func _refocus() -> void:
+	if menu == null:
+		return
+	var target := menu_focus.replace("bag:", "Bag_").replace("worn:", "Worn_")
+	var slot := menu.find_child(target, true, false) as Control
+	if slot and slot.focus_mode != Control.FOCUS_NONE:
+		slot.grab_focus()
+	else:
+		UiKit.focus_first(menu)  # e.g. the last of a stack was used
+
+
 func _use(item_id: String) -> void:
 	if zone.use_item(item_id):
 		_hud.toast("Used " + str(content.item(item_id)["name"]))
@@ -265,26 +312,43 @@ func _use(item_id: String) -> void:
 		_hud.toast("Wait a moment before using another item")
 	else:
 		_hud.toast("No effect right now")
-	_reopen_bag(item_id, false)
+	_reopen_bag("bag:" + item_id)
 
 
 func _equip(item_id: String) -> void:
-	profile.equip(item_id, content)
-	zone.refresh_hero()
-	_hud.toast("Equipped " + str(content.item(item_id)["name"]))
-	_reopen_bag(item_id, true)
+	var item := content.item(item_id)
+	match profile.equip_problem(item_id, content):
+		"level":
+			_hud.toast("Requires level %d" % int(item.get("level", 1)))
+			Sfx.play("denied", -4.0)
+		"":
+			profile.equip(item_id, content)
+			zone.refresh_hero()
+			_hud.toast("Equipped " + str(item["name"]))
+			SaveStore.save(profile)
+			_reopen_bag("worn:" + str(item["slot"]))
+			return
+	_reopen_bag("bag:" + item_id)
 
 
 func _unequip(slot: String) -> void:
 	var item_id: String = profile.equipment[slot]
 	profile.unequip(slot, content)
 	zone.refresh_hero()
-	_reopen_bag(item_id, false)
+	SaveStore.save(profile)
+	_reopen_bag("bag:" + item_id)
 
 
-func _reopen_bag(item_id: String, equipped: bool) -> void:
-	menu_focus = item_id
-	menu_focus_equipped = equipped
+func _discard(item_id: String) -> void:
+	if profile.remove_item(item_id):
+		_hud.toast("Discarded " + str(content.item(item_id)["name"]))
+		SaveStore.save(profile)
+	_reopen_bag("")
+
+
+func _reopen_bag(focus: String) -> void:
+	item_card = null
+	menu_focus = focus
 	open_inventory()
 
 
