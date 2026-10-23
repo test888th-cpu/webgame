@@ -94,7 +94,7 @@
       "type": "attack",
       "icon": "skill_attack",
       "name": "Attack",
-      "description": "Jab, cross, hook. Press again as each blow lands to keep the combo going."
+      "description": "Jab, cross, hook: press again as each blow lands to keep the combo going. Also Z or J. No cooldown. Heavy attack: X or K (costs energy)."
     },
     {
       "type": "skill",

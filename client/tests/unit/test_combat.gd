@@ -115,7 +115,8 @@ func test_light_chain_requires_a_landed_hit() -> void:
 	_run(whiff, 5, _press("light"))
 	_run(whiff, 1, _press("light"))
 	_run(whiff, 20)
-	assert_true(whiff[0].state != Fighter.State.ATTACK, "whiffed jab does not chain")
+	var move_id: String = whiff[0].move.id if whiff[0].move else ""
+	assert_true(move_id != "cross", "whiffed jab does not chain")
 
 	var fighters := _pair()
 	_run(fighters, 5, _press("light"))  # jab lands on tick 5

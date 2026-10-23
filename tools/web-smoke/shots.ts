@@ -1,7 +1,7 @@
 // Captures screenshots of key UI states from a web export, for visual review.
 //   node shots.ts <export-dir> <out-dir> [steps...]
 // Each step is "key:<Key>" (press), "hold:<Key>:<ms>", "wait:<ms>", "shot:<name>" or
-// "type:<text>", "click:<x>:<y>" (page pixels) or "walk:<x>:<y>" (walks the hero there, steering by the read-only probe).
+// "probe:<label>" (prints hero state), "type:<text>", "click:<x>:<y>" (page pixels) or "walk:<x>:<y>" (walks the hero there, steering by the read-only probe).
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
 import { extname, join, resolve } from "node:path";
@@ -49,6 +49,10 @@ for (const step of steps) {
   if (kind === "wait") await page.waitForTimeout(Number(a));
   if (kind === "shot") await page.screenshot({ path: `${out}/${a}.png` });
   if (kind === "walk") await walk(Number(a), Number(b));
+  if (kind === "probe") {
+    const p = (await page.evaluate("window.ironboundProbe")) as Record<string, unknown>;
+    console.log(`probe ${a ?? ""}: state=${p?.state} hits=${p?.hero_hits} energy=${Math.round(Number(p?.energy))}`);
+  }
 }
 
 async function walk(x: number, y: number): Promise<void> {

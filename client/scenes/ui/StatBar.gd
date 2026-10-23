@@ -9,6 +9,7 @@ var value := 1.0
 var max_value := 1.0
 ## Recent damage shown as a lighter trail that catches up.
 var _trail := 1.0
+var _flash := 0.0
 
 
 ## `instant` skips the damage trail (for bars that show a snapshot).
@@ -20,7 +21,15 @@ func set_values(p_value: float, p_max: float, instant := false) -> void:
 	queue_redraw()
 
 
+## Blinks the frame red: "not enough of this".
+func flash() -> void:
+	_flash = 0.4
+
+
 func _process(delta: float) -> void:
+	if _flash > 0.0:
+		_flash = maxf(0.0, _flash - delta)
+		queue_redraw()
 	var target := value / max_value
 	if _trail > target:
 		_trail = maxf(target, _trail - delta * 0.6)
@@ -40,6 +49,8 @@ func _draw() -> void:
 		var shine := Rect2(inner.position, Vector2(inner.size.x * ratio, 1))
 		draw_rect(shine, color.lightened(0.3))
 	draw_rect(rect, Color(0, 0, 0, 0.9), false, 1.0)
+	if _flash > 0.0 and fmod(_flash, 0.13) > 0.05:
+		draw_rect(rect.grow(1), UiTheme.DANGER, false, 1.5)
 	if show_text and size.y >= 7:
 		var font := get_theme_default_font()
 		var text := "%d/%d" % [roundi(value), roundi(max_value)]

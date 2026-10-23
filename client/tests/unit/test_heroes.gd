@@ -21,8 +21,9 @@ func test_the_roster_has_a_female_and_a_male_hero_that_play_differently() -> voi
 	var mika := PlayerProfile.new_game(db, "mika").stats(db)
 	var oren := PlayerProfile.new_game(db, "oren").stats(db)
 	assert_true(oren["max_hp"] > mika["max_hp"], "Oren is tougher")
-	assert_true(oren["power"] > mika["power"], "and hits harder")
-	assert_true(oren["speed"] < mika["speed"], "but is slower")
+	assert_true(oren["defense"] > mika["defense"], "and better armoured")
+	assert_true(mika["power"] > oren["power"], "Mika hits harder")
+	assert_true(oren["speed"] < mika["speed"], "and is faster")
 
 
 func test_player_names_are_cleaned_and_validated() -> void:

@@ -29,7 +29,8 @@ func build(content: ContentDB, hero_id: String) -> void:
 		var entry := entries[i]
 		var slot := HotbarSlot.new()
 		slot.name = "Slot%d" % (i + 1)
-		slot.key = str(i + 1)
+		# The attack slot shares its key with Z, so show both.
+		slot.key = "%d Z" % (i + 1) if entry["type"] == "attack" else str(i + 1)
 		slot.kind = str(entry["type"])
 		slot.icon = UiKit.icon(content, icon_id(content, entry))
 		slot.tooltip_text = tooltip(content, entry)

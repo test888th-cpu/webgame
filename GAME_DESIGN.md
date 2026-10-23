@@ -19,8 +19,8 @@ harbour district, which becomes their home base.
 
 | Hero | Archetype | Feel | Signature |
 |---|---|---|---|
-| Mika Tanabe **[built]** | Brawler (female) | Balanced, long combo strings | Rising Uppercut, Whirlwind Kick, Shoulder Rush, Furnace Slam |
-| Oren Vale **[built]** | Bruiser (male) | Slow, heavy, tough: 130 HP, 115% power, 2 defense, 85% speed | Headbutt, Clothesline, Shoulder Charge, Earthshaker |
+| Mika Tanabe **[built]** | Brawler (female) | Damage and mobility: 100 HP, 110% power, 110% speed, long combo strings | Rising Uppercut, Whirlwind Kick, Shoulder Rush, Furnace Slam |
+| Oren Vale **[built]** | Bruiser (male) | Slow, tough, controls crowds: 130 HP, 100% power, 2 defense, 85% speed | Headbutt, Clothesline, Shoulder Charge, Earthshaker |
 | Sela Ruiz | Striker | Fast kicks, dodge-cancels | Spinning heel through a crowd |
 | Juno Okafor | Tinkerer | Mid-range gadgets, traps | Deployable shock coil |
 | Ivy Marlow | Medic | Support, buffs, sustain | Adrenaline field for the party |
@@ -43,7 +43,8 @@ equipment) is stored per hero. Temporary combat state is never persisted.
   breaks guard and costs energy; dodge with invulnerability frames (ticks 2–13 of 20)
   that costs energy; guard that blocks from the front only, takes 20% chip damage,
   drains energy and breaks when energy runs out; knockdown with invulnerable get-up.
-  Simultaneous hits trade.
+  Simultaneous hits trade. **[built]** A 12-tick input buffer keeps presses made just
+  before a swing ends.
 - **[built]** Skills on a seven-slot hotbar (`client/data/skills.json`): 1 attack, 2–5
   skills, 6–7 consumables. Each skill is a move with an energy cost and a cooldown, and
   unlocks at a level. A skill can cancel an attack that has landed, so combos end in
@@ -51,10 +52,18 @@ equipment) is stored per hero. Temporary combat state is never persisted.
 
   | Slot | Skill | Energy | Cooldown | Unlock | Role |
   |---|---|---|---|---|---|
-  | 2 | Rising Uppercut | 10 | 4 s | Lv 1 | Fast single-target knockdown; combo ender |
-  | 3 | Whirlwind Kick | 20 | 7 s | Lv 1 | Hits both sides; escape when surrounded |
-  | 4 | Shoulder Rush | 15 | 6 s | Lv 2 | 90 px charge through a line; breaks guard |
-  | 5 | Furnace Slam | 40 | 20 s | Lv 3 | Big area knockdown; breaks guard |
+  | 2 | Rising Uppercut | 10 | 4 s | Lv 1 | 20 damage; fast single-target knockdown; combo ender |
+  | 3 | Whirlwind Kick | 20 | 7 s | Lv 1 | 18 damage; hits both sides; escape when surrounded |
+  | 4 | Shoulder Rush | 15 | 6 s | Lv 2 | 22 damage; 90 px charge through a line; breaks guard |
+  | 5 | Furnace Slam | 40 | 20 s | Lv 3 | 38 damage; big area knockdown; breaks guard |
+
+  Balance (Mika / Oren): Mika is damage and mobility (power 110%, speed 110%, 100 HP,
+  0 defense, shorter cooldowns, faster skills); Oren is toughness and control (power
+  100%, speed 85%, 130 HP, 2 defense, wider skills and longer stuns, slower start-up).
+  Oren's skills carry more base damage (22/20/24/42) so that with his lower power each
+  slot lands within 15% of Mika's; every skill out-damages the free heavy attack (18),
+  and the slot-5 skill is each hero's strongest. `tests/unit/test_balance.gd` enforces
+  these rules.
 
   Energy (which also pays for dodges, guard and the haymaker) is the shared budget,
   which is why slot 7 holds Ginger Tea (restores energy). Skills and cooldowns are

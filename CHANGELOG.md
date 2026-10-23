@@ -4,6 +4,23 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed — Hero balance
+- Clear roles: Mika is damage and mobility (power 110%, speed 110%, 100 HP); Oren is
+  toughness and control (power 100%, speed 85%, 130 HP, 2 defense, wider skills).
+- Skill damage retuned so every skill out-damages the free heavy attack, each hero's
+  slot-5 skill is their strongest, and same-slot skills of both heroes land within 15%
+  of each other: Mika 20/18/22/38, Oren 22/20/24/42 (base, before power).
+- `test_balance.gd` keeps these rules (4 tests, 116 total).
+
+### Fixed — Attack buttons felt unresponsive
+- Input buffer: a light/heavy attack or skill pressed in the last 12 ticks (0.2 s) of a
+  missed swing now starts as soon as that swing ends; before, the press was dropped,
+  so Z/X (and J/K) seemed not to work when mashed.
+- A heavy attack or dodge without enough energy now plays a refusal sound and blinks the
+  energy bar instead of silently doing nothing. 3 new tests (112 total).
+- The attack slot (1) lights up when Z/J is pressed and is labelled "1 Z", so it is
+  clear Z is the same basic attack (no cooldown); the key hint shows X for heavy.
+
 ### Added — Hero portrait on the HUD
 - The hero card shows the hero's face (cut from the current sprite, so armour shows) on
   a backdrop in the hero's colour, with the level in a gold badge on its corner, the
