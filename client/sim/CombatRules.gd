@@ -30,6 +30,14 @@ const KNOCKDOWN_TICKS := 50
 ## lost: it starts as soon as the attack is over (an input buffer), so
 ## mashing during a missed swing still feels responsive.
 const INPUT_BUFFER_TICKS := 12
+## Stun-lock protection for fighters with a stun_limit (the hero): at most
+## this many ticks of hitstun in a row before the next hit knocks them down
+## (so a crowd cannot keep them helpless), the meter drains this much per
+## tick in control, and getting up leaves them untouchable for a moment.
+## Worst case without input: HERO_STUN_LIMIT + KNOCKDOWN_TICKS = 1.5 s.
+const HERO_STUN_LIMIT := 40
+const STUN_DECAY := 1
+const WAKE_GRACE_TICKS := 36
 ## Share of the remaining knockback applied each tick (ease-out slide).
 const KNOCKBACK_RATE := 0.25
 ## Half the width of a fighter's body for hit tests.
@@ -66,6 +74,8 @@ static func tick(
 
 
 static func is_vulnerable(fighter: Fighter) -> bool:
+	if fighter.grace > 0:
+		return false
 	match fighter.state:
 		Fighter.State.KO, Fighter.State.DOWN:
 			return false
@@ -84,6 +94,10 @@ static func in_reach(attacker: Fighter, defender: Fighter, move: MoveData) -> bo
 
 static func _step(f: Fighter, input: FighterInput, library: MoveLibrary, bounds: Rect2) -> void:
 	f.state_tick += 1
+	if f.grace > 0:
+		f.grace -= 1
+	if f.state != Fighter.State.HITSTUN:
+		f.stun_meter = maxi(0, f.stun_meter - STUN_DECAY)
 	for skill_id: String in f.cooldowns.keys():
 		f.cooldowns[skill_id] -= 1
 		if f.cooldowns[skill_id] <= 0:
@@ -94,6 +108,9 @@ static func _step(f: Fighter, input: FighterInput, library: MoveLibrary, bounds:
 		Fighter.State.DOWN:
 			if f.state_tick >= KNOCKDOWN_TICKS:
 				f.enter(Fighter.State.IDLE)
+				if f.stun_limit > 0:
+					f.stun_meter = 0
+					f.grace = WAKE_GRACE_TICKS
 		Fighter.State.HITSTUN:
 			if f.state_tick >= f.state_duration:
 				f.enter(Fighter.State.IDLE)
@@ -223,6 +240,8 @@ static func _start_move(f: Fighter, move: MoveData) -> bool:
 	if move == null or f.energy < move.energy_cost:
 		return false
 	f.energy -= move.energy_cost
+	# Wake-up grace protects, it does not let you hit while untouchable.
+	f.grace = 0
 	f.enter(Fighter.State.ATTACK)
 	f.move = move
 	f.hit_landed = false
@@ -250,7 +269,7 @@ static func _apply_hit(attacker: Fighter, defender: Fighter, move: MoveData) -> 
 		if defender.energy <= 0.0:
 			defender.energy = 0.0
 			event.guard_broken = true
-			defender.enter(Fighter.State.HITSTUN, GUARD_BREAK_STUN)
+			event.knocked_down = _stun(defender, GUARD_BREAK_STUN)
 	else:
 		event.damage = full
 		# Away from the attacker, so sweeps that reach behind push outward.
@@ -268,5 +287,18 @@ static func _apply_hit(attacker: Fighter, defender: Fighter, move: MoveData) -> 
 		if move.knockdown:
 			defender.enter(Fighter.State.DOWN)
 		else:
-			defender.enter(Fighter.State.HITSTUN, move.hitstun)
+			event.knocked_down = _stun(defender, move.hitstun)
 	return event
+
+
+## Puts the defender in hitstun, or knocks them down when stun-lock
+## protection says they have been held long enough. Returns true if knocked
+## down.
+static func _stun(defender: Fighter, ticks: int) -> bool:
+	if defender.stun_limit > 0 and defender.stun_meter + ticks > defender.stun_limit:
+		defender.stun_meter = 0
+		defender.enter(Fighter.State.DOWN)
+		return true
+	defender.stun_meter += ticks
+	defender.enter(Fighter.State.HITSTUN, ticks)
+	return false

@@ -53,6 +53,14 @@ var cooldowns := {}
 var queued_skill := ""
 ## state_tick of the latest queued press (for the input buffer).
 var queued_tick := 0
+## Stun-lock protection (0: off, the default for enemies so hero combos
+## still chain). Hitstun taken adds to stun_meter, which drains while the
+## fighter is in control; a hit that would push it past stun_limit knocks
+## the fighter down instead, and getting up grants `grace` ticks in which
+## nothing can hit them.
+var stun_limit := 0
+var stun_meter := 0
+var grace := 0
 
 
 func _init(p_id := 0, p_team := 0, p_position := Vector2.ZERO, p_max_hp := 100) -> void:

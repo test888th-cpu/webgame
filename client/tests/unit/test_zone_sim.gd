@@ -214,3 +214,24 @@ func test_hero_down_is_reported_once() -> void:
 	var events := _run(zone, 600)
 	assert_eq(_types(events).count("hero_down"), 1, "one hero_down event")
 	assert_true(zone.hero.is_ko(), "hero KO")
+
+
+func test_a_crowd_cannot_stun_lock_the_hero() -> void:
+	# Three fast Market Punks against a hero who never presses anything: the
+	# hero must never stay helpless longer than the protection allows.
+	var cap := CombatRules.HERO_STUN_LIMIT + CombatRules.KNOCKDOWN_TICKS + 1
+	for seed in [1, 2, 3]:
+		var zone := _zone("night_market", seed)
+		zone.hero.max_hp = 1000000
+		zone.hero.hp = 1000000
+		zone.hero.position = Vector2(600, 300)
+		for i in 3:
+			zone.spawn_enemy("market_punk", Vector2(560 + i * 40, 280 + i * 10))
+		var worst := 0
+		var run := 0
+		for t in 1800:
+			zone.tick(_idle())
+			var helpless := zone.hero.state in [Fighter.State.HITSTUN, Fighter.State.DOWN]
+			run = run + 1 if helpless else 0
+			worst = maxi(worst, run)
+		assert_true(worst <= cap, "seed %d: helpless %d ticks (cap %d)" % [seed, worst, cap])
