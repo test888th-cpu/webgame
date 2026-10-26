@@ -60,7 +60,7 @@ GitHub → **Actions** → **CI**. Each run has these jobs:
 |---|---|
 | Repository policy | Required docs exist; `.env.example` has placeholders only; no key files tracked |
 | GDScript lint and format | `gdlint` and `gdformat --check` (gdtoolkit 4.5.0) |
-| Godot project opens and tests pass | Headless import with no script errors; 199 unit/scene tests (combat, skills, heroes, AI, encounters, loot, quests, shop, saves, game scenes, interface, effects) |
+| Godot project opens and tests pass | Headless import with no script errors; 208 unit/scene tests (combat, skills, heroes, AI, encounters, loot, quests, shop, saves, game scenes, interface, effects) |
 | Web export and browser smoke test | Release web export; headless Chromium loads it, waits for boot, **plays it with real keys: title → new game → hero creation (pick a hero, type a name) → combo on the dummy → a skill from the hotbar → pick up a weapon → pause → next area → a real fight**; uploads the build, a manifest with SHA-256s and a screenshot |
 | Backend typecheck, tests and migrations | `tsc`, API + migration tests against a real PostgreSQL, fresh-DB migration, API reaches `/readyz` |
 | Backend image build, container scan and SBOM | Docker image builds, runs as non-root on the pinned Node, Trivy scan, CycloneDX SBOM |

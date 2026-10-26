@@ -4,6 +4,26 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — Gear upgrades at the workbench (IL-3)
+- Every equipment slot can be upgraded from +0 to +10. Each level adds 10% of the worn
+  item's own stats (penalties are never amplified). Upgrades belong to the **slot**, so
+  changing gear never throws them away, and there is no per-item bookkeeping that a
+  save could lose.
+- Each attempt costs coins and materials (+1: 40 coins and 1 Scrap; +10: 1,100 coins,
+  8 Scrap, 3 Alloy) and succeeds at the level's rate (100% down to 20%). **A failure
+  keeps the item and the level**, spends only the cost, and adds +5% to the next try in
+  that slot until one succeeds. Costs and rates are data (`progression.json`
+  `enhance`), validated on load (costs in materials, rates never rising).
+- From the worn item's card in a safe area (the Depot Yard): what the upgrades add
+  now, the next level's chance and cost (red where you are short), and an "Upgrade
+  +N (chance)" button. Success and failure each have a sound and a message; a second
+  press within 0.4 s is ignored and every attempt is saved at once. Upgraded slots
+  show a gold "+N".
+- The rule is `sim/EnhanceRules.gd`: check, pay, roll, apply in one call, with the
+  roll from the caller (the server, once online). **Save version 5** stores levels and
+  pity; version 4 saves start at +0, values are clamped and unknown slots dropped.
+- 9 new tests (208 total).
+
 ### Added — Critical hits and attack speed (IL-3, decision D8)
 - Two new stats: **Crit** (chance of a 1.5x blow; every hero starts at 5%, Riku the
   Boxer at 8%; capped at 50%) and **Atk Speed** (cuts the recovery after each attack,

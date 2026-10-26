@@ -231,6 +231,7 @@ static func _slot_column(game: Game, slots: Array) -> VBoxContainer:
 		slot.placeholder = UiKit.icon(game.content, "slot_" + slot_name)
 		var item_id: String = game.profile.equipment[slot_name]
 		slot.show_item(game.content, item_id, 1, game.profile.level)
+		slot.upgrade = EnhanceRules.level(game.profile, slot_name)
 		if item_id:
 			slot.pressed.connect(game.inspect_item.bind(item_id, slot_name))
 		else:

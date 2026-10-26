@@ -9,6 +9,7 @@ const READY_MARKER := "GAME_READY"
 const PROBE_INTERVAL := 0.1
 ## Healing items the quick-use button tries, in order.
 const QUICK_HEAL := ["steamed_bun", "ginger_tea"]
+const UPGRADE_GAP_MS := 400
 
 var content: ContentDB
 var profile: PlayerProfile
@@ -34,6 +35,9 @@ var _probe_timer := 0.0
 ## A hotbar slot clicked or tapped since the last tick (-1: none).
 var _clicked_slot := -1
 var _feedback: GameFeedback
+var _last_upgrade_ms := -100000
+## Rolls upgrades. Offline the client rolls them; online the server will.
+var _upgrade_rng := RandomNumberGenerator.new()
 
 @onready var _world: Node2D = $World
 @onready var _hud: CanvasLayer = $Hud
@@ -41,6 +45,7 @@ var _feedback: GameFeedback
 
 
 func _ready() -> void:
+	_upgrade_rng.randomize()
 	content = GameSession.content
 	if GameSession.profile == null:
 		GameSession.start_new_game()
@@ -342,6 +347,11 @@ func inspect_item(item_id: String, worn_slot: String) -> void:
 	var item := content.item(item_id)
 	var actions: Array[Dictionary] = []
 	if worn_slot:
+		var next := EnhanceRules.next_cost(profile, worn_slot, content)
+		if next:
+			var odds := roundi(EnhanceRules.chance(profile, worn_slot, content) * 100.0)
+			var label := "Upgrade +%d (%d%%)" % [EnhanceRules.level(profile, worn_slot) + 1, odds]
+			actions.append({"text": label, "call": _upgrade.bind(worn_slot)})
 		actions.append({"text": "Unequip", "call": _unequip.bind(worn_slot)})
 	elif item.get("type") == "equipment":
 		actions.append({"text": "Equip", "call": _equip.bind(item_id)})
@@ -398,6 +408,39 @@ func _equip(item_id: String) -> void:
 			_reopen_bag("worn:" + str(item["slot"]))
 			return
 	_reopen_bag("bag:" + item_id)
+
+
+## One upgrade attempt at the workbench (safe areas only). Saved at once,
+## and a second press within UPGRADE_GAP_MS is ignored, so a double click
+## never spends twice by accident.
+func _upgrade(slot: String) -> void:
+	var now := Time.get_ticks_msec()
+	if now - _last_upgrade_ms < UPGRADE_GAP_MS:
+		return
+	_last_upgrade_ms = now
+	if not zone.area.get("safe", false):
+		_hud.toast("Upgrade at the workbench in a safe area (the Depot Yard).")
+		Sfx.play("denied", -4.0)
+		return
+	var outcome := EnhanceRules.attempt(profile, slot, content, _upgrade_rng)
+	match outcome["result"]:
+		"success":
+			_hud.toast("Upgraded to +%d!" % outcome["level"])
+			Sfx.play("level_up", -4.0)
+		"fail":
+			var odds := roundi(EnhanceRules.chance(profile, slot, content) * 100.0)
+			_hud.toast("The upgrade failed. Next try: %d%%." % odds)
+			Sfx.play("break_metal", -4.0)
+		"coins":
+			_hud.toast("Not enough coins.")
+			Sfx.play("denied", -4.0)
+		"materials":
+			_hud.toast("Not enough materials. The item card says where to find them.")
+			Sfx.play("denied", -4.0)
+	zone.refresh_hero()
+	SaveStore.save(profile)
+	close_item_card()
+	inspect_item(str(profile.equipment[slot]), slot)
 
 
 func _unequip(slot: String) -> void:

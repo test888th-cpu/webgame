@@ -202,6 +202,20 @@ func hotbar_for(hero_id: String) -> Array[Dictionary]:
 
 
 func validate() -> void:
+	var enhance: Dictionary = progression.get("enhance", {})
+	var last_rate := 1.0
+	for i in enhance.get("levels", []).size():
+		var row: Dictionary = enhance["levels"][i]
+		var where := "progression.enhance.levels[%d]" % i
+		_number(row, "coins", where, 0)
+		var rate := float(row.get("rate", -1))
+		_check(rate > 0.0 and rate <= last_rate, where + ".rate: in (0, 1] and never rising")
+		last_rate = rate
+		for item_id: String in row.get("items", {}):
+			_check(
+				items.get(item_id, {}).get("type") == "material",
+				"%s.items: %s is not a material" % [where, item_id]
+			)
 	for i in tutorial.size():
 		var step: Variant = tutorial[i]
 		var where := "tutorial.steps[%d]" % i

@@ -177,6 +177,13 @@ legendary), a required level, stat bonuses (penalties allowed, e.g. a heavy pipe
 you) and a description; 15 items so far, sold by Ama or dropped by enemies, and each hero
 starts with a small kit. Equipment changes stats at once and saves.
 
+**[built] Upgrades**: each equipment slot goes from +0 to +10 at the Depot workbench
+(10% more of the worn item's stats per level, kept by the slot when gear changes);
+coins and Scrap Metal/Refined Alloy per attempt, 100% down to 20% success, failures
+keep the level and add 5% to the next try. **[built] Materials** drop from enemies
+(bosses always) and item cards say where every item comes from. **[built] Crit**
+(5% base, Riku 8%) and **attack speed** (recovery only) come from gear.
+
 Levels and XP per hero · skill unlocks and upgrades · equipment with affixes (later) · enhancement and crafting from Murk residue and
 salvage · daily and weekly contracts · account-bound and tradable items · currency sinks:
 repairs, enhancement, housing, travel.

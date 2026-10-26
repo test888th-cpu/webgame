@@ -5,7 +5,7 @@ extends RefCounted
 ## for the backend in Milestone 4, when the server becomes the only writer.
 ## Temporary combat state (position, energy, cooldowns) never lives here.
 
-const SAVE_VERSION := 4
+const SAVE_VERSION := 5
 ## Equipment slots, in the order the character screen shows them.
 const SLOTS := ["head", "body", "hands", "weapon", "feet", "charm"]
 ## Stats an item can add, as stored in items.json "stats".
@@ -46,6 +46,10 @@ var tutorial := 0
 ## How many times the current step's action was done. Not saved: a step is
 ## short enough to redo after a reload.
 var tutorial_progress := 0
+## Upgrade level per equipment slot (EnhanceRules), and failed attempts since
+## the slot's last success (each raises the next chance).
+var enhance := {}
+var enhance_pity := {}
 
 
 ## A fresh profile for `hero_id` (the first hero if empty or unknown), named
@@ -112,9 +116,13 @@ func gear_stats(content: ContentDB) -> Dictionary:
 		"max_hp": 0, "power": 0.0, "defense": 0, "speed": 0.0, "crit": 0.0, "attack_speed": 0.0
 	}
 	for slot: String in SLOTS:
-		var bonus: Dictionary = content.item(equipment[slot]).get("stats", {})
+		var item := content.item(equipment[slot])
+		var bonus: Dictionary = item.get("stats", {})
 		for key: String in bonus:
 			total[key] += bonus[key]
+		var upgrades := EnhanceRules.bonus(self, slot, item, content)
+		for key: String in upgrades:
+			total[key] += upgrades[key]
 	return total
 
 
@@ -237,6 +245,8 @@ func to_dict() -> Dictionary:
 		"defeated": defeated.duplicate(),
 		"area": area,
 		"tutorial": tutorial,
+		"enhance": enhance.duplicate(),
+		"enhance_pity": enhance_pity.duplicate(),
 	}
 
 
@@ -291,6 +301,16 @@ static func from_dict(data: Variant, content: ContentDB) -> PlayerProfile:
 	var max_hp: int = p.stats(content)["max_hp"]
 	p.hp = clampi(int(migrated.get("hp", max_hp)), 1, max_hp)
 	p.tutorial = clampi(int(migrated.get("tutorial", 0)), 0, content.tutorial.size())
+	var top := EnhanceRules.max_level(content)
+	for field: String in ["enhance", "enhance_pity"]:
+		var saved: Variant = migrated.get(field, {})
+		if not saved is Dictionary:
+			continue
+		var limit := top if field == "enhance" else 1000
+		for slot: String in saved:
+			var value := clampi(int(saved[slot]), 0, limit)
+			if slot in SLOTS and value > 0:
+				p.get(field)[slot] = value
 	return p
 
 
@@ -323,4 +343,9 @@ static func migrate(data: Dictionary) -> Dictionary:
 		# who already know the game, so it counts as finished.
 		migrated["tutorial"] = 1 << 20
 		migrated["version"] = 4
+	if int(migrated["version"]) == 4:
+		# Version 5 adds slot upgrades; everything starts at +0.
+		migrated["enhance"] = {}
+		migrated["enhance_pity"] = {}
+		migrated["version"] = 5
 	return migrated

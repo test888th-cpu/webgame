@@ -8,5 +8,86 @@
     "max_hp": 10,
     "power": 0.05
   },
-  "defeat_money_loss": 0.1
+  "defeat_money_loss": 0.1,
+  "enhance": {
+    "bonus_per_level": 0.1,
+    "pity_per_fail": 0.05,
+    "levels": [
+      {
+        "coins": 40,
+        "items": {
+          "scrap_metal": 1
+        },
+        "rate": 1.0
+      },
+      {
+        "coins": 70,
+        "items": {
+          "scrap_metal": 1
+        },
+        "rate": 0.95
+      },
+      {
+        "coins": 110,
+        "items": {
+          "scrap_metal": 2
+        },
+        "rate": 0.9
+      },
+      {
+        "coins": 160,
+        "items": {
+          "scrap_metal": 2
+        },
+        "rate": 0.8
+      },
+      {
+        "coins": 230,
+        "items": {
+          "scrap_metal": 3
+        },
+        "rate": 0.7
+      },
+      {
+        "coins": 320,
+        "items": {
+          "scrap_metal": 3,
+          "refined_alloy": 1
+        },
+        "rate": 0.6
+      },
+      {
+        "coins": 440,
+        "items": {
+          "scrap_metal": 4,
+          "refined_alloy": 1
+        },
+        "rate": 0.5
+      },
+      {
+        "coins": 600,
+        "items": {
+          "scrap_metal": 5,
+          "refined_alloy": 2
+        },
+        "rate": 0.4
+      },
+      {
+        "coins": 800,
+        "items": {
+          "scrap_metal": 6,
+          "refined_alloy": 2
+        },
+        "rate": 0.3
+      },
+      {
+        "coins": 1100,
+        "items": {
+          "scrap_metal": 8,
+          "refined_alloy": 3
+        },
+        "rate": 0.2
+      }
+    ]
+  }
 }

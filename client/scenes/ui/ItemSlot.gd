@@ -12,6 +12,8 @@ var icon_texture: Texture2D
 ## Shown when the slot is empty (equipment slots).
 var placeholder: Texture2D
 var too_high_level := false
+## The slot's upgrade level, drawn as a gold "+N" in the corner (worn slots).
+var upgrade := 0
 
 
 func _init(size_px := 28.0) -> void:
@@ -68,6 +70,12 @@ func _draw() -> void:
 			font, at, str(count), HORIZONTAL_ALIGNMENT_RIGHT, rect.size.x - 2, 7, 3, Color.BLACK
 		)
 		draw_string(font, at, str(count), HORIZONTAL_ALIGNMENT_RIGHT, rect.size.x - 2, 7)
+	if upgrade > 0:
+		var font := get_theme_default_font()
+		var at := Vector2(2, 9)
+		var text := "+%d" % upgrade
+		draw_string_outline(font, at, text, HORIZONTAL_ALIGNMENT_LEFT, -1, 7, 3, Color.BLACK)
+		draw_string(font, at, text, HORIZONTAL_ALIGNMENT_LEFT, -1, 7, UiTheme.GOLD)
 	if lit:
 		draw_rect(
 			rect.grow(-0.5), UiTheme.ACCENT if has_focus() else Color(1, 1, 1, 0.5), false, 1.5
