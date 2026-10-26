@@ -210,11 +210,8 @@ func _sync_weapons() -> void:
 
 
 func _build_scenery() -> void:
-	var scenery: Dictionary = content.environment.get("areas", {}).get(zone.area_id, {})
-	if scenery.is_empty():
+	if not Scenery.build(self, content, zone.area_id):
 		_build_flat_scenery()
-	else:
-		Scenery.build(self, content, scenery)
 	_build_exit_signs()
 
 

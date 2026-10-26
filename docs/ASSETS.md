@@ -155,6 +155,9 @@ floating-point sine, so the validator allows a difference of a few 16-bit steps.
 
 ## Scenery (original, generated)
 
+Areas laid out from the street kit (below) use only the generated `sky.png`; the
+other generated layers remain the fallback for an area without a kit layout.
+
 `tools/assets/gen_environment.py` draws every area's scenery in code: original pixel
 art, MIT-licensed with the rest of the project, so no attribution is needed. Each
 area in `client/data/areas.json` has a `theme` (`depot`, `market`, `canal`) and a
@@ -172,6 +175,42 @@ Output depends only on the area data (seeded by area id). `validate.py` regenera
 it in memory and fails if the committed images differ. A new area gets scenery
 just by adding it to `areas.json` and re-running the generator, or the **Assets**
 workflow, which runs it every time.
+
+## Street kit (HD-2D, painted by the project owner)
+
+The streets are assembled from separately painted pieces, in the HD-2D style
+(Octopath-like: painted scenery, pixel-art characters). The owner paints each piece
+on a flat green backdrop with a dark outline, from the prompts in this project's
+history. Rules for new pieces: **no real brands or logos; signs blank** (Thai text is
+drawn in-engine); **no Buddha images** (a spirit house shows a deity, e.g. Nang Kwak).
+
+`art/kit/src/` holds the sources (scaled to at most 1400 px) and `art/kit/kit.json`
+the recipe. Each piece has its game height in pixels; options are `crop` (fractions
+of the image, to drop a corner glow), `haze` (also key out the warm glow some
+backdrops have in a corner; never for pieces lit warm all over, whose edges would
+leak), `keep_green` (green enclosed by the piece is paint, not backdrop: the pharmacy
+cross), `hole_margin` (key enclosed greens more eagerly), `despill` (pull green
+out of the whole piece: the bus stop glass), `edges` (the piece may touch the image
+border), `mirror`, `tile` (ground strips, cropped not keyed), and `glow` (where a lamp
+gets additive light, as fractions of the piece).
+
+`tools/assets/kit_import.py` keys out green connected to the image border, drops
+specks and blobs at the border that are not the piece, removes the green fringe,
+trims, and scales to `hd` = 2 texture pixels per game pixel; the game draws them at
+half size with linear filtering, sharp at any window size. Ground tiles are mirrored
+so they repeat without a seam. Then each area is laid out from its theme in
+`kit.json` (seeded by area id): skyline, condo towers and the skytrain behind the
+street scrolling slower, a row of shops and shophouses, sidewalk tiles, lamp posts
+and power poles at a steady rhythm with props, animals and stalls between them,
+vehicles parked at the kerb clear of the exits, and foliage in front of the fighters
+scrolling faster, all recorded in the manifest's `kit` section. Pieces are only
+re-cut when their source or recipe changes (`--force` re-cuts everything).
+`validate.py` checks every piece against its source digest, its texture size, and
+that the layouts are what the importer produces now. Licence: the owner's own art
+(`Proprietary (project owner)`), credited in game.
+
+Imported pieces not yet placed: the hanging and standing blank signs (waiting for
+in-engine Thai text), the railing and the train without its track.
 
 ## Art from the project owner (custom sheets)
 

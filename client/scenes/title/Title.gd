@@ -30,10 +30,8 @@ func _ready() -> void:
 
 
 func _build_backdrop(content: ContentDB) -> void:
-	var scenery: Dictionary = content.environment.get("areas", {}).get(BACKDROP_AREA, {})
-	if scenery.is_empty():
+	if not Scenery.build(_world, content, BACKDROP_AREA):
 		return
-	Scenery.build(_world, content, scenery)
 	var width := float(content.area(BACKDROP_AREA).get("width", 960))
 	_camera.limit_left = 0
 	_camera.limit_right = int(width)

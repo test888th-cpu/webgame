@@ -55,6 +55,7 @@ jobs:
         run: |
           python3 tools/assets/custom_import.py
           python3 tools/assets/gen_environment.py
+          python3 tools/assets/kit_import.py
           python3 tools/assets/gen_ui.py
           python3 tools/assets/gen_fx.py
           python3 tools/assets/gen_sfx.py

@@ -22,6 +22,7 @@ from PIL import Image
 
 sys.path.insert(0, str(Path(__file__).parent))
 import gen_environment  # noqa: E402
+import kit_import  # noqa: E402
 import gen_dummy  # noqa: E402
 import gen_fx  # noqa: E402
 import gen_sfx  # noqa: E402
@@ -182,6 +183,34 @@ def validate_environment(environment: dict) -> list[str]:
     return problems
 
 
+def validate_kit(kit: dict) -> list[str]:
+    """The street kit: every piece is cut from its current source and recipe
+    (the digest), its file has the recorded size, every area is laid out, and
+    the layouts are what the importer produces now."""
+    problems: list[str] = []
+    spec = json.loads(kit_import.SPEC.read_text())
+    pieces = kit.get("pieces", {})
+    if kit.get("credits", {}).get("license") != OWNER_LICENSE:
+        problems.append(f"kit: licence must be {OWNER_LICENSE!r}")
+    for piece_id, piece in sorted(spec["pieces"].items()):
+        entry = pieces.get(piece_id)
+        if entry is None or entry.get("digest") != kit_import.source_digest(piece):
+            problems.append(f"kit: {piece_id} is missing or out of date; run tools/assets/kit_import.py")
+            continue
+        path = res_path(entry["file"])
+        if not path.exists():
+            problems.append(f"kit: {piece_id} has no texture")
+            continue
+        with Image.open(path) as saved:
+            if list(saved.size) != entry["size"]:
+                problems.append(f"kit: {piece_id} is {saved.size}, manifest says {entry['size']}")
+    for piece_id in sorted(set(pieces) - set(spec["pieces"])):
+        problems.append(f"kit: {piece_id} is no longer in art/kit/kit.json")
+    if not problems and kit.get("areas") != kit_import.lay_out_all(spec, pieces):
+        problems.append("kit: area layouts are out of date; run tools/assets/kit_import.py")
+    return problems
+
+
 def validate_ui(ui: dict) -> list[str]:
     """The icon sheet matches what gen_ui.py draws now, and every icon an item
     names exists."""
@@ -296,6 +325,7 @@ def main() -> int:
         if asset.get("status") == "pending_manual_export":
             pending.append(asset_id)
     problems += validate_environment(manifest.get("environment", {}))
+    problems += validate_kit(manifest.get("kit", {}))
     problems += validate_ui(manifest.get("ui", {}))
     problems += validate_fx(manifest.get("fx", {}))
     problems += validate_dummy(manifest.get("assets", {}))
