@@ -4,6 +4,18 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — A tutorial that teaches by doing (IL-2)
+- New heroes are walked through the basics in the Depot Yard, one step at a time in
+  the quest card's spot: move, punch the dummy (3 hits), heavy blow, a skill, dodge,
+  guard (and how to parry), pick up a weapon, throw it, talk to Chief Odo. Each step
+  finishes when the player does it, with a chime; the last says the street is open.
+- Skippable from the menu (Game tab, "Skip tutorial"). Steps are data
+  (`client/data/tutorial.json`, validated on load) and the rule lives in
+  `sim/TutorialRules.gd`.
+- **Save version 4** stores tutorial progress. Version 3 saves migrate with the
+  tutorial marked finished, since those players already know the game; values are
+  clamped on load. 7 new tests (190 total).
+
 ### Added — Prologue and Chapter 1 told through the quests (IL-2)
 - Chief Odo's six quests are rewritten from `docs/STORY_BIBLE.md` as the Prologue
   ("First Night") and Chapter 1 ("South Street"): a shakedown at Ama's stall, a crate

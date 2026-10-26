@@ -167,6 +167,8 @@ static func _system(game: Game) -> Control:
 	buttons.add_child(UiKit.button("Resume", game.close_menu))
 	buttons.add_child(UiKit.button("Save game", game._save_game))
 	buttons.add_child(UiKit.button("Save and quit to title", game._quit_to_title))
+	if not TutorialRules.is_done(game.profile, game.content):
+		buttons.add_child(UiKit.button("Skip tutorial", game.skip_tutorial))
 	column.add_child(buttons)
 	column.add_child(HSeparator.new())
 	var options := UiKit.section("Options")

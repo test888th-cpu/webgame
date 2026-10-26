@@ -59,6 +59,8 @@ var fx: Dictionary = {}
 var audio: Dictionary = {}
 ## Bundled fonts: {"thai": {"file", "license", ...}}.
 var fonts: Dictionary = {}
+## The first-time tutorial's steps, in order (tutorial.json).
+var tutorial: Array = []
 var errors: PackedStringArray = []
 
 
@@ -82,6 +84,7 @@ static func load_all(dir := DATA_DIR) -> ContentDB:
 	var skill_file := db._read(dir.path_join("skills.json"))
 	db.skills = skill_file.get("skills", {})
 	db.hotbar = skill_file.get("hotbar", [])
+	db.tutorial = db._read(dir.path_join("tutorial.json")).get("steps", [])
 	db.item_cooldown = int(skill_file.get("item_cooldown", 0))
 	var manifest := db._read(ART_MANIFEST)
 	db.art = manifest.get("assets", {})
@@ -136,6 +139,15 @@ func hotbar_for(hero_id: String) -> Array[Dictionary]:
 
 
 func validate() -> void:
+	for i in tutorial.size():
+		var step: Variant = tutorial[i]
+		var where := "tutorial.steps[%d]" % i
+		if not step is Dictionary:
+			errors.append(where + ": expected an object")
+			continue
+		_check(step.get("signal") in TutorialRules.SIGNALS, "%s.signal: unknown" % where)
+		_number(step, "count", where, 1)
+		_check(str(step.get("text", "")) != "", where + ".text: required")
 	for id: String in enemies:
 		_validate_enemy(id, enemies[id])
 	for id: String in items:

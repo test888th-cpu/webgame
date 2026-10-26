@@ -28,6 +28,7 @@ var _xp: StatBar
 var _money: Label
 var _area: Label
 var _quest_card: PanelContainer
+var _quest_heading: Label
 var _quest_name: Label
 var _quest_progress: Label
 var _boss: VBoxContainer
@@ -237,7 +238,8 @@ func _build_top_right(root: Control) -> void:
 	var quest := VBoxContainer.new()
 	quest.add_theme_constant_override("separation", 0)
 	_quest_card.add_child(quest)
-	quest.add_child(UiKit.label("QUEST", UiTheme.SIZE_CAPTION, UiTheme.ACCENT))
+	_quest_heading = UiKit.label("QUEST", UiTheme.SIZE_CAPTION, UiTheme.ACCENT)
+	quest.add_child(_quest_heading)
 	_quest_name = UiKit.label("", UiTheme.SIZE_SMALL, UiTheme.TEXT, 150)
 	quest.add_child(_quest_name)
 	_quest_progress = UiKit.label("", UiTheme.SIZE_CAPTION, UiTheme.TEXT_DIM)
@@ -363,6 +365,17 @@ func _build_banner(root: Control) -> void:
 
 
 func _update_quest() -> void:
+	# The tutorial takes the quest card's place until it is done: one thing
+	# to look at, in the same spot as every goal after it.
+	var step := TutorialRules.current(profile, content)
+	if step:
+		_quest_card.visible = true
+		_quest_heading.text = "TUTORIAL  %d / %d" % [profile.tutorial + 1, content.tutorial.size()]
+		_quest_name.text = str(step["text"])
+		var count := int(step.get("count", 1))
+		_quest_progress.text = "%d / %d" % [profile.tutorial_progress, count] if count > 1 else ""
+		return
+	_quest_heading.text = "QUEST"
 	for quest_id: String in profile.quests:
 		var entry: Dictionary = profile.quests[quest_id]
 		var quest: Dictionary = content.quests[quest_id]

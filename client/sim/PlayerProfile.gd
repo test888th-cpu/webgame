@@ -5,7 +5,7 @@ extends RefCounted
 ## for the backend in Milestone 4, when the server becomes the only writer.
 ## Temporary combat state (position, energy, cooldowns) never lives here.
 
-const SAVE_VERSION := 3
+const SAVE_VERSION := 4
 ## Equipment slots, in the order the character screen shows them.
 const SLOTS := ["head", "body", "hands", "weapon", "feet", "charm"]
 ## Stats an item can add, as stored in items.json "stats".
@@ -34,6 +34,12 @@ var quests := {}
 ## Enemy id -> total defeated.
 var defeated := {}
 var area := ""
+## Index of the next tutorial step (see TutorialRules); past the last step
+## when finished or skipped.
+var tutorial := 0
+## How many times the current step's action was done. Not saved: a step is
+## short enough to redo after a reload.
+var tutorial_progress := 0
 
 
 ## A fresh profile for `hero_id` (the first hero if empty or unknown), named
@@ -214,6 +220,7 @@ func to_dict() -> Dictionary:
 		"quests": quests.duplicate(true),
 		"defeated": defeated.duplicate(),
 		"area": area,
+		"tutorial": tutorial,
 	}
 
 
@@ -267,6 +274,7 @@ static func from_dict(data: Variant, content: ContentDB) -> PlayerProfile:
 	p.area = saved_area if content.areas.has(saved_area) else content.start_area
 	var max_hp: int = p.stats(content)["max_hp"]
 	p.hp = clampi(int(migrated.get("hp", max_hp)), 1, max_hp)
+	p.tutorial = clampi(int(migrated.get("tutorial", 0)), 0, content.tutorial.size())
 	return p
 
 
@@ -294,4 +302,9 @@ static func migrate(data: Dictionary) -> Dictionary:
 				"charm": old.get("accessory", ""),
 			}
 		migrated["version"] = 3
+	if int(migrated["version"]) == 3:
+		# Version 4 adds the tutorial. Saves from before it belong to players
+		# who already know the game, so it counts as finished.
+		migrated["tutorial"] = 1 << 20
+		migrated["version"] = 4
 	return migrated

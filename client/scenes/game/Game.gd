@@ -176,6 +176,9 @@ func step(input: FighterInput) -> Array[ZoneEvent]:
 	for event in events:
 		_handle(event)
 		_feedback.on_event(event)
+	if not TutorialRules.is_done(profile, content):
+		for action: String in TutorialRules.signals_for(events, zone.hero, input, content.moves):
+			tutorial_signal(action)
 	view.sync()
 	if _pending_exit:
 		var exit := _pending_exit
@@ -303,7 +306,27 @@ func open_shop(npc: Dictionary) -> void:
 	_show("shop", GameMenus.shop(self, npc))
 
 
+## Counts a tutorial action; a finished step chimes, and the last one says
+## the street is open.
+func tutorial_signal(action: String) -> void:
+	if not TutorialRules.notify(profile, action, content):
+		return
+	Sfx.play("quest", -4.0)
+	if TutorialRules.is_done(profile, content):
+		_hud.toast("Tutorial complete. The street is yours.")
+	SaveStore.save(profile)
+
+
+func skip_tutorial() -> void:
+	TutorialRules.skip(profile, content)
+	SaveStore.save(profile)
+	close_menu()
+	_hud.toast("Tutorial skipped. Controls are in the menu (Esc).")
+
+
 func open_quests(npc: Dictionary, said := "") -> void:
+	if npc.get("role") == "quests":
+		tutorial_signal("talk")
 	_show("quests_npc", GameMenus.conversation(self, npc, said))
 
 
