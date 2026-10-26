@@ -122,22 +122,60 @@ func test_gallery_and_credits_build() -> void:
 		assert_true(GameSession.content.audio["sounds"].has(punch), "%s is a listed sound" % punch)
 
 
-func test_every_area_has_layered_scenery() -> void:
+func test_every_area_is_built_from_the_street_kit() -> void:
 	var content := GameSession.content
 	for area_id: String in content.areas:
-		var scenery: Dictionary = content.environment.get("areas", {}).get(area_id, {})
-		assert_true(not scenery.is_empty(), "%s has generated scenery" % area_id)
+		assert_true(
+			not content.environment.get("areas", {}).get(area_id, {}).is_empty(),
+			"%s has a generated sky" % area_id
+		)
+		var kit: Dictionary = content.kit.get("areas", {}).get(area_id, {})
+		assert_true(not kit.is_empty(), "%s is laid out from the kit" % area_id)
 		var profile := PlayerProfile.new_game(content)
 		var view := ZoneView.new()
 		tree.root.add_child(view)
 		view.build(ZoneSim.new(content, profile, area_id, "", 1), content)
-		assert_eq(
-			view.find_children("*", "Parallax2D", false, false).size(),
-			2,
-			"%s sky and skyline" % area_id
-		)
+		for layer in ["KitFar", "KitBack", "KitFront", "KitGround", "KitSidewalk", "KitFg"]:
+			var node := view.get_node_or_null(layer) as Parallax2D
+			assert_true(node != null, "%s has its %s layer" % [area_id, layer])
+			if node != null:
+				assert_eq(
+					node.texture_filter,
+					CanvasItem.TEXTURE_FILTER_LINEAR,
+					"%s %s is drawn smooth" % [area_id, layer]
+				)
+		var front := view.get_node("KitFront")
+		assert_true(front.get_child_count() >= 3, "%s has a row of buildings" % area_id)
+		var reach := 0.0
+		for sprite: Sprite2D in front.get_children():
+			assert_true(sprite.texture != null, "%s building texture loads" % area_id)
+			reach = maxf(reach, sprite.position.x + sprite.texture.get_width() * sprite.scale.x)
+		assert_true(reach >= float(content.area(area_id)["width"]), "%s street is lined" % area_id)
 		assert_true(
-			view.find_children("*", "Sprite2D", false, false).size() > 5,
-			"%s facades, ground, props" % area_id
+			view.get_node("KitFg").z_index > 0, "%s foliage is drawn over the fighters" % area_id
 		)
+		if kit.has("track"):
+			var strip := view.get_node("KitTrack").get_child(0) as Sprite2D
+			assert_true(strip.region_enabled, "%s track is one repeating strip" % area_id)
+			assert_near(
+				strip.region_rect.size.x * strip.scale.x,
+				float(kit["track"]["to"]) - float(kit["track"]["from"]),
+				"%s track runs unbroken" % area_id
+			)
 		view.free()
+
+
+func test_kit_pieces_stand_on_the_street() -> void:
+	var content := GameSession.content
+	var pieces: Dictionary = content.kit["pieces"]
+	for area_id: String in content.kit["areas"]:
+		for placed: Dictionary in content.kit["areas"][area_id]["placed"]:
+			assert_true(pieces.has(placed["piece"]), "%s piece %s" % [area_id, placed["piece"]])
+			if placed["layer"] == "sidewalk":
+				assert_true(
+					float(placed["y"]) <= ZoneSim.LANE_TOP,
+					"%s %s stands behind the fighting lane" % [area_id, placed["piece"]]
+				)
+	# Painted at least twice the game size, drawn scaled down to stay sharp.
+	for piece_id: String in pieces:
+		assert_true(int(pieces[piece_id]["hd"]) >= 2, "%s is HD" % piece_id)

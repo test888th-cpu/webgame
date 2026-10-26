@@ -1,0 +1,469 @@
+{
+  "credits": {
+    "authors": [
+      "test888th-cpu (project owner)"
+    ],
+    "license": "Proprietary (project owner)",
+    "notes": "HD-2D street pieces painted by the project owner with their own AI tools; keyed, trimmed and laid out by tools/assets/kit_import.py."
+  },
+  "hd": 2,
+  "scroll": {
+    "far": 0.15,
+    "back": 0.55,
+    "track": 0.75,
+    "fg": 1.25
+  },
+  "pieces": {
+    "skyline_far": {
+      "file": "skyline_far.jpg",
+      "height": 150,
+      "edges": true,
+      "mirror": true
+    },
+    "condo_tower": {
+      "file": "condo_tower.jpg",
+      "height": 215
+    },
+    "skytrain_on_track": {
+      "file": "skytrain_on_track.jpg",
+      "height": 46,
+      "crop": [
+        0,
+        0.33,
+        1,
+        0.88
+      ],
+      "haze": true
+    },
+    "skytrain_train": {
+      "file": "skytrain_train.jpg",
+      "height": 34,
+      "crop": [
+        0.05,
+        0.25,
+        0.95,
+        0.7
+      ],
+      "haze": true
+    },
+    "convenience_store": {
+      "file": "convenience_store.jpg",
+      "height": 100
+    },
+    "noodle_shop": {
+      "file": "noodle_shop.jpg",
+      "height": 100
+    },
+    "massage_shop": {
+      "file": "massage_shop.jpg",
+      "height": 100
+    },
+    "closed_shop": {
+      "file": "closed_shop.jpg",
+      "height": 100
+    },
+    "pharmacy": {
+      "file": "pharmacy.jpg",
+      "height": 100,
+      "keep_green": true
+    },
+    "shophouse_a": {
+      "file": "shophouse_a.jpg",
+      "height": 190
+    },
+    "shophouse_b": {
+      "file": "shophouse_b.jpg",
+      "height": 190
+    },
+    "street_lamp": {
+      "file": "street_lamp.jpg",
+      "height": 120,
+      "crop": [
+        0.38,
+        0,
+        0.62,
+        1
+      ],
+      "despill": true,
+      "haze": true,
+      "hole_margin": 25,
+      "glow": [
+        0.76,
+        0.21
+      ]
+    },
+    "power_pole": {
+      "file": "power_pole.jpg",
+      "height": 170
+    },
+    "bus_stop": {
+      "file": "bus_stop.jpg",
+      "height": 62,
+      "despill": true
+    },
+    "food_cart": {
+      "file": "food_cart.jpg",
+      "height": 62
+    },
+    "umbrella_stall": {
+      "file": "umbrella_stall.jpg",
+      "height": 64
+    },
+    "plastic_stools": {
+      "file": "plastic_stools.jpg",
+      "height": 28
+    },
+    "potted_plants": {
+      "file": "potted_plants.jpg",
+      "height": 34
+    },
+    "vending_machine": {
+      "file": "vending_machine.jpg",
+      "height": 54
+    },
+    "trash_bin": {
+      "file": "trash_bin.jpg",
+      "height": 28
+    },
+    "traffic_cone": {
+      "file": "traffic_cone.jpg",
+      "height": 16
+    },
+    "crates": {
+      "file": "crates.jpg",
+      "height": 40
+    },
+    "cat": {
+      "file": "cat.jpg",
+      "height": 18
+    },
+    "dog_sitting": {
+      "file": "dog_sitting.jpg",
+      "height": 30
+    },
+    "dog_sleeping": {
+      "file": "dog_sleeping.jpg",
+      "height": 18
+    },
+    "blank_sign_tall": {
+      "file": "blank_sign_tall.jpg",
+      "height": 56
+    },
+    "blank_sign_wide": {
+      "file": "blank_sign_wide.jpg",
+      "height": 34,
+      "crop": [
+        0.1,
+        0,
+        0.9,
+        0.95
+      ],
+      "haze": true,
+      "hole_margin": 25
+    },
+    "taxi": {
+      "file": "taxi.jpg",
+      "height": 42,
+      "haze": true
+    },
+    "songthaew": {
+      "file": "songthaew.jpg",
+      "height": 52
+    },
+    "tuk_tuk": {
+      "file": "tuk_tuk.jpg",
+      "height": 46,
+      "crop": [
+        0.15,
+        0.12,
+        0.85,
+        0.92
+      ],
+      "haze": true
+    },
+    "motorbike": {
+      "file": "motorbike.jpg",
+      "height": 34
+    },
+    "fg_leaves": {
+      "file": "fg_leaves.jpg",
+      "height": 90,
+      "edges": true
+    },
+    "fg_railing": {
+      "file": "fg_railing.jpg",
+      "height": 30,
+      "edges": true,
+      "mirror": true
+    },
+    "road_tile": {
+      "file": "road_tile.jpg",
+      "height": 110,
+      "tile": true,
+      "crop": [
+        0,
+        0.02,
+        0.62,
+        1
+      ]
+    },
+    "sidewalk_tile": {
+      "file": "sidewalk_tile.jpg",
+      "height": 26,
+      "tile": true
+    },
+    "skytrain_track": {
+      "file": "skytrain_on_track.jpg",
+      "height": 7,
+      "tile": true,
+      "crop": [
+        0.14,
+        0.628,
+        0.62,
+        0.692
+      ]
+    },
+    "spirit_house": {
+      "file": "spirit_house.jpg",
+      "height": 62,
+      "crop": [
+        0.14,
+        0.05,
+        0.87,
+        0.99
+      ],
+      "haze": true
+    }
+  },
+  "themes": {
+    "market": {
+      "far": "skyline_far",
+      "ground": {
+        "sidewalk": "sidewalk_tile",
+        "road": "road_tile"
+      },
+      "tint": {
+        "far": "#7a7898",
+        "back": "#8e90b0",
+        "track": "#b0b0c8",
+        "fg": "#3a3448"
+      },
+      "back": {
+        "condo_tower": 1
+      },
+      "back_gap": [
+        30,
+        140
+      ],
+      "track": "skytrain_track",
+      "front": {
+        "convenience_store": 1,
+        "noodle_shop": 1.2,
+        "massage_shop": 1,
+        "pharmacy": 0.8,
+        "shophouse_a": 1,
+        "shophouse_b": 1,
+        "closed_shop": 0.5
+      },
+      "front_gap": [
+        0,
+        20
+      ],
+      "posts": {
+        "street_lamp": 2,
+        "power_pole": 0.6
+      },
+      "post_gap": [
+        190,
+        270
+      ],
+      "props": {
+        "food_cart": 1,
+        "umbrella_stall": 1,
+        "plastic_stools": 1,
+        "trash_bin": 0.8,
+        "potted_plants": 0.8,
+        "vending_machine": 0.7,
+        "cat": 0.4,
+        "dog_sitting": 0.3,
+        "dog_sleeping": 0.3,
+        "traffic_cone": 0.3,
+        "bus_stop": 0.3,
+        "spirit_house": 0.5
+      },
+      "prop_gap": [
+        40,
+        90
+      ],
+      "vehicles": {
+        "tuk_tuk": 1,
+        "taxi": 1,
+        "motorbike": 1.2,
+        "songthaew": 0.8
+      },
+      "vehicles_count": [
+        1,
+        3
+      ],
+      "foreground": {
+        "fg_leaves": 1
+      },
+      "fg_gap": [
+        600,
+        1000
+      ],
+      "track_top": 116,
+      "train": "skytrain_train",
+      "train_gap": [
+        260,
+        640
+      ]
+    },
+    "depot": {
+      "far": "skyline_far",
+      "ground": {
+        "sidewalk": "sidewalk_tile",
+        "road": "road_tile"
+      },
+      "tint": {
+        "far": "#7a7898",
+        "back": "#8e90b0",
+        "track": "#b0b0c8",
+        "fg": "#3a3448",
+        "front": "#e8dcd0"
+      },
+      "back": {
+        "condo_tower": 1
+      },
+      "back_gap": [
+        80,
+        220
+      ],
+      "track": "skytrain_track",
+      "front": {
+        "closed_shop": 1.5,
+        "shophouse_b": 1,
+        "shophouse_a": 0.8,
+        "convenience_store": 0.4
+      },
+      "front_gap": [
+        0,
+        30
+      ],
+      "posts": {
+        "power_pole": 1,
+        "street_lamp": 1
+      },
+      "post_gap": [
+        220,
+        320
+      ],
+      "props": {
+        "crates": 1.4,
+        "traffic_cone": 1,
+        "trash_bin": 1,
+        "dog_sleeping": 0.5,
+        "dog_sitting": 0.4,
+        "cat": 0.3,
+        "vending_machine": 0.5,
+        "plastic_stools": 0.3,
+        "spirit_house": 0.3
+      },
+      "prop_gap": [
+        50,
+        110
+      ],
+      "vehicles": {
+        "songthaew": 1,
+        "taxi": 0.6,
+        "motorbike": 0.6
+      },
+      "vehicles_count": [
+        1,
+        2
+      ],
+      "foreground": {
+        "fg_leaves": 1
+      },
+      "fg_gap": [
+        800,
+        1200
+      ],
+      "track_top": 116,
+      "train": "skytrain_train",
+      "train_gap": [
+        260,
+        640
+      ]
+    },
+    "canal": {
+      "far": "skyline_far",
+      "ground": {
+        "sidewalk": "sidewalk_tile",
+        "road": "road_tile"
+      },
+      "tint": {
+        "far": "#6a7e84",
+        "back": "#7e9498",
+        "track": "#b0b0c8",
+        "fg": "#3a3448",
+        "front": "#dce6dc"
+      },
+      "back": {
+        "condo_tower": 1
+      },
+      "back_gap": [
+        60,
+        200
+      ],
+      "front": {
+        "shophouse_a": 1,
+        "shophouse_b": 1,
+        "closed_shop": 1,
+        "pharmacy": 0.4,
+        "noodle_shop": 0.5
+      },
+      "front_gap": [
+        0,
+        24
+      ],
+      "posts": {
+        "power_pole": 1,
+        "street_lamp": 1
+      },
+      "post_gap": [
+        200,
+        300
+      ],
+      "props": {
+        "potted_plants": 1,
+        "trash_bin": 0.8,
+        "crates": 0.6,
+        "cat": 0.5,
+        "traffic_cone": 0.5,
+        "plastic_stools": 0.4,
+        "dog_sleeping": 0.4,
+        "spirit_house": 0.5
+      },
+      "prop_gap": [
+        45,
+        100
+      ],
+      "vehicles": {
+        "motorbike": 1,
+        "tuk_tuk": 0.6
+      },
+      "vehicles_count": [
+        1,
+        2
+      ],
+      "foreground": {
+        "fg_leaves": 1
+      },
+      "fg_gap": [
+        500,
+        900
+      ]
+    }
+  }
+}

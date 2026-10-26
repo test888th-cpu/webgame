@@ -41,6 +41,9 @@ var item_cooldown := 0
 var art: Dictionary = {}
 ## Generated scenery: {"props": {...}, "areas": {area id -> layers and props}}.
 var environment: Dictionary = {}
+## The HD-2D street kit: {"pieces": {id: texture and size}, "scroll": {layer:
+## speed}, "areas": {area id -> placed pieces}}, from tools/assets/kit_import.py.
+var kit: Dictionary = {}
 ## Generated interface art: {"icons": {"sheet": ..., "regions": {id: [x, y, w, h]}}}.
 var ui: Dictionary = {}
 ## Generated effects ({"sheet", "effects": {id: frames}}) and sounds
@@ -75,6 +78,7 @@ static func load_all(dir := DATA_DIR) -> ContentDB:
 	var manifest := db._read(ART_MANIFEST)
 	db.art = manifest.get("assets", {})
 	db.environment = manifest.get("environment", {})
+	db.kit = manifest.get("kit", {})
 	db.ui = manifest.get("ui", {})
 	db.fx = manifest.get("fx", {})
 	db.audio = manifest.get("audio", {})

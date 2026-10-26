@@ -4,6 +4,24 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed — HD-2D Bangkok streets
+- Every area is now built from a kit of painted pieces (Octopath-style HD-2D): shops
+  (convenience store, noodle shop, massage shop, pharmacy, a shuttered shop),
+  shophouses, condo towers and an unbroken elevated skytrain track with trains behind them, a skyline, sidewalk and road
+  tiles, street lamps and power poles, food carts, umbrella stalls, stools, plants,
+  bins, cones, crates, a vending machine and bus stop, spirit houses (with Nang Kwak), cats and dogs, and a tuk-tuk,
+  taxi, songthaew or motorbike parked at the kerb. Layers scroll at different speeds
+  for depth, and leaves in front of the fighters scroll faster. Pieces are painted at
+  twice the game size and drawn smoothly, so they stay sharp at any window size while
+  the characters stay pixel art. Lamps glow. Depot, market and canal areas each
+  have their own mix and tint.
+- `tools/assets/kit_import.py` keys the pieces out of their green backdrops (green
+  inside the outline, like the pharmacy cross, stays), trims, scales and lays out
+  every area deterministically; `art/kit/kit.json` holds the recipe. The validator
+  checks pieces against their sources and that layouts are current. Art by the
+  project owner, credited in game. The generated sky stays; the generated buildings
+  remain as a fallback.
+
 ### Added — A real punch sound
 - Fists and kicks that land now sound like a punch, picked at random from six recorded
   hits so combos do not repeat one sound: "Punch 5" by jakeeaton (Freesound, CC-BY 4.0)

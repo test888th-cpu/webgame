@@ -19,6 +19,7 @@ from PIL import Image
 sys.path.insert(0, str(Path(__file__).parent))
 import custom_import  # noqa: E402
 import import_sounds  # noqa: E402
+import kit_import  # noqa: E402
 import lpc_build  # noqa: E402
 import make_spriteframes  # noqa: E402
 import unitforge_import  # noqa: E402
@@ -191,6 +192,68 @@ class CustomImportTest(unittest.TestCase):
         box = flat.getbbox()
         self.assertLessEqual(box[3] - box[1], 2)
         self.assertLess(box[0], 32)
+
+
+class KitImportTest(unittest.TestCase):
+    GREEN = (30, 220, 30)
+
+    def painting(self) -> Image.Image:
+        """A dark-outlined grey box on the green backdrop, with a pale green
+        cross painted on it, a window cut through it showing the backdrop, and
+        a warm haze in one corner of the backdrop."""
+        image = Image.new("RGB", (200, 120), self.GREEN)
+        for x in range(30):
+            for y in range(30 - x):
+                image.putpixel((x, y), (250, 200, 120))
+        image.paste((20, 20, 24), (50, 20, 150, 100))
+        image.paste((120, 120, 128), (53, 23, 147, 97))
+        image.paste((150, 225, 150), (70, 40, 80, 80))  # the cross
+        image.paste((20, 20, 24), (110, 40, 136, 70))
+        image.paste(self.GREEN, (113, 43, 133, 67))  # the window
+        return image
+
+    def test_keys_out_the_backdrop_but_not_green_inside_the_outline(self) -> None:
+        cut = kit_import.cut_out(self.painting(), {"haze": True})
+        self.assertEqual(cut.size, (98, 78), "trimmed to the box less its fringe")
+        alpha = cut.getchannel("A")
+        self.assertEqual(alpha.getpixel((24, 30)), 255, "the pale cross stays")
+        self.assertEqual(alpha.getpixel((72, 33)), 0, "the window shows through")
+        self.assertEqual(alpha.getpixel((10, 10)), 255, "the box is solid")
+
+    def test_keep_green_keeps_enclosed_green(self) -> None:
+        cut = kit_import.cut_out(self.painting(), {"keep_green": True})
+        self.assertEqual(cut.getchannel("A").getpixel((72, 33)), 255)
+
+    def test_a_corner_haze_never_survives(self) -> None:
+        for piece in ({}, {"haze": True}):
+            cut = kit_import.cut_out(self.painting(), piece)
+            self.assertEqual(cut.size, (98, 78), f"{piece}: the haze is not part of the piece")
+
+    def test_ground_tiles_repeat_without_a_seam(self) -> None:
+        source = Image.linear_gradient("L").convert("RGB").rotate(90)
+        tile = kit_import.tile(source, {"height": 20}, 2)
+        self.assertEqual(tile.height, 40)
+        left = [tile.getpixel((0, y)) for y in range(tile.height)]
+        right = [tile.getpixel((tile.width - 1, y)) for y in range(tile.height)]
+        self.assertEqual(left, right, "the last column meets the first")
+
+    def test_layouts_are_repeatable_and_line_the_street(self) -> None:
+        spec = json.loads(kit_import.SPEC.read_text())
+        manifest = json.loads(kit_import.MANIFEST.read_text())
+        pieces = manifest["kit"]["pieces"]
+        area = {"width": 1800, "theme": "market"}
+        first = kit_import.lay_out("x", area, spec["themes"]["market"], pieces, spec["scroll"])
+        again = kit_import.lay_out("x", area, spec["themes"]["market"], pieces, spec["scroll"])
+        self.assertEqual(first, again)
+        front = [p for p in first if p["layer"] == "front"]
+        reach = max(p["x"] + kit_import.game_width(pieces, p["piece"]) / 2 for p in front)
+        self.assertGreaterEqual(reach, 1800)
+        for a, b in zip(front, front[1:]):
+            self.assertNotEqual(a["piece"], b["piece"], "no two neighbours alike")
+        for p in first:
+            if p["layer"] == "street":
+                half = kit_import.game_width(pieces, p["piece"]) / 2
+                self.assertTrue(80 <= p["x"] - half and p["x"] + half <= 1720, "clear of the exits")
 
 
 class RecordedSoundTest(unittest.TestCase):

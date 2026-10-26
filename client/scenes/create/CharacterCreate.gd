@@ -79,9 +79,7 @@ func _ready() -> void:
 
 
 func _build_backdrop() -> void:
-	var scenery: Dictionary = content.environment.get("areas", {}).get(BACKDROP_AREA, {})
-	if not scenery.is_empty():
-		Scenery.build(_world, content, scenery)
+	Scenery.build(_world, content, BACKDROP_AREA)
 	var camera := Camera2D.new()
 	camera.position = Vector2(420, 180)
 	_world.add_child(camera)
