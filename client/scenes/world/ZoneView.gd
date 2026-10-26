@@ -136,8 +136,8 @@ func update_npc_marks(profile: PlayerProfile) -> void:
 		for quest_id in quests_of(npc):
 			var state := QuestRules.status(profile, quest_id, content)
 			pending = pending or state in ["available", "complete"]
-		mark.visible = pending or npc["role"] == "shop"
-		mark.text = "$" if npc["role"] == "shop" else "!"
+		mark.visible = pending or npc["role"] in ["shop", "travel"]
+		mark.text = {"shop": "$", "travel": ">>"}.get(npc["role"], "!")
 
 
 func quests_of(npc: Dictionary) -> Array[String]:
@@ -343,7 +343,8 @@ func _build_npcs() -> void:
 		prompt.position = Vector2(-40, -92)
 		prompt.size = Vector2(80, 12)
 		prompt.visible = false
-		prompt.add_child(UiKit.key_hint("E", "Shop" if npc["role"] == "shop" else "Talk"))
+		var verb: String = {"shop": "Shop", "travel": "Ride"}.get(npc["role"], "Talk")
+		prompt.add_child(UiKit.key_hint("E", verb))
 		view.add_child(prompt)
 		_npc_prompts[npc["id"]] = prompt
 

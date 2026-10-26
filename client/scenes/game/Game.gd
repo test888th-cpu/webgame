@@ -56,14 +56,14 @@ func _ready() -> void:
 	print("%s %s" % [READY_MARKER, BuildInfo.summary()])
 
 
-func enter_area(area_id: String, entry: String) -> void:
+func enter_area(area_id: String, entry: String, start_x := -1.0) -> void:
 	if zone:
 		_street_weapons[zone.area_id] = zone.ground_weapons.duplicate(true)
 	if view:
 		_world.remove_child(view)
 		view.queue_free()
 	profile.area = area_id
-	zone = ZoneSim.new(content, profile, area_id, entry, randi())
+	zone = ZoneSim.new(content, profile, area_id, entry, randi(), start_x)
 	if _street_weapons.has(area_id):
 		zone.restore_weapons(_street_weapons[area_id])
 	view = ZoneView.new()
@@ -257,6 +257,8 @@ func try_interact() -> bool:
 		return false
 	if npc["role"] == "shop":
 		open_shop(npc)
+	elif npc["role"] == "travel":
+		_show("travel", GameMenus.travel(self, npc))
 	else:
 		open_quests(npc)
 	return true
@@ -342,7 +344,8 @@ func open_quests(npc: Dictionary, said := "") -> void:
 
 func open_game_over() -> void:
 	var loss := int(profile.money * float(content.progression.get("defeat_money_loss", 0.0)))
-	_show("game_over", GameMenus.knocked_out(self, loss))
+	var boss := zone.respawn_x() > zone.bounds.position.x + 24.0
+	_show("game_over", GameMenus.knocked_out(self, loss, boss))
 
 
 ## Opens the card for `item_id` (worn in `worn_slot`, or "" if in the bag)
@@ -508,11 +511,25 @@ func _turn_in(npc: Dictionary, quest_id: String) -> void:
 	open_quests(npc, str(quest.get("dialogue", {}).get("done", "")) if rewards else "")
 
 
+## Back on your feet where you fell: at the west end of the same area, or just
+## short of the boss fight lost. Fights already won stay won (StreetMemory).
 func _recover(loss: int) -> void:
 	profile.money -= loss
 	profile.hp = profile.stats(content)["max_hp"]
 	close_menu()
-	enter_area(content.start_area, "")
+	enter_area(zone.area_id, "west", zone.respawn_x())
+
+
+## The motorbike taxi: pay the fare and ride to an area reached before.
+func _ride(npc: Dictionary, area_id: String) -> void:
+	var fare := int(npc.get("fare", 0))
+	if profile.money < fare:
+		_hud.toast("Not enough coins for the ride")
+		Sfx.play("denied", -4.0)
+		return
+	profile.money -= fare
+	close_menu()
+	enter_area(area_id, "west")
 
 
 func _save_game() -> void:

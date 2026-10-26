@@ -5,7 +5,7 @@ extends RefCounted
 ## for the backend in Milestone 4, when the server becomes the only writer.
 ## Temporary combat state (position, energy, cooldowns) never lives here.
 
-const SAVE_VERSION := 5
+const SAVE_VERSION := 6
 ## Equipment slots, in the order the character screen shows them.
 const SLOTS := ["head", "body", "hands", "weapon", "feet", "charm"]
 ## Stats an item can add, as stored in items.json "stats".
@@ -50,6 +50,9 @@ var tutorial_progress := 0
 ## the slot's last success (each raises the next chance).
 var enhance := {}
 var enhance_pity := {}
+## Fights won per area since the last rest, and areas reached (StreetMemory).
+var cleared := {}
+var visited: Array[String] = []
 
 
 ## A fresh profile for `hero_id` (the first hero if empty or unknown), named
@@ -247,6 +250,8 @@ func to_dict() -> Dictionary:
 		"tutorial": tutorial,
 		"enhance": enhance.duplicate(),
 		"enhance_pity": enhance_pity.duplicate(),
+		"cleared": cleared.duplicate(true),
+		"visited": visited.duplicate(),
 	}
 
 
@@ -311,6 +316,7 @@ static func from_dict(data: Variant, content: ContentDB) -> PlayerProfile:
 			var value := clampi(int(saved[slot]), 0, limit)
 			if slot in SLOTS and value > 0:
 				p.get(field)[slot] = value
+	StreetMemory.load_into(p, migrated, content)
 	return p
 
 
@@ -348,4 +354,10 @@ static func migrate(data: Dictionary) -> Dictionary:
 		migrated["enhance"] = {}
 		migrated["enhance_pity"] = {}
 		migrated["version"] = 5
+	if int(migrated["version"]) == 5:
+		# Version 6 remembers fights won and areas reached; older saves start
+		# with every fight ready and their road so far reached.
+		migrated["cleared"] = {}
+		migrated["visited"] = []
+		migrated["version"] = 6
 	return migrated

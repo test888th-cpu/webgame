@@ -368,7 +368,33 @@ static func _choice(text: String, on_press: Callable) -> Button:
 	return choice
 
 
-static func knocked_out(game: Game, loss: int) -> Control:
+## The motorbike taxi's stand: one ride per area reached before, in street
+## order, for the driver's fare.
+static func travel(game: Game, npc: Dictionary) -> Control:
+	var content := game.content
+	var parts := UiKit.dialog(str(npc["name"]), UiKit.portrait(content, str(npc.get("sprite", ""))))
+	var body: VBoxContainer = parts["body"]
+	var fare := int(npc.get("fare", 0))
+	var line := '"%s"' % str(npc.get("line", "Where to?"))
+	body.add_child(UiKit.label(line, UiTheme.SIZE_BODY, UiTheme.TEXT_DIM, 470))
+	body.add_child(UiKit.label("Fare: %d coins" % fare, UiTheme.SIZE_SMALL, UiTheme.GOLD))
+	var places := StreetMemory.destinations(game.profile, content, game.zone.area_id)
+	for area_id in places:
+		var area := content.area(area_id)
+		var text := "%s  (Lv %d)" % [area["name"], int(area.get("level", 1))]
+		var ride := _choice(text, game._ride.bind(npc, area_id))
+		ride.name = "Ride_" + area_id
+		ride.disabled = game.profile.money < fare
+		body.add_child(ride)
+	if places.is_empty():
+		body.add_child(
+			UiKit.label("Nowhere else you know yet.", UiTheme.SIZE_SMALL, UiTheme.TEXT_DIM)
+		)
+	body.add_child(_choice("Not now", game.close_menu))
+	return parts["root"]
+
+
+static func knocked_out(game: Game, loss: int, at_boss := false) -> Control:
 	var root := Control.new()
 	root.set_anchors_preset(Control.PRESET_FULL_RECT)
 	root.mouse_filter = Control.MOUSE_FILTER_STOP
@@ -385,8 +411,13 @@ static func knocked_out(game: Game, loss: int) -> Control:
 	heading.add_theme_constant_override("outline_size", 8)
 	heading.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	column.add_child(heading)
-	var home := str(game.content.area(game.content.start_area).get("name", "home"))
-	var text := UiKit.label("The crew drags you back to %s." % home, UiTheme.SIZE_H2, UiTheme.TEXT)
+	var here := str(game.zone.area.get("name", "the street"))
+	var where := (
+		"You come to just short of the fight. Try again."
+		if at_boss
+		else "You come to at the edge of %s. Fights you won stay won." % here
+	)
+	var text := UiKit.label(where, UiTheme.SIZE_H2, UiTheme.TEXT)
 	text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	column.add_child(text)
 	var cost := UiKit.label(

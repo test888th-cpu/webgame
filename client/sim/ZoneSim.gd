@@ -87,8 +87,15 @@ var _hero_down_sent := false
 var _last_locked_bump := -1000
 
 
+## `start_x` (if not negative) places the hero along the street instead of at
+## the `entry` side: where a knocked-out hero comes to (see respawn_x).
 func _init(
-	p_content: ContentDB, p_profile: PlayerProfile, p_area_id: String, entry := "", seed := 0
+	p_content: ContentDB,
+	p_profile: PlayerProfile,
+	p_area_id: String,
+	entry := "",
+	seed := 0,
+	start_x := -1.0
 ) -> void:
 	content = p_content
 	profile = p_profile
@@ -105,6 +112,8 @@ func _init(
 		start.x = bounds.position.x + 24.0
 	elif entry == "east":
 		start.x = bounds.end.x - 24.0
+	if start_x >= 0.0:
+		start.x = clampf(start_x, bounds.position.x, bounds.end.x)
 	hero = Fighter.new(HERO_ID, HERO_TEAM, Bodies.clear_spot(start, solids, bounds), 100)
 	hero.kind = "hero"
 	hero.stun_limit = CombatRules.HERO_STUN_LIMIT
@@ -116,14 +125,29 @@ func _init(
 	hero.facing = -1 if entry == "east" else 1
 	if area.get("heal_on_enter", false):
 		profile.hp = profile.stats(content)["max_hp"]
+		StreetMemory.rest(profile)
+	StreetMemory.visit(profile, area_id)
 	refresh_hero()
 	fighters.append(hero)
 	for placed: Dictionary in area.get("placed", []):
 		var enemy := spawn_enemy(str(placed["enemy"]), Vector2(placed["x"], placed["y"]))
 		_home[enemy.id] = enemy.position
-	for encounter: Dictionary in area.get("encounters", []):
-		_encounters.append({"data": encounter, "state": "pending"})
+	var pending := StreetMemory.pending(profile, content, area_id)
+	var encounters: Array = area.get("encounters", [])
+	for i in encounters.size():
+		_encounters.append(
+			{"data": encounters[i], "state": "pending" if i in pending else "cleared"}
+		)
 	_scatter_weapons()
+
+
+## Where a hero knocked out now comes to in this area: just short of the boss
+## fight they lost, to try again at once; otherwise at the area's west end
+## (fights already won stay won, see StreetMemory).
+func respawn_x() -> float:
+	if _active >= 0 and boss_id != 0:
+		return float(_encounters[_active]["data"]["arena"][0]) + 16.0
+	return bounds.position.x + 24.0
 
 
 ## Applies profile stats (level, equipment) to the hero fighter.
@@ -598,6 +622,7 @@ func _update_encounter(events: Array[ZoneEvent]) -> void:
 			events.append(ZoneEvent.make("wave", {"remaining": _waves_left.size()}))
 		else:
 			_encounters[_active]["state"] = "cleared"
+			StreetMemory.mark_cleared(profile, area_id, _active)
 			_active = -1
 			boss_id = 0
 			arena = bounds

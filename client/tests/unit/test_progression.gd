@@ -142,6 +142,9 @@ func test_save_round_trip() -> void:
 	p.equip("work_jacket", _content())
 	QuestRules.accept(p, "clear_saltmarket", _content())
 	p.area = "saltmarket"
+	StreetMemory.visit(p, "depot_yard")
+	StreetMemory.visit(p, "saltmarket")
+	StreetMemory.mark_cleared(p, "saltmarket", 1)
 	var json := JSON.stringify(p.to_dict())
 	var loaded := PlayerProfile.from_dict(JSON.parse_string(json), _content())
 	assert_true(loaded != null, "loads")
