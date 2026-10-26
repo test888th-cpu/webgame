@@ -34,6 +34,21 @@ func _run(zone: ZoneSim, ticks: int, input: FighterInput = null) -> Array[ZoneEv
 	return events
 
 
+## Walks the hero east for `ticks`, stepping down the lane to get round
+## anything in the way, as a player would.
+func _stroll(zone: ZoneSim, ticks: int) -> Array[ZoneEvent]:
+	var events: Array[ZoneEvent] = []
+	var detour := 0
+	for i in ticks:
+		var x := zone.hero.position.x
+		var stepping := detour > 0
+		events.append_array(zone.tick(_walk(Vector2(0, 1) if stepping else Vector2.RIGHT)))
+		detour = maxi(0, detour - 1)
+		if not stepping and is_equal_approx(zone.hero.position.x, x):
+			detour = 12
+	return events
+
+
 func _types(events: Array[ZoneEvent]) -> Array[String]:
 	var types: Array[String] = []
 	for event in events:
@@ -79,7 +94,7 @@ func test_same_seed_and_inputs_replay_identically() -> void:
 
 func test_walking_in_starts_an_encounter_and_locks_the_arena() -> void:
 	var zone := _zone("saltmarket")
-	var events := _run(zone, 400, _walk(Vector2.RIGHT))
+	var events := _stroll(zone, 400)
 	assert_true("encounter_start" in _types(events), "encounter started")
 	assert_true("spawn" in _types(events), "enemies spawned")
 	assert_true(zone.in_encounter(), "fight in progress")
@@ -89,7 +104,7 @@ func test_walking_in_starts_an_encounter_and_locks_the_arena() -> void:
 
 func test_enemies_approach_and_attack_the_hero() -> void:
 	var zone := _zone("saltmarket")
-	_run(zone, 200, _walk(Vector2.RIGHT))
+	_stroll(zone, 200)
 	var start_hp := zone.hero.hp
 	var events := _run(zone, 900)
 	var hits_on_hero := 0
@@ -122,7 +137,7 @@ func test_attack_tokens_limit_simultaneous_attackers() -> void:
 func test_clearing_waves_rewards_and_unlocks() -> void:
 	var zone := _zone("saltmarket")
 	QuestRules.accept(zone.profile, "clear_saltmarket", _content())
-	_run(zone, 200, _walk(Vector2.RIGHT))
+	_stroll(zone, 200)
 	var events := _beat_nearest(zone)
 	var types := _types(events)
 	assert_true("defeat" in types, "enemies defeated")
@@ -180,7 +195,7 @@ func test_exits_only_when_not_fighting() -> void:
 	west.hero.position.x = west.bounds.position.x
 	assert_true("exit" not in _types(_run(west, 1, _walk(Vector2.LEFT))), "no west exit there")
 	var fight := _zone("saltmarket")
-	_run(fight, 200, _walk(Vector2.RIGHT))
+	_stroll(fight, 200)
 	fight.hero.position.x = fight.arena.position.x
 	assert_true("exit" not in _types(_run(fight, 1, _walk(Vector2.LEFT))), "locked during a fight")
 

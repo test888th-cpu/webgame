@@ -63,7 +63,6 @@ MAIN_SHARE = 0.1
 
 # Where things stand, in game pixels (see ZoneSim.LANE_TOP = 250).
 BUILDING_FEET = 232
-POST_FEET = 248
 KERB = 250
 VIEW_W = 640
 VIEW_H = 360
@@ -291,13 +290,11 @@ def lay_out(area_id: str, area: dict, theme: dict, pieces: dict, scrolls: dict) 
             x += train_w + rng.randint(*theme["train_gap"])
     placed += row(rng, pieces, theme["front"], rng.randint(-40, -10), width + 40, theme["front_gap"], "front", BUILDING_FEET)
 
-    # Lamp posts and poles at a steady rhythm; small props in between.
-    posts = []
-    x = rng.randint(60, 110)
-    while x < width - 30:
-        posts.append({"piece": pick(rng, theme["posts"]), "layer": "sidewalk", "x": x, "y": POST_FEET})
-        x += rng.randint(*theme["post_gap"])
-    taken = [(p["x"] - 12, p["x"] + 12) for p in posts]
+    # Lamp posts, poles, bins and crates are the area's solid street furniture
+    # (areas.json "obstacles"), drawn by the game among the fighters; small
+    # props go on the sidewalk between them.
+    furniture = [(o["x"] - 14, o["x"] + 14) for o in area.get("obstacles", [])]
+    taken = list(furniture)
     # Nothing tall stands right behind an NPC, where it would be hidden.
     taken += [(npc["x"] - 22, npc["x"] + 22) for npc in area.get("npcs", [])]
     props = []
@@ -321,11 +318,11 @@ def lay_out(area_id: str, area: dict, theme: dict, pieces: dict, scrolls: dict) 
         piece_id = pick(rng, theme["vehicles"])
         half = game_width(pieces, piece_id) / 2
         x = rng.randint(int(80 + half), int(width - 80 - half))
-        if any(x - half - 30 < b and a < x + half + 30 for a, b in parked):
+        if any(x - half - 30 < b and a < x + half + 30 for a, b in parked + furniture):
             continue
         parked.append((x - half, x + half))
         vehicles.append({"piece": piece_id, "layer": "street", "x": x, "y": KERB + 4})
-    placed += sorted(posts + props, key=lambda p: (p["y"], p["x"]))
+    placed += sorted(props, key=lambda p: (p["y"], p["x"]))
     placed += sorted(vehicles, key=lambda p: p["x"])
     if theme.get("foreground"):
         s = scrolls["fg"]

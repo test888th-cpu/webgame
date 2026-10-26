@@ -37,6 +37,7 @@ func build(p_zone: ZoneSim, p_content: ContentDB) -> void:
 	_entities.y_sort_enabled = true
 	add_child(_entities)
 	_build_npcs()
+	_build_furniture()
 	effects = Node2D.new()
 	effects.name = "Effects"
 	add_child(effects)
@@ -210,7 +211,7 @@ func _sync_weapons() -> void:
 
 
 func _build_scenery() -> void:
-	if not Scenery.build(self, content, zone.area_id):
+	if not Scenery.build(self, content, zone.area_id, false):
 		_build_flat_scenery()
 	_build_exit_signs()
 
@@ -226,6 +227,16 @@ func _build_flat_scenery() -> void:
 		Rect2(0, ZoneSim.LANE_TOP, width, VIEW_HEIGHT - ZoneSim.LANE_TOP),
 		_color(palette, "street", "#38383f")
 	)
+
+
+## Lamp posts, poles, bins and crates: solid in the simulation, so drawn among
+## the fighters, in front of or behind them by depth.
+func _build_furniture() -> void:
+	for obstacle: Dictionary in zone.area.get("obstacles", []):
+		var node := Scenery.furniture(content, str(obstacle["kind"]))
+		if node != null:
+			node.position = Vector2(obstacle["x"], obstacle["y"])
+			_entities.add_child(node)
 
 
 func _build_exit_signs() -> void:

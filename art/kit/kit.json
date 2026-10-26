@@ -269,14 +269,6 @@
         0,
         20
       ],
-      "posts": {
-        "street_lamp": 2,
-        "power_pole": 0.6
-      },
-      "post_gap": [
-        190,
-        270
-      ],
       "props": {
         "food_cart": 1,
         "umbrella_stall": 1,
@@ -350,14 +342,6 @@
         0,
         30
       ],
-      "posts": {
-        "power_pole": 1,
-        "street_lamp": 1
-      },
-      "post_gap": [
-        220,
-        320
-      ],
       "props": {
         "crates": 1.4,
         "traffic_cone": 1,
@@ -426,14 +410,6 @@
       "front_gap": [
         0,
         24
-      ],
-      "posts": {
-        "power_pole": 1,
-        "street_lamp": 1
-      },
-      "post_gap": [
-        200,
-        300
       ],
       "props": {
         "potted_plants": 1,

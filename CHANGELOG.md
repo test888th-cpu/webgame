@@ -11,7 +11,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
   ends it). Measured worst case against three Night Market Punks with no input: 169 →
   68 ticks (2.8 s → 1.1 s); the cap is 90 ticks (1.5 s). Enemies are unchanged, so hero
   combos still chain.
-- 4 new tests (144 total), including a zone test with three punks over three seeds.
+- 4 new tests (152 total with the solid-street tests), including a zone test with three punks over three seeds.
 
 ### Changed — Direction approved
 - The owner approved every recommendation in `docs/BLUEPRINT.md` (D1–D9): *The Iron
@@ -29,6 +29,20 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
   characters, chapters, bosses, how the current areas and enemies fit), pending approval.
 - Corrected stale lines in README (test count), GAME_DESIGN ("implemented so far") and
   ARCHITECTURE (shared rules). No game code or data changed.
+
+### Added — Solid street: no walking through things or people
+- Lamp posts, power poles, bins, cones, crates, NPCs, the training dummy, the hero and
+  enemies are now solid. You bump into them and must walk round (a step at an angle
+  slides along); enemies step round furniture and each other to reach you. Fighters
+  in hitstun or knocked down do not block.
+- Street furniture is gameplay data: kinds and footprints in
+  `client/data/obstacles.json`, positions per area in `areas.json`, validated on load
+  and shared with the future server. The game draws it among the fighters, sorted by
+  depth; the scenery kit no longer scatters lamp posts at random and keeps sidewalk
+  props and parked vehicles clear of it.
+- Loot, weapons, spawns and arrivals never land inside furniture. Tests cover
+  blocking, sliding, walking round, enemies detouring, NPCs, fallen fighters and
+  furniture placement; the browser smoke test now walks round obstacles.
 
 ### Added — Painted street weapons, and a frying pan, wrench and bat
 - The street weapons now use the project owner's paintings, reduced to hand-sized
