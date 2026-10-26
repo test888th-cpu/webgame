@@ -3,7 +3,7 @@
     "rising_uppercut": {
       "name": "Rising Uppercut",
       "move": "rising_uppercut",
-      "cooldown": 240,
+      "cooldown": 150,
       "unlock_level": 1,
       "icon": "skill_uppercut",
       "fx": "uppercut",
@@ -14,7 +14,7 @@
     "whirlwind_kick": {
       "name": "Whirlwind Kick",
       "move": "whirlwind_kick",
-      "cooldown": 420,
+      "cooldown": 240,
       "unlock_level": 1,
       "icon": "skill_whirlwind",
       "fx": "whirlwind",
@@ -25,7 +25,7 @@
     "shoulder_rush": {
       "name": "Shoulder Rush",
       "move": "shoulder_rush",
-      "cooldown": 360,
+      "cooldown": 210,
       "unlock_level": 2,
       "icon": "skill_rush",
       "fx": "rush",
@@ -36,7 +36,7 @@
     "furnace_slam": {
       "name": "Furnace Slam",
       "move": "furnace_slam",
-      "cooldown": 1200,
+      "cooldown": 660,
       "unlock_level": 3,
       "icon": "skill_slam",
       "fx": "slam",
@@ -47,7 +47,7 @@
     "headbutt": {
       "name": "Headbutt",
       "move": "headbutt",
-      "cooldown": 300,
+      "cooldown": 180,
       "unlock_level": 1,
       "icon": "skill_headbutt",
       "fx": "hit_heavy",
@@ -58,7 +58,7 @@
     "clothesline": {
       "name": "Clothesline",
       "move": "clothesline",
-      "cooldown": 360,
+      "cooldown": 210,
       "unlock_level": 1,
       "icon": "skill_clothesline",
       "fx": "rush",
@@ -69,7 +69,7 @@
     "shoulder_charge": {
       "name": "Shoulder Charge",
       "move": "shoulder_charge",
-      "cooldown": 420,
+      "cooldown": 255,
       "unlock_level": 2,
       "icon": "skill_charge",
       "fx": "rush",
@@ -80,7 +80,7 @@
     "earthshaker": {
       "name": "Earthshaker",
       "move": "earthshaker",
-      "cooldown": 1320,
+      "cooldown": 720,
       "unlock_level": 3,
       "icon": "skill_earthshaker",
       "fx": "slam",
@@ -91,7 +91,7 @@
     "liver_shot": {
       "name": "Liver Shot",
       "move": "liver_shot",
-      "cooldown": 270,
+      "cooldown": 165,
       "unlock_level": 1,
       "icon": "skill_liver",
       "fx": "hit_heavy",
@@ -102,7 +102,7 @@
     "one_two": {
       "name": "One-Two",
       "move": "one_two",
-      "cooldown": 360,
+      "cooldown": 210,
       "unlock_level": 1,
       "icon": "skill_onetwo",
       "fx": "rush",
@@ -113,7 +113,7 @@
     "dempsey_roll": {
       "name": "Dempsey Roll",
       "move": "dempsey_roll",
-      "cooldown": 390,
+      "cooldown": 240,
       "unlock_level": 2,
       "icon": "skill_dempsey",
       "fx": "rush",
@@ -124,7 +124,7 @@
     "knockout_blow": {
       "name": "Knockout Blow",
       "move": "knockout_blow",
-      "cooldown": 1260,
+      "cooldown": 690,
       "unlock_level": 3,
       "icon": "skill_knockout",
       "fx": "slam",
@@ -135,7 +135,7 @@
     "crossover": {
       "name": "Crossover",
       "move": "kan_crossover",
-      "cooldown": 255,
+      "cooldown": 150,
       "unlock_level": 1,
       "icon": "skill_crossover",
       "fx": "hit_heavy",
@@ -146,7 +146,7 @@
     "elbow_clear": {
       "name": "Elbow Clear",
       "move": "kan_elbow_clear",
-      "cooldown": 390,
+      "cooldown": 240,
       "unlock_level": 1,
       "icon": "skill_elbow",
       "fx": "whirlwind",
@@ -157,7 +157,7 @@
     "post_up": {
       "name": "Post Up",
       "move": "kan_post_up",
-      "cooldown": 390,
+      "cooldown": 240,
       "unlock_level": 2,
       "icon": "skill_postup",
       "fx": "rush",
@@ -168,7 +168,7 @@
     "slam_dunk": {
       "name": "Slam Dunk",
       "move": "kan_slam_dunk",
-      "cooldown": 1260,
+      "cooldown": 690,
       "unlock_level": 3,
       "icon": "skill_dunk",
       "fx": "slam",
@@ -179,7 +179,7 @@
     "wrist_lock": {
       "name": "Wrist Lock",
       "move": "dao_wrist_lock",
-      "cooldown": 300,
+      "cooldown": 180,
       "unlock_level": 1,
       "icon": "skill_wristlock",
       "fx": "hit_heavy",
@@ -190,7 +190,7 @@
     "leg_sweep": {
       "name": "Leg Sweep",
       "move": "dao_leg_sweep",
-      "cooldown": 360,
+      "cooldown": 210,
       "unlock_level": 1,
       "icon": "skill_sweep",
       "fx": "whirlwind",
@@ -201,7 +201,7 @@
     "takedown": {
       "name": "Takedown",
       "move": "dao_takedown",
-      "cooldown": 420,
+      "cooldown": 255,
       "unlock_level": 2,
       "icon": "skill_takedown",
       "fx": "rush",
@@ -212,7 +212,7 @@
     "riot_shove": {
       "name": "Riot Shove",
       "move": "dao_riot_shove",
-      "cooldown": 1290,
+      "cooldown": 705,
       "unlock_level": 3,
       "icon": "skill_riot",
       "fx": "slam",
@@ -223,7 +223,7 @@
     "combat_elbow": {
       "name": "Combat Elbow",
       "move": "pong_combat_elbow",
-      "cooldown": 300,
+      "cooldown": 180,
       "unlock_level": 1,
       "icon": "skill_cbelbow",
       "fx": "hit_heavy",
@@ -234,7 +234,7 @@
     "breach_kick": {
       "name": "Breach Kick",
       "move": "pong_breach_kick",
-      "cooldown": 360,
+      "cooldown": 210,
       "unlock_level": 1,
       "icon": "skill_breach",
       "fx": "hit_heavy",
@@ -245,7 +245,7 @@
     "shoulder_drive": {
       "name": "Shoulder Drive",
       "move": "pong_shoulder_drive",
-      "cooldown": 430,
+      "cooldown": 255,
       "unlock_level": 2,
       "icon": "skill_drive",
       "fx": "rush",
@@ -256,7 +256,7 @@
     "ground_pound": {
       "name": "Ground Pound",
       "move": "pong_ground_pound",
-      "cooldown": 1350,
+      "cooldown": 750,
       "unlock_level": 3,
       "icon": "skill_pound",
       "fx": "slam",

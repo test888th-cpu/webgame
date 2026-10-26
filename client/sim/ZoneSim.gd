@@ -701,6 +701,9 @@ func _check_phases(events: Array[ZoneEvent]) -> void:
 			var brain: EnemyBrain = brains[enemy.id]
 			brain.cooldown_ticks = int(phase.get("cooldown", brain.cooldown_ticks))
 			brain.heavy_chance = float(phase.get("heavy_chance", brain.heavy_chance))
+			brain.heavy_cooldown_ticks = int(
+				phase.get("heavy_cooldown", brain.heavy_cooldown_ticks)
+			)
 			brain.planned = ""
 		events.append(ZoneEvent.make("boss_phase", {"id": enemy.id, "phase": done + 1}))
 

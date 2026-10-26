@@ -109,7 +109,8 @@
         "reaction": 18,
         "cooldown": 70,
         "cooldown_jitter": 40,
-        "heavy_chance": 0.4
+        "heavy_chance": 0.4,
+        "heavy_cooldown": 270
       },
       "xp": 20,
       "loot": {
@@ -158,7 +159,8 @@
         "reaction": 10,
         "cooldown": 40,
         "cooldown_jitter": 30,
-        "heavy_chance": 0.35
+        "heavy_chance": 0.35,
+        "heavy_cooldown": 300
       },
       "xp": 60,
       "loot": {
@@ -196,9 +198,9 @@
     },
     "sludge_foreman": {
       "name": "The Sludge Foreman",
-      "max_hp": 420,
+      "max_hp": 460,
       "speed": 0.7,
-      "power": 1.0,
+      "power": 1.3,
       "defense": 2,
       "boss": true,
       "moveset": {
@@ -208,17 +210,19 @@
       "ai": {
         "spacing": 66,
         "reaction": 12,
-        "cooldown": 46,
+        "cooldown": 37,
         "cooldown_jitter": 30,
-        "heavy_chance": 0.35
+        "heavy_chance": 0.35,
+        "heavy_cooldown": 300
       },
       "phases": [
         {
           "below": 0.5,
           "speed": 0.95,
-          "power": 1.2,
-          "cooldown": 30,
+          "power": 1.5,
+          "cooldown": 24,
           "heavy_chance": 0.5,
+          "heavy_cooldown": 270,
           "moveset": {
             "light": "foreman_jab",
             "heavy": "foreman_sweep"
@@ -267,7 +271,8 @@
         "reaction": 12,
         "cooldown": 50,
         "cooldown_jitter": 30,
-        "heavy_chance": 0.25
+        "heavy_chance": 0.25,
+        "heavy_cooldown": 270
       },
       "xp": 14,
       "loot": {
@@ -311,7 +316,8 @@
         "reaction": 16,
         "cooldown": 64,
         "cooldown_jitter": 36,
-        "heavy_chance": 0.4
+        "heavy_chance": 0.4,
+        "heavy_cooldown": 300
       },
       "xp": 28,
       "loot": {
@@ -357,7 +363,8 @@
         "reaction": 8,
         "cooldown": 40,
         "cooldown_jitter": 30,
-        "heavy_chance": 0.2
+        "heavy_chance": 0.2,
+        "heavy_cooldown": 270
       },
       "xp": 20,
       "loot": {
@@ -406,7 +413,8 @@
         "reaction": 12,
         "cooldown": 48,
         "cooldown_jitter": 24,
-        "heavy_chance": 0.35
+        "heavy_chance": 0.35,
+        "heavy_cooldown": 300
       },
       "xp": 70,
       "loot": {
@@ -458,17 +466,19 @@
       "ai": {
         "spacing": 60,
         "reaction": 12,
-        "cooldown": 44,
+        "cooldown": 35,
         "cooldown_jitter": 20,
-        "heavy_chance": 0.3
+        "heavy_chance": 0.3,
+        "heavy_cooldown": 330
       },
       "phases": [
         {
           "below": 0.5,
           "speed": 0.9,
           "power": 1.35,
-          "cooldown": 30,
+          "cooldown": 24,
           "heavy_chance": 0.45,
+          "heavy_cooldown": 300,
           "moveset": {
             "light": "baron_haymaker",
             "heavy": "baron_rush"
@@ -520,6 +530,7 @@
         "cooldown": 70,
         "cooldown_jitter": 30,
         "heavy_chance": 1.0,
+        "heavy_cooldown": 120,
         "ranged": {
           "min": 80,
           "max": 150
@@ -553,7 +564,7 @@
     },
     "pit_champion": {
       "name": "The Pit Champion",
-      "max_hp": 340,
+      "max_hp": 380,
       "speed": 1.0,
       "power": 1.15,
       "defense": 2,
@@ -567,17 +578,19 @@
       "ai": {
         "spacing": 50,
         "reaction": 8,
-        "cooldown": 34,
+        "cooldown": 27,
         "cooldown_jitter": 18,
-        "heavy_chance": 0.3
+        "heavy_chance": 0.3,
+        "heavy_cooldown": 300
       },
       "phases": [
         {
           "below": 0.5,
           "speed": 1.15,
           "power": 1.25,
-          "cooldown": 26,
+          "cooldown": 21,
           "heavy_chance": 0.45,
+          "heavy_cooldown": 270,
           "moveset": {
             "light": "champ_jab",
             "heavy": "champ_rush"

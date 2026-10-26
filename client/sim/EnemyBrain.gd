@@ -19,12 +19,19 @@ const SCAVENGE_RANGE := 110.0
 const PICK_REACH := 10.0
 ## How close in lane depth a ranged fighter must be to lob.
 const LOB_LANE := 8.0
+const DEFAULT_HEAVY_COOLDOWN := 270
 
 var spacing := 56.0
 var reaction_ticks := 12
 var cooldown_ticks := 50
 var cooldown_jitter := 30
 var heavy_chance := 0.0
+## Ticks an enemy must wait after a heavy (its signature blow, the lob for a
+## thrower) before the next one, so it cannot chain them back to back. Longer
+## than any hero skill short of an ultimate (ai.heavy_cooldown).
+var heavy_cooldown_ticks := DEFAULT_HEAVY_COOLDOWN
+## Ticks left before this enemy may use its heavy again.
+var heavy_wait := 0
 ## Chance to guard, or to dodge away, when the target winds up an attack
 ## nearby; whether to fetch weapons.
 var guard_chance := 0.0
@@ -54,6 +61,7 @@ func _init(ai: Dictionary, rng: RandomNumberGenerator) -> void:
 	cooldown_ticks = int(ai.get("cooldown", cooldown_ticks))
 	cooldown_jitter = int(ai.get("cooldown_jitter", cooldown_jitter))
 	heavy_chance = float(ai.get("heavy_chance", 0.0))
+	heavy_cooldown_ticks = int(ai.get("heavy_cooldown", DEFAULT_HEAVY_COOLDOWN))
 	guard_chance = float(ai.get("guard_chance", 0.0))
 	dodge_chance = float(ai.get("dodge_chance", 0.0))
 	scavenge = bool(ai.get("scavenge", false))
@@ -78,6 +86,7 @@ func think(
 ) -> FighterInput:
 	var input := FighterInput.new()
 	cooldown = maxi(0, cooldown - 1)
+	heavy_wait = maxi(0, heavy_wait - 1)
 	if guarding > 0 and me.state in [Fighter.State.IDLE, Fighter.State.GUARD]:
 		guarding -= 1
 		input.guard = true
@@ -177,11 +186,13 @@ func _keep_range(
 	if ready and distance < ranged_min * 0.5:
 		planned = "light"
 		return _press_attack(me, target, input, distance, dir_x, library, rng)
-	if ready and absf(dy) <= LOB_LANE and distance >= ranged_min and distance <= ranged_max:
+	var lob_ready := ready and heavy_wait == 0
+	if lob_ready and absf(dy) <= LOB_LANE and distance >= ranged_min and distance <= ranged_max:
 		if reaction > 0:
 			reaction -= 1
 			return input
 		input.heavy = true
+		heavy_wait = heavy_cooldown_ticks
 		reaction = reaction_ticks
 		cooldown = cooldown_ticks + rng.randi_range(0, cooldown_jitter)
 		return input
@@ -191,7 +202,7 @@ func _keep_range(
 	elif distance > ranged_max:
 		move_x = dir_x
 	# With a turn to throw, line up exactly; otherwise keep its own lane.
-	var to_lane := dy if ready else dy + lane_offset
+	var to_lane := dy if lob_ready else dy + lane_offset
 	var move_y := signf(to_lane) * 0.7 if absf(to_lane) > 4.0 else 0.0
 	input.move = Vector2(move_x, move_y)
 	return input
@@ -212,7 +223,7 @@ func _press_attack(
 	rng: RandomNumberGenerator
 ) -> FighterInput:
 	if not planned:
-		var can_heavy := CombatRules.starter(me, library, "heavy") != ""
+		var can_heavy := heavy_wait == 0 and CombatRules.starter(me, library, "heavy") != ""
 		planned = "heavy" if can_heavy and rng.randf() < heavy_chance else "light"
 	var move := library.get_move(CombatRules.starter(me, library, planned))
 	if move == null:
@@ -230,6 +241,8 @@ func _press_attack(
 			reaction -= 1
 			return input
 		input.set(planned, true)
+		if planned == "heavy":
+			heavy_wait = heavy_cooldown_ticks
 		planned = ""
 		reaction = reaction_ticks
 		cooldown = cooldown_ticks + rng.randi_range(0, cooldown_jitter)
