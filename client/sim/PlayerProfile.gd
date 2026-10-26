@@ -143,6 +143,14 @@ func add_item(item_id: String, amount := 1) -> void:
 	inventory[item_id] = count(item_id) + amount
 
 
+## Throws one away at the player's request. Evidence (key items) is the
+## story and is never thrown away.
+func discard(item_id: String, content: ContentDB) -> bool:
+	if content.item(item_id).get("type") == "key":
+		return false
+	return remove_item(item_id)
+
+
 func remove_item(item_id: String, amount := 1) -> bool:
 	if count(item_id) < amount:
 		return false

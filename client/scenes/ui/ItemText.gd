@@ -39,6 +39,8 @@ static func kind(item: Dictionary) -> String:
 	var rarity := str(item.get("rarity", "common")).capitalize()
 	if item.get("type") == "equipment":
 		return "%s %s" % [rarity, SLOT_NAMES.get(str(item.get("slot")), "Gear")]
+	if item.get("type") == "key":
+		return "Evidence"
 	return "%s Consumable" % rarity
 
 

@@ -106,6 +106,13 @@ func hurt(strength := 1.0) -> void:
 	_portrait.flash()
 
 
+## The end-of-chapter card: the same banner, held longer so it can be read.
+func chapter(title: String, subtitle: String) -> void:
+	_banner_level.text = title
+	_banner_detail.text = subtitle
+	_show_banner(5.0)
+
+
 ## The big level-up announcement, naming any skills it unlocked.
 func level_up(level: int, unlocked: Array) -> void:
 	_banner_level.text = "Level %d" % level
@@ -115,11 +122,15 @@ func level_up(level: int, unlocked: Array) -> void:
 	_banner_detail.text = (
 		"New skill: " + ", ".join(names) if names else "Max HP and damage increased"
 	)
+	_show_banner(2.6)
+
+
+func _show_banner(seconds: float) -> void:
 	_banner.visible = true
 	_banner.scale = Vector2(1.4, 1.4)
 	_banner.modulate.a = 1.0
 	_banner.pivot_offset = _banner.size / 2.0
-	_banner_left = 2.6
+	_banner_left = seconds
 	var tween := create_tween()
 	tween.tween_property(_banner, "scale", Vector2.ONE, 0.25).set_trans(Tween.TRANS_BACK)
 

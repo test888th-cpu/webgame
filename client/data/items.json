@@ -280,6 +280,30 @@
       },
       "icon": "baron_knuckledusters",
       "description": "Still hot from the furnace. Taken from the Baron himself."
+    },
+    "torn_label": {
+      "name": "Torn Shipping Label",
+      "type": "key",
+      "rarity": "uncommon",
+      "price": 0,
+      "icon": "torn_label",
+      "description": "Ripped off the crate the Saltmarket crew came back for. No waybill, no address: just a red stamp, KRAISORN HEAVY INDUSTRIES."
+    },
+    "forged_note": {
+      "name": "Forged Delivery Note",
+      "type": "key",
+      "rarity": "rare",
+      "price": 0,
+      "icon": "forged_note",
+      "description": "Found on the Sludge Foreman. Stamped and signed for a warehouse on the canal that burned down years ago. Someone is moving freight on paper that cannot be real."
+    },
+    "baron_ledger": {
+      "name": "The Baron's Ledger",
+      "type": "key",
+      "rarity": "epic",
+      "price": 0,
+      "icon": "ledger",
+      "description": "The Furnace Baron's accounts. Every week, the same payment from an account at the port, marked only \"for the route\". He was renting South Street to someone."
     }
   }
 }

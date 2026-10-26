@@ -482,6 +482,36 @@ def jade_charm(d: ImageDraw.ImageDraw) -> None:
 SILHOUETTE = (255, 255, 255, 46)
 
 
+# Evidence (key items): paper and ink, so they read as clues, not gear.
+PAPER = (236, 222, 186, 255)
+INK = (90, 70, 60, 255)
+
+
+def torn_label(d: ImageDraw.ImageDraw) -> None:
+    d.polygon([(2, 4), (13, 3), (14, 11), (11, 12), (9, 10), (6, 13), (2, 12)], fill=OUTLINE)
+    d.polygon([(3, 5), (12, 4), (13, 10), (11, 11), (9, 9), (6, 12), (3, 11)], fill=PAPER)
+    d.rectangle((4, 6, 7, 8), fill=(200, 60, 50, 255))
+    d.line((9, 6, 11, 6), fill=INK)
+    d.line((8, 8, 11, 8), fill=INK)
+
+
+def forged_note(d: ImageDraw.ImageDraw) -> None:
+    d.rectangle((3, 1, 12, 14), fill=OUTLINE)
+    d.rectangle((4, 2, 11, 13), fill=PAPER)
+    for y in (4, 6, 8):
+        d.line((5, y, 10, y), fill=INK)
+    d.ellipse((7, 9, 11, 13), outline=(60, 90, 180, 255))
+    d.line((5, 12, 7, 10), fill=(60, 90, 180, 255))
+
+
+def ledger(d: ImageDraw.ImageDraw) -> None:
+    d.rectangle((2, 2, 13, 14), fill=OUTLINE)
+    d.rectangle((3, 3, 12, 13), fill=(120, 40, 36, 255))
+    d.rectangle((3, 3, 4, 13), fill=(80, 26, 24, 255))
+    d.rectangle((6, 5, 11, 8), fill=(222, 178, 70, 255))
+    d.point((8, 11), fill=(222, 178, 70, 255))
+
+
 def slot_weapon(d: ImageDraw.ImageDraw) -> None:
     d.line((3, 13, 12, 4), fill=SILHOUETTE, width=3)
     d.ellipse((10, 1, 15, 6), fill=SILHOUETTE)
@@ -538,6 +568,9 @@ ICONS = {
     "baron_knuckledusters": baron_knuckledusters,
     "iron_helm": iron_helm,
     "jade_charm": jade_charm,
+    "torn_label": torn_label,
+    "forged_note": forged_note,
+    "ledger": ledger,
     "slot_weapon": slot_weapon,
     "slot_head": slot_head,
     "slot_body": slot_body,

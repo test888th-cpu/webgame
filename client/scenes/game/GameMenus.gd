@@ -135,6 +135,9 @@ static func reward_text(content: ContentDB, quest: Dictionary) -> String:
 		parts.append("%d XP" % int(rewards["xp"]))
 	var items: Dictionary = rewards.get("items", {})
 	for item_id: String in items:
+		# Evidence is a surprise on hand-in, not a reward to bargain for.
+		if content.item(item_id).get("type") == "key":
+			continue
 		parts.append("%s x%d" % [content.item(item_id).get("name", item_id), int(items[item_id])])
 	return ",  ".join(parts) if parts else "-"
 
@@ -295,20 +298,33 @@ static func _shop_detail(
 
 
 ## A conversation with a quest giver: their line, then what they offer.
-static func conversation(game: Game, npc: Dictionary) -> Control:
+## Talking to an NPC. Quest givers speak their quest's lines (quests.json
+## "dialogue"): the offer, a nudge while it is under way, and `said` (what
+## they just said on hand-in). The goal itself is always spelled out below
+## the speech, so skipping the words never leaves a player lost.
+static func conversation(game: Game, npc: Dictionary, said := "") -> Control:
 	var content := game.content
 	var profile := game.profile
 	var parts := UiKit.dialog(str(npc["name"]), UiKit.portrait(content, str(npc.get("sprite", ""))))
 	var body: VBoxContainer = parts["body"]
 	var offers := 0
-	var says := str(npc.get("line", ""))
+	var says := said if said else str(npc.get("line", ""))
 	for quest_id in game.view.quests_of(npc):
 		var state := QuestRules.status(profile, quest_id, content)
 		var quest: Dictionary = content.quests[quest_id]
+		var lines: Dictionary = quest.get("dialogue", {})
 		if state == "available":
 			offers += 1
+			if not said:
+				says = str(lines.get("offer", says))
+			var heading := str(quest["name"]).to_upper()
+			if quest.has("chapter"):
+				heading = "%s  -  %s" % [str(quest["chapter"]).to_upper(), heading]
+			body.add_child(UiKit.label(heading, UiTheme.SIZE_CAPTION, UiTheme.ACCENT))
 			body.add_child(
-				UiKit.label(str(quest["description"]), UiTheme.SIZE_BODY, UiTheme.TEXT, 470)
+				UiKit.label(
+					"Goal: " + str(quest["description"]), UiTheme.SIZE_BODY, UiTheme.TEXT, 470
+				)
 			)
 			body.add_child(
 				UiKit.label(
@@ -326,9 +342,14 @@ static func conversation(game: Game, npc: Dictionary) -> Control:
 			)
 		elif state == "active":
 			var count := int(quest["objective"]["count"])
-			says = (
-				'Still on "%s"? %d of %d so far.'
-				% [quest["name"], profile.quests[quest_id]["progress"], count]
+			if not said:
+				says = str(lines.get("active", 'Still on "%s"?' % quest["name"]))
+			body.add_child(
+				UiKit.label(
+					"%s: %d of %d" % [quest["name"], profile.quests[quest_id]["progress"], count],
+					UiTheme.SIZE_SMALL,
+					UiTheme.TEAL
+				)
 			)
 	if offers == 0 and says == str(npc.get("line", "")):
 		says = "Nothing more for now. Keep the streets clear."

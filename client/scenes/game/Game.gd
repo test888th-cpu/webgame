@@ -303,8 +303,8 @@ func open_shop(npc: Dictionary) -> void:
 	_show("shop", GameMenus.shop(self, npc))
 
 
-func open_quests(npc: Dictionary) -> void:
-	_show("quests_npc", GameMenus.conversation(self, npc))
+func open_quests(npc: Dictionary, said := "") -> void:
+	_show("quests_npc", GameMenus.conversation(self, npc, said))
 
 
 func open_game_over() -> void:
@@ -322,9 +322,10 @@ func inspect_item(item_id: String, worn_slot: String) -> void:
 		actions.append({"text": "Unequip", "call": _unequip.bind(worn_slot)})
 	elif item.get("type") == "equipment":
 		actions.append({"text": "Equip", "call": _equip.bind(item_id)})
-	else:
+	elif item.get("type") == "consumable":
 		actions.append({"text": "Use", "call": _use.bind(item_id)})
-	if not worn_slot:
+	# Evidence is the story: it cannot be thrown away.
+	if not worn_slot and item.get("type") != "key":
 		actions.append({"text": "Discard", "confirm": "Discard 1?", "call": _discard.bind(item_id)})
 	menu_focus = "worn:" + worn_slot if worn_slot else "bag:" + item_id
 	item_card = ItemCard.popup(menu, content, profile, item_id, worn_slot, actions, close_item_card)
@@ -385,7 +386,7 @@ func _unequip(slot: String) -> void:
 
 
 func _discard(item_id: String) -> void:
-	if profile.remove_item(item_id):
+	if profile.discard(item_id, content):
 		_hud.toast("Discarded " + str(content.item(item_id)["name"]))
 		SaveStore.save(profile)
 	_reopen_bag("")
@@ -420,11 +421,20 @@ func _turn_in(npc: Dictionary, quest_id: String) -> void:
 		for reached in range(level + 1, profile.level + 1):
 			unlocked.append_array(SkillRules.unlocked_at(content, profile.hero, reached))
 		_feedback.level_up(profile.level, unlocked)
+	var quest: Dictionary = content.quests[quest_id]
 	if rewards:
-		_hud.toast("+%d coins  +%d XP" % [rewards["money"], rewards["xp"]])
+		var found: Array[String] = []
+		for item_id: String in rewards["items"]:
+			if content.item(item_id).get("type") == "key":
+				found.append(str(content.item(item_id)["name"]))
+		var text := "+%d coins  +%d XP" % [rewards["money"], rewards["xp"]]
+		_hud.toast(text + ("  New evidence: " + ", ".join(found) if found else ""))
 		zone.refresh_hero()
 		SaveStore.save(profile)
-	open_quests(npc)
+		var chapter: Dictionary = quest.get("ends_chapter", {})
+		if chapter:
+			_hud.chapter(str(chapter["title"]), str(chapter.get("subtitle", "")))
+	open_quests(npc, str(quest.get("dialogue", {}).get("done", "")) if rewards else "")
 
 
 func _recover(loss: int) -> void:

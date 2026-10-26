@@ -4,6 +4,25 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — Prologue and Chapter 1 told through the quests (IL-2)
+- Chief Odo's six quests are rewritten from `docs/STORY_BIBLE.md` as the Prologue
+  ("First Night") and Chapter 1 ("South Street"): a shakedown at Ama's stall, a crate
+  the crew came back for, masked guards at the canal, forged freight papers, Kenji's
+  tip and the Furnace Baron's ledger, which points to the port.
+- Quest givers speak: each quest has an offer, a nudge while it is under way and a
+  closing line on hand-in (`quests.json` `dialogue`, one or two sentences). Below the
+  speech the dialog always spells out the chapter, quest, **Goal** and reward, so
+  skipping the words never leaves anyone lost.
+- **Evidence** (new item type `key`): the Torn Shipping Label, Forged Delivery Note and
+  the Baron's Ledger are handed over on completion ("New evidence: ..."), sorted at the
+  end of the bag, readable from the item card and never sold, used or discarded (a
+  sim rule, not only the UI). They are not listed as rewards, to keep the surprise. New
+  16 px icons drawn by `gen_ui.py`.
+- Handing in "The Furnace Baron" shows a **Chapter 1 complete** card naming where the
+  trail leads next.
+- Tests keep every quest in a chapter with all three lines, keep The Core unnamed in
+  quests and items (story bible §7), and reject priced evidence. 6 new tests (183 total).
+
 ### Added — The street opens as the story moves on (IL-2)
 - Exits east are now guarded: Saltmarket → Canal Works opens once the Smog Warden is
   down, Canal Works → Rail Yards after the Sludge Foreman, Rail Yards → Night Market

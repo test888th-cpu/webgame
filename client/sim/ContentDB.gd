@@ -8,7 +8,11 @@ extends RefCounted
 
 const DATA_DIR := "res://data"
 const ART_MANIFEST := "res://assets/manifest.json"
-const ITEM_TYPES := ["consumable", "equipment"]
+## "key": story items (evidence). Kept for good: never sold, used or dropped.
+const ITEM_TYPES := ["consumable", "equipment", "key"]
+## What a quest giver says when offering, while it is under way, and on
+## hand-in (quests.json "dialogue").
+const DIALOGUE_LINES := ["offer", "active", "done"]
 ## From most common to rarest; the UI colours names by rarity.
 const RARITIES := ["common", "uncommon", "rare", "epic", "legendary"]
 const EXIT_SIDES := ["west", "east"]
@@ -234,6 +238,8 @@ func _validate_item(id: String, it: Dictionary) -> void:
 				_check(
 					value is float or value is int, "%s.stats.%s: expected a number" % [where, key]
 				)
+	if it.get("type") == "key":
+		_check(int(it.get("price", 0)) == 0, "%s: story items are not for sale" % where)
 	if it.get("type") == "consumable":
 		_check(
 			it.has("heal") or it.has("energy"),
@@ -261,6 +267,17 @@ func _validate_quest(id: String, q: Dictionary) -> void:
 	if rewards is Dictionary:
 		for item_id: String in rewards.get("items", {}):
 			_check(items.has(item_id), "%s.rewards: unknown item %s" % [where, item_id])
+	var dialogue: Variant = q.get("dialogue", {})
+	_check(dialogue is Dictionary, where + ".dialogue: expected an object")
+	if dialogue is Dictionary:
+		for key: String in dialogue:
+			_check(key in DIALOGUE_LINES, "%s.dialogue: unknown line %s" % [where, key])
+			_check(str(dialogue[key]) != "", "%s.dialogue.%s: empty" % [where, key])
+	var ends: Variant = q.get("ends_chapter", {})
+	_check(
+		ends is Dictionary and (ends.is_empty() or str(ends.get("title", "")) != ""),
+		where + ".ends_chapter: needs a title"
+	)
 
 
 func _validate_area(id: String, a: Dictionary) -> void:
