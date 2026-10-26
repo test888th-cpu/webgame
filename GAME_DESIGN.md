@@ -27,8 +27,8 @@ harbour district, which becomes their home base.
 
 | Hero | Archetype | Feel | Signature |
 |---|---|---|---|
-| Mika Tanabe **[built]** | Brawler (female) | Damage and mobility: 100 HP, 110% power, 110% speed, long combo strings | Rising Uppercut, Whirlwind Kick, Shoulder Rush, Furnace Slam |
-| Oren Vale **[built]** | Bruiser (male) | Slow, tough, controls crowds: 130 HP, 100% power, 2 defense, 85% speed | Headbutt, Clothesline, Shoulder Charge, Earthshaker |
+| Mika Tanabe **[built]** | Footballer (female) | Damage and mobility: 100 HP, 110% power, 110% speed, long combo strings | Rising Uppercut, Whirlwind Kick, Shoulder Rush, Furnace Slam |
+| Oren Vale **[built]** | Street Brawler (male) | Slow, tough, controls crowds: 130 HP, 100% power, 2 defense, 85% speed | Headbutt, Clothesline, Shoulder Charge, Earthshaker |
 | Riku Sato **[built]** | Boxer (male) | The all-rounder: 115 HP, 105% power, 1 defense, 100% speed; jab and cross from a tight guard | Liver Shot, One-Two, Dempsey Roll, Knockout Blow |
 | Sela Ruiz | Striker | Fast kicks, dodge-cancels | Spinning heel through a crowd |
 | Juno Okafor | Tinkerer | Mid-range gadgets, traps | Deployable shock coil |

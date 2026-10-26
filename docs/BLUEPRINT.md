@@ -93,7 +93,7 @@ Milestone ของ Master Prompt ใช้ชื่อ **IL-0 ถึง IL-7** 
 | ID | ปัญหา | หลักฐาน | ความรุนแรง |
 |---|---|---|---|
 | B1 | **Stun-lock** (**แก้แล้วใน IL-1** ดู 1.5): ไม่มีกลไกจำกัดการโดนต่อเนื่อง | Probe: ฮีโร่ยืนเฉย ถูกล้อมด้วยศัตรู 3 ตัวชนิดเดียว ที่ Night Market, seed 1–5, 3,600 ticks ต่อรอบ (ตารางด้านล่าง) | สูง |
-| B2 | **บอสดรอปของหายากแน่นอน 100%**: Furnace Baron → Baron Knuckledusters (legendary), Sludge Foreman → Foreman Wrench (epic) | `enemies.json` `chance: 1.0` ขัดกับ Master Prompt 9.3 | กลาง |
+| B2 | (**แก้แล้ว IL-2**: legendary 12%, epic 30%, เทสต์คุมไม่เกิน 35%) **บอสดรอปของหายากแน่นอน 100%**: Furnace Baron → Baron Knuckledusters (legendary), Sludge Foreman → Foreman Wrench (epic) | `enemies.json` `chance: 1.0` ขัดกับ Master Prompt 9.3 | กลาง |
 | B3 | ทางออกไม่ล็อก ผู้เล่นเดินไป Refinery (เลเวล 8) ได้ตั้งแต่เริ่ม | `areas.json` `exits` ไม่มีเงื่อนไข | กลาง |
 | B4 | ศัตรูหลายชนิดเป็นแฟนตาซี (zombie-goblin, skeleton, rat-man, boar-man) ขัดกับ "The Core ไม่ใช่เวทมนตร์" | `art/lpc/characters.json` | กลาง (ต้องตีความหรือเปลี่ยนภาพ) |
 | B5 | Web export ~39.5 MB wasm ก่อนบีบอัด, ยังไม่มีผลวัด FPS บนเครื่องจริง | ROADMAP R2, R4 | กลาง |

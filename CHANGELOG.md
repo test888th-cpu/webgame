@@ -4,6 +4,16 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed — Boss loot is worth farming; heroes have their classes (IL-2)
+- Bosses no longer hand out their best item every time: the Furnace Baron drops the
+  Baron Knuckledusters (legendary) 12% of the time (was 100%) and the Jade Charm 20%
+  (was 50%; his quest still gives one), the Sludge Foreman his Foreman Wrench (epic)
+  30% (was 100%). Bosses respawn on re-entry, so they can be farmed. A test keeps every
+  epic or legendary drop at 35% or less.
+- Heroes carry their class (decision D3): Mika is **The Footballer** (new bio and
+  tagline: sweeping kicks and line-breaking charges), Oren **The Street Brawler**,
+  Riku stays **The Boxer**. Display text only; saves are unaffected. 1 new test (172 total).
+
 ### Changed — The game is now *The Iron Legacy* (IL-2, decision D1)
 - Project name, browser tab, title logo ("THE / IRON / LEGACY") and credits. The title
   tagline promises only the street ("Take Iron City back, one street at a time"), since

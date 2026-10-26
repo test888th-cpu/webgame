@@ -91,3 +91,20 @@ func test_a_charging_boss_starts_its_rush_from_range() -> void:
 			break
 	assert_true(started_at > 0.0, "the enraged Baron charges")
 	assert_true(started_at > 40.0, "from range (%d px)" % started_at)
+
+
+func test_bosses_never_guarantee_their_best_loot() -> void:
+	# Blueprint §4.5: epic and legendary drops are something to farm for;
+	# what the story needs comes from quest rewards instead.
+	for enemy_id: String in _content().enemies:
+		var loot: Dictionary = _content().enemies[enemy_id].get("loot", {})
+		for drop: Dictionary in loot.get("drops", []):
+			var rarity := str(_content().item(str(drop["item"])).get("rarity", ""))
+			if rarity in ["epic", "legendary"]:
+				assert_true(
+					float(drop["chance"]) <= 0.35,
+					(
+						"%s drops %s (%s) %d%% of the time"
+						% [enemy_id, drop["item"], rarity, roundi(float(drop["chance"]) * 100)]
+					)
+				)

@@ -213,7 +213,7 @@
         "drops": [
           {
             "item": "foreman_wrench",
-            "chance": 1.0
+            "chance": 0.3
           }
         ]
       },
@@ -433,11 +433,11 @@
         "drops": [
           {
             "item": "baron_knuckledusters",
-            "chance": 1.0
+            "chance": 0.12
           },
           {
             "item": "jade_charm",
-            "chance": 0.5
+            "chance": 0.2
           }
         ]
       },
