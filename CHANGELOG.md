@@ -4,6 +4,24 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed — Skill pacing: heroes faster, enemies and bosses slower (IL-4)
+- Every hero's skills come back sooner: regular skills in 2.5–4.25 s (were 4–7 s),
+  ultimates in 11–12.5 s (were 20–22.5 s), for all six classes.
+- Enemies and bosses can no longer chain their heavy blows. Each waits `heavy_cooldown`
+  (in `enemies.json` `ai`, and per boss phase) between heavies: 4.5 s for street gangs,
+  5 s for elites and bosses (4.5 s in phase 2), 5.5 s for the Furnace Baron (5 s in
+  phase 2). That is always longer than any hero skill short of an ultimate. The Bottle
+  Thrower's lob is its basic attack and waits 2 s.
+- To keep the bosses a threat without the spam, they throw normal blows about 20% more
+  often. The Sludge Foreman hits harder (power 1.3, 1.5 in phase 2, 460 HP), and the Pit
+  Champion has 380 HP.
+- Scripted-player boss probe (no gear, no food, no parry; 10 seeds per class): the
+  Sludge Foreman is won 7–10/10 (was 3–8), the Pit Champion 1–5/10 (was 0–1), and the
+  Furnace Baron still 0/10.
+- Tests: hero skills come back within 4.5 s (ultimates within 13 s); every enemy's heavy
+  waits longer than any hero skill short of an ultimate, bosses 5 s or more; a boss never
+  chains heavies.
+
 ### Added — The rest of South Street: Parking Lot, Rat Nest, Gang HQ (IL-4)
 - **Parking Lot** (level 4), between the Rusted Corner and the Rail Yards: a multi-storey car
   park whose ramps Pipe Brutes guard, with cars parked at the kerb. Quest "Night Shift":
