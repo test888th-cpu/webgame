@@ -58,6 +58,7 @@ jobs:
           python3 tools/assets/gen_ui.py
           python3 tools/assets/gen_fx.py
           python3 tools/assets/gen_sfx.py
+          python3 tools/assets/import_sounds.py
           python3 tools/assets/gen_dummy.py
           python3 tools/assets/make_spriteframes.py
           python3 tools/assets/validate.py

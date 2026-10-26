@@ -1,0 +1,138 @@
+{
+  "sounds": {
+    "punch_hit": {
+      "file": "jakeeaton_punch-5.wav",
+      "title": "Punch 5",
+      "authors": [
+        "jakeeaton"
+      ],
+      "license": "CC-BY 4.0",
+      "url": "https://freesound.org/people/jakeeaton/sounds/560327/",
+      "notes": "Licence as stated by the project owner, who supplied the file (2026-10-26). Trimmed to the impact and faded out by tools/assets/import_sounds.py.",
+      "start": 0.37,
+      "length": 0.45,
+      "attribution": "punch-5.wav by jakeeaton -- https://freesound.org/s/560327/ -- License: Attribution 4.0"
+    },
+    "punch_hit_2": {
+      "file": "shikamarunara74_multi-punch.wav",
+      "title": "multi punch",
+      "authors": [
+        "Shikamarunara74"
+      ],
+      "license": "CC-BY 3.0",
+      "url": "https://freesound.org/s/126317/",
+      "notes": "Licence as stated by the project owner, who supplied the file (2026-10-26). One punch cut out of the sequence by tools/assets/import_sounds.py.",
+      "start": 0.18,
+      "length": 0.32,
+      "attribution": "multi punch.wav by Shikamarunara74 -- https://freesound.org/s/126317/ -- License: Attribution 3.0"
+    },
+    "punch_hit_3": {
+      "file": "shikamarunara74_multi-punch.wav",
+      "title": "multi punch",
+      "authors": [
+        "Shikamarunara74"
+      ],
+      "license": "CC-BY 3.0",
+      "url": "https://freesound.org/s/126317/",
+      "notes": "Licence as stated by the project owner, who supplied the file (2026-10-26). One punch cut out of the sequence by tools/assets/import_sounds.py.",
+      "start": 1.01,
+      "length": 0.32,
+      "attribution": "multi punch.wav by Shikamarunara74 -- https://freesound.org/s/126317/ -- License: Attribution 3.0"
+    },
+    "punch_hit_4": {
+      "file": "shikamarunara74_multi-punch.wav",
+      "title": "multi punch",
+      "authors": [
+        "Shikamarunara74"
+      ],
+      "license": "CC-BY 3.0",
+      "url": "https://freesound.org/s/126317/",
+      "notes": "Licence as stated by the project owner, who supplied the file (2026-10-26). One punch cut out of the sequence by tools/assets/import_sounds.py.",
+      "start": 1.68,
+      "length": 0.28,
+      "attribution": "multi punch.wav by Shikamarunara74 -- https://freesound.org/s/126317/ -- License: Attribution 3.0"
+    },
+    "punch_hit_5": {
+      "file": "shikamarunara74_multi-punch.wav",
+      "title": "multi punch",
+      "authors": [
+        "Shikamarunara74"
+      ],
+      "license": "CC-BY 3.0",
+      "url": "https://freesound.org/s/126317/",
+      "notes": "Licence as stated by the project owner, who supplied the file (2026-10-26). One punch cut out of the sequence by tools/assets/import_sounds.py.",
+      "start": 3.45,
+      "length": 0.3,
+      "attribution": "multi punch.wav by Shikamarunara74 -- https://freesound.org/s/126317/ -- License: Attribution 3.0"
+    },
+    "punch_hit_6": {
+      "file": "shikamarunara74_multi-punch.wav",
+      "title": "multi punch",
+      "authors": [
+        "Shikamarunara74"
+      ],
+      "license": "CC-BY 3.0",
+      "url": "https://freesound.org/s/126317/",
+      "notes": "Licence as stated by the project owner, who supplied the file (2026-10-26). One punch cut out of the sequence by tools/assets/import_sounds.py.",
+      "start": 5.32,
+      "length": 0.3,
+      "attribution": "multi punch.wav by Shikamarunara74 -- https://freesound.org/s/126317/ -- License: Attribution 3.0"
+    },
+    "punch_hit_7": {
+      "file": "mrrap4food_punches.wav",
+      "title": "Punches.mp3",
+      "authors": [
+        "mrrap4food"
+      ],
+      "license": "CC0",
+      "url": "https://freesound.org/s/619053/",
+      "attribution": "Punches.mp3 by mrrap4food -- https://freesound.org/s/619053/ -- License: Creative Commons 0",
+      "notes": "Converted from the supplied MP3 to WAV. CAUTION: the MP3's own tags read 'the hollywood edge', 'copyright 1999 hollywood edg' (a commercial sound library), so the uploader may not hold the rights it released as CC0. Kept at the project owner's decision for the free game; replace with the project's own sounds before any paid feature (see docs/ASSETS.md).",
+      "replace_before_paid": true,
+      "start": 0.236,
+      "length": 0.3
+    },
+    "punch_hit_8": {
+      "file": "mrrap4food_punches.wav",
+      "title": "Punches.mp3",
+      "authors": [
+        "mrrap4food"
+      ],
+      "license": "CC0",
+      "url": "https://freesound.org/s/619053/",
+      "attribution": "Punches.mp3 by mrrap4food -- https://freesound.org/s/619053/ -- License: Creative Commons 0",
+      "notes": "Converted from the supplied MP3 to WAV. CAUTION: the MP3's own tags read 'the hollywood edge', 'copyright 1999 hollywood edg' (a commercial sound library), so the uploader may not hold the rights it released as CC0. Kept at the project owner's decision for the free game; replace with the project's own sounds before any paid feature (see docs/ASSETS.md).",
+      "replace_before_paid": true,
+      "start": 2.917,
+      "length": 0.3
+    },
+    "punch_hit_9": {
+      "file": "mrrap4food_punches.wav",
+      "title": "Punches.mp3",
+      "authors": [
+        "mrrap4food"
+      ],
+      "license": "CC0",
+      "url": "https://freesound.org/s/619053/",
+      "attribution": "Punches.mp3 by mrrap4food -- https://freesound.org/s/619053/ -- License: Creative Commons 0",
+      "notes": "Converted from the supplied MP3 to WAV. CAUTION: the MP3's own tags read 'the hollywood edge', 'copyright 1999 hollywood edg' (a commercial sound library), so the uploader may not hold the rights it released as CC0. Kept at the project owner's decision for the free game; replace with the project's own sounds before any paid feature (see docs/ASSETS.md).",
+      "replace_before_paid": true,
+      "start": 5.657,
+      "length": 0.3
+    },
+    "punch_hit_10": {
+      "file": "mrrap4food_punches.wav",
+      "title": "Punches.mp3",
+      "authors": [
+        "mrrap4food"
+      ],
+      "license": "CC0",
+      "url": "https://freesound.org/s/619053/",
+      "attribution": "Punches.mp3 by mrrap4food -- https://freesound.org/s/619053/ -- License: Creative Commons 0",
+      "notes": "Converted from the supplied MP3 to WAV. CAUTION: the MP3's own tags read 'the hollywood edge', 'copyright 1999 hollywood edg' (a commercial sound library), so the uploader may not hold the rights it released as CC0. Kept at the project owner's decision for the free game; replace with the project's own sounds before any paid feature (see docs/ASSETS.md).",
+      "replace_before_paid": true,
+      "start": 13.286,
+      "length": 0.3
+    }
+  }
+}

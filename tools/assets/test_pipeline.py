@@ -6,7 +6,9 @@
 
 from __future__ import annotations
 
+import io
 import json
+import wave
 import sys
 import tempfile
 import unittest
@@ -16,6 +18,7 @@ from PIL import Image
 
 sys.path.insert(0, str(Path(__file__).parent))
 import custom_import  # noqa: E402
+import import_sounds  # noqa: E402
 import lpc_build  # noqa: E402
 import make_spriteframes  # noqa: E402
 import unitforge_import  # noqa: E402
@@ -188,6 +191,19 @@ class CustomImportTest(unittest.TestCase):
         box = flat.getbbox()
         self.assertLessEqual(box[3] - box[1], 2)
         self.assertLess(box[0], 32)
+
+
+class RecordedSoundTest(unittest.TestCase):
+    def test_recorded_sounds_are_cut_faded_and_below_full_scale(self) -> None:
+        for sound_id, spec in import_sounds.recorded().items():
+            data = import_sounds.render(spec)
+            samples = validate.wav_samples(data)
+            with wave.open(io.BytesIO(data)) as w:
+                rate = w.getframerate()
+            self.assertEqual(len(samples), int(spec["length"] * rate), sound_id)
+            self.assertLessEqual(max(abs(v) for v in samples), 32767 * 0.9, sound_id)
+            self.assertEqual(samples[0], 0, f"{sound_id} starts silent (no click)")
+            self.assertLess(abs(samples[-1]), 200, f"{sound_id} fades out")
 
 
 class RecolourTest(unittest.TestCase):

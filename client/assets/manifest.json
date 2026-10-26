@@ -1923,8 +1923,8 @@
       "credits": "res://assets/characters/hero_riku/credits.json",
       "facing": "right",
       "frame_size": [
-        64,
-        64
+        80,
+        80
       ],
       "generator": {
         "recipe": "art/custom/hero_riku/import.json"
@@ -1933,287 +1933,287 @@
       "hands": {
         "dodge": [
           [
-            43,
-            36,
+            54,
+            46,
             40
           ],
           [
-            40,
-            38,
-            40
-          ],
-          [
-            35,
-            32,
-            40
-          ],
-          [
-            38,
-            38,
+            50,
+            48,
             40
           ],
           [
             44,
-            37,
+            42,
+            40
+          ],
+          [
+            48,
+            49,
+            40
+          ],
+          [
+            56,
+            48,
             40
           ]
         ],
         "down": [
           [
-            32,
-            45,
+            41,
+            57,
             45
           ],
           [
-            26,
-            48,
+            33,
+            61,
             45
           ],
           [
-            26,
-            52,
+            34,
+            64,
             45
           ],
           [
-            21,
-            56,
+            28,
+            71,
             45
           ],
           [
-            21,
-            56,
+            28,
+            71,
             45
           ],
           [
-            21,
-            56,
+            28,
+            71,
             45
           ]
         ],
         "heavy": [
           [
-            44,
-            30,
+            54,
+            38,
             30
           ],
           [
-            57,
-            30,
+            71,
+            38,
             30
           ],
           [
-            57,
-            30,
+            71,
+            38,
             30
           ],
           [
-            57,
-            30,
+            71,
+            38,
             30
           ],
           [
-            57,
-            30,
+            71,
+            38,
             30
           ],
           [
-            44,
-            33,
+            55,
+            42,
             30
           ],
           [
-            44,
-            30,
+            54,
+            39,
             30
           ]
         ],
         "hurt": [
           [
+            49,
+            37,
+            40
+          ],
+          [
+            43,
             40,
-            28,
             40
           ],
           [
-            35,
-            30,
-            40
-          ],
-          [
-            32,
-            38,
+            41,
+            56,
             40
           ]
         ],
         "idle": [
           [
-            44,
-            30,
+            54,
+            38,
             50
           ],
           [
-            44,
-            30,
+            54,
+            38,
             50
           ],
           [
-            44,
-            30,
+            54,
+            38,
             50
           ],
           [
-            44,
-            30,
+            54,
+            38,
             50
           ],
           [
-            44,
-            30,
+            54,
+            39,
             50
           ],
           [
-            44,
-            30,
+            54,
+            38,
             50
           ],
           [
-            44,
-            30,
+            54,
+            38,
             50
           ],
           [
-            44,
-            30,
+            54,
+            38,
             50
           ]
         ],
         "light": [
           [
-            43,
-            30,
+            53,
+            38,
             -40
           ],
           [
-            44,
-            30,
+            54,
+            38,
             0
           ],
           [
-            52,
-            30,
+            65,
+            37,
             70
           ],
           [
-            53,
-            31,
+            65,
+            39,
             110
           ],
           [
-            44,
-            33,
+            55,
+            42,
             90
           ],
           [
-            44,
-            30,
+            54,
+            39,
             50
           ]
         ],
         "stab": [
           [
-            43,
-            30,
+            53,
+            38,
             80
           ],
           [
-            44,
-            30,
+            54,
+            38,
             85
           ],
           [
-            52,
-            30,
+            65,
+            37,
             90
           ],
           [
-            53,
-            31,
+            65,
+            39,
             90
           ],
           [
-            44,
-            33,
+            55,
+            42,
             80
           ]
         ],
         "walk": [
           [
-            39,
-            38,
+            49,
+            49,
             55
           ],
           [
-            41,
-            38,
+            52,
+            48,
             55
           ],
           [
-            43,
-            36,
+            54,
+            46,
             55
           ],
           [
-            40,
-            38,
-            55
-          ],
-          [
-            35,
-            32,
-            55
-          ],
-          [
-            38,
-            38,
+            50,
+            48,
             55
           ],
           [
             44,
-            37,
+            42,
             55
           ],
           [
-            43,
-            38,
+            48,
+            49,
             55
           ],
           [
-            39,
-            38,
+            56,
+            48,
             55
           ],
           [
-            36,
-            40,
+            55,
+            48,
             55
           ],
           [
-            41,
-            38,
+            50,
+            50,
             55
           ],
           [
-            43,
-            36,
+            46,
+            51,
             55
           ],
           [
-            39,
-            38,
+            52,
+            48,
             55
           ],
           [
-            35,
-            33,
+            55,
+            46,
+            55
+          ],
+          [
+            49,
+            50,
+            55
+          ],
+          [
+            44,
+            42,
             55
           ]
         ]
@@ -2222,14 +2222,14 @@
         "Proprietary (project owner)"
       ],
       "origin": [
-        32,
-        62
+        40,
+        77
       ],
       "portrait": [
-        24,
-        11,
-        22,
-        22
+        30,
+        16,
+        26,
+        26
       ],
       "role": "hero",
       "sheet": "res://assets/characters/hero_riku/sheet.png",
@@ -5482,6 +5482,112 @@
   },
   "audio": {
     "license": "MIT (original sounds synthesised by tools/assets/gen_sfx.py)",
+    "recorded": {
+      "punch_hit": {
+        "attribution": "punch-5.wav by jakeeaton -- https://freesound.org/s/560327/ -- License: Attribution 4.0",
+        "authors": [
+          "jakeeaton"
+        ],
+        "license": "CC-BY 4.0",
+        "notes": "Licence as stated by the project owner, who supplied the file (2026-10-26). Trimmed to the impact and faded out by tools/assets/import_sounds.py.",
+        "title": "Punch 5",
+        "url": "https://freesound.org/people/jakeeaton/sounds/560327/"
+      },
+      "punch_hit_10": {
+        "attribution": "Punches.mp3 by mrrap4food -- https://freesound.org/s/619053/ -- License: Creative Commons 0",
+        "authors": [
+          "mrrap4food"
+        ],
+        "license": "CC0",
+        "notes": "Converted from the supplied MP3 to WAV. CAUTION: the MP3's own tags read 'the hollywood edge', 'copyright 1999 hollywood edg' (a commercial sound library), so the uploader may not hold the rights it released as CC0. Kept at the project owner's decision for the free game; replace with the project's own sounds before any paid feature (see docs/ASSETS.md).",
+        "replace_before_paid": true,
+        "title": "Punches.mp3",
+        "url": "https://freesound.org/s/619053/"
+      },
+      "punch_hit_2": {
+        "attribution": "multi punch.wav by Shikamarunara74 -- https://freesound.org/s/126317/ -- License: Attribution 3.0",
+        "authors": [
+          "Shikamarunara74"
+        ],
+        "license": "CC-BY 3.0",
+        "notes": "Licence as stated by the project owner, who supplied the file (2026-10-26). One punch cut out of the sequence by tools/assets/import_sounds.py.",
+        "title": "multi punch",
+        "url": "https://freesound.org/s/126317/"
+      },
+      "punch_hit_3": {
+        "attribution": "multi punch.wav by Shikamarunara74 -- https://freesound.org/s/126317/ -- License: Attribution 3.0",
+        "authors": [
+          "Shikamarunara74"
+        ],
+        "license": "CC-BY 3.0",
+        "notes": "Licence as stated by the project owner, who supplied the file (2026-10-26). One punch cut out of the sequence by tools/assets/import_sounds.py.",
+        "title": "multi punch",
+        "url": "https://freesound.org/s/126317/"
+      },
+      "punch_hit_4": {
+        "attribution": "multi punch.wav by Shikamarunara74 -- https://freesound.org/s/126317/ -- License: Attribution 3.0",
+        "authors": [
+          "Shikamarunara74"
+        ],
+        "license": "CC-BY 3.0",
+        "notes": "Licence as stated by the project owner, who supplied the file (2026-10-26). One punch cut out of the sequence by tools/assets/import_sounds.py.",
+        "title": "multi punch",
+        "url": "https://freesound.org/s/126317/"
+      },
+      "punch_hit_5": {
+        "attribution": "multi punch.wav by Shikamarunara74 -- https://freesound.org/s/126317/ -- License: Attribution 3.0",
+        "authors": [
+          "Shikamarunara74"
+        ],
+        "license": "CC-BY 3.0",
+        "notes": "Licence as stated by the project owner, who supplied the file (2026-10-26). One punch cut out of the sequence by tools/assets/import_sounds.py.",
+        "title": "multi punch",
+        "url": "https://freesound.org/s/126317/"
+      },
+      "punch_hit_6": {
+        "attribution": "multi punch.wav by Shikamarunara74 -- https://freesound.org/s/126317/ -- License: Attribution 3.0",
+        "authors": [
+          "Shikamarunara74"
+        ],
+        "license": "CC-BY 3.0",
+        "notes": "Licence as stated by the project owner, who supplied the file (2026-10-26). One punch cut out of the sequence by tools/assets/import_sounds.py.",
+        "title": "multi punch",
+        "url": "https://freesound.org/s/126317/"
+      },
+      "punch_hit_7": {
+        "attribution": "Punches.mp3 by mrrap4food -- https://freesound.org/s/619053/ -- License: Creative Commons 0",
+        "authors": [
+          "mrrap4food"
+        ],
+        "license": "CC0",
+        "notes": "Converted from the supplied MP3 to WAV. CAUTION: the MP3's own tags read 'the hollywood edge', 'copyright 1999 hollywood edg' (a commercial sound library), so the uploader may not hold the rights it released as CC0. Kept at the project owner's decision for the free game; replace with the project's own sounds before any paid feature (see docs/ASSETS.md).",
+        "replace_before_paid": true,
+        "title": "Punches.mp3",
+        "url": "https://freesound.org/s/619053/"
+      },
+      "punch_hit_8": {
+        "attribution": "Punches.mp3 by mrrap4food -- https://freesound.org/s/619053/ -- License: Creative Commons 0",
+        "authors": [
+          "mrrap4food"
+        ],
+        "license": "CC0",
+        "notes": "Converted from the supplied MP3 to WAV. CAUTION: the MP3's own tags read 'the hollywood edge', 'copyright 1999 hollywood edg' (a commercial sound library), so the uploader may not hold the rights it released as CC0. Kept at the project owner's decision for the free game; replace with the project's own sounds before any paid feature (see docs/ASSETS.md).",
+        "replace_before_paid": true,
+        "title": "Punches.mp3",
+        "url": "https://freesound.org/s/619053/"
+      },
+      "punch_hit_9": {
+        "attribution": "Punches.mp3 by mrrap4food -- https://freesound.org/s/619053/ -- License: Creative Commons 0",
+        "authors": [
+          "mrrap4food"
+        ],
+        "license": "CC0",
+        "notes": "Converted from the supplied MP3 to WAV. CAUTION: the MP3's own tags read 'the hollywood edge', 'copyright 1999 hollywood edg' (a commercial sound library), so the uploader may not hold the rights it released as CC0. Kept at the project owner's decision for the free game; replace with the project's own sounds before any paid feature (see docs/ASSETS.md).",
+        "replace_before_paid": true,
+        "title": "Punches.mp3",
+        "url": "https://freesound.org/s/619053/"
+      }
+    },
     "sounds": {
       "arena_lock": "res://assets/audio/arena_lock.wav",
       "boss_roar": "res://assets/audio/boss_roar.wav",
@@ -5501,6 +5607,16 @@
       "ko": "res://assets/audio/ko.wav",
       "level_up": "res://assets/audio/level_up.wav",
       "pickup": "res://assets/audio/pickup.wav",
+      "punch_hit": "res://assets/audio/punch_hit.wav",
+      "punch_hit_10": "res://assets/audio/punch_hit_10.wav",
+      "punch_hit_2": "res://assets/audio/punch_hit_2.wav",
+      "punch_hit_3": "res://assets/audio/punch_hit_3.wav",
+      "punch_hit_4": "res://assets/audio/punch_hit_4.wav",
+      "punch_hit_5": "res://assets/audio/punch_hit_5.wav",
+      "punch_hit_6": "res://assets/audio/punch_hit_6.wav",
+      "punch_hit_7": "res://assets/audio/punch_hit_7.wav",
+      "punch_hit_8": "res://assets/audio/punch_hit_8.wav",
+      "punch_hit_9": "res://assets/audio/punch_hit_9.wav",
       "quest": "res://assets/audio/quest.wav",
       "skill_rush": "res://assets/audio/skill_rush.wav",
       "skill_slam": "res://assets/audio/skill_slam.wav",

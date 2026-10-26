@@ -97,6 +97,29 @@ func test_gallery_and_credits_build() -> void:
 	var text := CreditsText.build(GameSession.content)
 	assert_true(text.contains("OGA-BY"), "credits name licences")
 	assert_true(text.contains("Stephen Challener"), "credits name LPC authors")
+	assert_true(text.contains("jakeeaton"), "credits name the recorded punch's author")
+	assert_true(text.contains("License: Attribution 4.0"), "and its licence")
+	assert_true(
+		text.contains(
+			(
+				"multi punch.wav by Shikamarunara74 -- https://freesound.org/s/126317/"
+				+ " -- License: Attribution 3.0"
+			)
+		),
+		"the multi-punch credited in the wording its author asks for"
+	)
+	assert_eq(text.count("Shikamarunara74"), 1, "credited once for all its cuts")
+	assert_true(
+		text.contains(
+			(
+				"Punches.mp3 by mrrap4food -- https://freesound.org/s/619053/"
+				+ " -- License: Creative Commons 0"
+			)
+		),
+		"the CC0 punches credited as asked"
+	)
+	for punch: String in GameFeedback.PUNCHES:
+		assert_true(GameSession.content.audio["sounds"].has(punch), "%s is a listed sound" % punch)
 
 
 func test_every_area_has_layered_scenery() -> void:

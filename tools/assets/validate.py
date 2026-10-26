@@ -26,6 +26,7 @@ import gen_dummy  # noqa: E402
 import gen_fx  # noqa: E402
 import gen_sfx  # noqa: E402
 import gen_ui  # noqa: E402
+import import_sounds  # noqa: E402
 from make_spriteframes import render_tres  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -251,8 +252,21 @@ def validate_audio(audio: dict) -> list[str]:
         saved, fresh = wav_samples(path.read_bytes()), wav_samples(gen_sfx.render(sound_id))
         if len(saved) != len(fresh) or any(abs(a - b) > 4 for a, b in zip(saved, fresh)):
             problems.append(f"audio: {sound_id} is out of date; run tools/assets/gen_sfx.py")
-    for sound_id in set(sounds) - set(gen_sfx.SOUNDS):
-        problems.append(f"audio: {sound_id} is listed but not generated")
+    recorded = audio.get("recorded", {})
+    allowed = json.loads(POLICY.read_text())["license_policy"]["allowed"]
+    for sound_id, spec in import_sounds.recorded().items():
+        path = res_path(sounds[sound_id]) if sound_id in sounds else None
+        if path is None or not path.exists() or sound_id not in recorded:
+            problems.append(f"audio: recorded sound {sound_id} missing; run tools/assets/import_sounds.py")
+            continue
+        if path.read_bytes() != import_sounds.render(spec):
+            problems.append(f"audio: {sound_id} is out of date; run tools/assets/import_sounds.py")
+        if not spec.get("authors") or not spec.get("url"):
+            problems.append(f"audio: {sound_id} needs authors and a source url")
+        if not license_ok(str(spec.get("license", "")), allowed):
+            problems.append(f"audio: {sound_id} uses disallowed licence {spec.get('license')!r}")
+    for sound_id in set(sounds) - set(gen_sfx.SOUNDS) - set(import_sounds.recorded()):
+        problems.append(f"audio: {sound_id} is listed but not generated or imported")
     return problems
 
 
@@ -293,6 +307,10 @@ def main() -> int:
     print(f"assets: {count} checked, {len(problems)} problem(s), {len(pending)} pending manual export")
     for asset_id in pending:
         print(f"PENDING {asset_id}: {manifest['assets'][asset_id].get('manual_steps', 'see docs/ASSETS.md')}")
+    # Allowed for the free game, but flagged so a paid launch cannot miss them.
+    for sound_id, spec in sorted(import_sounds.recorded().items()):
+        if spec.get("replace_before_paid"):
+            print(f"REPLACE BEFORE PAID FEATURES {sound_id}: {spec['attribution']}")
     return 1 if problems else 0
 
 

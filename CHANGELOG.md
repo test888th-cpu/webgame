@@ -4,6 +4,31 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — A real punch sound
+- Fists and kicks that land now sound like a punch, picked at random from six recorded
+  hits so combos do not repeat one sound: "Punch 5" by jakeeaton (Freesound, CC-BY 4.0)
+  and five punches cut from "multi punch" by Shikamarunara74 (Freesound, CC-BY 3.0),
+  each trimmed so the impact plays within 20 ms. The in-game credits use each recording's attribution line
+  as given, e.g. "multi punch.wav by Shikamarunara74 -- https://freesound.org/s/126317/
+  -- License: Attribution 3.0".
+- Four more punches from "Punches.mp3" by mrrap4food (Freesound, CC0 as listed), ten in
+  all. That file's tags name a commercial library (Hollywood Edge), so it is kept only
+  while the game is free: it is marked `replace_before_paid` and the validator reminds
+  on every run (docs/ASSETS.md). Heavy blows play it lower with the old thump under
+  it; weapon hits keep their own sounds. Credited in the in-game credits.
+- `tools/assets/import_sounds.py` imports recorded sounds listed in
+  `art/sounds/sounds.json` (cut, fade, normalise to -1 dBFS) with their authors,
+  licence and source; the validator checks the licence against the policy and that the
+  file matches a fresh import. The other supplied file (punches.mp3) was not used: its
+  tags say "copyright 1999 Hollywood Edge", a commercial library.
+
+### Changed — Riku at hero size
+- Riku looked smaller than the NPCs: he was as tall as them in pixels, but his realistic
+  proportions (small head, slim build) read smaller next to the big-headed LPC cast. He
+  is now drawn 20% larger (about 60 px tall in his guard, in 80x80 frames), so he stands
+  out as a hero. `FighterView` reads each art's frame size for the weapon hand and fist
+  instead of assuming 64x64.
+
 ### Added — Riku Sato, the Boxer (third hero)
 - A third playable hero with art by the project owner (walk and punch sheets in
   `art/custom/hero_riku/`): the all-rounder, between Mika and Oren on every stat

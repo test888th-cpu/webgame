@@ -23,7 +23,6 @@ const FLASH_SHADER := preload("res://scenes/fighter/flash.gdshader")
 ## Where a weapon sits without hand sockets (polygon figure), facing right.
 const FALLBACK_HAND := Vector2(10, -24)
 const FALLBACK_ANGLE := 35.0
-const FRAME_WIDTH := 64.0
 
 @export var body_color := Color(0.86, 0.42, 0.2)
 @export var show_health_bar := false
@@ -41,6 +40,8 @@ var _flash := 0.0
 var _flash_color := Color.WHITE
 var _freeze := 0.0
 var _hands := {}
+## The art's frame size (LPC sheets are 64x64; custom art may be larger).
+var _frame := Vector2(64, 64)
 var _rows := {}
 var _hand_sheet: Texture2D
 var _held: Sprite2D
@@ -90,6 +91,8 @@ func set_art(id: String, art: Dictionary) -> void:
 	art_id = id
 	var entry: Dictionary = art.get(id, {})
 	_hands = entry.get("hands", {})
+	var frame_size: Array = entry.get("frame_size", [64, 64])
+	_frame = Vector2(frame_size[0], frame_size[1])
 	_rows = {}
 	for anim: String in entry.get("animations", {}):
 		_rows[anim] = int(entry["animations"][anim]["row"])
@@ -189,7 +192,7 @@ func _update_held() -> void:
 	var facing := float(fighter.facing)
 	if _sprite and facing < 0.0:
 		# The sheet is drawn facing right; flipping mirrors it within its frame.
-		hand.x = 2.0 * (_sprite.offset.x + _sprite.position.x) + FRAME_WIDTH - hand.x
+		hand.x = 2.0 * (_sprite.offset.x + _sprite.position.x) + _frame.x - hand.x
 	elif not _sprite:
 		hand.x *= facing
 	_held.position = hand
@@ -216,7 +219,7 @@ func _update_fist() -> void:
 		return
 	_fist.texture = _hand_sheet
 	_fist.material = _sprite.material
-	_fist.region_rect = Rect2(_sprite.frame * FRAME_WIDTH, _rows[anim] * FRAME_WIDTH, 64, 64)
+	_fist.region_rect = Rect2(Vector2(_sprite.frame, _rows[anim]) * _frame, _frame)
 	_fist.offset = _sprite.offset
 	_fist.position = _sprite.position
 	_fist.flip_h = _sprite.flip_h

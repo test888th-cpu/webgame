@@ -6,11 +6,12 @@
     "license": "Proprietary (project owner)",
     "notes": "Original character art supplied by the project owner (made with the owner's own AI tools). hurt, down and the guard pose are derived from these frames by tools/assets/custom_import.py."
   },
-  "frame_size": [64, 64],
-  "feet": [32, 62],
+  "frame_size": [80, 80],
+  "feet": [40, 77],
+  "portrait_size": 26,
   "sheets": {
-    "walk": {"file": "walk.png", "cols": 5, "rows": 3, "count": 14, "scale": 0.33, "outline": true},
-    "punch": {"file": "punch.png", "cols": 5, "rows": 5, "count": 23, "scale": 0.256, "outline": true}
+    "walk": {"file": "walk.png", "cols": 5, "rows": 3, "count": 14, "scale": 0.396, "outline": true},
+    "punch": {"file": "punch.png", "cols": 5, "rows": 5, "count": 23, "scale": 0.307, "outline": true}
   },
   "animations": {
     "idle": {"sheet": "punch", "frames": [0, 1, 2, 3, 4, 3, 2, 1], "fps": 6},
