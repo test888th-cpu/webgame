@@ -101,6 +101,10 @@ equipment) is stored per hero. Temporary combat state is never persisted.
   pose freeze on hits, dust on knockdowns and dodges, an effect per skill, camera shake
   on heavy blows, a red vignette when the hero is hurt, a level-up light and banner, and
   sound for every action. All presentation only.
+- **[built] Fair-fight rules** (`tests/unit/test_fairness.gd`): every enemy attack that
+  opens a fight and floors the hero or breaks guard is telegraphed with at least 16
+  ticks of warning; every telegraphed attack leaves at least 20 ticks to punish; every
+  boss phase adds an attack, not only bigger numbers.
 - Hits have hit stun, knockback and recovery. Elites telegraph their attacks. Only a few
   enemies attack at the same time (attack tokens) so crowds stay readable.
 - All rules live in `client/sim/` as data plus pure functions, so the server can be the
@@ -143,7 +147,7 @@ equipment) is stored per hero. Temporary combat state is never persisted.
 | Canal Works | 2 | the same, tougher | Sludge Foreman |
 | Rail Yards | 4 | Dock Thugs, Rail Bruisers, Smoglings, Tar Rats | |
 | Night Market | 6 | Market Punks (fast combos), Thugs, Bruisers, Smog Warden; Kenji's Night Stall | |
-| Smokestack Refinery | 8 | Punks, Thugs, Bruisers, Refinery Enforcer (elite) | Furnace Baron (two phases) |
+| Smokestack Refinery | 8 | Punks, Thugs, Bruisers, Refinery Enforcer (elite) | Furnace Baron (two phases: a wide furnace slam; below half HP a telegraphed 110 px charge that leaves him open for 40 ticks) |
 
 Chief Odo's quest chain continues past the Foreman: Rail Yard Rumble, Market Lights,
 then The Furnace Baron. Better gear (rare to legendary, levels 5 to 8) drops and is sold

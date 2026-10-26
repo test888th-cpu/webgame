@@ -417,7 +417,11 @@
           "speed": 0.9,
           "power": 1.35,
           "cooldown": 30,
-          "heavy_chance": 0.45
+          "heavy_chance": 0.45,
+          "moveset": {
+            "light": "baron_haymaker",
+            "heavy": "baron_rush"
+          }
         }
       ],
       "xp": 420,

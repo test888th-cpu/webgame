@@ -167,7 +167,10 @@ func _press_attack(
 		planned = ""
 		return input
 	var near := move.reach_offset - CombatRules.HURT_HALF_WIDTH + RANGE_MARGIN
-	var far := move.reach_offset + move.reach + CombatRules.HURT_HALF_WIDTH - RANGE_MARGIN
+	# A lunge carries its hitbox forward, so a charge starts from further out.
+	var far := (
+		move.reach_offset + move.reach + move.advance + CombatRules.HURT_HALF_WIDTH - RANGE_MARGIN
+	)
 	var dy := target.position.y - me.position.y
 	var in_lane := absf(dy) <= move.depth_tolerance * 0.6
 	if distance >= near and distance <= far and in_lane:

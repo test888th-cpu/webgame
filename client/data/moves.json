@@ -665,6 +665,22 @@
       "telegraph": true,
       "anim": "heavy"
     },
+    "baron_rush": {
+      "startup": 24,
+      "active": 12,
+      "recovery": 40,
+      "damage": 22,
+      "hitstun": 30,
+      "knockback": 100,
+      "reach_offset": 0,
+      "reach": 30,
+      "depth_tolerance": 16,
+      "advance": 110,
+      "guard_break": true,
+      "knockdown": true,
+      "telegraph": true,
+      "anim": "heavy"
+    },
     "liver_shot": {
       "startup": 5,
       "active": 4,

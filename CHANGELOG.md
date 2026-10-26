@@ -4,6 +4,16 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — The Furnace Baron charges; fair-fight rules (IL-1)
+- Below half HP the Furnace Baron no longer just hits harder: he charges (new
+  `baron_rush`: 24 ticks of warning, carries him 110 px, breaks guard, knocks down) and
+  is left open for 40 ticks after it. Enemy AI now starts lunging attacks from the range
+  the lunge covers, so a charge is seen coming instead of starting point-blank.
+- `tests/unit/test_fairness.gd` turns the blueprint's quality bar into rules every enemy
+  must pass: openers that floor or break guard are telegraphed with at least 16 ticks of
+  warning, telegraphed attacks leave at least 20 ticks to punish, and every boss phase
+  adds a new attack. 4 new tests (168 total). This completes milestone IL-1.
+
 ### Added — Throw the weapon in hand (IL-1)
 - With nothing underfoot to pick up, E now **throws** the held weapon instead of
   putting it down: a short wind-up, then it spins along the street (about 160 px), hits
