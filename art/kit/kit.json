@@ -263,6 +263,97 @@
         0.925,
         0.865
       ]
+    },
+    "sewer_pipe": {
+      "file": "sewer_pipe.jpg",
+      "height": 50,
+      "haze": true
+    },
+    "tunnel_wall": {
+      "file": "tunnel_wall.jpg",
+      "height": 190,
+      "haze": true
+    },
+    "motorbike_row": {
+      "file": "motorbike_row.jpg",
+      "height": 32,
+      "haze": true
+    },
+    "pickup_truck": {
+      "file": "pickup_truck.jpg",
+      "height": 40,
+      "haze": true
+    },
+    "barrier_booth": {
+      "file": "barrier_booth.jpg",
+      "height": 60,
+      "haze": true
+    },
+    "carpark_facade": {
+      "file": "carpark_facade.jpg",
+      "height": 190,
+      "haze": true
+    },
+    "car_wreck": {
+      "file": "car_wreck.jpg",
+      "height": 40
+    },
+    "oil_drums": {
+      "file": "oil_drums.jpg",
+      "height": 34
+    },
+    "scrap_pile": {
+      "file": "scrap_pile.jpg",
+      "height": 38,
+      "haze": true
+    },
+    "rusted_fence": {
+      "file": "rusted_fence.jpg",
+      "height": 60,
+      "haze": true,
+      "crop": [
+        0,
+        0.27,
+        1,
+        1
+      ],
+      "hole_margin": 45
+    },
+    "junk_shop": {
+      "file": "junk_shop.jpg",
+      "height": 150,
+      "haze": true
+    },
+    "chair_pile": {
+      "file": "chair_pile.jpg",
+      "height": 36
+    },
+    "tyre_stack": {
+      "file": "tyre_stack.jpg",
+      "height": 34
+    },
+    "work_lamp_string": {
+      "file": "work_lamp_string.jpg",
+      "height": 40
+    },
+    "crowd_silhouettes": {
+      "file": "crowd_silhouettes.jpg",
+      "height": 70,
+      "crop": [
+        0.25,
+        0,
+        1,
+        1
+      ]
+    },
+    "ring_ropes": {
+      "file": "ring_ropes.jpg",
+      "height": 60
+    },
+    "warehouse_wall": {
+      "file": "warehouse_wall.jpg",
+      "height": 190,
+      "haze": true
     }
   },
   "themes": {

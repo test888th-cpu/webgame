@@ -11277,6 +11277,15 @@
       "notes": "HD-2D street pieces painted by the project owner with their own AI tools; keyed, trimmed and laid out by tools/assets/kit_import.py."
     },
     "pieces": {
+      "barrier_booth": {
+        "digest": "9314233774c371ce",
+        "file": "res://assets/kit/barrier_booth.png",
+        "hd": 2,
+        "size": [
+          172,
+          120
+        ]
+      },
       "blank_sign_tall": {
         "digest": "fa3d81fd1dfc79ad",
         "file": "res://assets/kit/blank_sign_tall.png",
@@ -11304,6 +11313,24 @@
           124
         ]
       },
+      "car_wreck": {
+        "digest": "c7e9186bd06618f0",
+        "file": "res://assets/kit/car_wreck.png",
+        "hd": 2,
+        "size": [
+          203,
+          80
+        ]
+      },
+      "carpark_facade": {
+        "digest": "217233337725b641",
+        "file": "res://assets/kit/carpark_facade.png",
+        "hd": 2,
+        "size": [
+          611,
+          380
+        ]
+      },
       "cat": {
         "digest": "0396ec6aa67d7422",
         "file": "res://assets/kit/cat.png",
@@ -11311,6 +11338,15 @@
         "size": [
           35,
           36
+        ]
+      },
+      "chair_pile": {
+        "digest": "07f081f26cd56c79",
+        "file": "res://assets/kit/chair_pile.png",
+        "hd": 2,
+        "size": [
+          97,
+          72
         ]
       },
       "closed_shop": {
@@ -11347,6 +11383,15 @@
         "size": [
           65,
           80
+        ]
+      },
+      "crowd_silhouettes": {
+        "digest": "a298d8bd436b4d6f",
+        "file": "res://assets/kit/crowd_silhouettes.png",
+        "hd": 2,
+        "size": [
+          730,
+          140
         ]
       },
       "dog_sitting": {
@@ -11421,6 +11466,15 @@
           120
         ]
       },
+      "junk_shop": {
+        "digest": "96fc1fc423546e9f",
+        "file": "res://assets/kit/junk_shop.png",
+        "hd": 2,
+        "size": [
+          236,
+          300
+        ]
+      },
       "massage_shop": {
         "digest": "e67475b11913e5b0",
         "file": "res://assets/kit/massage_shop.png",
@@ -11439,6 +11493,15 @@
           68
         ]
       },
+      "motorbike_row": {
+        "digest": "7d4b5b096ad8cbb6",
+        "file": "res://assets/kit/motorbike_row.png",
+        "hd": 2,
+        "size": [
+          229,
+          64
+        ]
+      },
       "noodle_shop": {
         "digest": "45d5fb262e12a588",
         "file": "res://assets/kit/noodle_shop.png",
@@ -11448,6 +11511,15 @@
           200
         ]
       },
+      "oil_drums": {
+        "digest": "34fc258ee8a5b188",
+        "file": "res://assets/kit/oil_drums.png",
+        "hd": 2,
+        "size": [
+          84,
+          68
+        ]
+      },
       "pharmacy": {
         "digest": "0efb0136488de38b",
         "file": "res://assets/kit/pharmacy.png",
@@ -11455,6 +11527,15 @@
         "size": [
           252,
           200
+        ]
+      },
+      "pickup_truck": {
+        "digest": "5962f8ccd7421aa3",
+        "file": "res://assets/kit/pickup_truck.png",
+        "hd": 2,
+        "size": [
+          172,
+          80
         ]
       },
       "plastic_stools": {
@@ -11484,6 +11565,15 @@
           340
         ]
       },
+      "ring_ropes": {
+        "digest": "723f2126aa047b0d",
+        "file": "res://assets/kit/ring_ropes.png",
+        "hd": 2,
+        "size": [
+          245,
+          120
+        ]
+      },
       "road_tile": {
         "digest": "9c21d26d4759627c",
         "file": "res://assets/kit/road_tile.png",
@@ -11493,6 +11583,33 @@
           220
         ],
         "tile": true
+      },
+      "rusted_fence": {
+        "digest": "2e782df8f9aea8d8",
+        "file": "res://assets/kit/rusted_fence.png",
+        "hd": 2,
+        "size": [
+          391,
+          120
+        ]
+      },
+      "scrap_pile": {
+        "digest": "5bbc020c25afbec8",
+        "file": "res://assets/kit/scrap_pile.png",
+        "hd": 2,
+        "size": [
+          134,
+          76
+        ]
+      },
+      "sewer_pipe": {
+        "digest": "8e2d1ff76994a23a",
+        "file": "res://assets/kit/sewer_pipe.png",
+        "hd": 2,
+        "size": [
+          97,
+          100
+        ]
       },
       "shophouse_a": {
         "digest": "1bd4d98859b77462",
@@ -11645,6 +11762,24 @@
         ],
         "tile": true
       },
+      "tunnel_wall": {
+        "digest": "edd5dfe4a5a9c9eb",
+        "file": "res://assets/kit/tunnel_wall.png",
+        "hd": 2,
+        "size": [
+          846,
+          380
+        ]
+      },
+      "tyre_stack": {
+        "digest": "870a98a7b317fc98",
+        "file": "res://assets/kit/tyre_stack.png",
+        "hd": 2,
+        "size": [
+          48,
+          68
+        ]
+      },
       "umbrella_stall": {
         "digest": "a06611a9a8b2d24f",
         "file": "res://assets/kit/umbrella_stall.png",
@@ -11661,6 +11796,24 @@
         "size": [
           78,
           108
+        ]
+      },
+      "warehouse_wall": {
+        "digest": "6a95e90aba9474f3",
+        "file": "res://assets/kit/warehouse_wall.png",
+        "hd": 2,
+        "size": [
+          740,
+          380
+        ]
+      },
+      "work_lamp_string": {
+        "digest": "b5755180eb01ee8e",
+        "file": "res://assets/kit/work_lamp_string.png",
+        "hd": 2,
+        "size": [
+          444,
+          80
         ]
       }
     },
