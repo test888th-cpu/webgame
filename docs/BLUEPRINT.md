@@ -162,7 +162,7 @@ Market Punk 68 (เดิม 169), Refinery Enforcer 68, Furnace Baron 74 ticks;
 
 | # | คำถาม | คำแนะนำ | ผลกระทบ |
 |---|---|---|---|
-| D1 | เปลี่ยนชื่อเกมเป็น "The Iron Legacy"? | ใช่ เปลี่ยนเฉพาะชื่อที่แสดง (`project.godot` `config/name`, Title, README) | ต่ำ แต่บน desktop โฟลเดอร์ `user://` ของ Godot ตั้งชื่อตาม `config/name` (ตอนนี้ไม่ได้ตั้ง `custom_user_dir_name`): **ต้องตั้งให้คงที่ก่อนเปลี่ยนชื่อ ไม่อย่างนั้นเซฟเดิมหาย** บนเว็บต้องทดสอบยืนยันใน smoke test |
+| D1 | เปลี่ยนชื่อเกมเป็น "The Iron Legacy"? | ใช่ เปลี่ยนเฉพาะชื่อที่แสดง (`project.godot` `config/name`, Title, README) | ต่ำ แต่บน desktop โฟลเดอร์ `user://` ของ Godot ตั้งชื่อตาม `config/name` (ตอนนี้ไม่ได้ตั้ง `custom_user_dir_name`): **ต้องตั้งให้คงที่ก่อนเปลี่ยนชื่อ ไม่อย่างนั้นเซฟเดิมหาย** บนเว็บต้องทดสอบยืนยันใน smoke test **(ทำแล้ว IL-2: ทดสอบในเบราว์เซอร์จริงพบว่าเว็บก็ย้ายด้วย จึงให้ `SaveStore` คัดลอก save/settings จากโฟลเดอร์ชื่อเก่าตอนเปิดเกมครั้งแรก ไม่ลบของเดิม)** |
 | D2 | ใช้โลก Iron City + The Core แทน Port Verrin + The Murk? | ใช่ โดยตีความ The Murk ใหม่ว่าเป็นควันพิษจากของเสียของ The Core (STORY_BIBLE §2) | ต่ำ: แก้ข้อความใน JSON และเอกสาร id ไม่เปลี่ยน |
 | D3 | ผูกฮีโร่เดิมกับอาชีพ: Riku = Boxer, Oren = Street Brawler, Mika = Footballer แล้วเพิ่ม Basketball, Police, Soldier ภายหลัง? Sela/Juno/Ivy ยกเลิก? | ใช่ (ชุดท่าเดิมเข้ากับอาชีพเหล่านี้: Oren มี headbutt/clothesline, Mika มี whirlwind kick และ rush) | ต่ำ: เพิ่มฟิลด์ `class` ใน `heroes.json` เซฟไม่กระทบ |
 | D4 | เลื่อนงานออนไลน์ (ROADMAP M3) ไปหลัง Single-player เสร็จ? | ใช่ ตาม Master Prompt แต่ยังคงกฎ "rules อยู่ใน `sim/`" เพื่อให้ server ใช้ได้ภายหลัง | ต้องแก้ ROADMAP และบรรทัด "Milestone 3" ใน CLAUDE.md |

@@ -6,8 +6,45 @@ extends Node
 ## backend owns progression and this becomes a cache of the server's copy.
 
 const DEFAULT_PATH := "user://save.json"
+## Godot names the user data folder after the project, so renaming the game
+## from "Ironbound Streets" to "The Iron Legacy" moved user:// to a new,
+## empty folder (in the browser too: IndexedDB holds the same folder tree).
+## Players' files are copied over from the old folder on first start; the
+## originals are left in place, never deleted.
+const FORMER_NAMES := ["Ironbound Streets"]
+const CARRIED_FILES := ["save.json", "settings.json"]
 
 var path := DEFAULT_PATH
+
+
+func _init() -> void:
+	# Runs before GameSession reads the settings.
+	var here := OS.get_user_data_dir()
+	for former: String in FORMER_NAMES:
+		carry_over(here.get_base_dir().path_join(former), here, CARRIED_FILES)
+
+
+## Copies each of `files` from `from_dir` to `to_dir` when it exists there
+## and is not in `to_dir` yet, so newer files are never overwritten. Returns
+## the files copied.
+static func carry_over(from_dir: String, to_dir: String, files: Array) -> Array[String]:
+	var copied: Array[String] = []
+	for file: String in files:
+		var source := from_dir.path_join(file)
+		var target := to_dir.path_join(file)
+		if not FileAccess.file_exists(source) or FileAccess.file_exists(target):
+			continue
+		var data := FileAccess.get_file_as_bytes(source)
+		var out := FileAccess.open(target, FileAccess.WRITE)
+		if out == null:
+			push_warning(
+				"could not carry %s over: %s" % [file, error_string(FileAccess.get_open_error())]
+			)
+			continue
+		out.store_buffer(data)
+		out.close()
+		copied.append(file)
+	return copied
 
 
 func has_save() -> bool:

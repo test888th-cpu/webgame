@@ -4,6 +4,19 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed — The game is now *The Iron Legacy* (IL-2, decision D1)
+- Project name, browser tab, title logo ("THE / IRON / LEGACY") and credits. The title
+  tagline promises only the street ("Take Iron City back, one street at a time"), since
+  the story bible keeps The Core secret until chapter 3. The README is retitled.
+- **Saves survive the rename.** Godot names the user data folder after the project, in
+  the browser too (checked in Chromium: a save made by the old build was not seen by
+  the renamed one). `SaveStore` now copies `save.json` and `settings.json` from the old
+  "Ironbound Streets" folder on first start, never overwriting a newer file and never
+  deleting the original. Verified in a real browser: a save made by the old build
+  continues in the new one. 3 new tests (171 total).
+- Internal names stay (`window.ironboundProbe`, the API image name), as renaming them
+  changes nothing a player sees.
+
 ### Added — The Furnace Baron charges; fair-fight rules (IL-1)
 - Below half HP the Furnace Baron no longer just hits harder: he charges (new
   `baron_rush`: 24 ticks of warning, carries him 110 px, breaks guard, knocks down) and
