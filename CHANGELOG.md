@@ -4,6 +4,13 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed — Riku at hero size
+- Riku looked smaller than the NPCs: he was as tall as them in pixels, but his realistic
+  proportions (small head, slim build) read smaller next to the big-headed LPC cast. He
+  is now drawn 20% larger (about 60 px tall in his guard, in 80x80 frames), so he stands
+  out as a hero. `FighterView` reads each art's frame size for the weapon hand and fist
+  instead of assuming 64x64.
+
 ### Added — Riku Sato, the Boxer (third hero)
 - A third playable hero with art by the project owner (walk and punch sheets in
   `art/custom/hero_riku/`): the all-rounder, between Mika and Oren on every stat
