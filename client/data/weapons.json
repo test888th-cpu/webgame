@@ -89,6 +89,51 @@
       },
       "material": "wood",
       "description": "Raise it high and bring it down. Every swing knocks down. Slows you."
+    },
+    "frying_pan": {
+      "name": "Frying Pan",
+      "sprite": "weapon_frying_pan",
+      "grip": "hand",
+      "durability": 6,
+      "speed": 1.0,
+      "weight": 20,
+      "min_level": 1,
+      "moveset": {
+        "light": "pan_swing",
+        "heavy": "pan_bonk"
+      },
+      "material": "metal",
+      "description": "Bonk. The heavy swing rings their bell and breaks a guard."
+    },
+    "wrench": {
+      "name": "Pipe Wrench",
+      "sprite": "weapon_wrench",
+      "grip": "hand",
+      "durability": 12,
+      "speed": 1.0,
+      "weight": 16,
+      "min_level": 2,
+      "moveset": {
+        "light": "wrench_swing",
+        "heavy": "wrench_crack"
+      },
+      "material": "metal",
+      "description": "Quick, sturdy swings that rarely break."
+    },
+    "baseball_bat": {
+      "name": "Baseball Bat",
+      "sprite": "weapon_baseball_bat",
+      "grip": "hand",
+      "durability": 9,
+      "speed": 0.95,
+      "weight": 14,
+      "min_level": 3,
+      "moveset": {
+        "light": "bat_swing",
+        "heavy": "bat_homerun"
+      },
+      "material": "wood",
+      "description": "Long reach. The heavy swing sends them flying."
     }
   }
 }

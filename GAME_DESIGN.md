@@ -82,13 +82,15 @@ equipment) is stored per hero. Temporary combat state is never persisted.
   authority.
 
 - **[built] Street weapons** (`client/data/weapons.json`): knife, bottle, wooden
-  plank, steel pipe, machete and folding chair lie on the street (each area's
+  plank, steel pipe, machete, folding chair, frying pan, pipe wrench and baseball bat
+  lie on the street (each area's
   `weapons` block says how many and which, by weight; stronger ones only from a
   minimum area level). E picks up the weapon underfoot (dropping the one in hand), or
   puts the held one down. A weapon replaces Z/X with its own moves, always in the same hand: the knife
   stabs straight ahead, everything else swings from behind the head forward and down
   (knife: quick stabs and a lunge; pipe: long swings and a guard-breaking slam; chair: every swing
-  knocks down but slows you), wears out with each blow that lands (a bottle breaks
+  knocks down but slows you; frying pan: the heavy bonk dazes and breaks a guard;
+  wrench: quick and sturdy; bat: long reach and a heavy swing that sends them flying), wears out with each blow that lands (a bottle breaks
   after two) and is drawn in the fighter's hand, following every swing. **Anyone
   knocked down drops their weapon** and must pick it up again. Skills and items work
   as usual while armed. Weapons belong to their street: leaving an area puts the

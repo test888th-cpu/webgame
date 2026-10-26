@@ -4,6 +4,16 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — Painted street weapons, and a frying pan, wrench and bat
+- The street weapons now use the project owner's paintings, reduced to hand-sized
+  pixel sprites with an outline like the characters (in hand, on the street and on
+  the HUD badge). `gen_ui.py` keys them from their green backdrop and puts the
+  handle's end under the grip; `art/weapons/weapons.json` lists them.
+- Three new weapons: **frying pan** (from level 1; the heavy bonk dazes and breaks a
+  guard), **pipe wrench** (from level 2; quick, sturdy), **baseball bat** (from level
+  3; long reach, a heavy swing that sends them flying). Added to the area weapon
+  pools.
+
 ### Changed — HD-2D Bangkok streets
 - Every area is now built from a kit of painted pieces (Octopath-style HD-2D): shops
   (convenience store, noodle shop, massage shop, pharmacy, a shuttered shop),

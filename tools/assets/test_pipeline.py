@@ -256,6 +256,23 @@ class KitImportTest(unittest.TestCase):
                 self.assertTrue(80 <= p["x"] - half and p["x"] + half <= 1720, "clear of the exits")
 
 
+class PaintedWeaponTest(unittest.TestCase):
+    def test_painted_weapons_fit_the_cell_with_the_handle_in_the_fist(self) -> None:
+        import gen_ui
+
+        specs = gen_ui.weapon_specs()
+        self.assertTrue(specs, "the owner's weapons are listed")
+        for name, spec in specs.items():
+            cell = gen_ui.painted_weapon(spec)
+            self.assertEqual(cell.size, gen_ui.WEAPON_SIZE, name)
+            alpha = cell.getchannel("A")
+            box = alpha.getbbox()
+            self.assertIsNotNone(box, name)
+            self.assertGreater(box[1], 0, f"{name} is not cut off at the top")
+            grip = gen_ui.WEAPON_GRIP
+            self.assertEqual(alpha.getpixel(grip), 255, f"{name} has its handle at the grip")
+
+
 class RecordedSoundTest(unittest.TestCase):
     def test_recorded_sounds_are_cut_faded_and_below_full_scale(self) -> None:
         for sound_id, spec in import_sounds.recorded().items():

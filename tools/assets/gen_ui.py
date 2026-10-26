@@ -6,6 +6,10 @@
 Writes client/assets/ui/icons.png and records each icon's region in the
 manifest's "ui" section. Items name their icon in items.json ("icon"); the
 validator checks every named icon exists and that this output is current.
+
+Weapons come from the owner's paintings in art/weapons/ (weapons.json) when
+there is one, reduced to hand-sized pixel sprites; otherwise from the code
+painters below.
 """
 
 from __future__ import annotations
@@ -15,6 +19,10 @@ import sys
 from pathlib import Path
 
 from PIL import Image, ImageDraw
+
+sys.path.insert(0, str(Path(__file__).parent))
+import kit_import  # noqa: E402
+from custom_import import outlined  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "client" / "assets" / "ui"
@@ -611,6 +619,34 @@ def weapon_chair(d: ImageDraw.ImageDraw) -> None:
     d.line((12, 17, 7, 9), fill=metal)
 
 
+WEAPON_ART = ROOT / "art" / "weapons"
+
+
+def painted_weapon(spec: dict) -> Image.Image:
+    """A painted weapon keyed from its backdrop and shrunk to `length` pixels
+    tall: hard-edged and outlined like the characters, its handle's end
+    centred under the grip."""
+    with Image.open(WEAPON_ART / "src" / spec["file"]) as opened:
+        source = opened.convert("RGB")
+    cut = kit_import.cut_out(source, spec).rotate(spec.get("turn", 0), expand=True)
+    length = int(spec["length"])
+    width = max(1, round(cut.width * length / cut.height))
+    small = cut.convert("RGBa").resize((width, length), Image.LANCZOS).convert("RGBA")
+    small.putalpha(small.getchannel("A").point(lambda v: 255 if v >= 128 else 0))
+    # The handle's end: the middle of the lowest opaque row.
+    alpha = small.getchannel("A").load()
+    bottom = [x for x in range(width) if alpha[x, length - 1]]
+    end = (bottom[0] + bottom[-1]) / 2 if bottom else width / 2
+    cell = Image.new("RGBA", WEAPON_SIZE, (0, 0, 0, 0))
+    cell.alpha_composite(small, (round(WEAPON_GRIP[0] - end), WEAPON_SIZE[1] - 1 - length))
+    return outlined(cell)
+
+
+def weapon_specs() -> dict:
+    path = WEAPON_ART / "weapons.json"
+    return json.loads(path.read_text())["weapons"] if path.exists() else {}
+
+
 WEAPONS = {
     "weapon_knife": weapon_knife,
     "weapon_bottle": weapon_bottle,
@@ -627,7 +663,9 @@ def render() -> tuple[Image.Image, dict]:
     columns = 8
     rows = (len(ICONS) + columns - 1) // columns
     top = rows * SIZE
-    width = max(columns * SIZE, len(SKILL_ICONS) * SKILL, len(WEAPONS) * WEAPON_SIZE[0])
+    painted = weapon_specs()
+    weapons = list(WEAPONS) + sorted(set(painted) - set(WEAPONS))
+    width = max(columns * SIZE, len(SKILL_ICONS) * SKILL, len(weapons) * WEAPON_SIZE[0])
     sheet = Image.new("RGBA", (width, top + SKILL + WEAPON_SIZE[1]), (0, 0, 0, 0))
     regions = {}
     for index, (name, painter) in enumerate(ICONS.items()):
@@ -641,9 +679,12 @@ def render() -> tuple[Image.Image, dict]:
         painter(ImageDraw.Draw(cell))
         sheet.alpha_composite(cell, (index * SKILL, top))
         regions[name] = [index * SKILL, top, SKILL, SKILL]
-    for index, (name, painter) in enumerate(WEAPONS.items()):
-        cell = Image.new("RGBA", WEAPON_SIZE, (0, 0, 0, 0))
-        painter(ImageDraw.Draw(cell))
+    for index, name in enumerate(weapons):
+        if name in painted:
+            cell = painted_weapon(painted[name])
+        else:
+            cell = Image.new("RGBA", WEAPON_SIZE, (0, 0, 0, 0))
+            WEAPONS[name](ImageDraw.Draw(cell))
         x = index * WEAPON_SIZE[0]
         sheet.alpha_composite(cell, (x, top + SKILL))
         regions[name] = [x, top + SKILL, *WEAPON_SIZE]

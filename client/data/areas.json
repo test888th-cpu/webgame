@@ -61,7 +61,8 @@
         ],
         "pool": {
           "plank": 1,
-          "knife": 1
+          "knife": 1,
+          "frying_pan": 1
         }
       },
       "theme": "depot",
@@ -162,7 +163,8 @@
         "pool": {
           "bottle": 4,
           "plank": 3,
-          "knife": 2
+          "knife": 2,
+          "frying_pan": 2
         }
       }
     },
@@ -242,7 +244,9 @@
           "bottle": 3,
           "plank": 3,
           "knife": 2,
-          "chair": 2
+          "chair": 2,
+          "wrench": 2,
+          "frying_pan": 1
         }
       }
     },
@@ -283,7 +287,9 @@
           "pipe": 4,
           "bottle": 3,
           "chair": 2,
-          "knife": 2
+          "knife": 2,
+          "wrench": 3,
+          "baseball_bat": 2
         }
       },
       "encounters": [
@@ -383,7 +389,9 @@
           "knife": 3,
           "chair": 3,
           "machete": 2,
-          "plank": 2
+          "plank": 2,
+          "frying_pan": 3,
+          "baseball_bat": 2
         }
       },
       "npcs": [
@@ -492,7 +500,9 @@
           "pipe": 4,
           "machete": 3,
           "chair": 2,
-          "bottle": 2
+          "bottle": 2,
+          "wrench": 3,
+          "baseball_bat": 2
         }
       },
       "encounters": [
