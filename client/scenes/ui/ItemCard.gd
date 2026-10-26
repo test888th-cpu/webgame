@@ -6,6 +6,8 @@ extends RefCounted
 ## panel, so an item reads the same everywhere.
 
 const WIDTH := 236.0
+## Where-to-get lines shown before "and N more".
+const SOURCES_SHOWN := 3
 
 
 ## The card's information, without buttons. `worn_slot` is set when showing
@@ -60,6 +62,22 @@ static func details(
 		str(item.get("description", "")), UiTheme.SIZE_SMALL, UiTheme.TEXT_DIM, WIDTH - 16
 	)
 	box.add_child(lore)
+	# Where to find more: the farming loop needs a target, not a guess.
+	var sources := content.sources(item_id)
+	if not sources.is_empty() and item.get("type") != "key":
+		box.add_child(UiKit.label("WHERE TO GET", UiTheme.SIZE_CAPTION, UiTheme.TEXT_FAINT))
+		for i in mini(sources.size(), SOURCES_SHOWN):
+			box.add_child(
+				UiKit.label("  " + str(sources[i]["text"]), UiTheme.SIZE_CAPTION, UiTheme.TEXT_DIM)
+			)
+		if sources.size() > SOURCES_SHOWN:
+			box.add_child(
+				UiKit.label(
+					"  and %d more" % (sources.size() - SOURCES_SHOWN),
+					UiTheme.SIZE_CAPTION,
+					UiTheme.TEXT_FAINT
+				)
+			)
 	return box
 
 

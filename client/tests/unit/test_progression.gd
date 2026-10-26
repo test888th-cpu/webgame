@@ -127,7 +127,8 @@ func test_loot_is_deterministic_per_seed() -> void:
 	for i in 20:
 		assert_eq(LootRules.roll(loot, a), LootRules.roll(loot, b), "same seed, same drops")
 	var guaranteed: Dictionary = _content().enemy("sludge_foreman")["loot"]
-	assert_true("foreman_wrench" in LootRules.roll(guaranteed, a)["items"], "boss always drops")
+	# Bosses guarantee upgrade material; their signature gear is a farmed chance.
+	assert_true("refined_alloy" in LootRules.roll(guaranteed, a)["items"], "boss always drops")
 	var roll := LootRules.roll(loot, a)
 	assert_true(roll["money"] >= 20 and roll["money"] <= 35, "money within range")
 

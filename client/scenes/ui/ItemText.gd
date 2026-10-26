@@ -41,6 +41,8 @@ static func kind(item: Dictionary) -> String:
 		return "%s %s" % [rarity, SLOT_NAMES.get(str(item.get("slot")), "Gear")]
 	if item.get("type") == "key":
 		return "Evidence"
+	if item.get("type") == "material":
+		return "%s Material" % rarity
 	return "%s Consumable" % rarity
 
 

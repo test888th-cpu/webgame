@@ -212,7 +212,9 @@ static func bag_order(content: ContentDB, profile: PlayerProfile) -> Array[Strin
 
 static func _sort_key(item: Dictionary) -> String:
 	# Food first, then gear, then evidence at the end of the bag.
-	var group: int = {"consumable": 0, "equipment": 1, "key": 2}.get(item.get("type"), 1)
+	var group: int = {"consumable": 0, "equipment": 1, "material": 2, "key": 3}.get(
+		item.get("type"), 1
+	)
 	var slot := PlayerProfile.SLOTS.find(str(item.get("slot", "")))
 	var rarity := ContentDB.RARITIES.size() - ContentDB.RARITIES.find(str(item.get("rarity")))
 	return "%d%d%d%s" % [group, slot + 1, rarity, item.get("name", "")]

@@ -47,6 +47,10 @@
           {
             "item": "dock_beanie",
             "chance": 0.04
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.15
           }
         ]
       },
@@ -81,6 +85,10 @@
           {
             "item": "lucky_coin",
             "chance": 0.05
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.15
           }
         ]
       },
@@ -121,6 +129,10 @@
           {
             "item": "rebar_pipe",
             "chance": 0.08
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.3
           }
         ]
       },
@@ -166,6 +178,14 @@
           {
             "item": "iron_wraps",
             "chance": 0.35
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.8
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 0.25
           }
         ]
       },
@@ -214,6 +234,14 @@
           {
             "item": "foreman_wrench",
             "chance": 0.3
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 1.0
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 1.0
           }
         ]
       },
@@ -253,6 +281,10 @@
           {
             "item": "fingerless_gloves",
             "chance": 0.03
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.2
           }
         ]
       },
@@ -297,6 +329,10 @@
           {
             "item": "riveted_jacket",
             "chance": 0.03
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.3
           }
         ]
       },
@@ -339,6 +375,10 @@
           {
             "item": "brass_knuckles",
             "chance": 0.03
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.2
           }
         ]
       },
@@ -384,6 +424,14 @@
           {
             "item": "riveted_jacket",
             "chance": 0.12
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.8
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 0.3
           }
         ]
       },
@@ -438,6 +486,14 @@
           {
             "item": "jade_charm",
             "chance": 0.2
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 1.0
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 1.0
           }
         ]
       },

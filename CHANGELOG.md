@@ -4,6 +4,18 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — Upgrade materials and "where to get" (IL-3)
+- Two materials (new item type `material`): **Scrap Metal** (common; dropped by street
+  enemies 15–30%, elites 80%, sold by Ama and Kenji for 30) and **Refined Alloy**
+  (rare; elites 25–30%, Kenji for 300). Every boss now guarantees both, so a boss kill
+  always pays even when the signature gear does not drop. New icons; materials sort
+  between gear and evidence in the bag and can be discarded.
+- Item cards show **WHERE TO GET**: who drops it (chance, where they fight), who sells
+  it and for how much, which quest gives it. Worked out from the loot tables, shops and
+  quests (`ContentDB.sources`), so it can never disagree with them.
+- Fixed a test that only passed by luck: it expected the Sludge Foreman's wrench every
+  time, which stopped being true when boss loot became farmable. 5 new tests (195 total).
+
 ### Added — A tutorial that teaches by doing (IL-2)
 - New heroes are walked through the basics in the Depot Yard, one step at a time in
   the quest card's spot: move, punch the dummy (3 hits), heavy blow, a skill, dodge,

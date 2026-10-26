@@ -304,6 +304,22 @@
       "price": 0,
       "icon": "ledger",
       "description": "The Furnace Baron's accounts. Every week, the same payment from an account at the port, marked only \"for the route\". He was renting South Street to someone."
+    },
+    "scrap_metal": {
+      "name": "Scrap Metal",
+      "type": "material",
+      "rarity": "common",
+      "price": 30,
+      "icon": "scrap_metal",
+      "description": "Bent bolts and offcuts from the street. The Depot workbench turns it into upgrades for whatever you wear."
+    },
+    "refined_alloy": {
+      "name": "Refined Alloy",
+      "type": "material",
+      "rarity": "rare",
+      "price": 300,
+      "icon": "refined_alloy",
+      "description": "A clean factory ingot, far too good for South Street. Tough fighters carry it; high upgrades need it."
     }
   }
 }

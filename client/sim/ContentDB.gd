@@ -9,7 +9,8 @@ extends RefCounted
 const DATA_DIR := "res://data"
 const ART_MANIFEST := "res://assets/manifest.json"
 ## "key": story items (evidence). Kept for good: never sold, used or dropped.
-const ITEM_TYPES := ["consumable", "equipment", "key"]
+## "material": spent on upgrades.
+const ITEM_TYPES := ["consumable", "equipment", "material", "key"]
 ## What a quest giver says when offering, while it is under way, and on
 ## hand-in (quests.json "dialogue").
 const DIALOGUE_LINES := ["offer", "active", "done"]
@@ -120,6 +121,68 @@ func hero(id: String) -> Dictionary:
 
 ## The art a profile's hero shows: the look of the worn body item if the hero
 ## has art for it (e.g. "armoured"), else the hero's default.
+## Where `item_id` comes from, for players: who drops it (and how often, and
+## where they fight), who sells it, which quest gives it. Worked out from
+## the loot tables, shops and quests, so it can never disagree with them.
+## Each entry is {"kind": "drop" | "shop" | "quest", "text"}; drops come
+## first, most likely first.
+func sources(item_id: String) -> Array[Dictionary]:
+	var drops: Array[Dictionary] = []
+	for enemy_id: String in enemies:
+		for drop: Dictionary in enemies[enemy_id].get("loot", {}).get("drops", []):
+			if drop["item"] != item_id:
+				continue
+			var where := _first_area_of(enemy_id)
+			(
+				drops
+				. append(
+					{
+						"kind": "drop",
+						"chance": float(drop["chance"]),
+						"text":
+						(
+							"%s (%d%%)%s"
+							% [
+								enemies[enemy_id]["name"],
+								roundi(float(drop["chance"]) * 100.0),
+								"  -  " + where if where else ""
+							]
+						),
+					}
+				)
+			)
+	drops.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["chance"] > b["chance"])
+	var found: Array[Dictionary] = []
+	found.append_array(drops)
+	for shop_id: String in shops:
+		if item_id in shops[shop_id].get("items", []):
+			found.append(
+				{
+					"kind": "shop",
+					"text": "%s, %d coins" % [shops[shop_id]["name"], int(item(item_id)["price"])]
+				}
+			)
+	for quest_id: String in quests:
+		if quests[quest_id].get("rewards", {}).get("items", {}).has(item_id):
+			found.append({"kind": "quest", "text": 'Quest "%s"' % quests[quest_id]["name"]})
+	return found
+
+
+## The first area (in street order from the start) where `enemy_id` fights.
+func _first_area_of(enemy_id: String) -> String:
+	for area_id: String in areas:
+		var area_data: Dictionary = areas[area_id]
+		var found := false
+		for placed: Dictionary in area_data.get("placed", []):
+			found = found or placed["enemy"] == enemy_id
+		for encounter: Dictionary in area_data.get("encounters", []):
+			for wave: Variant in encounter.get("waves", []):
+				found = found or enemy_id in JSON.stringify(wave)
+		if found:
+			return str(area_data["name"])
+	return ""
+
+
 func hero_art(profile: PlayerProfile) -> String:
 	var sprites: Dictionary = hero(profile.hero).get("sprites", {})
 	var look := str(item(profile.equipment["body"]).get("look", ""))

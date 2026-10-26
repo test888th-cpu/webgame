@@ -512,6 +512,23 @@ def ledger(d: ImageDraw.ImageDraw) -> None:
     d.point((8, 11), fill=(222, 178, 70, 255))
 
 
+# Materials for upgrades: scrap is rough grey metal, alloy a bright ingot.
+def scrap_metal(d: ImageDraw.ImageDraw) -> None:
+    d.polygon([(2, 9), (6, 4), (10, 6), (14, 3), (13, 12), (7, 13), (3, 13)], fill=OUTLINE)
+    d.polygon([(3, 9), (6, 5), (10, 7), (13, 5), (12, 11), (7, 12), (4, 12)], fill=STEEL_DARK)
+    d.line((5, 9, 9, 8), fill=STEEL)
+    d.point((11, 7), fill=(176, 104, 64, 255))
+    d.point((6, 11), fill=(176, 104, 64, 255))
+
+
+def refined_alloy(d: ImageDraw.ImageDraw) -> None:
+    d.polygon([(1, 11), (4, 6), (15, 6), (12, 11)], fill=OUTLINE)
+    d.polygon([(2, 12), (12, 12), (15, 7), (15, 9), (12, 14), (2, 14)], fill=OUTLINE)
+    d.polygon([(3, 10), (5, 7), (14, 7), (12, 10)], fill=(150, 210, 230, 255))
+    d.rectangle((3, 11, 11, 13), fill=(90, 150, 180, 255))
+    d.line((6, 8, 9, 8), fill=(235, 250, 255, 255))
+
+
 def slot_weapon(d: ImageDraw.ImageDraw) -> None:
     d.line((3, 13, 12, 4), fill=SILHOUETTE, width=3)
     d.ellipse((10, 1, 15, 6), fill=SILHOUETTE)
@@ -571,6 +588,8 @@ ICONS = {
     "torn_label": torn_label,
     "forged_note": forged_note,
     "ledger": ledger,
+    "scrap_metal": scrap_metal,
+    "refined_alloy": refined_alloy,
     "slot_weapon": slot_weapon,
     "slot_head": slot_head,
     "slot_body": slot_body,
