@@ -82,9 +82,9 @@ underground fight ring with corrugated walls and work lamps.
 | `steel_gate.jpg` | 70 px | `heavy sliding steel gate with spikes on top, partly open` |
 | `guard_booth.jpg` | 60 px | `small concrete guard booth with a window and a fan, blank sign` |
 
-Status: all 22 pieces above are painted and imported. Fight Club and Rusted Corner use
-them (kit themes `fight_club` and `junkyard`); the Parking Lot, Rat Nest and Gang HQ
-pieces wait for those areas.
+Status: all 22 pieces above are painted, imported and in use (kit themes `fight_club`,
+`junkyard`, `carpark`, `tunnels` and `gang_hq`), except `motorbike_row`, which shows a
+brand logo and waits for a repaint.
 
 ## After painting
 

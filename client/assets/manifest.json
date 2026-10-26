@@ -7649,6 +7649,170 @@
         ],
         "theme": "canal"
       },
+      "gang_hq": {
+        "layers": {
+          "buildings": {
+            "file": "res://assets/environment/gang_hq/buildings.png",
+            "size": [
+              1600,
+              230
+            ]
+          },
+          "far": {
+            "file": "res://assets/environment/gang_hq/far.png",
+            "size": [
+              640,
+              230
+            ]
+          },
+          "ground": {
+            "file": "res://assets/environment/gang_hq/ground.png",
+            "size": [
+              1600,
+              130
+            ]
+          },
+          "sky": {
+            "file": "res://assets/environment/gang_hq/sky.png",
+            "size": [
+              640,
+              230
+            ]
+          }
+        },
+        "props": [
+          {
+            "prop": "crate",
+            "x": 136,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 188,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 293,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 408,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 512,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 567,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 769,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 877,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 977,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 1079,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 1152,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 1271,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 1387,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1506,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 1573,
+            "y": 244
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 87,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 260,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 456,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 633,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 808,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 980,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1163,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1346,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1522,
+            "y": 246
+          }
+        ],
+        "theme": "depot"
+      },
       "night_market": {
         "layers": {
           "buildings": {
@@ -7913,6 +8077,187 @@
         ],
         "theme": "market"
       },
+      "parking_lot": {
+        "layers": {
+          "buildings": {
+            "file": "res://assets/environment/parking_lot/buildings.png",
+            "size": [
+              2000,
+              230
+            ]
+          },
+          "far": {
+            "file": "res://assets/environment/parking_lot/far.png",
+            "size": [
+              640,
+              230
+            ]
+          },
+          "ground": {
+            "file": "res://assets/environment/parking_lot/ground.png",
+            "size": [
+              2000,
+              130
+            ]
+          },
+          "sky": {
+            "file": "res://assets/environment/parking_lot/sky.png",
+            "size": [
+              640,
+              230
+            ]
+          }
+        },
+        "props": [
+          {
+            "prop": "barrel",
+            "x": 100,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 170,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 222,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 310,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 537,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 594,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 673,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 775,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 854,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1049,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1149,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 1267,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 1375,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1452,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 1865,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 2041,
+            "y": 244
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 97,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 264,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 444,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 633,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 809,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 985,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1165,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1350,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1530,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1716,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1891,
+            "y": 246
+          }
+        ],
+        "theme": "depot"
+      },
       "rail_yards": {
         "layers": {
           "buildings": {
@@ -8140,6 +8485,186 @@
           }
         ],
         "theme": "depot"
+      },
+      "rat_nest": {
+        "layers": {
+          "buildings": {
+            "file": "res://assets/environment/rat_nest/buildings.png",
+            "size": [
+              1800,
+              230
+            ]
+          },
+          "far": {
+            "file": "res://assets/environment/rat_nest/far.png",
+            "size": [
+              640,
+              230
+            ]
+          },
+          "ground": {
+            "file": "res://assets/environment/rat_nest/ground.png",
+            "size": [
+              1800,
+              130
+            ]
+          },
+          "sky": {
+            "file": "res://assets/environment/rat_nest/sky.png",
+            "size": [
+              640,
+              230
+            ]
+          }
+        },
+        "props": [
+          {
+            "prop": "pipe_valve",
+            "x": 108,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 261,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 339,
+            "y": 244
+          },
+          {
+            "prop": "bin",
+            "x": 444,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 562,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 781,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 888,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 970,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1052,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1154,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1265,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 1350,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1429,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1514,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1600,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1680,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1757,
+            "y": 244
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 87,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 274,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 452,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 620,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 807,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 983,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1176,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1343,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1522,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1712,
+            "y": 246
+          }
+        ],
+        "theme": "canal"
       },
       "refinery": {
         "layers": {
@@ -9547,6 +10072,233 @@
         },
         "width": 1500
       },
+      "gang_hq": {
+        "far": "skyline_far",
+        "ground": {
+          "road": "road_tile",
+          "sidewalk": "sidewalk_tile"
+        },
+        "placed": [
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": -45,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 172,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 327,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 607,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 849,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 1047,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "guard_booth",
+            "x": 15,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "gang_hq_facade",
+            "x": 213,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "rusted_fence",
+            "x": 497,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "gang_hq_facade",
+            "x": 782,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "guard_booth",
+            "x": 979,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "gang_hq_facade",
+            "x": 1183,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "closed_shop",
+            "x": 1438,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "steel_gate",
+            "x": 1616,
+            "y": 226
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 471,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 536,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 861,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 1100,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "chair_pile",
+            "x": 213,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 1002,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 335,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 615,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 1283,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "chair_pile",
+            "x": 1331,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "chair_pile",
+            "x": 1625,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 128,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 408,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 743,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 668,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 812,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 1235,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 1535,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "chair_pile",
+            "x": 1153,
+            "y": 238
+          },
+          {
+            "layer": "fg",
+            "piece": "fg_leaves",
+            "x": 206,
+            "y": 374
+          },
+          {
+            "layer": "fg",
+            "piece": "fg_leaves",
+            "x": 1341,
+            "y": 374
+          }
+        ],
+        "theme": "gang_hq",
+        "tint": {
+          "back": "#80789a",
+          "far": "#6a6078",
+          "fg": "#3a3040",
+          "front": "#ecd8d0"
+        },
+        "width": 1600
+      },
       "night_market": {
         "far": "skyline_far",
         "ground": {
@@ -9864,6 +10616,245 @@
         },
         "width": 2600
       },
+      "parking_lot": {
+        "far": "skyline_far",
+        "ground": {
+          "road": "road_tile",
+          "sidewalk": "sidewalk_tile"
+        },
+        "placed": [
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": -45,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 129,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 389,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 520,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 695,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 959,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 1110,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "carpark_facade",
+            "x": 209,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "barrier_booth",
+            "x": 536,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "carpark_facade",
+            "x": 850,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "barrier_booth",
+            "x": 1160,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "carpark_facade",
+            "x": 1470,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "barrier_booth",
+            "x": 1798,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "carpark_facade",
+            "x": 2120,
+            "y": 226
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 492,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 930,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 1029,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 192,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 858,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "traffic_cone",
+            "x": 1924,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "traffic_cone",
+            "x": 1419,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "traffic_cone",
+            "x": 99,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "traffic_cone",
+            "x": 334,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 551,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 1262,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 1765,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "cat",
+            "x": 639,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "traffic_cone",
+            "x": 700,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "traffic_cone",
+            "x": 1139,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 751,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "traffic_cone",
+            "x": 1200,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 1319,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 1571,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 1829,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "traffic_cone",
+            "x": 1983,
+            "y": 238
+          },
+          {
+            "layer": "fg",
+            "piece": "fg_leaves",
+            "x": 303,
+            "y": 374
+          },
+          {
+            "layer": "fg",
+            "piece": "fg_leaves",
+            "x": 1394,
+            "y": 374
+          }
+        ],
+        "theme": "carpark",
+        "tint": {
+          "back": "#8e90b0",
+          "far": "#7a7898",
+          "fg": "#3a3448",
+          "track": "#b0b0c8"
+        },
+        "width": 2000
+      },
       "rail_yards": {
         "far": "skyline_far",
         "ground": {
@@ -10151,6 +11142,187 @@
           "top": 100
         },
         "width": 2400
+      },
+      "rat_nest": {
+        "far": "skyline_far",
+        "ground": {
+          "road": "tunnel_floor_tile",
+          "sidewalk": "sidewalk_tile"
+        },
+        "placed": [
+          {
+            "layer": "back",
+            "piece": "tunnel_wall",
+            "x": 198,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "tunnel_wall",
+            "x": 672,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "tunnel_wall",
+            "x": 1142,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 267,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 739,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 1224,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 1707,
+            "y": 226
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 362,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 477,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 611,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 1166,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 1824,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 110,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 251,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 780,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 1458,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 694,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 1227,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 1408,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 200,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 992,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 1076,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 1350,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 421,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 918,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 1538,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 1749,
+            "y": 238
+          }
+        ],
+        "theme": "tunnels",
+        "tint": {
+          "back": "#3e463c",
+          "far": "#4a5048",
+          "fg": "#20261e",
+          "front": "#c8d0c0",
+          "ground": "#b8c0b0",
+          "sidewalk": "#c0c8b8"
+        },
+        "width": 1800
       },
       "refinery": {
         "far": "skyline_far",

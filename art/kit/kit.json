@@ -639,6 +639,147 @@
         20,
         60
       ]
+    },
+    "carpark": {
+      "far": "skyline_far",
+      "ground": {
+        "sidewalk": "sidewalk_tile",
+        "road": "road_tile"
+      },
+      "tint": {
+        "far": "#7a7898",
+        "back": "#8e90b0",
+        "track": "#b0b0c8",
+        "fg": "#3a3448"
+      },
+      "back": {
+        "condo_tower": 1
+      },
+      "back_gap": [
+        60,
+        200
+      ],
+      "front": {
+        "carpark_facade": 1.6,
+        "barrier_booth": 0.6,
+        "closed_shop": 0.5,
+        "convenience_store": 0.3
+      },
+      "front_gap": [
+        0,
+        20
+      ],
+      "props": {
+        "traffic_cone": 1,
+        "trash_bin": 0.7,
+        "crates": 0.5,
+        "oil_drums": 0.5,
+        "tyre_stack": 0.6,
+        "cat": 0.3,
+        "dog_sleeping": 0.3
+      },
+      "prop_gap": [
+        50,
+        110
+      ],
+      "foreground": {
+        "fg_leaves": 1
+      },
+      "fg_gap": [
+        800,
+        1200
+      ]
+    },
+    "tunnels": {
+      "far": "skyline_far",
+      "ground": {
+        "sidewalk": "sidewalk_tile",
+        "road": "tunnel_floor_tile"
+      },
+      "tint": {
+        "far": "#4a5048",
+        "back": "#3e463c",
+        "fg": "#20261e",
+        "front": "#c8d0c0",
+        "ground": "#b8c0b0",
+        "sidewalk": "#c0c8b8"
+      },
+      "back": {
+        "tunnel_wall": 1
+      },
+      "back_gap": [
+        -90,
+        -70
+      ],
+      "front": {
+        "tunnel_wall": 1
+      },
+      "front_gap": [
+        -90,
+        -70
+      ],
+      "props": {
+        "sewer_pipe": 1.2,
+        "drain_grate": 1,
+        "oil_drums": 0.6,
+        "scrap_pile": 0.6,
+        "crates": 0.4,
+        "tyre_stack": 0.4
+      },
+      "prop_gap": [
+        40,
+        100
+      ]
+    },
+    "gang_hq": {
+      "far": "skyline_far",
+      "ground": {
+        "sidewalk": "sidewalk_tile",
+        "road": "road_tile"
+      },
+      "tint": {
+        "far": "#6a6078",
+        "back": "#80789a",
+        "fg": "#3a3040",
+        "front": "#ecd8d0"
+      },
+      "back": {
+        "condo_tower": 1
+      },
+      "back_gap": [
+        60,
+        220
+      ],
+      "front": {
+        "gang_hq_facade": 1.4,
+        "steel_gate": 0.7,
+        "guard_booth": 0.6,
+        "rusted_fence": 0.5,
+        "closed_shop": 0.3
+      },
+      "front_gap": [
+        0,
+        10
+      ],
+      "props": {
+        "crates": 1,
+        "oil_drums": 0.8,
+        "chair_pile": 0.7,
+        "trash_bin": 0.5,
+        "tyre_stack": 0.5,
+        "dog_sitting": 0.3
+      },
+      "prop_gap": [
+        45,
+        100
+      ],
+      "foreground": {
+        "fg_leaves": 1
+      },
+      "fg_gap": [
+        900,
+        1300
+      ]
     }
   }
 }

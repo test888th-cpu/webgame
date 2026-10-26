@@ -118,14 +118,14 @@ Dr. Pim ส่งหลักฐานให้หน่วยงานตรว
 | ฐาน | (Depot: บ้าน, ร้าน, ภารกิจ, หุ่นซ้อม) | `depot_yard` | Depot Yard | 1 | คงเดิม ใช้เป็นที่สอน (tutorial) |
 | 1 | Back Alley | `saltmarket` | Saltmarket Street | 1 | หรือคงชื่อ Saltmarket ให้เป็นซอยหลังตลาด |
 | 2 | Rusted Corner | `rusted_corner` | Rusted Corner | 3 | **ทำแล้ว IL-4** อยู่ระหว่าง Canal Works กับ Rail Yards: แก๊งขว้างขวด (Bottle Thrower) รับเงินจาก "คนของโรงหลอม" ให้กันถนนว่าง |
-| 3 | Parking Lot | - | - | - | ใหม่ |
+| 3 | Parking Lot | `parking_lot` | Parking Lot | 4 | **ทำแล้ว IL-4** อาคารจอดรถระหว่าง Rusted Corner กับ Rail Yards: Pipe Brute เฝ้าทางลาด รถบรรทุกของคนโรงหลอมย้ายลังขึ้นตู้รถไฟตอนกลางคืน |
 | 4 | Freight Yard | `rail_yards` | Rail Yards | 4 | ตรงธีม (ลานขนส่งรถไฟ) |
 | 5 | Night Market | `night_market` | Night Market | 6 | ตรงอยู่แล้ว ที่อยู่ของ Kenji |
 | 6 | Warehouse Row | `refinery` | Smokestack Refinery | 8 | โรงหลอมเถื่อนของ Furnace Baron |
 | 7 | Drainage Tunnels | `canal_works` | Canal Works | 2 | ท่อระบายและคลอง ที่ของ Sludge Foreman **ลำดับเดิมอยู่ก่อน Rail Yards** ต้องเลือก: ย้ายลำดับ หรือคงไว้เป็น "ทางเข้าท่อ" ช่วงต้น |
-| 8 | Rat Nest | - | - | - | ใหม่ (รังแก๊ง Tar Rat) |
+| 8 | Rat Nest | `rat_nest` | Rat Nest | 9 | **ทำแล้ว IL-4** อุโมงค์ระบายน้ำใต้ Refinery รังแก๊ง Tar Rat ที่ซ่อน Baron หลังเขาหนีลงท่อ อยู่ระหว่าง Refinery กับ Gang HQ |
 | 9 | Fight Club | `fight_club` | Fight Club | 7 | **ทำแล้ว IL-4** สังเวียนในซอยหลัง Night Market (ฉากยังเป็นถนน จนกว่าจะมีภาพฉากเฉพาะ) อยู่ระหว่าง Night Market กับ Refinery: Pit Champion เฝ้าประตูหลังของ Baron |
-| 10 | Gang Headquarters | - | - | - | ใหม่ ถ้าทำแล้ว Furnace Baron อาจย้ายมาที่นี่เป็นบอสบท |
+| 10 | Gang Headquarters | `gang_hq` | Gang Headquarters | 9 | **ทำแล้ว IL-4** ตึกบัญชาการของ Furnace Baron ปลายสุดของ South Street: **Baron ย้ายมาเป็นบอสปิดบทที่นี่** (Refinery เหลือ Enforcer เฝ้าโรงหลอม) |
 
 ## 6. ทะเบียนศัตรู: ตีความภาพเดิมให้เข้ากับโลก (เสนอ D6)
 
