@@ -15,6 +15,7 @@ from pathlib import Path
 from PIL import Image
 
 sys.path.insert(0, str(Path(__file__).parent))
+import custom_import  # noqa: E402
 import lpc_build  # noqa: E402
 import make_spriteframes  # noqa: E402
 import unitforge_import  # noqa: E402
@@ -163,6 +164,30 @@ class HandSocketTest(unittest.TestCase):
             for name in ("idle", "walk", "light", "heavy"):
                 frames = asset["hands"].get(name, [])
                 self.assertEqual(len(frames), asset["animations"][name]["frames"], f"{char_id} {name}")
+
+
+class CustomImportTest(unittest.TestCase):
+    def test_committed_custom_art_matches_a_fresh_import(self) -> None:
+        manifest = json.loads(lpc_build.MANIFEST.read_text())
+        for asset_id, asset in manifest["assets"].items():
+            if asset.get("source") != "custom":
+                continue
+            with tempfile.TemporaryDirectory() as tmp:
+                entry = custom_import.import_asset(asset_id, Path(tmp))
+                self.assertEqual(entry, asset, asset_id)
+                for name in ("sheet.png", "hands.png"):
+                    with Image.open(Path(tmp) / asset_id / name) as fresh, \
+                            Image.open(custom_import.OUT_DIR / asset_id / name) as saved:
+                        self.assertEqual(fresh.tobytes(), saved.convert("RGBA").tobytes(), f"{asset_id}/{name}")
+
+    def test_tilting_lays_a_figure_down_about_its_feet(self) -> None:
+        frame = Image.new("RGBA", (64, 64))
+        for y in range(30, 62):
+            frame.putpixel((32, y), (255, 255, 255, 255))
+        flat = custom_import.tilted(frame, 90, 0, (32, 62))
+        box = flat.getbbox()
+        self.assertLessEqual(box[3] - box[1], 2)
+        self.assertLess(box[0], 32)
 
 
 class RecolourTest(unittest.TestCase):

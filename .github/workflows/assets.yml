@@ -53,6 +53,7 @@ jobs:
           python3 tools/assets/unitforge_import.py $ONLY
       - name: Generate scenery, icons, effects, sounds and SpriteFrames, then validate
         run: |
+          python3 tools/assets/custom_import.py
           python3 tools/assets/gen_environment.py
           python3 tools/assets/gen_ui.py
           python3 tools/assets/gen_fx.py

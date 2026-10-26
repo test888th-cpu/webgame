@@ -4,6 +4,21 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — Riku Sato, the Boxer (third hero)
+- A third playable hero with art by the project owner (walk and punch sheets in
+  `art/custom/hero_riku/`): the all-rounder, between Mika and Oren on every stat
+  (115 HP, 105% power, 1 defense, 100% speed). Jab on Z, cross on X, a guard-up idle.
+  Skills: Liver Shot (fastest, long stun, breaks guard), One-Two (step-in knockdown),
+  Dempsey Roll (weaving charge, breaks guard), Knockout Blow (big area finisher), each
+  with its own icon. Starts with fingerless gloves, sneakers, buns and ginger tea.
+- `tools/assets/custom_import.py` imports sheets drawn outside LPC: evens out sheets
+  drawn at different sizes, scales to the game's size with crisp edges, adds the LPC-style
+  dark outline, derives hurt and knock-down by tilting a frame about the feet (the art
+  has no such frames), finds the fist for held weapons, and a portrait crop on the head.
+  Credited to the project owner; the validator accepts owner art for `custom` sources.
+- The "E Grab / Talk" hint moved right of the hotbar so it is not hidden at 1280x720.
+- 1 new game test (139 total) and 2 pipeline tests.
+
 ### Fixed — Weapons stay in one hand and move like the weapon
 - A held weapon now always sits in the same (near) hand, through idle, walk, swing, hit
   and dodge. Before, the socket followed whichever hand was closest, so the weapon

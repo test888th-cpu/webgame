@@ -664,6 +664,66 @@
       "knockdown": true,
       "telegraph": true,
       "anim": "heavy"
+    },
+    "liver_shot": {
+      "startup": 5,
+      "active": 4,
+      "recovery": 18,
+      "damage": 27,
+      "hitstun": 46,
+      "knockback": 16,
+      "reach_offset": 2,
+      "reach": 28,
+      "depth_tolerance": 12,
+      "energy_cost": 10,
+      "guard_break": true,
+      "anim": "heavy"
+    },
+    "one_two": {
+      "startup": 7,
+      "active": 8,
+      "recovery": 18,
+      "damage": 23,
+      "hitstun": 30,
+      "knockback": 60,
+      "reach_offset": 0,
+      "reach": 44,
+      "depth_tolerance": 16,
+      "energy_cost": 15,
+      "advance": 30,
+      "knockdown": true,
+      "anim": "light"
+    },
+    "dempsey_roll": {
+      "startup": 7,
+      "active": 13,
+      "recovery": 20,
+      "damage": 29,
+      "hitstun": 32,
+      "knockback": 85,
+      "reach_offset": 0,
+      "reach": 28,
+      "depth_tolerance": 16,
+      "energy_cost": 18,
+      "advance": 100,
+      "guard_break": true,
+      "knockdown": true,
+      "anim": "heavy"
+    },
+    "knockout_blow": {
+      "startup": 18,
+      "active": 6,
+      "recovery": 28,
+      "damage": 47,
+      "hitstun": 42,
+      "knockback": 105,
+      "reach_offset": -58,
+      "reach": 118,
+      "depth_tolerance": 28,
+      "energy_cost": 42,
+      "guard_break": true,
+      "knockdown": true,
+      "anim": "heavy"
     }
   }
 }

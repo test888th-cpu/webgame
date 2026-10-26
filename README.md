@@ -5,7 +5,7 @@ All characters, places, art, audio and code are original to this project.
 
 > **Status: Milestone 2 — playable single-player loop.** Title screen, character status
 > and equipment screens (six gear slots, item rarity and levels), hero creation
-> (two heroes, Mika and Oren, each with their own stats and skills; name your hero), six areas
+> (three heroes, Mika, Oren and Riku, each with their own stats and skills; name your hero), six areas
 > of rising level (home base with a shop, a quest giver and a training dummy; streets of
 > enemy waves; two boss zones), ten enemy types including elites and two-phase bosses
 > that get tougher and smarter with the area level, street weapons held in hand (pick

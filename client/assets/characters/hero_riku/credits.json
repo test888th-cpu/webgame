@@ -1,0 +1,14 @@
+[
+  {
+    "file": "art/custom/hero_riku",
+    "authors": [
+      "test888th-cpu (project owner)"
+    ],
+    "license": "Proprietary (project owner)",
+    "offered": [
+      "Proprietary (project owner)"
+    ],
+    "urls": [],
+    "notes": "Original character art supplied by the project owner (made with the owner's own AI tools). hurt, down and the guard pose are derived from these frames by tools/assets/custom_import.py."
+  }
+]

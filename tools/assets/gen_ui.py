@@ -257,6 +257,64 @@ def skill_earthshaker(d: ImageDraw.ImageDraw) -> None:
     d.rectangle((10, 0, 14, 4), fill=SHIRT)
 
 
+# Riku's skills: boxing, in his orange-and-black jacket.
+JACKET = (214, 96, 40, 255)
+SLEEVE = (232, 222, 200, 255)
+
+
+def skill_liver(d: ImageDraw.ImageDraw) -> None:
+    backdrop(d, (40, 150, 110), (6, 34, 26), cx=14, cy=14)
+    for x, y in ((18, 4), (21, 7), (20, 2)):
+        d.line((x, y, x + 2, y - 2), fill=(220, 255, 230, 255))
+    d.rectangle((0, 13, 8, 18), fill=OUTLINE)
+    d.rectangle((0, 14, 8, 17), fill=SLEEVE)
+    d.line((7, 13, 11, 9), fill=OUTLINE, width=4)
+    d.line((7, 13, 11, 9), fill=SLEEVE, width=2)
+    fist(d, 12, 4, SKIN, up=True)
+
+
+def skill_onetwo(d: ImageDraw.ImageDraw) -> None:
+    backdrop(d, (220, 110, 40), (50, 18, 6), cx=14)
+    for y, x0 in ((5, 0), (12, 1), (19, 0)):
+        d.line((x0, y, x0 + 6, y), fill=(255, 226, 170, 255))
+    d.rectangle((3, 3, 9, 8), fill=OUTLINE)
+    d.rectangle((3, 4, 9, 7), fill=SLEEVE)
+    fist(d, 12, 1, SKIN)
+    d.rectangle((1, 14, 7, 19), fill=OUTLINE)
+    d.rectangle((1, 15, 7, 18), fill=JACKET)
+    fist(d, 10, 12, SKIN)
+    d.point((22, 5), fill=(255, 250, 220, 255))
+    d.point((21, 16), fill=(255, 250, 220, 255))
+
+
+def skill_dempsey(d: ImageDraw.ImageDraw) -> None:
+    backdrop(d, (190, 60, 40), (44, 8, 8), cx=12)
+    # The weave: a figure eight the body sways through while charging.
+    d.arc((1, 3, 12, 14), 0, 360, fill=(255, 210, 150, 255))
+    d.arc((11, 10, 22, 21), 0, 360, fill=(255, 210, 150, 255))
+    d.ellipse((7, 4, 15, 12), fill=OUTLINE)
+    d.ellipse((8, 5, 14, 11), fill=SKIN)
+    d.pieslice((8, 4, 14, 10), 180, 360, fill=(30, 26, 30, 255))
+    d.polygon([(5, 12), (17, 12), (18, 20), (6, 21)], fill=OUTLINE)
+    d.polygon([(6, 13), (16, 13), (17, 19), (7, 20)], fill=(40, 34, 40, 255))
+    d.line((7, 14, 7, 19), fill=JACKET, width=2)
+    fist(d, 15, 12, SKIN)
+
+
+def skill_knockout(d: ImageDraw.ImageDraw) -> None:
+    backdrop(d, (240, 200, 60), (70, 30, 6))
+    star = [(12, 0), (14, 6), (21, 4), (17, 10), (23, 13), (16, 15), (17, 22), (12, 17), (7, 22), (8, 15),
+            (1, 13), (7, 10), (3, 4), (10, 6)]
+    d.polygon(star, fill=(255, 245, 190, 255))
+    d.rectangle((0, 9, 5, 15), fill=OUTLINE)
+    d.rectangle((0, 10, 5, 14), fill=JACKET)
+    d.rounded_rectangle((5, 6, 17, 18), radius=3, fill=OUTLINE)
+    d.rounded_rectangle((6, 7, 16, 17), radius=3, fill=SKIN)
+    for k in (9, 12, 15):
+        d.line((14, k - 1, 16, k - 1), fill=(196, 140, 100, 255))
+    d.line((9, 14, 9, 8), fill=(196, 140, 100, 255))
+
+
 def lock(d: ImageDraw.ImageDraw) -> None:
     d.arc((4, 1, 11, 9), 180, 360, fill=OUTLINE, width=3)
     d.arc((5, 2, 10, 8), 180, 360, fill=(170, 176, 190, 255))
@@ -275,6 +333,10 @@ SKILL_ICONS = {
     "skill_clothesline": skill_clothesline,
     "skill_charge": skill_charge,
     "skill_earthshaker": skill_earthshaker,
+    "skill_liver": skill_liver,
+    "skill_onetwo": skill_onetwo,
+    "skill_dempsey": skill_dempsey,
+    "skill_knockout": skill_knockout,
 }
 
 

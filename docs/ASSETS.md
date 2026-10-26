@@ -151,6 +151,23 @@ it in memory and fails if the committed images differ. A new area gets scenery
 just by adding it to `areas.json` and re-running the generator, or the **Assets**
 workflow, which runs it every time.
 
+## Art from the project owner (custom sheets)
+
+`tools/assets/custom_import.py` imports character sheets drawn outside LPC, placed in
+`art/custom/<asset_id>/` with an `import.json` (see `hero_riku`, the Boxer, drawn by
+the project owner). The file lists the source sheets (a grid of cells, frames read left
+to right), a scale per sheet that brings it to the game's size (sheets drawn at
+different sizes get different scales so the character matches), and which frames make
+each game animation. Frames are scaled with premultiplied alpha and a hard alpha cut,
+so edges stay crisp, and get the same dark 1 px outline as the LPC characters. An
+animation the art lacks can be derived from one frame by tilting it about the feet
+(`from`/`tilt`): that is how Riku's hurt and knock-down are made. The importer also
+finds the front fist per frame (the most forward pixel at arm height) for held weapons,
+with angles from `weapon_pose`, and a head-and-shoulders portrait crop. Credits name
+the project owner under "Proprietary (project owner)", which the validator accepts
+only for `custom` sources. The Assets workflow re-runs the import, and a pipeline test
+checks the committed output matches a fresh import.
+
 ## Adding or changing characters
 
 **LPC (fully automatic):**

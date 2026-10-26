@@ -1,7 +1,8 @@
 {
   "order": [
     "mika",
-    "oren"
+    "oren",
+    "riku"
   ],
   "heroes": {
     "mika": {
@@ -85,6 +86,48 @@
         "equipment": [
           "padded_vest",
           "fingerless_gloves"
+        ]
+      }
+    },
+    "riku": {
+      "name": "Riku Sato",
+      "default_name": "Riku",
+      "title": "The Boxer",
+      "gender": "Male",
+      "tagline": "Guard up, chin down, hands faster than trouble.",
+      "bio": "A night-shift courier who trained in a boxing gym above the Saltmarket. Riku fights from a tight guard: a quick jab to open a foe up, then a cross to put them down. He is the all-rounder of the crew, with skills built on speed and stun.",
+      "style": [
+        "Balanced",
+        "Combos",
+        "Stuns"
+      ],
+      "difficulty": 2,
+      "color": "#5fc8d6",
+      "stats": {
+        "max_hp": 115,
+        "power": 1.05,
+        "defense": 1,
+        "speed": 1.0
+      },
+      "sprites": {
+        "default": "hero_riku",
+        "armoured": "hero_riku"
+      },
+      "skills": [
+        "liver_shot",
+        "one_two",
+        "dempsey_roll",
+        "knockout_blow"
+      ],
+      "starter": {
+        "money": 30,
+        "items": {
+          "steamed_bun": 3,
+          "ginger_tea": 1
+        },
+        "equipment": [
+          "fingerless_gloves",
+          "canvas_sneakers"
         ]
       }
     }

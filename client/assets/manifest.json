@@ -1861,6 +1861,381 @@
       "source": "lpc",
       "status": "imported"
     },
+    "hero_riku": {
+      "animations": {
+        "dodge": {
+          "fps": 12,
+          "frames": 5,
+          "loop": false,
+          "row": 7,
+          "source": "walk"
+        },
+        "down": {
+          "fps": 10,
+          "frames": 6,
+          "loop": false,
+          "row": 6,
+          "source": "derived from punch"
+        },
+        "heavy": {
+          "fps": 12,
+          "frames": 7,
+          "loop": false,
+          "row": 3,
+          "source": "punch"
+        },
+        "hurt": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 5,
+          "source": "derived from punch"
+        },
+        "idle": {
+          "fps": 6,
+          "frames": 8,
+          "loop": true,
+          "row": 0,
+          "source": "punch"
+        },
+        "light": {
+          "fps": 16,
+          "frames": 6,
+          "loop": false,
+          "row": 2,
+          "source": "punch"
+        },
+        "stab": {
+          "fps": 14,
+          "frames": 5,
+          "loop": false,
+          "row": 4,
+          "source": "punch"
+        },
+        "walk": {
+          "fps": 14,
+          "frames": 14,
+          "loop": true,
+          "row": 1,
+          "source": "walk"
+        }
+      },
+      "credits": "res://assets/characters/hero_riku/credits.json",
+      "facing": "right",
+      "frame_size": [
+        64,
+        64
+      ],
+      "generator": {
+        "recipe": "art/custom/hero_riku/import.json"
+      },
+      "hand_sheet": "res://assets/characters/hero_riku/hands.png",
+      "hands": {
+        "dodge": [
+          [
+            43,
+            36,
+            40
+          ],
+          [
+            40,
+            38,
+            40
+          ],
+          [
+            35,
+            32,
+            40
+          ],
+          [
+            38,
+            38,
+            40
+          ],
+          [
+            44,
+            37,
+            40
+          ]
+        ],
+        "down": [
+          [
+            32,
+            45,
+            45
+          ],
+          [
+            26,
+            48,
+            45
+          ],
+          [
+            26,
+            52,
+            45
+          ],
+          [
+            21,
+            56,
+            45
+          ],
+          [
+            21,
+            56,
+            45
+          ],
+          [
+            21,
+            56,
+            45
+          ]
+        ],
+        "heavy": [
+          [
+            44,
+            30,
+            30
+          ],
+          [
+            57,
+            30,
+            30
+          ],
+          [
+            57,
+            30,
+            30
+          ],
+          [
+            57,
+            30,
+            30
+          ],
+          [
+            57,
+            30,
+            30
+          ],
+          [
+            44,
+            33,
+            30
+          ],
+          [
+            44,
+            30,
+            30
+          ]
+        ],
+        "hurt": [
+          [
+            40,
+            28,
+            40
+          ],
+          [
+            35,
+            30,
+            40
+          ],
+          [
+            32,
+            38,
+            40
+          ]
+        ],
+        "idle": [
+          [
+            44,
+            30,
+            50
+          ],
+          [
+            44,
+            30,
+            50
+          ],
+          [
+            44,
+            30,
+            50
+          ],
+          [
+            44,
+            30,
+            50
+          ],
+          [
+            44,
+            30,
+            50
+          ],
+          [
+            44,
+            30,
+            50
+          ],
+          [
+            44,
+            30,
+            50
+          ],
+          [
+            44,
+            30,
+            50
+          ]
+        ],
+        "light": [
+          [
+            43,
+            30,
+            -40
+          ],
+          [
+            44,
+            30,
+            0
+          ],
+          [
+            52,
+            30,
+            70
+          ],
+          [
+            53,
+            31,
+            110
+          ],
+          [
+            44,
+            33,
+            90
+          ],
+          [
+            44,
+            30,
+            50
+          ]
+        ],
+        "stab": [
+          [
+            43,
+            30,
+            80
+          ],
+          [
+            44,
+            30,
+            85
+          ],
+          [
+            52,
+            30,
+            90
+          ],
+          [
+            53,
+            31,
+            90
+          ],
+          [
+            44,
+            33,
+            80
+          ]
+        ],
+        "walk": [
+          [
+            39,
+            38,
+            55
+          ],
+          [
+            41,
+            38,
+            55
+          ],
+          [
+            43,
+            36,
+            55
+          ],
+          [
+            40,
+            38,
+            55
+          ],
+          [
+            35,
+            32,
+            55
+          ],
+          [
+            38,
+            38,
+            55
+          ],
+          [
+            44,
+            37,
+            55
+          ],
+          [
+            43,
+            38,
+            55
+          ],
+          [
+            39,
+            38,
+            55
+          ],
+          [
+            36,
+            40,
+            55
+          ],
+          [
+            41,
+            38,
+            55
+          ],
+          [
+            43,
+            36,
+            55
+          ],
+          [
+            39,
+            38,
+            55
+          ],
+          [
+            35,
+            33,
+            55
+          ]
+        ]
+      },
+      "licenses": [
+        "Proprietary (project owner)"
+      ],
+      "origin": [
+        32,
+        62
+      ],
+      "portrait": [
+        24,
+        11,
+        22,
+        22
+      ],
+      "role": "hero",
+      "sheet": "res://assets/characters/hero_riku/sheet.png",
+      "source": "custom",
+      "status": "imported"
+    },
     "market_punk": {
       "animations": {
         "dodge": {
@@ -6746,6 +7121,12 @@
           24,
           24
         ],
+        "skill_dempsey": [
+          264,
+          64,
+          24,
+          24
+        ],
         "skill_earthshaker": [
           192,
           64,
@@ -6754,6 +7135,24 @@
         ],
         "skill_headbutt": [
           120,
+          64,
+          24,
+          24
+        ],
+        "skill_knockout": [
+          288,
+          64,
+          24,
+          24
+        ],
+        "skill_liver": [
+          216,
+          64,
+          24,
+          24
+        ],
+        "skill_onetwo": [
+          240,
           64,
           24,
           24

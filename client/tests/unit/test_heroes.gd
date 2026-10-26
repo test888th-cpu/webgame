@@ -15,7 +15,7 @@ func _content() -> ContentDB:
 
 func test_the_roster_has_a_female_and_a_male_hero_that_play_differently() -> void:
 	var db := _content()
-	assert_eq(db.hero_order, ["mika", "oren"], "roster order")
+	assert_eq(db.hero_order, ["mika", "oren", "riku"], "roster order")
 	assert_eq(db.hero("mika")["gender"], "Female", "Mika")
 	assert_eq(db.hero("oren")["gender"], "Male", "Oren")
 	var mika := PlayerProfile.new_game(db, "mika").stats(db)
@@ -24,6 +24,22 @@ func test_the_roster_has_a_female_and_a_male_hero_that_play_differently() -> voi
 	assert_true(oren["defense"] > mika["defense"], "and better armoured")
 	assert_true(mika["power"] > oren["power"], "Mika hits harder")
 	assert_true(oren["speed"] < mika["speed"], "and is faster")
+
+
+func test_riku_is_the_all_rounder_between_the_other_two() -> void:
+	var db := _content()
+	var mika := PlayerProfile.new_game(db, "mika").stats(db)
+	var oren := PlayerProfile.new_game(db, "oren").stats(db)
+	var riku := PlayerProfile.new_game(db, "riku").stats(db)
+	for stat: String in PlayerProfile.STAT_KEYS:
+		var low := minf(float(mika[stat]), float(oren[stat]))
+		var high := maxf(float(mika[stat]), float(oren[stat]))
+		assert_true(
+			float(riku[stat]) >= low and float(riku[stat]) <= high,
+			"Riku's %s lies between Mika's and Oren's" % stat
+		)
+	assert_eq(db.hero_art(PlayerProfile.new_game(db, "riku")), "hero_riku", "his own sprite")
+	assert_eq(db.art["hero_riku"]["source"], "custom", "art supplied by the project owner")
 
 
 func test_player_names_are_cleaned_and_validated() -> void:

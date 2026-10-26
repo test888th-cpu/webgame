@@ -291,9 +291,21 @@ func _build_hints(root: Control) -> void:
 	hints.add_child(UiKit.key_hint("X", "Heavy"))
 	hints.add_child(UiKit.key_hint("Space", "Dodge"))
 	hints.add_child(UiKit.key_hint("Shift", "Guard"))
-	hints.add_child(UiKit.key_hint("E", "Grab"))
 	hints.modulate.a = 0.8
 	root.add_child(hints)
+	# The rest go right of the hotbar, which sits between the two rows.
+	var more := HBoxContainer.new()
+	more.name = "HintsRight"
+	more.add_theme_constant_override("separation", 8)
+	more.alignment = BoxContainer.ALIGNMENT_END
+	more.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
+	more.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	more.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	more.offset_right = -8
+	more.offset_bottom = -4
+	more.add_child(UiKit.key_hint("E", "Grab / Talk"))
+	more.modulate.a = 0.8
+	root.add_child(more)
 
 
 func _build_vignette(root: Control) -> void:
