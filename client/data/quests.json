@@ -95,10 +95,34 @@
         "done": "One of them talked: paid per bottle, by a man who says he works for the refinery. Keep following the freight."
       }
     },
+    "night_shift": {
+      "name": "Night Shift",
+      "giver": "chief_odo",
+      "requires": "glass_rain",
+      "chapter": "Chapter 1: South Street",
+      "description": "Knock down 5 Pipe Brutes in the Parking Lot.",
+      "objective": {
+        "type": "defeat",
+        "enemy": "pipe_brute",
+        "count": 5
+      },
+      "rewards": {
+        "money": 140,
+        "xp": 380,
+        "items": {
+          "ginger_tea": 2
+        }
+      },
+      "dialogue": {
+        "offer": "The bottle kids said the refinery man parks his trucks in the car park past the Rusted Corner. Brutes with pipes guard the ramps. Knock down 5 and see what those trucks unload.",
+        "active": "The Parking Lot is past the Rusted Corner. Knock down 5 Pipe Brutes.",
+        "done": "They move the crates from the trucks onto freight wagons at night, straight to the rail yards. Same forged paper on every one."
+      }
+    },
     "rail_rumble": {
       "name": "Rail Yard Rumble",
       "giver": "chief_odo",
-      "requires": "glass_rain",
+      "requires": "night_shift",
       "description": "Knock down 8 Dock Thugs in the Rail Yards.",
       "objective": {
         "type": "defeat",
@@ -115,7 +139,7 @@
       "chapter": "Chapter 1: South Street",
       "dialogue": {
         "offer": "That forged note names the rail yards. Dock thugs are stripping the freight cars there. Put 8 of them on the ground and see what they're guarding.",
-        "active": "The Rail Yards are past Canal Works. Knock down 8 Dock Thugs.",
+        "active": "The Rail Yards are past the Parking Lot. Knock down 8 Dock Thugs.",
         "done": "Empty cars, fresh tracks, and thugs who knew exactly which wagons to guard. Somebody gave them a schedule."
       }
     },
@@ -167,11 +191,59 @@
         "done": "He fought for the Baron to clear his mother's debts. He's done with that now. The back door to the Refinery is open."
       }
     },
+    "the_smelter": {
+      "name": "The Smelter",
+      "giver": "chief_odo",
+      "requires": "the_pit",
+      "chapter": "Chapter 1: South Street",
+      "description": "Knock down 5 Refinery Enforcers at the Smokestack Refinery.",
+      "objective": {
+        "type": "defeat",
+        "enemy": "refinery_enforcer",
+        "count": 5
+      },
+      "rewards": {
+        "money": 320,
+        "xp": 1000,
+        "items": {
+          "ginger_tea": 3
+        }
+      },
+      "dialogue": {
+        "offer": "The Baron melts stolen scrap in that refinery, and his enforcers run it for him. Break their hold on the smelter.",
+        "active": "The Smokestack Refinery is past the Fight Club. Knock down 5 enforcers.",
+        "done": "The furnace was still hot, but the Baron was gone, down a hatch into the drains. The Tar Rats nest down there, and they owe him."
+      }
+    },
+    "rat_nest": {
+      "name": "Rat Nest",
+      "giver": "chief_odo",
+      "requires": "the_smelter",
+      "chapter": "Chapter 1: South Street",
+      "description": "Knock down 12 Tar Rats in the Rat Nest.",
+      "objective": {
+        "type": "defeat",
+        "enemy": "tar_hound",
+        "count": 12
+      },
+      "rewards": {
+        "money": 360,
+        "xp": 1100,
+        "items": {
+          "ginger_tea": 3
+        }
+      },
+      "dialogue": {
+        "offer": "The Tar Rats are hiding the Baron in the tunnels under the refinery. Go down after him. Knock down 12 of them and follow the tunnels to wherever he runs.",
+        "active": "The Rat Nest is through the refinery drains. Knock down 12 Tar Rats.",
+        "done": "The tunnels come up under a fortified building at the edge of the yards. Barred windows, guards on the gate. That's where he runs it all from."
+      }
+    },
     "furnace_baron": {
       "name": "The Furnace Baron",
       "giver": "chief_odo",
-      "requires": "the_pit",
-      "description": "Defeat the Furnace Baron at the Smokestack Refinery.",
+      "requires": "rat_nest",
+      "description": "Defeat the Furnace Baron at the Gang Headquarters.",
       "objective": {
         "type": "defeat",
         "enemy": "furnace_baron",
@@ -187,8 +259,8 @@
       },
       "chapter": "Chapter 1: South Street",
       "dialogue": {
-        "offer": "The Baron melts stolen scrap in that refinery and sends his crews to collect from every stall on the street. End it.",
-        "active": "The Smokestack Refinery is past the Night Market.",
+        "offer": "Every collection on this street is counted in that building. The Baron is inside with what's left of his crew. End it.",
+        "active": "The Gang Headquarters stand past the Rat Nest.",
         "done": "His ledger. The same payment every week, from an account at the port, marked 'for the route'. The Baron was only renting this street. Somebody bigger is paying."
       },
       "ends_chapter": {

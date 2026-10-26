@@ -322,7 +322,7 @@ HUD ปัจจุบันมี: การ์ดฮีโร่ + เลเ�
 | IL-1 | Stable Combat: แก้ stun-lock (B1), perfect guard/สวนกลับ, ขว้างอาวุธ, ตรวจ recovery ท่าศัตรูและบอส, phase บอสมีท่าใหม่ | M2 (ต่อ) | **สูงสุด** ความสนุกหลักขึ้นกับข้อนี้ |
 | IL-2 | (ทำแล้ว: เปลี่ยนชื่อ+ย้ายเซฟ, ล็อกทางออก, ดรอปบอส, อาชีพ, บทสนทนา/หลักฐาน/จบบท 1, tutorial + เซฟ v4) Complete Early Game: tutorial ใน Depot Yard, ล็อกทางออกตามภารกิจ (B3), quest objective ใหม่, บทสนทนา Prologue + บทที่ 1, เปลี่ยนชื่อแสดงผลตาม D1/D2/D5, แก้ B2 | M4 บางส่วน | สูง |
 | IL-3 | Progression: วัตถุดิบ, แหล่งดรอปใน Item card, CRIT/Attack Speed, ตีบวก (เซฟ v4), สมดุลอาชีพ | M4 | สูง |
-| IL-4 | (ทำแล้วบางส่วน: Rusted Corner, Fight Club, ศัตรูระยะไกล, Mini-boss, GO >>; เหลือ Parking Lot, Rat Nest, Gang HQ และอาชีพใหม่ 3 อาชีพ) Complete South Street: พื้นที่ย่อยที่เหลือ, ศัตรู Ranged/Mini-boss, เพิ่มอาชีพ Basketball/Police/Soldier ทีละตัว, ภาพศัตรูใหม่ (D6) | M5 บางส่วน | กลาง |
+| IL-4 | (ทำแล้ว: Rusted Corner, Parking Lot, Fight Club, Rat Nest, Gang HQ, ศัตรูระยะไกล, Mini-boss, GO >>, อาชีพใหม่ 3 อาชีพ, ฉากวาดเองครบ 22 ชิ้น; เหลือภาพศัตรูใหม่ D6) Complete South Street: พื้นที่ย่อยที่เหลือ, ศัตรู Ranged/Mini-boss, เพิ่มอาชีพ Basketball/Police/Soldier ทีละตัว, ภาพศัตรูใหม่ (D6) | M5 บางส่วน | กลาง |
 | IL-5 | Main Story: Port, Industrial, Black Network, Core Facility, บอสสุดท้าย 3 phase, Epilogue | M5 | กลาง |
 | IL-6 | Endgame and Polish: บอสฟาร์ม, ของระดับสูง, ภารกิจเสริม, วัด FPS/ขนาด web (B5), เพลง | M2 ข้อ 8–9, M7 | กลาง |
 | IL-7 | Online Preparation | M3, M6, M8 | หลัง single-player เสถียร (D4) |
@@ -363,6 +363,9 @@ HUD ปัจจุบันมี: การ์ดฮีโร่ + เลเ�
 
 ผู้เล่นสคริปต์นี้อ่อนกว่าผู้เล่นจริงมาก (ไม่ใช้อุปกรณ์เลเวล 5–8, ไม่กินบัน, ไม่ parry) ตัวเลขนี้จึงใช้เทียบบอสกันเอง:
 Champion อยู่ระดับเดียวกับ Baron (ลด HP จาก 380 เป็น 340 ให้ง่ายกว่า Baron เล็กน้อย) **ต้องมี playtest จริงก่อนปรับเพิ่ม**
+
+Baron ย้ายไป Gang HQ (Lv9) ผลยังเป็น 0/10 ทุกอาชีพเหมือนเดิม และอยู่รอดได้ใกล้เคียงกัน (18–25 วินาที เทียบกับ 18–24 วินาทีที่ Refinery Lv8)
+เลเวลที่สูงขึ้น 1 ถูกชดเชยด้วย XP จาก 3 ภารกิจและ 2 พื้นที่ที่เพิ่มก่อนถึงตัวเขา
 
 ## 10. มาตรฐานเกมขายจริง (Quality bar)
 

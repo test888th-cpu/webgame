@@ -4,6 +4,23 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — The rest of South Street: Parking Lot, Rat Nest, Gang HQ (IL-4)
+- **Parking Lot** (level 4), between the Rusted Corner and the Rail Yards: a multi-storey car
+  park whose ramps Pipe Brutes guard, with cars parked at the kerb. Quest "Night Shift":
+  the refinery man's trucks hand their crates to the freight wagons here.
+- **Rat Nest** (level 9), the drainage tunnels under the Refinery: the Tar Rats' lair, in
+  the painted tunnel walls, pipes and grates with the wet tunnel floor. Quest "Rat Nest".
+- **Gang Headquarters** (level 9), the end of South Street: the Furnace Baron's fortified
+  building, behind a steel gate and guard booth. The Baron now fights here and closes
+  Chapter 1; at the Refinery his enforcers hold the smelter (quest "The Smelter", gate:
+  knock down 5 enforcers) and he escapes into the drains.
+- Main quests run in street order: Glass Rain, Night Shift, Rail Yard Rumble, Market
+  Lights, The Pit, The Smelter, Rat Nest, The Furnace Baron.
+- Tests: the new areas stand in story order, the Baron fights only at his headquarters and
+  ends the chapter, one quest chain follows the street, each new area has its own scenery.
+  Boss probe: the Baron at the HQ (level 9) is about as hard as he was at the Refinery
+  (level 8).
+
 ### Changed — Street scale, sidewalk and solid vehicles (IL-4)
 - Buildings, shops and lamp posts are sized to the characters: doors are now taller
   than a person (shophouses 280, shops 170, lamp posts 185, power poles 250 game px),
