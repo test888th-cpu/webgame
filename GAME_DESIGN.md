@@ -65,7 +65,11 @@ equipment) is stored per hero. Temporary combat state is never persisted.
   fills a meter that drains while they are in control; a hit that would push it past 40
   ticks knocks them down instead, and getting up gives 36 ticks of grace (the hero
   blinks; attacking ends it). A crowd can hold the hero helpless for at most 1.5 s.
-  Enemies have no such protection, so hero combos still chain. **[built]** A 12-tick input buffer keeps presses made just
+  Enemies have no such protection, so hero combos still chain. **[built]** Perfect
+  guard: guard raised at most 8 ticks before a hit from the front parries it (no
+  damage, energy back, even against guard breakers); the attacker reels for 30 ticks
+  and the first hit on them is a counter (1.5x damage). Letting go of guard closes the
+  window for 24 ticks. Only the hero parries. **[built]** A 12-tick input buffer keeps presses made just
   before a swing ends.
 - **[built]** Skills on a seven-slot hotbar (`client/data/skills.json`): 1 attack, 2–5
   skills, 6–7 consumables. Each skill is a move with an energy cost and a cooldown, and

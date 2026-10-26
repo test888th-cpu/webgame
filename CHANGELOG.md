@@ -4,6 +4,16 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — Perfect guard and counters (IL-1)
+- Raise guard at most 8 ticks before a hit from the front and it is **parried**: no
+  damage, no energy lost (15 energy back), guard breakers included. The attacker reels
+  for 30 ticks and the first hit on them is a **counter** for 1.5x damage. Letting go
+  of guard closes the parry window for 24 ticks, so it rewards timing, not tapping.
+  Only the hero parries, so enemy guards never punish the player's combos.
+- A parry flashes, clangs and freezes both fighters for a beat and shows "PARRY";
+  counters show "COUNTER" and shake the camera. The Controls tab explains it.
+- 6 new tests (158 total).
+
 ### Fixed — A crowd can no longer stun-lock the hero (IL-1)
 - Hitstun the hero takes fills a stun meter that drains while they are in control. A hit
   that would push it past 40 ticks knocks the hero down instead of holding them, and

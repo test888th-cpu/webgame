@@ -86,7 +86,7 @@ func show_hit(event: CombatEvent) -> void:
 	label.add_theme_constant_override("outline_size", 4)
 	effects.add_child(label)
 	label.show_hit(event)
-	var heavy := event.knocked_down or event.guard_broken or event.ko
+	var heavy := event.knocked_down or event.guard_broken or event.ko or event.counter
 	if (
 		GameSession.settings.get("screen_shake", true)
 		and (heavy or (event.defender_id == ZoneSim.HERO_ID and not event.blocked))

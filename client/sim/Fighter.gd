@@ -61,6 +61,15 @@ var queued_tick := 0
 var stun_limit := 0
 var stun_meter := 0
 var grace := 0
+## Perfect guard (the hero only, so enemy guards never punish the player's
+## combos): a guard raised just before a hit parries it. parry_open says
+## whether the current guard may parry (it may not while parry_lockout runs,
+## so tapping guard repeatedly does not keep the window open). A parried
+## attacker is `exposed`: the next hit on it is a counter.
+var can_parry := false
+var parry_open := false
+var parry_lockout := 0
+var exposed := 0
 
 
 func _init(p_id := 0, p_team := 0, p_position := Vector2.ZERO, p_max_hp := 100) -> void:

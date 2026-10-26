@@ -38,6 +38,18 @@ const INPUT_BUFFER_TICKS := 12
 const HERO_STUN_LIMIT := 40
 const STUN_DECAY := 1
 const WAKE_GRACE_TICKS := 36
+## Perfect guard: a guard raised at most PERFECT_GUARD_TICKS before a hit
+## from the front parries it (no damage, no energy lost, guard breakers
+## included) and refunds PARRY_ENERGY; the attacker reels for PARRY_STUN
+## ticks, during which the first hit on them is a counter dealing
+## COUNTER_DAMAGE times its damage. Letting go of guard closes the parry
+## window for PARRY_LOCKOUT_TICKS so it rewards timing, not tapping.
+const PERFECT_GUARD_TICKS := 8
+const PARRY_LOCKOUT_TICKS := 24
+const PARRY_STUN := 30
+const PARRY_ENERGY := 15.0
+const PARRY_PUSH := 14.0
+const COUNTER_DAMAGE := 1.5
 ## Share of the remaining knockback applied each tick (ease-out slide).
 const KNOCKBACK_RATE := 0.25
 ## Half the width of a fighter's body for hit tests.
@@ -103,6 +115,10 @@ static func _step(f: Fighter, input: FighterInput, library: MoveLibrary, bounds:
 	f.state_tick += 1
 	if f.grace > 0:
 		f.grace -= 1
+	if f.parry_lockout > 0:
+		f.parry_lockout -= 1
+	if f.exposed > 0:
+		f.exposed -= 1
 	if f.state != Fighter.State.HITSTUN:
 		f.stun_meter = maxi(0, f.stun_meter - STUN_DECAY)
 	for skill_id: String in f.cooldowns.keys():
@@ -133,6 +149,8 @@ static func _step(f: Fighter, input: FighterInput, library: MoveLibrary, bounds:
 		Fighter.State.GUARD:
 			if not input.guard:
 				f.enter(Fighter.State.IDLE)
+				if f.can_parry:
+					f.parry_lockout = PARRY_LOCKOUT_TICKS
 			else:
 				f.energy = maxf(0.0, f.energy - GUARD_DRAIN)
 	if f.state == Fighter.State.IDLE:
@@ -165,6 +183,7 @@ static func _step_idle(
 		pass
 	elif input.guard:
 		f.enter(Fighter.State.GUARD)
+		f.parry_open = f.can_parry and f.parry_lockout == 0
 	else:
 		f.position = LaneMovement.step(
 			f.position, input.move, TICK_SECONDS, bounds, f.speed * f.weapon_speed
@@ -267,8 +286,15 @@ static func _apply_hit(attacker: Fighter, defender: Fighter, move: MoveData) -> 
 	event.move_id = move.id
 	event.position = defender.position
 	var from_front := signf(attacker.position.x - defender.position.x) != -defender.facing
+	if is_perfect_guard(defender, from_front):
+		_parry(attacker, defender, event)
+		return event
 	event.blocked = (defender.state == Fighter.State.GUARD and not move.guard_break and from_front)
 	var full := damage_for(move, attacker, defender)
+	if defender.exposed > 0 and not event.blocked:
+		full = roundi(full * COUNTER_DAMAGE)
+		event.counter = true
+		defender.exposed = 0
 	if event.blocked:
 		event.damage = maxi(1, roundi(full * GUARD_DAMAGE_FACTOR))
 		defender.energy -= full * GUARD_ENERGY_PER_DAMAGE
@@ -296,6 +322,28 @@ static func _apply_hit(attacker: Fighter, defender: Fighter, move: MoveData) -> 
 		else:
 			event.knocked_down = _stun(defender, move.hitstun)
 	return event
+
+
+## Whether a hit arriving now (from the front or not) is perfectly guarded.
+static func is_perfect_guard(defender: Fighter, from_front: bool) -> bool:
+	return (
+		defender.state == Fighter.State.GUARD
+		and defender.parry_open
+		and from_front
+		and defender.state_tick <= PERFECT_GUARD_TICKS
+	)
+
+
+## The defender parries: unharmed and refunded; the attacker reels, open to
+## a counter.
+static func _parry(attacker: Fighter, defender: Fighter, event: CombatEvent) -> void:
+	event.blocked = true
+	event.parried = true
+	defender.energy = minf(MAX_ENERGY, defender.energy + PARRY_ENERGY)
+	var away := signf(attacker.position.x - defender.position.x)
+	attacker.knockback_remaining = (away if away != 0.0 else -defender.facing) * PARRY_PUSH
+	attacker.enter(Fighter.State.HITSTUN, PARRY_STUN)
+	attacker.exposed = PARRY_STUN
 
 
 ## Puts the defender in hitstun, or knocks them down when stun-lock

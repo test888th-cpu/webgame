@@ -21,7 +21,7 @@ const CONTROLS := [
 	["Light attack (combo)", "J / Z", "X / Square"],
 	["Heavy attack", "K / X", "Y / Triangle"],
 	["Dodge", "Space / L", "A / Cross"],
-	["Guard (hold)", "Shift / I", "LB / L1"],
+	["Guard (hold); just before a hit: parry", "Shift / I", "LB / L1"],
 	["Talk, shop", "E / U", "B / Circle"],
 	["Eat (quick heal)", "H / Q", "RB / R1"],
 	["Menu", "Esc / P", "Start"],

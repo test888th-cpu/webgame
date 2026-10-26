@@ -95,6 +95,7 @@ func _init(
 	hero = Fighter.new(HERO_ID, HERO_TEAM, Bodies.clear_spot(start, solids, bounds), 100)
 	hero.kind = "hero"
 	hero.stun_limit = CombatRules.HERO_STUN_LIMIT
+	hero.can_parry = true
 	hero.facing = -1 if entry == "east" else 1
 	if area.get("heal_on_enter", false):
 		profile.hp = profile.stats(content)["max_hp"]
