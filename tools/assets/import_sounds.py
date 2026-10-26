@@ -70,7 +70,7 @@ def main() -> int:
     for sound_id, spec in recorded().items():
         (OUT / f"{sound_id}.wav").write_bytes(render(spec))
         sounds[sound_id] = f"res://assets/audio/{sound_id}.wav"
-        credits[sound_id] = {key: spec[key] for key in ("title", "authors", "license", "url", "notes") if key in spec}
+        credits[sound_id] = {key: spec[key] for key in ("title", "authors", "license", "url", "attribution", "notes") if key in spec}
     audio["recorded"] = credits
     MANIFEST.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
     print(f"imported {len(credits)} recorded sound(s)")

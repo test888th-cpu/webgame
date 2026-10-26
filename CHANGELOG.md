@@ -8,7 +8,9 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 - Fists and kicks that land now sound like a punch, picked at random from six recorded
   hits so combos do not repeat one sound: "Punch 5" by jakeeaton (Freesound, CC-BY 4.0)
   and five punches cut from "multi punch" by Shikamarunara74 (Freesound, CC-BY 3.0),
-  each trimmed so the impact plays within 20 ms. Heavy blows play it lower with the old thump under
+  each trimmed so the impact plays within 20 ms. The in-game credits use each recording's attribution line
+  as given, e.g. "multi punch.wav by Shikamarunara74 -- https://freesound.org/s/126317/
+  -- License: Attribution 3.0". Heavy blows play it lower with the old thump under
   it; weapon hits keep their own sounds. Credited in the in-game credits.
 - `tools/assets/import_sounds.py` imports recorded sounds listed in
   `art/sounds/sounds.json` (cut, fade, normalise to -1 dBFS) with their authors,

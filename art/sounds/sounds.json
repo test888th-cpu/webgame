@@ -10,7 +10,8 @@
       "url": "https://freesound.org/people/jakeeaton/sounds/560327/",
       "notes": "Licence as stated by the project owner, who supplied the file (2026-10-26). Trimmed to the impact and faded out by tools/assets/import_sounds.py.",
       "start": 0.37,
-      "length": 0.45
+      "length": 0.45,
+      "attribution": "punch-5.wav by jakeeaton -- https://freesound.org/s/560327/ -- License: Attribution 4.0"
     },
     "punch_hit_2": {
       "file": "shikamarunara74_multi-punch.wav",
@@ -22,7 +23,8 @@
       "url": "https://freesound.org/s/126317/",
       "notes": "Licence as stated by the project owner, who supplied the file (2026-10-26). One punch cut out of the sequence by tools/assets/import_sounds.py.",
       "start": 0.18,
-      "length": 0.32
+      "length": 0.32,
+      "attribution": "multi punch.wav by Shikamarunara74 -- https://freesound.org/s/126317/ -- License: Attribution 3.0"
     },
     "punch_hit_3": {
       "file": "shikamarunara74_multi-punch.wav",
@@ -34,7 +36,8 @@
       "url": "https://freesound.org/s/126317/",
       "notes": "Licence as stated by the project owner, who supplied the file (2026-10-26). One punch cut out of the sequence by tools/assets/import_sounds.py.",
       "start": 1.01,
-      "length": 0.32
+      "length": 0.32,
+      "attribution": "multi punch.wav by Shikamarunara74 -- https://freesound.org/s/126317/ -- License: Attribution 3.0"
     },
     "punch_hit_4": {
       "file": "shikamarunara74_multi-punch.wav",
@@ -46,7 +49,8 @@
       "url": "https://freesound.org/s/126317/",
       "notes": "Licence as stated by the project owner, who supplied the file (2026-10-26). One punch cut out of the sequence by tools/assets/import_sounds.py.",
       "start": 1.68,
-      "length": 0.28
+      "length": 0.28,
+      "attribution": "multi punch.wav by Shikamarunara74 -- https://freesound.org/s/126317/ -- License: Attribution 3.0"
     },
     "punch_hit_5": {
       "file": "shikamarunara74_multi-punch.wav",
@@ -58,7 +62,8 @@
       "url": "https://freesound.org/s/126317/",
       "notes": "Licence as stated by the project owner, who supplied the file (2026-10-26). One punch cut out of the sequence by tools/assets/import_sounds.py.",
       "start": 3.45,
-      "length": 0.3
+      "length": 0.3,
+      "attribution": "multi punch.wav by Shikamarunara74 -- https://freesound.org/s/126317/ -- License: Attribution 3.0"
     },
     "punch_hit_6": {
       "file": "shikamarunara74_multi-punch.wav",
@@ -70,7 +75,8 @@
       "url": "https://freesound.org/s/126317/",
       "notes": "Licence as stated by the project owner, who supplied the file (2026-10-26). One punch cut out of the sequence by tools/assets/import_sounds.py.",
       "start": 5.32,
-      "length": 0.3
+      "length": 0.3,
+      "attribution": "multi punch.wav by Shikamarunara74 -- https://freesound.org/s/126317/ -- License: Attribution 3.0"
     }
   }
 }

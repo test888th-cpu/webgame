@@ -58,6 +58,10 @@ static func _sounds(content: ContentDB) -> String:
 		if seen.has(sound.get("url", sound_id)):
 			continue
 		seen[sound.get("url", sound_id)] = true
+		# The attribution line exactly as the source asks for it, if given.
+		if sound.has("attribution"):
+			text += "Sound: %s\n" % sound["attribution"]
+			continue
 		text += (
 			'Sound "%s" by %s (%s), %s\n'
 			% [
