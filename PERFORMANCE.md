@@ -56,5 +56,5 @@ with AI, poise, projectiles and solid bodies, 3,600 ticks: **0.30 ms per tick on
 average, worst single tick 7.1 ms**. The frame budget is 16.7 ms, so the rules leave
 the client almost the whole frame for drawing. Not yet measured: the same in the web
 export (WebAssembly is typically slower than native; to be measured on the reference
-desktop, see "Browser targets"), and drawing cost, which CI's software renderer cannot
+desktop, see "Browser budgets"), and drawing cost, which CI's software renderer cannot
 show (risk R4).
