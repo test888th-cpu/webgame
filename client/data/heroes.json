@@ -2,7 +2,10 @@
   "order": [
     "mika",
     "oren",
-    "riku"
+    "riku",
+    "kan",
+    "dao",
+    "pong"
   ],
   "heroes": {
     "mika": {
@@ -131,6 +134,137 @@
           "canvas_sneakers"
         ]
       }
+    },
+    "kan": {
+      "name": "Kan Srisuk",
+      "default_name": "Kan",
+      "title": "The Basketball Player",
+      "gender": "Male",
+      "tagline": "Owns the court, owns the crowd.",
+      "bio": "Point guard of the night league on the market's back court, who delivers for the noodle shops by day. Kan reads a crowd like a defence: his skills reach wider than anyone's, and his slam dunk floors a whole gang at once.",
+      "style": [
+        "Crowds",
+        "Area control",
+        "Mobile"
+      ],
+      "difficulty": 2,
+      "color": "#e05a3a",
+      "stats": {
+        "max_hp": 110,
+        "power": 1.0,
+        "defense": 1,
+        "speed": 1.05,
+        "crit": 0.06,
+        "attack_speed": 1.05
+      },
+      "sprites": {
+        "default": "hero_kan",
+        "armoured": "hero_kan"
+      },
+      "skills": [
+        "crossover",
+        "elbow_clear",
+        "post_up",
+        "slam_dunk"
+      ],
+      "starter": {
+        "money": 30,
+        "items": {
+          "steamed_bun": 3,
+          "ginger_tea": 1
+        },
+        "equipment": [
+          "canvas_sneakers"
+        ]
+      }
+    },
+    "dao": {
+      "name": "Dao Kittikun",
+      "default_name": "Dao",
+      "title": "The Police Officer",
+      "gender": "Female",
+      "tagline": "Read it, block it, turn it around.",
+      "bio": "A sergeant suspended for chasing a case she was told to drop. Dao fights the way she was trained: guard first, then turn the attack back on whoever threw it. Her parry window is wider than anyone's, and her locks hold a foe longest.",
+      "style": [
+        "Defence",
+        "Counters",
+        "Control"
+      ],
+      "difficulty": 3,
+      "color": "#c8a050",
+      "stats": {
+        "max_hp": 120,
+        "power": 0.95,
+        "defense": 2,
+        "speed": 0.95,
+        "crit": 0.05
+      },
+      "sprites": {
+        "default": "hero_dao",
+        "armoured": "hero_dao"
+      },
+      "skills": [
+        "wrist_lock",
+        "leg_sweep",
+        "takedown",
+        "riot_shove"
+      ],
+      "starter": {
+        "money": 30,
+        "items": {
+          "steamed_bun": 3,
+          "ginger_tea": 1
+        },
+        "equipment": [
+          "fingerless_gloves",
+          "canvas_sneakers"
+        ]
+      },
+      "parry_window": 12
+    },
+    "pong": {
+      "name": "Pong Rattana",
+      "default_name": "Pong",
+      "title": "The Soldier",
+      "gender": "Male",
+      "tagline": "Slow to stop, impossible to stop.",
+      "bio": "A discharged army sergeant come home to South Street. Pong is the toughest of the crew and the slowest on his feet; his skills cannot be interrupted once they start, so he trades blows and walks through them.",
+      "style": [
+        "Tough",
+        "Unstoppable skills",
+        "Slow"
+      ],
+      "difficulty": 1,
+      "color": "#5a8a4a",
+      "stats": {
+        "max_hp": 140,
+        "power": 1.0,
+        "defense": 3,
+        "speed": 0.8,
+        "crit": 0.04
+      },
+      "sprites": {
+        "default": "hero_pong",
+        "armoured": "hero_pong"
+      },
+      "skills": [
+        "combat_elbow",
+        "breach_kick",
+        "shoulder_drive",
+        "ground_pound"
+      ],
+      "starter": {
+        "money": 30,
+        "items": {
+          "steamed_bun": 3,
+          "ginger_tea": 1
+        },
+        "equipment": [
+          "padded_vest",
+          "dock_beanie"
+        ]
+      },
+      "skill_armor": true
     }
   }
 }

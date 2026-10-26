@@ -331,6 +331,134 @@ def lock(d: ImageDraw.ImageDraw) -> None:
     d.rectangle((7, 9, 8, 11), fill=OUTLINE)
 
 
+# The three newer heroes. Ball orange for Kan, police khaki for Dao, army
+# green for Pong; each icon shows what the move does at a glance.
+BALL = (232, 120, 40, 255)
+BALL_LINE = (90, 40, 16, 255)
+KHAKI = (200, 160, 80, 255)
+ARMY = (80, 120, 64, 255)
+LIGHT = (255, 236, 170, 255)
+
+
+def ball(d: ImageDraw.ImageDraw, x: int, y: int, r: int) -> None:
+    d.ellipse((x - r - 1, y - r - 1, x + r + 1, y + r + 1), fill=OUTLINE)
+    d.ellipse((x - r, y - r, x + r, y + r), fill=BALL)
+    d.line((x - r, y, x + r, y), fill=BALL_LINE)
+    d.line((x, y - r, x, y + r), fill=BALL_LINE)
+    d.arc((x - r - 3, y - r, x + 2, y + r), 300, 60, fill=BALL_LINE)
+
+
+def skill_crossover(d: ImageDraw.ImageDraw) -> None:
+    backdrop(d, (200, 90, 40), (40, 12, 8))
+    d.line((3, 18, 9, 8, 15, 18, 21, 8), fill=LIGHT, width=2)
+    ball(d, 12, 12, 4)
+
+
+def skill_elbow(d: ImageDraw.ImageDraw) -> None:
+    backdrop(d, (60, 120, 200), (8, 16, 44))
+    for x0, x1 in ((2, 9), (15, 22)):
+        d.line((x0, 12, x1, 12), fill=LIGHT, width=2)
+    d.polygon([(2, 12), (5, 9), (5, 15)], fill=LIGHT)
+    d.polygon([(22, 12), (19, 9), (19, 15)], fill=LIGHT)
+    d.ellipse((9, 8, 15, 14), fill=OUTLINE)
+    d.ellipse((10, 9, 14, 13), fill=SKIN_DARK)
+
+
+def skill_postup(d: ImageDraw.ImageDraw) -> None:
+    backdrop(d, (190, 70, 40), (40, 10, 8), cx=10)
+    d.rectangle((6, 6, 14, 20), fill=OUTLINE)
+    d.rectangle((7, 7, 13, 19), fill=(236, 236, 240, 255))
+    d.line((14, 13, 21, 13), fill=LIGHT, width=2)
+    d.polygon([(22, 13), (18, 9), (18, 17)], fill=LIGHT)
+
+
+def skill_dunk(d: ImageDraw.ImageDraw) -> None:
+    backdrop(d, (230, 110, 30), (50, 10, 4), cy=18)
+    d.rectangle((4, 4, 19, 6), fill=OUTLINE)
+    d.rectangle((5, 5, 18, 5), fill=(220, 60, 40, 255))
+    for x in range(6, 18, 3):
+        d.line((x, 6, x + 1, 11), fill=(236, 236, 240, 255))
+    ball(d, 12, 15, 4)
+    d.rectangle((0, 21, 23, 23), fill=(60, 30, 20, 255))
+    d.line((2, 21, 21, 21), fill=LIGHT)
+
+
+def skill_wristlock(d: ImageDraw.ImageDraw) -> None:
+    backdrop(d, (170, 130, 60), (34, 24, 10))
+    d.arc((4, 4, 20, 20), 30, 300, fill=LIGHT, width=2)
+    d.polygon([(19, 6), (22, 10), (17, 10)], fill=LIGHT)
+    fist(d, 9, 8, SKIN)
+
+
+def skill_sweep(d: ImageDraw.ImageDraw) -> None:
+    backdrop(d, (60, 120, 200), (8, 16, 44), cy=18)
+    d.arc((1, 12, 23, 24), 180, 360, fill=LIGHT, width=2)
+    d.rectangle((9, 16, 20, 19), fill=OUTLINE)
+    d.rectangle((10, 17, 19, 18), fill=(40, 40, 48, 255))
+    d.rectangle((18, 15, 22, 19), fill=OUTLINE)
+
+
+def skill_takedown(d: ImageDraw.ImageDraw) -> None:
+    backdrop(d, (170, 130, 60), (34, 24, 10), cy=16)
+    d.rectangle((3, 15, 20, 19), fill=OUTLINE)
+    d.rectangle((4, 16, 19, 18), fill=(110, 110, 120, 255))
+    d.ellipse((16, 4, 22, 10), fill=OUTLINE)
+    d.ellipse((17, 5, 21, 9), fill=SKIN)
+    d.polygon([(8, 10), (17, 8), (18, 13), (9, 15)], fill=OUTLINE)
+    d.polygon([(9, 11), (16, 9), (17, 12), (10, 14)], fill=KHAKI)
+
+
+def skill_riot(d: ImageDraw.ImageDraw) -> None:
+    backdrop(d, (200, 160, 60), (40, 26, 8))
+    for r in (10, 7):
+        d.arc((12 - r, 12 - r, 12 + r, 12 + r), 300, 60, fill=LIGHT, width=2)
+    d.rounded_rectangle((3, 5, 11, 19), radius=2, fill=OUTLINE)
+    d.rounded_rectangle((4, 6, 10, 18), radius=2, fill=(120, 140, 170, 255))
+    d.line((7, 7, 7, 17), fill=(220, 230, 240, 255))
+
+
+def skill_cbelbow(d: ImageDraw.ImageDraw) -> None:
+    backdrop(d, (90, 130, 70), (14, 24, 10), cx=16)
+    # A bent arm in a green sleeve, elbow forward into an impact star.
+    d.line((3, 21, 14, 12), fill=OUTLINE, width=7)
+    d.line((14, 12, 6, 5), fill=OUTLINE, width=7)
+    d.line((4, 20, 14, 12), fill=ARMY, width=4)
+    d.line((14, 12, 7, 6), fill=SKIN_DARK, width=4)
+    star = [(19, 6), (20, 10), (23, 11), (20, 13), (21, 17), (18, 14), (15, 15), (17, 11)]
+    d.polygon(star, fill=LIGHT)
+
+
+def skill_breach(d: ImageDraw.ImageDraw) -> None:
+    backdrop(d, (100, 120, 60), (16, 22, 8), cx=8)
+    d.rectangle((16, 3, 22, 21), fill=OUTLINE)
+    d.rectangle((17, 4, 21, 20), fill=(120, 80, 50, 255))
+    d.line((2, 14, 13, 13), fill=OUTLINE, width=4)
+    d.rectangle((11, 10, 16, 15), fill=OUTLINE)
+    d.rectangle((12, 11, 15, 14), fill=(50, 50, 50, 255))
+    for y in (6, 18):
+        d.line((13, y, 15, y + 1), fill=LIGHT)
+
+
+def skill_drive(d: ImageDraw.ImageDraw) -> None:
+    backdrop(d, (100, 140, 60), (14, 26, 8), cx=15)
+    for y, x0 in ((7, 1), (11, 0), (15, 2)):
+        d.line((x0, y, x0 + 7, y), fill=LIGHT)
+    d.ellipse((14, 3, 20, 9), fill=OUTLINE)
+    d.ellipse((15, 4, 19, 8), fill=SKIN_DARK)
+    d.polygon([(9, 9), (19, 9), (21, 15), (12, 16)], fill=OUTLINE)
+    d.polygon([(10, 10), (18, 10), (20, 14), (12, 15)], fill=ARMY)
+
+
+def skill_pound(d: ImageDraw.ImageDraw) -> None:
+    backdrop(d, (120, 140, 60), (20, 26, 6), cy=18)
+    for x, top in ((3, 12), (7, 8), (17, 8), (21, 12)):
+        d.polygon([(x - 2, 20), (x, top), (x + 2, 20)], fill=(200, 200, 120, 255))
+    d.rectangle((0, 20, 23, 23), fill=(50, 40, 24, 255))
+    d.line((1, 20, 22, 20), fill=LIGHT)
+    fist(d, 7, 6, SKIN_DARK, up=True)
+    fist(d, 12, 6, SKIN_DARK, up=True)
+
+
 SKILL_ICONS = {
     "skill_attack": skill_attack,
     "skill_uppercut": skill_uppercut,
@@ -345,6 +473,18 @@ SKILL_ICONS = {
     "skill_onetwo": skill_onetwo,
     "skill_dempsey": skill_dempsey,
     "skill_knockout": skill_knockout,
+    "skill_crossover": skill_crossover,
+    "skill_elbow": skill_elbow,
+    "skill_postup": skill_postup,
+    "skill_dunk": skill_dunk,
+    "skill_wristlock": skill_wristlock,
+    "skill_sweep": skill_sweep,
+    "skill_takedown": skill_takedown,
+    "skill_riot": skill_riot,
+    "skill_cbelbow": skill_cbelbow,
+    "skill_breach": skill_breach,
+    "skill_drive": skill_drive,
+    "skill_pound": skill_pound,
 }
 
 

@@ -71,12 +71,16 @@ var grace := 0
 ## winding up a telegraphed attack: dodge it, guard it or parry it.
 var poise_limit := 0
 var armor := 0
+## Skills cannot be interrupted once started (Pong the Soldier).
+var skill_armor := false
 ## Perfect guard (the hero only, so enemy guards never punish the player's
 ## combos): a guard raised just before a hit parries it. parry_open says
 ## whether the current guard may parry (it may not while parry_lockout runs,
 ## so tapping guard repeatedly does not keep the window open). A parried
 ## attacker is `exposed`: the next hit on it is a counter.
 var can_parry := false
+## How many ticks before a hit a raised guard still parries (Dao: wider).
+var parry_window := CombatRules.PERFECT_GUARD_TICKS
 var parry_open := false
 var parry_lockout := 0
 var exposed := 0

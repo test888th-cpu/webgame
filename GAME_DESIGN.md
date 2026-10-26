@@ -5,7 +5,7 @@ content is taken from River City Ransom, Kunio-kun or any other game. The genre 
 used (side-scrolling street brawling with depth lanes, RPG progression, shops) are not
 owned by anyone.
 
-**Implemented so far:** everything marked **[built]** below (six areas, three heroes,
+**Implemented so far:** everything marked **[built]** below (eight areas, six heroes,
 two bosses, street weapons, equipment, quests, local saves). Everything else is design
 intent.
 
@@ -30,9 +30,9 @@ harbour district, which becomes their home base.
 | Mika Tanabe **[built]** | Footballer (female) | Damage and mobility: 100 HP, 110% power, 110% speed, long combo strings | Rising Uppercut, Whirlwind Kick, Shoulder Rush, Furnace Slam |
 | Oren Vale **[built]** | Street Brawler (male) | Slow, tough, controls crowds: 130 HP, 100% power, 2 defense, 85% speed | Headbutt, Clothesline, Shoulder Charge, Earthshaker |
 | Riku Sato **[built]** | Boxer (male) | The all-rounder: 115 HP, 105% power, 1 defense, 100% speed; jab and cross from a tight guard | Liver Shot, One-Two, Dempsey Roll, Knockout Blow |
-| Sela Ruiz | Striker | Fast kicks, dodge-cancels | Spinning heel through a crowd |
-| Juno Okafor | Tinkerer | Mid-range gadgets, traps | Deployable shock coil |
-| Ivy Marlow | Medic | Support, buffs, sustain | Adrenaline field for the party |
+| Kan Srisuk **[built]** | Basketball Player (male) | Crowds and area: 110 HP, 100% power, 1 defense, 105% speed, 105% attack speed; the widest skills | Crossover, Elbow Clear, Post Up, Slam Dunk |
+| Dao Kittikun **[built]** | Police Officer (female) | Defence and counters: 120 HP, 95% power, 2 defense; **parries from 12 ticks out** (others 8); the longest hold | Wrist Lock, Leg Sweep, Takedown, Riot Shove |
+| Pong Rattana **[built]** | Soldier (male) | Toughest and slowest: 140 HP, 3 defense, 80% speed; **skills cannot be interrupted** once started | Combat Elbow, Breach Kick, Shoulder Drive, Ground Pound |
 
 **[built]** New game opens hero creation: pick a hero (portrait cards, a large animated
 preview, bio, play style, difficulty, stats compared across the roster, skills) and

@@ -520,6 +520,10 @@ func _validate_heroes() -> void:
 				where + ".stats.crit: at most the crit cap"
 			)
 		_number(h, "difficulty", where, 1)
+		if h.has("parry_window"):
+			var window := int(h["parry_window"])
+			_check(window >= 1 and window <= 20, where + ".parry_window: 1 to 20 ticks")
+		_check(h.get("skill_armor", false) is bool, where + ".skill_armor: true or false")
 		var sprites: Variant = h.get("sprites")
 		_check(
 			sprites is Dictionary and sprites.has("default"), where + ".sprites.default: required"

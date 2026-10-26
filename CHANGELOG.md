@@ -4,6 +4,31 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — Three more heroes: the Basketball Player, the Police Officer, the Soldier (IL-4)
+- **Kan Srisuk, the Basketball Player**: the crowd controller. Crossover (a stunning
+  change of direction), Elbow Clear (both sides), Post Up (breaks guard) and Slam Dunk,
+  the widest hit in the crew. 110 HP, 105% speed and attack speed.
+- **Dao Kittikun, the Police Officer**: defence and counters. Her parry window is 12
+  ticks (everyone else 8), Wrist Lock holds a foe longest, Riot Shove floors a crowd.
+  120 HP, 95% power. Hardest to play (3/3).
+- **Pong Rattana, the Soldier**: once one of his skills starts, nothing interrupts it
+  (Combat Elbow, Breach Kick, Shoulder Drive, Ground Pound). Toughest (140 HP, 3
+  defense) and slowest (80%). Easiest to play.
+- Each hero's edge is data (`heroes.json` `parry_window`, `skill_armor`) used by the
+  existing rules, not new combat code paths. All six heroes pass the existing balance
+  rules (same-slot skills within 15%, every skill 1.5x the heavy attack, the slot-5
+  skill strongest); new tests check every class is in the roster, nobody tops health,
+  power and speed together, the Soldier is slowest and toughest, Kan reaches widest,
+  Dao parries where others only block, and Pong's skills cannot be interrupted.
+- Measured with the same scripted player against the Smog Warden at level 5: Kan
+  5.0 s, Dao 5.1 s, Pong 6.1 s (the first three heroes 3.8–4.9 s); all win 20/20.
+- Sprites built with the LPC pipeline from licence-cleared layers; twelve new 24 px
+  skill icons. Hero creation switches to compact cards when there are more than four
+  heroes, so all six fit above the name bar (checked in a browser).
+- `docs/SCENE_PROMPTS.md`: painting prompts and rules for the next street-kit pieces
+  (Fight Club ring, Rusted Corner junk yard, and the planned Parking Lot, Rat Nest and
+  Gang HQ). 5 new tests (225 total).
+
 ### Added — South Street grows: Rusted Corner, Fight Club, ranged enemies, a mini-boss (IL-4)
 - **Rusted Corner** (level 3, between Canal Works and the Rail Yards) introduces the
   first ranged enemy, the **Bottle Thrower**: it hangs back 80–150 px, lines up in your
