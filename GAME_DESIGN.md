@@ -5,8 +5,15 @@ content is taken from River City Ransom, Kunio-kun or any other game. The genre 
 used (side-scrolling street brawling with depth lanes, RPG progression, shops) are not
 owned by anyone.
 
-**Implemented so far:** one test street with a placeholder hero and a training dummy,
-and the combat core below marked **[built]**. Everything else is design intent.
+**Implemented so far:** everything marked **[built]** below (six areas, three heroes,
+two bosses, street weapons, equipment, quests, local saves). Everything else is design
+intent.
+
+> **Under review:** the owner's "The Iron Legacy" brief proposes a new setting (Iron City
+> and The Core instead of Port Verrin and the Murk), six classes and a single-player-first
+> order. Until the owner decides, this file still describes the game as built. The audit,
+> open decisions and plan are in [docs/BLUEPRINT.md](docs/BLUEPRINT.md); the proposed
+> canon (names, places, story) is in [docs/STORY_BIBLE.md](docs/STORY_BIBLE.md).
 
 ## Premise
 

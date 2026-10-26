@@ -23,7 +23,7 @@ Status key: **[built]** exists and is tested · **[planned M#]** designed, not i
 | Component | Status | Responsibility |
 |---|---|---|
 | Web client (`client/`) | **[built]** test zone | Rendering, input, prediction and interpolation; never authoritative |
-| Shared rules (`client/sim/`) | **[built]** movement | Deterministic rules used by both client and zone server |
+| Shared rules (`client/sim/`) | **[built]** movement, combat, AI, loot, quests, saves | Deterministic rules used by both client and zone server |
 | API service (`backend/`) | **[built]** health and migrations; **[planned M3]** auth | Accounts, sessions, heroes, inventory, economy ledger, quests, zone allocation |
 | Zone server | **[planned M3]** | Authoritative real-time simulation of one zone instance |
 | PostgreSQL | **[built]** schema v1 | Durable state; the only source of truth for progression |

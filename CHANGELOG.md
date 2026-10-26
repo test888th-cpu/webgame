@@ -4,6 +4,17 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — The Iron Legacy: audit and blueprint (IL-0)
+- `docs/BLUEPRINT.md`: audit of what exists, works, is missing or risky (baseline 140/140
+  tests passing on Godot 4.7.2), conflicts between code, docs and the owner's brief,
+  decisions the owner needs to make, the system blueprint built on the existing code, a
+  roadmap by risk (IL-0 to IL-7) and a test plan. Measured stun-lock: three Night Market
+  Punks keep an idle hero out of control for up to 169 ticks (2.8 s).
+- `docs/STORY_BIBLE.md`: the proposed single source for the story (Iron City, The Core,
+  characters, chapters, bosses, how the current areas and enemies fit), pending approval.
+- Corrected stale lines in README (test count), GAME_DESIGN ("implemented so far") and
+  ARCHITECTURE (shared rules). No game code or data changed.
+
 ### Added — Painted street weapons, and a frying pan, wrench and bat
 - The street weapons now use the project owner's paintings, reduced to hand-sized
   pixel sprites with an outline like the characters (in hand, on the street and on

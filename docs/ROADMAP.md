@@ -3,6 +3,10 @@
 Each milestone is its own series of small PRs, with acceptance criteria verified by CI or a
 recorded manual test. Nothing is marked done without evidence.
 
+> **Proposed re-order:** [BLUEPRINT.md](BLUEPRINT.md) §8 maps the owner's "The Iron Legacy"
+> milestones (IL-0 to IL-7, single player first) onto the milestones below and asks the
+> owner to move the online work (M3, M6, M8) after the single-player game (decision D4).
+
 ## Milestone 1 — Audit, architecture, pipeline (this PR, = Task 001)
 
 Acceptance criteria:
