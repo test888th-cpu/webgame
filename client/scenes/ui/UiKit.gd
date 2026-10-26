@@ -234,5 +234,10 @@ static func portrait(content: ContentDB, art_id: String) -> Texture2D:
 		return null
 	var crop := AtlasTexture.new()
 	crop.atlas = frame.atlas
-	crop.region = Rect2(frame.region.position + PORTRAIT_CROP.position, PORTRAIT_CROP.size)
+	# Art drawn at other proportions than LPC says where its head is.
+	var rect := PORTRAIT_CROP
+	var custom: Array = entry.get("portrait", [])
+	if custom.size() == 4:
+		rect = Rect2(custom[0], custom[1], custom[2], custom[3])
+	crop.region = Rect2(frame.region.position + rect.position, rect.size)
 	return crop

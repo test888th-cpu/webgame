@@ -289,7 +289,7 @@ func test_character_creation_shows_heroes_and_validates_the_name() -> void:
 	var screen: Node = load("res://scenes/create/CharacterCreate.tscn").instantiate()
 	tree.root.add_child(screen)
 	await _settle()
-	assert_eq(screen.cards.size(), 2, "two hero cards")
+	assert_eq(screen.cards.size(), 3, "a card per hero")
 	assert_eq(screen.selected, "mika", "first hero selected")
 	_check_layout(screen.get_node("Ui"), "character creation")
 	var owner := tree.root.gui_get_focus_owner()

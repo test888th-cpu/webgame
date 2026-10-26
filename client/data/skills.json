@@ -87,6 +87,50 @@
       "fx_at": "self",
       "sound": "skill_slam",
       "description": "Pound the street hard enough to crack it. Huge damage all around. Breaks guard."
+    },
+    "liver_shot": {
+      "name": "Liver Shot",
+      "move": "liver_shot",
+      "cooldown": 270,
+      "unlock_level": 1,
+      "icon": "skill_liver",
+      "fx": "hit_heavy",
+      "fx_at": "front",
+      "sound": "skill_uppercut",
+      "description": "A short hook to the body that stuns one foe for a long time. The fastest skill in the crew."
+    },
+    "one_two": {
+      "name": "One-Two",
+      "move": "one_two",
+      "cooldown": 360,
+      "unlock_level": 1,
+      "icon": "skill_onetwo",
+      "fx": "rush",
+      "fx_at": "trail",
+      "sound": "swing_heavy",
+      "description": "Step in behind a jab and a cross that knock down everything in front."
+    },
+    "dempsey_roll": {
+      "name": "Dempsey Roll",
+      "move": "dempsey_roll",
+      "cooldown": 390,
+      "unlock_level": 2,
+      "icon": "skill_dempsey",
+      "fx": "rush",
+      "fx_at": "trail",
+      "sound": "skill_rush",
+      "description": "Weave forward through a line of foes, hooking each one down. Breaks guard."
+    },
+    "knockout_blow": {
+      "name": "Knockout Blow",
+      "move": "knockout_blow",
+      "cooldown": 1260,
+      "unlock_level": 3,
+      "icon": "skill_knockout",
+      "fx": "slam",
+      "fx_at": "self",
+      "sound": "skill_slam",
+      "description": "Everything into one straight right. The shockwave flattens foes all around. Breaks guard."
     }
   },
   "hotbar": [

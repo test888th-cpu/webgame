@@ -32,7 +32,9 @@ ROOT = Path(__file__).resolve().parents[2]
 CLIENT = ROOT / "client"
 MANIFEST = CLIENT / "assets" / "manifest.json"
 POLICY = ROOT / "art" / "lpc" / "characters.json"
-SOURCES = {"lpc", "unitforge", "original"}
+SOURCES = {"lpc", "unitforge", "original", "custom"}
+# Art the project owner made or commissioned for this game (art/custom/).
+OWNER_LICENSE = "Proprietary (project owner)"
 STATUSES = {"imported", "pending_manual_export"}
 REQUIRED_ANIMATIONS = {"hero": {"idle", "walk", "light", "heavy", "hurt", "down"},
                        "enemy": {"idle", "walk", "light", "hurt", "down"},
@@ -82,6 +84,14 @@ def validate_asset(asset_id: str, asset: dict, allowed: list[str]) -> list[str]:
     alpha = sheet.getchannel("A")
     if alpha.getextrema()[0] == 255:
         problems.append(f"{where} sheet has no transparent pixels")
+    if asset.get("hand_sheet"):
+        hand_path = res_path(asset["hand_sheet"])
+        if not hand_path.exists():
+            problems.append(f"{where} missing hand sheet {hand_path.relative_to(ROOT)}")
+        else:
+            with Image.open(hand_path) as hands:
+                if hands.size != sheet.size:
+                    problems.append(f"{where} hand sheet {hands.size} does not match the sheet {sheet.size}")
     animations = asset.get("animations", {})
     role = asset.get("role")
     missing = REQUIRED_ANIMATIONS.get(role, set()) - set(animations)
@@ -119,7 +129,9 @@ def validate_asset(asset_id: str, asset: dict, allowed: list[str]) -> list[str]:
             if not credit.get("authors") and not credit.get("license", "").startswith("CC0"):
                 problems.append(f"{where} credit for {credit.get('file')} names no authors")
             # The project's own generated art carries the project's licence.
-            own = asset.get("source") == "original" and credit.get("license") == "MIT"
+            own = (asset.get("source") == "original" and credit.get("license") == "MIT") or (
+                asset.get("source") == "custom" and credit.get("license") == OWNER_LICENSE
+            )
             if not own and not license_ok(credit.get("license", ""), allowed):
                 problems.append(f"{where} {credit.get('file')} uses disallowed licence {credit.get('license')!r}")
     tres = sheet_path.with_name(f"{asset_id}.tres")

@@ -325,7 +325,8 @@
       "chains": {
         "light": "knife_slash2",
         "heavy": "knife_lunge"
-      }
+      },
+      "anim": "stab"
     },
     "knife_slash2": {
       "startup": 4,
@@ -339,7 +340,8 @@
       "depth_tolerance": 14,
       "chains": {
         "heavy": "knife_lunge"
-      }
+      },
+      "anim": "stab"
     },
     "knife_lunge": {
       "startup": 6,
@@ -353,7 +355,7 @@
       "depth_tolerance": 14,
       "advance": 30,
       "knockdown": true,
-      "anim": "heavy"
+      "anim": "stab"
     },
     "bottle_swing": {
       "startup": 5,
@@ -367,7 +369,8 @@
       "depth_tolerance": 14,
       "chains": {
         "heavy": "bottle_smash"
-      }
+      },
+      "anim": "light"
     },
     "bottle_smash": {
       "startup": 9,
@@ -380,7 +383,7 @@
       "reach": 30,
       "depth_tolerance": 14,
       "knockdown": true,
-      "anim": "heavy"
+      "anim": "light"
     },
     "plank_swing": {
       "startup": 6,
@@ -395,7 +398,8 @@
       "chains": {
         "light": "plank_swing2",
         "heavy": "plank_overhead"
-      }
+      },
+      "anim": "light"
     },
     "plank_swing2": {
       "startup": 6,
@@ -409,7 +413,8 @@
       "depth_tolerance": 16,
       "chains": {
         "heavy": "plank_overhead"
-      }
+      },
+      "anim": "light"
     },
     "plank_overhead": {
       "startup": 12,
@@ -422,7 +427,7 @@
       "reach": 40,
       "depth_tolerance": 16,
       "knockdown": true,
-      "anim": "heavy"
+      "anim": "light"
     },
     "pipe_swing": {
       "startup": 7,
@@ -437,7 +442,8 @@
       "chains": {
         "light": "pipe_swing2",
         "heavy": "pipe_slam"
-      }
+      },
+      "anim": "light"
     },
     "pipe_swing2": {
       "startup": 7,
@@ -451,7 +457,8 @@
       "depth_tolerance": 16,
       "chains": {
         "heavy": "pipe_slam"
-      }
+      },
+      "anim": "light"
     },
     "pipe_slam": {
       "startup": 14,
@@ -465,7 +472,7 @@
       "depth_tolerance": 16,
       "guard_break": true,
       "knockdown": true,
-      "anim": "heavy"
+      "anim": "light"
     },
     "machete_slash": {
       "startup": 5,
@@ -480,7 +487,8 @@
       "chains": {
         "light": "machete_slash2",
         "heavy": "machete_cleave"
-      }
+      },
+      "anim": "light"
     },
     "machete_slash2": {
       "startup": 5,
@@ -494,7 +502,8 @@
       "depth_tolerance": 14,
       "chains": {
         "heavy": "machete_cleave"
-      }
+      },
+      "anim": "light"
     },
     "machete_cleave": {
       "startup": 12,
@@ -507,7 +516,7 @@
       "reach": 46,
       "depth_tolerance": 16,
       "knockdown": true,
-      "anim": "heavy"
+      "anim": "light"
     },
     "chair_swing": {
       "startup": 10,
@@ -520,7 +529,7 @@
       "reach": 44,
       "depth_tolerance": 18,
       "knockdown": true,
-      "anim": "heavy"
+      "anim": "light"
     },
     "chair_slam": {
       "startup": 16,
@@ -534,7 +543,7 @@
       "depth_tolerance": 20,
       "guard_break": true,
       "knockdown": true,
-      "anim": "heavy"
+      "anim": "light"
     },
     "thug_jab": {
       "startup": 8,
@@ -654,6 +663,66 @@
       "guard_break": true,
       "knockdown": true,
       "telegraph": true,
+      "anim": "heavy"
+    },
+    "liver_shot": {
+      "startup": 5,
+      "active": 4,
+      "recovery": 18,
+      "damage": 27,
+      "hitstun": 46,
+      "knockback": 16,
+      "reach_offset": 2,
+      "reach": 28,
+      "depth_tolerance": 12,
+      "energy_cost": 10,
+      "guard_break": true,
+      "anim": "heavy"
+    },
+    "one_two": {
+      "startup": 7,
+      "active": 8,
+      "recovery": 18,
+      "damage": 23,
+      "hitstun": 30,
+      "knockback": 60,
+      "reach_offset": 0,
+      "reach": 44,
+      "depth_tolerance": 16,
+      "energy_cost": 15,
+      "advance": 30,
+      "knockdown": true,
+      "anim": "light"
+    },
+    "dempsey_roll": {
+      "startup": 7,
+      "active": 13,
+      "recovery": 20,
+      "damage": 29,
+      "hitstun": 32,
+      "knockback": 85,
+      "reach_offset": 0,
+      "reach": 28,
+      "depth_tolerance": 16,
+      "energy_cost": 18,
+      "advance": 100,
+      "guard_break": true,
+      "knockdown": true,
+      "anim": "heavy"
+    },
+    "knockout_blow": {
+      "startup": 18,
+      "active": 6,
+      "recovery": 28,
+      "damage": 47,
+      "hitstun": 42,
+      "knockback": 105,
+      "reach_offset": -58,
+      "reach": 118,
+      "depth_tolerance": 28,
+      "energy_cost": 42,
+      "guard_break": true,
+      "knockdown": true,
       "anim": "heavy"
     }
   }

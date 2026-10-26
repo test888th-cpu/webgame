@@ -15,12 +15,13 @@ Murk*, a living smog that takes shape as creatures. Street crews, couriers and d
 fight it block by block. The player leads a five-person crew from a run-down depot in the
 harbour district, which becomes their home base.
 
-## The crew (roster of five)
+## The crew (roster of six)
 
 | Hero | Archetype | Feel | Signature |
 |---|---|---|---|
 | Mika Tanabe **[built]** | Brawler (female) | Damage and mobility: 100 HP, 110% power, 110% speed, long combo strings | Rising Uppercut, Whirlwind Kick, Shoulder Rush, Furnace Slam |
 | Oren Vale **[built]** | Bruiser (male) | Slow, tough, controls crowds: 130 HP, 100% power, 2 defense, 85% speed | Headbutt, Clothesline, Shoulder Charge, Earthshaker |
+| Riku Sato **[built]** | Boxer (male) | The all-rounder: 115 HP, 105% power, 1 defense, 100% speed; jab and cross from a tight guard | Liver Shot, One-Two, Dempsey Roll, Knockout Blow |
 | Sela Ruiz | Striker | Fast kicks, dodge-cancels | Spinning heel through a crowd |
 | Juno Okafor | Tinkerer | Mid-range gadgets, traps | Deployable shock coil |
 | Ivy Marlow | Medic | Support, buffs, sustain | Adrenaline field for the party |
@@ -31,7 +32,7 @@ name them (2–16 letters of any script, including Thai). Heroes are data
 (`client/data/heroes.json`); each brings its own base stats, sprites (and armoured
 look) and four skills to the hotbar. The save stores the hero and the name.
 
-The player picks a main hero and develops all five. Persistent data (level, skills,
+The player picks a main hero and develops all six. Persistent data (level, skills,
 equipment) is stored per hero. Temporary combat state is never persisted.
 
 ## Combat pillars
@@ -84,8 +85,9 @@ equipment) is stored per hero. Temporary combat state is never persisted.
   plank, steel pipe, machete and folding chair lie on the street (each area's
   `weapons` block says how many and which, by weight; stronger ones only from a
   minimum area level). E picks up the weapon underfoot (dropping the one in hand), or
-  puts the held one down. A weapon replaces Z/X with its own moves (knife: quick
-  slashes and a lunge; pipe: long swings and a guard-breaking slam; chair: every swing
+  puts the held one down. A weapon replaces Z/X with its own moves, always in the same hand: the knife
+  stabs straight ahead, everything else swings from behind the head forward and down
+  (knife: quick stabs and a lunge; pipe: long swings and a guard-breaking slam; chair: every swing
   knocks down but slows you), wears out with each blow that lands (a bottle breaks
   after two) and is drawn in the fighter's hand, following every swing. **Anyone
   knocked down drops their weapon** and must pick it up again. Skills and items work

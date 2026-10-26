@@ -12,6 +12,9 @@ const FLOAT_FIELDS := ["knockback", "reach", "depth_tolerance", "energy_cost", "
 const SIGNED_FLOAT_FIELDS := ["reach_offset"]
 const BOOL_FIELDS := ["guard_break", "knockdown", "telegraph"]
 const CHAIN_INPUTS := ["light", "heavy"]
+## Body animations a move can play: a one-arm swing, an overhead slash, or a
+## straight stab (knife).
+const ANIMS := ["light", "heavy", "stab"]
 
 var moves: Dictionary = {}
 ## The move each input starts from neutral, e.g. {"light": "jab"}.
@@ -96,10 +99,10 @@ func _parse_move(id: String, raw: Variant) -> MoveData:
 			continue
 		move.set(field, value)
 	var anim: Variant = raw.get("anim", "light")
-	if anim in ["light", "heavy"]:
+	if anim in ANIMS:
 		move.anim = anim
 	else:
-		errors.append('%s.anim: expected "light" or "heavy"' % id)
+		errors.append("%s.anim: expected one of %s" % [id, ANIMS])
 	if move.active < 1:
 		errors.append("%s.active: must be at least 1 tick" % id)
 	var chains: Variant = raw.get("chains", {})
