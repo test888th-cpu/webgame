@@ -65,6 +65,12 @@ var queued_tick := 0
 var stun_limit := 0
 var stun_meter := 0
 var grace := 0
+## Poise (elites and bosses): hitstun taken fills the same stun_meter; past
+## poise_limit the fighter shrugs blows off for `armor` ticks (still taking
+## damage), so mashing cannot pin them. They are also unflinching while
+## winding up a telegraphed attack: dodge it, guard it or parry it.
+var poise_limit := 0
+var armor := 0
 ## Perfect guard (the hero only, so enemy guards never punish the player's
 ## combos): a guard raised just before a hit parries it. parry_open says
 ## whether the current guard may parry (it may not while parry_lockout runs,

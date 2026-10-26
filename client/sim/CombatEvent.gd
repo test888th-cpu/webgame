@@ -15,6 +15,9 @@ var parried := false
 var counter := false
 ## A critical hit (CombatRules.CRIT_DAMAGE times the damage).
 var critical := false
+## Landed on a fighter who did not flinch (poise armor or a telegraphed
+## wind-up): damage only.
+var armored := false
 var knocked_down := false
 var ko := false
 var position := Vector2.ZERO

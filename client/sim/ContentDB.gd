@@ -249,6 +249,8 @@ func _validate_enemy(id: String, e: Dictionary) -> void:
 	_number(e, "max_hp", where, 1)
 	_number(e, "speed", where, 0)
 	_number(e, "xp", where, 0)
+	if e.has("poise"):
+		_number(e, "poise", where, 1)
 	_validate_moveset(e.get("moveset", {}), where)
 	var ai: Variant = e.get("ai")
 	if ai != null:

@@ -191,7 +191,8 @@
       },
       "color": "#4f7a8c",
       "scale": 1.25,
-      "sprite": "smog_warden"
+      "sprite": "smog_warden",
+      "poise": 60
     },
     "sludge_foreman": {
       "name": "The Sludge Foreman",
@@ -249,7 +250,8 @@
       "scale": 1.5,
       "sprite": "sludge_foreman",
       "wields": true,
-      "weapon_chance": 0.0
+      "weapon_chance": 0.0,
+      "poise": 80
     },
     "dock_thug": {
       "name": "Dock Thug",
@@ -438,7 +440,8 @@
       "color": "#5a6a4a",
       "sprite": "refinery_enforcer",
       "wields": true,
-      "weapon_chance": 0.6
+      "weapon_chance": 0.6,
+      "poise": 60
     },
     "furnace_baron": {
       "name": "The Furnace Baron",
@@ -499,7 +502,8 @@
       },
       "color": "#b0502a",
       "sprite": "furnace_baron",
-      "wields": false
+      "wields": false,
+      "poise": 80
     }
   }
 }

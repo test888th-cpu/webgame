@@ -148,6 +148,7 @@ func spawn_enemy(kind: String, position: Vector2) -> Fighter:
 	enemy.power = stats["power"]
 	enemy.defense = stats["defense"]
 	enemy.speed = stats["speed"]
+	enemy.poise_limit = int(data.get("poise", 0))
 	enemy.facing = -1 if hero.position.x < position.x else 1
 	fighters.append(enemy)
 	_enemy_level[enemy.id] = {"level": enemy_level, "stats": stats}

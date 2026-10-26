@@ -17,6 +17,9 @@ func show_hit(event: CombatEvent) -> void:
 	elif event.counter:
 		text = "COUNTER " + text
 		modulate = Color(1.0, 0.6, 0.25)
+	elif event.armored:
+		# Landed, but they did not flinch: a steel-grey number says "dodge now".
+		modulate = Color(0.75, 0.8, 0.9)
 	elif event.blocked:
 		modulate = Color(0.6, 0.8, 1.0)
 	elif event.ko:

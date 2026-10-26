@@ -38,6 +38,8 @@ const INPUT_BUFFER_TICKS := 12
 const HERO_STUN_LIMIT := 40
 const STUN_DECAY := 1
 const WAKE_GRACE_TICKS := 36
+## How long a fighter whose poise broke shrugs off hitstun.
+const ARMOR_TICKS := 90
 ## Perfect guard: a guard raised at most PERFECT_GUARD_TICKS before a hit
 ## from the front parries it (no damage, no energy lost, guard breakers
 ## included) and refunds PARRY_ENERGY; the attacker reels for PARRY_STUN
@@ -125,6 +127,8 @@ static func _step(f: Fighter, input: FighterInput, library: MoveLibrary, bounds:
 	f.state_tick += 1
 	if f.grace > 0:
 		f.grace -= 1
+	if f.armor > 0:
+		f.armor -= 1
 	if f.parry_lockout > 0:
 		f.parry_lockout -= 1
 	if f.exposed > 0:
@@ -308,6 +312,8 @@ static func thrown_hit(
 	if defender.hp == 0:
 		event.ko = true
 		defender.enter(Fighter.State.KO)
+	elif not event.blocked and is_unflinching(defender):
+		event.armored = true
 	elif not event.blocked:
 		event.knocked_down = knockdown
 		if knockdown:
@@ -378,12 +384,26 @@ static func _apply_hit(
 		event.ko = true
 		defender.enter(Fighter.State.KO)
 	elif not event.blocked:
-		event.knocked_down = move.knockdown
-		if move.knockdown:
+		if is_unflinching(defender):
+			event.armored = true
+			defender.knockback_remaining *= 0.25
+		elif move.knockdown:
+			event.knocked_down = true
 			defender.enter(Fighter.State.DOWN)
 		else:
 			event.knocked_down = _stun(defender, move.hitstun)
+			event.armored = defender.armor > 0 and not event.knocked_down
 	return event
+
+
+## Blows land but do not interrupt: poise broken into armor, or winding up a
+## telegraphed attack (fighters with poise only).
+static func is_unflinching(f: Fighter) -> bool:
+	if f.poise_limit <= 0:
+		return false
+	if f.armor > 0:
+		return true
+	return f.state == Fighter.State.ATTACK and f.move.telegraph and f.state_tick < f.move.startup
 
 
 ## Whether a hit arriving now (from the front or not) is perfectly guarded.
@@ -412,6 +432,11 @@ static func _parry(attacker: Fighter, defender: Fighter, event: CombatEvent) -> 
 ## protection says they have been held long enough. Returns true if knocked
 ## down.
 static func _stun(defender: Fighter, ticks: int) -> bool:
+	if defender.poise_limit > 0 and defender.stun_meter + ticks > defender.poise_limit:
+		# Poise breaks the other way: they stop flinching for a while.
+		defender.stun_meter = 0
+		defender.armor = ARMOR_TICKS
+		return false
 	if defender.stun_limit > 0 and defender.stun_meter + ticks > defender.stun_limit:
 		defender.stun_meter = 0
 		defender.enter(Fighter.State.DOWN)

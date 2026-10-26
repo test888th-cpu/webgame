@@ -4,6 +4,22 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — Elites and bosses cannot be pinned by mashing (poise)
+- Found while balancing the classes: replaying a fight against the Smog Warden (one
+  scripted player per hero, 20 seeds) showed a hero who just mashed light attacks kept
+  the elite helpless 60–77% of the fight and was never hit back, which made its
+  telegraphed attacks meaningless.
+- Elites and bosses now have **poise** (`enemies.json` `poise`: 60 for elites, 80 for
+  bosses). Hitstun fills it; past it they shrug blows off for 1.5 s (still taking
+  damage, with a warm sheen and steel-grey damage numbers), and they are unflinching
+  while winding up a telegraphed attack, so the answer is to dodge, guard or parry.
+  A parry still staggers them. Same replay: helpless 39–55%, and at level 5 the elite
+  now lands hits. Heroes and ordinary enemies are unchanged.
+- The same replay showed why Mika's kills are slowest at level 1: both her starting
+  skills knock down, and a floored enemy cannot be hit for 50 ticks. That is the
+  intended trade (knockdowns buy safety), recorded in the blueprint rather than
+  re-tuned without playtesting. 6 new tests (214 total).
+
 ### Added — Gear upgrades at the workbench (IL-3)
 - Every equipment slot can be upgraded from +0 to +10. Each level adds 10% of the worn
   item's own stats (penalties are never amplified). Upgrades belong to the **slot**, so
