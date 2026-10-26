@@ -216,10 +216,17 @@ trims, and scales to `hd` = 2 texture pixels per game pixel; the game draws them
 half size with linear filtering, sharp at any window size. Ground tiles are mirrored
 so they repeat without a seam. Then each area is laid out from its theme in
 `kit.json` (seeded by area id): skyline, condo towers and the skytrain behind the
-street scrolling slower, a row of shops and shophouses, sidewalk tiles, lamp posts
-and power poles at a steady rhythm with props, animals and stalls between them,
-vehicles parked at the kerb clear of the exits, and foliage in front of the fighters
-scrolling faster, all recorded in the manifest's `kit` section. An area's
+street scrolling slower, a row of shops and shophouses, sidewalk tiles, props,
+animals and stalls on the sidewalk between the street furniture, and foliage in front of the fighters
+scrolling faster, all recorded in the manifest's `kit` section. Street furniture
+is not laid out by the kit but placed in `areas.json` `obstacles` (kinds in
+`obstacles.json`), because the simulation needs it: lamp posts, power poles, bins
+and cones stand on the sidewalk, out of the fighters' lane; crates, oil drums and
+parked vehicles stand solid at the kerb (vehicles block as rectangles, `"box"`).
+The kerb (`Scenery.ROAD_TOP` = 244) is above the lane (`ZoneSim.LANE_TOP` = 250),
+so fighters never stand on the sidewalk. Pieces are sized to the characters, who
+stand about 50 game pixels tall: doors are taller than a person, so shophouses are
+280 and shops 170 tall and may rise past the top of the view. An area's
 `kit_theme` (areas.json) picks a kit theme of its own, such as `fight_club` and
 `junkyard`, while its `theme` still drives the generated fallback scenery. A theme's
 `hanging` pieces (the Fight Club work lamps) are strung across the front buildings,

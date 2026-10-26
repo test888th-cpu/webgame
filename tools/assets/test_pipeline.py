@@ -279,13 +279,23 @@ class PaintedWeaponTest(unittest.TestCase):
         self.assertTrue(specs, "the owner's weapons are listed")
         for name, spec in specs.items():
             cell = gen_ui.painted_weapon(spec)
-            self.assertEqual(cell.size, gen_ui.WEAPON_SIZE, name)
+            self.assertEqual(cell.size, gen_ui.weapon_cell(spec), name)
             alpha = cell.getchannel("A")
             box = alpha.getbbox()
             self.assertIsNotNone(box, name)
             self.assertGreater(box[1], 0, f"{name} is not cut off at the top")
-            grip = gen_ui.WEAPON_GRIP
+            grip = gen_ui.weapon_grip(cell.size)
             self.assertEqual(alpha.getpixel(grip), 255, f"{name} has its handle at the grip")
+
+    def test_the_chair_is_film_sized(self) -> None:
+        import gen_ui
+
+        chair = gen_ui.painted_weapon(gen_ui.weapon_specs()["weapon_chair"])
+        box = chair.getchannel("A").getbbox()
+        # Characters stand about 50 px tall: the chair is most of that.
+        self.assertGreaterEqual(box[3] - box[1], 36)
+        self.assertGreater(box[0], 0, "not cut off at the side")
+        self.assertLess(box[2], chair.width, "not cut off at the side")
 
 
 class RecordedSoundTest(unittest.TestCase):

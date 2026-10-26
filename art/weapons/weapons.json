@@ -10,7 +10,7 @@
     "weapon_plank": {"file": "plank.png", "length": 24},
     "weapon_pipe": {"file": "pipe.png", "length": 24},
     "weapon_machete": {"file": "machete.png", "length": 22},
-    "weapon_chair": {"file": "chair.png", "length": 21},
+    "weapon_chair": {"file": "chair.png", "length": 40, "cell": [32, 48]},
     "weapon_frying_pan": {"file": "frying_pan.png", "length": 20},
     "weapon_wrench": {"file": "wrench.png", "length": 19},
     "weapon_baseball_bat": {"file": "baseball_bat.png", "length": 24}

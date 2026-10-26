@@ -39,8 +39,10 @@ func _draw() -> void:
 	draw_rect(Rect2(Vector2.ZERO, SIZE), Color(0, 0, 0, 0.55))
 	draw_rect(Rect2(Vector2.ZERO, SIZE).grow(-0.5), Color(UiTheme.GOLD, 0.6), false, 1.0)
 	if _texture:
-		# The sprite stands upright; lay it diagonally in a 20px square.
-		draw_set_transform(Vector2(11, 11), deg_to_rad(45.0), Vector2(0.6, 0.6))
+		# The sprite stands upright; lay it diagonally in a 20px square (big
+		# weapons such as the chair are shrunk to fit like the rest).
+		var fit := 0.6 * 32.0 / maxf(32.0, _texture.get_size().y)
+		draw_set_transform(Vector2(11, 11), deg_to_rad(45.0), Vector2(fit, fit))
 		draw_texture(_texture, -_texture.get_size() / 2.0)
 		draw_set_transform(Vector2.ZERO)
 	var font := get_theme_default_font()

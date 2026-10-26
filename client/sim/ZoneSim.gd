@@ -716,6 +716,7 @@ func _build_solids() -> void:
 					"position": Vector2(obstacle["x"], obstacle["y"]),
 					"half": Vector2(half[0], half[1]),
 					"kind": str(obstacle["kind"]),
+					"box": bool(kind.get("box", false)),
 				}
 			)
 		)

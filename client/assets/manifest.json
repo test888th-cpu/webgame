@@ -9001,246 +9001,210 @@
             "layer": "back",
             "piece": "condo_tower",
             "x": -45,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 168,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 392,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 576,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 758,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 943,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 1118,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "closed_shop",
-            "x": 37,
-            "y": 232
+            "x": 79,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "shophouse_b",
-            "x": 172,
-            "y": 232
+            "x": 291,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "pharmacy",
-            "x": 316,
-            "y": 232
+            "x": 515,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "noodle_shop",
-            "x": 484,
-            "y": 232
+            "x": 786,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "shophouse_b",
-            "x": 647,
-            "y": 232
+            "x": 1044,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "shophouse_a",
-            "x": 805,
-            "y": 232
+            "x": 1274,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "pharmacy",
-            "x": 958,
-            "y": 232
+            "x": 1507,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "shophouse_a",
-            "x": 1109,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "closed_shop",
-            "x": 1254,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "shophouse_b",
-            "x": 1412,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "closed_shop",
-            "x": 1570,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "pharmacy",
-            "x": 1702,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "shophouse_a",
-            "x": 1856,
-            "y": 232
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "cat",
-            "x": 288,
-            "y": 240
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "crates",
-            "x": 1435,
-            "y": 240
+            "x": 1738,
+            "y": 226
           },
           {
             "layer": "sidewalk",
             "piece": "trash_bin",
-            "x": 1646,
-            "y": 240
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "potted_plants",
-            "x": 149,
-            "y": 241
+            "x": 1075,
+            "y": 232
           },
           {
             "layer": "sidewalk",
             "piece": "crates",
-            "x": 336,
-            "y": 241
+            "x": 1682,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 515,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "traffic_cone",
+            "x": 315,
+            "y": 234
           },
           {
             "layer": "sidewalk",
             "piece": "dog_sleeping",
-            "x": 1011,
-            "y": 241
+            "x": 800,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "cat",
+            "x": 929,
+            "y": 235
           },
           {
             "layer": "sidewalk",
             "piece": "spirit_house",
-            "x": 1737,
-            "y": 241
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "spirit_house",
-            "x": 97,
-            "y": 242
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "crates",
-            "x": 809,
-            "y": 242
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "trash_bin",
-            "x": 526,
-            "y": 243
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "crates",
-            "x": 604,
-            "y": 243
+            "x": 1229,
+            "y": 235
           },
           {
             "layer": "sidewalk",
             "piece": "plastic_stools",
-            "x": 1497,
-            "y": 243
+            "x": 1744,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "dog_sleeping",
+            "x": 236,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 1290,
+            "y": 236
           },
           {
             "layer": "sidewalk",
             "piece": "trash_bin",
-            "x": 731,
-            "y": 245
+            "x": 79,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "traffic_cone",
+            "x": 175,
+            "y": 237
           },
           {
             "layer": "sidewalk",
             "piece": "potted_plants",
-            "x": 1195,
-            "y": 245
+            "x": 1442,
+            "y": 237
           },
           {
             "layer": "sidewalk",
-            "piece": "spirit_house",
-            "x": 1802,
-            "y": 245
+            "piece": "cat",
+            "x": 1808,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "traffic_cone",
+            "x": 596,
+            "y": 238
           },
           {
             "layer": "sidewalk",
             "piece": "crates",
-            "x": 1095,
-            "y": 246
+            "x": 724,
+            "y": 238
           },
           {
             "layer": "sidewalk",
             "piece": "crates",
-            "x": 1245,
-            "y": 246
-          },
-          {
-            "layer": "street",
-            "piece": "motorbike",
-            "x": 165,
-            "y": 254
+            "x": 1492,
+            "y": 238
           },
           {
             "layer": "fg",
             "piece": "fg_leaves",
-            "x": 314,
+            "x": 385,
             "y": 374
           },
           {
             "layer": "fg",
             "piece": "fg_leaves",
-            "x": 862,
+            "x": 1204,
             "y": 374
           },
           {
             "layer": "fg",
             "piece": "fg_leaves",
-            "x": 1706,
+            "x": 1868,
             "y": 374
           }
         ],
@@ -9265,25 +9229,25 @@
             "layer": "back",
             "piece": "condo_tower",
             "x": -45,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 212,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 460,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 616,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "track",
@@ -9300,97 +9264,79 @@
           {
             "layer": "front",
             "piece": "convenience_store",
-            "x": 49,
-            "y": 232
+            "x": 112,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "shophouse_a",
-            "x": 241,
-            "y": 232
+            "x": 402,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "closed_shop",
-            "x": 404,
-            "y": 232
+            "x": 642,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "shophouse_b",
-            "x": 555,
-            "y": 232
+            "x": 870,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "shophouse_a",
-            "x": 720,
-            "y": 232
+            "x": 1107,
+            "y": 226
           },
           {
-            "layer": "front",
-            "piece": "shophouse_b",
-            "x": 885,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "closed_shop",
-            "x": 1042,
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 318,
             "y": 232
           },
           {
             "layer": "sidewalk",
-            "piece": "vending_machine",
-            "x": 266,
-            "y": 241
+            "piece": "spirit_house",
+            "x": 994,
+            "y": 234
           },
           {
             "layer": "sidewalk",
-            "piece": "traffic_cone",
-            "x": 340,
-            "y": 241
+            "piece": "crates",
+            "x": 210,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 907,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 592,
+            "y": 236
           },
           {
             "layer": "sidewalk",
             "piece": "trash_bin",
-            "x": 742,
-            "y": 243
+            "x": 753,
+            "y": 236
           },
           {
             "layer": "sidewalk",
-            "piece": "vending_machine",
-            "x": 110,
-            "y": 244
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "vending_machine",
-            "x": 914,
-            "y": 244
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "vending_machine",
-            "x": 997,
-            "y": 245
-          },
-          {
-            "layer": "street",
-            "piece": "taxi",
-            "x": 278,
-            "y": 254
-          },
-          {
-            "layer": "street",
-            "piece": "motorbike",
-            "x": 645,
-            "y": 254
+            "piece": "trash_bin",
+            "x": 518,
+            "y": 237
           },
           {
             "layer": "fg",
             "piece": "fg_leaves",
-            "x": 273,
+            "x": 372,
             "y": 374
           }
         ],
@@ -9421,168 +9367,174 @@
             "layer": "back",
             "piece": "condo_tower",
             "x": -45,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 222,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 521,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 808,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "warehouse_wall",
-            "x": 170,
-            "y": 232
+            "x": 228,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "closed_shop",
-            "x": 420,
-            "y": 232
+            "x": 579,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "warehouse_wall",
-            "x": 669,
-            "y": 232
+            "x": 928,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "closed_shop",
-            "x": 918,
-            "y": 232
+            "x": 1277,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "warehouse_wall",
-            "x": 1168,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "closed_shop",
-            "x": 1415,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "warehouse_wall",
-            "x": 1660,
-            "y": 232
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "crowd_silhouettes",
-            "x": 88,
-            "y": 240
+            "x": 1628,
+            "y": 226
           },
           {
             "layer": "sidewalk",
             "piece": "tyre_stack",
-            "x": 1260,
-            "y": 240
+            "x": 211,
+            "y": 232
           },
           {
             "layer": "sidewalk",
             "piece": "chair_pile",
-            "x": 1369,
-            "y": 240
+            "x": 345,
+            "y": 232
           },
           {
             "layer": "sidewalk",
             "piece": "tyre_stack",
-            "x": 618,
-            "y": 241
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "tyre_stack",
-            "x": 1096,
-            "y": 241
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "tyre_stack",
-            "x": 828,
-            "y": 242
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "oil_drums",
-            "x": 952,
-            "y": 244
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "ring_ropes",
-            "x": 1470,
-            "y": 244
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "ring_ropes",
-            "x": 391,
-            "y": 245
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "oil_drums",
-            "x": 555,
-            "y": 246
+            "x": 1195,
+            "y": 232
           },
           {
             "layer": "sidewalk",
             "piece": "chair_pile",
-            "x": 1198,
-            "y": 246
+            "x": 1304,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 130,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 591,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 1031,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "chair_pile",
+            "x": 648,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 839,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 472,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "chair_pile",
+            "x": 746,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 83,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 528,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "chair_pile",
+            "x": 1133,
+            "y": 238
           },
           {
             "layer": "front",
             "piece": "work_lamp_string",
-            "x": 53,
+            "x": 40,
             "y": 104
           },
           {
             "layer": "front",
             "piece": "work_lamp_string",
-            "x": 349,
+            "x": 325,
             "y": 104
           },
           {
             "layer": "front",
             "piece": "work_lamp_string",
-            "x": 643,
+            "x": 624,
             "y": 104
           },
           {
             "layer": "front",
             "piece": "work_lamp_string",
-            "x": 930,
+            "x": 915,
             "y": 104
           },
           {
             "layer": "front",
             "piece": "work_lamp_string",
-            "x": 1201,
+            "x": 1182,
             "y": 104
           },
           {
             "layer": "front",
             "piece": "work_lamp_string",
-            "x": 1480,
+            "x": 1465,
             "y": 104
           }
         ],
@@ -9606,73 +9558,73 @@
             "layer": "back",
             "piece": "condo_tower",
             "x": -45,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 147,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 314,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 447,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 634,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 797,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 943,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 1046,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 1183,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 1348,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 1474,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 1635,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "track",
@@ -9701,241 +9653,205 @@
           {
             "layer": "front",
             "piece": "noodle_shop",
-            "x": 63,
-            "y": 232
+            "x": 123,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "shophouse_a",
-            "x": 242,
-            "y": 232
+            "x": 398,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "closed_shop",
-            "x": 390,
-            "y": 232
+            "x": 623,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "shophouse_b",
-            "x": 525,
-            "y": 232
+            "x": 836,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "massage_shop",
-            "x": 697,
-            "y": 232
+            "x": 1099,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "shophouse_b",
-            "x": 853,
-            "y": 232
+            "x": 1346,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "closed_shop",
-            "x": 1000,
-            "y": 232
+            "x": 1569,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "shophouse_a",
-            "x": 1142,
-            "y": 232
+            "x": 1790,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "noodle_shop",
-            "x": 1320,
-            "y": 232
+            "x": 2064,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "shophouse_a",
-            "x": 1496,
-            "y": 232
+            "x": 2335,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "pharmacy",
-            "x": 1648,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "shophouse_a",
-            "x": 1800,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "noodle_shop",
-            "x": 1974,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "shophouse_b",
-            "x": 2134,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "pharmacy",
-            "x": 2271,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "noodle_shop",
-            "x": 2435,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "pharmacy",
-            "x": 2586,
-            "y": 232
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "plastic_stools",
-            "x": 1401,
-            "y": 240
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "spirit_house",
-            "x": 252,
-            "y": 241
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "cat",
-            "x": 1230,
-            "y": 241
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "umbrella_stall",
-            "x": 1946,
-            "y": 241
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "plastic_stools",
-            "x": 96,
-            "y": 242
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "umbrella_stall",
-            "x": 452,
-            "y": 242
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "vending_machine",
-            "x": 1064,
-            "y": 242
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "spirit_house",
-            "x": 1186,
-            "y": 242
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "vending_machine",
-            "x": 2329,
-            "y": 242
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "vending_machine",
-            "x": 2569,
-            "y": 242
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "food_cart",
-            "x": 684,
-            "y": 243
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "plastic_stools",
-            "x": 821,
-            "y": 243
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "traffic_cone",
-            "x": 1737,
-            "y": 243
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "vending_machine",
-            "x": 2117,
-            "y": 243
+            "x": 2567,
+            "y": 226
           },
           {
             "layer": "sidewalk",
             "piece": "trash_bin",
-            "x": 576,
-            "y": 244
+            "x": 463,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "plastic_stools",
+            "x": 961,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "vending_machine",
+            "x": 1611,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "spirit_house",
+            "x": 1733,
+            "y": 234
           },
           {
             "layer": "sidewalk",
             "piece": "potted_plants",
-            "x": 944,
-            "y": 244
+            "x": 2182,
+            "y": 234
           },
           {
             "layer": "sidewalk",
             "piece": "traffic_cone",
-            "x": 1680,
-            "y": 244
+            "x": 533,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "food_cart",
+            "x": 756,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "food_cart",
+            "x": 1215,
+            "y": 235
           },
           {
             "layer": "sidewalk",
             "piece": "traffic_cone",
-            "x": 1604,
-            "y": 246
+            "x": 679,
+            "y": 236
           },
           {
             "layer": "sidewalk",
-            "piece": "traffic_cone",
-            "x": 1880,
-            "y": 246
+            "piece": "vending_machine",
+            "x": 1491,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 2101,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "dog_sleeping",
+            "x": 2596,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "vending_machine",
+            "x": 119,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "cat",
+            "x": 1423,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "vending_machine",
+            "x": 1874,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "vending_machine",
+            "x": 2322,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "cat",
+            "x": 1831,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "dog_sitting",
+            "x": 1937,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "vending_machine",
+            "x": 2519,
+            "y": 238
           },
           {
             "layer": "fg",
             "piece": "fg_leaves",
-            "x": 227,
+            "x": 316,
             "y": 374
           },
           {
             "layer": "fg",
             "piece": "fg_leaves",
-            "x": 1053,
+            "x": 1168,
             "y": 374
           },
           {
             "layer": "fg",
             "piece": "fg_leaves",
-            "x": 1796,
+            "x": 1820,
             "y": 374
           },
           {
             "layer": "fg",
             "piece": "fg_leaves",
-            "x": 2523,
+            "x": 2530,
             "y": 374
           }
         ],
@@ -9965,43 +9881,43 @@
             "layer": "back",
             "piece": "condo_tower",
             "x": -45,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 111,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 377,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 650,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 908,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 1174,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 1350,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "track",
@@ -10030,253 +9946,223 @@
           {
             "layer": "front",
             "piece": "shophouse_a",
-            "x": 36,
-            "y": 232
+            "x": 72,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "shophouse_b",
-            "x": 213,
-            "y": 232
+            "x": 320,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "shophouse_a",
-            "x": 366,
-            "y": 232
+            "x": 543,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "shophouse_b",
-            "x": 529,
-            "y": 232
+            "x": 778,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "convenience_store",
-            "x": 702,
-            "y": 232
+            "x": 1048,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "shophouse_a",
-            "x": 887,
-            "y": 232
+            "x": 1332,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "shophouse_b",
-            "x": 1047,
-            "y": 232
+            "x": 1563,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "shophouse_a",
-            "x": 1202,
-            "y": 232
+            "x": 1789,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "closed_shop",
-            "x": 1352,
-            "y": 232
+            "x": 2016,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "shophouse_b",
-            "x": 1502,
-            "y": 232
+            "x": 2243,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "convenience_store",
-            "x": 1668,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "closed_shop",
-            "x": 1838,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "shophouse_b",
-            "x": 1997,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "shophouse_a",
-            "x": 2152,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "convenience_store",
-            "x": 2336,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "closed_shop",
-            "x": 2496,
-            "y": 232
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "plastic_stools",
-            "x": 241,
-            "y": 240
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "crates",
-            "x": 902,
-            "y": 240
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "traffic_cone",
-            "x": 2086,
-            "y": 240
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "trash_bin",
-            "x": 100,
-            "y": 241
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "traffic_cone",
-            "x": 1123,
-            "y": 241
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "crates",
-            "x": 1851,
-            "y": 241
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "crates",
-            "x": 2377,
-            "y": 241
+            "x": 2507,
+            "y": 226
           },
           {
             "layer": "sidewalk",
             "piece": "dog_sleeping",
-            "x": 545,
-            "y": 242
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "trash_bin",
-            "x": 1666,
-            "y": 242
+            "x": 788,
+            "y": 232
           },
           {
             "layer": "sidewalk",
             "piece": "crates",
-            "x": 1755,
-            "y": 242
+            "x": 1180,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 1613,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 859,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 1702,
+            "y": 233
           },
           {
             "layer": "sidewalk",
             "piece": "traffic_cone",
-            "x": 364,
-            "y": 243
+            "x": 1976,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 248,
+            "y": 234
           },
           {
             "layer": "sidewalk",
             "piece": "dog_sitting",
-            "x": 850,
-            "y": 243
+            "x": 483,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 2336,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "dog_sitting",
+            "x": 1128,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "traffic_cone",
+            "x": 1413,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 1473,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 2114,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "traffic_cone",
+            "x": 2429,
+            "y": 235
           },
           {
             "layer": "sidewalk",
             "piece": "trash_bin",
-            "x": 1179,
-            "y": 243
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "crates",
-            "x": 1477,
-            "y": 243
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "dog_sleeping",
-            "x": 758,
-            "y": 244
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "vending_machine",
-            "x": 1607,
-            "y": 244
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "dog_sleeping",
-            "x": 296,
-            "y": 245
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "vending_machine",
-            "x": 967,
-            "y": 245
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "crates",
-            "x": 2280,
-            "y": 245
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "dog_sleeping",
-            "x": 171,
-            "y": 246
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "crates",
-            "x": 1030,
-            "y": 246
+            "x": 162,
+            "y": 236
           },
           {
             "layer": "sidewalk",
             "piece": "trash_bin",
-            "x": 1282,
-            "y": 246
+            "x": 929,
+            "y": 236
           },
           {
-            "layer": "street",
-            "piece": "songthaew",
-            "x": 222,
-            "y": 254
+            "layer": "sidewalk",
+            "piece": "dog_sleeping",
+            "x": 1036,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "vending_machine",
+            "x": 1850,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "dog_sleeping",
+            "x": 104,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "dog_sitting",
+            "x": 582,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "traffic_cone",
+            "x": 721,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "vending_machine",
+            "x": 1245,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "cat",
+            "x": 2184,
+            "y": 237
           },
           {
             "layer": "fg",
             "piece": "fg_leaves",
-            "x": 328,
+            "x": 363,
             "y": 374
           },
           {
             "layer": "fg",
             "piece": "fg_leaves",
-            "x": 1485,
+            "x": 1261,
             "y": 374
           },
           {
             "layer": "fg",
             "piece": "fg_leaves",
-            "x": 2454,
+            "x": 2139,
             "y": 374
           }
         ],
@@ -10307,294 +10193,264 @@
             "layer": "back",
             "piece": "condo_tower",
             "x": -45,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 144,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 329,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 569,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 796,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 973,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 1126,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 1336,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "closed_shop",
-            "x": 44,
-            "y": 232
+            "x": 86,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "shophouse_b",
-            "x": 188,
-            "y": 232
+            "x": 307,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "shophouse_a",
-            "x": 338,
-            "y": 232
+            "x": 528,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "noodle_shop",
-            "x": 522,
-            "y": 232
+            "x": 807,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "closed_shop",
-            "x": 672,
-            "y": 232
+            "x": 1059,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "shophouse_a",
-            "x": 808,
-            "y": 232
+            "x": 1272,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "shophouse_b",
-            "x": 965,
-            "y": 232
+            "x": 1500,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "noodle_shop",
-            "x": 1131,
-            "y": 232
+            "x": 1762,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "shophouse_a",
-            "x": 1296,
-            "y": 232
+            "x": 2023,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "shophouse_b",
-            "x": 1446,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "noodle_shop",
-            "x": 1626,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "shophouse_a",
-            "x": 1804,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "closed_shop",
-            "x": 1962,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "shophouse_b",
-            "x": 2115,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "closed_shop",
-            "x": 2273,
-            "y": 232
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "trash_bin",
-            "x": 1032,
-            "y": 240
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "crates",
-            "x": 1435,
-            "y": 240
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "cat",
-            "x": 1548,
-            "y": 240
+            "x": 2244,
+            "y": 226
           },
           {
             "layer": "sidewalk",
             "piece": "potted_plants",
-            "x": 1842,
-            "y": 240
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "crates",
-            "x": 2064,
-            "y": 240
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "dog_sleeping",
-            "x": 189,
-            "y": 241
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "potted_plants",
-            "x": 612,
-            "y": 241
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "traffic_cone",
-            "x": 1126,
-            "y": 241
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "dog_sleeping",
-            "x": 1497,
-            "y": 241
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "cat",
-            "x": 1796,
-            "y": 241
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "trash_bin",
-            "x": 261,
-            "y": 242
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "potted_plants",
-            "x": 1345,
-            "y": 242
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "crates",
-            "x": 1625,
-            "y": 243
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "plastic_stools",
-            "x": 89,
-            "y": 244
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "cat",
-            "x": 980,
-            "y": 244
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "trash_bin",
-            "x": 2120,
-            "y": 244
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "potted_plants",
-            "x": 1907,
-            "y": 245
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "potted_plants",
-            "x": 532,
-            "y": 246
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "trash_bin",
-            "x": 1194,
-            "y": 246
+            "x": 1140,
+            "y": 232
           },
           {
             "layer": "sidewalk",
             "piece": "spirit_house",
-            "x": 2220,
-            "y": 246
+            "x": 1629,
+            "y": 232
           },
           {
-            "layer": "street",
-            "piece": "tuk_tuk",
-            "x": 1587,
-            "y": 254
+            "layer": "sidewalk",
+            "piece": "cat",
+            "x": 1867,
+            "y": 232
           },
           {
-            "layer": "street",
-            "piece": "motorbike",
-            "x": 1902,
-            "y": 254
+            "layer": "sidewalk",
+            "piece": "traffic_cone",
+            "x": 2096,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "plastic_stools",
+            "x": 1564,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 1949,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 2025,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "traffic_cone",
+            "x": 309,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "potted_plants",
+            "x": 509,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "dog_sleeping",
+            "x": 566,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 747,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "plastic_stools",
+            "x": 1430,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "spirit_house",
+            "x": 172,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "spirit_house",
+            "x": 1678,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 98,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "potted_plants",
+            "x": 982,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "potted_plants",
+            "x": 1239,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "spirit_house",
+            "x": 1505,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 1816,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 255,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "cat",
+            "x": 1042,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 1355,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "cat",
+            "x": 2165,
+            "y": 238
           },
           {
             "layer": "fg",
             "piece": "fg_leaves",
-            "x": 324,
+            "x": 400,
             "y": 374
           },
           {
             "layer": "fg",
             "piece": "fg_leaves",
-            "x": 890,
+            "x": 1247,
             "y": 374
           },
           {
             "layer": "fg",
             "piece": "fg_leaves",
-            "x": 1573,
-            "y": 374
-          },
-          {
-            "layer": "fg",
-            "piece": "fg_leaves",
-            "x": 2205,
+            "x": 2058,
             "y": 374
           }
         ],
@@ -10619,43 +10475,43 @@
             "layer": "back",
             "piece": "condo_tower",
             "x": -45,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 137,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 345,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 550,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 731,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 893,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 1180,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "track",
@@ -10678,193 +10534,169 @@
           {
             "layer": "front",
             "piece": "rusted_fence",
-            "x": 75,
-            "y": 232
+            "x": 107,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "shophouse_b",
+            "x": 356,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "junk_shop",
+            "x": 568,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "shophouse_b",
+            "x": 784,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "closed_shop",
+            "x": 1010,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "rusted_fence",
+            "x": 1246,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "shophouse_b",
+            "x": 1496,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "rusted_fence",
+            "x": 1747,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "junk_shop",
+            "x": 1982,
+            "y": 226
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "scrap_pile",
+            "x": 118,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
             "x": 256,
             "y": 232
           },
           {
-            "layer": "front",
-            "piece": "junk_shop",
-            "x": 397,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "shophouse_b",
-            "x": 542,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "closed_shop",
-            "x": 692,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "rusted_fence",
-            "x": 853,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "shophouse_b",
-            "x": 1035,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "rusted_fence",
-            "x": 1218,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "junk_shop",
-            "x": 1385,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "rusted_fence",
-            "x": 1546,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "junk_shop",
-            "x": 1706,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "rusted_fence",
-            "x": 1874,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "closed_shop",
-            "x": 2032,
-            "y": 232
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "oil_drums",
-            "x": 1968,
-            "y": 241
-          },
-          {
             "layer": "sidewalk",
             "piece": "crates",
-            "x": 541,
-            "y": 242
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "dog_sleeping",
-            "x": 795,
-            "y": 242
+            "x": 1409,
+            "y": 232
           },
           {
             "layer": "sidewalk",
             "piece": "scrap_pile",
-            "x": 1115,
-            "y": 242
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "crates",
-            "x": 1708,
-            "y": 242
+            "x": 1493,
+            "y": 232
           },
           {
             "layer": "sidewalk",
             "piece": "oil_drums",
-            "x": 870,
-            "y": 243
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "cat",
-            "x": 1240,
-            "y": 243
+            "x": 1023,
+            "y": 233
           },
           {
             "layer": "sidewalk",
             "piece": "crates",
-            "x": 1380,
-            "y": 243
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "crates",
-            "x": 224,
-            "y": 244
+            "x": 846,
+            "y": 234
           },
           {
             "layer": "sidewalk",
             "piece": "oil_drums",
-            "x": 432,
-            "y": 244
+            "x": 923,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 1088,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 1270,
+            "y": 234
           },
           {
             "layer": "sidewalk",
             "piece": "scrap_pile",
-            "x": 1543,
-            "y": 244
+            "x": 1946,
+            "y": 234
           },
           {
             "layer": "sidewalk",
-            "piece": "trash_bin",
-            "x": 1614,
-            "y": 244
+            "piece": "oil_drums",
+            "x": 737,
+            "y": 236
           },
           {
             "layer": "sidewalk",
-            "piece": "dog_sleeping",
-            "x": 1025,
-            "y": 245
+            "piece": "tyre_stack",
+            "x": 1190,
+            "y": 236
           },
           {
             "layer": "sidewalk",
-            "piece": "dog_sleeping",
-            "x": 121,
-            "y": 246
+            "piece": "oil_drums",
+            "x": 1573,
+            "y": 236
           },
           {
             "layer": "sidewalk",
-            "piece": "trash_bin",
-            "x": 685,
-            "y": 246
+            "piece": "crates",
+            "x": 1676,
+            "y": 236
           },
           {
-            "layer": "street",
-            "piece": "car_wreck",
-            "x": 248,
-            "y": 254
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 2044,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 468,
+            "y": 238
           },
           {
             "layer": "fg",
             "piece": "fg_leaves",
-            "x": 319,
+            "x": 245,
             "y": 374
           },
           {
             "layer": "fg",
             "piece": "fg_leaves",
-            "x": 1149,
+            "x": 1305,
             "y": 374
           },
           {
             "layer": "fg",
             "piece": "fg_leaves",
-            "x": 2291,
+            "x": 2403,
             "y": 374
           }
         ],
@@ -10895,73 +10727,73 @@
             "layer": "back",
             "piece": "condo_tower",
             "x": -45,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 78,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 201,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 380,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 492,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 644,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 745,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 848,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 957,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 1142,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 1292,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "back",
             "piece": "condo_tower",
             "x": 1396,
-            "y": 232
+            "y": 226
           },
           {
             "layer": "track",
@@ -10990,211 +10822,181 @@
           {
             "layer": "front",
             "piece": "convenience_store",
-            "x": 69,
-            "y": 232
+            "x": 132,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "closed_shop",
-            "x": 219,
-            "y": 232
+            "x": 386,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "massage_shop",
-            "x": 364,
-            "y": 232
+            "x": 628,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "noodle_shop",
-            "x": 544,
-            "y": 232
+            "x": 924,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "shophouse_b",
-            "x": 709,
-            "y": 232
+            "x": 1184,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "convenience_store",
-            "x": 873,
-            "y": 232
+            "x": 1446,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "shophouse_b",
-            "x": 1043,
-            "y": 232
+            "x": 1714,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "noodle_shop",
-            "x": 1216,
-            "y": 232
+            "x": 1983,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "closed_shop",
-            "x": 1370,
-            "y": 232
+            "x": 2239,
+            "y": 226
           },
           {
             "layer": "front",
             "piece": "pharmacy",
-            "x": 1502,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "convenience_store",
-            "x": 1656,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "shophouse_a",
-            "x": 1840,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "shophouse_b",
-            "x": 2002,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "massage_shop",
-            "x": 2164,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "convenience_store",
-            "x": 2348,
-            "y": 232
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "bus_stop",
-            "x": 95,
-            "y": 240
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "dog_sitting",
-            "x": 260,
-            "y": 240
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "umbrella_stall",
-            "x": 320,
-            "y": 240
+            "x": 2457,
+            "y": 226
           },
           {
             "layer": "sidewalk",
             "piece": "vending_machine",
-            "x": 1874,
-            "y": 240
+            "x": 2215,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "cat",
+            "x": 697,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "spirit_house",
+            "x": 915,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "umbrella_stall",
+            "x": 988,
+            "y": 233
           },
           {
             "layer": "sidewalk",
             "piece": "trash_bin",
-            "x": 2228,
-            "y": 240
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "trash_bin",
-            "x": 905,
-            "y": 241
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "dog_sleeping",
-            "x": 732,
-            "y": 242
+            "x": 1224,
+            "y": 233
           },
           {
             "layer": "sidewalk",
             "piece": "food_cart",
-            "x": 971,
-            "y": 242
+            "x": 1290,
+            "y": 234
           },
           {
             "layer": "sidewalk",
             "piece": "plastic_stools",
-            "x": 1664,
-            "y": 242
+            "x": 1459,
+            "y": 234
           },
           {
             "layer": "sidewalk",
-            "piece": "dog_sitting",
-            "x": 1203,
-            "y": 244
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "trash_bin",
-            "x": 1546,
-            "y": 244
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "plastic_stools",
-            "x": 2360,
-            "y": 244
+            "piece": "cat",
+            "x": 1668,
+            "y": 234
           },
           {
             "layer": "sidewalk",
             "piece": "umbrella_stall",
-            "x": 467,
-            "y": 245
+            "x": 499,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "traffic_cone",
+            "x": 830,
+            "y": 236
           },
           {
             "layer": "sidewalk",
             "piece": "plastic_stools",
-            "x": 1716,
-            "y": 245
+            "x": 1906,
+            "y": 237
           },
           {
             "layer": "sidewalk",
-            "piece": "trash_bin",
-            "x": 2179,
-            "y": 245
+            "piece": "potted_plants",
+            "x": 2371,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "cat",
+            "x": 85,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "food_cart",
+            "x": 292,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "traffic_cone",
+            "x": 1759,
+            "y": 238
           },
           {
             "layer": "sidewalk",
             "piece": "umbrella_stall",
-            "x": 548,
-            "y": 246
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "vending_machine",
-            "x": 1075,
-            "y": 246
+            "x": 2127,
+            "y": 238
           },
           {
             "layer": "fg",
             "piece": "fg_leaves",
-            "x": 259,
+            "x": 208,
             "y": 374
           },
           {
             "layer": "fg",
             "piece": "fg_leaves",
-            "x": 1195,
+            "x": 1192,
             "y": 374
           },
           {
             "layer": "fg",
             "piece": "fg_leaves",
-            "x": 2112,
+            "x": 1868,
+            "y": 374
+          },
+          {
+            "layer": "fg",
+            "piece": "fg_leaves",
+            "x": 2517,
             "y": 374
           }
         ],
@@ -11223,12 +11025,12 @@
     },
     "pieces": {
       "barrier_booth": {
-        "digest": "9314233774c371ce",
+        "digest": "e4112a2a3f9dacda",
         "file": "res://assets/kit/barrier_booth.png",
         "hd": 2,
         "size": [
-          172,
-          120
+          264,
+          184
         ]
       },
       "blank_sign_tall": {
@@ -11250,30 +11052,30 @@
         ]
       },
       "bus_stop": {
-        "digest": "9e1c52b7fd654f8c",
+        "digest": "e68fabe020f7f4c9",
         "file": "res://assets/kit/bus_stop.png",
         "hd": 2,
         "size": [
-          217,
-          124
+          308,
+          176
         ]
       },
       "car_wreck": {
-        "digest": "c7e9186bd06618f0",
+        "digest": "de88e3a8fd57ee20",
         "file": "res://assets/kit/car_wreck.png",
         "hd": 2,
         "size": [
-          203,
-          80
+          223,
+          88
         ]
       },
       "carpark_facade": {
-        "digest": "217233337725b641",
+        "digest": "cc9d53ca4ed6fc98",
         "file": "res://assets/kit/carpark_facade.png",
         "hd": 2,
         "size": [
-          611,
-          380
+          965,
+          600
         ]
       },
       "cat": {
@@ -11286,21 +11088,21 @@
         ]
       },
       "chair_pile": {
-        "digest": "07f081f26cd56c79",
+        "digest": "48da5ebc9f2ff5d4",
         "file": "res://assets/kit/chair_pile.png",
         "hd": 2,
         "size": [
-          97,
-          72
+          108,
+          80
         ]
       },
       "closed_shop": {
-        "digest": "b239d9b4e34900a1",
+        "digest": "c6aa2af31787eaf8",
         "file": "res://assets/kit/closed_shop.png",
         "hd": 2,
         "size": [
-          240,
-          200
+          407,
+          340
         ]
       },
       "condo_tower": {
@@ -11313,12 +11115,12 @@
         ]
       },
       "convenience_store": {
-        "digest": "b27cc5aedc4f9df1",
+        "digest": "30abf30c0ae864fb",
         "file": "res://assets/kit/convenience_store.png",
         "hd": 2,
         "size": [
-          356,
-          200
+          606,
+          340
         ]
       },
       "crates": {
@@ -11385,48 +11187,48 @@
         ]
       },
       "food_cart": {
-        "digest": "114cfbded148fc40",
+        "digest": "175e7cdc4df2ca76",
         "file": "res://assets/kit/food_cart.png",
         "hd": 2,
         "size": [
-          130,
-          124
+          151,
+          144
         ]
       },
       "gang_hq_facade": {
-        "digest": "7ae228a0c1eb4250",
+        "digest": "b382d0dd1c77fdee",
         "file": "res://assets/kit/gang_hq_facade.png",
         "hd": 2,
         "size": [
-          398,
-          400
+          598,
+          600
         ]
       },
       "guard_booth": {
-        "digest": "73dd587fdc417d76",
+        "digest": "6aafad789da143f9",
         "file": "res://assets/kit/guard_booth.png",
         "hd": 2,
         "size": [
-          117,
-          120
+          179,
+          184
         ]
       },
       "junk_shop": {
-        "digest": "96fc1fc423546e9f",
+        "digest": "83a304f355411510",
         "file": "res://assets/kit/junk_shop.png",
         "hd": 2,
         "size": [
-          236,
-          300
+          378,
+          480
         ]
       },
       "massage_shop": {
-        "digest": "e67475b11913e5b0",
+        "digest": "8e1033b3eb03baa6",
         "file": "res://assets/kit/massage_shop.png",
         "hd": 2,
         "size": [
-          319,
-          200
+          543,
+          340
         ]
       },
       "motorbike": {
@@ -11448,12 +11250,12 @@
         ]
       },
       "noodle_shop": {
-        "digest": "45d5fb262e12a588",
+        "digest": "6997f06d223ff58e",
         "file": "res://assets/kit/noodle_shop.png",
         "hd": 2,
         "size": [
-          344,
-          200
+          584,
+          340
         ]
       },
       "oil_drums": {
@@ -11466,21 +11268,21 @@
         ]
       },
       "pharmacy": {
-        "digest": "0efb0136488de38b",
+        "digest": "b010f790061dbc11",
         "file": "res://assets/kit/pharmacy.png",
         "hd": 2,
         "size": [
-          252,
-          200
+          429,
+          340
         ]
       },
       "pickup_truck": {
-        "digest": "5962f8ccd7421aa3",
+        "digest": "aed9b14c0767134b",
         "file": "res://assets/kit/pickup_truck.png",
         "hd": 2,
         "size": [
-          172,
-          80
+          224,
+          104
         ]
       },
       "plastic_stools": {
@@ -11502,21 +11304,21 @@
         ]
       },
       "power_pole": {
-        "digest": "7f29cd2efe1670b5",
+        "digest": "ae0ecde7557a9f80",
         "file": "res://assets/kit/power_pole.png",
         "hd": 2,
         "size": [
-          126,
-          340
+          185,
+          500
         ]
       },
       "ring_ropes": {
-        "digest": "723f2126aa047b0d",
+        "digest": "a6e73766a7ecd037",
         "file": "res://assets/kit/ring_ropes.png",
         "hd": 2,
         "size": [
-          245,
-          120
+          327,
+          160
         ]
       },
       "road_tile": {
@@ -11530,21 +11332,21 @@
         "tile": true
       },
       "rusted_fence": {
-        "digest": "2e782df8f9aea8d8",
+        "digest": "51fb1baaea67e3eb",
         "file": "res://assets/kit/rusted_fence.png",
         "hd": 2,
         "size": [
-          391,
-          120
+          521,
+          160
         ]
       },
       "scrap_pile": {
-        "digest": "5bbc020c25afbec8",
+        "digest": "0aadfc0c45b7d79f",
         "file": "res://assets/kit/scrap_pile.png",
         "hd": 2,
         "size": [
-          134,
-          76
+          176,
+          100
         ]
       },
       "sewer_pipe": {
@@ -11557,21 +11359,21 @@
         ]
       },
       "shophouse_a": {
-        "digest": "1bd4d98859b77462",
+        "digest": "ed4396a721b4594c",
         "file": "res://assets/kit/shophouse_a.png",
         "hd": 2,
         "size": [
-          304,
-          380
+          447,
+          560
         ]
       },
       "shophouse_b": {
-        "digest": "1798f371842f600b",
+        "digest": "553dd17ceb89af8b",
         "file": "res://assets/kit/shophouse_b.png",
         "hd": 2,
         "size": [
-          297,
-          380
+          438,
+          560
         ]
       },
       "sidewalk_tile": {
@@ -11640,16 +11442,16 @@
         ]
       },
       "steel_gate": {
-        "digest": "8fe868fc8b2eaf85",
+        "digest": "3594b603bf45957f",
         "file": "res://assets/kit/steel_gate.png",
         "hd": 2,
         "size": [
-          185,
-          140
+          290,
+          220
         ]
       },
       "street_lamp": {
-        "digest": "428ac86f9555f0b3",
+        "digest": "6be660689041d614",
         "file": "res://assets/kit/street_lamp.png",
         "glow": [
           0.76,
@@ -11657,8 +11459,8 @@
         ],
         "hd": 2,
         "size": [
-          70,
-          240
+          108,
+          370
         ]
       },
       "taxi": {
@@ -11708,12 +11510,12 @@
         "tile": true
       },
       "tunnel_wall": {
-        "digest": "edd5dfe4a5a9c9eb",
+        "digest": "ae1cb80be17452da",
         "file": "res://assets/kit/tunnel_wall.png",
         "hd": 2,
         "size": [
-          846,
-          380
+          1113,
+          500
         ]
       },
       "tyre_stack": {
@@ -11726,30 +11528,30 @@
         ]
       },
       "umbrella_stall": {
-        "digest": "a06611a9a8b2d24f",
+        "digest": "418746424fafa2a8",
         "file": "res://assets/kit/umbrella_stall.png",
         "hd": 2,
         "size": [
-          124,
-          128
+          163,
+          168
         ]
       },
       "vending_machine": {
-        "digest": "47e3080665948a3c",
+        "digest": "6c59b8ff7f76c317",
         "file": "res://assets/kit/vending_machine.png",
         "hd": 2,
         "size": [
-          78,
-          108
+          96,
+          132
         ]
       },
       "warehouse_wall": {
-        "digest": "6a95e90aba9474f3",
+        "digest": "b4a1ffd1c6125f2f",
         "file": "res://assets/kit/warehouse_wall.png",
         "hd": 2,
         "size": [
-          740,
-          380
+          974,
+          500
         ]
       },
       "work_lamp_string": {
@@ -12145,7 +11947,7 @@
           16
         ],
         "weapon_baseball_bat": [
-          96,
+          112,
           104,
           16,
           32
@@ -12159,11 +11961,11 @@
         "weapon_chair": [
           80,
           104,
-          16,
-          32
+          32,
+          48
         ],
         "weapon_frying_pan": [
-          112,
+          128,
           104,
           16,
           32
@@ -12193,7 +11995,7 @@
           32
         ],
         "weapon_wrench": [
-          128,
+          144,
           104,
           16,
           32
@@ -12211,7 +12013,13 @@
     "weapon_grip": [
       8,
       27
-    ]
+    ],
+    "weapon_grips": {
+      "weapon_chair": [
+        16,
+        43
+      ]
+    }
   },
   "version": 1
 }

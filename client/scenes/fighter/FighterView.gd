@@ -249,7 +249,9 @@ func _show_weapon(weapon_id: String) -> void:
 		return
 	var sprite := str(content.weapons.get(weapon_id, {}).get("sprite", ""))
 	_held.texture = UiKit.icon(content, sprite)
-	var grip: Array = content.ui.get("weapon_grip", [8, 27])
+	var grip: Array = content.ui.get("weapon_grips", {}).get(
+		sprite, content.ui.get("weapon_grip", [8, 27])
+	)
 	_held.offset = -Vector2(grip[0], grip[1])
 
 
