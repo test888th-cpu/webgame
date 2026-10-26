@@ -109,6 +109,15 @@ func test_gallery_and_credits_build() -> void:
 		"the multi-punch credited in the wording its author asks for"
 	)
 	assert_eq(text.count("Shikamarunara74"), 1, "credited once for all its cuts")
+	assert_true(
+		text.contains(
+			(
+				"Punches.mp3 by mrrap4food -- https://freesound.org/s/619053/"
+				+ " -- License: Creative Commons 0"
+			)
+		),
+		"the CC0 punches credited as asked"
+	)
 	for punch: String in GameFeedback.PUNCHES:
 		assert_true(GameSession.content.audio["sounds"].has(punch), "%s is a listed sound" % punch)
 

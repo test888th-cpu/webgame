@@ -5493,6 +5493,17 @@
         "title": "Punch 5",
         "url": "https://freesound.org/people/jakeeaton/sounds/560327/"
       },
+      "punch_hit_10": {
+        "attribution": "Punches.mp3 by mrrap4food -- https://freesound.org/s/619053/ -- License: Creative Commons 0",
+        "authors": [
+          "mrrap4food"
+        ],
+        "license": "CC0",
+        "notes": "Converted from the supplied MP3 to WAV. CAUTION: the MP3's own tags read 'the hollywood edge', 'copyright 1999 hollywood edg' (a commercial sound library), so the uploader may not hold the rights it released as CC0. Kept at the project owner's decision for the free game; replace with the project's own sounds before any paid feature (see docs/ASSETS.md).",
+        "replace_before_paid": true,
+        "title": "Punches.mp3",
+        "url": "https://freesound.org/s/619053/"
+      },
       "punch_hit_2": {
         "attribution": "multi punch.wav by Shikamarunara74 -- https://freesound.org/s/126317/ -- License: Attribution 3.0",
         "authors": [
@@ -5542,6 +5553,39 @@
         "notes": "Licence as stated by the project owner, who supplied the file (2026-10-26). One punch cut out of the sequence by tools/assets/import_sounds.py.",
         "title": "multi punch",
         "url": "https://freesound.org/s/126317/"
+      },
+      "punch_hit_7": {
+        "attribution": "Punches.mp3 by mrrap4food -- https://freesound.org/s/619053/ -- License: Creative Commons 0",
+        "authors": [
+          "mrrap4food"
+        ],
+        "license": "CC0",
+        "notes": "Converted from the supplied MP3 to WAV. CAUTION: the MP3's own tags read 'the hollywood edge', 'copyright 1999 hollywood edg' (a commercial sound library), so the uploader may not hold the rights it released as CC0. Kept at the project owner's decision for the free game; replace with the project's own sounds before any paid feature (see docs/ASSETS.md).",
+        "replace_before_paid": true,
+        "title": "Punches.mp3",
+        "url": "https://freesound.org/s/619053/"
+      },
+      "punch_hit_8": {
+        "attribution": "Punches.mp3 by mrrap4food -- https://freesound.org/s/619053/ -- License: Creative Commons 0",
+        "authors": [
+          "mrrap4food"
+        ],
+        "license": "CC0",
+        "notes": "Converted from the supplied MP3 to WAV. CAUTION: the MP3's own tags read 'the hollywood edge', 'copyright 1999 hollywood edg' (a commercial sound library), so the uploader may not hold the rights it released as CC0. Kept at the project owner's decision for the free game; replace with the project's own sounds before any paid feature (see docs/ASSETS.md).",
+        "replace_before_paid": true,
+        "title": "Punches.mp3",
+        "url": "https://freesound.org/s/619053/"
+      },
+      "punch_hit_9": {
+        "attribution": "Punches.mp3 by mrrap4food -- https://freesound.org/s/619053/ -- License: Creative Commons 0",
+        "authors": [
+          "mrrap4food"
+        ],
+        "license": "CC0",
+        "notes": "Converted from the supplied MP3 to WAV. CAUTION: the MP3's own tags read 'the hollywood edge', 'copyright 1999 hollywood edg' (a commercial sound library), so the uploader may not hold the rights it released as CC0. Kept at the project owner's decision for the free game; replace with the project's own sounds before any paid feature (see docs/ASSETS.md).",
+        "replace_before_paid": true,
+        "title": "Punches.mp3",
+        "url": "https://freesound.org/s/619053/"
       }
     },
     "sounds": {
@@ -5564,11 +5608,15 @@
       "level_up": "res://assets/audio/level_up.wav",
       "pickup": "res://assets/audio/pickup.wav",
       "punch_hit": "res://assets/audio/punch_hit.wav",
+      "punch_hit_10": "res://assets/audio/punch_hit_10.wav",
       "punch_hit_2": "res://assets/audio/punch_hit_2.wav",
       "punch_hit_3": "res://assets/audio/punch_hit_3.wav",
       "punch_hit_4": "res://assets/audio/punch_hit_4.wav",
       "punch_hit_5": "res://assets/audio/punch_hit_5.wav",
       "punch_hit_6": "res://assets/audio/punch_hit_6.wav",
+      "punch_hit_7": "res://assets/audio/punch_hit_7.wav",
+      "punch_hit_8": "res://assets/audio/punch_hit_8.wav",
+      "punch_hit_9": "res://assets/audio/punch_hit_9.wav",
       "quest": "res://assets/audio/quest.wav",
       "skill_rush": "res://assets/audio/skill_rush.wav",
       "skill_slam": "res://assets/audio/skill_slam.wav",

@@ -128,9 +128,16 @@ and writes `client/assets/audio/<id>.wav`; the manifest lists the credits under
 jakeeaton (Freesound, CC-BY 4.0), and `punch_hit_2`..`punch_hit_6`, five punches cut
 from "multi punch" by Shikamarunara74 (Freesound, CC-BY 3.0); one of the six plays at
 random when a fist or kick lands. Cuts start just before the impact so the sound is
-not late. Do not import
-sounds whose tags name a commercial library (e.g. "copyright ... Hollywood Edge"),
-whatever the site they were downloaded from says.
+not late. `punch_hit_7`..`punch_hit_10` are cut from "Punches.mp3" by mrrap4food (Freesound,
+CC0 as listed there).
+
+**Replace before any paid feature:** that MP3's own tags read "the hollywood edge" and
+"copyright 1999 hollywood edg", a commercial sound library, so the uploader may not
+have held the rights they released as CC0. The project owner chose to keep it while the
+game is free; it is marked `replace_before_paid` in `art/sounds/sounds.json`, and
+`validate.py` prints a "REPLACE BEFORE PAID FEATURES" line for it on every run. Before
+in-game purchases open, replace those four with the project's own recordings or
+synthesised sounds. Avoid such files for anything new.
 
 ## Effects, sounds and the training dummy (original, generated)
 

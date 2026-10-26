@@ -307,6 +307,10 @@ def main() -> int:
     print(f"assets: {count} checked, {len(problems)} problem(s), {len(pending)} pending manual export")
     for asset_id in pending:
         print(f"PENDING {asset_id}: {manifest['assets'][asset_id].get('manual_steps', 'see docs/ASSETS.md')}")
+    # Allowed for the free game, but flagged so a paid launch cannot miss them.
+    for sound_id, spec in sorted(import_sounds.recorded().items()):
+        if spec.get("replace_before_paid"):
+            print(f"REPLACE BEFORE PAID FEATURES {sound_id}: {spec['attribution']}")
     return 1 if problems else 0
 
 

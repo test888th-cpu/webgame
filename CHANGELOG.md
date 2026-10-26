@@ -10,7 +10,11 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
   and five punches cut from "multi punch" by Shikamarunara74 (Freesound, CC-BY 3.0),
   each trimmed so the impact plays within 20 ms. The in-game credits use each recording's attribution line
   as given, e.g. "multi punch.wav by Shikamarunara74 -- https://freesound.org/s/126317/
-  -- License: Attribution 3.0". Heavy blows play it lower with the old thump under
+  -- License: Attribution 3.0".
+- Four more punches from "Punches.mp3" by mrrap4food (Freesound, CC0 as listed), ten in
+  all. That file's tags name a commercial library (Hollywood Edge), so it is kept only
+  while the game is free: it is marked `replace_before_paid` and the validator reminds
+  on every run (docs/ASSETS.md). Heavy blows play it lower with the old thump under
   it; weapon hits keep their own sounds. Credited in the in-game credits.
 - `tools/assets/import_sounds.py` imports recorded sounds listed in
   `art/sounds/sounds.json` (cut, fade, normalise to -1 dBFS) with their authors,

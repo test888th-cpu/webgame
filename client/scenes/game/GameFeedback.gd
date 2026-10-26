@@ -12,7 +12,16 @@ const CHEST := Vector2(0, -26)
 ## Recorded punches (art/sounds/sounds.json), one picked at random per blow
 ## so a combo does not repeat the same sound.
 const PUNCHES: Array[String] = [
-	"punch_hit", "punch_hit_2", "punch_hit_3", "punch_hit_4", "punch_hit_5", "punch_hit_6"
+	"punch_hit",
+	"punch_hit_2",
+	"punch_hit_3",
+	"punch_hit_4",
+	"punch_hit_5",
+	"punch_hit_6",
+	"punch_hit_7",
+	"punch_hit_8",
+	"punch_hit_9",
+	"punch_hit_10",
 ]
 
 var content: ContentDB
