@@ -154,6 +154,14 @@ func test_every_area_is_built_from_the_street_kit() -> void:
 		assert_true(
 			view.get_node("KitFg").z_index > 0, "%s foliage is drawn over the fighters" % area_id
 		)
+		if kit.has("track"):
+			var strip := view.get_node("KitTrack").get_child(0) as Sprite2D
+			assert_true(strip.region_enabled, "%s track is one repeating strip" % area_id)
+			assert_near(
+				strip.region_rect.size.x * strip.scale.x,
+				float(kit["track"]["to"]) - float(kit["track"]["from"]),
+				"%s track runs unbroken" % area_id
+			)
 		view.free()
 
 

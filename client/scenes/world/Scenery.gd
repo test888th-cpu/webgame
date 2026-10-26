@@ -53,8 +53,18 @@ static func _build_kit(parent: Node2D, content: ContentDB, area: Dictionary) -> 
 		layers[layer] = _layer(parent, layer, scroll[layer], tint)
 	layers["front"] = _layer(parent, "front", 1.0, tint)
 	var ground := _layer(parent, "ground", 1.0, tint)
-	_tile(ground, pieces[area["ground"]["road"]], ROAD_TOP, width)
-	_tile(ground, pieces[area["ground"]["sidewalk"]], SIDEWALK_TOP, width)
+	_tile(ground, pieces[area["ground"]["road"]], Vector2(0, ROAD_TOP), width)
+	_tile(ground, pieces[area["ground"]["sidewalk"]], Vector2(0, SIDEWALK_TOP), width)
+	if area.has("track"):
+		# The elevated track runs unbroken; trains stand on it.
+		var track: Dictionary = area["track"]
+		var start := float(track["from"])
+		_tile(
+			layers["track"],
+			pieces[track["piece"]],
+			Vector2(start, float(track["top"])),
+			float(track["to"]) - start
+		)
 	layers["sidewalk"] = _layer(parent, "sidewalk", 1.0, tint)
 	layers["street"] = _layer(parent, "street", 1.0, tint)
 	var foreground := _layer(parent, "fg", scroll["fg"], tint)
@@ -94,8 +104,8 @@ static func _piece(layer: Node2D, piece: Dictionary, x: float, feet: float) -> S
 	return sprite
 
 
-## A ground strip repeated across the area.
-static func _tile(layer: Node2D, piece: Dictionary, top: float, width: float) -> void:
+## A strip (road, sidewalk, the skytrain track) repeated for `width` from `at`.
+static func _tile(layer: Node2D, piece: Dictionary, at: Vector2, width: float) -> void:
 	var sprite := Sprite2D.new()
 	sprite.texture = load(piece["file"])
 	sprite.centered = false
@@ -104,7 +114,7 @@ static func _tile(layer: Node2D, piece: Dictionary, top: float, width: float) ->
 	var hd := float(piece["hd"])
 	sprite.region_rect = Rect2(0, 0, width * hd, float(piece["size"][1]))
 	sprite.scale = Vector2.ONE / hd
-	sprite.position = Vector2(0, top)
+	sprite.position = at
 	layer.add_child(sprite)
 
 

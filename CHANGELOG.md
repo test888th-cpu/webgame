@@ -7,7 +7,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 ### Changed — HD-2D Bangkok streets
 - Every area is now built from a kit of painted pieces (Octopath-style HD-2D): shops
   (convenience store, noodle shop, massage shop, pharmacy, a shuttered shop),
-  shophouses, condo towers and the skytrain behind them, a skyline, sidewalk and road
+  shophouses, condo towers and an unbroken elevated skytrain track with trains behind them, a skyline, sidewalk and road
   tiles, street lamps and power poles, food carts, umbrella stalls, stools, plants,
   bins, cones, crates, a vending machine and bus stop, cats and dogs, and a tuk-tuk,
   taxi, songthaew or motorbike parked at the kerb. Layers scroll at different speeds

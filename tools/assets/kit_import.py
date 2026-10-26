@@ -266,6 +266,12 @@ def row(rng: random.Random, pieces: dict, pool: dict, start: float, end: float, 
     return placed
 
 
+def track_span(width: int, scroll: float) -> tuple[int, int]:
+    """Where the elevated track runs in its layer: past both edges of the view
+    wherever the camera goes."""
+    return (round(VIEW_W / 2 * scroll - VIEW_W / 2) - 40, round((width - VIEW_W / 2) * scroll + VIEW_W / 2) + 40)
+
+
 def lay_out(area_id: str, area: dict, theme: dict, pieces: dict, scrolls: dict) -> list[dict]:
     """Deterministic placements for one area. x is the piece's centre and y
     its foot line, in the coordinates of the piece's layer (a layer scrolling
@@ -276,12 +282,13 @@ def lay_out(area_id: str, area: dict, theme: dict, pieces: dict, scrolls: dict) 
     s = scrolls["back"]
     placed += row(rng, pieces, theme["back"], -80, (width - VIEW_W / 2) * s + VIEW_W / 2 + 40, theme["back_gap"], "back", BUILDING_FEET)
     if theme.get("track"):
-        s = scrolls["track"]
-        x = rng.randint(-200, 0)
-        track_w = game_width(pieces, theme["track"])
-        while x < (width - VIEW_W / 2) * s + VIEW_W / 2 + 40:
-            placed.append({"piece": theme["track"], "layer": "track", "x": round(x + track_w / 2), "y": theme["track_feet"]})
-            x += track_w + rng.randint(160, 420)
+        # Trains stand on the elevated track, which runs unbroken (see track_span).
+        span = track_span(width, scrolls["track"])
+        x = span[0] + rng.randint(0, 200)
+        train_w = game_width(pieces, theme["train"])
+        while x < span[1]:
+            placed.append({"piece": theme["train"], "layer": "track", "x": round(x + train_w / 2), "y": theme["track_top"] + 1})
+            x += train_w + rng.randint(*theme["train_gap"])
     placed += row(rng, pieces, theme["front"], rng.randint(-40, -10), width + 40, theme["front_gap"], "front", BUILDING_FEET)
 
     # Lamp posts and poles at a steady rhythm; small props in between.
@@ -371,6 +378,9 @@ def lay_out_all(spec: dict, pieces: dict) -> dict:
             "far": theme["far"],
             "placed": lay_out(area_id, area, theme, pieces, spec["scroll"]),
         }
+        if theme.get("track"):
+            start, end = track_span(int(area["width"]), spec["scroll"]["track"])
+            out[area_id]["track"] = {"piece": theme["track"], "top": theme["track_top"], "from": start, "to": end}
     return out
 
 

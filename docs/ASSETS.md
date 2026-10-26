@@ -210,7 +210,9 @@ that the layouts are what the importer produces now. Licence: the owner's own ar
 (`Proprietary (project owner)`), credited in game.
 
 Imported pieces not yet placed: the hanging and standing blank signs (waiting for
-in-engine Thai text), the railing and the train without its track.
+in-engine Thai text), the railing, and the train-on-track picture (its beam is cut
+out as the `skytrain_track` strip, which runs unbroken across the layer with trains
+standing on it).
 
 ## Art from the project owner (custom sheets)
 

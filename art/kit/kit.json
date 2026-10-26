@@ -37,7 +37,7 @@
     },
     "skytrain_train": {
       "file": "skytrain_train.jpg",
-      "height": 40,
+      "height": 34,
       "crop": [
         0.05,
         0.25,
@@ -211,6 +211,17 @@
       "file": "sidewalk_tile.jpg",
       "height": 26,
       "tile": true
+    },
+    "skytrain_track": {
+      "file": "skytrain_on_track.jpg",
+      "height": 7,
+      "tile": true,
+      "crop": [
+        0.14,
+        0.628,
+        0.62,
+        0.692
+      ]
     }
   },
   "themes": {
@@ -233,8 +244,7 @@
         30,
         140
       ],
-      "track": "skytrain_on_track",
-      "track_feet": 150,
+      "track": "skytrain_track",
       "front": {
         "convenience_store": 1,
         "noodle_shop": 1.2,
@@ -289,6 +299,12 @@
       "fg_gap": [
         600,
         1000
+      ],
+      "track_top": 116,
+      "train": "skytrain_train",
+      "train_gap": [
+        260,
+        640
       ]
     },
     "depot": {
@@ -311,8 +327,7 @@
         80,
         220
       ],
-      "track": "skytrain_on_track",
-      "track_feet": 150,
+      "track": "skytrain_track",
       "front": {
         "closed_shop": 1.5,
         "shophouse_b": 1,
@@ -360,6 +375,12 @@
       "fg_gap": [
         800,
         1200
+      ],
+      "track_top": 116,
+      "train": "skytrain_train",
+      "train_gap": [
+        260,
+        640
       ]
     },
     "canal": {
