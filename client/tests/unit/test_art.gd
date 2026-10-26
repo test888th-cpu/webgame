@@ -97,6 +97,9 @@ func test_gallery_and_credits_build() -> void:
 	var text := CreditsText.build(GameSession.content)
 	assert_true(text.contains("OGA-BY"), "credits name licences")
 	assert_true(text.contains("Stephen Challener"), "credits name LPC authors")
+	assert_true(text.contains("jakeeaton"), "credits name the recorded punch's author")
+	assert_true(text.contains("CC-BY 4.0"), "and its licence")
+	assert_true(GameSession.content.audio["sounds"].has("punch_hit"), "the punch is a listed sound")
 
 
 func test_every_area_has_layered_scenery() -> void:

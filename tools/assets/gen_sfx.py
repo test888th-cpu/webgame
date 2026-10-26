@@ -321,9 +321,15 @@ def main() -> int:
         (OUT / f"{sound_id}.wav").write_bytes(render(sound_id))
         files[sound_id] = f"res://assets/audio/{sound_id}.wav"
     manifest = json.loads(MANIFEST.read_text())
+    # Recorded sounds (tools/assets/import_sounds.py) keep their entries.
+    old = manifest.get("audio", {})
+    recorded = old.get("recorded", {})
+    for sound_id in recorded:
+        files[sound_id] = old["sounds"][sound_id]
     manifest["audio"] = {
         "license": "MIT (original sounds synthesised by tools/assets/gen_sfx.py)",
         "sounds": files,
+        "recorded": recorded,
     }
     MANIFEST.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
     print(f"wrote {len(files)} sounds")

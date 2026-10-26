@@ -1,0 +1,14 @@
+{
+  "sounds": {
+    "punch_hit": {
+      "file": "jakeeaton_punch-5.wav",
+      "title": "Punch 5",
+      "authors": ["jakeeaton"],
+      "license": "CC-BY 4.0",
+      "url": "https://freesound.org/people/jakeeaton/sounds/560327/",
+      "notes": "Licence as stated by the project owner, who supplied the file (2026-10-26). Trimmed to the impact and faded out by tools/assets/import_sounds.py.",
+      "start": 0.3,
+      "length": 0.45
+    }
+  }
+}

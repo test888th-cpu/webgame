@@ -9,6 +9,8 @@ extends RefCounted
 const HEAVY_DAMAGE := 15
 ## Hit sparks appear at chest height.
 const CHEST := Vector2(0, -26)
+## The recorded punch (art/sounds/sounds.json).
+const PUNCH := "punch_hit"
 
 var content: ContentDB
 var view: ZoneView
@@ -82,7 +84,7 @@ func _on_hit(hit: CombatEvent) -> void:
 		Sfx.play("guard_break" if hit.guard_broken else "hit_block", -2.0)
 	else:
 		Fx.spawn(view.effects, content, "hit_heavy" if heavy else "hit", at)
-		Sfx.play("hit_heavy" if heavy else "hit_light")
+		_impact_sound(hit, heavy)
 	var freeze := 0.09 if heavy else 0.05
 	if defender:
 		var hero_hit := hit.defender_id == ZoneSim.HERO_ID
@@ -98,6 +100,19 @@ func _on_hit(hit: CombatEvent) -> void:
 		_dust(hit.defender_id, 0.2)
 	if hit.ko and hit.defender_id != ZoneSim.HERO_ID:
 		Sfx.play("ko", -4.0)
+
+
+## Fists and feet land with a recorded punch (lower and backed by a thump
+## when heavy); weapons keep their own synthesised impacts.
+func _impact_sound(hit: CombatEvent, heavy: bool) -> void:
+	var attacker := view.zone.fighter(hit.attacker_id)
+	var armed := attacker != null and attacker.weapon != ""
+	if armed:
+		Sfx.play("hit_heavy" if heavy else "hit_light")
+		return
+	Sfx.play(PUNCH, -1.0 if heavy else -3.0, 0.08, 0.86 if heavy else 1.0)
+	if heavy:
+		Sfx.play("hit_heavy", -8.0)
 
 
 ## A skill gets its effect on its first active tick and its own sound; plain

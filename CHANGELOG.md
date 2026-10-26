@@ -4,6 +4,16 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — A real punch sound
+- Fists and kicks that land now sound like a punch: "Punch 5" by jakeeaton (Freesound,
+  CC-BY 4.0), trimmed to the impact. Heavy blows play it lower with the old thump under
+  it; weapon hits keep their own sounds. Credited in the in-game credits.
+- `tools/assets/import_sounds.py` imports recorded sounds listed in
+  `art/sounds/sounds.json` (cut, fade, normalise to -1 dBFS) with their authors,
+  licence and source; the validator checks the licence against the policy and that the
+  file matches a fresh import. The other supplied file (punches.mp3) was not used: its
+  tags say "copyright 1999 Hollywood Edge", a commercial library.
+
 ### Changed — Riku at hero size
 - Riku looked smaller than the NPCs: he was as tall as them in pixels, but his realistic
   proportions (small head, slim build) read smaller next to the big-headed LPC cast. He

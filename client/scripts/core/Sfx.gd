@@ -1,6 +1,7 @@
 extends Node
-## Plays the game's sound effects (synthesised by tools/assets/gen_sfx.py and
-## listed in the asset manifest). A small pool of players lets sounds overlap;
+## Plays the game's sound effects (synthesised by tools/assets/gen_sfx.py or
+## recorded and imported by tools/assets/import_sounds.py, all listed in the
+## asset manifest). A small pool of players lets sounds overlap;
 ## the same sound is not restarted within a few milliseconds, so a sweep that
 ## hits five enemies on one tick plays once. Volume is a player setting.
 
@@ -28,8 +29,9 @@ func _exit_tree() -> void:
 	_streams.clear()
 
 
-## Plays `id` with a little random pitch so repeats do not sound identical.
-func play(id: String, volume_db := 0.0, pitch_jitter := 0.06) -> void:
+## Plays `id` with a little random pitch so repeats do not sound identical;
+## `pitch` shifts it (below 1 sounds heavier).
+func play(id: String, volume_db := 0.0, pitch_jitter := 0.06, pitch := 1.0) -> void:
 	var volume := float(GameSession.settings.get("sfx_volume", 0.8))
 	if volume <= 0.0:
 		return
@@ -48,7 +50,7 @@ func play(id: String, volume_db := 0.0, pitch_jitter := 0.06) -> void:
 	_next = (_next + 1) % VOICES
 	player.stream = stream
 	player.volume_db = volume_db + linear_to_db(volume)
-	player.pitch_scale = 1.0 + randf_range(-pitch_jitter, pitch_jitter)
+	player.pitch_scale = pitch + randf_range(-pitch_jitter, pitch_jitter)
 	player.play()
 
 

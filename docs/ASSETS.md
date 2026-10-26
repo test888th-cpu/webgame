@@ -117,6 +117,18 @@ License 1.1, licence beside it) is added at startup as a fallback to the engine'
 default font, so Thai names and text render. The manifest's `fonts` section pins its
 source URL and SHA-256; `validate.py` checks both and that the licence file is present.
 
+## Recorded sounds
+
+`tools/assets/import_sounds.py` imports recorded effects listed in
+`art/sounds/sounds.json`: each names its WAV in `art/sounds/`, title, authors,
+licence (from the policy's allowed list) and source page, and the cut to keep
+(`start`, `length`). The tool mixes to mono, fades in and out, normalises to -1 dBFS
+and writes `client/assets/audio/<id>.wav`; the manifest lists the credits under
+`audio.recorded` and the in-game credits show them. So far: `punch_hit`, "Punch 5" by
+jakeeaton (Freesound, CC-BY 4.0), played when a fist or kick lands. Do not import
+sounds whose tags name a commercial library (e.g. "copyright ... Hollywood Edge"),
+whatever the site they were downloaded from says.
+
 ## Effects, sounds and the training dummy (original, generated)
 
 All MIT, drawn or synthesised by code, checked for freshness by `validate.py` and

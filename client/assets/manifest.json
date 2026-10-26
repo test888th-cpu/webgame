@@ -5482,6 +5482,17 @@
   },
   "audio": {
     "license": "MIT (original sounds synthesised by tools/assets/gen_sfx.py)",
+    "recorded": {
+      "punch_hit": {
+        "authors": [
+          "jakeeaton"
+        ],
+        "license": "CC-BY 4.0",
+        "notes": "Licence as stated by the project owner, who supplied the file (2026-10-26). Trimmed to the impact and faded out by tools/assets/import_sounds.py.",
+        "title": "Punch 5",
+        "url": "https://freesound.org/people/jakeeaton/sounds/560327/"
+      }
+    },
     "sounds": {
       "arena_lock": "res://assets/audio/arena_lock.wav",
       "boss_roar": "res://assets/audio/boss_roar.wav",
@@ -5501,6 +5512,7 @@
       "ko": "res://assets/audio/ko.wav",
       "level_up": "res://assets/audio/level_up.wav",
       "pickup": "res://assets/audio/pickup.wav",
+      "punch_hit": "res://assets/audio/punch_hit.wav",
       "quest": "res://assets/audio/quest.wav",
       "skill_rush": "res://assets/audio/skill_rush.wav",
       "skill_slam": "res://assets/audio/skill_slam.wav",

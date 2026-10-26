@@ -37,12 +37,32 @@ static func build(content: ContentDB) -> String:
 		+ "Licences used: %s.\n" % ", ".join(licenses)
 		+ "Per-file authors, licences and sources: assets/characters/*/credits.json\n"
 		+ "(%d source pages on OpenGameArt.org).\n\n" % sources.size()
+		+ "Riku Sato: character art by the project owner.\n\n"
 		+ "Scenery, effects, icons, sounds and the training dummy: original, generated\n"
-		+ "by the project's tools (MIT licence).\n\n"
+		+ "by the project's tools (MIT licence), except the recorded sounds below.\n\n"
+		+ _sounds(content)
 		+ _fonts(content)
 		+ "Made with the Godot Engine (godotengine.org/license):\n"
 		+ Engine.get_license_text()
 	)
+
+
+## Recorded sound effects and their authors (CC-BY asks for credit).
+static func _sounds(content: ContentDB) -> String:
+	var text := ""
+	var recorded: Dictionary = content.audio.get("recorded", {})
+	for sound_id: String in recorded:
+		var sound: Dictionary = recorded[sound_id]
+		text += (
+			'Sound "%s" by %s (%s), %s\n'
+			% [
+				sound.get("title", sound_id),
+				", ".join(sound.get("authors", [])),
+				sound.get("license", ""),
+				sound.get("url", ""),
+			]
+		)
+	return text + "\n" if text else ""
 
 
 ## Bundled fonts and their licences (the SIL Open Font License asks for the
