@@ -60,6 +60,8 @@ func on_event(event: ZoneEvent) -> void:
 			Sfx.play("ko")
 		"weapon_pickup":
 			Sfx.play("weapon_grab", -3.0)
+		"weapon_throw":
+			Sfx.play("swing_heavy", -2.0, 0.06, 0.8)
 		"weapon_drop":
 			Sfx.play_later("weapon_drop", 0.12, -4.0)
 		"weapon_break":

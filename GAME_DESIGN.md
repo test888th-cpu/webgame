@@ -110,8 +110,12 @@ equipment) is stored per hero. Temporary combat state is never persisted.
   plank, steel pipe, machete, folding chair, frying pan, pipe wrench and baseball bat
   lie on the street (each area's
   `weapons` block says how many and which, by weight; stronger ones only from a
-  minimum area level). E picks up the weapon underfoot (dropping the one in hand), or
-  puts the held one down. A weapon replaces Z/X with its own moves, always in the same hand: the knife
+  minimum area level). E picks up the weapon underfoot (dropping the one in hand);
+  with nothing underfoot the hero **throws** the held one: a short wind-up, then it
+  flies about 160 px along the street, hits the first foe in its path for its heavy
+  blow's damage (knocks down; bosses are only stunned; a guard blocks it from the front)
+  and lands at their feet, or breaks if that was its last use. Enemies put weapons down
+  instead. A weapon replaces Z/X with its own moves, always in the same hand: the knife
   stabs straight ahead, everything else swings from behind the head forward and down
   (knife: quick stabs and a lunge; pipe: long swings and a guard-breaking slam; chair: every swing
   knocks down but slows you; frying pan: the heavy bonk dazes and breaks a guard;

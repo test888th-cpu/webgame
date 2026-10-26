@@ -4,6 +4,19 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — Throw the weapon in hand (IL-1)
+- With nothing underfoot to pick up, E now **throws** the held weapon instead of
+  putting it down: a short wind-up, then it spins along the street (about 160 px), hits
+  the first foe in its path for the weapon's heavy-blow damage at the hero's power and
+  knocks them down, then lands at their feet with one use less, or breaks if that was
+  its last. A guard blocks it from the front. Bosses are stunned, never floored, so a
+  pile of pipes cannot trivialise them. A miss lands where it stops; it never leaves
+  the area.
+- Throws are simulation (`ZoneSim.thrown`, `CombatRules.thrown_hit`), drawn as a
+  spinning weapon at chest height with a whoosh. The HUD hint reads "Grab / Throw /
+  Talk". Enemies still only put weapons down.
+- 6 new tests (164 total).
+
 ### Added — Perfect guard and counters (IL-1)
 - Raise guard at most 8 ticks before a hit from the front and it is **parried**: no
   damage, no energy lost (15 energy back), guard breakers included. The attacker reels

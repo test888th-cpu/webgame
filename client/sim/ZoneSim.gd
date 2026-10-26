@@ -28,6 +28,13 @@ const WEAPON_REACH := Vector2(18.0, 12.0)
 const MAX_GROUND_WEAPONS := 10
 ## Weapons are never scattered closer than this to an NPC (along the street).
 const NPC_CLEARANCE := 40.0
+## Throwing the held weapon: the wind-up move, then the weapon flies straight
+## along the street at THROW_SPEED px per tick for up to THROW_TICKS ticks
+## and hits the first foe it meets within THROW_REACH.
+const THROW_MOVE := "weapon_throw"
+const THROW_SPEED := 5.0
+const THROW_TICKS := 32
+const THROW_REACH := Vector2(12.0, 14.0)
 
 var content: ContentDB
 var profile: PlayerProfile
@@ -54,6 +61,9 @@ var ground_weapons: Array[Dictionary] = []
 ## and its NPCs, as {"position", "half", "kind"} (see Bodies). Fighters block
 ## each other too, added as they stand each tick.
 var solids: Array[Dictionary] = []
+## Weapons in flight: {id, weapon, uses, owner, team, position, dir, ticks,
+## damage}. They land as ground weapons (or break) when they hit or stop.
+var thrown: Array[Dictionary] = []
 var _next_weapon := 1
 ## Where each fighter stood before this tick's movement.
 var _before := {}
@@ -96,6 +106,7 @@ func _init(
 	hero.kind = "hero"
 	hero.stun_limit = CombatRules.HERO_STUN_LIMIT
 	hero.can_parry = true
+	hero.throws = true
 	hero.facing = -1 if entry == "east" else 1
 	if area.get("heal_on_enter", false):
 		profile.hp = profile.stats(content)["max_hp"]
@@ -203,15 +214,9 @@ func tick(hero_input: FighterInput) -> Array[ZoneEvent]:
 		if defender == hero:
 			profile.hp = hero.hp
 		_wear_weapon(fighter(hit.attacker_id), hit, events)
-		if (hit.knocked_down or hit.ko) and defender.weapon:
-			# A fighter knocked off their feet loses their grip.
-			var behind := Vector2(signf(defender.position.x - hit.position.x) * 14.0, 4.0)
-			_drop_weapon(defender, defender.position + behind, events)
-		if hit.ko:
-			if defender == hero:
-				_hero_down(events)
-			else:
-				_defeat(defender, events)
+		_after_hit(hit, defender, events)
+	_release_throws(events)
+	_fly_thrown(events)
 	_report_actions(events)
 	_check_phases(events)
 	_separate_crowd()
@@ -219,6 +224,104 @@ func tick(hero_input: FighterInput) -> Array[ZoneEvent]:
 	_collect_pickups(events)
 	_check_exit(hero_input, events)
 	return events
+
+
+## What follows any hit: a fighter knocked off their feet loses their grip,
+## and a KO ends the hero's run or defeats the enemy.
+func _after_hit(hit: CombatEvent, defender: Fighter, events: Array[ZoneEvent]) -> void:
+	if (hit.knocked_down or hit.ko) and defender.weapon:
+		var behind := Vector2(signf(defender.position.x - hit.position.x) * 14.0, 4.0)
+		_drop_weapon(defender, defender.position + behind, events)
+	if hit.ko:
+		if defender == hero:
+			_hero_down(events)
+		else:
+			_defeat(defender, events)
+
+
+## Throwers whose wind-up just ended let go: the weapon leaves the hand and
+## flies. Damage is the weapon's heavy blow at the thrower's power, fixed now.
+func _release_throws(events: Array[ZoneEvent]) -> void:
+	for f in fighters:
+		if f.state != Fighter.State.ATTACK or f.move.id != THROW_MOVE or f.weapon == "":
+			continue
+		if f.state_tick != f.move.startup:
+			continue
+		var heavy := content.moves.get_move(str(f.weapon_moveset.get("heavy", "")))
+		var base := heavy.damage if heavy else 10
+		var entry := {
+			"id": _next_weapon,
+			"weapon": f.weapon,
+			"uses": f.weapon_uses,
+			"owner": f.id,
+			"team": f.team,
+			"position": f.position + Vector2(f.facing * 12.0, 0.0),
+			"dir": f.facing,
+			"ticks": THROW_TICKS,
+			"damage": roundi(base * f.power),
+		}
+		_next_weapon += 1
+		thrown.append(entry)
+		events.append(ZoneEvent.make("weapon_throw", {"id": f.id, "weapon": f.weapon}))
+		_clear_weapon(f)
+
+
+## Moves weapons in flight; each hits the first foe in reach, then lands at
+## their feet (or breaks when that blow was its last), or lands where it
+## runs out of range or reaches the edge of the fight.
+func _fly_thrown(events: Array[ZoneEvent]) -> void:
+	for entry: Dictionary in thrown.duplicate():
+		var at: Vector2 = entry["position"] + Vector2(entry["dir"] * THROW_SPEED, 0.0)
+		entry["position"] = at
+		entry["ticks"] -= 1
+		var target := _thrown_target(entry)
+		if target:
+			var boss := bool(content.enemy(target.kind).get("boss", false))
+			var hit := CombatRules.thrown_hit(
+				target,
+				int(entry["owner"]),
+				at.x - entry["dir"] * THROW_SPEED,
+				int(entry["damage"]),
+				not boss,  # a thrown pipe stuns a boss but never floors one
+				"thrown_" + str(entry["weapon"])
+			)
+			var event := ZoneEvent.make("hit")
+			event.hit = hit
+			events.append(event)
+			if target == hero:
+				profile.hp = hero.hp
+			_after_hit(hit, target, events)
+			entry["uses"] -= 1
+			_land_thrown(entry, target.position - Vector2(entry["dir"] * 12.0, -4.0), events)
+		elif entry["ticks"] <= 0 or at.x <= arena.position.x or at.x >= arena.end.x:
+			_land_thrown(entry, LaneMovement.clamp_to(at, arena), events)
+
+
+func _thrown_target(entry: Dictionary) -> Fighter:
+	for f in fighters:
+		if f.team == int(entry["team"]) or not CombatRules.is_vulnerable(f):
+			continue
+		var gap: Vector2 = (f.position - entry["position"]).abs()
+		if gap.x <= THROW_REACH.x and gap.y <= THROW_REACH.y:
+			return f
+	return null
+
+
+func _land_thrown(entry: Dictionary, at: Vector2, events: Array[ZoneEvent]) -> void:
+	thrown.erase(entry)
+	var weapon := str(entry["weapon"])
+	if int(entry["uses"]) <= 0:
+		var material := str(content.weapons[weapon].get("material", "wood"))
+		var data := {"id": entry["owner"], "weapon": weapon, "at": at, "material": material}
+		events.append(ZoneEvent.make("weapon_break", data))
+		return
+	var ground := place_weapon(weapon, at, int(entry["uses"]))
+	events.append(
+		ZoneEvent.make(
+			"weapon_drop",
+			{"id": entry["owner"], "weapon": weapon, "ground": ground["id"], "at": at}
+		)
+	)
 
 
 ## Gives `f` the weapon `weapon_id` with `uses` hits left.
@@ -269,7 +372,9 @@ func _pick_or_drop(f: Fighter, events: Array[ZoneEvent]) -> void:
 		return
 	var found := weapon_in_reach(f.position)
 	if found < 0:
-		if f.weapon:
+		if f.weapon and f.throws:
+			CombatRules.start_move(f, content.moves.get_move(THROW_MOVE))
+		elif f.weapon:
 			_drop_weapon(f, f.position + Vector2(f.facing * 10.0, 2.0), events)
 		return
 	var entry: Dictionary = ground_weapons[found]

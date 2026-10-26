@@ -50,6 +50,10 @@ const PARRY_STUN := 30
 const PARRY_ENERGY := 15.0
 const PARRY_PUSH := 14.0
 const COUNTER_DAMAGE := 1.5
+## A thrown weapon that hits without knocking down stuns this long and
+## pushes this far.
+const THROWN_HITSTUN := 24
+const THROWN_KNOCKBACK := 40.0
 ## Share of the remaining knockback applied each tick (ease-out slide).
 const KNOCKBACK_RATE := 0.25
 ## Half the width of a fighter's body for hit tests.
@@ -77,6 +81,7 @@ static func tick(
 	for attacker in fighters:
 		if (
 			attacker.state == Fighter.State.ATTACK
+			and attacker.move.damage > 0
 			and attacker.move.is_active_tick(attacker.state_tick)
 		):
 			swings.append([attacker, attacker.move])
@@ -260,6 +265,45 @@ static func _advance(f: Fighter, bounds: Rect2) -> void:
 	if move.advance > 0.0 and f.state_tick <= ticks:
 		var step := Vector2(f.facing * move.advance / ticks, 0)
 		f.position = LaneMovement.clamp_to(f.position + step, bounds)
+
+
+## Starts `move` from outside the input step (a throw). See _start_move.
+static func start_move(f: Fighter, move: MoveData) -> bool:
+	return _start_move(f, move)
+
+
+## A thrown object reaching `defender`, flying from `from_x`. Guard blocks it
+## from the front (chip damage, energy drain, no parry); otherwise it stuns
+## or knocks down. The caller has checked reach and vulnerability.
+static func thrown_hit(
+	defender: Fighter, thrower_id: int, from_x: float, damage: int, knockdown: bool, kind: String
+) -> CombatEvent:
+	var event := CombatEvent.new()
+	event.attacker_id = thrower_id
+	event.defender_id = defender.id
+	event.move_id = kind
+	event.position = defender.position
+	var away := signf(defender.position.x - from_x)
+	var from_front := -away != -defender.facing
+	event.blocked = defender.state == Fighter.State.GUARD and from_front
+	var full := maxi(1, damage - defender.defense)
+	if event.blocked:
+		event.damage = maxi(1, roundi(full * GUARD_DAMAGE_FACTOR))
+		defender.energy = maxf(0.0, defender.energy - full * GUARD_ENERGY_PER_DAMAGE)
+	else:
+		event.damage = full
+		defender.knockback_remaining = away * THROWN_KNOCKBACK
+	defender.hp = maxi(0, defender.hp - event.damage)
+	if defender.hp == 0:
+		event.ko = true
+		defender.enter(Fighter.State.KO)
+	elif not event.blocked:
+		event.knocked_down = knockdown
+		if knockdown:
+			defender.enter(Fighter.State.DOWN)
+		else:
+			event.knocked_down = _stun(defender, THROWN_HITSTUN)
+	return event
 
 
 static func _start_move(f: Fighter, move: MoveData) -> bool:

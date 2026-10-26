@@ -303,7 +303,7 @@ func _build_hints(root: Control) -> void:
 	more.grow_vertical = Control.GROW_DIRECTION_BEGIN
 	more.offset_right = -8
 	more.offset_bottom = -4
-	more.add_child(UiKit.key_hint("E", "Grab / Talk"))
+	more.add_child(UiKit.key_hint("E", "Grab / Throw / Talk"))
 	more.modulate.a = 0.8
 	root.add_child(more)
 

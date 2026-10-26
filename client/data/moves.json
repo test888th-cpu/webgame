@@ -840,6 +840,14 @@
       "depth_tolerance": 16,
       "knockdown": true,
       "anim": "light"
+    },
+    "weapon_throw": {
+      "startup": 8,
+      "active": 1,
+      "recovery": 14,
+      "damage": 0,
+      "hitstun": 0,
+      "anim": "light"
     }
   }
 }

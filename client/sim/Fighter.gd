@@ -70,6 +70,9 @@ var can_parry := false
 var parry_open := false
 var parry_lockout := 0
 var exposed := 0
+## With nothing underfoot to pick up, the pick button throws the held weapon
+## instead of putting it down (the hero; enemies only put weapons down).
+var throws := false
 
 
 func _init(p_id := 0, p_team := 0, p_position := Vector2.ZERO, p_max_hp := 100) -> void:

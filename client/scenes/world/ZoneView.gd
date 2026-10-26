@@ -23,6 +23,8 @@ var _entities: Node2D
 var _views := {}
 var _pickups := {}
 var _weapons := {}
+## Weapons in flight, by id: spinning sprites at chest height.
+var _thrown := {}
 var _npc_marks := {}
 var _npc_prompts := {}
 var _shake := 0.0
@@ -72,6 +74,7 @@ func sync() -> void:
 			_pickups[id].collect()
 			_pickups.erase(id)
 	_sync_weapons()
+	_sync_thrown()
 	_update_prompts()
 	_follow_hero()
 
@@ -208,6 +211,33 @@ func _sync_weapons() -> void:
 		if not present.has(id):
 			_weapons[id].queue_free()
 			_weapons.erase(id)
+
+
+func _sync_thrown() -> void:
+	var present := {}
+	for entry: Dictionary in zone.thrown:
+		var id: int = entry["id"]
+		present[id] = true
+		if not _thrown.has(id):
+			# A node on the lane (for depth sorting) holding the weapon at
+			# chest height, where it spins.
+			var holder := Node2D.new()
+			var sprite := Sprite2D.new()
+			var weapon: Dictionary = content.weapons.get(str(entry["weapon"]), {})
+			sprite.texture = UiKit.icon(content, str(weapon.get("sprite", "")))
+			sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+			sprite.position = Vector2(0, -28)
+			holder.add_child(sprite)
+			_entities.add_child(holder)
+			_thrown[id] = holder
+		var view: Node2D = _thrown[id]
+		view.position = entry["position"]
+		var flown := ZoneSim.THROW_TICKS - int(entry["ticks"])
+		view.get_child(0).rotation = flown * 0.45 * float(entry["dir"])
+	for id: int in _thrown.keys():
+		if not present.has(id):
+			_thrown[id].queue_free()
+			_thrown.erase(id)
 
 
 func _build_scenery() -> void:
