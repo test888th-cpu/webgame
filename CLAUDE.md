@@ -4,7 +4,10 @@
 
 A browser-first online beat 'em up RPG. The Godot client is in `client/`, the account and
 persistence API is in `backend/`, and the authoritative zone servers will be a headless
-export of `client/` in Milestone 3. Read `ARCHITECTURE.md` before changing structure.
+export of `client/` once the single-player game is complete (milestone IL-7). Read
+`ARCHITECTURE.md` before changing structure, and `docs/BLUEPRINT.md` (plan and agreed
+decisions) and `docs/STORY_BIBLE.md` (the only source for story, names and places)
+before changing gameplay or content.
 
 The owner works **only through cloud sessions and GitHub**. Every check must therefore run
 in GitHub Actions, and instructions for the owner must be browser-dashboard steps.

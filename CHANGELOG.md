@@ -4,6 +4,21 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Fixed — A crowd can no longer stun-lock the hero (IL-1)
+- Hitstun the hero takes fills a stun meter that drains while they are in control. A hit
+  that would push it past 40 ticks knocks the hero down instead of holding them, and
+  getting up gives 36 ticks in which nothing can hit them (the hero blinks; attacking
+  ends it). Measured worst case against three Night Market Punks with no input: 169 →
+  68 ticks (2.8 s → 1.1 s); the cap is 90 ticks (1.5 s). Enemies are unchanged, so hero
+  combos still chain.
+- 4 new tests (144 total), including a zone test with three punks over three seeds.
+
+### Changed — Direction approved
+- The owner approved every recommendation in `docs/BLUEPRINT.md` (D1–D9): *The Iron
+  Legacy*, Iron City and The Core, heroes mapped to classes, single player first (online
+  work moves to IL-7). CLAUDE.md, GAME_DESIGN and ROADMAP point to the blueprint and the
+  story bible.
+
 ### Added — The Iron Legacy: audit and blueprint (IL-0)
 - `docs/BLUEPRINT.md`: audit of what exists, works, is missing or risky (baseline 140/140
   tests passing on Godot 4.7.2), conflicts between code, docs and the owner's brief,

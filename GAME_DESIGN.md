@@ -9,11 +9,12 @@ owned by anyone.
 two bosses, street weapons, equipment, quests, local saves). Everything else is design
 intent.
 
-> **Under review:** the owner's "The Iron Legacy" brief proposes a new setting (Iron City
-> and The Core instead of Port Verrin and the Murk), six classes and a single-player-first
-> order. Until the owner decides, this file still describes the game as built. The audit,
-> open decisions and plan are in [docs/BLUEPRINT.md](docs/BLUEPRINT.md); the proposed
-> canon (names, places, story) is in [docs/STORY_BIBLE.md](docs/STORY_BIBLE.md).
+> **Direction approved 2026-10-26:** the game becomes *The Iron Legacy*: Iron City and
+> The Core (Port Verrin is its harbour district, the Murk its toxic smog), six classes and
+> single player first. The story, names and places now live only in
+> [docs/STORY_BIBLE.md](docs/STORY_BIBLE.md); plan and decisions in
+> [docs/BLUEPRINT.md](docs/BLUEPRINT.md). Sections below describe mechanics as built; the
+> Premise and crew sections are superseded by the story bible and are being migrated.
 
 ## Premise
 
@@ -51,7 +52,11 @@ equipment) is stored per hero. Temporary combat state is never persisted.
   breaks guard and costs energy; dodge with invulnerability frames (ticks 2–13 of 20)
   that costs energy; guard that blocks from the front only, takes 20% chip damage,
   drains energy and breaks when energy runs out; knockdown with invulnerable get-up.
-  Simultaneous hits trade. **[built]** A 12-tick input buffer keeps presses made just
+  Simultaneous hits trade. **[built]** Stun-lock protection: hitstun the hero takes
+  fills a meter that drains while they are in control; a hit that would push it past 40
+  ticks knocks them down instead, and getting up gives 36 ticks of grace (the hero
+  blinks; attacking ends it). A crowd can hold the hero helpless for at most 1.5 s.
+  Enemies have no such protection, so hero combos still chain. **[built]** A 12-tick input buffer keeps presses made just
   before a swing ends.
 - **[built]** Skills on a seven-slot hotbar (`client/data/skills.json`): 1 attack, 2–5
   skills, 6–7 consumables. Each skill is a move with an energy cost and a cooldown, and
