@@ -23,6 +23,8 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 - Ranged attacks reuse the throwing system (`ZoneSim` projectiles) instead of a second
   one; the AI is `EnemyBrain._keep_range`; the data (`ranged` on the enemy and its
   `ai`) is validated on load.
+- Measured the rules' cost with 10 enemies on screen: 0.30 ms per tick on average
+  (PERFORMANCE.md), well inside a 60 fps frame.
 - After a fight is cleared, a blinking **GO >>** points the way on (only where the
   street continues east).
 - New tests keep the street one connected line with rising levels, every gate
