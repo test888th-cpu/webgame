@@ -125,7 +125,10 @@ licence (from the policy's allowed list) and source page, and the cut to keep
 (`start`, `length`). The tool mixes to mono, fades in and out, normalises to -1 dBFS
 and writes `client/assets/audio/<id>.wav`; the manifest lists the credits under
 `audio.recorded` and the in-game credits show them. So far: `punch_hit`, "Punch 5" by
-jakeeaton (Freesound, CC-BY 4.0), played when a fist or kick lands. Do not import
+jakeeaton (Freesound, CC-BY 4.0), and `punch_hit_2`..`punch_hit_6`, five punches cut
+from "multi punch" by Shikamarunara74 (Freesound, CC-BY 3.0); one of the six plays at
+random when a fist or kick lands. Cuts start just before the impact so the sound is
+not late. Do not import
 sounds whose tags name a commercial library (e.g. "copyright ... Hollywood Edge"),
 whatever the site they were downloaded from says.
 

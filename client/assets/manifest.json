@@ -5491,6 +5491,51 @@
         "notes": "Licence as stated by the project owner, who supplied the file (2026-10-26). Trimmed to the impact and faded out by tools/assets/import_sounds.py.",
         "title": "Punch 5",
         "url": "https://freesound.org/people/jakeeaton/sounds/560327/"
+      },
+      "punch_hit_2": {
+        "authors": [
+          "Shikamarunara74"
+        ],
+        "license": "CC-BY 3.0",
+        "notes": "Licence as stated by the project owner, who supplied the file (2026-10-26). One punch cut out of the sequence by tools/assets/import_sounds.py.",
+        "title": "multi punch",
+        "url": "https://freesound.org/s/126317/"
+      },
+      "punch_hit_3": {
+        "authors": [
+          "Shikamarunara74"
+        ],
+        "license": "CC-BY 3.0",
+        "notes": "Licence as stated by the project owner, who supplied the file (2026-10-26). One punch cut out of the sequence by tools/assets/import_sounds.py.",
+        "title": "multi punch",
+        "url": "https://freesound.org/s/126317/"
+      },
+      "punch_hit_4": {
+        "authors": [
+          "Shikamarunara74"
+        ],
+        "license": "CC-BY 3.0",
+        "notes": "Licence as stated by the project owner, who supplied the file (2026-10-26). One punch cut out of the sequence by tools/assets/import_sounds.py.",
+        "title": "multi punch",
+        "url": "https://freesound.org/s/126317/"
+      },
+      "punch_hit_5": {
+        "authors": [
+          "Shikamarunara74"
+        ],
+        "license": "CC-BY 3.0",
+        "notes": "Licence as stated by the project owner, who supplied the file (2026-10-26). One punch cut out of the sequence by tools/assets/import_sounds.py.",
+        "title": "multi punch",
+        "url": "https://freesound.org/s/126317/"
+      },
+      "punch_hit_6": {
+        "authors": [
+          "Shikamarunara74"
+        ],
+        "license": "CC-BY 3.0",
+        "notes": "Licence as stated by the project owner, who supplied the file (2026-10-26). One punch cut out of the sequence by tools/assets/import_sounds.py.",
+        "title": "multi punch",
+        "url": "https://freesound.org/s/126317/"
       }
     },
     "sounds": {
@@ -5513,6 +5558,11 @@
       "level_up": "res://assets/audio/level_up.wav",
       "pickup": "res://assets/audio/pickup.wav",
       "punch_hit": "res://assets/audio/punch_hit.wav",
+      "punch_hit_2": "res://assets/audio/punch_hit_2.wav",
+      "punch_hit_3": "res://assets/audio/punch_hit_3.wav",
+      "punch_hit_4": "res://assets/audio/punch_hit_4.wav",
+      "punch_hit_5": "res://assets/audio/punch_hit_5.wav",
+      "punch_hit_6": "res://assets/audio/punch_hit_6.wav",
       "quest": "res://assets/audio/quest.wav",
       "skill_rush": "res://assets/audio/skill_rush.wav",
       "skill_slam": "res://assets/audio/skill_slam.wav",

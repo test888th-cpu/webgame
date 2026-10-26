@@ -99,7 +99,10 @@ func test_gallery_and_credits_build() -> void:
 	assert_true(text.contains("Stephen Challener"), "credits name LPC authors")
 	assert_true(text.contains("jakeeaton"), "credits name the recorded punch's author")
 	assert_true(text.contains("CC-BY 4.0"), "and its licence")
-	assert_true(GameSession.content.audio["sounds"].has("punch_hit"), "the punch is a listed sound")
+	assert_true(text.contains("Shikamarunara74"), "and of the multi-punch")
+	assert_eq(text.count("Shikamarunara74"), 1, "credited once for all its cuts")
+	for punch: String in GameFeedback.PUNCHES:
+		assert_true(GameSession.content.audio["sounds"].has(punch), "%s is a listed sound" % punch)
 
 
 func test_every_area_has_layered_scenery() -> void:

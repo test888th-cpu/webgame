@@ -50,9 +50,14 @@ static func build(content: ContentDB) -> String:
 ## Recorded sound effects and their authors (CC-BY asks for credit).
 static func _sounds(content: ContentDB) -> String:
 	var text := ""
+	var seen := {}
 	var recorded: Dictionary = content.audio.get("recorded", {})
 	for sound_id: String in recorded:
 		var sound: Dictionary = recorded[sound_id]
+		# Several cuts of one recording are credited once.
+		if seen.has(sound.get("url", sound_id)):
+			continue
+		seen[sound.get("url", sound_id)] = true
 		text += (
 			'Sound "%s" by %s (%s), %s\n'
 			% [
