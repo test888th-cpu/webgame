@@ -23,6 +23,9 @@ var moves: MoveLibrary
 var enemies: Dictionary = {}
 var items: Dictionary = {}
 var areas: Dictionary = {}
+## Street furniture that blocks walking (kind -> {"piece", "half"}), from
+## obstacles.json; areas place them in "obstacles".
+var obstacles: Dictionary = {}
 var start_area := ""
 var quests: Dictionary = {}
 var shops: Dictionary = {}
@@ -69,6 +72,7 @@ static func load_all(dir := DATA_DIR) -> ContentDB:
 	db.start_area = str(area_file.get("start_area", ""))
 	db.progression = db._read(dir.path_join("progression.json"))
 	db.weapons = db._section(dir, "weapons.json", "weapons")
+	db.obstacles = db._section(dir, "obstacles.json", "obstacles")
 	db.heroes = db._section(dir, "heroes.json", "heroes")
 	db.hero_order = db._read(dir.path_join("heroes.json")).get("order", [])
 	var skill_file := db._read(dir.path_join("skills.json"))
@@ -283,6 +287,11 @@ func _validate_area(id: String, a: Dictionary) -> void:
 		_check(
 			enemies.has(str(placed.get("enemy"))),
 			"%s.placed: unknown enemy %s" % [where, placed.get("enemy")]
+		)
+	for obstacle: Variant in a.get("obstacles", []):
+		_check(
+			obstacle is Dictionary and obstacles.has(str(obstacle.get("kind"))),
+			"%s.obstacles: unknown kind %s" % [where, obstacle]
 		)
 	var width := float(a.get("width", 0))
 	for encounter: Variant in a.get("encounters", []):

@@ -38,6 +38,15 @@ equipment) is stored per hero. Temporary combat state is never persisted.
 ## Combat pillars
 
 - Movement along the street (x) and in depth (y). Depth is slower, a deliberate genre feel.
+- **[built] Solid bodies** (`client/sim/Bodies.gd`): fighters, NPCs and street furniture
+  (lamp posts and power poles at the kerb, bins, cones and crates in the road; kinds in
+  `client/data/obstacles.json`, placed per area in `areas.json` "obstacles") cannot be
+  walked through. A step at an angle slides along what it hits; walking straight into
+  something stops you, so the player steps up or down the lane to get round. Enemies
+  step round furniture and each other by themselves; nobody walks through the hero.
+  Fighters reeling from a hit or knocked down do not block, and knockback is stopped
+  only by furniture. Dropped loot, weapons, spawns and arrivals are moved clear of
+  furniture so they can always be reached.
   **[built]**
 - **[built]** Light, light, light combo (jab → cross → body hook; each link opens only
   after the previous hit connects); heavy haymaker from neutral or as a finisher, which

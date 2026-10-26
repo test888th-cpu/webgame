@@ -50,7 +50,13 @@ var item_cooldown := 0
 var level := 1
 ## Weapons lying on the street: {id, weapon, position, uses}.
 var ground_weapons: Array[Dictionary] = []
+## What stands on the street and blocks walking: the area's street furniture
+## and its NPCs, as {"position", "half", "kind"} (see Bodies). Fighters block
+## each other too, added as they stand each tick.
+var solids: Array[Dictionary] = []
 var _next_weapon := 1
+## Where each fighter stood before this tick's movement.
+var _before := {}
 ## Each enemy's level and money multiplier, by id.
 var _enemy_level := {}
 
@@ -80,12 +86,13 @@ func _init(
 	var width := float(area.get("width", 960))
 	bounds = Rect2(EDGE_MARGIN, LANE_TOP, width - EDGE_MARGIN * 2.0, LANE_DEPTH)
 	arena = bounds
+	_build_solids()
 	var start := Vector2(120.0, 300.0)
 	if entry == "west":
 		start.x = bounds.position.x + 24.0
 	elif entry == "east":
 		start.x = bounds.end.x - 24.0
-	hero = Fighter.new(HERO_ID, HERO_TEAM, start, 100)
+	hero = Fighter.new(HERO_ID, HERO_TEAM, Bodies.clear_spot(start, solids, bounds), 100)
 	hero.kind = "hero"
 	hero.facing = -1 if entry == "east" else 1
 	if area.get("heal_on_enter", false):
@@ -166,6 +173,9 @@ func tick(hero_input: FighterInput) -> Array[ZoneEvent]:
 	item_cooldown = maxi(0, item_cooldown - 1)
 	var events: Array[ZoneEvent] = []
 	_update_encounter(events)
+	_before.clear()
+	for f in fighters:
+		_before[f.id] = f.position
 	var inputs := {HERO_ID: hero_input}
 	var allowed := _attack_tokens()
 	for id: int in brains:
@@ -183,7 +193,7 @@ func tick(hero_input: FighterInput) -> Array[ZoneEvent]:
 	for id: int in inputs:
 		if inputs[id].pick:
 			_pick_or_drop(fighter(id), events)
-	for hit in CombatRules.tick(fighters, inputs, content.moves, arena):
+	for hit in CombatRules.tick(fighters, inputs, content.moves, arena, _resolve_bodies):
 		var event := ZoneEvent.make("hit")
 		event.hit = hit
 		events.append(event)
@@ -223,7 +233,7 @@ func place_weapon(weapon_id: String, at: Vector2, uses: int) -> Dictionary:
 	var entry := {
 		"id": _next_weapon,
 		"weapon": weapon_id,
-		"position": LaneMovement.clamp_to(at, bounds),
+		"position": Bodies.clear_spot(at, solids, bounds),
 		"uses": uses,
 	}
 	_next_weapon += 1
@@ -468,7 +478,7 @@ func _spawn_next(events: Array[ZoneEvent]) -> void:
 	_spawn_side = 1 - _spawn_side
 	var x := arena.position.x + 12.0 if _spawn_side == 0 else arena.end.x - 12.0
 	var y := rng.randf_range(arena.position.y + 10.0, arena.end.y - 10.0)
-	var enemy := spawn_enemy(kind, Vector2(x, y))
+	var enemy := spawn_enemy(kind, Bodies.clear_spot(Vector2(x, y), solids, arena))
 	_spawn_timer = SPAWN_INTERVAL
 	events.append(
 		ZoneEvent.make("spawn", {"id": enemy.id, "kind": kind, "boss": enemy.id == boss_id})
@@ -511,7 +521,7 @@ func _drop(pickup: Dictionary, at: Vector2) -> void:
 	pickup["id"] = _next_pickup
 	_next_pickup += 1
 	var scatter := Vector2(rng.randf_range(-18.0, 18.0), rng.randf_range(-8.0, 8.0))
-	pickup["position"] = LaneMovement.clamp_to(at + scatter, bounds)
+	pickup["position"] = Bodies.clear_spot(at + scatter, solids, bounds)
 	# Where it dropped from, so views can show it flying out of the enemy.
 	pickup["from"] = at
 	pickups.append(pickup)
@@ -546,6 +556,90 @@ func _check_phases(events: Array[ZoneEvent]) -> void:
 		events.append(ZoneEvent.make("boss_phase", {"id": enemy.id, "phase": done + 1}))
 
 
+func _build_solids() -> void:
+	for obstacle: Dictionary in area.get("obstacles", []):
+		var kind: Dictionary = content.obstacles.get(str(obstacle["kind"]), {})
+		var half: Array = kind.get("half", [6, 3])
+		(
+			solids
+			. append(
+				{
+					"position": Vector2(obstacle["x"], obstacle["y"]),
+					"half": Vector2(half[0], half[1]),
+					"kind": str(obstacle["kind"]),
+				}
+			)
+		)
+	for npc: Dictionary in area.get("npcs", []):
+		solids.append(
+			{"position": Vector2(npc["x"], npc["y"]), "half": Bodies.PERSON, "kind": "npc"}
+		)
+
+
+## Called by CombatRules after everyone has moved, before blows are judged:
+## undoes or trims any step into street furniture, an NPC or another fighter.
+## A step at an angle slides along what it hit; an enemy walking straight into
+## something steps around it, so it still reaches the hero. The hero has to
+## walk around by itself.
+func _resolve_bodies() -> void:
+	for f in fighters:
+		var from: Vector2 = _before.get(f.id, f.position)
+		if f.is_ko() or f.position == from:
+			continue
+		var others := _solids_for(f)
+		var to := f.position
+		if Bodies.can_step(from, to, Bodies.PERSON, others):
+			continue
+		var along := Vector2(to.x, from.y)
+		var across := Vector2(from.x, to.y)
+		if along != from and Bodies.can_step(from, along, Bodies.PERSON, others):
+			f.position = along
+		elif across != from and Bodies.can_step(from, across, Bodies.PERSON, others):
+			f.position = across
+		else:
+			f.position = from
+		if f != hero and f.state == Fighter.State.IDLE and f.position.x == from.x:
+			f.position = _detour(f, from, to, others)
+
+
+## What `f` may not walk into: the street's solids and, unless it is reeling
+## or down, every fighter still on their feet.
+func _solids_for(f: Fighter) -> Array:
+	var others: Array = solids.duplicate()
+	if f.state == Fighter.State.HITSTUN or f.state == Fighter.State.DOWN:
+		return others
+	for other in fighters:
+		if other != f and not other.is_ko() and other.state != Fighter.State.DOWN:
+			others.append(
+				{
+					"position": other.position,
+					"half": Bodies.PERSON,
+					"kind": "fighter",
+					"id": other.id
+				}
+			)
+	return others
+
+
+## A sidestep for an enemy blocked while walking along the street: around the
+## side it is already on (or towards the hero's side), not into the hero.
+func _detour(f: Fighter, from: Vector2, to: Vector2, others: Array) -> Vector2:
+	if to.x == from.x:
+		return f.position
+	var block := Bodies.blocker(from, Vector2(to.x, from.y), Bodies.PERSON, others)
+	if block.is_empty() or int(block.get("id", 0)) == HERO_ID:
+		return f.position
+	var side := signf(from.y - float(block["position"].y))
+	if side == 0.0:
+		side = 1.0 if hero.position.y >= from.y else -1.0
+	var step := LaneMovement.WALK_SPEED_Y * CombatRules.TICK_SECONDS * maxf(f.speed, 0.5)
+	for dir: float in [side, -side]:
+		var at := LaneMovement.clamp_to(from + Vector2(0, dir * step), arena)
+		if at != from and Bodies.can_step(from, at, Bodies.PERSON, others):
+			return at
+	return f.position
+
+
 func _separate_crowd() -> void:
 	var crowd: Array[Fighter] = []
 	for enemy in enemies():
@@ -562,8 +656,15 @@ func _separate_crowd() -> void:
 				continue
 			var push := (CROWD_GAP - absf(gap)) * 0.5
 			var dir := 1.0 if gap > 0.0 or (gap == 0.0 and b.id > a.id) else -1.0
-			a.position = LaneMovement.clamp_to(a.position - Vector2(push * dir, 0), arena)
-			b.position = LaneMovement.clamp_to(b.position + Vector2(push * dir, 0), arena)
+			_shove(a, a.position - Vector2(push * dir, 0))
+			_shove(b, b.position + Vector2(push * dir, 0))
+
+
+## Moves `f` to `to` unless that would push it into street furniture.
+func _shove(f: Fighter, to: Vector2) -> void:
+	to = LaneMovement.clamp_to(to, arena)
+	if Bodies.can_step(f.position, to, Bodies.PERSON, solids):
+		f.position = to
 
 
 func _update_downed(events: Array[ZoneEvent]) -> void:

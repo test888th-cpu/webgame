@@ -4,6 +4,20 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — Solid street: no walking through things or people
+- Lamp posts, power poles, bins, cones, crates, NPCs, the training dummy, the hero and
+  enemies are now solid. You bump into them and must walk round (a step at an angle
+  slides along); enemies step round furniture and each other to reach you. Fighters
+  in hitstun or knocked down do not block.
+- Street furniture is gameplay data: kinds and footprints in
+  `client/data/obstacles.json`, positions per area in `areas.json`, validated on load
+  and shared with the future server. The game draws it among the fighters, sorted by
+  depth; the scenery kit no longer scatters lamp posts at random and keeps sidewalk
+  props and parked vehicles clear of it.
+- Loot, weapons, spawns and arrivals never land inside furniture. Tests cover
+  blocking, sliding, walking round, enemies detouring, NPCs, fallen fighters and
+  furniture placement; the browser smoke test now walks round obstacles.
+
 ### Added — Painted street weapons, and a frying pan, wrench and bat
 - The street weapons now use the project owner's paintings, reduced to hand-sized
   pixel sprites with an outline like the characters (in hand, on the street and on

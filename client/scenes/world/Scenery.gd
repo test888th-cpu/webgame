@@ -17,18 +17,30 @@ extends RefCounted
 const FAR_FEET := 236.0
 const SIDEWALK_TOP := 226.0
 const ROAD_TOP := 250.0
+## Every piece of street furniture drawn is in this group.
+const FURNITURE_GROUP := "street_furniture"
 ## Foliage in front of the fighters is drawn above them.
 const FOREGROUND_Z := 1
 
 
-## Builds the scenery of `area_id`; false when it has none to build.
-static func build(parent: Node2D, content: ContentDB, area_id: String) -> bool:
+## Builds the scenery of `area_id`; false when it has none to build. The
+## area's solid street furniture is drawn too unless `with_furniture` is off
+## (the game world draws it among the fighters, see `furniture`).
+static func build(
+	parent: Node2D, content: ContentDB, area_id: String, with_furniture := true
+) -> bool:
 	var scenery: Dictionary = content.environment.get("areas", {}).get(area_id, {})
 	var kit: Dictionary = content.kit.get("areas", {}).get(area_id, {})
 	if not kit.is_empty():
 		if not scenery.is_empty():
 			_parallax(parent, scenery["layers"]["sky"], 0.0)
 		_build_kit(parent, content, kit)
+		if with_furniture:
+			for obstacle: Dictionary in content.area(area_id).get("obstacles", []):
+				var node := furniture(content, str(obstacle["kind"]))
+				if node != null:
+					node.position = Vector2(obstacle["x"], obstacle["y"])
+					parent.get_node("KitStreet").add_child(node)
 		return true
 	if scenery.is_empty():
 		return false
@@ -77,6 +89,24 @@ static func _build_kit(parent: Node2D, content: ContentDB, area: Dictionary) -> 
 		var sprite := _piece(layer, piece, float(placed["x"]), float(placed["y"]))
 		if piece.has("glow"):
 			_glow(layer, content, sprite.position + _game_size(piece) * _vec(piece["glow"]))
+
+
+## A piece of solid street furniture (areas.json "obstacles") standing with
+## its feet at the node's origin, so it sorts in depth with the fighters; null
+## if its picture is missing.
+static func furniture(content: ContentDB, kind: String) -> Node2D:
+	var piece_id := str(content.obstacles.get(kind, {}).get("piece", ""))
+	var piece: Dictionary = content.kit.get("pieces", {}).get(piece_id, {})
+	if piece.is_empty():
+		return null
+	var node := Node2D.new()
+	node.name = "Furniture"
+	node.add_to_group(FURNITURE_GROUP)
+	node.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+	var sprite := _piece(node, piece, 0.0, 0.0)
+	if piece.has("glow"):
+		_glow(node, content, sprite.position + _game_size(piece) * _vec(piece["glow"]))
+	return node
 
 
 ## A depth layer: a Parallax2D scrolling at `scroll` (1 = with the street),
