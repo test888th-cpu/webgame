@@ -15,7 +15,7 @@ func _content() -> ContentDB:
 
 func test_the_roster_has_a_female_and_a_male_hero_that_play_differently() -> void:
 	var db := _content()
-	assert_eq(db.hero_order, ["mika", "oren", "riku"], "roster order")
+	assert_eq(db.hero_order, ["mika", "oren", "riku", "kan", "dao", "pong"], "roster order")
 	assert_eq(db.hero("mika")["gender"], "Female", "Mika")
 	assert_eq(db.hero("oren")["gender"], "Male", "Oren")
 	var mika := PlayerProfile.new_game(db, "mika").stats(db)

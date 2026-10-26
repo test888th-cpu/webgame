@@ -109,6 +109,9 @@ func _init(
 	hero.kind = "hero"
 	hero.stun_limit = CombatRules.HERO_STUN_LIMIT
 	hero.can_parry = true
+	var hero_data := content.hero(profile.hero)
+	hero.parry_window = int(hero_data.get("parry_window", CombatRules.PERFECT_GUARD_TICKS))
+	hero.skill_armor = bool(hero_data.get("skill_armor", false))
 	hero.throws = true
 	hero.facing = -1 if entry == "east" else 1
 	if area.get("heal_on_enter", false):

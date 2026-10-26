@@ -49,6 +49,15 @@ changes the hero's look). `ContentDB` fails if any of these names a missing asse
 | refinery_enforcer | elite | headband, legion armour, armoured legs | OGA-BY 3.0(+) |
 | furnace_baron | boss | walrus moustache, balding, leather cap, trench coat | OGA-BY 3.0(+) |
 | npc_kenji | NPC, night-market vendor | topknot, headband, long sleeves, apron | OGA-BY 3.0(+) |
+| street_thrower | enemy (ranged) | bandana, plain hair, t-shirt, open vest, pants, white shoes | OGA-BY 3.0 |
+| pit_champion | mini-boss | shirtless, buzzcut, thick headband, shorts | OGA-BY 3.0(+) |
+| hero_kan | playable hero (Basketball) | sleeveless jersey, shorts, white shoes, thick headband | OGA-BY 3.0(+) |
+| hero_dao | playable hero (Police) | female, high ponytail, khaki buttoned long sleeves, black pants, boots | OGA-BY 3.0 |
+| hero_pong | playable hero (Soldier) | buzzcut, trimmed beard, green long sleeves and pants, rim boots | OGA-BY 3.0(+) |
+
+The licence policy did its job on the heroes: a necktie for Dao and a vest for Pong
+were refused by `lpc_build.py` because they are only offered as CC-BY-SA/GPL, so the
+recipes use other pieces.
 
 **Hand sockets.** For every character the builder also records, per animation frame,
 where the weapon hand (always the near arm, the one that swings) is and at what

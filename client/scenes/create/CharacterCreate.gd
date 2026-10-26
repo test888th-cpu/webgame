@@ -13,6 +13,10 @@ const GAME_SCENE := "res://scenes/game/Game.tscn"
 const TITLE_SCENE := "res://scenes/title/Title.tscn"
 const BACKDROP_AREA := "depot_yard"
 const CARD_SIZE := Vector2(138, 50)
+## With more heroes than fit at full size, cards shrink (smaller portrait,
+## difficulty beside the role) so the whole roster stays above the name bar.
+const COMPACT_CARD_SIZE := Vector2(138, 38)
+const COMPACT_AFTER := 4
 const PANEL_WIDTH := 262.0
 ## The spotlight cycles through these animations to show the hero off.
 const SHOWOFF := ["idle", "light", "idle", "heavy"]
@@ -113,7 +117,7 @@ func _build_roster() -> void:
 	var roster := VBoxContainer.new()
 	roster.name = "Roster"
 	roster.position = Vector2(12, 48)
-	roster.add_theme_constant_override("separation", 6)
+	roster.add_theme_constant_override("separation", 4 if _compact() else 6)
 	_ui.add_child(roster)
 	roster.add_child(UiKit.label("HEROES", UiTheme.SIZE_CAPTION, UiTheme.TEXT_DIM))
 	for hero_id: String in content.hero_order:
@@ -122,12 +126,16 @@ func _build_roster() -> void:
 		cards[hero_id] = card
 
 
+func _compact() -> bool:
+	return content.hero_order.size() > COMPACT_AFTER
+
+
 ## A focusable card: portrait, name, role, gender and difficulty.
 func _hero_card(hero_id: String) -> Button:
 	var hero := content.hero(hero_id)
 	var card := Button.new()
 	card.name = "Card_" + hero_id
-	card.custom_minimum_size = CARD_SIZE
+	card.custom_minimum_size = COMPACT_CARD_SIZE if _compact() else CARD_SIZE
 	card.focus_mode = Control.FOCUS_ALL
 	card.toggle_mode = true
 	card.tooltip_text = str(hero["tagline"])
@@ -161,7 +169,7 @@ func _hero_card(hero_id: String) -> Button:
 	picture.texture = UiKit.portrait(content, str(hero["sprites"]["default"]))
 	picture.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	picture.custom_minimum_size = Vector2(40, 40)
+	picture.custom_minimum_size = Vector2(30, 30) if _compact() else Vector2(40, 40)
 	picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	frame.add_child(picture)
 	var text := VBoxContainer.new()
@@ -180,7 +188,10 @@ func _hero_card(hero_id: String) -> Button:
 	var meta := HBoxContainer.new()
 	meta.add_theme_constant_override("separation", 6)
 	meta.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	meta.add_child(UiKit.label(str(hero.get("gender", "")), UiTheme.SIZE_CAPTION, UiTheme.TEXT_DIM))
+	if not _compact():
+		meta.add_child(
+			UiKit.label(str(hero.get("gender", "")), UiTheme.SIZE_CAPTION, UiTheme.TEXT_DIM)
+		)
 	meta.add_child(_pips(int(hero["difficulty"])))
 	text.add_child(meta)
 	for node in text.find_children("*", "Control", true, false):

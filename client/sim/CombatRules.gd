@@ -399,6 +399,8 @@ static func _apply_hit(
 ## Blows land but do not interrupt: poise broken into armor, or winding up a
 ## telegraphed attack (fighters with poise only).
 static func is_unflinching(f: Fighter) -> bool:
+	if f.skill_armor and f.state == Fighter.State.ATTACK and _is_skill(f, f.move.id):
+		return f.state_tick < f.move.startup + f.move.active
 	if f.poise_limit <= 0:
 		return false
 	if f.armor > 0:
@@ -412,7 +414,7 @@ static func is_perfect_guard(defender: Fighter, from_front: bool) -> bool:
 		defender.state == Fighter.State.GUARD
 		and defender.parry_open
 		and from_front
-		and defender.state_tick <= PERFECT_GUARD_TICKS
+		and defender.state_tick <= defender.parry_window
 	)
 
 
@@ -426,6 +428,13 @@ static func _parry(attacker: Fighter, defender: Fighter, event: CombatEvent) -> 
 	attacker.knockback_remaining = (away if away != 0.0 else -defender.facing) * PARRY_PUSH
 	attacker.enter(Fighter.State.HITSTUN, PARRY_STUN)
 	attacker.exposed = PARRY_STUN
+
+
+static func _is_skill(f: Fighter, move_id: String) -> bool:
+	for skill_id: String in f.skills:
+		if f.skills[skill_id]["move"] == move_id:
+			return true
+	return false
 
 
 ## Puts the defender in hitstun, or knocks them down when stun-lock

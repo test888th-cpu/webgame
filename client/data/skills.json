@@ -131,6 +131,138 @@
       "fx_at": "self",
       "sound": "skill_slam",
       "description": "Everything into one straight right. The shockwave flattens foes all around. Breaks guard."
+    },
+    "crossover": {
+      "name": "Crossover",
+      "move": "kan_crossover",
+      "cooldown": 255,
+      "unlock_level": 1,
+      "icon": "skill_crossover",
+      "fx": "hit_heavy",
+      "fx_at": "front",
+      "sound": "skill_rush",
+      "description": "A quick change of direction that carries you past a guard and into a stunning hit."
+    },
+    "elbow_clear": {
+      "name": "Elbow Clear",
+      "move": "kan_elbow_clear",
+      "cooldown": 390,
+      "unlock_level": 1,
+      "icon": "skill_elbow",
+      "fx": "whirlwind",
+      "fx_at": "self",
+      "sound": "skill_whirlwind",
+      "description": "Elbows out on both sides: clears space when you are surrounded."
+    },
+    "post_up": {
+      "name": "Post Up",
+      "move": "kan_post_up",
+      "cooldown": 390,
+      "unlock_level": 2,
+      "icon": "skill_postup",
+      "fx": "rush",
+      "fx_at": "trail",
+      "sound": "skill_rush",
+      "description": "Back into a foe and drive them off the spot. Breaks guard."
+    },
+    "slam_dunk": {
+      "name": "Slam Dunk",
+      "move": "kan_slam_dunk",
+      "cooldown": 1260,
+      "unlock_level": 3,
+      "icon": "skill_dunk",
+      "fx": "slam",
+      "fx_at": "self",
+      "sound": "skill_slam",
+      "description": "Leap and slam down: the widest hit in the crew, flooring everyone around you."
+    },
+    "wrist_lock": {
+      "name": "Wrist Lock",
+      "move": "dao_wrist_lock",
+      "cooldown": 300,
+      "unlock_level": 1,
+      "icon": "skill_wristlock",
+      "fx": "hit_heavy",
+      "fx_at": "front",
+      "sound": "skill_uppercut",
+      "description": "Grab and twist: holds one foe helpless longer than any other move. Breaks guard."
+    },
+    "leg_sweep": {
+      "name": "Leg Sweep",
+      "move": "dao_leg_sweep",
+      "cooldown": 360,
+      "unlock_level": 1,
+      "icon": "skill_sweep",
+      "fx": "whirlwind",
+      "fx_at": "self",
+      "sound": "skill_whirlwind",
+      "description": "A low spinning sweep that floors everyone at your feet, front and back."
+    },
+    "takedown": {
+      "name": "Takedown",
+      "move": "dao_takedown",
+      "cooldown": 420,
+      "unlock_level": 2,
+      "icon": "skill_takedown",
+      "fx": "rush",
+      "fx_at": "trail",
+      "sound": "skill_rush",
+      "description": "Close the distance and put a foe on the ground. Breaks guard."
+    },
+    "riot_shove": {
+      "name": "Riot Shove",
+      "move": "dao_riot_shove",
+      "cooldown": 1290,
+      "unlock_level": 3,
+      "icon": "skill_riot",
+      "fx": "slam",
+      "fx_at": "self",
+      "sound": "skill_slam",
+      "description": "Shove the whole crowd back and down. Breaks guards."
+    },
+    "combat_elbow": {
+      "name": "Combat Elbow",
+      "move": "pong_combat_elbow",
+      "cooldown": 300,
+      "unlock_level": 1,
+      "icon": "skill_cbelbow",
+      "fx": "hit_heavy",
+      "fx_at": "front",
+      "sound": "skill_uppercut",
+      "description": "A short, hard elbow that cracks a guard. Nothing interrupts it."
+    },
+    "breach_kick": {
+      "name": "Breach Kick",
+      "move": "pong_breach_kick",
+      "cooldown": 360,
+      "unlock_level": 1,
+      "icon": "skill_breach",
+      "fx": "hit_heavy",
+      "fx_at": "front",
+      "sound": "skill_slam",
+      "description": "A door-breaking front kick that sends a foe flying."
+    },
+    "shoulder_drive": {
+      "name": "Shoulder Drive",
+      "move": "pong_shoulder_drive",
+      "cooldown": 430,
+      "unlock_level": 2,
+      "icon": "skill_drive",
+      "fx": "rush",
+      "fx_at": "trail",
+      "sound": "skill_rush",
+      "description": "Drive through a line of foes, shoulder first. Breaks guard."
+    },
+    "ground_pound": {
+      "name": "Ground Pound",
+      "move": "pong_ground_pound",
+      "cooldown": 1350,
+      "unlock_level": 3,
+      "icon": "skill_pound",
+      "fx": "slam",
+      "fx_at": "self",
+      "sound": "skill_slam",
+      "description": "Both fists into the street: a slow, unstoppable shockwave."
     }
   },
   "hotbar": [

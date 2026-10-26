@@ -1004,6 +1004,144 @@
           }
         }
       ]
+    },
+    "hero_kan": {
+      "role": "hero",
+      "body_type": "male",
+      "layers": [
+        {
+          "def": "body/body.json",
+          "recolor": {
+            "color": "ulpc.bronze"
+          }
+        },
+        {
+          "def": "head/heads/human/heads_human_male.json",
+          "recolor": {
+            "color_1": "ulpc.bronze"
+          }
+        },
+        {
+          "def": "feet/shoes/feet_shoes_basic.json",
+          "recolor": {
+            "color": "ulpc.white"
+          }
+        },
+        {
+          "def": "legs/shorts/legs_shorts.json",
+          "recolor": {
+            "color": "ulpc.red"
+          }
+        },
+        {
+          "def": "torso/shirts/sleeveless/torso_clothes_sleeveless2.json",
+          "recolor": {
+            "color": "ulpc.white"
+          }
+        },
+        {
+          "def": "hair/short/hair_plain.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        },
+        {
+          "def": "headwear/coverings/headbands/hat_headband_thick.json",
+          "recolor": {
+            "color": "ulpc.red"
+          }
+        }
+      ]
+    },
+    "hero_dao": {
+      "role": "hero",
+      "body_type": "female",
+      "layers": [
+        {
+          "def": "body/body.json",
+          "recolor": {
+            "color": "ulpc.light"
+          }
+        },
+        {
+          "def": "head/heads/human/heads_human_female.json",
+          "recolor": {
+            "color_1": "ulpc.light"
+          }
+        },
+        {
+          "def": "feet/boots/feet_boots_basic.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        },
+        {
+          "def": "legs/pants/legs_pants.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        },
+        {
+          "def": "torso/shirts/longsleeve/torso_clothes_longsleeve2_buttoned.json",
+          "recolor": {
+            "color": "ulpc.tan"
+          }
+        },
+        {
+          "def": "hair/braids/hair_high_ponytail.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        }
+      ]
+    },
+    "hero_pong": {
+      "role": "hero",
+      "body_type": "male",
+      "layers": [
+        {
+          "def": "body/body.json",
+          "recolor": {
+            "color": "ulpc.taupe"
+          }
+        },
+        {
+          "def": "head/heads/human/heads_human_male.json",
+          "recolor": {
+            "color_1": "ulpc.taupe"
+          }
+        },
+        {
+          "def": "feet/boots/feet_boots_rim.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        },
+        {
+          "def": "legs/pants/legs_pants2.json",
+          "recolor": {
+            "color": "ulpc.forest"
+          }
+        },
+        {
+          "def": "torso/shirts/longsleeve/torso_clothes_longsleeve2.json",
+          "recolor": {
+            "color": "ulpc.forest"
+          }
+        },
+        {
+          "def": "hair/bald/hair_buzzcut.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        },
+        {
+          "def": "hair/beards/beards_trimmed.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        }
+      ]
     }
   }
 }
