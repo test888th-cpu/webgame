@@ -233,6 +233,36 @@
         0.99
       ],
       "haze": true
+    },
+    "gang_hq_facade": {
+      "file": "gang_hq_facade.jpg",
+      "height": 200,
+      "haze": true
+    },
+    "steel_gate": {
+      "file": "steel_gate.jpg",
+      "height": 70,
+      "haze": true
+    },
+    "guard_booth": {
+      "file": "guard_booth.jpg",
+      "height": 60,
+      "haze": true
+    },
+    "drain_grate": {
+      "file": "drain_grate.jpg",
+      "height": 30
+    },
+    "tunnel_floor_tile": {
+      "file": "tunnel_floor_tile.jpg",
+      "height": 110,
+      "tile": true,
+      "crop": [
+        0.075,
+        0.13,
+        0.925,
+        0.865
+      ]
     }
   },
   "themes": {

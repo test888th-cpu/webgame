@@ -11367,6 +11367,15 @@
           36
         ]
       },
+      "drain_grate": {
+        "digest": "b552455dea8908c8",
+        "file": "res://assets/kit/drain_grate.png",
+        "hd": 2,
+        "size": [
+          112,
+          60
+        ]
+      },
       "fg_leaves": {
         "digest": "924569fb36e7fca8",
         "file": "res://assets/kit/fg_leaves.png",
@@ -11392,6 +11401,24 @@
         "size": [
           130,
           124
+        ]
+      },
+      "gang_hq_facade": {
+        "digest": "7ae228a0c1eb4250",
+        "file": "res://assets/kit/gang_hq_facade.png",
+        "hd": 2,
+        "size": [
+          398,
+          400
+        ]
+      },
+      "guard_booth": {
+        "digest": "73dd587fdc417d76",
+        "file": "res://assets/kit/guard_booth.png",
+        "hd": 2,
+        "size": [
+          117,
+          120
         ]
       },
       "massage_shop": {
@@ -11550,6 +11577,15 @@
           124
         ]
       },
+      "steel_gate": {
+        "digest": "8fe868fc8b2eaf85",
+        "file": "res://assets/kit/steel_gate.png",
+        "hd": 2,
+        "size": [
+          185,
+          140
+        ]
+      },
       "street_lamp": {
         "digest": "428ac86f9555f0b3",
         "file": "res://assets/kit/street_lamp.png",
@@ -11598,6 +11634,16 @@
           152,
           92
         ]
+      },
+      "tunnel_floor_tile": {
+        "digest": "4d542b41ce46e0c5",
+        "file": "res://assets/kit/tunnel_floor_tile.png",
+        "hd": 2,
+        "size": [
+          932,
+          220
+        ],
+        "tile": true
       },
       "umbrella_stall": {
         "digest": "a06611a9a8b2d24f",

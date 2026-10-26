@@ -4,6 +4,13 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — Street kit: first Gang HQ and Rat Nest pieces (IL-4)
+- Five pieces painted by the owner from `docs/SCENE_PROMPTS.md`, cut out by
+  `kit_import.py`: `gang_hq_facade` (200 px), `steel_gate` (70 px), `guard_booth`
+  (60 px), `drain_grate` (30 px) and the `tunnel_floor_tile` ground strip (cropped inside
+  its painted frame). Not placed in any area yet; they wait for the Gang HQ and Rat Nest
+  themes.
+
 ### Added — Three more heroes: the Basketball Player, the Police Officer, the Soldier (IL-4)
 - **Kan Srisuk, the Basketball Player**: the crowd controller. Crossover (a stunning
   change of direction), Elbow Clear (both sides), Post Up (breaks guard) and Slam Dunk,
