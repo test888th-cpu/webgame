@@ -221,7 +221,11 @@ def validate_ui(ui: dict) -> list[str]:
     if path is None or not path.exists():
         return ["ui: icon sheet missing; run tools/assets/gen_ui.py"]
     with Image.open(path) as saved:
-        if saved.convert("RGBA").tobytes() != sheet.tobytes() or icons.get("regions") != regions:
+        if (
+            saved.convert("RGBA").tobytes() != sheet.tobytes()
+            or icons.get("regions") != regions
+            or ui.get("weapon_grips") != gen_ui.weapon_grips()
+        ):
             problems.append("ui: icons are out of date; run tools/assets/gen_ui.py")
     items = json.loads((ROOT / "client" / "data" / "items.json").read_text())["items"]
     for item_id, item in sorted(items.items()):

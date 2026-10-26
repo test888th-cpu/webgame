@@ -61,9 +61,12 @@ SPECK_SHARE = 0.004
 # glow on the backdrop can be bigger than a slim lamp post).
 MAIN_SHARE = 0.1
 
-# Where things stand, in game pixels (see ZoneSim.LANE_TOP = 250).
-BUILDING_FEET = 232
-KERB = 250
+# Where things stand, in game pixels (Scenery.gd draws the sidewalk from 220
+# and the road from its kerb at 244, so fighters, whose lane starts at
+# ZoneSim.LANE_TOP = 250, always stand on the road).
+BUILDING_FEET = 226
+SIDEWALK_FEET = (232, 238)
+LANE_TOP = 250
 VIEW_W = 640
 VIEW_H = 360
 
@@ -290,10 +293,11 @@ def lay_out(area_id: str, area: dict, theme: dict, pieces: dict, scrolls: dict) 
             x += train_w + rng.randint(*theme["train_gap"])
     placed += row(rng, pieces, theme["front"], rng.randint(-40, -10), width + 40, theme["front_gap"], "front", BUILDING_FEET)
 
-    # Lamp posts, poles, bins and crates are the area's solid street furniture
-    # (areas.json "obstacles"), drawn by the game among the fighters; small
-    # props go on the sidewalk between them.
-    furniture = [(o["x"] - 14, o["x"] + 14) for o in area.get("obstacles", [])]
+    # Street furniture (areas.json "obstacles") is drawn by the game among the
+    # fighters: lamp posts, poles and bins on the sidewalk, crates, drums and
+    # parked vehicles solid at the kerb. Small props go on the sidewalk
+    # between the furniture standing there.
+    furniture = [(o["x"] - 14, o["x"] + 14) for o in area.get("obstacles", []) if o["y"] < LANE_TOP]
     taken = list(furniture)
     # Nothing tall stands right behind an NPC, where it would be hidden.
     taken += [(npc["x"] - 22, npc["x"] + 22) for npc in area.get("npcs", [])]
@@ -307,23 +311,8 @@ def lay_out(area_id: str, area: dict, theme: dict, pieces: dict, scrolls: dict) 
         if any(span[0] < b and a < span[1] for a, b in taken):
             continue
         taken.append(span)
-        props.append({"piece": piece_id, "layer": "sidewalk", "x": x, "y": rng.randint(240, 246)})
-    # Parked at the kerb, clear of the area's ends so exits stay readable.
-    vehicles = []
-    parked: list[tuple[float, float]] = []
-    count = rng.randint(*theme["vehicles_count"]) if theme.get("vehicles") else 0
-    for _ in range(count * 4):
-        if len(vehicles) >= count:
-            break
-        piece_id = pick(rng, theme["vehicles"])
-        half = game_width(pieces, piece_id) / 2
-        x = rng.randint(int(80 + half), int(width - 80 - half))
-        if any(x - half - 30 < b and a < x + half + 30 for a, b in parked + furniture):
-            continue
-        parked.append((x - half, x + half))
-        vehicles.append({"piece": piece_id, "layer": "street", "x": x, "y": KERB + 4})
+        props.append({"piece": piece_id, "layer": "sidewalk", "x": x, "y": rng.randint(*SIDEWALK_FEET)})
     placed += sorted(props, key=lambda p: (p["y"], p["x"]))
-    placed += sorted(vehicles, key=lambda p: p["x"])
     # Strung overhead across the front buildings (work lamps over a ring),
     # their top this many game pixels down from the top of the view.
     if theme.get("hanging"):

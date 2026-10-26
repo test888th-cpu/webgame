@@ -4,6 +4,37 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed — Street scale, sidewalk and solid vehicles (IL-4)
+- Buildings, shops and lamp posts are sized to the characters: doors are now taller
+  than a person (shophouses 280, shops 170, lamp posts 185, power poles 250 game px),
+  and buildings may rise past the top of the view. Booths, gates, stalls, the ring and
+  the pickup grew to match.
+- Fighters cannot walk onto the sidewalk: the kerb is drawn above the fighters' lane.
+  Lamp posts, power poles, bins and traffic cones stand on the sidewalk; crates and
+  oil drums stand at the kerb, never in the middle of the road.
+- Parked vehicles (taxi, tuk-tuk, songthaew, pickup, motorbike, car wreck) are solid
+  street furniture placed in `areas.json`, at the kerb of every street but the Fight
+  Club. They block as rectangles (`"box"` in `obstacles.json`), so nobody slips
+  between a car and the kerb; enemies walk round them. The kit no longer scatters
+  vehicles.
+- Vehicles are sized for the characters (about 52 px tall): a taxi 64, pickup 72,
+  songthaew 78, tuk-tuk 66 and motorbike 48 game px, so a person fits in the cabin
+  and on the seat; the skytrain is 80 px on a thicker beam, raised to clear the
+  shops.
+- A held weapon stays in the same hand in every animation. In the heavy blow the
+  weapon now swings with the striking arm instead of resting at the hip while the
+  other arm hits (`"hand": "front"` in the recipes' `weapon_pose`; while that arm is
+  hidden behind the body the weapon waits where it next shows). The fist closes
+  around the middle of the handle and the handle's end shows below it (`handle` in
+  `art/weapons/weapons.json`), instead of the weapon starting at the back of the hand.
+- The folding chair weapon is film-sized (about 42 px against 50 px characters). A
+  painted weapon can ask for a bigger sprite cell (`cell` in
+  `art/weapons/weapons.json`), and its grip follows (`weapon_grips` in the manifest).
+- Tests: furniture on the sidewalk or at the kerb, the hero stays on the road,
+  vehicles block with no gap at the kerb, enemies go round them, the chair's size,
+  vehicles sized against a character, the weapon never jumping between hands, and
+  every handle showing below the fist.
+
 ### Added — Street kit: all 22 pieces from the scene prompts (IL-4)
 - Every piece in `docs/SCENE_PROMPTS.md`, painted by the owner and cut out by
   `kit_import.py`: Fight Club (warehouse wall, ring, crowd, work lamps, tyres, chairs),

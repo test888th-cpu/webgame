@@ -71,22 +71,32 @@
         {
           "kind": "street_lamp",
           "x": 174,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "street_lamp",
           "x": 395,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "power_pole",
           "x": 840,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "crates",
           "x": 530,
-          "y": 316
+          "y": 258
+        },
+        {
+          "kind": "taxi",
+          "x": 278,
+          "y": 262
+        },
+        {
+          "kind": "motorbike",
+          "x": 770,
+          "y": 260
         }
       ]
     },
@@ -198,67 +208,77 @@
         {
           "kind": "power_pole",
           "x": 175,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "street_lamp",
           "x": 400,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "street_lamp",
           "x": 648,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "street_lamp",
           "x": 859,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "street_lamp",
           "x": 1114,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "power_pole",
           "x": 1354,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "street_lamp",
           "x": 1592,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "street_lamp",
           "x": 1828,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "power_pole",
           "x": 2062,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "street_lamp",
           "x": 2297,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "crates",
           "x": 384,
-          "y": 293
+          "y": 258
         },
         {
           "kind": "trash_bin",
           "x": 1500,
-          "y": 321
+          "y": 234
         },
         {
           "kind": "traffic_cone",
           "x": 1971,
-          "y": 309
+          "y": 236
+        },
+        {
+          "kind": "tuk_tuk",
+          "x": 900,
+          "y": 262
+        },
+        {
+          "kind": "taxi",
+          "x": 1700,
+          "y": 262
         }
       ]
     },
@@ -352,47 +372,57 @@
         {
           "kind": "street_lamp",
           "x": 456,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "street_lamp",
           "x": 659,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "street_lamp",
           "x": 877,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "street_lamp",
           "x": 1130,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "street_lamp",
           "x": 1331,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "street_lamp",
           "x": 1591,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "trash_bin",
           "x": 441,
-          "y": 308
+          "y": 234
         },
         {
           "kind": "trash_bin",
           "x": 968,
-          "y": 298
+          "y": 234
         },
         {
           "kind": "traffic_cone",
           "x": 1581,
-          "y": 310
+          "y": 236
+        },
+        {
+          "kind": "motorbike",
+          "x": 180,
+          "y": 260
+        },
+        {
+          "kind": "tuk_tuk",
+          "x": 1200,
+          "y": 262
         }
       ]
     },
@@ -506,37 +536,52 @@
         {
           "kind": "street_lamp",
           "x": 360,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "trash_bin",
           "x": 620,
-          "y": 288
+          "y": 234
         },
         {
           "kind": "power_pole",
           "x": 980,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "street_lamp",
           "x": 1300,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "crates",
           "x": 1460,
-          "y": 318
+          "y": 258
         },
         {
           "kind": "power_pole",
           "x": 1760,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "traffic_cone",
           "x": 1880,
-          "y": 300
+          "y": 236
+        },
+        {
+          "kind": "car_wreck",
+          "x": 260,
+          "y": 262
+        },
+        {
+          "kind": "pickup_truck",
+          "x": 1100,
+          "y": 262
+        },
+        {
+          "kind": "oil_drums",
+          "x": 1680,
+          "y": 258
         }
       ]
     },
@@ -650,57 +695,67 @@
         {
           "kind": "street_lamp",
           "x": 421,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "street_lamp",
           "x": 641,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "street_lamp",
           "x": 1092,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "street_lamp",
           "x": 1344,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "street_lamp",
           "x": 1562,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "power_pole",
           "x": 1802,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "street_lamp",
           "x": 2024,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "power_pole",
           "x": 2225,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "traffic_cone",
           "x": 338,
-          "y": 321
+          "y": 236
         },
         {
           "kind": "trash_bin",
           "x": 1341,
-          "y": 286
+          "y": 234
         },
         {
           "kind": "traffic_cone",
           "x": 1923,
-          "y": 282
+          "y": 236
+        },
+        {
+          "kind": "songthaew",
+          "x": 240,
+          "y": 262
+        },
+        {
+          "kind": "taxi",
+          "x": 1500,
+          "y": 262
         }
       ]
     },
@@ -828,72 +883,82 @@
         {
           "kind": "street_lamp",
           "x": 173,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "power_pole",
           "x": 401,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "power_pole",
           "x": 633,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "street_lamp",
           "x": 867,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "power_pole",
           "x": 1119,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "power_pole",
           "x": 1319,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "power_pole",
           "x": 1557,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "street_lamp",
           "x": 1790,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "street_lamp",
           "x": 2017,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "street_lamp",
           "x": 2242,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "street_lamp",
           "x": 2461,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "traffic_cone",
           "x": 869,
-          "y": 304
+          "y": 236
         },
         {
           "kind": "crates",
           "x": 1479,
-          "y": 306
+          "y": 258
         },
         {
           "kind": "traffic_cone",
           "x": 2429,
-          "y": 277
+          "y": 236
+        },
+        {
+          "kind": "motorbike",
+          "x": 700,
+          "y": 260
+        },
+        {
+          "kind": "tuk_tuk",
+          "x": 1650,
+          "y": 262
         }
       ]
     },
@@ -981,17 +1046,27 @@
         {
           "kind": "street_lamp",
           "x": 300,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "trash_bin",
           "x": 700,
-          "y": 290
+          "y": 234
         },
         {
           "kind": "street_lamp",
           "x": 900,
-          "y": 252
+          "y": 240
+        },
+        {
+          "kind": "oil_drums",
+          "x": 1150,
+          "y": 258
+        },
+        {
+          "kind": "crates",
+          "x": 420,
+          "y": 258
         }
       ]
     },
@@ -1094,52 +1169,67 @@
         {
           "kind": "power_pole",
           "x": 424,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "street_lamp",
           "x": 657,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "street_lamp",
           "x": 879,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "power_pole",
           "x": 1086,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "street_lamp",
           "x": 1300,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "power_pole",
           "x": 1730,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "power_pole",
           "x": 1985,
-          "y": 252
+          "y": 240
         },
         {
           "kind": "traffic_cone",
           "x": 351,
-          "y": 301
+          "y": 236
         },
         {
           "kind": "crates",
           "x": 770,
-          "y": 284
+          "y": 258
         },
         {
           "kind": "crates",
           "x": 1161,
-          "y": 303
+          "y": 258
+        },
+        {
+          "kind": "tuk_tuk",
+          "x": 1587,
+          "y": 262
+        },
+        {
+          "kind": "motorbike",
+          "x": 1902,
+          "y": 260
+        },
+        {
+          "kind": "oil_drums",
+          "x": 1400,
+          "y": 258
         }
       ]
     }

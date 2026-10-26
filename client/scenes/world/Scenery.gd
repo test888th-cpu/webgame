@@ -14,9 +14,11 @@ extends RefCounted
 ## scenery (tools/assets/gen_environment.py).
 
 ## Where the skyline stands, and the sidewalk strip and road, in game pixels.
+## The kerb sits a few pixels above ZoneSim.LANE_TOP, so fighters always stand
+## on the road and never on the sidewalk (tools/assets/kit_import.py matches).
 const FAR_FEET := 236.0
-const SIDEWALK_TOP := 226.0
-const ROAD_TOP := 250.0
+const SIDEWALK_TOP := 220.0
+const ROAD_TOP := 244.0
 ## Every piece of street furniture drawn is in this group.
 const FURNITURE_GROUP := "street_furniture"
 ## Foliage in front of the fighters is drawn above them.

@@ -28,7 +28,7 @@ var moves: MoveLibrary
 var enemies: Dictionary = {}
 var items: Dictionary = {}
 var areas: Dictionary = {}
-## Street furniture that blocks walking (kind -> {"piece", "half"}), from
+## Street furniture that blocks walking (kind -> {"piece", "half", "box"}), from
 ## obstacles.json; areas place them in "obstacles".
 var obstacles: Dictionary = {}
 var start_area := ""
