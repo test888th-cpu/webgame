@@ -402,6 +402,7 @@
       "width": 2000,
       "safe": false,
       "theme": "depot",
+      "kit_theme": "junkyard",
       "palette": {
         "sky": "#2e2a34",
         "buildings": [
@@ -902,6 +903,7 @@
       "width": 1500,
       "safe": false,
       "theme": "canal",
+      "kit_theme": "fight_club",
       "palette": {
         "sky": "#24161e",
         "buildings": [

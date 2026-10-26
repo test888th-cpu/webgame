@@ -9426,221 +9426,172 @@
           {
             "layer": "back",
             "piece": "condo_tower",
-            "x": 162,
+            "x": 222,
             "y": 232
           },
           {
             "layer": "back",
             "piece": "condo_tower",
-            "x": 401,
+            "x": 521,
             "y": 232
           },
           {
             "layer": "back",
             "piece": "condo_tower",
-            "x": 628,
-            "y": 232
-          },
-          {
-            "layer": "back",
-            "piece": "condo_tower",
-            "x": 890,
+            "x": 808,
             "y": 232
           },
           {
             "layer": "front",
-            "piece": "shophouse_a",
-            "x": 54,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "shophouse_b",
-            "x": 208,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "noodle_shop",
-            "x": 384,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "shophouse_b",
-            "x": 548,
+            "piece": "warehouse_wall",
+            "x": 170,
             "y": 232
           },
           {
             "layer": "front",
             "piece": "closed_shop",
-            "x": 686,
+            "x": 420,
             "y": 232
           },
           {
             "layer": "front",
-            "piece": "shophouse_b",
-            "x": 836,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "shophouse_a",
-            "x": 988,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "pharmacy",
-            "x": 1128,
+            "piece": "warehouse_wall",
+            "x": 669,
             "y": 232
           },
           {
             "layer": "front",
             "piece": "closed_shop",
-            "x": 1256,
+            "x": 918,
             "y": 232
           },
           {
             "layer": "front",
-            "piece": "shophouse_a",
-            "x": 1404,
+            "piece": "warehouse_wall",
+            "x": 1168,
             "y": 232
           },
           {
             "layer": "front",
             "piece": "closed_shop",
-            "x": 1552,
+            "x": 1415,
+            "y": 232
+          },
+          {
+            "layer": "front",
+            "piece": "warehouse_wall",
+            "x": 1660,
             "y": 232
           },
           {
             "layer": "sidewalk",
-            "piece": "crates",
-            "x": 254,
+            "piece": "crowd_silhouettes",
+            "x": 88,
             "y": 240
           },
           {
             "layer": "sidewalk",
-            "piece": "spirit_house",
-            "x": 1046,
+            "piece": "tyre_stack",
+            "x": 1260,
             "y": 240
           },
           {
             "layer": "sidewalk",
-            "piece": "spirit_house",
-            "x": 502,
+            "piece": "chair_pile",
+            "x": 1369,
+            "y": 240
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 618,
             "y": 241
           },
           {
             "layer": "sidewalk",
-            "piece": "plastic_stools",
-            "x": 115,
+            "piece": "tyre_stack",
+            "x": 1096,
+            "y": 241
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 828,
             "y": 242
           },
           {
             "layer": "sidewalk",
-            "piece": "potted_plants",
-            "x": 1517,
-            "y": 242
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "crates",
-            "x": 202,
-            "y": 243
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "cat",
-            "x": 411,
-            "y": 243
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "potted_plants",
-            "x": 572,
-            "y": 243
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "trash_bin",
-            "x": 846,
-            "y": 243
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "traffic_cone",
-            "x": 795,
+            "piece": "oil_drums",
+            "x": 952,
             "y": 244
           },
           {
             "layer": "sidewalk",
-            "piece": "potted_plants",
-            "x": 1419,
+            "piece": "ring_ropes",
+            "x": 1470,
             "y": 244
           },
           {
             "layer": "sidewalk",
-            "piece": "crates",
-            "x": 738,
+            "piece": "ring_ropes",
+            "x": 391,
             "y": 245
           },
           {
             "layer": "sidewalk",
-            "piece": "spirit_house",
-            "x": 985,
-            "y": 245
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "dog_sleeping",
-            "x": 1120,
-            "y": 245
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "plastic_stools",
-            "x": 1207,
-            "y": 245
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "dog_sleeping",
-            "x": 1341,
+            "piece": "oil_drums",
+            "x": 555,
             "y": 246
           },
           {
-            "layer": "street",
-            "piece": "motorbike",
-            "x": 153,
-            "y": 254
+            "layer": "sidewalk",
+            "piece": "chair_pile",
+            "x": 1198,
+            "y": 246
           },
           {
-            "layer": "fg",
-            "piece": "fg_leaves",
-            "x": 270,
-            "y": 374
+            "layer": "front",
+            "piece": "work_lamp_string",
+            "x": 53,
+            "y": 104
           },
           {
-            "layer": "fg",
-            "piece": "fg_leaves",
-            "x": 858,
-            "y": 374
+            "layer": "front",
+            "piece": "work_lamp_string",
+            "x": 349,
+            "y": 104
           },
           {
-            "layer": "fg",
-            "piece": "fg_leaves",
-            "x": 1520,
-            "y": 374
+            "layer": "front",
+            "piece": "work_lamp_string",
+            "x": 643,
+            "y": 104
+          },
+          {
+            "layer": "front",
+            "piece": "work_lamp_string",
+            "x": 930,
+            "y": 104
+          },
+          {
+            "layer": "front",
+            "piece": "work_lamp_string",
+            "x": 1201,
+            "y": 104
+          },
+          {
+            "layer": "front",
+            "piece": "work_lamp_string",
+            "x": 1480,
+            "y": 104
           }
         ],
-        "theme": "canal",
+        "theme": "fight_club",
         "tint": {
-          "back": "#7e9498",
-          "far": "#6a7e84",
+          "back": "#706c8c",
+          "far": "#5e5874",
           "fg": "#3a3448",
-          "front": "#dce6dc",
-          "track": "#b0b0c8"
+          "front": "#d8ccd0"
         },
         "width": 1500
       },
@@ -10726,38 +10677,38 @@
           },
           {
             "layer": "front",
-            "piece": "convenience_store",
-            "x": 66,
+            "piece": "rusted_fence",
+            "x": 75,
             "y": 232
           },
           {
             "layer": "front",
             "piece": "shophouse_b",
-            "x": 238,
+            "x": 256,
+            "y": 232
+          },
+          {
+            "layer": "front",
+            "piece": "junk_shop",
+            "x": 397,
+            "y": 232
+          },
+          {
+            "layer": "front",
+            "piece": "shophouse_b",
+            "x": 542,
             "y": 232
           },
           {
             "layer": "front",
             "piece": "closed_shop",
-            "x": 394,
+            "x": 692,
             "y": 232
           },
           {
             "layer": "front",
-            "piece": "shophouse_a",
-            "x": 554,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "closed_shop",
-            "x": 712,
-            "y": 232
-          },
-          {
-            "layer": "front",
-            "piece": "convenience_store",
-            "x": 868,
+            "piece": "rusted_fence",
+            "x": 853,
             "y": 232
           },
           {
@@ -10768,162 +10719,156 @@
           },
           {
             "layer": "front",
-            "piece": "shophouse_a",
-            "x": 1195,
+            "piece": "rusted_fence",
+            "x": 1218,
             "y": 232
           },
           {
             "layer": "front",
-            "piece": "convenience_store",
-            "x": 1388,
+            "piece": "junk_shop",
+            "x": 1385,
             "y": 232
           },
           {
             "layer": "front",
-            "piece": "shophouse_b",
-            "x": 1562,
+            "piece": "rusted_fence",
+            "x": 1546,
             "y": 232
           },
           {
             "layer": "front",
-            "piece": "shophouse_a",
-            "x": 1722,
+            "piece": "junk_shop",
+            "x": 1706,
             "y": 232
           },
           {
             "layer": "front",
-            "piece": "convenience_store",
-            "x": 1892,
+            "piece": "rusted_fence",
+            "x": 1874,
             "y": 232
           },
           {
             "layer": "front",
             "piece": "closed_shop",
-            "x": 2064,
+            "x": 2032,
             "y": 232
           },
           {
             "layer": "sidewalk",
-            "piece": "crates",
-            "x": 1200,
-            "y": 240
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "trash_bin",
-            "x": 436,
-            "y": 241
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "spirit_house",
-            "x": 1416,
+            "piece": "oil_drums",
+            "x": 1968,
             "y": 241
           },
           {
             "layer": "sidewalk",
             "piece": "crates",
-            "x": 897,
+            "x": 541,
             "y": 242
           },
           {
             "layer": "sidewalk",
-            "piece": "traffic_cone",
-            "x": 1046,
+            "piece": "dog_sleeping",
+            "x": 795,
             "y": 242
           },
           {
             "layer": "sidewalk",
-            "piece": "traffic_cone",
-            "x": 1629,
-            "y": 242
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "crates",
-            "x": 1821,
+            "piece": "scrap_pile",
+            "x": 1115,
             "y": 242
           },
           {
             "layer": "sidewalk",
             "piece": "crates",
-            "x": 156,
+            "x": 1708,
+            "y": 242
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 870,
             "y": 243
           },
           {
             "layer": "sidewalk",
-            "piece": "dog_sitting",
-            "x": 540,
+            "piece": "cat",
+            "x": 1240,
+            "y": 243
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 1380,
+            "y": 243
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 224,
             "y": 244
           },
           {
             "layer": "sidewalk",
-            "piece": "vending_machine",
-            "x": 1547,
+            "piece": "oil_drums",
+            "x": 432,
+            "y": 244
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "scrap_pile",
+            "x": 1543,
+            "y": 244
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 1614,
             "y": 244
           },
           {
             "layer": "sidewalk",
             "piece": "dog_sleeping",
-            "x": 720,
+            "x": 1025,
             "y": 245
           },
           {
             "layer": "sidewalk",
-            "piece": "cat",
-            "x": 1113,
-            "y": 245
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "trash_bin",
-            "x": 1990,
-            "y": 245
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "dog_sitting",
-            "x": 105,
-            "y": 246
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "crates",
-            "x": 247,
+            "piece": "dog_sleeping",
+            "x": 121,
             "y": 246
           },
           {
             "layer": "sidewalk",
             "piece": "trash_bin",
-            "x": 787,
+            "x": 685,
             "y": 246
           },
           {
             "layer": "street",
-            "piece": "songthaew",
-            "x": 231,
-            "y": 254
-          },
-          {
-            "layer": "street",
-            "piece": "motorbike",
-            "x": 1168,
+            "piece": "car_wreck",
+            "x": 248,
             "y": 254
           },
           {
             "layer": "fg",
             "piece": "fg_leaves",
-            "x": 371,
+            "x": 319,
             "y": 374
           },
           {
             "layer": "fg",
             "piece": "fg_leaves",
-            "x": 1466,
+            "x": 1149,
+            "y": 374
+          },
+          {
+            "layer": "fg",
+            "piece": "fg_leaves",
+            "x": 2291,
             "y": 374
           }
         ],
-        "theme": "depot",
+        "theme": "junkyard",
         "tint": {
           "back": "#8e90b0",
           "far": "#7a7898",

@@ -561,6 +561,120 @@
         500,
         900
       ]
+    },
+    "junkyard": {
+      "far": "skyline_far",
+      "ground": {
+        "sidewalk": "sidewalk_tile",
+        "road": "road_tile"
+      },
+      "tint": {
+        "far": "#7a7898",
+        "back": "#8e90b0",
+        "track": "#b0b0c8",
+        "fg": "#3a3448",
+        "front": "#e8dcd0"
+      },
+      "back": {
+        "condo_tower": 1
+      },
+      "back_gap": [
+        80,
+        220
+      ],
+      "track": "skytrain_track",
+      "front": {
+        "junk_shop": 1.2,
+        "rusted_fence": 1.4,
+        "closed_shop": 0.5,
+        "shophouse_b": 0.4
+      },
+      "front_gap": [
+        0,
+        16
+      ],
+      "props": {
+        "scrap_pile": 1,
+        "oil_drums": 1,
+        "tyre_stack": 0.7,
+        "crates": 0.5,
+        "trash_bin": 0.4,
+        "dog_sleeping": 0.4,
+        "cat": 0.3
+      },
+      "prop_gap": [
+        50,
+        110
+      ],
+      "vehicles": {
+        "car_wreck": 1,
+        "pickup_truck": 0.6,
+        "motorbike": 0.3
+      },
+      "vehicles_count": [
+        1,
+        2
+      ],
+      "foreground": {
+        "fg_leaves": 1
+      },
+      "fg_gap": [
+        800,
+        1200
+      ],
+      "track_top": 116,
+      "train": "skytrain_train",
+      "train_gap": [
+        260,
+        640
+      ]
+    },
+    "fight_club": {
+      "far": "skyline_far",
+      "ground": {
+        "sidewalk": "sidewalk_tile",
+        "road": "road_tile"
+      },
+      "tint": {
+        "far": "#5e5874",
+        "back": "#706c8c",
+        "fg": "#3a3448",
+        "front": "#d8ccd0"
+      },
+      "back": {
+        "condo_tower": 1
+      },
+      "back_gap": [
+        120,
+        260
+      ],
+      "front": {
+        "warehouse_wall": 1,
+        "closed_shop": 0.25
+      },
+      "front_gap": [
+        0,
+        8
+      ],
+      "hanging": {
+        "work_lamp_string": 1
+      },
+      "hanging_gap": [
+        30,
+        90
+      ],
+      "hanging_top": 64,
+      "props": {
+        "crowd_silhouettes": 1.4,
+        "ring_ropes": 0.6,
+        "tyre_stack": 0.7,
+        "chair_pile": 0.7,
+        "oil_drums": 0.3
+      },
+      "prop_gap": [
+        20,
+        60
+      ]
     }
   }
 }

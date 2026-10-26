@@ -255,6 +255,21 @@ class KitImportTest(unittest.TestCase):
                 half = kit_import.game_width(pieces, p["piece"]) / 2
                 self.assertTrue(80 <= p["x"] - half and p["x"] + half <= 1720, "clear of the exits")
 
+    def test_kit_theme_picks_its_own_pieces_and_hangs_lamps_overhead(self) -> None:
+        spec = json.loads(kit_import.SPEC.read_text())
+        manifest = json.loads(kit_import.MANIFEST.read_text())
+        pieces = manifest["kit"]["pieces"]
+        areas = kit_import.lay_out_all(spec, pieces)
+        self.assertEqual(areas["fight_club"]["theme"], "fight_club")
+        self.assertEqual(areas["rusted_corner"]["theme"], "junkyard")
+        placed = areas["fight_club"]["placed"]
+        hung = [p for p in placed if p["piece"] in spec["themes"]["fight_club"]["hanging"]]
+        self.assertTrue(hung, "work lamps are strung over the ring")
+        for p in hung:
+            height = pieces[p["piece"]]["size"][1] / pieces[p["piece"]]["hd"]
+            self.assertEqual(p["y"] - height, spec["themes"]["fight_club"]["hanging_top"])
+        self.assertIn("warehouse_wall", {p["piece"] for p in placed if p["layer"] == "front"})
+
 
 class PaintedWeaponTest(unittest.TestCase):
     def test_painted_weapons_fit_the_cell_with_the_handle_in_the_fist(self) -> None:
