@@ -37,7 +37,7 @@
     },
     "skytrain_train": {
       "file": "skytrain_train.jpg",
-      "height": 34,
+      "height": 80,
       "crop": [
         0.05,
         0.25,
@@ -163,16 +163,16 @@
     },
     "taxi": {
       "file": "taxi.jpg",
-      "height": 42,
+      "height": 64,
       "haze": true
     },
     "songthaew": {
       "file": "songthaew.jpg",
-      "height": 52
+      "height": 78
     },
     "tuk_tuk": {
       "file": "tuk_tuk.jpg",
-      "height": 46,
+      "height": 66,
       "crop": [
         0.15,
         0.12,
@@ -183,7 +183,7 @@
     },
     "motorbike": {
       "file": "motorbike.jpg",
-      "height": 34
+      "height": 48
     },
     "fg_leaves": {
       "file": "fg_leaves.jpg",
@@ -214,7 +214,7 @@
     },
     "skytrain_track": {
       "file": "skytrain_on_track.jpg",
-      "height": 7,
+      "height": 14,
       "tile": true,
       "crop": [
         0.14,
@@ -276,12 +276,12 @@
     },
     "motorbike_row": {
       "file": "motorbike_row.jpg",
-      "height": 32,
+      "height": 46,
       "haze": true
     },
     "pickup_truck": {
       "file": "pickup_truck.jpg",
-      "height": 52,
+      "height": 72,
       "haze": true
     },
     "barrier_booth": {
@@ -296,7 +296,7 @@
     },
     "car_wreck": {
       "file": "car_wreck.jpg",
-      "height": 44
+      "height": 62
     },
     "oil_drums": {
       "file": "oil_drums.jpg",
@@ -415,7 +415,7 @@
         600,
         1000
       ],
-      "track_top": 116,
+      "track_top": 100,
       "train": "skytrain_train",
       "train_gap": [
         260,
@@ -475,7 +475,7 @@
         800,
         1200
       ],
-      "track_top": 116,
+      "track_top": 100,
       "train": "skytrain_train",
       "train_gap": [
         260,
@@ -586,7 +586,7 @@
         800,
         1200
       ],
-      "track_top": 116,
+      "track_top": 100,
       "train": "skytrain_train",
       "train_gap": [
         260,

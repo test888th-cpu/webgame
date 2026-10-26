@@ -5,14 +5,14 @@
     "notes": "Weapon art painted by the project owner with their own AI tools; keyed and reduced to hand-sized pixel sprites by tools/assets/gen_ui.py."
   },
   "weapons": {
-    "weapon_knife": {"file": "knife.png", "length": 16},
+    "weapon_knife": {"file": "knife.png", "length": 16, "handle": 0.22},
     "weapon_bottle": {"file": "bottle.png", "length": 20, "keep_green": true},
     "weapon_plank": {"file": "plank.png", "length": 24},
     "weapon_pipe": {"file": "pipe.png", "length": 24},
     "weapon_machete": {"file": "machete.png", "length": 22},
-    "weapon_chair": {"file": "chair.png", "length": 40, "cell": [32, 48]},
-    "weapon_frying_pan": {"file": "frying_pan.png", "length": 20},
-    "weapon_wrench": {"file": "wrench.png", "length": 19},
-    "weapon_baseball_bat": {"file": "baseball_bat.png", "length": 24}
+    "weapon_chair": {"file": "chair.png", "length": 40, "cell": [32, 48], "handle": 0.1},
+    "weapon_frying_pan": {"file": "frying_pan.png", "length": 20, "handle": 0.25},
+    "weapon_wrench": {"file": "wrench.png", "length": 19, "handle": 0.2},
+    "weapon_baseball_bat": {"file": "baseball_bat.png", "length": 24, "handle": 0.12}
   }
 }

@@ -756,7 +756,11 @@ ICONS = {
 # a folding chair as big as in the films); its grip is then at the same place
 # relative to the cell's bottom middle (see weapon_grip).
 WEAPON_SIZE = (16, 32)
-WEAPON_GRIP = (8, 27)
+WEAPON_GRIP = (8, 24)
+# How far up a painted weapon the fist closes, as a share of its length from
+# the handle's end ("handle" in art/weapons/weapons.json): the middle of the
+# handle, so the handle runs through the fist and its end shows below it.
+DEFAULT_HANDLE = 0.15
 
 
 def weapon_cell(spec: dict | None) -> tuple[int, int]:
@@ -852,8 +856,10 @@ def painted_weapon(spec: dict) -> Image.Image:
     bottom = [x for x in range(width) if alpha[x, length - 1]]
     end = (bottom[0] + bottom[-1]) / 2 if bottom else width / 2
     size = weapon_cell(spec)
+    grip = weapon_grip(size)
+    bottom = min(size[1] - 2, grip[1] + round(float(spec.get("handle", DEFAULT_HANDLE)) * length))
     cell = Image.new("RGBA", size, (0, 0, 0, 0))
-    cell.alpha_composite(small, (round(weapon_grip(size)[0] - end), size[1] - 1 - length))
+    cell.alpha_composite(small, (round(grip[0] - end), bottom - length + 1))
     return outlined(cell)
 
 

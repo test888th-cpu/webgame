@@ -160,6 +160,20 @@ class HandSocketTest(unittest.TestCase):
         self.assertEqual(lpc_build.near_hand([(50, 44)], (29, 44)), (50, 44))
         self.assertEqual(lpc_build.near_hand([], (29, 44)), (29, 44))
 
+    def test_the_weapon_stays_in_one_hand(self) -> None:
+        # Standing, walking and the heavy swing keep the weapon in the same
+        # hand: the socket never jumps across the body between frames.
+        manifest = json.loads(lpc_build.MANIFEST.read_text())
+        for char_id, asset in manifest["assets"].items():
+            if asset.get("source") != "lpc":
+                continue
+            for name in ("idle", "walk", "heavy"):
+                frames = asset["hands"].get(name, [])
+                for a, b in zip(frames, frames[1:]):
+                    self.assertLessEqual(abs(a[0] - b[0]), 12, f"{char_id} {name} {frames}")
+            heavy = [f[0] for f in asset["hands"].get("heavy", [])]
+            self.assertGreaterEqual(max(heavy) - min(heavy), 8, f"{char_id} swings the weapon in the heavy blow")
+
     def test_every_character_has_sockets_for_its_animations(self) -> None:
         manifest = json.loads(lpc_build.MANIFEST.read_text())
         for char_id, asset in manifest["assets"].items():
@@ -286,6 +300,28 @@ class PaintedWeaponTest(unittest.TestCase):
             self.assertGreater(box[1], 0, f"{name} is not cut off at the top")
             grip = gen_ui.weapon_grip(cell.size)
             self.assertEqual(alpha.getpixel(grip), 255, f"{name} has its handle at the grip")
+
+    def test_the_handle_runs_through_the_fist(self) -> None:
+        import gen_ui
+
+        for name, spec in gen_ui.weapon_specs().items():
+            cell = gen_ui.painted_weapon(spec)
+            grip = gen_ui.weapon_grip(cell.size)
+            bottom = cell.getchannel("A").getbbox()[3]
+            self.assertGreaterEqual(bottom - grip[1], 3, f"{name}: the handle's end shows below the fist")
+
+    def test_vehicles_are_sized_for_the_characters(self) -> None:
+        manifest = json.loads(kit_import.MANIFEST.read_text())
+        pieces = manifest["kit"]["pieces"]
+        hero = manifest["assets"]["hero_mika"]
+        with Image.open(kit_import.ROOT / "client" / hero["sheet"].removeprefix("res://")) as sheet:
+            idle = sheet.crop((0, 0, 64, 64)).getchannel("A").getbbox()
+        person = idle[3] - idle[1]
+        height = {k: pieces[k]["size"][1] / pieces[k]["hd"] for k in pieces}
+        for car in ("taxi", "pickup_truck", "car_wreck"):
+            self.assertGreaterEqual(height[car], person * 1.1, f"a {car} seats a person")
+        self.assertGreaterEqual(height["motorbike"], person * 0.8, "a motorbike fits a rider")
+        self.assertGreaterEqual(height["skytrain_train"], person, "the skytrain is bigger than a person")
 
     def test_the_chair_is_film_sized(self) -> None:
         import gen_ui

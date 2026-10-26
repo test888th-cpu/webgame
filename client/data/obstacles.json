@@ -6,11 +6,11 @@
     "traffic_cone": {"piece": "traffic_cone", "half": [5, 3]},
     "crates": {"piece": "crates", "half": [28, 6]},
     "oil_drums": {"piece": "oil_drums", "half": [18, 5]},
-    "taxi": {"piece": "taxi", "box": true, "half": [50, 9]},
-    "tuk_tuk": {"piece": "tuk_tuk", "box": true, "half": [34, 9]},
-    "songthaew": {"piece": "songthaew", "box": true, "half": [52, 9]},
-    "pickup_truck": {"piece": "pickup_truck", "box": true, "half": [52, 9]},
-    "car_wreck": {"piece": "car_wreck", "box": true, "half": [50, 9]},
-    "motorbike": {"piece": "motorbike", "box": true, "half": [20, 6]}
+    "taxi": {"piece": "taxi", "box": true, "half": [78, 10]},
+    "tuk_tuk": {"piece": "tuk_tuk", "box": true, "half": [49, 10]},
+    "songthaew": {"piece": "songthaew", "box": true, "half": [78, 10]},
+    "pickup_truck": {"piece": "pickup_truck", "box": true, "half": [72, 10]},
+    "car_wreck": {"piece": "car_wreck", "box": true, "half": [72, 10]},
+    "motorbike": {"piece": "motorbike", "box": true, "half": [28, 6]}
   }
 }

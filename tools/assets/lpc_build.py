@@ -220,10 +220,12 @@ def feet_y(sheet: Image.Image, animations: dict) -> int:
 
 # Hand sockets: where a held weapon goes in each frame. Positions come from
 # LPC's glove layer (hands only) for the character's body type. The weapon is
-# always in the near arm (the one drawn over the body, which swings in the
-# one-handed slash): in a side view facing right that is the hand further back
-# when both show, or the only hand showing; when it is hidden the weapon stays
-# where it was. Angles (degrees clockwise from "up", facing right) are authored
+# always in the same arm, the one that swings: in a side view facing right that
+# is the hand further back when both show (it swings in the one-handed slash and
+# is the arm drawn over the body when walking), or the only hand showing; when
+# it is hidden the weapon stays where it was. In LPC's two-handed "slash" the
+# other arm swings while this one rests at the hip, so a pose may say "hand":
+# "front" to follow the hand further forward instead. Angles (degrees clockwise from "up", facing right) are authored
 # per game animation in the recipes' "weapon_pose" for the LPC source they were
 # drawn against, since the sheets carry no notion of a held object's angle.
 HANDS_DEF = "arms/arms_gloves.json"
@@ -264,10 +266,12 @@ def hand_blobs(cell: Image.Image) -> list[list[tuple[int, int]]]:
     return blobs
 
 
-def near_hand(centres: list[tuple[float, float]], previous: tuple[float, float] | None) -> tuple[float, float]:
+def near_hand(
+    centres: list[tuple[float, float]], previous: tuple[float, float] | None, front: bool = False
+) -> tuple[float, float]:
     if not centres:
         return previous or (FRAME / 2, FRAME / 2)
-    return min(centres)
+    return max(centres) if front else min(centres)
 
 
 def hand_sockets(lpc: Lpc, body_type: str, game_anims: dict, poses: dict) -> tuple[dict, dict]:
@@ -290,12 +294,21 @@ def hand_sockets(lpc: Lpc, body_type: str, game_anims: dict, poses: dict) -> tup
         if len(angles) != len(frames):
             angles = [DEFAULT_WEAPON_ANGLE] * len(frames)
         row = RIGHT_ROW if row_count == 4 else 0
+        front = pose.get("hand") == "front" and pose.get("lpc") == anim["lpc"]
+        cells = [hand_blobs(image.crop((f * FRAME, row * FRAME, (f + 1) * FRAME, (row + 1) * FRAME))) for f in frames]
+        both = [i for i, blobs in enumerate(cells) if len(blobs) >= 2]
         previous = None
         out, pixels = [], []
-        for index, frame in enumerate(frames):
-            cell = image.crop((frame * FRAME, row * FRAME, (frame + 1) * FRAME, (row + 1) * FRAME))
-            blobs = hand_blobs(cell)
-            previous = near_hand([centre(blob) for blob in blobs], previous)
+        for index, blobs in enumerate(cells):
+            if front and len(blobs) < 2 and both:
+                # A lone hand is the resting one: the swinging hand is hidden
+                # behind the body, so the weapon waits where it next shows.
+                nearest = min(both, key=lambda i: (abs(i - index), i < index))
+                previous = max(centre(b) for b in cells[nearest])
+                out.append([round(previous[0]), round(previous[1]), angles[index]])
+                pixels.append([])
+                continue
+            previous = near_hand([centre(blob) for blob in blobs], previous, front)
             out.append([round(previous[0]), round(previous[1]), angles[index]])
             pixels.append(next((b for b in blobs if centre(b) == previous), []))
         sockets[game_name] = out

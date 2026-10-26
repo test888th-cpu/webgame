@@ -60,13 +60,15 @@ were refused by `lpc_build.py` because they are only offered as CC-BY-SA/GPL, so
 recipes use other pieces.
 
 **Hand sockets.** For every character the builder also records, per animation frame,
-where the weapon hand (always the near arm, the one that swings) is and at what
+where the weapon hand (always the same arm in every frame, the one that swings) is and at what
 angle a held weapon points (`hands` in the
 manifest: `[x, y, degrees]` per frame). Positions come from LPC's glove layer (hands
 only, OGA-BY) for the character's body type, which is read but never shipped; the
 angles are authored once per game animation in `weapon_pose` in the recipe file (for
 the LPC source they were drawn against): a swing arc for `light`, straight ahead for
-`stab`. The
+`stab`; in LPC's two-handed `slash` (the `heavy` blow) the other arm strikes, so its
+pose says `"hand": "front"` and the weapon follows the striking arm (waiting where it
+next shows while that arm is behind the body). The
 game draws a held weapon at the socket of the frame on screen, so it follows every
 swing, then draws the weapon hand again on top from `hands.png` (the sheet's pixels
 under the near-hand glove mask, one per frame), so the fist closes around the handle.
@@ -113,15 +115,18 @@ the manifest's `ui` section. Each item in `items.json` names its `icon`. The
 validator regenerates the sheet in memory and fails when it is stale or an item
 names an unknown icon. See [UI.md](UI.md).
 
-The same sheet holds the street weapons as sprites in 16x32 cells, upright at the
-characters' scale with the grip at `weapon_grip` (8, 27), so the game can turn them
+The same sheet holds the street weapons as sprites in 16x32 cells (a painting may ask
+for a bigger `cell`, as the film-sized chair does; its grip is then in `weapon_grips`),
+upright at the characters' scale with the grip at `weapon_grip` (8, 24), so the game can turn them
 about the hand; `weapons.json` names each one's `sprite` and the validator checks it
 exists. The weapons are the project owner's paintings (knife, bottle, plank, steel
 pipe, machete, folding chair, frying pan, pipe wrench, baseball bat), listed in
 `art/weapons/weapons.json` with their sources in `art/weapons/src/` (scaled to at most
 480 px): keyed from the green backdrop like the street kit (`keep_green` for the green
 bottle), shrunk to `length` pixels tall with hard edges and the characters' outline,
-the handle's end centred under the grip (`turn` rotates a painting first). Weapons
+the handle centred on the grip, which sits `handle` of the way up from the
+handle's end (default 0.15), so the fist closes around the middle of the handle and
+its end shows below the fist (`turn` rotates a painting first). Weapons
 without a painting fall back to the code painters in `gen_ui.py`. The chair is held
 upside down by the top of its back, the way one swings a folding chair. Paint new
 weapons upright with the handle at the bottom.
