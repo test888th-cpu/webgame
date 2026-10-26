@@ -276,6 +276,15 @@ func _validate_area(id: String, a: Dictionary) -> void:
 				exits[side].get("entry") in EXIT_SIDES,
 				"%s.exits.%s.entry: expected west or east" % [where, side]
 			)
+			var requires: Variant = exits[side].get("requires", {})
+			if requires is Dictionary and not requires.is_empty():
+				var gate := "%s.exits.%s.requires" % [where, side]
+				_check(
+					enemies.has(str(requires.get("defeat"))),
+					"%s.defeat: unknown enemy %s" % [gate, requires.get("defeat")]
+				)
+				_number(requires, "count", gate, 1)
+				_check(str(requires.get("hint", "")) != "", "%s.hint: say what opens it" % gate)
 	for npc: Variant in a.get("npcs", []):
 		_check(npc.get("role") in NPC_ROLES, "%s.npcs: unknown role %s" % [where, npc.get("role")])
 		if npc.get("role") == "shop":

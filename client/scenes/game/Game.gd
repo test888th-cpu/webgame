@@ -222,6 +222,11 @@ func _handle(event: ZoneEvent) -> void:
 			open_game_over.call_deferred()
 		"exit":
 			_pending_exit = event.data
+		"exit_locked":
+			_hud.toast(
+				"%s  (%d/%d)" % [event.data["hint"], event.data["done"], event.data["count"]]
+			)
+			Sfx.play("denied", -4.0)
 		"weapon_pickup", "weapon_break":
 			if event.data["id"] == ZoneSim.HERO_ID:
 				var weapon: Dictionary = content.weapons[event.data["weapon"]]

@@ -4,6 +4,18 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — The street opens as the story moves on (IL-2)
+- Exits east are now guarded: Saltmarket → Canal Works opens once the Smog Warden is
+  down, Canal Works → Rail Yards after the Sludge Foreman, Rail Yards → Night Market
+  after 8 Dock Thugs, Night Market → Refinery after 10 Night Market Punks (the same
+  goals as Chief Odo's quests, counted whether or not the quest is active, so nobody
+  has to fight a guard twice). Before, a new hero could walk straight to the level 8
+  Refinery. The way back is always open.
+- A locked exit's sign turns red and shows progress ("Locked 0/1 Canal Works >");
+  pushing on it plays a refusal and says what opens it, once per push.
+- Gates are data (`areas.json` `exits.*.requires`: enemy, count, hint), validated on
+  load. 5 new tests (177 total).
+
 ### Changed — Boss loot is worth farming; heroes have their classes (IL-2)
 - Bosses no longer hand out their best item every time: the Furnace Baron drops the
   Baron Knuckledusters (legendary) 12% of the time (was 100%) and the Jade Charm 20%

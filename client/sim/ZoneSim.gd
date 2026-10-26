@@ -32,6 +32,7 @@ const NPC_CLEARANCE := 40.0
 ## along the street at THROW_SPEED px per tick for up to THROW_TICKS ticks
 ## and hits the first foe it meets within THROW_REACH.
 const THROW_MOVE := "weapon_throw"
+const LOCKED_BUMP_TICKS := 90
 const THROW_SPEED := 5.0
 const THROW_TICKS := 32
 const THROW_REACH := Vector2(12.0, 14.0)
@@ -82,6 +83,8 @@ var _down_ticks := {}
 var _home := {}
 var _phase := {}
 var _hero_down_sent := false
+## Tick of the hero's last push on a locked exit (to tell them once per bump).
+var _last_locked_bump := -1000
 
 
 func _init(
@@ -813,6 +816,23 @@ func _collect_pickups(events: Array[ZoneEvent]) -> void:
 		events.append(ZoneEvent.make("pickup", pickup))
 
 
+## What still keeps the exit on `side` shut: {"defeat", "count", "hint",
+## "done"} (done: how many are down so far), or {} when it is open. Exits
+## open once the hero has defeated enough of the enemy that guards them, so
+## the street opens as the story moves on, whichever quest is active.
+func exit_locked(side: String) -> Dictionary:
+	var requires: Dictionary = area.get("exits", {}).get(side, {}).get("requires", {})
+	if requires.is_empty():
+		return {}
+	var done := int(profile.defeated.get(str(requires["defeat"]), 0))
+	if done >= int(requires["count"]):
+		return {}
+	var gate := requires.duplicate()
+	gate["done"] = done
+	gate["side"] = side
+	return gate
+
+
 func _check_exit(input: FighterInput, events: Array[ZoneEvent]) -> void:
 	if in_encounter() or hero.is_ko():
 		return
@@ -822,7 +842,13 @@ func _check_exit(input: FighterInput, events: Array[ZoneEvent]) -> void:
 		side = "west"
 	elif input.move.x > 0.0 and hero.position.x >= bounds.end.x - 0.5:
 		side = "east"
-	if side and exits.has(side):
+	if side and exits.has(side) and not exit_locked(side).is_empty():
+		# Tell the player once per bump, not every tick they push on it.
+		if tick_count - _last_locked_bump > LOCKED_BUMP_TICKS:
+			var gate := exit_locked(side)
+			events.append(ZoneEvent.make("exit_locked", gate))
+		_last_locked_bump = tick_count
+	elif side and exits.has(side):
 		# Street weapons belong to their street: leaving puts the weapon down.
 		if hero.weapon:
 			_drop_weapon(hero, hero.position, events)

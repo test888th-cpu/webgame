@@ -149,6 +149,10 @@ equipment) is stored per hero. Temporary combat state is never persisted.
 | Night Market | 6 | Market Punks (fast combos), Thugs, Bruisers, Smog Warden; Kenji's Night Stall | |
 | Smokestack Refinery | 8 | Punks, Thugs, Bruisers, Refinery Enforcer (elite) | Furnace Baron (two phases: a wide furnace slam; below half HP a telegraphed 110 px charge that leaves him open for 40 ticks) |
 
+**[built]** The way east is guarded: each exit opens once the hero has defeated the
+enemy that holds it (Smog Warden, Sludge Foreman, 8 Dock Thugs, 10 Night Market Punks),
+shown on the red exit sign with progress; the way back is always open.
+
 Chief Odo's quest chain continues past the Foreman: Rail Yard Rumble, Market Lights,
 then The Furnace Baron. Better gear (rare to legendary, levels 5 to 8) drops and is sold
 further east.

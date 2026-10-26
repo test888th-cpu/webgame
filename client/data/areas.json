@@ -112,7 +112,12 @@
         },
         "east": {
           "to": "canal_works",
-          "entry": "west"
+          "entry": "west",
+          "requires": {
+            "defeat": "smog_warden",
+            "count": 1,
+            "hint": "The Smog Warden guards the way. Defeat it to pass."
+          }
         }
       },
       "npcs": [],
@@ -279,7 +284,12 @@
         },
         "east": {
           "to": "rail_yards",
-          "entry": "west"
+          "entry": "west",
+          "requires": {
+            "defeat": "sludge_foreman",
+            "count": 1,
+            "hint": "The Sludge Foreman holds the canal. Defeat him to pass."
+          }
         }
       },
       "npcs": [],
@@ -410,7 +420,12 @@
         },
         "east": {
           "to": "night_market",
-          "entry": "west"
+          "entry": "west",
+          "requires": {
+            "defeat": "dock_thug",
+            "count": 8,
+            "hint": "Dock thugs hold the crossing. Knock down 8 to pass."
+          }
         }
       },
       "weapons": {
@@ -569,7 +584,12 @@
         },
         "east": {
           "to": "refinery",
-          "entry": "west"
+          "entry": "west",
+          "requires": {
+            "defeat": "market_punk",
+            "count": 10,
+            "hint": "Punks block the Refinery road. Knock down 10 to pass."
+          }
         }
       },
       "weapons": {

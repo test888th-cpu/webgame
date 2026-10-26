@@ -25,6 +25,8 @@ var _pickups := {}
 var _weapons := {}
 ## Weapons in flight, by id: spinning sprites at chest height.
 var _thrown := {}
+## Exit signs by side, refreshed as their gates open.
+var _exit_signs := {}
 var _npc_marks := {}
 var _npc_prompts := {}
 var _shake := 0.0
@@ -75,6 +77,7 @@ func sync() -> void:
 			_pickups.erase(id)
 	_sync_weapons()
 	_sync_thrown()
+	_update_exit_signs()
 	_update_prompts()
 	_follow_hero()
 
@@ -279,14 +282,31 @@ func _build_exit_signs() -> void:
 		exit_sign.add_theme_font_size_override("font_size", 8)
 		exit_sign.add_theme_color_override("font_outline_color", Color.BLACK)
 		exit_sign.add_theme_constant_override("outline_size", 3)
-		var place := str(target.get("name", ""))
-		exit_sign.text = "< " + place if side == "west" else place + " >"
-		exit_sign.position = Vector2(8 if side == "west" else width - 130, ground + 2)
-		exit_sign.size = Vector2(122, 12)
+		exit_sign.set_meta("place", str(target.get("name", "")))
+		exit_sign.position = Vector2(8 if side == "west" else width - 198, ground + 2)
+		exit_sign.size = Vector2(190, 12)
 		exit_sign.horizontal_alignment = (
 			HORIZONTAL_ALIGNMENT_LEFT if side == "west" else HORIZONTAL_ALIGNMENT_RIGHT
 		)
 		add_child(exit_sign)
+		_exit_signs[side] = exit_sign
+	_update_exit_signs()
+
+
+## A locked exit reads "Locked" in red with how far the player has to go,
+## so the way on is never a mystery; it turns back once the gate opens.
+func _update_exit_signs() -> void:
+	for side: String in _exit_signs:
+		var exit_sign: Label = _exit_signs[side]
+		var place := str(exit_sign.get_meta("place"))
+		var gate := zone.exit_locked(side)
+		var text := place
+		if not gate.is_empty():
+			text = "Locked  %d/%d  %s" % [int(gate["done"]), int(gate["count"]), place]
+		exit_sign.text = "< " + text if side == "west" else text + " >"
+		exit_sign.add_theme_color_override(
+			"font_color", UiTheme.DANGER if not gate.is_empty() else UiTheme.TEXT
+		)
 
 
 func _build_npcs() -> void:
