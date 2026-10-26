@@ -4,6 +4,22 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — Street kit: all 22 pieces from the scene prompts (IL-4)
+- Every piece in `docs/SCENE_PROMPTS.md`, painted by the owner and cut out by
+  `kit_import.py`: Fight Club (warehouse wall, ring, crowd, work lamps, tyres, chairs),
+  Rusted Corner (junk shop, fence, scrap, drums, car wreck), Parking Lot (car park,
+  barrier booth, pickup, scooters), Rat Nest (tunnel wall, drain pipe, grate, the
+  `tunnel_floor_tile` ground strip) and Gang HQ (facade, steel gate, guard booth).
+- Crops drop what the paintings added outside the piece: the smear above the fence and
+  the framed lamp section at the left of the crowd.
+- Fight Club is now an underground ring: corrugated warehouse walls with work lamps
+  strung overhead, the ring, the crowd, tyres, chairs and drums along the back. Rusted
+  Corner is a junk-dealers' street: the junk shop and patched fences, scrap heaps, oil
+  drums and a car wreck at the kerb. An area's `kit_theme` picks its own kit theme
+  (the generated fallback scenery still follows `theme`), and themes can hang pieces
+  overhead (`hanging`). Checked in a browser; one new pipeline test.
+- The Parking Lot, Rat Nest and Gang HQ pieces are imported but wait for those areas.
+
 ### Added — Three more heroes: the Basketball Player, the Police Officer, the Soldier (IL-4)
 - **Kan Srisuk, the Basketball Player**: the crowd controller. Crossover (a stunning
   change of direction), Elbow Clear (both sides), Post Up (breaks guard) and Slam Dunk,

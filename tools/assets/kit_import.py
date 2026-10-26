@@ -324,6 +324,15 @@ def lay_out(area_id: str, area: dict, theme: dict, pieces: dict, scrolls: dict) 
         vehicles.append({"piece": piece_id, "layer": "street", "x": x, "y": KERB + 4})
     placed += sorted(props, key=lambda p: (p["y"], p["x"]))
     placed += sorted(vehicles, key=lambda p: p["x"])
+    # Strung overhead across the front buildings (work lamps over a ring),
+    # their top this many game pixels down from the top of the view.
+    if theme.get("hanging"):
+        x = rng.randint(*theme["hanging_gap"])
+        while x < width:
+            piece_id = pick(rng, theme["hanging"])
+            h = pieces[piece_id]["size"][1] / pieces[piece_id]["hd"]
+            placed.append({"piece": piece_id, "layer": "front", "x": x, "y": round(theme["hanging_top"] + h)})
+            x += round(game_width(pieces, piece_id)) + rng.randint(*theme["hanging_gap"])
     if theme.get("foreground"):
         s = scrolls["fg"]
         x = rng.randint(200, 400)
@@ -367,7 +376,9 @@ def lay_out_all(spec: dict, pieces: dict) -> dict:
     areas = json.loads(AREAS.read_text())["areas"]
     out = {}
     for area_id, area in sorted(areas.items()):
-        theme_id = area.get("theme", "market")
+        # "kit_theme" picks painted pieces of its own; "theme" alone also
+        # drives the generated fallback scenery (gen_environment.py).
+        theme_id = area.get("kit_theme", area.get("theme", "market"))
         theme = spec["themes"][theme_id]
         out[area_id] = {
             "theme": theme_id,

@@ -219,13 +219,18 @@ so they repeat without a seam. Then each area is laid out from its theme in
 street scrolling slower, a row of shops and shophouses, sidewalk tiles, lamp posts
 and power poles at a steady rhythm with props, animals and stalls between them,
 vehicles parked at the kerb clear of the exits, and foliage in front of the fighters
-scrolling faster, all recorded in the manifest's `kit` section. Pieces are only
+scrolling faster, all recorded in the manifest's `kit` section. An area's
+`kit_theme` (areas.json) picks a kit theme of its own, such as `fight_club` and
+`junkyard`, while its `theme` still drives the generated fallback scenery. A theme's
+`hanging` pieces (the Fight Club work lamps) are strung across the front buildings,
+their top `hanging_top` game pixels below the top of the view, `hanging_gap` apart. Pieces are only
 re-cut when their source or recipe changes (`--force` re-cuts everything).
 `validate.py` checks every piece against its source digest, its texture size, and
 that the layouts are what the importer produces now. Licence: the owner's own art
 (`Proprietary (project owner)`), credited in game.
 
-Imported pieces not yet placed: the hanging and standing blank signs (waiting for
+Imported pieces not yet placed: the Parking Lot, Rat Nest and Gang HQ pieces (waiting
+for those areas), the hanging and standing blank signs (waiting for
 in-engine Thai text), the railing, and the train-on-track picture (its beam is cut
 out as the `skytrain_track` strip, which runs unbroken across the layer with trains
 standing on it).
