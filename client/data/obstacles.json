@@ -1,0 +1,9 @@
+{
+  "obstacles": {
+    "street_lamp": {"piece": "street_lamp", "half": [4, 3]},
+    "power_pole": {"piece": "power_pole", "half": [5, 3]},
+    "trash_bin": {"piece": "trash_bin", "half": [7, 4]},
+    "traffic_cone": {"piece": "traffic_cone", "half": [5, 3]},
+    "crates": {"piece": "crates", "half": [14, 6]}
+  }
+}

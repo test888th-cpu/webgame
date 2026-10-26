@@ -39,11 +39,18 @@ const HURT_HALF_WIDTH := 8.0
 ## Advances all fighters one tick. `inputs` maps fighter id to FighterInput;
 ## fighters without an entry get no input. Returns the hits that happened.
 static func tick(
-	fighters: Array[Fighter], inputs: Dictionary, library: MoveLibrary, bounds: Rect2
+	fighters: Array[Fighter],
+	inputs: Dictionary,
+	library: MoveLibrary,
+	bounds: Rect2,
+	after_move := Callable()
 ) -> Array[CombatEvent]:
 	var idle := FighterInput.new()
 	for fighter in fighters:
 		_step(fighter, inputs.get(fighter.id, idle), library, bounds)
+	# The zone settles who bumped into what before any blow is judged.
+	if after_move.is_valid():
+		after_move.call()
 	# Snapshot live hitboxes first, so two attacks landing on the same tick both
 	# connect (a trade) instead of the first fighter in the array winning.
 	var swings: Array = []

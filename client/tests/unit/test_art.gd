@@ -154,6 +154,19 @@ func test_every_area_is_built_from_the_street_kit() -> void:
 		assert_true(
 			view.get_node("KitFg").z_index > 0, "%s foliage is drawn over the fighters" % area_id
 		)
+		var furniture: Array[Node] = []
+		for node: Node in view.find_children("*", "Node2D", true, false):
+			if node.is_in_group(Scenery.FURNITURE_GROUP):
+				furniture.append(node)
+		assert_eq(
+			furniture.size(),
+			content.area(area_id).get("obstacles", []).size(),
+			"%s street furniture is drawn" % area_id
+		)
+		for node: Node in furniture:
+			assert_eq(
+				node.get_parent().name, "Entities", "%s furniture sorts with fighters" % area_id
+			)
 		if kit.has("track"):
 			var strip := view.get_node("KitTrack").get_child(0) as Sprite2D
 			assert_true(strip.region_enabled, "%s track is one repeating strip" % area_id)

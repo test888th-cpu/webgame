@@ -246,11 +246,22 @@ try {
   if (!yardWeapon) {
     problems.push("no weapon lying in the yard");
   } else {
-    for (let i = 0; i < 120 && !armed.weapon; i++) {
+    for (let i = 0; i < 160 && !armed.weapon; i++) {
       const [wx, wy] = (armed.street_weapons ?? [])[0] ?? yardWeapon;
+      const x = armed.x;
       if (Math.abs(armed.y - wy) > 6) await hold(armed.y > wy ? "ArrowUp" : "ArrowDown", 40);
-      else if (Math.abs(armed.x - wx) > 10) await hold(armed.x < wx ? "ArrowRight" : "ArrowLeft", 40);
-      else await page.keyboard.press("KeyE");
+      else if (Math.abs(armed.x - wx) > 10) {
+        await hold(armed.x < wx ? "ArrowRight" : "ArrowLeft", 40);
+        armed = await probe();
+        // Bodies are solid (the dummy, a crate): go round below or above.
+        if (Math.abs(armed.x - x) < 1) {
+          const y = armed.y;
+          await hold(armed.y < 320 ? "ArrowDown" : "ArrowUp", 300);
+          armed = await probe();
+          if (Math.abs(armed.y - y) < 1) await hold(armed.y < 320 ? "ArrowUp" : "ArrowDown", 400);
+          await hold(armed.x < wx ? "ArrowRight" : "ArrowLeft", 400);
+        }
+      } else await page.keyboard.press("KeyE");
       armed = await probe();
     }
     if (!armed.weapon) problems.push(`could not pick up the weapon at ${yardWeapon}`);
@@ -264,11 +275,35 @@ try {
   await waitFor("the pause menu to close", (p) => p.menu === "", 3_000);
   console.log("pause menu: opened and closed");
 
-  // Walk east into the next area, then into its first fight.
-  await page.keyboard.down("ArrowRight");
-  const street = await waitFor("the next area", (p) => p.area !== start.area, 20_000);
-  const fight = await waitFor("an encounter", (p) => p.fighting && p.enemies.length > 0, 20_000);
-  await page.keyboard.up("ArrowRight");
+  // Walk east into the next area, then into its first fight. Lamp posts, bins,
+  // crates, NPCs and the dummy are solid, so step down or up the lane to get
+  // round whatever stops the hero.
+  const walkEast = async (what: string, done: (p: Probe) => boolean): Promise<Probe> => {
+    const until = Date.now() + 40_000;
+    let p = await probe();
+    let side = "ArrowDown";
+    while (!done(p)) {
+      if (Date.now() > until) throw new Error(`timed out walking east to ${what}, stuck at (${p.x.toFixed(0)}, ${p.y.toFixed(0)}) in ${p.area}`);
+      const x = p.x;
+      await hold("ArrowRight", 300);
+      p = await probe();
+      if (done(p) || p.x > x + 2) continue;
+      if (p.y >= 336) side = "ArrowUp";
+      if (p.y <= 254) side = "ArrowDown";
+      const y = p.y;
+      await hold(side, 250);
+      p = await probe();
+      // Blocked that way too: go round the other side.
+      if (Math.abs(p.y - y) < 1) {
+        side = side === "ArrowDown" ? "ArrowUp" : "ArrowDown";
+        await hold(side, 400);
+        p = await probe();
+      }
+    }
+    return p;
+  };
+  const street = await walkEast("the next area", (p) => p.area !== start.area);
+  const fight = await walkEast("an encounter", (p) => p.fighting && p.enemies.length > 0);
   if (street.weapon) problems.push(`carried ${street.weapon} into ${street.area}; weapons must stay in their area`);
   console.log(`travelled: ${start.area} -> ${street.area}; encounter with ${fight.enemies.map((e) => e.kind).join(", ")}`);
   let state = fight;
