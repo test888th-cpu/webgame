@@ -221,7 +221,12 @@ func _handle(event: ZoneEvent) -> void:
 				)
 				if item.get("type") == "equipment":
 					_hud.toast("Found %s" % item["name"])
+		"encounter_clear":
+			# Only where the street goes on east (not at the end of the line).
+			if not zone.in_encounter() and zone.area.get("exits", {}).has("east"):
+				_hud.show_go()
 		"encounter_start":
+			_hud.show_go(false)
 			if event.data.get("boss", false):
 				_hud.toast("A boss approaches!")
 		"boss_phase":

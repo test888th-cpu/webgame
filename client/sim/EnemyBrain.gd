@@ -17,6 +17,8 @@ const RANGE_MARGIN := 4.0
 ## How far an enemy will walk to fetch a weapon, and how close is "on it".
 const SCAVENGE_RANGE := 110.0
 const PICK_REACH := 10.0
+## How close in lane depth a ranged fighter must be to lob.
+const LOB_LANE := 8.0
 
 var spacing := 56.0
 var reaction_ticks := 12
@@ -28,6 +30,10 @@ var heavy_chance := 0.0
 var guard_chance := 0.0
 var dodge_chance := 0.0
 var scavenge := false
+## Ranged fighters (ai.ranged {min, max}) hang back in this band of distance
+## and lob from it; up close they still jab. 0: melee only.
+var ranged_min := 0.0
+var ranged_max := 0.0
 
 ## Ticks until this enemy may attack again.
 var cooldown := 0
@@ -51,6 +57,9 @@ func _init(ai: Dictionary, rng: RandomNumberGenerator) -> void:
 	guard_chance = float(ai.get("guard_chance", 0.0))
 	dodge_chance = float(ai.get("dodge_chance", 0.0))
 	scavenge = bool(ai.get("scavenge", false))
+	var ranged: Dictionary = ai.get("ranged", {})
+	ranged_min = float(ranged.get("min", 0.0))
+	ranged_max = float(ranged.get("max", 0.0))
 	lane_offset = rng.randf_range(-LANE_SPREAD, LANE_SPREAD)
 	# Freshly spawned enemies hesitate before their first attack.
 	cooldown = rng.randi_range(30, 30 + cooldown_jitter)
@@ -89,8 +98,14 @@ func think(
 			else:
 				input.move = to_loot.normalized()
 			return input
-	if may_attack and cooldown == 0:
-		return _press_attack(me, target, input, distance, dir_x, library, rng)
+	if ranged_max > 0.0:
+		input = _keep_range(me, target, input, distance, dir_x, may_attack, library, rng)
+	if ranged_max > 0.0 or (may_attack and cooldown == 0):
+		return (
+			input
+			if ranged_max > 0.0
+			else _press_attack(me, target, input, distance, dir_x, library, rng)
+		)
 	# Without a token: hold at spacing, drift to this enemy's own lane depth.
 	var move_x := 0.0
 	if distance < spacing - 12.0:
@@ -143,6 +158,43 @@ func _sees_wind_up(target: Fighter, distance: float, dir_x: int, tick: int) -> b
 		and distance <= threat
 		and target.state_tick < target.move.startup
 	)
+
+
+## A ranged fighter: back off to its band, line up in the target's lane when
+## it may attack, then lob (its "heavy"). Caught up close, it jabs instead.
+func _keep_range(
+	me: Fighter,
+	target: Fighter,
+	input: FighterInput,
+	distance: float,
+	dir_x: int,
+	may_attack: bool,
+	library: MoveLibrary,
+	rng: RandomNumberGenerator
+) -> FighterInput:
+	var ready := may_attack and cooldown == 0
+	var dy := target.position.y - me.position.y
+	if ready and distance < ranged_min * 0.5:
+		planned = "light"
+		return _press_attack(me, target, input, distance, dir_x, library, rng)
+	if ready and absf(dy) <= LOB_LANE and distance >= ranged_min and distance <= ranged_max:
+		if reaction > 0:
+			reaction -= 1
+			return input
+		input.heavy = true
+		reaction = reaction_ticks
+		cooldown = cooldown_ticks + rng.randi_range(0, cooldown_jitter)
+		return input
+	var move_x := 0.0
+	if distance < ranged_min:
+		move_x = -dir_x
+	elif distance > ranged_max:
+		move_x = dir_x
+	# With a turn to throw, line up exactly; otherwise keep its own lane.
+	var to_lane := dy if ready else dy + lane_offset
+	var move_y := signf(to_lane) * 0.7 if absf(to_lane) > 4.0 else 0.0
+	input.move = Vector2(move_x, move_y)
+	return input
 
 
 ## True when this brain is ready to use an attack token.

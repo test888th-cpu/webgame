@@ -512,6 +512,16 @@ def ledger(d: ImageDraw.ImageDraw) -> None:
     d.point((8, 11), fill=(222, 178, 70, 255))
 
 
+def champion_wraps(d: ImageDraw.ImageDraw) -> None:
+    # Iron Wraps' cut, in the pit's red and gold tape.
+    d.rectangle((3, 4, 12, 13), fill=OUTLINE)
+    d.rectangle((4, 5, 11, 12), fill=(176, 52, 44, 255))
+    for y in (6, 9, 11):
+        d.line((4, y, 11, y), fill=(232, 186, 74, 255))
+    d.rectangle((5, 2, 10, 4), fill=OUTLINE)
+    d.rectangle((6, 3, 9, 4), fill=(220, 200, 170, 255))
+
+
 # Materials for upgrades: scrap is rough grey metal, alloy a bright ingot.
 def scrap_metal(d: ImageDraw.ImageDraw) -> None:
     d.polygon([(2, 9), (6, 4), (10, 6), (14, 3), (13, 12), (7, 13), (3, 13)], fill=OUTLINE)
@@ -589,6 +599,7 @@ ICONS = {
     "forged_note": forged_note,
     "ledger": ledger,
     "scrap_metal": scrap_metal,
+    "champion_wraps": champion_wraps,
     "refined_alloy": refined_alloy,
     "slot_weapon": slot_weapon,
     "slot_head": slot_head,

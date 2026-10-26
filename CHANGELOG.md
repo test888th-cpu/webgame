@@ -4,6 +4,35 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — South Street grows: Rusted Corner, Fight Club, ranged enemies, a mini-boss (IL-4)
+- **Rusted Corner** (level 3, between Canal Works and the Rail Yards) introduces the
+  first ranged enemy, the **Bottle Thrower**: it hangs back 80–150 px, lines up in your
+  lane, winds up (telegraphed) and lobs a bottle that stuns but never floors and
+  shatters where it lands; caught up close it jabs. Its exit opens after 6 throwers.
+- **Fight Club** (level 7, between the Night Market and the Refinery) ends in the
+  **Pit Champion**, a mini-boss: a jab-cross chain, a telegraphed guard-breaking
+  overhand, and below half HP a charging rush. Poise 70. Drops scrap and alloy always
+  and the new **Champion's Wraps** (epic hands: attack, crit, attack speed) 25% of the
+  time. His exit opens the back door to the Refinery.
+- Two new LPC characters built with the asset pipeline from layers already cleared by
+  the licence policy (OGA-BY): the red-bandana thrower and the shirtless champion.
+  Scenery for both areas is laid out from the owner's kit like every other street.
+- Two quests join Chief Odo's chain, voiced like the rest: "Glass Rain" (after the
+  Foreman) and "The Pit" (after Market Lights, before the Baron). The story bible maps
+  both areas and gives the champion his reason to fight.
+- Ranged attacks reuse the throwing system (`ZoneSim` projectiles) instead of a second
+  one; the AI is `EnemyBrain._keep_range`; the data (`ranged` on the enemy and its
+  `ai`) is validated on load.
+- After a fight is cleared, a blinking **GO >>** points the way on (only where the
+  street continues east).
+- New tests keep the street one connected line with rising levels, every gate
+  winnable in its own area, every quest target findable, and check the thrower keeps
+  its distance and its bottles stun and shatter. 6 new tests (220 total).
+- Measured with a scripted player (no gear, no healing, no parries): the champion is
+  as hard as the existing Furnace Baron for that player (both unbeaten), the Sludge
+  Foreman is beaten 30–80% of the time. Real tuning needs playtests; recorded in
+  docs/BLUEPRINT.md.
+
 ### Added — Elites and bosses cannot be pinned by mashing (poise)
 - Found while balancing the classes: replaying a fight against the Smog Warden (one
   scripted player per hero, 20 seeds) showed a hero who just mashed light attacks kept

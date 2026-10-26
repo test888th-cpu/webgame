@@ -3756,6 +3756,317 @@
       "source": "lpc",
       "status": "imported"
     },
+    "pit_champion": {
+      "animations": {
+        "dodge": {
+          "fps": 12,
+          "frames": 5,
+          "loop": false,
+          "row": 6,
+          "source": "jump"
+        },
+        "down": {
+          "fps": 10,
+          "frames": 6,
+          "loop": false,
+          "row": 5,
+          "source": "hurt"
+        },
+        "heavy": {
+          "fps": 9,
+          "frames": 6,
+          "loop": false,
+          "row": 3,
+          "source": "slash"
+        },
+        "hurt": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 4,
+          "source": "hurt"
+        },
+        "idle": {
+          "fps": 4,
+          "frames": 3,
+          "loop": true,
+          "row": 0,
+          "source": "combat"
+        },
+        "light": {
+          "fps": 16,
+          "frames": 6,
+          "loop": false,
+          "row": 2,
+          "source": "1h_halfslash"
+        },
+        "stab": {
+          "fps": 14,
+          "frames": 5,
+          "loop": false,
+          "row": 7,
+          "source": "1h_halfslash"
+        },
+        "walk": {
+          "fps": 10,
+          "frames": 8,
+          "loop": true,
+          "row": 1,
+          "source": "walk"
+        }
+      },
+      "credits": "res://assets/characters/pit_champion/credits.json",
+      "facing": "right",
+      "frame_size": [
+        64,
+        64
+      ],
+      "generator": {
+        "recipe": "art/lpc/characters.json#pit_champion",
+        "repo": "LPC"
+      },
+      "hand_sheet": "res://assets/characters/pit_champion/hands.png",
+      "hands": {
+        "dodge": [
+          [
+            25,
+            47,
+            40
+          ],
+          [
+            23,
+            47,
+            30
+          ],
+          [
+            20,
+            42,
+            10
+          ],
+          [
+            17,
+            39,
+            -20
+          ],
+          [
+            14,
+            37,
+            20
+          ]
+        ],
+        "down": [
+          [
+            20,
+            46,
+            45
+          ],
+          [
+            21,
+            51,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            21,
+            56,
+            45
+          ]
+        ],
+        "heavy": [
+          [
+            25,
+            47,
+            30
+          ],
+          [
+            25,
+            49,
+            30
+          ],
+          [
+            23,
+            47,
+            30
+          ],
+          [
+            22,
+            47,
+            30
+          ],
+          [
+            23,
+            47,
+            30
+          ],
+          [
+            23,
+            47,
+            30
+          ]
+        ],
+        "hurt": [
+          [
+            20,
+            46,
+            40
+          ],
+          [
+            21,
+            51,
+            50
+          ],
+          [
+            23,
+            58,
+            60
+          ]
+        ],
+        "idle": [
+          [
+            29,
+            44,
+            50
+          ],
+          [
+            29,
+            44,
+            50
+          ],
+          [
+            30,
+            45,
+            50
+          ]
+        ],
+        "light": [
+          [
+            12,
+            38,
+            -45
+          ],
+          [
+            39,
+            44,
+            -10
+          ],
+          [
+            50,
+            44,
+            65
+          ],
+          [
+            59,
+            43,
+            110
+          ],
+          [
+            59,
+            43,
+            125
+          ],
+          [
+            39,
+            44,
+            70
+          ]
+        ],
+        "stab": [
+          [
+            39,
+            44,
+            80
+          ],
+          [
+            50,
+            44,
+            90
+          ],
+          [
+            59,
+            43,
+            90
+          ],
+          [
+            59,
+            43,
+            90
+          ],
+          [
+            39,
+            44,
+            80
+          ]
+        ],
+        "walk": [
+          [
+            30,
+            48,
+            55
+          ],
+          [
+            28,
+            48,
+            50
+          ],
+          [
+            22,
+            48,
+            45
+          ],
+          [
+            21,
+            48,
+            40
+          ],
+          [
+            19,
+            48,
+            40
+          ],
+          [
+            21,
+            48,
+            45
+          ],
+          [
+            24,
+            48,
+            50
+          ],
+          [
+            26,
+            48,
+            55
+          ]
+        ]
+      },
+      "licenses": [
+        "OGA-BY 3.0",
+        "OGA-BY 3.0+"
+      ],
+      "origin": [
+        32,
+        62
+      ],
+      "role": "boss",
+      "sheet": "res://assets/characters/pit_champion/sheet.png",
+      "source": "lpc",
+      "status": "imported"
+    },
     "rail_bruiser": {
       "animations": {
         "dodge": {
@@ -5149,6 +5460,316 @@
       "source": "lpc",
       "status": "imported"
     },
+    "street_thrower": {
+      "animations": {
+        "dodge": {
+          "fps": 12,
+          "frames": 5,
+          "loop": false,
+          "row": 6,
+          "source": "jump"
+        },
+        "down": {
+          "fps": 10,
+          "frames": 6,
+          "loop": false,
+          "row": 5,
+          "source": "hurt"
+        },
+        "heavy": {
+          "fps": 9,
+          "frames": 6,
+          "loop": false,
+          "row": 3,
+          "source": "slash"
+        },
+        "hurt": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 4,
+          "source": "hurt"
+        },
+        "idle": {
+          "fps": 4,
+          "frames": 3,
+          "loop": true,
+          "row": 0,
+          "source": "combat"
+        },
+        "light": {
+          "fps": 16,
+          "frames": 6,
+          "loop": false,
+          "row": 2,
+          "source": "1h_halfslash"
+        },
+        "stab": {
+          "fps": 14,
+          "frames": 5,
+          "loop": false,
+          "row": 7,
+          "source": "1h_halfslash"
+        },
+        "walk": {
+          "fps": 10,
+          "frames": 8,
+          "loop": true,
+          "row": 1,
+          "source": "walk"
+        }
+      },
+      "credits": "res://assets/characters/street_thrower/credits.json",
+      "facing": "right",
+      "frame_size": [
+        64,
+        64
+      ],
+      "generator": {
+        "recipe": "art/lpc/characters.json#street_thrower",
+        "repo": "LPC"
+      },
+      "hand_sheet": "res://assets/characters/street_thrower/hands.png",
+      "hands": {
+        "dodge": [
+          [
+            25,
+            47,
+            40
+          ],
+          [
+            23,
+            47,
+            30
+          ],
+          [
+            20,
+            42,
+            10
+          ],
+          [
+            17,
+            39,
+            -20
+          ],
+          [
+            14,
+            37,
+            20
+          ]
+        ],
+        "down": [
+          [
+            20,
+            46,
+            45
+          ],
+          [
+            21,
+            51,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            21,
+            56,
+            45
+          ]
+        ],
+        "heavy": [
+          [
+            25,
+            47,
+            30
+          ],
+          [
+            25,
+            49,
+            30
+          ],
+          [
+            23,
+            47,
+            30
+          ],
+          [
+            22,
+            47,
+            30
+          ],
+          [
+            23,
+            47,
+            30
+          ],
+          [
+            23,
+            47,
+            30
+          ]
+        ],
+        "hurt": [
+          [
+            20,
+            46,
+            40
+          ],
+          [
+            21,
+            51,
+            50
+          ],
+          [
+            23,
+            58,
+            60
+          ]
+        ],
+        "idle": [
+          [
+            29,
+            44,
+            50
+          ],
+          [
+            29,
+            44,
+            50
+          ],
+          [
+            30,
+            45,
+            50
+          ]
+        ],
+        "light": [
+          [
+            12,
+            38,
+            -45
+          ],
+          [
+            39,
+            44,
+            -10
+          ],
+          [
+            50,
+            44,
+            65
+          ],
+          [
+            59,
+            43,
+            110
+          ],
+          [
+            59,
+            43,
+            125
+          ],
+          [
+            39,
+            44,
+            70
+          ]
+        ],
+        "stab": [
+          [
+            39,
+            44,
+            80
+          ],
+          [
+            50,
+            44,
+            90
+          ],
+          [
+            59,
+            43,
+            90
+          ],
+          [
+            59,
+            43,
+            90
+          ],
+          [
+            39,
+            44,
+            80
+          ]
+        ],
+        "walk": [
+          [
+            30,
+            48,
+            55
+          ],
+          [
+            28,
+            48,
+            50
+          ],
+          [
+            22,
+            48,
+            45
+          ],
+          [
+            21,
+            48,
+            40
+          ],
+          [
+            19,
+            48,
+            40
+          ],
+          [
+            21,
+            48,
+            45
+          ],
+          [
+            24,
+            48,
+            50
+          ],
+          [
+            26,
+            48,
+            55
+          ]
+        ]
+      },
+      "licenses": [
+        "OGA-BY 3.0"
+      ],
+      "origin": [
+        32,
+        62
+      ],
+      "role": "enemy",
+      "sheet": "res://assets/characters/street_thrower/sheet.png",
+      "source": "lpc",
+      "status": "imported"
+    },
     "tar_hound": {
       "animations": {
         "down": {
@@ -5938,6 +6559,164 @@
         ],
         "theme": "depot"
       },
+      "fight_club": {
+        "layers": {
+          "buildings": {
+            "file": "res://assets/environment/fight_club/buildings.png",
+            "size": [
+              1500,
+              230
+            ]
+          },
+          "far": {
+            "file": "res://assets/environment/fight_club/far.png",
+            "size": [
+              640,
+              230
+            ]
+          },
+          "ground": {
+            "file": "res://assets/environment/fight_club/ground.png",
+            "size": [
+              1500,
+              130
+            ]
+          },
+          "sky": {
+            "file": "res://assets/environment/fight_club/sky.png",
+            "size": [
+              640,
+              230
+            ]
+          }
+        },
+        "props": [
+          {
+            "prop": "pipe_valve",
+            "x": 215,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 326,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 396,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 562,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 690,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 790,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 849,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 960,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 1019,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1093,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1168,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1224,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1274,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1429,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1543,
+            "y": 244
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 86,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 277,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 452,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 631,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 819,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 981,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1175,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1354,
+            "y": 246
+          }
+        ],
+        "theme": "canal"
+      },
       "night_market": {
         "layers": {
           "buildings": {
@@ -6641,6 +7420,187 @@
           }
         ],
         "theme": "canal"
+      },
+      "rusted_corner": {
+        "layers": {
+          "buildings": {
+            "file": "res://assets/environment/rusted_corner/buildings.png",
+            "size": [
+              2000,
+              230
+            ]
+          },
+          "far": {
+            "file": "res://assets/environment/rusted_corner/far.png",
+            "size": [
+              640,
+              230
+            ]
+          },
+          "ground": {
+            "file": "res://assets/environment/rusted_corner/ground.png",
+            "size": [
+              2000,
+              130
+            ]
+          },
+          "sky": {
+            "file": "res://assets/environment/rusted_corner/sky.png",
+            "size": [
+              640,
+              230
+            ]
+          }
+        },
+        "props": [
+          {
+            "prop": "crate",
+            "x": 182,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 253,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 397,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 498,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 617,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 704,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 755,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 1182,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 1267,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 1429,
+            "y": 244
+          },
+          {
+            "prop": "bench",
+            "x": 1516,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 1616,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 1672,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1763,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 1937,
+            "y": 244
+          },
+          {
+            "prop": "bench",
+            "x": 1991,
+            "y": 244
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 99,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 269,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 455,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 630,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 803,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 984,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1171,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1341,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1527,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1701,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1891,
+            "y": 246
+          }
+        ],
+        "theme": "depot"
       },
       "saltmarket": {
         "layers": {
@@ -7517,6 +8477,240 @@
           "top": 116
         },
         "width": 960
+      },
+      "fight_club": {
+        "far": "skyline_far",
+        "ground": {
+          "road": "road_tile",
+          "sidewalk": "sidewalk_tile"
+        },
+        "placed": [
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": -45,
+            "y": 232
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 162,
+            "y": 232
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 401,
+            "y": 232
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 628,
+            "y": 232
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 890,
+            "y": 232
+          },
+          {
+            "layer": "front",
+            "piece": "shophouse_a",
+            "x": 54,
+            "y": 232
+          },
+          {
+            "layer": "front",
+            "piece": "shophouse_b",
+            "x": 208,
+            "y": 232
+          },
+          {
+            "layer": "front",
+            "piece": "noodle_shop",
+            "x": 384,
+            "y": 232
+          },
+          {
+            "layer": "front",
+            "piece": "shophouse_b",
+            "x": 548,
+            "y": 232
+          },
+          {
+            "layer": "front",
+            "piece": "closed_shop",
+            "x": 686,
+            "y": 232
+          },
+          {
+            "layer": "front",
+            "piece": "shophouse_b",
+            "x": 836,
+            "y": 232
+          },
+          {
+            "layer": "front",
+            "piece": "shophouse_a",
+            "x": 988,
+            "y": 232
+          },
+          {
+            "layer": "front",
+            "piece": "pharmacy",
+            "x": 1128,
+            "y": 232
+          },
+          {
+            "layer": "front",
+            "piece": "closed_shop",
+            "x": 1256,
+            "y": 232
+          },
+          {
+            "layer": "front",
+            "piece": "shophouse_a",
+            "x": 1404,
+            "y": 232
+          },
+          {
+            "layer": "front",
+            "piece": "closed_shop",
+            "x": 1552,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 254,
+            "y": 240
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "spirit_house",
+            "x": 1046,
+            "y": 240
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "spirit_house",
+            "x": 502,
+            "y": 241
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "plastic_stools",
+            "x": 115,
+            "y": 242
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "potted_plants",
+            "x": 1517,
+            "y": 242
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 202,
+            "y": 243
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "cat",
+            "x": 411,
+            "y": 243
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "potted_plants",
+            "x": 572,
+            "y": 243
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 846,
+            "y": 243
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "traffic_cone",
+            "x": 795,
+            "y": 244
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "potted_plants",
+            "x": 1419,
+            "y": 244
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 738,
+            "y": 245
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "spirit_house",
+            "x": 985,
+            "y": 245
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "dog_sleeping",
+            "x": 1120,
+            "y": 245
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "plastic_stools",
+            "x": 1207,
+            "y": 245
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "dog_sleeping",
+            "x": 1341,
+            "y": 246
+          },
+          {
+            "layer": "street",
+            "piece": "motorbike",
+            "x": 153,
+            "y": 254
+          },
+          {
+            "layer": "fg",
+            "piece": "fg_leaves",
+            "x": 270,
+            "y": 374
+          },
+          {
+            "layer": "fg",
+            "piece": "fg_leaves",
+            "x": 858,
+            "y": 374
+          },
+          {
+            "layer": "fg",
+            "piece": "fg_leaves",
+            "x": 1520,
+            "y": 374
+          }
+        ],
+        "theme": "canal",
+        "tint": {
+          "back": "#7e9498",
+          "far": "#6a7e84",
+          "fg": "#3a3448",
+          "front": "#dce6dc",
+          "track": "#b0b0c8"
+        },
+        "width": 1500
       },
       "night_market": {
         "far": "skyline_far",
@@ -8531,6 +9725,288 @@
         },
         "width": 2200
       },
+      "rusted_corner": {
+        "far": "skyline_far",
+        "ground": {
+          "road": "road_tile",
+          "sidewalk": "sidewalk_tile"
+        },
+        "placed": [
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": -45,
+            "y": 232
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 137,
+            "y": 232
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 345,
+            "y": 232
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 550,
+            "y": 232
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 731,
+            "y": 232
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 893,
+            "y": 232
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 1180,
+            "y": 232
+          },
+          {
+            "layer": "track",
+            "piece": "skytrain_train",
+            "x": 16,
+            "y": 117
+          },
+          {
+            "layer": "track",
+            "piece": "skytrain_train",
+            "x": 776,
+            "y": 117
+          },
+          {
+            "layer": "track",
+            "piece": "skytrain_train",
+            "x": 1414,
+            "y": 117
+          },
+          {
+            "layer": "front",
+            "piece": "convenience_store",
+            "x": 66,
+            "y": 232
+          },
+          {
+            "layer": "front",
+            "piece": "shophouse_b",
+            "x": 238,
+            "y": 232
+          },
+          {
+            "layer": "front",
+            "piece": "closed_shop",
+            "x": 394,
+            "y": 232
+          },
+          {
+            "layer": "front",
+            "piece": "shophouse_a",
+            "x": 554,
+            "y": 232
+          },
+          {
+            "layer": "front",
+            "piece": "closed_shop",
+            "x": 712,
+            "y": 232
+          },
+          {
+            "layer": "front",
+            "piece": "convenience_store",
+            "x": 868,
+            "y": 232
+          },
+          {
+            "layer": "front",
+            "piece": "shophouse_b",
+            "x": 1035,
+            "y": 232
+          },
+          {
+            "layer": "front",
+            "piece": "shophouse_a",
+            "x": 1195,
+            "y": 232
+          },
+          {
+            "layer": "front",
+            "piece": "convenience_store",
+            "x": 1388,
+            "y": 232
+          },
+          {
+            "layer": "front",
+            "piece": "shophouse_b",
+            "x": 1562,
+            "y": 232
+          },
+          {
+            "layer": "front",
+            "piece": "shophouse_a",
+            "x": 1722,
+            "y": 232
+          },
+          {
+            "layer": "front",
+            "piece": "convenience_store",
+            "x": 1892,
+            "y": 232
+          },
+          {
+            "layer": "front",
+            "piece": "closed_shop",
+            "x": 2064,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 1200,
+            "y": 240
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 436,
+            "y": 241
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "spirit_house",
+            "x": 1416,
+            "y": 241
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 897,
+            "y": 242
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "traffic_cone",
+            "x": 1046,
+            "y": 242
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "traffic_cone",
+            "x": 1629,
+            "y": 242
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 1821,
+            "y": 242
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 156,
+            "y": 243
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "dog_sitting",
+            "x": 540,
+            "y": 244
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "vending_machine",
+            "x": 1547,
+            "y": 244
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "dog_sleeping",
+            "x": 720,
+            "y": 245
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "cat",
+            "x": 1113,
+            "y": 245
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 1990,
+            "y": 245
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "dog_sitting",
+            "x": 105,
+            "y": 246
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 247,
+            "y": 246
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 787,
+            "y": 246
+          },
+          {
+            "layer": "street",
+            "piece": "songthaew",
+            "x": 231,
+            "y": 254
+          },
+          {
+            "layer": "street",
+            "piece": "motorbike",
+            "x": 1168,
+            "y": 254
+          },
+          {
+            "layer": "fg",
+            "piece": "fg_leaves",
+            "x": 371,
+            "y": 374
+          },
+          {
+            "layer": "fg",
+            "piece": "fg_leaves",
+            "x": 1466,
+            "y": 374
+          }
+        ],
+        "theme": "depot",
+        "tint": {
+          "back": "#8e90b0",
+          "far": "#7a7898",
+          "fg": "#3a3448",
+          "front": "#e8dcd0",
+          "track": "#b0b0c8"
+        },
+        "track": {
+          "from": -120,
+          "piece": "skytrain_track",
+          "to": 1620,
+          "top": 116
+        },
+        "width": 2000
+      },
       "saltmarket": {
         "far": "skyline_far",
         "ground": {
@@ -9244,6 +10720,12 @@
           16,
           16
         ],
+        "champion_wraps": [
+          96,
+          48,
+          16,
+          16
+        ],
         "coin": [
           112,
           0,
@@ -9347,7 +10829,7 @@
           16
         ],
         "refined_alloy": [
-          96,
+          112,
           48,
           16,
           16
@@ -9443,38 +10925,38 @@
           24
         ],
         "slot_body": [
-          16,
-          64,
-          16,
-          16
-        ],
-        "slot_charm": [
-          64,
-          64,
-          16,
-          16
-        ],
-        "slot_feet": [
-          48,
-          64,
-          16,
-          16
-        ],
-        "slot_hands": [
           32,
           64,
           16,
           16
         ],
+        "slot_charm": [
+          80,
+          64,
+          16,
+          16
+        ],
+        "slot_feet": [
+          64,
+          64,
+          16,
+          16
+        ],
+        "slot_hands": [
+          48,
+          64,
+          16,
+          16
+        ],
         "slot_head": [
-          0,
+          16,
           64,
           16,
           16
         ],
         "slot_weapon": [
-          112,
-          48,
+          0,
+          64,
           16,
           16
         ],

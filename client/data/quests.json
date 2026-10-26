@@ -71,10 +71,34 @@
         "done": "A delivery note, stamped and signed for a warehouse that burned down years ago. Forged. They're moving freight through South Street on paper that can't be real."
       }
     },
+    "glass_rain": {
+      "name": "Glass Rain",
+      "giver": "chief_odo",
+      "requires": "foreman",
+      "chapter": "Chapter 1: South Street",
+      "description": "Knock down 6 Bottle Throwers on the Rusted Corner.",
+      "objective": {
+        "type": "defeat",
+        "enemy": "street_thrower",
+        "count": 6
+      },
+      "rewards": {
+        "money": 130,
+        "xp": 350,
+        "items": {
+          "ginger_tea": 2
+        }
+      },
+      "dialogue": {
+        "offer": "Since the Foreman went down, kids are lobbing bottles at anyone who walks the Rusted Corner. Somebody pays them to keep that road empty. Find out why.",
+        "active": "They keep their distance, so close it fast. Knock down 6 of them.",
+        "done": "One of them talked: paid per bottle, by a man who says he works for the refinery. Keep following the freight."
+      }
+    },
     "rail_rumble": {
       "name": "Rail Yard Rumble",
       "giver": "chief_odo",
-      "requires": "foreman",
+      "requires": "glass_rain",
       "description": "Knock down 8 Dock Thugs in the Rail Yards.",
       "objective": {
         "type": "defeat",
@@ -119,10 +143,34 @@
         "done": "Kenji says the punks are paid by the Furnace Baron, up at the old refinery. He runs South Street now. Or thinks he does."
       }
     },
+    "the_pit": {
+      "name": "The Pit",
+      "giver": "chief_odo",
+      "requires": "market_lights",
+      "chapter": "Chapter 1: South Street",
+      "description": "Defeat the Pit Champion at the Fight Club.",
+      "objective": {
+        "type": "defeat",
+        "enemy": "pit_champion",
+        "count": 1
+      },
+      "rewards": {
+        "money": 300,
+        "xp": 900,
+        "items": {
+          "refined_alloy": 2
+        }
+      },
+      "dialogue": {
+        "offer": "Kenji says anyone who wants work at the refinery has to fight the Baron's champion first, in a ring in the alley behind the Night Market. The back door to the Baron runs through him.",
+        "active": "The Fight Club meets in the alley past the Night Market. Watch his wind-up; he hits like a truck.",
+        "done": "He fought for the Baron to clear his mother's debts. He's done with that now. The back door to the Refinery is open."
+      }
+    },
     "furnace_baron": {
       "name": "The Furnace Baron",
       "giver": "chief_odo",
-      "requires": "market_lights",
+      "requires": "the_pit",
       "description": "Defeat the Furnace Baron at the Smokestack Refinery.",
       "objective": {
         "type": "defeat",

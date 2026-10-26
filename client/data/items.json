@@ -327,6 +327,21 @@
       "price": 300,
       "icon": "refined_alloy",
       "description": "A clean factory ingot, far too good for South Street. Tough fighters carry it; high upgrades need it."
+    },
+    "champion_wraps": {
+      "name": "Champion's Wraps",
+      "type": "equipment",
+      "slot": "hands",
+      "rarity": "epic",
+      "level": 6,
+      "price": 0,
+      "stats": {
+        "power": 0.14,
+        "crit": 0.06,
+        "attack_speed": 0.05
+      },
+      "icon": "champion_wraps",
+      "description": "Taped and re-taped through a hundred nights in the alley ring. Whoever wore these never lost on his feet."
     }
   }
 }

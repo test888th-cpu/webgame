@@ -251,6 +251,20 @@ func _validate_enemy(id: String, e: Dictionary) -> void:
 	_number(e, "xp", where, 0)
 	if e.has("poise"):
 		_number(e, "poise", where, 1)
+	var ranged: Variant = e.get("ranged", {})
+	if ranged is Dictionary and not ranged.is_empty():
+		_check(
+			moves.get_move(str(ranged.get("move"))) != null, where + ".ranged.move: unknown move"
+		)
+		_check(
+			weapons.has(str(ranged.get("projectile"))), where + ".ranged.projectile: no such weapon"
+		)
+		_number(ranged, "damage", where + ".ranged", 1)
+		var band: Dictionary = e.get("ai", {}).get("ranged", {})
+		_check(
+			float(band.get("min", 0)) > 0 and float(band.get("max", 0)) > float(band.get("min", 0)),
+			where + ".ai.ranged: needs 0 < min < max"
+		)
 	_validate_moveset(e.get("moveset", {}), where)
 	var ai: Variant = e.get("ai")
 	if ai != null:

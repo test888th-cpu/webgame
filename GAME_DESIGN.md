@@ -149,8 +149,10 @@ in the quest card's place, skippable from the menu; progress is saved (save v4).
 | Depot Yard | 1 | training dummy (safe; two weapons to practise with) | |
 | Saltmarket Street | 1 | Smoglings, Tar Rats, Pipe Brutes, Smog Warden (elite) | |
 | Canal Works | 2 | the same, tougher | Sludge Foreman |
+| Rusted Corner | 3 | Bottle Throwers (ranged: hang back and lob), Dock Thugs, Tar Rats, Smog Warden | |
 | Rail Yards | 4 | Dock Thugs, Rail Bruisers, Smoglings, Tar Rats | |
 | Night Market | 6 | Market Punks (fast combos), Thugs, Bruisers, Smog Warden; Kenji's Night Stall | |
+| Fight Club | 7 | Punks, Rail Bruisers, a Bottle Thrower | The Pit Champion (mini-boss; charges below half HP) |
 | Smokestack Refinery | 8 | Punks, Thugs, Bruisers, Refinery Enforcer (elite) | Furnace Baron (two phases: a wide furnace slam; below half HP a telegraphed 110 px charge that leaves him open for 40 ticks) |
 
 **[built]** The way east is guarded: each exit opens once the hero has defeated the

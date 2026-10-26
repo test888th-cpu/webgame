@@ -75,7 +75,7 @@ Iron City คือเมืองอุตสาหกรรมและเม�
 |---|---|---|---|
 | `sludge_foreman` | The Sludge Foreman | หัวหน้าแก๊ง Back Alley/ท่อระบายน้ำ (ใส่หน้ากากหมูป่า ตามภาพ) | รับเงินเฝ้าท่อระบายที่ใช้ทิ้งของเสีย ดรอปหลักฐานชิ้นแรก: ใบส่งของปลอม |
 | `furnace_baron` | The Furnace Baron | หัวหน้าแก๊ง South Street (บอสบทที่ 1) | เปิดโรงหลอมเศษเหล็กเถื่อนที่ Smokestack Refinery และรับเงินคุมเส้นทางขนส่ง ดรอปบัญชีรับเงินจากผู้จ่ายภายนอก |
-| *(เสนอ)* Fight Club Champion | Mini-boss บทที่ 1 | นักสู้ที่แก๊งใช้ทดสอบคน |
+| `pit_champion` | The Pit Champion | Mini-boss บทที่ 1 (ทำแล้ว) | นักสู้ที่ Baron ใช้ทดสอบคนที่อยากทำงานในโรงหลอม สู้เพื่อใช้หนี้แทนแม่ แพ้แล้วเลิก (ไม่ร้ายเพื่อความร้าย) |
 | *(เสนอ)* Harbourmaster Chen | บอสบทที่ 2 | ผู้ควบคุมการขนส่ง Port District ใช้เครนและตู้สินค้าในการต่อสู้ |
 | *(เสนอ)* Security Chief Nattapong | บอสบทที่ 3 | หัวหน้ารปภ. โรงงาน ทำตามคำสั่งโดยไม่รู้ความจริง (ปล่อยรอดได้) |
 | *(เสนอ)* Unit K-7 | บอสบทที่ 3 | เครื่องจักรอัตโนมัติทดลองที่ผิดปกติ |
@@ -117,20 +117,22 @@ Dr. Pim ส่งหลักฐานให้หน่วยงานตรว
 |---|---|---|---|---|---|
 | ฐาน | (Depot: บ้าน, ร้าน, ภารกิจ, หุ่นซ้อม) | `depot_yard` | Depot Yard | 1 | คงเดิม ใช้เป็นที่สอน (tutorial) |
 | 1 | Back Alley | `saltmarket` | Saltmarket Street | 1 | หรือคงชื่อ Saltmarket ให้เป็นซอยหลังตลาด |
-| 2 | Rusted Corner | - | - | - | ใหม่ |
+| 2 | Rusted Corner | `rusted_corner` | Rusted Corner | 3 | **ทำแล้ว IL-4** อยู่ระหว่าง Canal Works กับ Rail Yards: แก๊งขว้างขวด (Bottle Thrower) รับเงินจาก "คนของโรงหลอม" ให้กันถนนว่าง |
 | 3 | Parking Lot | - | - | - | ใหม่ |
 | 4 | Freight Yard | `rail_yards` | Rail Yards | 4 | ตรงธีม (ลานขนส่งรถไฟ) |
 | 5 | Night Market | `night_market` | Night Market | 6 | ตรงอยู่แล้ว ที่อยู่ของ Kenji |
 | 6 | Warehouse Row | `refinery` | Smokestack Refinery | 8 | โรงหลอมเถื่อนของ Furnace Baron |
 | 7 | Drainage Tunnels | `canal_works` | Canal Works | 2 | ท่อระบายและคลอง ที่ของ Sludge Foreman **ลำดับเดิมอยู่ก่อน Rail Yards** ต้องเลือก: ย้ายลำดับ หรือคงไว้เป็น "ทางเข้าท่อ" ช่วงต้น |
 | 8 | Rat Nest | - | - | - | ใหม่ (รังแก๊ง Tar Rat) |
-| 9 | Fight Club | - | - | - | ใหม่ |
+| 9 | Fight Club | `fight_club` | Fight Club | 7 | **ทำแล้ว IL-4** สังเวียนในซอยหลัง Night Market (ฉากยังเป็นถนน จนกว่าจะมีภาพฉากเฉพาะ) อยู่ระหว่าง Night Market กับ Refinery: Pit Champion เฝ้าประตูหลังของ Baron |
 | 10 | Gang Headquarters | - | - | - | ใหม่ ถ้าทำแล้ว Furnace Baron อาจย้ายมาที่นี่เป็นบอสบท |
 
 ## 6. ทะเบียนศัตรู: ตีความภาพเดิมให้เข้ากับโลก (เสนอ D6)
 
 | `id` | ภาพตอนนี้ (LPC) | ตีความใหม่ | กลุ่ม |
 |---|---|---|---|
+| `street_thrower` | ใหม่ IL-4: วัยรุ่นผ้าโพกหัวแดง | แก๊งขว้างขวด ศัตรูระยะไกลตัวแรก | Gangsters (Ranged) |
+| `pit_champion` | ใหม่ IL-4: นักมวยถอดเสื้อ คาดผ้า | Mini-boss | Gangsters (Mini-boss) |
 | `smogling` | ร่างซอมบี้ หัวก็อบลิน สีเขียว | คนเร่ร่อนที่สูด The Murk นาน ทาหน้าและสวมหน้ากากกันควันทำเอง *หรือ* วาดใหม่เป็นสุนัขจรจัดกลายพันธุ์ | Mutants |
 | `tar_hound` (Tar Rat) | ร่างคน หัวหนู | สมาชิกแก๊ง "Rat Nest" ใส่หน้ากากหนู | Gangsters (Fast) |
 | `pipe_brute` | คนถือท่อ | นักเลงคุมซอย | Gangsters (Heavy) |

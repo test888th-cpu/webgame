@@ -283,7 +283,7 @@
           "entry": "east"
         },
         "east": {
-          "to": "rail_yards",
+          "to": "rusted_corner",
           "entry": "west",
           "requires": {
             "defeat": "sludge_foreman",
@@ -396,6 +396,149 @@
         }
       ]
     },
+    "rusted_corner": {
+      "name": "Rusted Corner",
+      "level": 3,
+      "width": 2000,
+      "safe": false,
+      "theme": "depot",
+      "palette": {
+        "sky": "#2e2a34",
+        "buildings": [
+          "#3a3230",
+          "#45362c",
+          "#2f2a2c"
+        ],
+        "windows": "#e0b060",
+        "sidewalk": "#55504a",
+        "street": "#2c2a28"
+      },
+      "exits": {
+        "west": {
+          "to": "canal_works",
+          "entry": "east"
+        },
+        "east": {
+          "to": "rail_yards",
+          "entry": "west",
+          "requires": {
+            "defeat": "street_thrower",
+            "count": 6,
+            "hint": "Bottle throwers hold the corner. Knock down 6 to pass."
+          }
+        }
+      },
+      "weapons": {
+        "count": [
+          3,
+          4
+        ],
+        "pool": {
+          "bottle": 5,
+          "plank": 3,
+          "pipe": 2,
+          "wrench": 2,
+          "frying_pan": 1
+        }
+      },
+      "encounters": [
+        {
+          "trigger_x": 380,
+          "arena": [
+            180,
+            860
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "street_thrower",
+              "dock_thug"
+            ],
+            [
+              "street_thrower",
+              "tar_hound",
+              "dock_thug"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1100,
+          "arena": [
+            900,
+            1560
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "street_thrower",
+              "street_thrower",
+              "pipe_brute"
+            ],
+            [
+              "dock_thug",
+              "street_thrower",
+              "tar_hound"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1700,
+          "arena": [
+            1500,
+            1980
+          ],
+          "max_alive": 4,
+          "waves": [
+            [
+              "street_thrower",
+              "street_thrower",
+              "dock_thug"
+            ],
+            [
+              "smog_warden",
+              "street_thrower"
+            ]
+          ]
+        }
+      ],
+      "obstacles": [
+        {
+          "kind": "street_lamp",
+          "x": 360,
+          "y": 252
+        },
+        {
+          "kind": "trash_bin",
+          "x": 620,
+          "y": 288
+        },
+        {
+          "kind": "power_pole",
+          "x": 980,
+          "y": 252
+        },
+        {
+          "kind": "street_lamp",
+          "x": 1300,
+          "y": 252
+        },
+        {
+          "kind": "crates",
+          "x": 1460,
+          "y": 318
+        },
+        {
+          "kind": "power_pole",
+          "x": 1760,
+          "y": 252
+        },
+        {
+          "kind": "traffic_cone",
+          "x": 1880,
+          "y": 300
+        }
+      ]
+    },
     "rail_yards": {
       "name": "Rail Yards",
       "level": 4,
@@ -415,7 +558,7 @@
       },
       "exits": {
         "west": {
-          "to": "canal_works",
+          "to": "rusted_corner",
           "entry": "east"
         },
         "east": {
@@ -583,7 +726,7 @@
           "entry": "east"
         },
         "east": {
-          "to": "refinery",
+          "to": "fight_club",
           "entry": "west",
           "requires": {
             "defeat": "market_punk",
@@ -753,6 +896,103 @@
         }
       ]
     },
+    "fight_club": {
+      "name": "Fight Club",
+      "level": 7,
+      "width": 1500,
+      "safe": false,
+      "theme": "canal",
+      "palette": {
+        "sky": "#24161e",
+        "buildings": [
+          "#3a2228",
+          "#2e1c24",
+          "#402a2a"
+        ],
+        "windows": "#ff7050",
+        "sidewalk": "#4a3e40",
+        "street": "#2a2024"
+      },
+      "exits": {
+        "west": {
+          "to": "night_market",
+          "entry": "east"
+        },
+        "east": {
+          "to": "refinery",
+          "entry": "west",
+          "requires": {
+            "defeat": "pit_champion",
+            "count": 1,
+            "hint": "The Pit Champion bars the back door to the Refinery. Beat him."
+          }
+        }
+      },
+      "weapons": {
+        "count": [
+          2,
+          3
+        ],
+        "pool": {
+          "chair": 4,
+          "bottle": 3,
+          "baseball_bat": 2,
+          "pipe": 2
+        }
+      },
+      "encounters": [
+        {
+          "trigger_x": 420,
+          "arena": [
+            200,
+            880
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "market_punk",
+              "market_punk",
+              "rail_bruiser"
+            ],
+            [
+              "market_punk",
+              "street_thrower",
+              "rail_bruiser"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1150,
+          "arena": [
+            920,
+            1480
+          ],
+          "max_alive": 1,
+          "waves": [
+            [
+              "pit_champion"
+            ]
+          ]
+        }
+      ],
+      "obstacles": [
+        {
+          "kind": "street_lamp",
+          "x": 300,
+          "y": 252
+        },
+        {
+          "kind": "trash_bin",
+          "x": 700,
+          "y": 290
+        },
+        {
+          "kind": "street_lamp",
+          "x": 900,
+          "y": 252
+        }
+      ]
+    },
     "refinery": {
       "name": "Smokestack Refinery",
       "level": 8,
@@ -772,7 +1012,7 @@
       },
       "exits": {
         "west": {
-          "to": "night_market",
+          "to": "fight_club",
           "entry": "east"
         }
       },

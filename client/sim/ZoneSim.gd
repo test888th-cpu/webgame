@@ -249,9 +249,13 @@ func _after_hit(hit: CombatEvent, defender: Fighter, events: Array[ZoneEvent]) -
 ## flies. Damage is the weapon's heavy blow at the thrower's power, fixed now.
 func _release_throws(events: Array[ZoneEvent]) -> void:
 	for f in fighters:
-		if f.state != Fighter.State.ATTACK or f.move.id != THROW_MOVE or f.weapon == "":
+		if f.state != Fighter.State.ATTACK or f.state_tick != f.move.startup:
 			continue
-		if f.state_tick != f.move.startup:
+		var ranged: Dictionary = content.enemy(f.kind).get("ranged", {})
+		if ranged and f.move.id == str(ranged["move"]):
+			_lob(f, ranged, events)
+			continue
+		if f.move.id != THROW_MOVE or f.weapon == "":
 			continue
 		var heavy := content.moves.get_move(str(f.weapon_moveset.get("heavy", "")))
 		var base := heavy.damage if heavy else 10
@@ -265,11 +269,36 @@ func _release_throws(events: Array[ZoneEvent]) -> void:
 			"dir": f.facing,
 			"ticks": THROW_TICKS,
 			"damage": roundi(base * f.power),
+			"knockdown": true,
 		}
 		_next_weapon += 1
 		thrown.append(entry)
 		events.append(ZoneEvent.make("weapon_throw", {"id": f.id, "weapon": f.weapon}))
 		_clear_weapon(f)
+
+
+## A ranged enemy's lob: a fresh projectile (it has endless bottles) that
+## stuns rather than floors and shatters wherever it lands.
+func _lob(f: Fighter, ranged: Dictionary, events: Array[ZoneEvent]) -> void:
+	(
+		thrown
+		. append(
+			{
+				"id": _next_weapon,
+				"weapon": str(ranged["projectile"]),
+				"uses": 0,
+				"owner": f.id,
+				"team": f.team,
+				"position": f.position + Vector2(f.facing * 12.0, 0.0),
+				"dir": f.facing,
+				"ticks": THROW_TICKS,
+				"damage": roundi(float(ranged["damage"]) * f.power),
+				"knockdown": false,
+			}
+		)
+	)
+	_next_weapon += 1
+	events.append(ZoneEvent.make("weapon_throw", {"id": f.id, "weapon": str(ranged["projectile"])}))
 
 
 ## Moves weapons in flight; each hits the first foe in reach, then lands at
@@ -283,13 +312,17 @@ func _fly_thrown(events: Array[ZoneEvent]) -> void:
 		var target := _thrown_target(entry)
 		if target:
 			var boss := bool(content.enemy(target.kind).get("boss", false))
-			var hit := CombatRules.thrown_hit(
-				target,
-				int(entry["owner"]),
-				at.x - entry["dir"] * THROW_SPEED,
-				int(entry["damage"]),
-				not boss,  # a thrown pipe stuns a boss but never floors one
-				"thrown_" + str(entry["weapon"])
+			var hit := (
+				CombatRules
+				. thrown_hit(
+					target,
+					int(entry["owner"]),
+					at.x - entry["dir"] * THROW_SPEED,
+					int(entry["damage"]),
+					# A thrown pipe stuns a boss but never floors one.
+					bool(entry.get("knockdown", true)) and not boss,
+					"thrown_" + str(entry["weapon"])
+				)
 			)
 			var event := ZoneEvent.make("hit")
 			event.hit = hit
