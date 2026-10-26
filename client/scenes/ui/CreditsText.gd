@@ -38,8 +38,8 @@ static func build(content: ContentDB) -> String:
 		+ "Per-file authors, licences and sources: assets/characters/*/credits.json\n"
 		+ "(%d source pages on OpenGameArt.org).\n\n" % sources.size()
 		+ "Riku Sato: character art by the project owner.\n"
-		+ "Street scenery (buildings, shops, vehicles, props, animals): painted by the\n"
-		+ "project owner, assembled by the project's tools.\n\n"
+		+ "Street scenery (buildings, shops, vehicles, props, animals) and street weapons:\n"
+		+ "painted by the project owner, assembled by the project's tools.\n\n"
 		+ "Sky, effects, icons, sounds and the training dummy: original, generated\n"
 		+ "by the project's tools (MIT licence), except the recorded sounds below.\n\n"
 		+ _sounds(content)

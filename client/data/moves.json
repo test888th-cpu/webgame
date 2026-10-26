@@ -724,6 +724,122 @@
       "guard_break": true,
       "knockdown": true,
       "anim": "heavy"
+    },
+    "pan_swing": {
+      "startup": 6,
+      "active": 4,
+      "recovery": 14,
+      "damage": 12,
+      "hitstun": 24,
+      "knockback": 30,
+      "reach_offset": 4,
+      "reach": 32,
+      "depth_tolerance": 15,
+      "chains": {
+        "heavy": "pan_bonk"
+      },
+      "anim": "light"
+    },
+    "pan_bonk": {
+      "startup": 11,
+      "active": 4,
+      "recovery": 22,
+      "damage": 17,
+      "hitstun": 42,
+      "knockback": 30,
+      "reach_offset": 4,
+      "reach": 32,
+      "depth_tolerance": 15,
+      "guard_break": true,
+      "anim": "light"
+    },
+    "wrench_swing": {
+      "startup": 5,
+      "active": 3,
+      "recovery": 12,
+      "damage": 11,
+      "hitstun": 20,
+      "knockback": 18,
+      "reach_offset": 4,
+      "reach": 34,
+      "depth_tolerance": 14,
+      "chains": {
+        "light": "wrench_swing2",
+        "heavy": "wrench_crack"
+      },
+      "anim": "light"
+    },
+    "wrench_swing2": {
+      "startup": 5,
+      "active": 3,
+      "recovery": 15,
+      "damage": 12,
+      "hitstun": 22,
+      "knockback": 36,
+      "reach_offset": 4,
+      "reach": 34,
+      "depth_tolerance": 14,
+      "chains": {
+        "heavy": "wrench_crack"
+      },
+      "anim": "light"
+    },
+    "wrench_crack": {
+      "startup": 10,
+      "active": 4,
+      "recovery": 20,
+      "damage": 18,
+      "hitstun": 30,
+      "knockback": 60,
+      "reach_offset": 4,
+      "reach": 34,
+      "depth_tolerance": 14,
+      "knockdown": true,
+      "anim": "light"
+    },
+    "bat_swing": {
+      "startup": 7,
+      "active": 4,
+      "recovery": 14,
+      "damage": 13,
+      "hitstun": 22,
+      "knockback": 26,
+      "reach_offset": 4,
+      "reach": 42,
+      "depth_tolerance": 16,
+      "chains": {
+        "light": "bat_swing2",
+        "heavy": "bat_homerun"
+      },
+      "anim": "light"
+    },
+    "bat_swing2": {
+      "startup": 7,
+      "active": 4,
+      "recovery": 17,
+      "damage": 14,
+      "hitstun": 24,
+      "knockback": 46,
+      "reach_offset": 4,
+      "reach": 42,
+      "depth_tolerance": 16,
+      "chains": {
+        "heavy": "bat_homerun"
+      },
+      "anim": "light"
+    },
+    "bat_homerun": {
+      "startup": 14,
+      "active": 5,
+      "recovery": 24,
+      "damage": 21,
+      "hitstun": 32,
+      "knockback": 110,
+      "reach_offset": 4,
+      "reach": 42,
+      "depth_tolerance": 16,
+      "knockdown": true,
+      "anim": "light"
     }
   }
 }

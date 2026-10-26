@@ -104,11 +104,18 @@ the manifest's `ui` section. Each item in `items.json` names its `icon`. The
 validator regenerates the sheet in memory and fails when it is stale or an item
 names an unknown icon. See [UI.md](UI.md).
 
-The same sheet holds the street weapons (knife, bottle, plank, steel pipe, machete,
-folding chair) as sprites in 16x32 cells, drawn upright at the characters' scale with the grip at `weapon_grip` (8, 27),
-so the game can turn them about the hand; `weapons.json` names each one's `sprite`
-and the validator checks it exists. The chair is drawn upside down, held by the top
-of its back, the way one swings a folding chair.
+The same sheet holds the street weapons as sprites in 16x32 cells, upright at the
+characters' scale with the grip at `weapon_grip` (8, 27), so the game can turn them
+about the hand; `weapons.json` names each one's `sprite` and the validator checks it
+exists. The weapons are the project owner's paintings (knife, bottle, plank, steel
+pipe, machete, folding chair, frying pan, pipe wrench, baseball bat), listed in
+`art/weapons/weapons.json` with their sources in `art/weapons/src/` (scaled to at most
+480 px): keyed from the green backdrop like the street kit (`keep_green` for the green
+bottle), shrunk to `length` pixels tall with hard edges and the characters' outline,
+the handle's end centred under the grip (`turn` rotates a painting first). Weapons
+without a painting fall back to the code painters in `gen_ui.py`. The chair is held
+upside down by the top of its back, the way one swings a folding chair. Paint new
+weapons upright with the handle at the bottom.
 
 ## Fonts
 
