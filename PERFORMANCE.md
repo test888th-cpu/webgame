@@ -48,3 +48,13 @@ latency < 150 ms on the server, tick overrun < 1 %, disconnect rate < 0.5 %, DB 
 CPU < 70 %. Measure CPU, memory, bandwidth, message rate and size, DB load, recovery time
 after killing a zone process, and cost per CCU. Report hardware and raw results in
 `docs/load-tests/`. Capacity is only claimed for stages that passed.
+
+## Simulation cost (measured 2026-10-26, IL-4)
+Headless Godot 4.7.2 (native Linux build, cloud container CPU), Fight Club, 1 hero
+pressing attacks against 10 live enemies (punks, bruisers, bottle throwers, thugs)
+with AI, poise, projectiles and solid bodies, 3,600 ticks: **0.30 ms per tick on
+average, worst single tick 7.1 ms**. The frame budget is 16.7 ms, so the rules leave
+the client almost the whole frame for drawing. Not yet measured: the same in the web
+export (WebAssembly is typically slower than native; to be measured on the reference
+desktop, see "Browser budgets"), and drawing cost, which CI's software renderer cannot
+show (risk R4).

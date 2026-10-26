@@ -123,7 +123,8 @@
       "level": 1,
       "price": 35,
       "stats": {
-        "power": 0.05
+        "power": 0.05,
+        "attack_speed": 0.05
       },
       "icon": "fingerless_gloves",
       "description": "A firmer grip and a little more bite on every jab."
@@ -137,7 +138,8 @@
       "price": 0,
       "stats": {
         "power": 0.12,
-        "defense": 1
+        "defense": 1,
+        "crit": 0.04
       },
       "icon": "iron_wraps",
       "description": "Chain links sewn into leather wraps. The Warden's favourite."
@@ -179,7 +181,8 @@
       "price": 0,
       "stats": {
         "max_hp": 10,
-        "power": 0.03
+        "power": 0.03,
+        "crit": 0.03
       },
       "icon": "lucky_coin",
       "description": "An old harbour coin with a hole punched through. Tar Rats hoard them."
@@ -221,7 +224,8 @@
       "price": 200,
       "stats": {
         "speed": 0.1,
-        "defense": 1
+        "defense": 1,
+        "attack_speed": 0.04
       },
       "icon": "street_runners",
       "description": "Night-market sneakers with soles that grip wet tiles."
@@ -234,7 +238,8 @@
       "level": 5,
       "price": 260,
       "stats": {
-        "power": 0.3
+        "power": 0.3,
+        "crit": 0.05
       },
       "icon": "brass_knuckles",
       "description": "Heavy brass rings. Every punch lands like a hammer."
@@ -262,7 +267,8 @@
       "price": 0,
       "stats": {
         "max_hp": 25,
-        "power": 0.06
+        "power": 0.06,
+        "attack_speed": 0.06
       },
       "icon": "jade_charm",
       "description": "A carved jade tiger. The Baron never let it out of his sight."
@@ -276,10 +282,66 @@
       "price": 0,
       "stats": {
         "power": 0.45,
-        "max_hp": 20
+        "max_hp": 20,
+        "crit": 0.08
       },
       "icon": "baron_knuckledusters",
       "description": "Still hot from the furnace. Taken from the Baron himself."
+    },
+    "torn_label": {
+      "name": "Torn Shipping Label",
+      "type": "key",
+      "rarity": "uncommon",
+      "price": 0,
+      "icon": "torn_label",
+      "description": "Ripped off the crate the Saltmarket crew came back for. No waybill, no address: just a red stamp, KRAISORN HEAVY INDUSTRIES."
+    },
+    "forged_note": {
+      "name": "Forged Delivery Note",
+      "type": "key",
+      "rarity": "rare",
+      "price": 0,
+      "icon": "forged_note",
+      "description": "Found on the Sludge Foreman. Stamped and signed for a warehouse on the canal that burned down years ago. Someone is moving freight on paper that cannot be real."
+    },
+    "baron_ledger": {
+      "name": "The Baron's Ledger",
+      "type": "key",
+      "rarity": "epic",
+      "price": 0,
+      "icon": "ledger",
+      "description": "The Furnace Baron's accounts. Every week, the same payment from an account at the port, marked only \"for the route\". He was renting South Street to someone."
+    },
+    "scrap_metal": {
+      "name": "Scrap Metal",
+      "type": "material",
+      "rarity": "common",
+      "price": 30,
+      "icon": "scrap_metal",
+      "description": "Bent bolts and offcuts from the street. The Depot workbench turns it into upgrades for whatever you wear."
+    },
+    "refined_alloy": {
+      "name": "Refined Alloy",
+      "type": "material",
+      "rarity": "rare",
+      "price": 300,
+      "icon": "refined_alloy",
+      "description": "A clean factory ingot, far too good for South Street. Tough fighters carry it; high upgrades need it."
+    },
+    "champion_wraps": {
+      "name": "Champion's Wraps",
+      "type": "equipment",
+      "slot": "hands",
+      "rarity": "epic",
+      "level": 6,
+      "price": 0,
+      "stats": {
+        "power": 0.14,
+        "crit": 0.06,
+        "attack_speed": 0.05
+      },
+      "icon": "champion_wraps",
+      "description": "Taped and re-taped through a hundred nights in the alley ring. Whoever wore these never lost on his feet."
     }
   }
 }

@@ -162,6 +162,16 @@ func sync() -> void:
 			_animate_sprite(moved)
 	else:
 		_pose_polygons()
+	# A warm sheen while poise armor holds: blows will not stop this one.
+	if fighter.armor > 0 and fighter.armor % 10 < 6:
+		_body.modulate = Color(1.25, 1.1, 0.8)
+		if _sprite:
+			_sprite.modulate = Color(1.25, 1.1, 0.8)
+	# Blink through the wake-up grace so the player can see they are safe.
+	if fighter.grace > 0 and fighter.grace % 8 < 4:
+		_body.modulate.a = 0.45
+		if _sprite:
+			_sprite.modulate.a = 0.45
 	if show_health_bar:
 		_health_fill.size.x = 24.0 * fighter.hp / fighter.max_hp
 	_update_held()

@@ -30,7 +30,7 @@ static func build(content: ContentDB) -> String:
 	var licenses: Array = by_license.keys()
 	licenses.sort()
 	return (
-		"Game design and code: the Ironbound Streets authors (MIT licence).\n\n"
+		"Game design and code: The Iron Legacy authors (MIT licence).\n\n"
 		+ "Character sprites built from the Liberated Pixel Cup (LPC) collection, via the\n"
 		+ "Universal LPC Spritesheet Character Generator.\n"
 		+ "Sprite artists: %s.\n\n" % ", ".join(names)

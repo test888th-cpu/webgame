@@ -5,8 +5,16 @@ content is taken from River City Ransom, Kunio-kun or any other game. The genre 
 used (side-scrolling street brawling with depth lanes, RPG progression, shops) are not
 owned by anyone.
 
-**Implemented so far:** one test street with a placeholder hero and a training dummy,
-and the combat core below marked **[built]**. Everything else is design intent.
+**Implemented so far:** everything marked **[built]** below (six areas, three heroes,
+two bosses, street weapons, equipment, quests, local saves). Everything else is design
+intent.
+
+> **Direction approved 2026-10-26:** the game becomes *The Iron Legacy*: Iron City and
+> The Core (Port Verrin is its harbour district, the Murk its toxic smog), six classes and
+> single player first. The story, names and places now live only in
+> [docs/STORY_BIBLE.md](docs/STORY_BIBLE.md); plan and decisions in
+> [docs/BLUEPRINT.md](docs/BLUEPRINT.md). Sections below describe mechanics as built; the
+> Premise and crew sections are superseded by the story bible and are being migrated.
 
 ## Premise
 
@@ -19,8 +27,8 @@ harbour district, which becomes their home base.
 
 | Hero | Archetype | Feel | Signature |
 |---|---|---|---|
-| Mika Tanabe **[built]** | Brawler (female) | Damage and mobility: 100 HP, 110% power, 110% speed, long combo strings | Rising Uppercut, Whirlwind Kick, Shoulder Rush, Furnace Slam |
-| Oren Vale **[built]** | Bruiser (male) | Slow, tough, controls crowds: 130 HP, 100% power, 2 defense, 85% speed | Headbutt, Clothesline, Shoulder Charge, Earthshaker |
+| Mika Tanabe **[built]** | Footballer (female) | Damage and mobility: 100 HP, 110% power, 110% speed, long combo strings | Rising Uppercut, Whirlwind Kick, Shoulder Rush, Furnace Slam |
+| Oren Vale **[built]** | Street Brawler (male) | Slow, tough, controls crowds: 130 HP, 100% power, 2 defense, 85% speed | Headbutt, Clothesline, Shoulder Charge, Earthshaker |
 | Riku Sato **[built]** | Boxer (male) | The all-rounder: 115 HP, 105% power, 1 defense, 100% speed; jab and cross from a tight guard | Liver Shot, One-Two, Dempsey Roll, Knockout Blow |
 | Sela Ruiz | Striker | Fast kicks, dodge-cancels | Spinning heel through a crowd |
 | Juno Okafor | Tinkerer | Mid-range gadgets, traps | Deployable shock coil |
@@ -53,7 +61,15 @@ equipment) is stored per hero. Temporary combat state is never persisted.
   breaks guard and costs energy; dodge with invulnerability frames (ticks 2–13 of 20)
   that costs energy; guard that blocks from the front only, takes 20% chip damage,
   drains energy and breaks when energy runs out; knockdown with invulnerable get-up.
-  Simultaneous hits trade. **[built]** A 12-tick input buffer keeps presses made just
+  Simultaneous hits trade. **[built]** Stun-lock protection: hitstun the hero takes
+  fills a meter that drains while they are in control; a hit that would push it past 40
+  ticks knocks them down instead, and getting up gives 36 ticks of grace (the hero
+  blinks; attacking ends it). A crowd can hold the hero helpless for at most 1.5 s.
+  Enemies have no such protection, so hero combos still chain. **[built]** Perfect
+  guard: guard raised at most 8 ticks before a hit from the front parries it (no
+  damage, energy back, even against guard breakers); the attacker reels for 30 ticks
+  and the first hit on them is a counter (1.5x damage). Letting go of guard closes the
+  window for 24 ticks. Only the hero parries. **[built]** A 12-tick input buffer keeps presses made just
   before a swing ends.
 - **[built]** Skills on a seven-slot hotbar (`client/data/skills.json`): 1 attack, 2–5
   skills, 6–7 consumables. Each skill is a move with an energy cost and a cooldown, and
@@ -85,6 +101,10 @@ equipment) is stored per hero. Temporary combat state is never persisted.
   pose freeze on hits, dust on knockdowns and dodges, an effect per skill, camera shake
   on heavy blows, a red vignette when the hero is hurt, a level-up light and banner, and
   sound for every action. All presentation only.
+- **[built] Fair-fight rules** (`tests/unit/test_fairness.gd`): every enemy attack that
+  opens a fight and floors the hero or breaks guard is telegraphed with at least 16
+  ticks of warning; every telegraphed attack leaves at least 20 ticks to punish; every
+  boss phase adds an attack, not only bigger numbers.
 - Hits have hit stun, knockback and recovery. Elites telegraph their attacks. Only a few
   enemies attack at the same time (attack tokens) so crowds stay readable.
 - All rules live in `client/sim/` as data plus pure functions, so the server can be the
@@ -94,8 +114,12 @@ equipment) is stored per hero. Temporary combat state is never persisted.
   plank, steel pipe, machete, folding chair, frying pan, pipe wrench and baseball bat
   lie on the street (each area's
   `weapons` block says how many and which, by weight; stronger ones only from a
-  minimum area level). E picks up the weapon underfoot (dropping the one in hand), or
-  puts the held one down. A weapon replaces Z/X with its own moves, always in the same hand: the knife
+  minimum area level). E picks up the weapon underfoot (dropping the one in hand);
+  with nothing underfoot the hero **throws** the held one: a short wind-up, then it
+  flies about 160 px along the street, hits the first foe in its path for its heavy
+  blow's damage (knocks down; bosses are only stunned; a guard blocks it from the front)
+  and lands at their feet, or breaks if that was its last use. Enemies put weapons down
+  instead. A weapon replaces Z/X with its own moves, always in the same hand: the knife
   stabs straight ahead, everything else swings from behind the head forward and down
   (knife: quick stabs and a lunge; pipe: long swings and a guard-breaking slam; chair: every swing
   knocks down but slows you; frying pan: the heavy bonk dazes and breaks a guard;
@@ -112,6 +136,10 @@ equipment) is stored per hero. Temporary combat state is never persisted.
   enemies that `wield` may start armed (more often at higher levels). Enemy level
   shows over their heads.
 
+**[built] Tutorial**: first-time steps in the Depot Yard (move, punch, heavy, skill,
+dodge, guard and parry, pick up, throw, talk to Odo), each finished by doing it, shown
+in the quest card's place, skippable from the menu; progress is saved (save v4).
+
 ## World structure
 
 **[built] The street so far**, east from the yard:
@@ -121,9 +149,15 @@ equipment) is stored per hero. Temporary combat state is never persisted.
 | Depot Yard | 1 | training dummy (safe; two weapons to practise with) | |
 | Saltmarket Street | 1 | Smoglings, Tar Rats, Pipe Brutes, Smog Warden (elite) | |
 | Canal Works | 2 | the same, tougher | Sludge Foreman |
+| Rusted Corner | 3 | Bottle Throwers (ranged: hang back and lob), Dock Thugs, Tar Rats, Smog Warden | |
 | Rail Yards | 4 | Dock Thugs, Rail Bruisers, Smoglings, Tar Rats | |
 | Night Market | 6 | Market Punks (fast combos), Thugs, Bruisers, Smog Warden; Kenji's Night Stall | |
-| Smokestack Refinery | 8 | Punks, Thugs, Bruisers, Refinery Enforcer (elite) | Furnace Baron (two phases) |
+| Fight Club | 7 | Punks, Rail Bruisers, a Bottle Thrower | The Pit Champion (mini-boss; charges below half HP) |
+| Smokestack Refinery | 8 | Punks, Thugs, Bruisers, Refinery Enforcer (elite) | Furnace Baron (two phases: a wide furnace slam; below half HP a telegraphed 110 px charge that leaves him open for 40 ticks) |
+
+**[built]** The way east is guarded: each exit opens once the hero has defeated the
+enemy that holds it (Smog Warden, Sludge Foreman, 8 Dock Thugs, 10 Night Market Punks),
+shown on the red exit sign with progress; the way back is always open.
 
 Chief Odo's quest chain continues past the Foreman: Rail Yard Rumble, Market Lights,
 then The Furnace Baron. Better gear (rare to legendary, levels 5 to 8) drops and is sold
@@ -144,6 +178,13 @@ hands, weapon, feet, charm). Items have a rarity (common, uncommon, rare, epic,
 legendary), a required level, stat bonuses (penalties allowed, e.g. a heavy pipe slows
 you) and a description; 15 items so far, sold by Ama or dropped by enemies, and each hero
 starts with a small kit. Equipment changes stats at once and saves.
+
+**[built] Upgrades**: each equipment slot goes from +0 to +10 at the Depot workbench
+(10% more of the worn item's stats per level, kept by the slot when gear changes);
+coins and Scrap Metal/Refined Alloy per attempt, 100% down to 20% success, failures
+keep the level and add 5% to the next try. **[built] Materials** drop from enemies
+(bosses always) and item cards say where every item comes from. **[built] Crit**
+(5% base, Riku 8%) and **attack speed** (recovery only) come from gear.
 
 Levels and XP per hero · skill unlocks and upgrades · equipment with affixes (later) · enhancement and crafting from Murk residue and
 salvage · daily and weekly contracts · account-bound and tradable items · currency sinks:

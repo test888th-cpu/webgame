@@ -211,7 +211,10 @@ static func bag_order(content: ContentDB, profile: PlayerProfile) -> Array[Strin
 
 
 static func _sort_key(item: Dictionary) -> String:
-	var group := 0 if item.get("type") == "consumable" else 1
+	# Food first, then gear, then evidence at the end of the bag.
+	var group: int = {"consumable": 0, "equipment": 1, "material": 2, "key": 3}.get(
+		item.get("type"), 1
+	)
 	var slot := PlayerProfile.SLOTS.find(str(item.get("slot", "")))
 	var rarity := ContentDB.RARITIES.size() - ContentDB.RARITIES.find(str(item.get("rarity")))
 	return "%d%d%d%s" % [group, slot + 1, rarity, item.get("name", "")]
@@ -228,6 +231,7 @@ static func _slot_column(game: Game, slots: Array) -> VBoxContainer:
 		slot.placeholder = UiKit.icon(game.content, "slot_" + slot_name)
 		var item_id: String = game.profile.equipment[slot_name]
 		slot.show_item(game.content, item_id, 1, game.profile.level)
+		slot.upgrade = EnhanceRules.level(game.profile, slot_name)
 		if item_id:
 			slot.pressed.connect(game.inspect_item.bind(item_id, slot_name))
 		else:

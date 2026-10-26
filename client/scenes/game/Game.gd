@@ -9,6 +9,7 @@ const READY_MARKER := "GAME_READY"
 const PROBE_INTERVAL := 0.1
 ## Healing items the quick-use button tries, in order.
 const QUICK_HEAL := ["steamed_bun", "ginger_tea"]
+const UPGRADE_GAP_MS := 400
 
 var content: ContentDB
 var profile: PlayerProfile
@@ -34,6 +35,9 @@ var _probe_timer := 0.0
 ## A hotbar slot clicked or tapped since the last tick (-1: none).
 var _clicked_slot := -1
 var _feedback: GameFeedback
+var _last_upgrade_ms := -100000
+## Rolls upgrades. Offline the client rolls them; online the server will.
+var _upgrade_rng := RandomNumberGenerator.new()
 
 @onready var _world: Node2D = $World
 @onready var _hud: CanvasLayer = $Hud
@@ -41,6 +45,7 @@ var _feedback: GameFeedback
 
 
 func _ready() -> void:
+	_upgrade_rng.randomize()
 	content = GameSession.content
 	if GameSession.profile == null:
 		GameSession.start_new_game()
@@ -176,6 +181,9 @@ func step(input: FighterInput) -> Array[ZoneEvent]:
 	for event in events:
 		_handle(event)
 		_feedback.on_event(event)
+	if not TutorialRules.is_done(profile, content):
+		for action: String in TutorialRules.signals_for(events, zone.hero, input, content.moves):
+			tutorial_signal(action)
 	view.sync()
 	if _pending_exit:
 		var exit := _pending_exit
@@ -213,7 +221,12 @@ func _handle(event: ZoneEvent) -> void:
 				)
 				if item.get("type") == "equipment":
 					_hud.toast("Found %s" % item["name"])
+		"encounter_clear":
+			# Only where the street goes on east (not at the end of the line).
+			if not zone.in_encounter() and zone.area.get("exits", {}).has("east"):
+				_hud.show_go()
 		"encounter_start":
+			_hud.show_go(false)
 			if event.data.get("boss", false):
 				_hud.toast("A boss approaches!")
 		"boss_phase":
@@ -222,6 +235,11 @@ func _handle(event: ZoneEvent) -> void:
 			open_game_over.call_deferred()
 		"exit":
 			_pending_exit = event.data
+		"exit_locked":
+			_hud.toast(
+				"%s  (%d/%d)" % [event.data["hint"], event.data["done"], event.data["count"]]
+			)
+			Sfx.play("denied", -4.0)
 		"weapon_pickup", "weapon_break":
 			if event.data["id"] == ZoneSim.HERO_ID:
 				var weapon: Dictionary = content.weapons[event.data["weapon"]]
@@ -298,8 +316,28 @@ func open_shop(npc: Dictionary) -> void:
 	_show("shop", GameMenus.shop(self, npc))
 
 
-func open_quests(npc: Dictionary) -> void:
-	_show("quests_npc", GameMenus.conversation(self, npc))
+## Counts a tutorial action; a finished step chimes, and the last one says
+## the street is open.
+func tutorial_signal(action: String) -> void:
+	if not TutorialRules.notify(profile, action, content):
+		return
+	Sfx.play("quest", -4.0)
+	if TutorialRules.is_done(profile, content):
+		_hud.toast("Tutorial complete. The street is yours.")
+	SaveStore.save(profile)
+
+
+func skip_tutorial() -> void:
+	TutorialRules.skip(profile, content)
+	SaveStore.save(profile)
+	close_menu()
+	_hud.toast("Tutorial skipped. Controls are in the menu (Esc).")
+
+
+func open_quests(npc: Dictionary, said := "") -> void:
+	if npc.get("role") == "quests":
+		tutorial_signal("talk")
+	_show("quests_npc", GameMenus.conversation(self, npc, said))
 
 
 func open_game_over() -> void:
@@ -314,12 +352,18 @@ func inspect_item(item_id: String, worn_slot: String) -> void:
 	var item := content.item(item_id)
 	var actions: Array[Dictionary] = []
 	if worn_slot:
+		var next := EnhanceRules.next_cost(profile, worn_slot, content)
+		if next:
+			var odds := roundi(EnhanceRules.chance(profile, worn_slot, content) * 100.0)
+			var label := "Upgrade +%d (%d%%)" % [EnhanceRules.level(profile, worn_slot) + 1, odds]
+			actions.append({"text": label, "call": _upgrade.bind(worn_slot)})
 		actions.append({"text": "Unequip", "call": _unequip.bind(worn_slot)})
 	elif item.get("type") == "equipment":
 		actions.append({"text": "Equip", "call": _equip.bind(item_id)})
-	else:
+	elif item.get("type") == "consumable":
 		actions.append({"text": "Use", "call": _use.bind(item_id)})
-	if not worn_slot:
+	# Evidence is the story: it cannot be thrown away.
+	if not worn_slot and item.get("type") != "key":
 		actions.append({"text": "Discard", "confirm": "Discard 1?", "call": _discard.bind(item_id)})
 	menu_focus = "worn:" + worn_slot if worn_slot else "bag:" + item_id
 	item_card = ItemCard.popup(menu, content, profile, item_id, worn_slot, actions, close_item_card)
@@ -371,6 +415,39 @@ func _equip(item_id: String) -> void:
 	_reopen_bag("bag:" + item_id)
 
 
+## One upgrade attempt at the workbench (safe areas only). Saved at once,
+## and a second press within UPGRADE_GAP_MS is ignored, so a double click
+## never spends twice by accident.
+func _upgrade(slot: String) -> void:
+	var now := Time.get_ticks_msec()
+	if now - _last_upgrade_ms < UPGRADE_GAP_MS:
+		return
+	_last_upgrade_ms = now
+	if not zone.area.get("safe", false):
+		_hud.toast("Upgrade at the workbench in a safe area (the Depot Yard).")
+		Sfx.play("denied", -4.0)
+		return
+	var outcome := EnhanceRules.attempt(profile, slot, content, _upgrade_rng)
+	match outcome["result"]:
+		"success":
+			_hud.toast("Upgraded to +%d!" % outcome["level"])
+			Sfx.play("level_up", -4.0)
+		"fail":
+			var odds := roundi(EnhanceRules.chance(profile, slot, content) * 100.0)
+			_hud.toast("The upgrade failed. Next try: %d%%." % odds)
+			Sfx.play("break_metal", -4.0)
+		"coins":
+			_hud.toast("Not enough coins.")
+			Sfx.play("denied", -4.0)
+		"materials":
+			_hud.toast("Not enough materials. The item card says where to find them.")
+			Sfx.play("denied", -4.0)
+	zone.refresh_hero()
+	SaveStore.save(profile)
+	close_item_card()
+	inspect_item(str(profile.equipment[slot]), slot)
+
+
 func _unequip(slot: String) -> void:
 	var item_id: String = profile.equipment[slot]
 	profile.unequip(slot, content)
@@ -380,7 +457,7 @@ func _unequip(slot: String) -> void:
 
 
 func _discard(item_id: String) -> void:
-	if profile.remove_item(item_id):
+	if profile.discard(item_id, content):
 		_hud.toast("Discarded " + str(content.item(item_id)["name"]))
 		SaveStore.save(profile)
 	_reopen_bag("")
@@ -415,11 +492,20 @@ func _turn_in(npc: Dictionary, quest_id: String) -> void:
 		for reached in range(level + 1, profile.level + 1):
 			unlocked.append_array(SkillRules.unlocked_at(content, profile.hero, reached))
 		_feedback.level_up(profile.level, unlocked)
+	var quest: Dictionary = content.quests[quest_id]
 	if rewards:
-		_hud.toast("+%d coins  +%d XP" % [rewards["money"], rewards["xp"]])
+		var found: Array[String] = []
+		for item_id: String in rewards["items"]:
+			if content.item(item_id).get("type") == "key":
+				found.append(str(content.item(item_id)["name"]))
+		var text := "+%d coins  +%d XP" % [rewards["money"], rewards["xp"]]
+		_hud.toast(text + ("  New evidence: " + ", ".join(found) if found else ""))
 		zone.refresh_hero()
 		SaveStore.save(profile)
-	open_quests(npc)
+		var chapter: Dictionary = quest.get("ends_chapter", {})
+		if chapter:
+			_hud.chapter(str(chapter["title"]), str(chapter.get("subtitle", "")))
+	open_quests(npc, str(quest.get("dialogue", {}).get("done", "")) if rewards else "")
 
 
 func _recover(loss: int) -> void:

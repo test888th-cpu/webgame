@@ -914,6 +914,96 @@
           }
         }
       ]
+    },
+    "street_thrower": {
+      "role": "enemy",
+      "body_type": "male",
+      "layers": [
+        {
+          "def": "body/body.json",
+          "recolor": {
+            "color": "ulpc.olive"
+          }
+        },
+        {
+          "def": "head/heads/human/heads_human_male.json",
+          "recolor": {
+            "color_1": "ulpc.olive"
+          }
+        },
+        {
+          "def": "feet/shoes/feet_shoes_basic.json",
+          "recolor": {
+            "color": "ulpc.white"
+          }
+        },
+        {
+          "def": "legs/pants/legs_pants.json",
+          "recolor": {
+            "color": "ulpc.charcoal"
+          }
+        },
+        {
+          "def": "torso/shirts/shortsleeve/torso_clothes_tshirt.json",
+          "recolor": {
+            "color": "ulpc.gray"
+          }
+        },
+        {
+          "def": "torso/vest/torso_clothes_vest_open.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        },
+        {
+          "def": "hair/short/hair_plain.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        },
+        {
+          "def": "headwear/coverings/bandana/hat_bandana.json",
+          "recolor": {
+            "color": "ulpc.red"
+          }
+        }
+      ]
+    },
+    "pit_champion": {
+      "role": "boss",
+      "body_type": "male",
+      "layers": [
+        {
+          "def": "body/body.json",
+          "recolor": {
+            "color": "ulpc.brown"
+          }
+        },
+        {
+          "def": "head/heads/human/heads_human_male.json",
+          "recolor": {
+            "color_1": "ulpc.brown"
+          }
+        },
+        {
+          "def": "legs/shorts/legs_shorts.json",
+          "recolor": {
+            "color": "ulpc.charcoal"
+          }
+        },
+        {
+          "def": "hair/bald/hair_buzzcut.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        },
+        {
+          "def": "headwear/coverings/headbands/hat_headband_thick.json",
+          "recolor": {
+            "color": "ulpc.orange"
+          }
+        }
+      ]
     }
   }
 }

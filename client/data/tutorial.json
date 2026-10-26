@@ -1,0 +1,13 @@
+{
+  "steps": [
+    {"id": "move", "signal": "move", "count": 1, "text": "Move with WASD or the arrow keys."},
+    {"id": "punch", "signal": "hit", "count": 3, "text": "Punch the training dummy: J or Z. Keep pressing to chain a combo."},
+    {"id": "heavy", "signal": "heavy", "count": 1, "text": "Heavy blow: K or X. It breaks guards but costs energy."},
+    {"id": "skill", "signal": "skill", "count": 1, "text": "Skills: keys 2 to 5. Each one cools down after use."},
+    {"id": "dodge", "signal": "dodge", "count": 1, "text": "Dodge: Space. Nothing can touch you mid-roll."},
+    {"id": "guard", "signal": "guard", "count": 1, "text": "Guard: hold Shift. Raise it just before a hit to parry."},
+    {"id": "pickup", "signal": "pickup", "count": 1, "text": "Stand on a weapon in the yard and press E to pick it up."},
+    {"id": "throw", "signal": "throw", "count": 1, "text": "Press E again with nothing underfoot to throw it."},
+    {"id": "talk", "signal": "talk", "count": 1, "text": "Talk to Chief Odo (E) for your first job."}
+  ]
+}

@@ -3,6 +3,10 @@
 Each milestone is its own series of small PRs, with acceptance criteria verified by CI or a
 recorded manual test. Nothing is marked done without evidence.
 
+> **Re-ordered 2026-10-26 (owner decision D4):** the single-player game comes first.
+> Work now follows [BLUEPRINT.md](BLUEPRINT.md) §8 (milestones IL-0 to IL-7); the online
+> milestones below (M3, M6, M8) move to IL-7. This file keeps the online detail and risks.
+
 ## Milestone 1 — Audit, architecture, pipeline (this PR, = Task 001)
 
 Acceptance criteria:

@@ -6,6 +6,8 @@ extends RefCounted
 ## panel, so an item reads the same everywhere.
 
 const WIDTH := 236.0
+## Where-to-get lines shown before "and N more".
+const SOURCES_SHOWN := 3
 
 
 ## The card's information, without buttons. `worn_slot` is set when showing
@@ -25,7 +27,9 @@ static func details(
 	names.add_theme_constant_override("separation", 0)
 	names.alignment = BoxContainer.ALIGNMENT_CENTER
 	head.add_child(names)
-	names.add_child(UiKit.label(str(item["name"]), UiTheme.SIZE_H2, ItemText.rarity_color(item)))
+	var upgrade := EnhanceRules.level(profile, worn_slot) if worn_slot else 0
+	var title := str(item["name"]) + ("  +%d" % upgrade if upgrade else "")
+	names.add_child(UiKit.label(title, UiTheme.SIZE_H2, ItemText.rarity_color(item)))
 	names.add_child(UiKit.label(ItemText.kind(item), UiTheme.SIZE_CAPTION, UiTheme.TEXT_DIM))
 	if worn_slot:
 		names.add_child(UiKit.label("Equipped", UiTheme.SIZE_CAPTION, UiTheme.ACCENT))
@@ -56,11 +60,88 @@ static func details(
 		if current:
 			for line: Array in changes:
 				box.add_child(UiKit.label("  " + str(line[0]), UiTheme.SIZE_SMALL, line[1]))
+	if worn_slot and item.get("type") == "equipment":
+		_upgrade_lines(box, content, profile, worn_slot, item)
 	var lore := UiKit.label(
 		str(item.get("description", "")), UiTheme.SIZE_SMALL, UiTheme.TEXT_DIM, WIDTH - 16
 	)
 	box.add_child(lore)
+	# Where to find more: the farming loop needs a target, not a guess.
+	var sources := content.sources(item_id)
+	if not sources.is_empty() and item.get("type") != "key" and not worn_slot:
+		box.add_child(UiKit.label("WHERE TO GET", UiTheme.SIZE_CAPTION, UiTheme.TEXT_FAINT))
+		for i in mini(sources.size(), SOURCES_SHOWN):
+			box.add_child(
+				UiKit.label("  " + str(sources[i]["text"]), UiTheme.SIZE_CAPTION, UiTheme.TEXT_DIM)
+			)
+		if sources.size() > SOURCES_SHOWN:
+			box.add_child(
+				UiKit.label(
+					"  and %d more" % (sources.size() - SOURCES_SHOWN),
+					UiTheme.SIZE_CAPTION,
+					UiTheme.TEXT_FAINT
+				)
+			)
 	return box
+
+
+## What the slot's upgrades add now, and what the next one costs (red where
+## the player is short), so the decision is made before pressing.
+static func _upgrade_lines(
+	box: VBoxContainer, content: ContentDB, profile: PlayerProfile, slot: String, item: Dictionary
+) -> void:
+	box.add_child(UiKit.label("UPGRADE", UiTheme.SIZE_CAPTION, UiTheme.TEXT_FAINT))
+	var extra := EnhanceRules.bonus(profile, slot, item, content)
+	for key: String in ItemText.STAT_NAMES:
+		if extra.has(key) and float(extra[key]) != 0.0:
+			var text := (
+				"  %s %s" % [ItemText.bonus_value(key, float(extra[key])), ItemText.STAT_NAMES[key]]
+			)
+			box.add_child(
+				UiKit.label(
+					text + " from +%d" % EnhanceRules.level(profile, slot),
+					UiTheme.SIZE_SMALL,
+					UiTheme.GOOD
+				)
+			)
+	var cost := EnhanceRules.next_cost(profile, slot, content)
+	if cost.is_empty():
+		box.add_child(UiKit.label("  Fully upgraded.", UiTheme.SIZE_SMALL, UiTheme.GOLD))
+		return
+	var odds := roundi(EnhanceRules.chance(profile, slot, content) * 100.0)
+	box.add_child(
+		UiKit.label(
+			(
+				"  Next +%d: %d%% chance. A failure keeps the item and the level."
+				% [EnhanceRules.level(profile, slot) + 1, odds]
+			),
+			UiTheme.SIZE_CAPTION,
+			UiTheme.TEXT_DIM,
+			WIDTH - 16
+		)
+	)
+	var parts: Array[String] = ["%d coins" % int(cost["coins"])]
+	var short := profile.money < int(cost["coins"])
+	for item_id: String in cost["items"]:
+		var need := int(cost["items"][item_id])
+		short = short or profile.count(item_id) < need
+		parts.append("%s %d/%d" % [content.item(item_id)["name"], profile.count(item_id), need])
+	box.add_child(
+		UiKit.label(
+			"  " + ",  ".join(parts),
+			UiTheme.SIZE_CAPTION,
+			UiTheme.DANGER if short else UiTheme.TEXT,
+			WIDTH - 16
+		)
+	)
+	box.add_child(
+		UiKit.label(
+			"  Upgrades stay with the %s slot when you change gear." % slot,
+			UiTheme.SIZE_CAPTION,
+			UiTheme.TEXT_FAINT,
+			WIDTH - 16
+		)
+	)
 
 
 ## A modal card over `parent` with action buttons. Each action is

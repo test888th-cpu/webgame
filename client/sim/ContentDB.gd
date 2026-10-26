@@ -8,7 +8,12 @@ extends RefCounted
 
 const DATA_DIR := "res://data"
 const ART_MANIFEST := "res://assets/manifest.json"
-const ITEM_TYPES := ["consumable", "equipment"]
+## "key": story items (evidence). Kept for good: never sold, used or dropped.
+## "material": spent on upgrades.
+const ITEM_TYPES := ["consumable", "equipment", "material", "key"]
+## What a quest giver says when offering, while it is under way, and on
+## hand-in (quests.json "dialogue").
+const DIALOGUE_LINES := ["offer", "active", "done"]
 ## From most common to rarest; the UI colours names by rarity.
 const RARITIES := ["common", "uncommon", "rare", "epic", "legendary"]
 const EXIT_SIDES := ["west", "east"]
@@ -55,6 +60,8 @@ var fx: Dictionary = {}
 var audio: Dictionary = {}
 ## Bundled fonts: {"thai": {"file", "license", ...}}.
 var fonts: Dictionary = {}
+## The first-time tutorial's steps, in order (tutorial.json).
+var tutorial: Array = []
 var errors: PackedStringArray = []
 
 
@@ -78,6 +85,7 @@ static func load_all(dir := DATA_DIR) -> ContentDB:
 	var skill_file := db._read(dir.path_join("skills.json"))
 	db.skills = skill_file.get("skills", {})
 	db.hotbar = skill_file.get("hotbar", [])
+	db.tutorial = db._read(dir.path_join("tutorial.json")).get("steps", [])
 	db.item_cooldown = int(skill_file.get("item_cooldown", 0))
 	var manifest := db._read(ART_MANIFEST)
 	db.art = manifest.get("assets", {})
@@ -113,6 +121,68 @@ func hero(id: String) -> Dictionary:
 
 ## The art a profile's hero shows: the look of the worn body item if the hero
 ## has art for it (e.g. "armoured"), else the hero's default.
+## Where `item_id` comes from, for players: who drops it (and how often, and
+## where they fight), who sells it, which quest gives it. Worked out from
+## the loot tables, shops and quests, so it can never disagree with them.
+## Each entry is {"kind": "drop" | "shop" | "quest", "text"}; drops come
+## first, most likely first.
+func sources(item_id: String) -> Array[Dictionary]:
+	var drops: Array[Dictionary] = []
+	for enemy_id: String in enemies:
+		for drop: Dictionary in enemies[enemy_id].get("loot", {}).get("drops", []):
+			if drop["item"] != item_id:
+				continue
+			var where := _first_area_of(enemy_id)
+			(
+				drops
+				. append(
+					{
+						"kind": "drop",
+						"chance": float(drop["chance"]),
+						"text":
+						(
+							"%s (%d%%)%s"
+							% [
+								enemies[enemy_id]["name"],
+								roundi(float(drop["chance"]) * 100.0),
+								"  -  " + where if where else ""
+							]
+						),
+					}
+				)
+			)
+	drops.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["chance"] > b["chance"])
+	var found: Array[Dictionary] = []
+	found.append_array(drops)
+	for shop_id: String in shops:
+		if item_id in shops[shop_id].get("items", []):
+			found.append(
+				{
+					"kind": "shop",
+					"text": "%s, %d coins" % [shops[shop_id]["name"], int(item(item_id)["price"])]
+				}
+			)
+	for quest_id: String in quests:
+		if quests[quest_id].get("rewards", {}).get("items", {}).has(item_id):
+			found.append({"kind": "quest", "text": 'Quest "%s"' % quests[quest_id]["name"]})
+	return found
+
+
+## The first area (in street order from the start) where `enemy_id` fights.
+func _first_area_of(enemy_id: String) -> String:
+	for area_id: String in areas:
+		var area_data: Dictionary = areas[area_id]
+		var found := false
+		for placed: Dictionary in area_data.get("placed", []):
+			found = found or placed["enemy"] == enemy_id
+		for encounter: Dictionary in area_data.get("encounters", []):
+			for wave: Variant in encounter.get("waves", []):
+				found = found or enemy_id in JSON.stringify(wave)
+		if found:
+			return str(area_data["name"])
+	return ""
+
+
 func hero_art(profile: PlayerProfile) -> String:
 	var sprites: Dictionary = hero(profile.hero).get("sprites", {})
 	var look := str(item(profile.equipment["body"]).get("look", ""))
@@ -132,6 +202,29 @@ func hotbar_for(hero_id: String) -> Array[Dictionary]:
 
 
 func validate() -> void:
+	var enhance: Dictionary = progression.get("enhance", {})
+	var last_rate := 1.0
+	for i in enhance.get("levels", []).size():
+		var row: Dictionary = enhance["levels"][i]
+		var where := "progression.enhance.levels[%d]" % i
+		_number(row, "coins", where, 0)
+		var rate := float(row.get("rate", -1))
+		_check(rate > 0.0 and rate <= last_rate, where + ".rate: in (0, 1] and never rising")
+		last_rate = rate
+		for item_id: String in row.get("items", {}):
+			_check(
+				items.get(item_id, {}).get("type") == "material",
+				"%s.items: %s is not a material" % [where, item_id]
+			)
+	for i in tutorial.size():
+		var step: Variant = tutorial[i]
+		var where := "tutorial.steps[%d]" % i
+		if not step is Dictionary:
+			errors.append(where + ": expected an object")
+			continue
+		_check(step.get("signal") in TutorialRules.SIGNALS, "%s.signal: unknown" % where)
+		_number(step, "count", where, 1)
+		_check(str(step.get("text", "")) != "", where + ".text: required")
 	for id: String in enemies:
 		_validate_enemy(id, enemies[id])
 	for id: String in items:
@@ -156,6 +249,22 @@ func _validate_enemy(id: String, e: Dictionary) -> void:
 	_number(e, "max_hp", where, 1)
 	_number(e, "speed", where, 0)
 	_number(e, "xp", where, 0)
+	if e.has("poise"):
+		_number(e, "poise", where, 1)
+	var ranged: Variant = e.get("ranged", {})
+	if ranged is Dictionary and not ranged.is_empty():
+		_check(
+			moves.get_move(str(ranged.get("move"))) != null, where + ".ranged.move: unknown move"
+		)
+		_check(
+			weapons.has(str(ranged.get("projectile"))), where + ".ranged.projectile: no such weapon"
+		)
+		_number(ranged, "damage", where + ".ranged", 1)
+		var band: Dictionary = e.get("ai", {}).get("ranged", {})
+		_check(
+			float(band.get("min", 0)) > 0 and float(band.get("max", 0)) > float(band.get("min", 0)),
+			where + ".ai.ranged: needs 0 < min < max"
+		)
 	_validate_moveset(e.get("moveset", {}), where)
 	var ai: Variant = e.get("ai")
 	if ai != null:
@@ -234,6 +343,8 @@ func _validate_item(id: String, it: Dictionary) -> void:
 				_check(
 					value is float or value is int, "%s.stats.%s: expected a number" % [where, key]
 				)
+	if it.get("type") == "key":
+		_check(int(it.get("price", 0)) == 0, "%s: story items are not for sale" % where)
 	if it.get("type") == "consumable":
 		_check(
 			it.has("heal") or it.has("energy"),
@@ -261,6 +372,17 @@ func _validate_quest(id: String, q: Dictionary) -> void:
 	if rewards is Dictionary:
 		for item_id: String in rewards.get("items", {}):
 			_check(items.has(item_id), "%s.rewards: unknown item %s" % [where, item_id])
+	var dialogue: Variant = q.get("dialogue", {})
+	_check(dialogue is Dictionary, where + ".dialogue: expected an object")
+	if dialogue is Dictionary:
+		for key: String in dialogue:
+			_check(key in DIALOGUE_LINES, "%s.dialogue: unknown line %s" % [where, key])
+			_check(str(dialogue[key]) != "", "%s.dialogue.%s: empty" % [where, key])
+	var ends: Variant = q.get("ends_chapter", {})
+	_check(
+		ends is Dictionary and (ends.is_empty() or str(ends.get("title", "")) != ""),
+		where + ".ends_chapter: needs a title"
+	)
 
 
 func _validate_area(id: String, a: Dictionary) -> void:
@@ -276,6 +398,15 @@ func _validate_area(id: String, a: Dictionary) -> void:
 				exits[side].get("entry") in EXIT_SIDES,
 				"%s.exits.%s.entry: expected west or east" % [where, side]
 			)
+			var requires: Variant = exits[side].get("requires", {})
+			if requires is Dictionary and not requires.is_empty():
+				var gate := "%s.exits.%s.requires" % [where, side]
+				_check(
+					enemies.has(str(requires.get("defeat"))),
+					"%s.defeat: unknown enemy %s" % [gate, requires.get("defeat")]
+				)
+				_number(requires, "count", gate, 1)
+				_check(str(requires.get("hint", "")) != "", "%s.hint: say what opens it" % gate)
 	for npc: Variant in a.get("npcs", []):
 		_check(npc.get("role") in NPC_ROLES, "%s.npcs: unknown role %s" % [where, npc.get("role")])
 		if npc.get("role") == "shop":
@@ -384,6 +515,10 @@ func _validate_heroes() -> void:
 				_number(stats, stat, where + ".stats", 0)
 			_check(float(stats.get("max_hp", 0)) >= 1, where + ".stats.max_hp: at least 1")
 			_check(float(stats.get("speed", 0)) > 0, where + ".stats.speed: above 0")
+			_check(
+				float(stats.get("crit", 0.0)) <= PlayerProfile.MAX_CRIT,
+				where + ".stats.crit: at most the crit cap"
+			)
 		_number(h, "difficulty", where, 1)
 		var sprites: Variant = h.get("sprites")
 		_check(

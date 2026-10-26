@@ -47,6 +47,10 @@
           {
             "item": "dock_beanie",
             "chance": 0.04
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.15
           }
         ]
       },
@@ -81,6 +85,10 @@
           {
             "item": "lucky_coin",
             "chance": 0.05
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.15
           }
         ]
       },
@@ -121,6 +129,10 @@
           {
             "item": "rebar_pipe",
             "chance": 0.08
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.3
           }
         ]
       },
@@ -166,12 +178,21 @@
           {
             "item": "iron_wraps",
             "chance": 0.35
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.8
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 0.25
           }
         ]
       },
       "color": "#4f7a8c",
       "scale": 1.25,
-      "sprite": "smog_warden"
+      "sprite": "smog_warden",
+      "poise": 60
     },
     "sludge_foreman": {
       "name": "The Sludge Foreman",
@@ -213,6 +234,14 @@
         "drops": [
           {
             "item": "foreman_wrench",
+            "chance": 0.3
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 1.0
+          },
+          {
+            "item": "refined_alloy",
             "chance": 1.0
           }
         ]
@@ -221,7 +250,8 @@
       "scale": 1.5,
       "sprite": "sludge_foreman",
       "wields": true,
-      "weapon_chance": 0.0
+      "weapon_chance": 0.0,
+      "poise": 80
     },
     "dock_thug": {
       "name": "Dock Thug",
@@ -253,6 +283,10 @@
           {
             "item": "fingerless_gloves",
             "chance": 0.03
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.2
           }
         ]
       },
@@ -297,6 +331,10 @@
           {
             "item": "riveted_jacket",
             "chance": 0.03
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.3
           }
         ]
       },
@@ -339,6 +377,10 @@
           {
             "item": "brass_knuckles",
             "chance": 0.03
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.2
           }
         ]
       },
@@ -384,13 +426,22 @@
           {
             "item": "riveted_jacket",
             "chance": 0.12
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.8
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 0.3
           }
         ]
       },
       "color": "#5a6a4a",
       "sprite": "refinery_enforcer",
       "wields": true,
-      "weapon_chance": 0.6
+      "weapon_chance": 0.6,
+      "poise": 60
     },
     "furnace_baron": {
       "name": "The Furnace Baron",
@@ -417,7 +468,11 @@
           "speed": 0.9,
           "power": 1.35,
           "cooldown": 30,
-          "heavy_chance": 0.45
+          "heavy_chance": 0.45,
+          "moveset": {
+            "light": "baron_haymaker",
+            "heavy": "baron_rush"
+          }
         }
       ],
       "xp": 420,
@@ -429,16 +484,129 @@
         "drops": [
           {
             "item": "baron_knuckledusters",
-            "chance": 1.0
+            "chance": 0.12
           },
           {
             "item": "jade_charm",
-            "chance": 0.5
+            "chance": 0.2
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 1.0
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 1.0
           }
         ]
       },
       "color": "#b0502a",
       "sprite": "furnace_baron",
+      "wields": false,
+      "poise": 80
+    },
+    "street_thrower": {
+      "name": "Bottle Thrower",
+      "max_hp": 36,
+      "speed": 0.95,
+      "defense": 0,
+      "moveset": {
+        "light": "thug_jab",
+        "heavy": "bottle_lob"
+      },
+      "ai": {
+        "spacing": 110,
+        "reaction": 14,
+        "cooldown": 70,
+        "cooldown_jitter": 30,
+        "heavy_chance": 1.0,
+        "ranged": {
+          "min": 80,
+          "max": 150
+        }
+      },
+      "ranged": {
+        "move": "bottle_lob",
+        "projectile": "bottle",
+        "damage": 6
+      },
+      "xp": 16,
+      "loot": {
+        "money": [
+          5,
+          10
+        ],
+        "drops": [
+          {
+            "item": "steamed_bun",
+            "chance": 0.12
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.2
+          }
+        ]
+      },
+      "color": "#7a8a6a",
+      "sprite": "street_thrower",
+      "wields": false
+    },
+    "pit_champion": {
+      "name": "The Pit Champion",
+      "max_hp": 340,
+      "speed": 1.0,
+      "power": 1.15,
+      "defense": 2,
+      "scale": 1.3,
+      "boss": true,
+      "poise": 70,
+      "moveset": {
+        "light": "champ_jab",
+        "heavy": "champ_overhand"
+      },
+      "ai": {
+        "spacing": 50,
+        "reaction": 8,
+        "cooldown": 34,
+        "cooldown_jitter": 18,
+        "heavy_chance": 0.3
+      },
+      "phases": [
+        {
+          "below": 0.5,
+          "speed": 1.15,
+          "power": 1.25,
+          "cooldown": 26,
+          "heavy_chance": 0.45,
+          "moveset": {
+            "light": "champ_jab",
+            "heavy": "champ_rush"
+          }
+        }
+      ],
+      "xp": 320,
+      "loot": {
+        "money": [
+          120,
+          180
+        ],
+        "drops": [
+          {
+            "item": "champion_wraps",
+            "chance": 0.25
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 1.0
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 1.0
+          }
+        ]
+      },
+      "color": "#8a5a3a",
+      "sprite": "pit_champion",
       "wields": false
     }
   }

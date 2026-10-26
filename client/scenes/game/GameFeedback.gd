@@ -60,6 +60,8 @@ func on_event(event: ZoneEvent) -> void:
 			Sfx.play("ko")
 		"weapon_pickup":
 			Sfx.play("weapon_grab", -3.0)
+		"weapon_throw":
+			Sfx.play("swing_heavy", -2.0, 0.06, 0.8)
 		"weapon_drop":
 			Sfx.play_later("weapon_drop", 0.12, -4.0)
 		"weapon_break":
@@ -91,8 +93,18 @@ func _on_hit(hit: CombatEvent) -> void:
 	if attacker and defender:
 		side = signf(attacker.position.x - defender.position.x)
 	var at := hit.position + CHEST + Vector2(side * 6.0, 0)
-	if hit.blocked:
+	if hit.parried:
+		# A crisp, bright clang and a beat of freeze on both fighters, so the
+		# timing that earned it registers.
 		Fx.spawn(view.effects, content, "block", at, side < 0)
+		Fx.spawn(view.effects, content, "hit", at)
+		Sfx.play("hit_block", 0.0, 0.02, 1.45)
+		if defender:
+			defender.impact(Color(0.6, 1.0, 1.0), 0.15, 0.1)
+		if attacker:
+			attacker.impact(Color.WHITE, 0.0, 0.1)
+		return
+	if hit.blocked:
 		Sfx.play("guard_break" if hit.guard_broken else "hit_block", -2.0)
 	else:
 		Fx.spawn(view.effects, content, "hit_heavy" if heavy else "hit", at)

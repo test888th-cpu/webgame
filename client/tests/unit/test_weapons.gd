@@ -64,7 +64,10 @@ func test_nothing_in_reach_means_nothing_picked() -> void:
 
 
 func test_pick_with_a_weapon_and_nothing_near_drops_it() -> void:
+	# Fighters that do not throw (enemies) put the weapon down; the hero
+	# throws it instead (test_throw.gd).
 	var zone := _zone()
+	zone.hero.throws = false
 	zone.equip_weapon(zone.hero, "plank", 5)
 	var events := zone.tick(_press("pick"))
 	assert_true("weapon_drop" in _types(events), "drop reported")

@@ -1,9 +1,9 @@
 {
   "quests": {
     "clear_saltmarket": {
-      "name": "Smog on Saltmarket",
+      "name": "First Night",
       "giver": "chief_odo",
-      "description": "The Murk is pooling on Saltmarket Street. Knock down 8 of its creatures.",
+      "description": "Knock down 8 of the crew on Saltmarket Street.",
       "objective": {
         "type": "defeat",
         "enemy": "any",
@@ -13,15 +13,22 @@
         "money": 40,
         "xp": 60,
         "items": {
-          "ginger_tea": 2
+          "ginger_tea": 2,
+          "torn_label": 1
         }
+      },
+      "chapter": "Prologue",
+      "dialogue": {
+        "offer": "Ama's stall got shaken down again tonight. The crew ran off down Saltmarket Street, and they left a crate behind. Knock some sense into them.",
+        "active": "Saltmarket Street is east of the yard. Knock down 8 of them.",
+        "done": "They came back for that crate before I could open it. All I kept was this label. A factory stamp on a crate street punks fight over? Doesn't add up."
       }
     },
     "warden": {
-      "name": "The Warden",
+      "name": "The Canal Gate",
       "giver": "chief_odo",
       "requires": "clear_saltmarket",
-      "description": "Something bigger guards the way to Canal Works. Defeat the Smog Warden.",
+      "description": "Defeat the Smog Warden guarding the way to Canal Works.",
       "objective": {
         "type": "defeat",
         "enemy": "smog_warden",
@@ -31,13 +38,19 @@
         "money": 60,
         "xp": 100,
         "items": {}
+      },
+      "chapter": "Chapter 1: South Street",
+      "dialogue": {
+        "offer": "Men in gas masks have shut the gate to Canal Works. They're not police, not city. Get past whoever's in charge of them.",
+        "active": "The masked warden holds the far end of Saltmarket Street.",
+        "done": "No badge, no name, just orders. Somebody is paying good money to keep people out of those canals."
       }
     },
     "foreman": {
       "name": "The Sludge Foreman",
       "giver": "chief_odo",
       "requires": "warden",
-      "description": "The Murk answers to something at the end of Canal Works. End it.",
+      "description": "Defeat the Sludge Foreman at the end of Canal Works.",
       "objective": {
         "type": "defeat",
         "enemy": "sludge_foreman",
@@ -47,15 +60,46 @@
         "money": 150,
         "xp": 250,
         "items": {
-          "brass_whistle": 1
+          "brass_whistle": 1,
+          "forged_note": 1
         }
+      },
+      "chapter": "Chapter 1: South Street",
+      "dialogue": {
+        "offer": "The canal stinks worse every night, and the boar-masked brute who runs the pumps is the reason. Shut him down.",
+        "active": "He works the pumps at the far end of Canal Works.",
+        "done": "A delivery note, stamped and signed for a warehouse that burned down years ago. Forged. They're moving freight through South Street on paper that can't be real."
+      }
+    },
+    "glass_rain": {
+      "name": "Glass Rain",
+      "giver": "chief_odo",
+      "requires": "foreman",
+      "chapter": "Chapter 1: South Street",
+      "description": "Knock down 6 Bottle Throwers on the Rusted Corner.",
+      "objective": {
+        "type": "defeat",
+        "enemy": "street_thrower",
+        "count": 6
+      },
+      "rewards": {
+        "money": 130,
+        "xp": 350,
+        "items": {
+          "ginger_tea": 2
+        }
+      },
+      "dialogue": {
+        "offer": "Since the Foreman went down, kids are lobbing bottles at anyone who walks the Rusted Corner. Somebody pays them to keep that road empty. Find out why.",
+        "active": "They keep their distance, so close it fast. Knock down 6 of them.",
+        "done": "One of them talked: paid per bottle, by a man who says he works for the refinery. Keep following the freight."
       }
     },
     "rail_rumble": {
       "name": "Rail Yard Rumble",
       "giver": "chief_odo",
-      "requires": "foreman",
-      "description": "Dock thugs are stripping the rail yards east of the canal. Put 8 of them on the ground.",
+      "requires": "glass_rain",
+      "description": "Knock down 8 Dock Thugs in the Rail Yards.",
       "objective": {
         "type": "defeat",
         "enemy": "dock_thug",
@@ -67,13 +111,19 @@
         "items": {
           "ginger_tea": 3
         }
+      },
+      "chapter": "Chapter 1: South Street",
+      "dialogue": {
+        "offer": "That forged note names the rail yards. Dock thugs are stripping the freight cars there. Put 8 of them on the ground and see what they're guarding.",
+        "active": "The Rail Yards are past Canal Works. Knock down 8 Dock Thugs.",
+        "done": "Empty cars, fresh tracks, and thugs who knew exactly which wagons to guard. Somebody gave them a schedule."
       }
     },
     "market_lights": {
       "name": "Market Lights",
       "giver": "chief_odo",
       "requires": "rail_rumble",
-      "description": "Punks run the Night Market after dark. Knock down 10 of them so the stalls can open.",
+      "description": "Knock down 10 Night Market Punks.",
       "objective": {
         "type": "defeat",
         "enemy": "market_punk",
@@ -85,13 +135,43 @@
         "items": {
           "street_runners": 1
         }
+      },
+      "chapter": "Chapter 1: South Street",
+      "dialogue": {
+        "offer": "Punks run the Night Market after dark. Kenji at the noodle stall hears everything, but he won't talk while they're watching. Knock down 10 of them.",
+        "active": "The Night Market is past the Rail Yards. Knock down 10 punks.",
+        "done": "Kenji says the punks are paid by the Furnace Baron, up at the old refinery. He runs South Street now. Or thinks he does."
+      }
+    },
+    "the_pit": {
+      "name": "The Pit",
+      "giver": "chief_odo",
+      "requires": "market_lights",
+      "chapter": "Chapter 1: South Street",
+      "description": "Defeat the Pit Champion at the Fight Club.",
+      "objective": {
+        "type": "defeat",
+        "enemy": "pit_champion",
+        "count": 1
+      },
+      "rewards": {
+        "money": 300,
+        "xp": 900,
+        "items": {
+          "refined_alloy": 2
+        }
+      },
+      "dialogue": {
+        "offer": "Kenji says anyone who wants work at the refinery has to fight the Baron's champion first, in a ring in the alley behind the Night Market. The back door to the Baron runs through him.",
+        "active": "The Fight Club meets in the alley past the Night Market. Watch his wind-up; he hits like a truck.",
+        "done": "He fought for the Baron to clear his mother's debts. He's done with that now. The back door to the Refinery is open."
       }
     },
     "furnace_baron": {
       "name": "The Furnace Baron",
       "giver": "chief_odo",
-      "requires": "market_lights",
-      "description": "The smoke over the city comes from one man's furnace. Climb to the Smokestack Refinery and put out the Baron.",
+      "requires": "the_pit",
+      "description": "Defeat the Furnace Baron at the Smokestack Refinery.",
       "objective": {
         "type": "defeat",
         "enemy": "furnace_baron",
@@ -101,8 +181,19 @@
         "money": 500,
         "xp": 1200,
         "items": {
-          "jade_charm": 1
+          "jade_charm": 1,
+          "baron_ledger": 1
         }
+      },
+      "chapter": "Chapter 1: South Street",
+      "dialogue": {
+        "offer": "The Baron melts stolen scrap in that refinery and sends his crews to collect from every stall on the street. End it.",
+        "active": "The Smokestack Refinery is past the Night Market.",
+        "done": "His ledger. The same payment every week, from an account at the port, marked 'for the route'. The Baron was only renting this street. Somebody bigger is paying."
+      },
+      "ends_chapter": {
+        "title": "Chapter 1 complete",
+        "subtitle": "South Street is safer. The money trail leads to the Port District."
       }
     }
   }

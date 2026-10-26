@@ -8,10 +8,10 @@
     "mika": {
       "name": "Mika Tanabe",
       "default_name": "Mika",
-      "title": "The Brawler",
+      "title": "The Footballer",
       "gender": "Female",
-      "tagline": "Fast hands, long combos, never stays down.",
-      "bio": "A dock-crane operator who learned to fight on night shifts at the Depot. Mika chains quick strikes into long combos and slips out of trouble before it lands.",
+      "tagline": "Quick feet, long combos, never stays down.",
+      "bio": "Striker of the Depot's factory-league team, who drives a dock crane by night. Mika fights the way she plays: always moving, sweeping kicks and charges that break a line, quick strikes chained into long combos, gone before trouble lands.",
       "style": [
         "Combos",
         "Damage",
@@ -50,7 +50,7 @@
     "oren": {
       "name": "Oren Vale",
       "default_name": "Oren",
-      "title": "The Bruiser",
+      "title": "The Street Brawler",
       "gender": "Male",
       "tagline": "Slow to start, impossible to stop.",
       "bio": "A former harbour wrestler who hauls freight for the Depot crew. Oren takes more punishment than anyone, and his skills hit wide and stun long, but every blow has weight behind it, so timing matters.",
@@ -95,7 +95,7 @@
       "title": "The Boxer",
       "gender": "Male",
       "tagline": "Guard up, chin down, hands faster than trouble.",
-      "bio": "A night-shift courier who trained in a boxing gym above the Saltmarket. Riku fights from a tight guard: a quick jab to open a foe up, then a cross to put them down. He is the all-rounder of the crew, with skills built on speed and stun.",
+      "bio": "A night-shift courier who trained in a boxing gym above Saltmarket Street. Riku fights from a tight guard: a quick jab to open a foe up, then a cross to put them down. He is the all-rounder of the crew, with skills built on speed and stun.",
       "style": [
         "Balanced",
         "Combos",
@@ -107,7 +107,8 @@
         "max_hp": 115,
         "power": 1.05,
         "defense": 1,
-        "speed": 1.0
+        "speed": 1.0,
+        "crit": 0.08
       },
       "sprites": {
         "default": "hero_riku",

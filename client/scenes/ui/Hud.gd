@@ -11,6 +11,8 @@ extends CanvasLayer
 
 signal slot_pressed(index: int)
 
+## How long "GO >>" blinks after a cleared fight.
+const GO_SECONDS := 4.0
 const TOAST_SECONDS := 2.4
 const BAR_WIDTH := 118.0
 
@@ -28,6 +30,10 @@ var _xp: StatBar
 var _money: Label
 var _area: Label
 var _quest_card: PanelContainer
+## "GO >>" at the right edge after a fight is cleared: the way on is east.
+var _go: Label
+var _go_left := 0.0
+var _quest_heading: Label
 var _quest_name: Label
 var _quest_progress: Label
 var _boss: VBoxContainer
@@ -59,6 +65,7 @@ func _ready() -> void:
 	_build_boss_bar(root)
 	_build_toast(root)
 	_build_banner(root)
+	_build_go(root)
 	_build_hints(root)
 	_touch = TouchControls.build()
 	_touch.visible = DisplayServer.is_touchscreen_available()
@@ -106,6 +113,13 @@ func hurt(strength := 1.0) -> void:
 	_portrait.flash()
 
 
+## The end-of-chapter card: the same banner, held longer so it can be read.
+func chapter(title: String, subtitle: String) -> void:
+	_banner_level.text = title
+	_banner_detail.text = subtitle
+	_show_banner(5.0)
+
+
 ## The big level-up announcement, naming any skills it unlocked.
 func level_up(level: int, unlocked: Array) -> void:
 	_banner_level.text = "Level %d" % level
@@ -115,11 +129,15 @@ func level_up(level: int, unlocked: Array) -> void:
 	_banner_detail.text = (
 		"New skill: " + ", ".join(names) if names else "Max HP and damage increased"
 	)
+	_show_banner(2.6)
+
+
+func _show_banner(seconds: float) -> void:
 	_banner.visible = true
 	_banner.scale = Vector2(1.4, 1.4)
 	_banner.modulate.a = 1.0
 	_banner.pivot_offset = _banner.size / 2.0
-	_banner_left = 2.6
+	_banner_left = seconds
 	var tween := create_tween()
 	tween.tween_property(_banner, "scale", Vector2.ONE, 0.25).set_trans(Tween.TRANS_BACK)
 
@@ -132,6 +150,9 @@ func toast(text: String) -> void:
 
 
 func _process(delta: float) -> void:
+	if _go_left > 0.0:
+		_go_left -= delta
+		_go.visible = _go_left > 0.0 and fmod(_go_left, 0.6) > 0.2
 	_hurt = maxf(0.0, _hurt - delta)
 	_vignette.modulate.a = clampf(_hurt / 0.35, 0.0, 1.0) * 0.8
 	if _banner_left > 0.0:
@@ -226,7 +247,8 @@ func _build_top_right(root: Control) -> void:
 	var quest := VBoxContainer.new()
 	quest.add_theme_constant_override("separation", 0)
 	_quest_card.add_child(quest)
-	quest.add_child(UiKit.label("QUEST", UiTheme.SIZE_CAPTION, UiTheme.ACCENT))
+	_quest_heading = UiKit.label("QUEST", UiTheme.SIZE_CAPTION, UiTheme.ACCENT)
+	quest.add_child(_quest_heading)
 	_quest_name = UiKit.label("", UiTheme.SIZE_SMALL, UiTheme.TEXT, 150)
 	quest.add_child(_quest_name)
 	_quest_progress = UiKit.label("", UiTheme.SIZE_CAPTION, UiTheme.TEXT_DIM)
@@ -303,7 +325,7 @@ func _build_hints(root: Control) -> void:
 	more.grow_vertical = Control.GROW_DIRECTION_BEGIN
 	more.offset_right = -8
 	more.offset_bottom = -4
-	more.add_child(UiKit.key_hint("E", "Grab / Talk"))
+	more.add_child(UiKit.key_hint("E", "Grab / Throw / Talk"))
 	more.modulate.a = 0.8
 	root.add_child(more)
 
@@ -330,6 +352,24 @@ func _build_vignette(root: Control) -> void:
 	root.add_child(_vignette)
 
 
+func _build_go(root: Control) -> void:
+	_go = UiKit.overlay_label("GO >>", UiTheme.SIZE_LOGO - 8, UiTheme.ACCENT)
+	_go.name = "Go"
+	_go.add_theme_constant_override("outline_size", 6)
+	_go.set_anchors_preset(Control.PRESET_CENTER_RIGHT)
+	_go.offset_left = -110
+	_go.offset_right = -14
+	_go.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	_go.visible = false
+	root.add_child(_go)
+
+
+## Blinks "GO >>" for a few seconds (or until `false`), as fights clear.
+func show_go(on := true) -> void:
+	_go_left = GO_SECONDS if on else 0.0
+	_go.visible = on
+
+
 func _build_banner(root: Control) -> void:
 	_banner = VBoxContainer.new()
 	_banner.name = "LevelUp"
@@ -352,6 +392,17 @@ func _build_banner(root: Control) -> void:
 
 
 func _update_quest() -> void:
+	# The tutorial takes the quest card's place until it is done: one thing
+	# to look at, in the same spot as every goal after it.
+	var step := TutorialRules.current(profile, content)
+	if step:
+		_quest_card.visible = true
+		_quest_heading.text = "TUTORIAL  %d / %d" % [profile.tutorial + 1, content.tutorial.size()]
+		_quest_name.text = str(step["text"])
+		var count := int(step.get("count", 1))
+		_quest_progress.text = "%d / %d" % [profile.tutorial_progress, count] if count > 1 else ""
+		return
+	_quest_heading.text = "QUEST"
 	for quest_id: String in profile.quests:
 		var entry: Dictionary = profile.quests[quest_id]
 		var quest: Dictionary = content.quests[quest_id]

@@ -23,6 +23,10 @@ var _entities: Node2D
 var _views := {}
 var _pickups := {}
 var _weapons := {}
+## Weapons in flight, by id: spinning sprites at chest height.
+var _thrown := {}
+## Exit signs by side, refreshed as their gates open.
+var _exit_signs := {}
 var _npc_marks := {}
 var _npc_prompts := {}
 var _shake := 0.0
@@ -72,6 +76,8 @@ func sync() -> void:
 			_pickups[id].collect()
 			_pickups.erase(id)
 	_sync_weapons()
+	_sync_thrown()
+	_update_exit_signs()
 	_update_prompts()
 	_follow_hero()
 
@@ -86,7 +92,9 @@ func show_hit(event: CombatEvent) -> void:
 	label.add_theme_constant_override("outline_size", 4)
 	effects.add_child(label)
 	label.show_hit(event)
-	var heavy := event.knocked_down or event.guard_broken or event.ko
+	var heavy := (
+		event.knocked_down or event.guard_broken or event.ko or event.counter or event.critical
+	)
 	if (
 		GameSession.settings.get("screen_shake", true)
 		and (heavy or (event.defender_id == ZoneSim.HERO_ID and not event.blocked))
@@ -210,6 +218,33 @@ func _sync_weapons() -> void:
 			_weapons.erase(id)
 
 
+func _sync_thrown() -> void:
+	var present := {}
+	for entry: Dictionary in zone.thrown:
+		var id: int = entry["id"]
+		present[id] = true
+		if not _thrown.has(id):
+			# A node on the lane (for depth sorting) holding the weapon at
+			# chest height, where it spins.
+			var holder := Node2D.new()
+			var sprite := Sprite2D.new()
+			var weapon: Dictionary = content.weapons.get(str(entry["weapon"]), {})
+			sprite.texture = UiKit.icon(content, str(weapon.get("sprite", "")))
+			sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+			sprite.position = Vector2(0, -28)
+			holder.add_child(sprite)
+			_entities.add_child(holder)
+			_thrown[id] = holder
+		var view: Node2D = _thrown[id]
+		view.position = entry["position"]
+		var flown := ZoneSim.THROW_TICKS - int(entry["ticks"])
+		view.get_child(0).rotation = flown * 0.45 * float(entry["dir"])
+	for id: int in _thrown.keys():
+		if not present.has(id):
+			_thrown[id].queue_free()
+			_thrown.erase(id)
+
+
 func _build_scenery() -> void:
 	if not Scenery.build(self, content, zone.area_id, false):
 		_build_flat_scenery()
@@ -249,14 +284,31 @@ func _build_exit_signs() -> void:
 		exit_sign.add_theme_font_size_override("font_size", 8)
 		exit_sign.add_theme_color_override("font_outline_color", Color.BLACK)
 		exit_sign.add_theme_constant_override("outline_size", 3)
-		var place := str(target.get("name", ""))
-		exit_sign.text = "< " + place if side == "west" else place + " >"
-		exit_sign.position = Vector2(8 if side == "west" else width - 130, ground + 2)
-		exit_sign.size = Vector2(122, 12)
+		exit_sign.set_meta("place", str(target.get("name", "")))
+		exit_sign.position = Vector2(8 if side == "west" else width - 198, ground + 2)
+		exit_sign.size = Vector2(190, 12)
 		exit_sign.horizontal_alignment = (
 			HORIZONTAL_ALIGNMENT_LEFT if side == "west" else HORIZONTAL_ALIGNMENT_RIGHT
 		)
 		add_child(exit_sign)
+		_exit_signs[side] = exit_sign
+	_update_exit_signs()
+
+
+## A locked exit reads "Locked" in red with how far the player has to go,
+## so the way on is never a mystery; it turns back once the gate opens.
+func _update_exit_signs() -> void:
+	for side: String in _exit_signs:
+		var exit_sign: Label = _exit_signs[side]
+		var place := str(exit_sign.get_meta("place"))
+		var gate := zone.exit_locked(side)
+		var text := place
+		if not gate.is_empty():
+			text = "Locked  %d/%d  %s" % [int(gate["done"]), int(gate["count"]), place]
+		exit_sign.text = "< " + text if side == "west" else text + " >"
+		exit_sign.add_theme_color_override(
+			"font_color", UiTheme.DANGER if not gate.is_empty() else UiTheme.TEXT
+		)
 
 
 func _build_npcs() -> void:

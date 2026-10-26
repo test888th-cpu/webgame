@@ -12,7 +12,8 @@
         "canvas_sneakers",
         "work_jacket",
         "hard_hat",
-        "steel_toe_boots"
+        "steel_toe_boots",
+        "scrap_metal"
       ]
     },
     "night_stall": {
@@ -25,7 +26,9 @@
         "riveted_jacket",
         "street_runners",
         "brass_knuckles",
-        "iron_helm"
+        "iron_helm",
+        "scrap_metal",
+        "refined_alloy"
       ]
     }
   }

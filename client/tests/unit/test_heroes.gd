@@ -31,13 +31,18 @@ func test_riku_is_the_all_rounder_between_the_other_two() -> void:
 	var mika := PlayerProfile.new_game(db, "mika").stats(db)
 	var oren := PlayerProfile.new_game(db, "oren").stats(db)
 	var riku := PlayerProfile.new_game(db, "riku").stats(db)
-	for stat: String in PlayerProfile.STAT_KEYS:
+	# Between the others on the core stats; his edge is precision.
+	for stat: String in ContentDB.HERO_STATS:
 		var low := minf(float(mika[stat]), float(oren[stat]))
 		var high := maxf(float(mika[stat]), float(oren[stat]))
 		assert_true(
 			float(riku[stat]) >= low and float(riku[stat]) <= high,
 			"Riku's %s lies between Mika's and Oren's" % stat
 		)
+	assert_true(
+		float(riku["crit"]) > maxf(float(mika["crit"]), float(oren["crit"])),
+		"the Boxer crits most often"
+	)
 	assert_eq(db.hero_art(PlayerProfile.new_game(db, "riku")), "hero_riku", "his own sprite")
 	assert_eq(db.art["hero_riku"]["source"], "custom", "art supplied by the project owner")
 

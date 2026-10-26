@@ -5,11 +5,17 @@ extends RefCounted
 ## for the backend in Milestone 4, when the server becomes the only writer.
 ## Temporary combat state (position, energy, cooldowns) never lives here.
 
-const SAVE_VERSION := 3
+const SAVE_VERSION := 5
 ## Equipment slots, in the order the character screen shows them.
 const SLOTS := ["head", "body", "hands", "weapon", "feet", "charm"]
 ## Stats an item can add, as stored in items.json "stats".
-const STAT_KEYS := ["max_hp", "power", "defense", "speed"]
+const STAT_KEYS := ["max_hp", "power", "defense", "speed", "crit", "attack_speed"]
+## Every hero starts with this crit chance and attack speed unless heroes.json
+## says otherwise; gear moves them within these caps, so no build ever crits
+## every blow or swings faster than the animations can show.
+const BASE_CRIT := 0.05
+const MAX_CRIT := 0.5
+const ATTACK_SPEED_RANGE := Vector2(0.7, 1.3)
 ## Player names: letters of any script (with their marks, e.g. Thai vowels),
 ## digits, spaces, apostrophes, hyphens and dots.
 const NAME_MIN := 2
@@ -34,6 +40,16 @@ var quests := {}
 ## Enemy id -> total defeated.
 var defeated := {}
 var area := ""
+## Index of the next tutorial step (see TutorialRules); past the last step
+## when finished or skipped.
+var tutorial := 0
+## How many times the current step's action was done. Not saved: a step is
+## short enough to redo after a reload.
+var tutorial_progress := 0
+## Upgrade level per equipment slot (EnhanceRules), and failed attempts since
+## the slot's last success (each raises the next chance).
+var enhance := {}
+var enhance_pity := {}
 
 
 ## A fresh profile for `hero_id` (the first hero if empty or unknown), named
@@ -77,22 +93,36 @@ func stats(content: ContentDB) -> Dictionary:
 		"power": float(base.get("power", 1.0)) + float(per_level.get("power", 0.0)) * (level - 1),
 		"defense": int(base.get("defense", 0)),
 		"speed": float(base.get("speed", 1.0)),
+		"crit": float(base.get("crit", BASE_CRIT)),
+		"attack_speed": float(base.get("attack_speed", 1.0)),
 	}
 	var gear := gear_stats(content)
 	result["max_hp"] += int(gear["max_hp"])
 	result["power"] += float(gear["power"])
 	result["defense"] += int(gear["defense"])
 	result["speed"] = maxf(0.3, result["speed"] + float(gear["speed"]))
+	result["crit"] = clampf(result["crit"] + float(gear["crit"]), 0.0, MAX_CRIT)
+	result["attack_speed"] = clampf(
+		result["attack_speed"] + float(gear["attack_speed"]),
+		ATTACK_SPEED_RANGE.x,
+		ATTACK_SPEED_RANGE.y
+	)
 	return result
 
 
 ## What equipped items add, stat by stat (all STAT_KEYS present).
 func gear_stats(content: ContentDB) -> Dictionary:
-	var total := {"max_hp": 0, "power": 0.0, "defense": 0, "speed": 0.0}
+	var total := {
+		"max_hp": 0, "power": 0.0, "defense": 0, "speed": 0.0, "crit": 0.0, "attack_speed": 0.0
+	}
 	for slot: String in SLOTS:
-		var bonus: Dictionary = content.item(equipment[slot]).get("stats", {})
+		var item := content.item(equipment[slot])
+		var bonus: Dictionary = item.get("stats", {})
 		for key: String in bonus:
 			total[key] += bonus[key]
+		var upgrades := EnhanceRules.bonus(self, slot, item, content)
+		for key: String in upgrades:
+			total[key] += upgrades[key]
 	return total
 
 
@@ -141,6 +171,14 @@ func count(item_id: String) -> int:
 
 func add_item(item_id: String, amount := 1) -> void:
 	inventory[item_id] = count(item_id) + amount
+
+
+## Throws one away at the player's request. Evidence (key items) is the
+## story and is never thrown away.
+func discard(item_id: String, content: ContentDB) -> bool:
+	if content.item(item_id).get("type") == "key":
+		return false
+	return remove_item(item_id)
 
 
 func remove_item(item_id: String, amount := 1) -> bool:
@@ -206,6 +244,9 @@ func to_dict() -> Dictionary:
 		"quests": quests.duplicate(true),
 		"defeated": defeated.duplicate(),
 		"area": area,
+		"tutorial": tutorial,
+		"enhance": enhance.duplicate(),
+		"enhance_pity": enhance_pity.duplicate(),
 	}
 
 
@@ -259,6 +300,17 @@ static func from_dict(data: Variant, content: ContentDB) -> PlayerProfile:
 	p.area = saved_area if content.areas.has(saved_area) else content.start_area
 	var max_hp: int = p.stats(content)["max_hp"]
 	p.hp = clampi(int(migrated.get("hp", max_hp)), 1, max_hp)
+	p.tutorial = clampi(int(migrated.get("tutorial", 0)), 0, content.tutorial.size())
+	var top := EnhanceRules.max_level(content)
+	for field: String in ["enhance", "enhance_pity"]:
+		var saved: Variant = migrated.get(field, {})
+		if not saved is Dictionary:
+			continue
+		var limit := top if field == "enhance" else 1000
+		for slot: String in saved:
+			var value := clampi(int(saved[slot]), 0, limit)
+			if slot in SLOTS and value > 0:
+				p.get(field)[slot] = value
 	return p
 
 
@@ -286,4 +338,14 @@ static func migrate(data: Dictionary) -> Dictionary:
 				"charm": old.get("accessory", ""),
 			}
 		migrated["version"] = 3
+	if int(migrated["version"]) == 3:
+		# Version 4 adds the tutorial. Saves from before it belong to players
+		# who already know the game, so it counts as finished.
+		migrated["tutorial"] = 1 << 20
+		migrated["version"] = 4
+	if int(migrated["version"]) == 4:
+		# Version 5 adds slot upgrades; everything starts at +0.
+		migrated["enhance"] = {}
+		migrated["enhance_pity"] = {}
+		migrated["version"] = 5
 	return migrated

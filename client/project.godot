@@ -5,8 +5,8 @@ config_version=5
 
 [application]
 
-config/name="Ironbound Streets"
-config/description="Original persistent online beat 'em up RPG (browser client)."
+config/name="The Iron Legacy"
+config/description="The Iron Legacy: a story-driven beat 'em up RPG on the streets of Iron City (browser client)."
 config/version="0.1.0"
 run/main_scene="res://scenes/title/Title.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")

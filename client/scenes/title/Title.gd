@@ -58,20 +58,23 @@ func _build_ui(content: ContentDB) -> void:
 	_ui.add_child(shade)
 
 	var logo := VBoxContainer.new()
-	logo.position = Vector2(34, 42)
+	logo.position = Vector2(34, 34)
 	logo.add_theme_constant_override("separation", -6)
 	_ui.add_child(logo)
-	var title := UiKit.overlay_label("IRONBOUND", UiTheme.SIZE_LOGO, UiTheme.ACCENT)
+	logo.add_child(UiKit.overlay_label("T  H  E", UiTheme.SIZE_SMALL, UiTheme.TEAL))
+	var title := UiKit.overlay_label("IRON", UiTheme.SIZE_LOGO, UiTheme.ACCENT)
 	title.add_theme_constant_override("outline_size", 8)
 	title.add_theme_color_override("font_outline_color", Color("2a1406"))
 	title.add_theme_constant_override("shadow_offset_y", 3)
 	title.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.6))
 	logo.add_child(title)
-	logo.add_child(UiKit.overlay_label("S  T  R  E  E  T  S", UiTheme.SIZE_H1, UiTheme.TEAL))
+	logo.add_child(UiKit.overlay_label("L  E  G  A  C  Y", UiTheme.SIZE_H1, UiTheme.TEAL))
+	# Story bible §7: The Core is not named before chapter 3, so the tagline
+	# only promises the street.
 	var tagline := UiKit.label(
-		"Clear the Murk from Port Verrin, block by block.", UiTheme.SIZE_SMALL, UiTheme.TEXT_DIM
+		"Take Iron City back, one street at a time.", UiTheme.SIZE_SMALL, UiTheme.TEXT_DIM
 	)
-	tagline.position = Vector2(36, 118)
+	tagline.position = Vector2(36, 124)
 	_ui.add_child(tagline)
 
 	menu = VBoxContainer.new()

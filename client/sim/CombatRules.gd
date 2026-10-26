@@ -30,6 +30,34 @@ const KNOCKDOWN_TICKS := 50
 ## lost: it starts as soon as the attack is over (an input buffer), so
 ## mashing during a missed swing still feels responsive.
 const INPUT_BUFFER_TICKS := 12
+## Stun-lock protection for fighters with a stun_limit (the hero): at most
+## this many ticks of hitstun in a row before the next hit knocks them down
+## (so a crowd cannot keep them helpless), the meter drains this much per
+## tick in control, and getting up leaves them untouchable for a moment.
+## Worst case without input: HERO_STUN_LIMIT + KNOCKDOWN_TICKS = 1.5 s.
+const HERO_STUN_LIMIT := 40
+const STUN_DECAY := 1
+const WAKE_GRACE_TICKS := 36
+## How long a fighter whose poise broke shrugs off hitstun.
+const ARMOR_TICKS := 90
+## Perfect guard: a guard raised at most PERFECT_GUARD_TICKS before a hit
+## from the front parries it (no damage, no energy lost, guard breakers
+## included) and refunds PARRY_ENERGY; the attacker reels for PARRY_STUN
+## ticks, during which the first hit on them is a counter dealing
+## COUNTER_DAMAGE times its damage. Letting go of guard closes the parry
+## window for PARRY_LOCKOUT_TICKS so it rewards timing, not tapping.
+const PERFECT_GUARD_TICKS := 8
+const PARRY_LOCKOUT_TICKS := 24
+const PARRY_STUN := 30
+const PARRY_ENERGY := 15.0
+const PARRY_PUSH := 14.0
+const COUNTER_DAMAGE := 1.5
+## A critical hit deals this much more.
+const CRIT_DAMAGE := 1.5
+## A thrown weapon that hits without knocking down stuns this long and
+## pushes this far.
+const THROWN_HITSTUN := 24
+const THROWN_KNOCKBACK := 40.0
 ## Share of the remaining knockback applied each tick (ease-out slide).
 const KNOCKBACK_RATE := 0.25
 ## Half the width of a fighter's body for hit tests.
@@ -38,12 +66,15 @@ const HURT_HALF_WIDTH := 8.0
 
 ## Advances all fighters one tick. `inputs` maps fighter id to FighterInput;
 ## fighters without an entry get no input. Returns the hits that happened.
+## `rng` (the zone's seeded generator) decides critical hits; without one
+## there are none, so the rules stay deterministic either way.
 static func tick(
 	fighters: Array[Fighter],
 	inputs: Dictionary,
 	library: MoveLibrary,
 	bounds: Rect2,
-	after_move := Callable()
+	after_move := Callable(),
+	rng: RandomNumberGenerator = null
 ) -> Array[CombatEvent]:
 	var idle := FighterInput.new()
 	for fighter in fighters:
@@ -57,6 +88,7 @@ static func tick(
 	for attacker in fighters:
 		if (
 			attacker.state == Fighter.State.ATTACK
+			and attacker.move.damage > 0
 			and attacker.move.is_active_tick(attacker.state_tick)
 		):
 			swings.append([attacker, attacker.move])
@@ -68,11 +100,13 @@ static func tick(
 			if defender.team == attacker.team or attacker.hit_ids.has(defender.id):
 				continue
 			if is_vulnerable(defender) and in_reach(attacker, defender, move):
-				events.append(_apply_hit(attacker, defender, move))
+				events.append(_apply_hit(attacker, defender, move, rng))
 	return events
 
 
 static func is_vulnerable(fighter: Fighter) -> bool:
+	if fighter.grace > 0:
+		return false
 	match fighter.state:
 		Fighter.State.KO, Fighter.State.DOWN:
 			return false
@@ -91,6 +125,16 @@ static func in_reach(attacker: Fighter, defender: Fighter, move: MoveData) -> bo
 
 static func _step(f: Fighter, input: FighterInput, library: MoveLibrary, bounds: Rect2) -> void:
 	f.state_tick += 1
+	if f.grace > 0:
+		f.grace -= 1
+	if f.armor > 0:
+		f.armor -= 1
+	if f.parry_lockout > 0:
+		f.parry_lockout -= 1
+	if f.exposed > 0:
+		f.exposed -= 1
+	if f.state != Fighter.State.HITSTUN:
+		f.stun_meter = maxi(0, f.stun_meter - STUN_DECAY)
 	for skill_id: String in f.cooldowns.keys():
 		f.cooldowns[skill_id] -= 1
 		if f.cooldowns[skill_id] <= 0:
@@ -101,6 +145,9 @@ static func _step(f: Fighter, input: FighterInput, library: MoveLibrary, bounds:
 		Fighter.State.DOWN:
 			if f.state_tick >= KNOCKDOWN_TICKS:
 				f.enter(Fighter.State.IDLE)
+				if f.stun_limit > 0:
+					f.stun_meter = 0
+					f.grace = WAKE_GRACE_TICKS
 		Fighter.State.HITSTUN:
 			if f.state_tick >= f.state_duration:
 				f.enter(Fighter.State.IDLE)
@@ -116,6 +163,8 @@ static func _step(f: Fighter, input: FighterInput, library: MoveLibrary, bounds:
 		Fighter.State.GUARD:
 			if not input.guard:
 				f.enter(Fighter.State.IDLE)
+				if f.can_parry:
+					f.parry_lockout = PARRY_LOCKOUT_TICKS
 			else:
 				f.energy = maxf(0.0, f.energy - GUARD_DRAIN)
 	if f.state == Fighter.State.IDLE:
@@ -148,6 +197,7 @@ static func _step_idle(
 		pass
 	elif input.guard:
 		f.enter(Fighter.State.GUARD)
+		f.parry_open = f.can_parry and f.parry_lockout == 0
 	else:
 		f.position = LaneMovement.step(
 			f.position, input.move, TICK_SECONDS, bounds, f.speed * f.weapon_speed
@@ -204,7 +254,7 @@ static func _step_attack(f: Fighter, input: FighterInput, library: MoveLibrary) 
 		var next_id: String = move.chains.get(f.queued, "")
 		if next_id and _start_move(f, library.get_move(next_id)):
 			return
-	if f.state_tick >= move.total_ticks():
+	if f.state_tick >= move.total_ticks() - recovery_cut(f, move):
 		var buffered := f.state_tick - f.queued_tick <= INPUT_BUFFER_TICKS
 		var skill_id := f.queued_skill
 		var button := f.queued
@@ -217,6 +267,12 @@ static func _step_attack(f: Fighter, input: FighterInput, library: MoveLibrary) 
 			_start_move(f, library.get_move(starter(f, library, button)))
 
 
+## Ticks attack speed takes off (or, below 1.0, adds to) a move's recovery.
+## Startup and hit timing never change, so combos and cancels stay readable.
+static func recovery_cut(f: Fighter, move: MoveData) -> int:
+	return roundi(move.recovery * (1.0 - 1.0 / maxf(0.1, f.attack_speed)))
+
+
 ## Lunging moves carry the attacker forward until the hitbox closes.
 static func _advance(f: Fighter, bounds: Rect2) -> void:
 	var move := f.move
@@ -226,10 +282,53 @@ static func _advance(f: Fighter, bounds: Rect2) -> void:
 		f.position = LaneMovement.clamp_to(f.position + step, bounds)
 
 
+## Starts `move` from outside the input step (a throw). See _start_move.
+static func start_move(f: Fighter, move: MoveData) -> bool:
+	return _start_move(f, move)
+
+
+## A thrown object reaching `defender`, flying from `from_x`. Guard blocks it
+## from the front (chip damage, energy drain, no parry); otherwise it stuns
+## or knocks down. The caller has checked reach and vulnerability.
+static func thrown_hit(
+	defender: Fighter, thrower_id: int, from_x: float, damage: int, knockdown: bool, kind: String
+) -> CombatEvent:
+	var event := CombatEvent.new()
+	event.attacker_id = thrower_id
+	event.defender_id = defender.id
+	event.move_id = kind
+	event.position = defender.position
+	var away := signf(defender.position.x - from_x)
+	var from_front := -away != -defender.facing
+	event.blocked = defender.state == Fighter.State.GUARD and from_front
+	var full := maxi(1, damage - defender.defense)
+	if event.blocked:
+		event.damage = maxi(1, roundi(full * GUARD_DAMAGE_FACTOR))
+		defender.energy = maxf(0.0, defender.energy - full * GUARD_ENERGY_PER_DAMAGE)
+	else:
+		event.damage = full
+		defender.knockback_remaining = away * THROWN_KNOCKBACK
+	defender.hp = maxi(0, defender.hp - event.damage)
+	if defender.hp == 0:
+		event.ko = true
+		defender.enter(Fighter.State.KO)
+	elif not event.blocked and is_unflinching(defender):
+		event.armored = true
+	elif not event.blocked:
+		event.knocked_down = knockdown
+		if knockdown:
+			defender.enter(Fighter.State.DOWN)
+		else:
+			event.knocked_down = _stun(defender, THROWN_HITSTUN)
+	return event
+
+
 static func _start_move(f: Fighter, move: MoveData) -> bool:
 	if move == null or f.energy < move.energy_cost:
 		return false
 	f.energy -= move.energy_cost
+	# Wake-up grace protects, it does not let you hit while untouchable.
+	f.grace = 0
 	f.enter(Fighter.State.ATTACK)
 	f.move = move
 	f.hit_landed = false
@@ -239,7 +338,9 @@ static func _start_move(f: Fighter, move: MoveData) -> bool:
 	return true
 
 
-static func _apply_hit(attacker: Fighter, defender: Fighter, move: MoveData) -> CombatEvent:
+static func _apply_hit(
+	attacker: Fighter, defender: Fighter, move: MoveData, rng: RandomNumberGenerator = null
+) -> CombatEvent:
 	attacker.hit_ids[defender.id] = true
 	attacker.hit_landed = true
 	var event := CombatEvent.new()
@@ -248,8 +349,20 @@ static func _apply_hit(attacker: Fighter, defender: Fighter, move: MoveData) -> 
 	event.move_id = move.id
 	event.position = defender.position
 	var from_front := signf(attacker.position.x - defender.position.x) != -defender.facing
+	if is_perfect_guard(defender, from_front):
+		_parry(attacker, defender, event)
+		return event
 	event.blocked = (defender.state == Fighter.State.GUARD and not move.guard_break and from_front)
 	var full := damage_for(move, attacker, defender)
+	if defender.exposed > 0 and not event.blocked:
+		full = roundi(full * COUNTER_DAMAGE)
+		event.counter = true
+		defender.exposed = 0
+	# Rolled only for fighters who can crit, so enemy-only fights draw nothing.
+	if rng and attacker.crit_chance > 0.0 and not event.blocked:
+		if rng.randf() < attacker.crit_chance:
+			full = roundi(full * CRIT_DAMAGE)
+			event.critical = true
 	if event.blocked:
 		event.damage = maxi(1, roundi(full * GUARD_DAMAGE_FACTOR))
 		defender.energy -= full * GUARD_ENERGY_PER_DAMAGE
@@ -257,7 +370,7 @@ static func _apply_hit(attacker: Fighter, defender: Fighter, move: MoveData) -> 
 		if defender.energy <= 0.0:
 			defender.energy = 0.0
 			event.guard_broken = true
-			defender.enter(Fighter.State.HITSTUN, GUARD_BREAK_STUN)
+			event.knocked_down = _stun(defender, GUARD_BREAK_STUN)
 	else:
 		event.damage = full
 		# Away from the attacker, so sweeps that reach behind push outward.
@@ -271,9 +384,63 @@ static func _apply_hit(attacker: Fighter, defender: Fighter, move: MoveData) -> 
 		event.ko = true
 		defender.enter(Fighter.State.KO)
 	elif not event.blocked:
-		event.knocked_down = move.knockdown
-		if move.knockdown:
+		if is_unflinching(defender):
+			event.armored = true
+			defender.knockback_remaining *= 0.25
+		elif move.knockdown:
+			event.knocked_down = true
 			defender.enter(Fighter.State.DOWN)
 		else:
-			defender.enter(Fighter.State.HITSTUN, move.hitstun)
+			event.knocked_down = _stun(defender, move.hitstun)
+			event.armored = defender.armor > 0 and not event.knocked_down
 	return event
+
+
+## Blows land but do not interrupt: poise broken into armor, or winding up a
+## telegraphed attack (fighters with poise only).
+static func is_unflinching(f: Fighter) -> bool:
+	if f.poise_limit <= 0:
+		return false
+	if f.armor > 0:
+		return true
+	return f.state == Fighter.State.ATTACK and f.move.telegraph and f.state_tick < f.move.startup
+
+
+## Whether a hit arriving now (from the front or not) is perfectly guarded.
+static func is_perfect_guard(defender: Fighter, from_front: bool) -> bool:
+	return (
+		defender.state == Fighter.State.GUARD
+		and defender.parry_open
+		and from_front
+		and defender.state_tick <= PERFECT_GUARD_TICKS
+	)
+
+
+## The defender parries: unharmed and refunded; the attacker reels, open to
+## a counter.
+static func _parry(attacker: Fighter, defender: Fighter, event: CombatEvent) -> void:
+	event.blocked = true
+	event.parried = true
+	defender.energy = minf(MAX_ENERGY, defender.energy + PARRY_ENERGY)
+	var away := signf(attacker.position.x - defender.position.x)
+	attacker.knockback_remaining = (away if away != 0.0 else -defender.facing) * PARRY_PUSH
+	attacker.enter(Fighter.State.HITSTUN, PARRY_STUN)
+	attacker.exposed = PARRY_STUN
+
+
+## Puts the defender in hitstun, or knocks them down when stun-lock
+## protection says they have been held long enough. Returns true if knocked
+## down.
+static func _stun(defender: Fighter, ticks: int) -> bool:
+	if defender.poise_limit > 0 and defender.stun_meter + ticks > defender.poise_limit:
+		# Poise breaks the other way: they stop flinching for a while.
+		defender.stun_meter = 0
+		defender.armor = ARMOR_TICKS
+		return false
+	if defender.stun_limit > 0 and defender.stun_meter + ticks > defender.stun_limit:
+		defender.stun_meter = 0
+		defender.enter(Fighter.State.DOWN)
+		return true
+	defender.stun_meter += ticks
+	defender.enter(Fighter.State.HITSTUN, ticks)
+	return false

@@ -4,6 +4,222 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — South Street grows: Rusted Corner, Fight Club, ranged enemies, a mini-boss (IL-4)
+- **Rusted Corner** (level 3, between Canal Works and the Rail Yards) introduces the
+  first ranged enemy, the **Bottle Thrower**: it hangs back 80–150 px, lines up in your
+  lane, winds up (telegraphed) and lobs a bottle that stuns but never floors and
+  shatters where it lands; caught up close it jabs. Its exit opens after 6 throwers.
+- **Fight Club** (level 7, between the Night Market and the Refinery) ends in the
+  **Pit Champion**, a mini-boss: a jab-cross chain, a telegraphed guard-breaking
+  overhand, and below half HP a charging rush. Poise 70. Drops scrap and alloy always
+  and the new **Champion's Wraps** (epic hands: attack, crit, attack speed) 25% of the
+  time. His exit opens the back door to the Refinery.
+- Two new LPC characters built with the asset pipeline from layers already cleared by
+  the licence policy (OGA-BY): the red-bandana thrower and the shirtless champion.
+  Scenery for both areas is laid out from the owner's kit like every other street.
+- Two quests join Chief Odo's chain, voiced like the rest: "Glass Rain" (after the
+  Foreman) and "The Pit" (after Market Lights, before the Baron). The story bible maps
+  both areas and gives the champion his reason to fight.
+- Ranged attacks reuse the throwing system (`ZoneSim` projectiles) instead of a second
+  one; the AI is `EnemyBrain._keep_range`; the data (`ranged` on the enemy and its
+  `ai`) is validated on load.
+- Measured the rules' cost with 10 enemies on screen: 0.30 ms per tick on average
+  (PERFORMANCE.md), well inside a 60 fps frame.
+- After a fight is cleared, a blinking **GO >>** points the way on (only where the
+  street continues east).
+- New tests keep the street one connected line with rising levels, every gate
+  winnable in its own area, every quest target findable, and check the thrower keeps
+  its distance and its bottles stun and shatter. 6 new tests (220 total).
+- Measured with a scripted player (no gear, no healing, no parries): the champion is
+  as hard as the existing Furnace Baron for that player (both unbeaten), the Sludge
+  Foreman is beaten 30–80% of the time. Real tuning needs playtests; recorded in
+  docs/BLUEPRINT.md.
+
+### Added — Elites and bosses cannot be pinned by mashing (poise)
+- Found while balancing the classes: replaying a fight against the Smog Warden (one
+  scripted player per hero, 20 seeds) showed a hero who just mashed light attacks kept
+  the elite helpless 60–77% of the fight and was never hit back, which made its
+  telegraphed attacks meaningless.
+- Elites and bosses now have **poise** (`enemies.json` `poise`: 60 for elites, 80 for
+  bosses). Hitstun fills it; past it they shrug blows off for 1.5 s (still taking
+  damage, with a warm sheen and steel-grey damage numbers), and they are unflinching
+  while winding up a telegraphed attack, so the answer is to dodge, guard or parry.
+  A parry still staggers them. Same replay: helpless 39–55%, and at level 5 the elite
+  now lands hits. Heroes and ordinary enemies are unchanged.
+- The same replay showed why Mika's kills are slowest at level 1: both her starting
+  skills knock down, and a floored enemy cannot be hit for 50 ticks. That is the
+  intended trade (knockdowns buy safety), recorded in the blueprint rather than
+  re-tuned without playtesting. 6 new tests (214 total).
+
+### Added — Gear upgrades at the workbench (IL-3)
+- Every equipment slot can be upgraded from +0 to +10. Each level adds 10% of the worn
+  item's own stats (penalties are never amplified). Upgrades belong to the **slot**, so
+  changing gear never throws them away, and there is no per-item bookkeeping that a
+  save could lose.
+- Each attempt costs coins and materials (+1: 40 coins and 1 Scrap; +10: 1,100 coins,
+  8 Scrap, 3 Alloy) and succeeds at the level's rate (100% down to 20%). **A failure
+  keeps the item and the level**, spends only the cost, and adds +5% to the next try in
+  that slot until one succeeds. Costs and rates are data (`progression.json`
+  `enhance`), validated on load (costs in materials, rates never rising).
+- From the worn item's card in a safe area (the Depot Yard): what the upgrades add
+  now, the next level's chance and cost (red where you are short), and an "Upgrade
+  +N (chance)" button. Success and failure each have a sound and a message; a second
+  press within 0.4 s is ignored and every attempt is saved at once. Upgraded slots
+  show a gold "+N".
+- The rule is `sim/EnhanceRules.gd`: check, pay, roll, apply in one call, with the
+  roll from the caller (the server, once online). **Save version 5** stores levels and
+  pity; version 4 saves start at +0, values are clamped and unknown slots dropped.
+- 9 new tests (208 total).
+
+### Added — Critical hits and attack speed (IL-3, decision D8)
+- Two new stats: **Crit** (chance of a 1.5x blow; every hero starts at 5%, Riku the
+  Boxer at 8%; capped at 50%) and **Atk Speed** (cuts the recovery after each attack,
+  never the wind-up, so combos stay readable; 70–130%). Crits come only from the zone's
+  seeded generator, so a fight replays identically; enemies do not crit. No accuracy
+  stat: hits are decided by where the blow lands.
+- Gear that fits: Lucky Coin, Iron Wraps, Brass Knuckles and the Baron Knuckledusters
+  add crit; Fingerless Gloves, Street Runners and the Jade Charm add attack speed.
+  Status and item cards show both. Crits show "CRIT" and shake the camera.
+- 4 new tests (199 total); Riku's all-rounder test now covers the core stats and
+  requires him to crit most often.
+
+### Added — Upgrade materials and "where to get" (IL-3)
+- Two materials (new item type `material`): **Scrap Metal** (common; dropped by street
+  enemies 15–30%, elites 80%, sold by Ama and Kenji for 30) and **Refined Alloy**
+  (rare; elites 25–30%, Kenji for 300). Every boss now guarantees both, so a boss kill
+  always pays even when the signature gear does not drop. New icons; materials sort
+  between gear and evidence in the bag and can be discarded.
+- Item cards show **WHERE TO GET**: who drops it (chance, where they fight), who sells
+  it and for how much, which quest gives it. Worked out from the loot tables, shops and
+  quests (`ContentDB.sources`), so it can never disagree with them.
+- Fixed a test that only passed by luck: it expected the Sludge Foreman's wrench every
+  time, which stopped being true when boss loot became farmable. 5 new tests (195 total).
+
+### Added — A tutorial that teaches by doing (IL-2)
+- New heroes are walked through the basics in the Depot Yard, one step at a time in
+  the quest card's spot: move, punch the dummy (3 hits), heavy blow, a skill, dodge,
+  guard (and how to parry), pick up a weapon, throw it, talk to Chief Odo. Each step
+  finishes when the player does it, with a chime; the last says the street is open.
+- Skippable from the menu (Game tab, "Skip tutorial"). Steps are data
+  (`client/data/tutorial.json`, validated on load) and the rule lives in
+  `sim/TutorialRules.gd`.
+- **Save version 4** stores tutorial progress. Version 3 saves migrate with the
+  tutorial marked finished, since those players already know the game; values are
+  clamped on load. 7 new tests (190 total).
+
+### Added — Prologue and Chapter 1 told through the quests (IL-2)
+- Chief Odo's six quests are rewritten from `docs/STORY_BIBLE.md` as the Prologue
+  ("First Night") and Chapter 1 ("South Street"): a shakedown at Ama's stall, a crate
+  the crew came back for, masked guards at the canal, forged freight papers, Kenji's
+  tip and the Furnace Baron's ledger, which points to the port.
+- Quest givers speak: each quest has an offer, a nudge while it is under way and a
+  closing line on hand-in (`quests.json` `dialogue`, one or two sentences). Below the
+  speech the dialog always spells out the chapter, quest, **Goal** and reward, so
+  skipping the words never leaves anyone lost.
+- **Evidence** (new item type `key`): the Torn Shipping Label, Forged Delivery Note and
+  the Baron's Ledger are handed over on completion ("New evidence: ..."), sorted at the
+  end of the bag, readable from the item card and never sold, used or discarded (a
+  sim rule, not only the UI). They are not listed as rewards, to keep the surprise. New
+  16 px icons drawn by `gen_ui.py`.
+- Handing in "The Furnace Baron" shows a **Chapter 1 complete** card naming where the
+  trail leads next.
+- Tests keep every quest in a chapter with all three lines, keep The Core unnamed in
+  quests and items (story bible §7), and reject priced evidence. 6 new tests (183 total).
+
+### Added — The street opens as the story moves on (IL-2)
+- Exits east are now guarded: Saltmarket → Canal Works opens once the Smog Warden is
+  down, Canal Works → Rail Yards after the Sludge Foreman, Rail Yards → Night Market
+  after 8 Dock Thugs, Night Market → Refinery after 10 Night Market Punks (the same
+  goals as Chief Odo's quests, counted whether or not the quest is active, so nobody
+  has to fight a guard twice). Before, a new hero could walk straight to the level 8
+  Refinery. The way back is always open.
+- A locked exit's sign turns red and shows progress ("Locked 0/1 Canal Works >");
+  pushing on it plays a refusal and says what opens it, once per push.
+- Gates are data (`areas.json` `exits.*.requires`: enemy, count, hint), validated on
+  load. 5 new tests (177 total).
+
+### Changed — Boss loot is worth farming; heroes have their classes (IL-2)
+- Bosses no longer hand out their best item every time: the Furnace Baron drops the
+  Baron Knuckledusters (legendary) 12% of the time (was 100%) and the Jade Charm 20%
+  (was 50%; his quest still gives one), the Sludge Foreman his Foreman Wrench (epic)
+  30% (was 100%). Bosses respawn on re-entry, so they can be farmed. A test keeps every
+  epic or legendary drop at 35% or less.
+- Heroes carry their class (decision D3): Mika is **The Footballer** (new bio and
+  tagline: sweeping kicks and line-breaking charges), Oren **The Street Brawler**,
+  Riku stays **The Boxer**. Display text only; saves are unaffected. 1 new test (172 total).
+
+### Changed — The game is now *The Iron Legacy* (IL-2, decision D1)
+- Project name, browser tab, title logo ("THE / IRON / LEGACY") and credits. The title
+  tagline promises only the street ("Take Iron City back, one street at a time"), since
+  the story bible keeps The Core secret until chapter 3. The README is retitled.
+- **Saves survive the rename.** Godot names the user data folder after the project, in
+  the browser too (checked in Chromium: a save made by the old build was not seen by
+  the renamed one). `SaveStore` now copies `save.json` and `settings.json` from the old
+  "Ironbound Streets" folder on first start, never overwriting a newer file and never
+  deleting the original. Verified in a real browser: a save made by the old build
+  continues in the new one. 3 new tests (171 total).
+- Internal names stay (`window.ironboundProbe`, the API image name), as renaming them
+  changes nothing a player sees.
+
+### Added — The Furnace Baron charges; fair-fight rules (IL-1)
+- Below half HP the Furnace Baron no longer just hits harder: he charges (new
+  `baron_rush`: 24 ticks of warning, carries him 110 px, breaks guard, knocks down) and
+  is left open for 40 ticks after it. Enemy AI now starts lunging attacks from the range
+  the lunge covers, so a charge is seen coming instead of starting point-blank.
+- `tests/unit/test_fairness.gd` turns the blueprint's quality bar into rules every enemy
+  must pass: openers that floor or break guard are telegraphed with at least 16 ticks of
+  warning, telegraphed attacks leave at least 20 ticks to punish, and every boss phase
+  adds a new attack. 4 new tests (168 total). This completes milestone IL-1.
+
+### Added — Throw the weapon in hand (IL-1)
+- With nothing underfoot to pick up, E now **throws** the held weapon instead of
+  putting it down: a short wind-up, then it spins along the street (about 160 px), hits
+  the first foe in its path for the weapon's heavy-blow damage at the hero's power and
+  knocks them down, then lands at their feet with one use less, or breaks if that was
+  its last. A guard blocks it from the front. Bosses are stunned, never floored, so a
+  pile of pipes cannot trivialise them. A miss lands where it stops; it never leaves
+  the area.
+- Throws are simulation (`ZoneSim.thrown`, `CombatRules.thrown_hit`), drawn as a
+  spinning weapon at chest height with a whoosh. The HUD hint reads "Grab / Throw /
+  Talk". Enemies still only put weapons down.
+- 6 new tests (164 total).
+
+### Added — Perfect guard and counters (IL-1)
+- Raise guard at most 8 ticks before a hit from the front and it is **parried**: no
+  damage, no energy lost (15 energy back), guard breakers included. The attacker reels
+  for 30 ticks and the first hit on them is a **counter** for 1.5x damage. Letting go
+  of guard closes the parry window for 24 ticks, so it rewards timing, not tapping.
+  Only the hero parries, so enemy guards never punish the player's combos.
+- A parry flashes, clangs and freezes both fighters for a beat and shows "PARRY";
+  counters show "COUNTER" and shake the camera. The Controls tab explains it.
+- 6 new tests (158 total).
+
+### Fixed — A crowd can no longer stun-lock the hero (IL-1)
+- Hitstun the hero takes fills a stun meter that drains while they are in control. A hit
+  that would push it past 40 ticks knocks the hero down instead of holding them, and
+  getting up gives 36 ticks in which nothing can hit them (the hero blinks; attacking
+  ends it). Measured worst case against three Night Market Punks with no input: 169 →
+  68 ticks (2.8 s → 1.1 s); the cap is 90 ticks (1.5 s). Enemies are unchanged, so hero
+  combos still chain.
+- 4 new tests (152 total with the solid-street tests), including a zone test with three punks over three seeds.
+
+### Changed — Direction approved
+- The owner approved every recommendation in `docs/BLUEPRINT.md` (D1–D9): *The Iron
+  Legacy*, Iron City and The Core, heroes mapped to classes, single player first (online
+  work moves to IL-7). CLAUDE.md, GAME_DESIGN and ROADMAP point to the blueprint and the
+  story bible.
+
+### Added — The Iron Legacy: audit and blueprint (IL-0)
+- `docs/BLUEPRINT.md`: audit of what exists, works, is missing or risky (baseline 140/140
+  tests passing on Godot 4.7.2), conflicts between code, docs and the owner's brief,
+  decisions the owner needs to make, the system blueprint built on the existing code, a
+  roadmap by risk (IL-0 to IL-7) and a test plan. Measured stun-lock: three Night Market
+  Punks keep an idle hero out of control for up to 169 ticks (2.8 s).
+- `docs/STORY_BIBLE.md`: the proposed single source for the story (Iron City, The Core,
+  characters, chapters, bosses, how the current areas and enemies fit), pending approval.
+- Corrected stale lines in README (test count), GAME_DESIGN ("implemented so far") and
+  ARCHITECTURE (shared rules). No game code or data changed.
+
 ### Added — Solid street: no walking through things or people
 - Lamp posts, power poles, bins, cones, crates, NPCs, the training dummy, the hero and
   enemies are now solid. You bump into them and must walk round (a step at an angle

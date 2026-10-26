@@ -17,6 +17,10 @@ var moveset := {}
 var power := 1.0
 var defense := 0
 var speed := 1.0
+## Chance (0..1) that a landed blow is a critical hit, and attack speed (1.0
+## normal; higher cuts the recovery after each attack). Enemies keep 0 / 1.
+var crit_chance := 0.0
+var attack_speed := 1.0
 var position := Vector2.ZERO
 var facing := 1
 var max_hp := 100
@@ -53,6 +57,32 @@ var cooldowns := {}
 var queued_skill := ""
 ## state_tick of the latest queued press (for the input buffer).
 var queued_tick := 0
+## Stun-lock protection (0: off, the default for enemies so hero combos
+## still chain). Hitstun taken adds to stun_meter, which drains while the
+## fighter is in control; a hit that would push it past stun_limit knocks
+## the fighter down instead, and getting up grants `grace` ticks in which
+## nothing can hit them.
+var stun_limit := 0
+var stun_meter := 0
+var grace := 0
+## Poise (elites and bosses): hitstun taken fills the same stun_meter; past
+## poise_limit the fighter shrugs blows off for `armor` ticks (still taking
+## damage), so mashing cannot pin them. They are also unflinching while
+## winding up a telegraphed attack: dodge it, guard it or parry it.
+var poise_limit := 0
+var armor := 0
+## Perfect guard (the hero only, so enemy guards never punish the player's
+## combos): a guard raised just before a hit parries it. parry_open says
+## whether the current guard may parry (it may not while parry_lockout runs,
+## so tapping guard repeatedly does not keep the window open). A parried
+## attacker is `exposed`: the next hit on it is a counter.
+var can_parry := false
+var parry_open := false
+var parry_lockout := 0
+var exposed := 0
+## With nothing underfoot to pick up, the pick button throws the held weapon
+## instead of putting it down (the hero; enemies only put weapons down).
+var throws := false
 
 
 func _init(p_id := 0, p_team := 0, p_position := Vector2.ZERO, p_max_hp := 100) -> void:

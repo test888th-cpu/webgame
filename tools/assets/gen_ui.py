@@ -482,6 +482,63 @@ def jade_charm(d: ImageDraw.ImageDraw) -> None:
 SILHOUETTE = (255, 255, 255, 46)
 
 
+# Evidence (key items): paper and ink, so they read as clues, not gear.
+PAPER = (236, 222, 186, 255)
+INK = (90, 70, 60, 255)
+
+
+def torn_label(d: ImageDraw.ImageDraw) -> None:
+    d.polygon([(2, 4), (13, 3), (14, 11), (11, 12), (9, 10), (6, 13), (2, 12)], fill=OUTLINE)
+    d.polygon([(3, 5), (12, 4), (13, 10), (11, 11), (9, 9), (6, 12), (3, 11)], fill=PAPER)
+    d.rectangle((4, 6, 7, 8), fill=(200, 60, 50, 255))
+    d.line((9, 6, 11, 6), fill=INK)
+    d.line((8, 8, 11, 8), fill=INK)
+
+
+def forged_note(d: ImageDraw.ImageDraw) -> None:
+    d.rectangle((3, 1, 12, 14), fill=OUTLINE)
+    d.rectangle((4, 2, 11, 13), fill=PAPER)
+    for y in (4, 6, 8):
+        d.line((5, y, 10, y), fill=INK)
+    d.ellipse((7, 9, 11, 13), outline=(60, 90, 180, 255))
+    d.line((5, 12, 7, 10), fill=(60, 90, 180, 255))
+
+
+def ledger(d: ImageDraw.ImageDraw) -> None:
+    d.rectangle((2, 2, 13, 14), fill=OUTLINE)
+    d.rectangle((3, 3, 12, 13), fill=(120, 40, 36, 255))
+    d.rectangle((3, 3, 4, 13), fill=(80, 26, 24, 255))
+    d.rectangle((6, 5, 11, 8), fill=(222, 178, 70, 255))
+    d.point((8, 11), fill=(222, 178, 70, 255))
+
+
+def champion_wraps(d: ImageDraw.ImageDraw) -> None:
+    # Iron Wraps' cut, in the pit's red and gold tape.
+    d.rectangle((3, 4, 12, 13), fill=OUTLINE)
+    d.rectangle((4, 5, 11, 12), fill=(176, 52, 44, 255))
+    for y in (6, 9, 11):
+        d.line((4, y, 11, y), fill=(232, 186, 74, 255))
+    d.rectangle((5, 2, 10, 4), fill=OUTLINE)
+    d.rectangle((6, 3, 9, 4), fill=(220, 200, 170, 255))
+
+
+# Materials for upgrades: scrap is rough grey metal, alloy a bright ingot.
+def scrap_metal(d: ImageDraw.ImageDraw) -> None:
+    d.polygon([(2, 9), (6, 4), (10, 6), (14, 3), (13, 12), (7, 13), (3, 13)], fill=OUTLINE)
+    d.polygon([(3, 9), (6, 5), (10, 7), (13, 5), (12, 11), (7, 12), (4, 12)], fill=STEEL_DARK)
+    d.line((5, 9, 9, 8), fill=STEEL)
+    d.point((11, 7), fill=(176, 104, 64, 255))
+    d.point((6, 11), fill=(176, 104, 64, 255))
+
+
+def refined_alloy(d: ImageDraw.ImageDraw) -> None:
+    d.polygon([(1, 11), (4, 6), (15, 6), (12, 11)], fill=OUTLINE)
+    d.polygon([(2, 12), (12, 12), (15, 7), (15, 9), (12, 14), (2, 14)], fill=OUTLINE)
+    d.polygon([(3, 10), (5, 7), (14, 7), (12, 10)], fill=(150, 210, 230, 255))
+    d.rectangle((3, 11, 11, 13), fill=(90, 150, 180, 255))
+    d.line((6, 8, 9, 8), fill=(235, 250, 255, 255))
+
+
 def slot_weapon(d: ImageDraw.ImageDraw) -> None:
     d.line((3, 13, 12, 4), fill=SILHOUETTE, width=3)
     d.ellipse((10, 1, 15, 6), fill=SILHOUETTE)
@@ -538,6 +595,12 @@ ICONS = {
     "baron_knuckledusters": baron_knuckledusters,
     "iron_helm": iron_helm,
     "jade_charm": jade_charm,
+    "torn_label": torn_label,
+    "forged_note": forged_note,
+    "ledger": ledger,
+    "scrap_metal": scrap_metal,
+    "champion_wraps": champion_wraps,
+    "refined_alloy": refined_alloy,
     "slot_weapon": slot_weapon,
     "slot_head": slot_head,
     "slot_body": slot_body,
