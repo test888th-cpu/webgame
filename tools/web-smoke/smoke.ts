@@ -249,9 +249,13 @@ try {
     for (let i = 0; i < 160 && !armed.weapon; i++) {
       const [wx, wy] = (armed.street_weapons ?? [])[0] ?? yardWeapon;
       const x = armed.x;
-      if (Math.abs(armed.y - wy) > 6) await hold(armed.y > wy ? "ArrowUp" : "ArrowDown", 40);
-      else if (Math.abs(armed.x - wx) > 10) {
-        await hold(armed.x < wx ? "ArrowRight" : "ArrowLeft", 40);
+      // Along the street first, then into the lane: lining up in depth first
+      // walked straight back behind whatever had just been gone round (a
+      // weapon lying past a power pole at the top of the lane).
+      // Long steps while far, short ones to line up: 40 ms steps alone used
+      // up the step budget crossing the yard on a slow software renderer.
+      if (Math.abs(armed.x - wx) > 10) {
+        await hold(armed.x < wx ? "ArrowRight" : "ArrowLeft", Math.abs(armed.x - wx) > 60 ? 250 : 40);
         armed = await probe();
         // Bodies are solid (the dummy, a crate): go round below or above.
         if (Math.abs(armed.x - x) < 1) {
@@ -261,7 +265,8 @@ try {
           if (Math.abs(armed.y - y) < 1) await hold(armed.y < 320 ? "ArrowUp" : "ArrowDown", 400);
           await hold(armed.x < wx ? "ArrowRight" : "ArrowLeft", 400);
         }
-      } else await page.keyboard.press("KeyE");
+      } else if (Math.abs(armed.y - wy) > 6) await hold(armed.y > wy ? "ArrowUp" : "ArrowDown", 40);
+      else await page.keyboard.press("KeyE");
       armed = await probe();
     }
     if (!armed.weapon) problems.push(`could not pick up the weapon at ${yardWeapon}`);
