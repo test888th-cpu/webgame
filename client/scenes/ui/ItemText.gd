@@ -20,13 +20,22 @@ const SLOT_NAMES := {
 	"charm": "Charm"
 }
 ## Stat key -> name shown to players, in display order.
-const STAT_NAMES := {"max_hp": "Max HP", "power": "Attack", "defense": "Defense", "speed": "Speed"}
+const STAT_NAMES := {
+	"max_hp": "Max HP",
+	"power": "Attack",
+	"defense": "Defense",
+	"speed": "Speed",
+	"crit": "Crit",
+	"attack_speed": "Atk Speed",
+}
 ## One line explaining each stat, for the status screen.
 const STAT_HELP := {
 	"max_hp": "Damage you can take before going down.",
 	"power": "Damage of every blow and skill.",
 	"defense": "Taken off every hit you receive.",
 	"speed": "How fast you move along the street.",
+	"crit": "Chance that a blow lands for 1.5x damage.",
+	"attack_speed": "How quickly you recover after each attack.",
 }
 
 
@@ -51,7 +60,7 @@ static func stat_value(key: String, value: float) -> String:
 	match key:
 		"power":
 			return str(roundi(value * 100.0))
-		"speed":
+		"speed", "crit", "attack_speed":
 			return "%d%%" % roundi(value * 100.0)
 	return str(roundi(value))
 

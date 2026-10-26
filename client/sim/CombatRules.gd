@@ -50,6 +50,8 @@ const PARRY_STUN := 30
 const PARRY_ENERGY := 15.0
 const PARRY_PUSH := 14.0
 const COUNTER_DAMAGE := 1.5
+## A critical hit deals this much more.
+const CRIT_DAMAGE := 1.5
 ## A thrown weapon that hits without knocking down stuns this long and
 ## pushes this far.
 const THROWN_HITSTUN := 24
@@ -62,12 +64,15 @@ const HURT_HALF_WIDTH := 8.0
 
 ## Advances all fighters one tick. `inputs` maps fighter id to FighterInput;
 ## fighters without an entry get no input. Returns the hits that happened.
+## `rng` (the zone's seeded generator) decides critical hits; without one
+## there are none, so the rules stay deterministic either way.
 static func tick(
 	fighters: Array[Fighter],
 	inputs: Dictionary,
 	library: MoveLibrary,
 	bounds: Rect2,
-	after_move := Callable()
+	after_move := Callable(),
+	rng: RandomNumberGenerator = null
 ) -> Array[CombatEvent]:
 	var idle := FighterInput.new()
 	for fighter in fighters:
@@ -93,7 +98,7 @@ static func tick(
 			if defender.team == attacker.team or attacker.hit_ids.has(defender.id):
 				continue
 			if is_vulnerable(defender) and in_reach(attacker, defender, move):
-				events.append(_apply_hit(attacker, defender, move))
+				events.append(_apply_hit(attacker, defender, move, rng))
 	return events
 
 
@@ -245,7 +250,7 @@ static func _step_attack(f: Fighter, input: FighterInput, library: MoveLibrary) 
 		var next_id: String = move.chains.get(f.queued, "")
 		if next_id and _start_move(f, library.get_move(next_id)):
 			return
-	if f.state_tick >= move.total_ticks():
+	if f.state_tick >= move.total_ticks() - recovery_cut(f, move):
 		var buffered := f.state_tick - f.queued_tick <= INPUT_BUFFER_TICKS
 		var skill_id := f.queued_skill
 		var button := f.queued
@@ -256,6 +261,12 @@ static func _step_attack(f: Fighter, input: FighterInput, library: MoveLibrary) 
 			return
 		if button:
 			_start_move(f, library.get_move(starter(f, library, button)))
+
+
+## Ticks attack speed takes off (or, below 1.0, adds to) a move's recovery.
+## Startup and hit timing never change, so combos and cancels stay readable.
+static func recovery_cut(f: Fighter, move: MoveData) -> int:
+	return roundi(move.recovery * (1.0 - 1.0 / maxf(0.1, f.attack_speed)))
 
 
 ## Lunging moves carry the attacker forward until the hitbox closes.
@@ -321,7 +332,9 @@ static func _start_move(f: Fighter, move: MoveData) -> bool:
 	return true
 
 
-static func _apply_hit(attacker: Fighter, defender: Fighter, move: MoveData) -> CombatEvent:
+static func _apply_hit(
+	attacker: Fighter, defender: Fighter, move: MoveData, rng: RandomNumberGenerator = null
+) -> CombatEvent:
 	attacker.hit_ids[defender.id] = true
 	attacker.hit_landed = true
 	var event := CombatEvent.new()
@@ -339,6 +352,11 @@ static func _apply_hit(attacker: Fighter, defender: Fighter, move: MoveData) -> 
 		full = roundi(full * COUNTER_DAMAGE)
 		event.counter = true
 		defender.exposed = 0
+	# Rolled only for fighters who can crit, so enemy-only fights draw nothing.
+	if rng and attacker.crit_chance > 0.0 and not event.blocked:
+		if rng.randf() < attacker.crit_chance:
+			full = roundi(full * CRIT_DAMAGE)
+			event.critical = true
 	if event.blocked:
 		event.damage = maxi(1, roundi(full * GUARD_DAMAGE_FACTOR))
 		defender.energy -= full * GUARD_ENERGY_PER_DAMAGE

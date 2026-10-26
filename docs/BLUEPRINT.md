@@ -220,8 +220,8 @@ XP/เงิน/ของ (`LootRules`, `LevelRules`) → เปรียบเ�
 | DEF | `defense` | คงไว้ |
 | Move Speed | `speed` | คงไว้ แสดงผลเป็น Move Speed |
 | STA | energy (100, ใช้กับหลบ/การ์ด/หนัก/สกิล) | คงไว้ แสดงผลเป็น STA หรือ Energy |
-| Attack Speed | ไม่มี | IL-3: ตัวคูณที่ลดจำนวน tick ของ startup/recovery (มีเพดาน) |
-| CRIT | ไม่มี | IL-3: โอกาส × ดาเมจคริ ใช้ `ZoneSim.rng` เท่านั้น |
+| Attack Speed | **ทำแล้ว IL-3** | ลดเฉพาะ recovery (70–130%) ไม่แตะ startup |
+| CRIT | **ทำแล้ว IL-3** | ฐาน 5% (Riku 8%), ×1.5, เพดาน 50%, ใช้ `ZoneSim.rng` เท่านั้น |
 | ACC | ไม่มี | ไม่ทำ (D8) |
 
 ### 4.5 อุปกรณ์ Loot และตีบวก

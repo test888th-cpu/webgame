@@ -9,7 +9,13 @@ const SAVE_VERSION := 4
 ## Equipment slots, in the order the character screen shows them.
 const SLOTS := ["head", "body", "hands", "weapon", "feet", "charm"]
 ## Stats an item can add, as stored in items.json "stats".
-const STAT_KEYS := ["max_hp", "power", "defense", "speed"]
+const STAT_KEYS := ["max_hp", "power", "defense", "speed", "crit", "attack_speed"]
+## Every hero starts with this crit chance and attack speed unless heroes.json
+## says otherwise; gear moves them within these caps, so no build ever crits
+## every blow or swings faster than the animations can show.
+const BASE_CRIT := 0.05
+const MAX_CRIT := 0.5
+const ATTACK_SPEED_RANGE := Vector2(0.7, 1.3)
 ## Player names: letters of any script (with their marks, e.g. Thai vowels),
 ## digits, spaces, apostrophes, hyphens and dots.
 const NAME_MIN := 2
@@ -83,18 +89,28 @@ func stats(content: ContentDB) -> Dictionary:
 		"power": float(base.get("power", 1.0)) + float(per_level.get("power", 0.0)) * (level - 1),
 		"defense": int(base.get("defense", 0)),
 		"speed": float(base.get("speed", 1.0)),
+		"crit": float(base.get("crit", BASE_CRIT)),
+		"attack_speed": float(base.get("attack_speed", 1.0)),
 	}
 	var gear := gear_stats(content)
 	result["max_hp"] += int(gear["max_hp"])
 	result["power"] += float(gear["power"])
 	result["defense"] += int(gear["defense"])
 	result["speed"] = maxf(0.3, result["speed"] + float(gear["speed"]))
+	result["crit"] = clampf(result["crit"] + float(gear["crit"]), 0.0, MAX_CRIT)
+	result["attack_speed"] = clampf(
+		result["attack_speed"] + float(gear["attack_speed"]),
+		ATTACK_SPEED_RANGE.x,
+		ATTACK_SPEED_RANGE.y
+	)
 	return result
 
 
 ## What equipped items add, stat by stat (all STAT_KEYS present).
 func gear_stats(content: ContentDB) -> Dictionary:
-	var total := {"max_hp": 0, "power": 0.0, "defense": 0, "speed": 0.0}
+	var total := {
+		"max_hp": 0, "power": 0.0, "defense": 0, "speed": 0.0, "crit": 0.0, "attack_speed": 0.0
+	}
 	for slot: String in SLOTS:
 		var bonus: Dictionary = content.item(equipment[slot]).get("stats", {})
 		for key: String in bonus:

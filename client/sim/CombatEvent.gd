@@ -13,6 +13,8 @@ var guard_broken := false
 ## attacker (extra damage).
 var parried := false
 var counter := false
+## A critical hit (CombatRules.CRIT_DAMAGE times the damage).
+var critical := false
 var knocked_down := false
 var ko := false
 var position := Vector2.ZERO

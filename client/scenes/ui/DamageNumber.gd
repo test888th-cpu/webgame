@@ -11,6 +11,9 @@ func show_hit(event: CombatEvent) -> void:
 	if event.parried:
 		text = "PARRY"
 		modulate = Color(0.55, 0.95, 1.0)
+	elif event.critical:
+		text = "CRIT " + text
+		modulate = Color(1.0, 0.85, 0.3)
 	elif event.counter:
 		text = "COUNTER " + text
 		modulate = Color(1.0, 0.6, 0.25)

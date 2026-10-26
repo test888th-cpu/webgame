@@ -4,6 +4,18 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — Critical hits and attack speed (IL-3, decision D8)
+- Two new stats: **Crit** (chance of a 1.5x blow; every hero starts at 5%, Riku the
+  Boxer at 8%; capped at 50%) and **Atk Speed** (cuts the recovery after each attack,
+  never the wind-up, so combos stay readable; 70–130%). Crits come only from the zone's
+  seeded generator, so a fight replays identically; enemies do not crit. No accuracy
+  stat: hits are decided by where the blow lands.
+- Gear that fits: Lucky Coin, Iron Wraps, Brass Knuckles and the Baron Knuckledusters
+  add crit; Fingerless Gloves, Street Runners and the Jade Charm add attack speed.
+  Status and item cards show both. Crits show "CRIT" and shake the camera.
+- 4 new tests (199 total); Riku's all-rounder test now covers the core stats and
+  requires him to crit most often.
+
 ### Added — Upgrade materials and "where to get" (IL-3)
 - Two materials (new item type `material`): **Scrap Metal** (common; dropped by street
   enemies 15–30%, elites 80%, sold by Ama and Kenji for 30) and **Refined Alloy**

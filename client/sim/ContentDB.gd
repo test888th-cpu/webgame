@@ -485,6 +485,10 @@ func _validate_heroes() -> void:
 				_number(stats, stat, where + ".stats", 0)
 			_check(float(stats.get("max_hp", 0)) >= 1, where + ".stats.max_hp: at least 1")
 			_check(float(stats.get("speed", 0)) > 0, where + ".stats.speed: above 0")
+			_check(
+				float(stats.get("crit", 0.0)) <= PlayerProfile.MAX_CRIT,
+				where + ".stats.crit: at most the crit cap"
+			)
 		_number(h, "difficulty", where, 1)
 		var sprites: Variant = h.get("sprites")
 		_check(

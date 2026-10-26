@@ -17,6 +17,10 @@ var moveset := {}
 var power := 1.0
 var defense := 0
 var speed := 1.0
+## Chance (0..1) that a landed blow is a critical hit, and attack speed (1.0
+## normal; higher cuts the recovery after each attack). Enemies keep 0 / 1.
+var crit_chance := 0.0
+var attack_speed := 1.0
 var position := Vector2.ZERO
 var facing := 1
 var max_hp := 100

@@ -132,6 +132,8 @@ func refresh_hero() -> void:
 	hero.hp = clampi(profile.hp, 1, hero.max_hp)
 	profile.hp = hero.hp
 	hero.speed = stats["speed"]
+	hero.crit_chance = stats["crit"]
+	hero.attack_speed = stats["attack_speed"]
 	hero.skills = SkillRules.unlocked(content, profile.hero, profile.level)
 
 
@@ -209,7 +211,7 @@ func tick(hero_input: FighterInput) -> Array[ZoneEvent]:
 	for id: int in inputs:
 		if inputs[id].pick:
 			_pick_or_drop(fighter(id), events)
-	for hit in CombatRules.tick(fighters, inputs, content.moves, arena, _resolve_bodies):
+	for hit in CombatRules.tick(fighters, inputs, content.moves, arena, _resolve_bodies, rng):
 		var event := ZoneEvent.make("hit")
 		event.hit = hit
 		events.append(event)

@@ -107,7 +107,8 @@
         "max_hp": 115,
         "power": 1.05,
         "defense": 1,
-        "speed": 1.0
+        "speed": 1.0,
+        "crit": 0.08
       },
       "sprites": {
         "default": "hero_riku",
