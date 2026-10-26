@@ -7233,7 +7233,7 @@
           },
           {
             "layer": "sidewalk",
-            "piece": "plastic_stools",
+            "piece": "potted_plants",
             "x": 994,
             "y": 240
           },
@@ -7245,7 +7245,7 @@
           },
           {
             "layer": "sidewalk",
-            "piece": "potted_plants",
+            "piece": "spirit_house",
             "x": 1804,
             "y": 240
           },
@@ -7257,7 +7257,7 @@
           },
           {
             "layer": "sidewalk",
-            "piece": "cat",
+            "piece": "crates",
             "x": 362,
             "y": 242
           },
@@ -7563,7 +7563,7 @@
           },
           {
             "layer": "sidewalk",
-            "piece": "trash_bin",
+            "piece": "traffic_cone",
             "x": 970,
             "y": 246
           },
@@ -7828,79 +7828,97 @@
           {
             "layer": "sidewalk",
             "piece": "cat",
-            "x": 401,
+            "x": 413,
             "y": 240
           },
           {
             "layer": "sidewalk",
-            "piece": "dog_sleeping",
-            "x": 688,
+            "piece": "plastic_stools",
+            "x": 849,
+            "y": 240
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "traffic_cone",
+            "x": 1693,
             "y": 240
           },
           {
             "layer": "sidewalk",
             "piece": "cat",
-            "x": 644,
+            "x": 678,
+            "y": 241
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "bus_stop",
+            "x": 938,
             "y": 241
           },
           {
             "layer": "sidewalk",
             "piece": "food_cart",
-            "x": 853,
+            "x": 2277,
             "y": 241
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "umbrella_stall",
+            "x": 2448,
+            "y": 241
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "food_cart",
+            "x": 2601,
+            "y": 241
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "spirit_house",
+            "x": 634,
+            "y": 242
           },
           {
             "layer": "sidewalk",
             "piece": "potted_plants",
-            "x": 1610,
-            "y": 241
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "cat",
-            "x": 1769,
-            "y": 241
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "food_cart",
-            "x": 2223,
-            "y": 241
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "vending_machine",
-            "x": 478,
+            "x": 1143,
             "y": 242
           },
           {
             "layer": "sidewalk",
-            "piece": "traffic_cone",
-            "x": 600,
+            "piece": "umbrella_stall",
+            "x": 1223,
             "y": 242
           },
           {
             "layer": "sidewalk",
             "piece": "food_cart",
-            "x": 1113,
+            "x": 1798,
             "y": 242
           },
           {
             "layer": "sidewalk",
             "piece": "vending_machine",
-            "x": 2067,
-            "y": 242
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "traffic_cone",
-            "x": 2449,
+            "x": 2121,
             "y": 242
           },
           {
             "layer": "sidewalk",
             "piece": "vending_machine",
-            "x": 1878,
+            "x": 1580,
+            "y": 243
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "potted_plants",
+            "x": 2063,
+            "y": 243
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "potted_plants",
+            "x": 2526,
             "y": 243
           },
           {
@@ -7912,43 +7930,19 @@
           {
             "layer": "sidewalk",
             "piece": "trash_bin",
-            "x": 988,
+            "x": 1062,
             "y": 244
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 1910,
+            "y": 245
           },
           {
             "layer": "sidewalk",
             "piece": "umbrella_stall",
-            "x": 2514,
-            "y": 244
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "dog_sleeping",
-            "x": 256,
-            "y": 245
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "potted_plants",
-            "x": 1402,
-            "y": 245
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "trash_bin",
-            "x": 1838,
-            "y": 245
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "trash_bin",
-            "x": 912,
-            "y": 246
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "trash_bin",
-            "x": 1196,
+            "x": 1349,
             "y": 246
           },
           {
@@ -8252,7 +8246,7 @@
           },
           {
             "layer": "sidewalk",
-            "piece": "plastic_stools",
+            "piece": "spirit_house",
             "x": 2073,
             "y": 240
           },
@@ -8360,7 +8354,7 @@
           },
           {
             "layer": "sidewalk",
-            "piece": "dog_sitting",
+            "piece": "dog_sleeping",
             "x": 2017,
             "y": 245
           },
@@ -8660,7 +8654,7 @@
           },
           {
             "layer": "sidewalk",
-            "piece": "potted_plants",
+            "piece": "spirit_house",
             "x": 1292,
             "y": 242
           },
@@ -8672,13 +8666,13 @@
           },
           {
             "layer": "sidewalk",
-            "piece": "trash_bin",
+            "piece": "traffic_cone",
             "x": 1965,
             "y": 243
           },
           {
             "layer": "sidewalk",
-            "piece": "traffic_cone",
+            "piece": "spirit_house",
             "x": 2123,
             "y": 243
           },
@@ -8690,7 +8684,7 @@
           },
           {
             "layer": "sidewalk",
-            "piece": "plastic_stools",
+            "piece": "potted_plants",
             "x": 2183,
             "y": 244
           },
@@ -8702,13 +8696,13 @@
           },
           {
             "layer": "sidewalk",
-            "piece": "cat",
+            "piece": "crates",
             "x": 889,
             "y": 245
           },
           {
             "layer": "sidewalk",
-            "piece": "traffic_cone",
+            "piece": "spirit_house",
             "x": 1749,
             "y": 245
           },
@@ -9044,8 +9038,14 @@
           },
           {
             "layer": "sidewalk",
+            "piece": "vending_machine",
+            "x": 1118,
+            "y": 240
+          },
+          {
+            "layer": "sidewalk",
             "piece": "trash_bin",
-            "x": 1546,
+            "x": 1593,
             "y": 240
           },
           {
@@ -9068,14 +9068,14 @@
           },
           {
             "layer": "sidewalk",
-            "piece": "umbrella_stall",
-            "x": 1111,
+            "piece": "cat",
+            "x": 1404,
             "y": 241
           },
           {
             "layer": "sidewalk",
             "piece": "food_cart",
-            "x": 1790,
+            "x": 1817,
             "y": 241
           },
           {
@@ -9086,26 +9086,26 @@
           },
           {
             "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 1488,
+            "y": 242
+          },
+          {
+            "layer": "sidewalk",
             "piece": "food_cart",
             "x": 847,
             "y": 243
           },
           {
             "layer": "sidewalk",
-            "piece": "traffic_cone",
-            "x": 1197,
-            "y": 243
-          },
-          {
-            "layer": "sidewalk",
             "piece": "cat",
-            "x": 1483,
+            "x": 1530,
             "y": 243
           },
           {
             "layer": "sidewalk",
             "piece": "umbrella_stall",
-            "x": 2015,
+            "x": 2042,
             "y": 243
           },
           {
@@ -9123,49 +9123,43 @@
           {
             "layer": "sidewalk",
             "piece": "plastic_stools",
-            "x": 1608,
+            "x": 1655,
             "y": 244
           },
           {
             "layer": "sidewalk",
-            "piece": "trash_bin",
-            "x": 2069,
+            "piece": "cat",
+            "x": 1765,
             "y": 244
           },
           {
             "layer": "sidewalk",
             "piece": "traffic_cone",
-            "x": 1268,
-            "y": 245
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "trash_bin",
-            "x": 1354,
-            "y": 245
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "potted_plants",
-            "x": 2428,
-            "y": 245
-          },
-          {
-            "layer": "sidewalk",
-            "piece": "dog_sleeping",
-            "x": 1310,
-            "y": 246
+            "x": 2096,
+            "y": 244
           },
           {
             "layer": "sidewalk",
             "piece": "plastic_stools",
-            "x": 2134,
-            "y": 246
+            "x": 960,
+            "y": 245
           },
           {
             "layer": "sidewalk",
             "piece": "potted_plants",
-            "x": 2311,
+            "x": 1274,
+            "y": 245
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "potted_plants",
+            "x": 2161,
+            "y": 246
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "spirit_house",
+            "x": 2338,
             "y": 246
           },
           {
@@ -9232,6 +9226,12 @@
             "layer": "street",
             "piece": "songthaew",
             "x": 177,
+            "y": 254
+          },
+          {
+            "layer": "street",
+            "piece": "taxi",
+            "x": 1389,
             "y": 254
           },
           {
@@ -9551,6 +9551,15 @@
         "size": [
           224,
           104
+        ]
+      },
+      "spirit_house": {
+        "digest": "99d4435876494d95",
+        "file": "res://assets/kit/spirit_house.png",
+        "hd": 2,
+        "size": [
+          66,
+          124
         ]
       },
       "street_lamp": {

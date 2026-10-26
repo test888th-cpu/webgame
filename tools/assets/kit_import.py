@@ -298,6 +298,8 @@ def lay_out(area_id: str, area: dict, theme: dict, pieces: dict, scrolls: dict) 
         posts.append({"piece": pick(rng, theme["posts"]), "layer": "sidewalk", "x": x, "y": POST_FEET})
         x += rng.randint(*theme["post_gap"])
     taken = [(p["x"] - 12, p["x"] + 12) for p in posts]
+    # Nothing tall stands right behind an NPC, where it would be hidden.
+    taken += [(npc["x"] - 22, npc["x"] + 22) for npc in area.get("npcs", [])]
     props = []
     x = 30
     while x < width - 40:

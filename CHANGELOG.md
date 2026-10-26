@@ -9,7 +9,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
   (convenience store, noodle shop, massage shop, pharmacy, a shuttered shop),
   shophouses, condo towers and an unbroken elevated skytrain track with trains behind them, a skyline, sidewalk and road
   tiles, street lamps and power poles, food carts, umbrella stalls, stools, plants,
-  bins, cones, crates, a vending machine and bus stop, cats and dogs, and a tuk-tuk,
+  bins, cones, crates, a vending machine and bus stop, spirit houses (with Nang Kwak), cats and dogs, and a tuk-tuk,
   taxi, songthaew or motorbike parked at the kerb. Layers scroll at different speeds
   for depth, and leaves in front of the fighters scroll faster. Pieces are painted at
   twice the game size and drawn smoothly, so they stay sharp at any window size while
