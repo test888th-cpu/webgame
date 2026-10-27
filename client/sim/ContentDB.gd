@@ -17,7 +17,7 @@ const DIALOGUE_LINES := ["offer", "active", "done"]
 ## From most common to rarest; the UI colours names by rarity.
 const RARITIES := ["common", "uncommon", "rare", "epic", "legendary"]
 const EXIT_SIDES := ["west", "east"]
-const NPC_ROLES := ["shop", "quests"]
+const NPC_ROLES := ["shop", "quests", "travel"]
 const HOTBAR_TYPES := ["attack", "skill", "item"]
 const HOTBAR_SLOTS := 7
 ## Skills each hero brings to the hotbar.

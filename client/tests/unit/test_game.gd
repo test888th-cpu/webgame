@@ -34,7 +34,7 @@ func test_new_game_starts_in_the_depot_with_npcs_and_dummy() -> void:
 	var game := _game()
 	assert_eq(game.zone.area_id, GameSession.content.start_area, "start area")
 	assert_eq(game.zone.enemies().size(), 1, "training dummy placed")
-	assert_eq(game.zone.area["npcs"].size(), 2, "vendor and quest giver")
+	assert_eq(game.zone.area["npcs"].size(), 3, "vendor, quest giver and taxi")
 	assert_true(SaveStore.has_save(), "entering an area autosaves")
 	_done(game)
 
@@ -102,7 +102,7 @@ func test_a_weapon_left_in_an_area_is_there_on_return() -> void:
 	_done(game)
 
 
-func test_defeat_returns_to_the_depot_and_costs_coins() -> void:
+func test_defeat_wakes_you_where_you_fell_and_costs_coins() -> void:
 	var game := _game()
 	game.enter_area("saltmarket", "west")
 	game.profile.money = 100
@@ -118,7 +118,8 @@ func test_defeat_returns_to_the_depot_and_costs_coins() -> void:
 	assert_eq(game.menu_name, "game_over", "game over shown")
 	game._recover(10)
 	assert_eq(game.profile.money, 90, "lost 10%")
-	assert_eq(game.zone.area_id, game.content.start_area, "back at the depot")
+	assert_eq(game.zone.area_id, "saltmarket", "back on your feet in the same street")
+	assert_true(game.zone.hero.position.x < 120.0, "at its west end")
 	assert_eq(game.zone.hero.hp, game.zone.hero.max_hp, "healed")
 	_done(game)
 

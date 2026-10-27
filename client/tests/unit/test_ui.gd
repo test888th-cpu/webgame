@@ -208,7 +208,7 @@ func test_talk_prompt_shows_only_near_an_npc() -> void:
 	game.zone.hero.position = Vector2(140, 300)
 	game.step(FighterInput.new())
 	var prompts := game.view.find_children("Prompt", "CenterContainer", true, false)
-	assert_eq(prompts.size(), 2, "one prompt per NPC")
+	assert_eq(prompts.size(), 3, "one prompt per NPC")
 	for prompt: Control in prompts:
 		assert_true(not prompt.visible, "hidden far away")
 	game.zone.hero.position = Vector2(410, 262)

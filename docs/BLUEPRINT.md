@@ -324,6 +324,7 @@ HUD ปัจจุบันมี: การ์ดฮีโร่ + เลเ�
 | IL-3 | Progression: วัตถุดิบ, แหล่งดรอปใน Item card, CRIT/Attack Speed, ตีบวก (เซฟ v4), สมดุลอาชีพ | M4 | สูง |
 | IL-4 | (ทำแล้ว: Rusted Corner, Parking Lot, Fight Club, Rat Nest, Gang HQ, ศัตรูระยะไกล, Mini-boss, GO >>, อาชีพใหม่ 3 อาชีพ, ฉากวาดเองครบ 22 ชิ้น; เหลือภาพศัตรูใหม่ D6) Complete South Street: พื้นที่ย่อยที่เหลือ, ศัตรู Ranged/Mini-boss, เพิ่มอาชีพ Basketball/Police/Soldier ทีละตัว, ภาพศัตรูใหม่ (D6) | M5 บางส่วน | กลาง |
 | IL-5 | Main Story: Port, Industrial, Black Network, Core Facility, บอสสุดท้าย 3 phase, Epilogue | M5 | กลาง |
+| IL-4+ | (ทำแล้ว) ฟื้นที่จุดล้ม/หน้าประตูบอส, ด่านที่ชนะจำไว้จนพักที่ Depot (ฟาร์มได้), วินมอเตอร์ไซค์ไปพื้นที่ที่เคยไป, เซฟ v6 | - | สูง (ลดการเล่นซ้ำที่น่าเบื่อ) |
 | IL-6 | Endgame and Polish: บอสฟาร์ม, ของระดับสูง, ภารกิจเสริม, วัด FPS/ขนาด web (B5), เพลง | M2 ข้อ 8–9, M7 | กลาง |
 | IL-7 | Online Preparation | M3, M6, M8 | หลัง single-player เสถียร (D4) |
 

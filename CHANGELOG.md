@@ -4,6 +4,26 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — Checkpoints, remembered fights and the motorbike taxi
+- **Knocked out, you get up where you fell**: at the west end of the same area, or just
+  short of the boss fight you lost, to try again at once. Losing still costs coins.
+  Before, every knockout sent the hero back to the Depot Yard.
+- **Fights you win stay won** (`StreetMemory`, saved as `cleared`) until you rest at the
+  Depot Yard, which brings every fight on every street back for farming coins, XP and
+  drops (bosses too; quest rewards and evidence still come once). If an area's fights
+  are all won while its gate is still shut, they come back, so a gate always opens
+  where it stands.
+- **Win, the motorbike taxi** (new LPC NPC in an orange shirt), at the Depot Yard and
+  the Night Market: for 10 coins, rides to any area reached before (`visited`), in street
+  order. Rest at the Depot first to farm a street from scratch.
+- Save version 6 adds `cleared` and `visited`. Older saves load with every fight ready
+  and every area up to the saved one reached.
+- Night Market: one more Punk in the last fight, so its gate (10 Punks) opens in one
+  pass. Before, it only opened by re-entering.
+- Tests: won fights stay won and come back after a rest; a shut gate always has fights
+  left; every gate opens in one pass; getting up at a boss's door; getting up keeps won
+  fights; taxi destinations and fare; a version 5 save loads with its road reached.
+
 ### Changed — Skill pacing: heroes faster, enemies and bosses slower (IL-4)
 - Every hero's skills come back sooner: regular skills in 2.5–4.25 s (were 4–7 s),
   ultimates in 11–12.5 s (were 20–22.5 s), for all six classes.

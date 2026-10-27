@@ -4411,6 +4411,316 @@
       "source": "lpc",
       "status": "imported"
     },
+    "npc_win": {
+      "animations": {
+        "dodge": {
+          "fps": 12,
+          "frames": 5,
+          "loop": false,
+          "row": 6,
+          "source": "jump"
+        },
+        "down": {
+          "fps": 10,
+          "frames": 6,
+          "loop": false,
+          "row": 5,
+          "source": "hurt"
+        },
+        "heavy": {
+          "fps": 9,
+          "frames": 6,
+          "loop": false,
+          "row": 3,
+          "source": "slash"
+        },
+        "hurt": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 4,
+          "source": "hurt"
+        },
+        "idle": {
+          "fps": 4,
+          "frames": 3,
+          "loop": true,
+          "row": 0,
+          "source": "combat"
+        },
+        "light": {
+          "fps": 16,
+          "frames": 6,
+          "loop": false,
+          "row": 2,
+          "source": "1h_halfslash"
+        },
+        "stab": {
+          "fps": 14,
+          "frames": 5,
+          "loop": false,
+          "row": 7,
+          "source": "1h_halfslash"
+        },
+        "walk": {
+          "fps": 10,
+          "frames": 8,
+          "loop": true,
+          "row": 1,
+          "source": "walk"
+        }
+      },
+      "credits": "res://assets/characters/npc_win/credits.json",
+      "facing": "right",
+      "frame_size": [
+        64,
+        64
+      ],
+      "generator": {
+        "recipe": "art/lpc/characters.json#npc_win",
+        "repo": "LPC"
+      },
+      "hand_sheet": "res://assets/characters/npc_win/hands.png",
+      "hands": {
+        "dodge": [
+          [
+            25,
+            47,
+            40
+          ],
+          [
+            23,
+            47,
+            30
+          ],
+          [
+            20,
+            42,
+            10
+          ],
+          [
+            17,
+            39,
+            -20
+          ],
+          [
+            14,
+            37,
+            20
+          ]
+        ],
+        "down": [
+          [
+            20,
+            46,
+            45
+          ],
+          [
+            21,
+            51,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            21,
+            56,
+            45
+          ]
+        ],
+        "heavy": [
+          [
+            39,
+            46,
+            30
+          ],
+          [
+            43,
+            48,
+            30
+          ],
+          [
+            40,
+            46,
+            40
+          ],
+          [
+            48,
+            44,
+            70
+          ],
+          [
+            52,
+            33,
+            115
+          ],
+          [
+            49,
+            32,
+            135
+          ]
+        ],
+        "hurt": [
+          [
+            20,
+            46,
+            40
+          ],
+          [
+            21,
+            51,
+            50
+          ],
+          [
+            23,
+            58,
+            60
+          ]
+        ],
+        "idle": [
+          [
+            29,
+            44,
+            50
+          ],
+          [
+            29,
+            44,
+            50
+          ],
+          [
+            30,
+            45,
+            50
+          ]
+        ],
+        "light": [
+          [
+            12,
+            38,
+            -45
+          ],
+          [
+            39,
+            44,
+            -10
+          ],
+          [
+            50,
+            44,
+            65
+          ],
+          [
+            59,
+            43,
+            110
+          ],
+          [
+            59,
+            43,
+            125
+          ],
+          [
+            39,
+            44,
+            70
+          ]
+        ],
+        "stab": [
+          [
+            39,
+            44,
+            80
+          ],
+          [
+            50,
+            44,
+            90
+          ],
+          [
+            59,
+            43,
+            90
+          ],
+          [
+            59,
+            43,
+            90
+          ],
+          [
+            39,
+            44,
+            80
+          ]
+        ],
+        "walk": [
+          [
+            30,
+            48,
+            55
+          ],
+          [
+            28,
+            48,
+            50
+          ],
+          [
+            22,
+            48,
+            45
+          ],
+          [
+            21,
+            48,
+            40
+          ],
+          [
+            19,
+            48,
+            40
+          ],
+          [
+            21,
+            48,
+            45
+          ],
+          [
+            24,
+            48,
+            50
+          ],
+          [
+            26,
+            48,
+            55
+          ]
+        ]
+      },
+      "licenses": [
+        "OGA-BY 3.0"
+      ],
+      "origin": [
+        32,
+        62
+      ],
+      "role": "npc",
+      "sheet": "res://assets/characters/npc_win/sheet.png",
+      "source": "lpc",
+      "status": "imported"
+    },
     "pipe_brute": {
       "animations": {
         "down": {
@@ -10471,25 +10781,25 @@
           {
             "layer": "sidewalk",
             "piece": "plastic_stools",
-            "x": 961,
+            "x": 953,
             "y": 233
           },
           {
             "layer": "sidewalk",
             "piece": "vending_machine",
-            "x": 1611,
+            "x": 1603,
             "y": 234
           },
           {
             "layer": "sidewalk",
             "piece": "spirit_house",
-            "x": 1733,
+            "x": 1725,
             "y": 234
           },
           {
             "layer": "sidewalk",
             "piece": "potted_plants",
-            "x": 2182,
+            "x": 2174,
             "y": 234
           },
           {
@@ -10500,14 +10810,14 @@
           },
           {
             "layer": "sidewalk",
-            "piece": "food_cart",
-            "x": 756,
+            "piece": "spirit_house",
+            "x": 826,
             "y": 235
           },
           {
             "layer": "sidewalk",
             "piece": "food_cart",
-            "x": 1215,
+            "x": 1207,
             "y": 235
           },
           {
@@ -10519,19 +10829,19 @@
           {
             "layer": "sidewalk",
             "piece": "vending_machine",
-            "x": 1491,
+            "x": 1483,
             "y": 236
           },
           {
             "layer": "sidewalk",
             "piece": "trash_bin",
-            "x": 2101,
+            "x": 2093,
             "y": 236
           },
           {
             "layer": "sidewalk",
             "piece": "dog_sleeping",
-            "x": 2596,
+            "x": 2588,
             "y": 236
           },
           {
@@ -10543,37 +10853,37 @@
           {
             "layer": "sidewalk",
             "piece": "cat",
-            "x": 1423,
+            "x": 1415,
             "y": 237
           },
           {
             "layer": "sidewalk",
             "piece": "vending_machine",
-            "x": 1874,
+            "x": 1866,
             "y": 237
           },
           {
             "layer": "sidewalk",
             "piece": "vending_machine",
-            "x": 2322,
+            "x": 2314,
             "y": 237
           },
           {
             "layer": "sidewalk",
             "piece": "cat",
-            "x": 1831,
+            "x": 1823,
             "y": 238
           },
           {
             "layer": "sidewalk",
             "piece": "dog_sitting",
-            "x": 1937,
+            "x": 1929,
             "y": 238
           },
           {
             "layer": "sidewalk",
             "piece": "vending_machine",
-            "x": 2519,
+            "x": 2511,
             "y": 238
           },
           {

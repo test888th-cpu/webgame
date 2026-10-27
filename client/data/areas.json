@@ -44,6 +44,17 @@
           "color": "#4f6fb0",
           "line": "The street needs clearing. You up for it?",
           "sprite": "npc_odo"
+        },
+        {
+          "id": "taxi_win",
+          "name": "Win",
+          "role": "travel",
+          "fare": 10,
+          "x": 850,
+          "y": 262,
+          "color": "#e07020",
+          "line": "Motorbike taxi. Anywhere you've been on South Street, ten coins. Hold on tight.",
+          "sprite": "npc_win"
         }
       ],
       "placed": [
@@ -971,6 +982,17 @@
           "color": "#d0a050",
           "line": "Fresh gear for the long night. Better than what Ama sells, and priced like it.",
           "sprite": "npc_kenji"
+        },
+        {
+          "id": "taxi_win",
+          "name": "Win",
+          "role": "travel",
+          "fare": 10,
+          "x": 770,
+          "y": 262,
+          "color": "#e07020",
+          "line": "Motorbike taxi. Anywhere you've been on South Street, ten coins. Hold on tight.",
+          "sprite": "npc_win"
         }
       ],
       "encounters": [
@@ -1028,7 +1050,8 @@
             ],
             [
               "smog_warden",
-              "smog_warden"
+              "smog_warden",
+              "market_punk"
             ]
           ]
         }

@@ -916,6 +916,54 @@
         }
       ]
     },
+    "npc_win": {
+      "role": "npc",
+      "body_type": "male",
+      "layers": [
+        {
+          "def": "body/body.json",
+          "recolor": {
+            "color": "ulpc.bronze"
+          }
+        },
+        {
+          "def": "head/heads/human/heads_human_male.json",
+          "recolor": {
+            "color_1": "ulpc.bronze"
+          }
+        },
+        {
+          "def": "feet/shoes/feet_shoes_basic.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        },
+        {
+          "def": "legs/pants/legs_pants.json",
+          "recolor": {
+            "color": "ulpc.navy"
+          }
+        },
+        {
+          "def": "torso/shirts/longsleeve/torso_clothes_longsleeve2.json",
+          "recolor": {
+            "color": "ulpc.orange"
+          }
+        },
+        {
+          "def": "hair/bald/hair_buzzcut.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        },
+        {
+          "def": "hair/beards/beards_trimmed.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        }
+      ]
+    },
     "street_thrower": {
       "role": "enemy",
       "body_type": "male",
