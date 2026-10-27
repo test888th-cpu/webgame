@@ -116,7 +116,7 @@ func test_hero_art_follows_the_hero_and_armour() -> void:
 	tree.root.add_child(game)
 	game.set_physics_process(false)
 	assert_eq(game.view.hero_art(), "hero_oren", "Oren's sprite")
-	game.profile.level = 2
+	game.profile.level = 3
 	game.profile.add_item("work_jacket")
 	game._equip("work_jacket")
 	assert_eq(game.view.hero_art(), "hero_oren_armoured", "armoured look")

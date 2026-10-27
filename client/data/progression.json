@@ -1,8 +1,9 @@
 {
-  "max_level": 20,
+  "max_level": 50,
   "xp": {
-    "base": 40,
-    "growth": 30
+    "base": 100,
+    "growth": 100,
+    "square": 6
   },
   "per_level": {
     "max_hp": 10,

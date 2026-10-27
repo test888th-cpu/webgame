@@ -75,7 +75,7 @@ func test_hero_art_follows_armour() -> void:
 	tree.root.add_child(game)
 	game.set_physics_process(false)
 	assert_eq(game.view.hero_art(), "hero_mika", "default look")
-	game.profile.level = 2  # the jacket needs level 2
+	game.profile.level = 3  # the jacket needs level 3
 	game.profile.add_item("work_jacket")
 	game._equip("work_jacket")
 	assert_eq(game.view.hero_art(), "hero_mika_armoured", "jacket changes the look")

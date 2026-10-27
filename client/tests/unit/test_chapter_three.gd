@@ -24,7 +24,7 @@ func test_the_industrial_district_follows_the_port() -> void:
 	var levels: Array[int] = []
 	for area_id: String in PLANT:
 		levels.append(int(_content().area(area_id)["level"]))
-	assert_eq(levels, [14, 15, 16, 17] as Array[int], "levels rise through the chapter")
+	assert_eq(levels, [19, 21, 23, 24] as Array[int], "levels rise through the chapter")
 
 
 func test_dr_pim_leads_to_the_core() -> void:

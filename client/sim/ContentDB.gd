@@ -576,6 +576,8 @@ func _validate_progression() -> void:
 	if xp is Dictionary:
 		_number(xp, "base", "progression.xp", 1)
 		_number(xp, "growth", "progression.xp", 0)
+		if xp.has("square"):
+			_number(xp, "square", "progression.xp", 0)
 
 
 func _validate_skills() -> void:

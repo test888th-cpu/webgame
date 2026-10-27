@@ -61,6 +61,8 @@ func sync() -> void:
 			_views[f.id] = _make_fighter_view(f)
 		if f.id == ZoneSim.HERO_ID:
 			_views[f.id].set_art(hero_art(), content.art)
+		else:
+			_views[f.id].show_threat(zone.profile.level)
 		_views[f.id].sync()
 	for id: int in _views.keys():
 		if not alive.has(id):

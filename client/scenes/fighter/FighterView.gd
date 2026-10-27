@@ -31,6 +31,8 @@ var fighter: Fighter
 var art_id := ""
 ## Weapon sprites come from here; without it no weapon is drawn.
 var content: ContentDB
+## The level shown over an enemy (0 for the hero and training dummies).
+var enemy_level := 0
 
 var _sprite: AnimatedSprite2D
 var _last_position := Vector2.INF
@@ -47,6 +49,7 @@ var _hand_sheet: Texture2D
 var _held: Sprite2D
 var _fist: Sprite2D
 var _held_id := ""
+var _threat := ""
 
 @onready var _body: Node2D = $Body
 @onready var _torso: Polygon2D = $Body/Torso
@@ -65,6 +68,16 @@ func _ready() -> void:
 
 ## Configures the view for an enemy from its enemies.json entry, fighting at
 ## `level` (shown over its head; 0 hides it).
+## Colours the name by how this enemy compares with a hero at `hero_level`.
+func show_threat(hero_level: int) -> void:
+	if enemy_level <= 0:
+		return
+	var threat := LevelRules.threat(enemy_level, hero_level)
+	if threat != _threat:
+		_threat = threat
+		_name.add_theme_color_override("font_color", UiTheme.THREAT[threat])
+
+
 func setup_enemy(data: Dictionary, art: Dictionary, level := 0) -> void:
 	body_color = Color.from_string(str(data.get("color", "#777777")), Color.GRAY)
 	_torso.color = body_color
@@ -72,13 +85,13 @@ func setup_enemy(data: Dictionary, art: Dictionary, level := 0) -> void:
 	# Bosses get the big HUD bar instead of a small one overhead.
 	show_health_bar = not data.get("boss", false)
 	_health.visible = show_health_bar
-	var tag := "Lv %d" % level if level > 0 and not data.get("training", false) else ""
+	enemy_level = level if not data.get("training", false) else 0
+	var tag := "Lv %d" % enemy_level if enemy_level > 0 else ""
 	if data.get("elite", false) or data.get("boss", false):
 		_name.text = str(data.get("name", "")) + ("  " + tag if tag else "")
 		_name.visible = true
 	elif tag:
 		_name.text = tag
-		_name.add_theme_color_override("font_color", Color(0.8, 0.8, 0.88, 0.85))
 		_name.visible = true
 	if data.has("sprite"):
 		set_art(str(data["sprite"]), art)

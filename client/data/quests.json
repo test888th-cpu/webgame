@@ -11,7 +11,7 @@
       },
       "rewards": {
         "money": 40,
-        "xp": 60,
+        "xp": 100,
         "items": {
           "ginger_tea": 2,
           "torn_label": 1
@@ -58,7 +58,7 @@
       },
       "rewards": {
         "money": 150,
-        "xp": 250,
+        "xp": 320,
         "items": {
           "brass_whistle": 1,
           "forged_note": 1
@@ -84,7 +84,7 @@
       },
       "rewards": {
         "money": 130,
-        "xp": 350,
+        "xp": 230,
         "items": {
           "ginger_tea": 2
         }
@@ -108,7 +108,7 @@
       },
       "rewards": {
         "money": 140,
-        "xp": 380,
+        "xp": 300,
         "items": {
           "ginger_tea": 2
         }
@@ -131,7 +131,7 @@
       },
       "rewards": {
         "money": 120,
-        "xp": 300,
+        "xp": 380,
         "items": {
           "ginger_tea": 3
         }
@@ -155,7 +155,7 @@
       },
       "rewards": {
         "money": 200,
-        "xp": 500,
+        "xp": 460,
         "items": {
           "street_runners": 1
         }
@@ -180,7 +180,7 @@
       },
       "rewards": {
         "money": 300,
-        "xp": 900,
+        "xp": 1090,
         "items": {
           "refined_alloy": 2
         }
@@ -204,7 +204,7 @@
       },
       "rewards": {
         "money": 320,
-        "xp": 1000,
+        "xp": 640,
         "items": {
           "ginger_tea": 3
         }
@@ -228,7 +228,7 @@
       },
       "rewards": {
         "money": 360,
-        "xp": 1100,
+        "xp": 740,
         "items": {
           "ginger_tea": 3
         }
@@ -251,7 +251,7 @@
       },
       "rewards": {
         "money": 500,
-        "xp": 1200,
+        "xp": 1490,
         "items": {
           "jade_charm": 1,
           "baron_ledger": 1
@@ -281,7 +281,7 @@
       },
       "rewards": {
         "money": 380,
-        "xp": 1300,
+        "xp": 960,
         "items": {
           "ginger_tea": 3
         }
@@ -305,7 +305,7 @@
       },
       "rewards": {
         "money": 420,
-        "xp": 1450,
+        "xp": 1080,
         "items": {
           "ginger_tea": 3
         }
@@ -329,7 +329,7 @@
       },
       "rewards": {
         "money": 460,
-        "xp": 1600,
+        "xp": 1080,
         "items": {
           "refined_alloy": 1
         }
@@ -353,7 +353,7 @@
       },
       "rewards": {
         "money": 700,
-        "xp": 2200,
+        "xp": 2950,
         "items": {
           "altered_manifest": 1
         }
@@ -381,7 +381,7 @@
       },
       "rewards": {
         "money": 520,
-        "xp": 1900,
+        "xp": 1920,
         "items": {
           "ginger_tea": 3
         }
@@ -405,7 +405,7 @@
       },
       "rewards": {
         "money": 600,
-        "xp": 2200,
+        "xp": 4500,
         "items": {
           "refined_alloy": 2
         }
@@ -429,7 +429,7 @@
       },
       "rewards": {
         "money": 640,
-        "xp": 2400,
+        "xp": 2600,
         "items": {
           "waste_sample": 1
         }
@@ -453,7 +453,7 @@
       },
       "rewards": {
         "money": 900,
-        "xp": 3000,
+        "xp": 5570,
         "items": {
           "experiment_log": 1
         }

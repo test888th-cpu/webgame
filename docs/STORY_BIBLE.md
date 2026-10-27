@@ -115,30 +115,31 @@ Dr. Pim ส่งหลักฐานให้หน่วยงานตรว
 ## 5. South Street: ผูกพื้นที่เดิมกับแผน 10 พื้นที่ย่อย (เสนอ D5)
 
 พื้นที่เดิมคง `id` ไว้ เปลี่ยนเฉพาะชื่อที่แสดง พื้นที่ที่ยังไม่มีจะเพิ่มใน IL-4
-ช่วงเลเวลระยะยาว (1–50) ยังไม่ใช้ เลเวลปัจจุบันเป็นของเกมตอนนี้ (เพดาน 20)
+เลเวลตัวเอก 1–50 (D11) แต่ละบทมีช่วงเลเวลของตัวเอง: บทที่ 1 พื้นที่เลเวล 1–10, บทที่ 2 เลเวล 12–16, บทที่ 3 เลเวล 19–24
+(Elite สูงกว่าพื้นที่ 1 เลเวล บอส 2 เลเวล) บทที่ 4–6 จะต่อช่วง 25–50
 
-| ลำดับ | พื้นที่ย่อย (Master Prompt) | `id` เดิม | ชื่อปัจจุบัน | เลเวลตอนนี้ | หมายเหตุ |
+| ลำดับ | พื้นที่ย่อย (Master Prompt) | `id` เดิม | ชื่อปัจจุบัน | เลเวล | หมายเหตุ |
 |---|---|---|---|---|---|
 | ฐาน | (Depot: บ้าน, ร้าน, ภารกิจ, หุ่นซ้อม) | `depot_yard` | Depot Yard | 1 | คงเดิม ใช้เป็นที่สอน (tutorial) |
-| 1 | Back Alley | `saltmarket` | Saltmarket Street | 1 | หรือคงชื่อ Saltmarket ให้เป็นซอยหลังตลาด |
-| 2 | Rusted Corner | `rusted_corner` | Rusted Corner | 3 | **ทำแล้ว IL-4** อยู่ระหว่าง Canal Works กับ Rail Yards: แก๊งขว้างขวด (Bottle Thrower) รับเงินจาก "คนของโรงหลอม" ให้กันถนนว่าง |
-| 3 | Parking Lot | `parking_lot` | Parking Lot | 4 | **ทำแล้ว IL-4** อาคารจอดรถระหว่าง Rusted Corner กับ Rail Yards: Pipe Brute เฝ้าทางลาด รถบรรทุกของคนโรงหลอมย้ายลังขึ้นตู้รถไฟตอนกลางคืน |
-| 4 | Freight Yard | `rail_yards` | Rail Yards | 4 | ตรงธีม (ลานขนส่งรถไฟ) |
-| 5 | Night Market | `night_market` | Night Market | 6 | ตรงอยู่แล้ว ที่อยู่ของ Kenji |
-| 6 | Warehouse Row | `refinery` | Smokestack Refinery | 8 | โรงหลอมเถื่อนของ Furnace Baron |
-| 7 | Drainage Tunnels | `canal_works` | Canal Works | 2 | ท่อระบายและคลอง ที่ของ Sludge Foreman **ลำดับเดิมอยู่ก่อน Rail Yards** ต้องเลือก: ย้ายลำดับ หรือคงไว้เป็น "ทางเข้าท่อ" ช่วงต้น |
-| 8 | Rat Nest | `rat_nest` | Rat Nest | 9 | **ทำแล้ว IL-4** อุโมงค์ระบายน้ำใต้ Refinery รังแก๊ง Tar Rat ที่ซ่อน Baron หลังเขาหนีลงท่อ อยู่ระหว่าง Refinery กับ Gang HQ |
-| 9 | Fight Club | `fight_club` | Fight Club | 7 | **ทำแล้ว IL-4** สังเวียนในซอยหลัง Night Market (ฉากยังเป็นถนน จนกว่าจะมีภาพฉากเฉพาะ) อยู่ระหว่าง Night Market กับ Refinery: Pit Champion เฝ้าประตูหลังของ Baron |
-| 10 | Gang Headquarters | `gang_hq` | Gang Headquarters | 9 | **ทำแล้ว IL-4** ตึกบัญชาการของ Furnace Baron ปลายสุดของ South Street: **Baron ย้ายมาเป็นบอสปิดบทที่นี่** (Refinery เหลือ Enforcer เฝ้าโรงหลอม) |
+| 1 | Back Alley | `saltmarket` | Saltmarket Street | 2 | หรือคงชื่อ Saltmarket ให้เป็นซอยหลังตลาด |
+| 2 | Rusted Corner | `rusted_corner` | Rusted Corner | 4 | **ทำแล้ว IL-4** อยู่ระหว่าง Canal Works กับ Rail Yards: แก๊งขว้างขวด (Bottle Thrower) รับเงินจาก "คนของโรงหลอม" ให้กันถนนว่าง |
+| 3 | Parking Lot | `parking_lot` | Parking Lot | 5 | **ทำแล้ว IL-4** อาคารจอดรถระหว่าง Rusted Corner กับ Rail Yards: Pipe Brute เฝ้าทางลาด รถบรรทุกของคนโรงหลอมย้ายลังขึ้นตู้รถไฟตอนกลางคืน |
+| 4 | Freight Yard | `rail_yards` | Rail Yards | 6 | ตรงธีม (ลานขนส่งรถไฟ) |
+| 5 | Night Market | `night_market` | Night Market | 7 | ตรงอยู่แล้ว ที่อยู่ของ Kenji |
+| 6 | Warehouse Row | `refinery` | Smokestack Refinery | 9 | โรงหลอมเถื่อนของ Furnace Baron |
+| 7 | Drainage Tunnels | `canal_works` | Canal Works | 3 | ท่อระบายและคลอง ที่ของ Sludge Foreman **ลำดับเดิมอยู่ก่อน Rail Yards** ต้องเลือก: ย้ายลำดับ หรือคงไว้เป็น "ทางเข้าท่อ" ช่วงต้น |
+| 8 | Rat Nest | `rat_nest` | Rat Nest | 10 | **ทำแล้ว IL-4** อุโมงค์ระบายน้ำใต้ Refinery รังแก๊ง Tar Rat ที่ซ่อน Baron หลังเขาหนีลงท่อ อยู่ระหว่าง Refinery กับ Gang HQ |
+| 9 | Fight Club | `fight_club` | Fight Club | 8 | **ทำแล้ว IL-4** สังเวียนในซอยหลัง Night Market (ฉากยังเป็นถนน จนกว่าจะมีภาพฉากเฉพาะ) อยู่ระหว่าง Night Market กับ Refinery: Pit Champion เฝ้าประตูหลังของ Baron |
+| 10 | Gang Headquarters | `gang_hq` | Gang Headquarters | 10 | **ทำแล้ว IL-4** ตึกบัญชาการของ Furnace Baron ปลายสุดของ South Street: **Baron ย้ายมาเป็นบอสปิดบทที่นี่** (Refinery เหลือ Enforcer เฝ้าโรงหลอม) |
 
 ## 5.1 บทที่ 2: Port District (ทำแล้ว IL-5 ส่วนแรก, ภาพชั่วคราว)
 
 | ลำดับ | พื้นที่ | `id` | เลเวล | เนื้อหา |
 |---|---|---|---|---|
-| 1 | Port Road | `port_road` | 10 | ถนนหน้าท่า ประตูจาก Gang HQ เปิดเมื่อชนะ Baron, Uncle Chai (ภารกิจ), Noi (ร้าน), Win (วิน), ประตูไปต่อ: ล้ม Stevedore 6 |
-| 2 | Freight Market | `freight_market` | 11 | ตลาดขนส่ง การ์ดท่าตรวจลังบางกล่องและปล่อยบางกล่อง ประตู: ล้ม Port Guard 6 |
-| 3 | Container Yard | `container_yard` | 12 | ลานตู้ Dock Slinger ขว้างประแจจากบนกองตู้ ประตู: ล้ม Dock Slinger 6 |
-| 4 | Crane Yard | `crane_yard` | 13 | บอส Harbourmaster Chen และเครนหย่อนตู้ จบบทที่ 2 |
+| 1 | Port Road | `port_road` | 12 | ถนนหน้าท่า ประตูจาก Gang HQ เปิดเมื่อชนะ Baron, Uncle Chai (ภารกิจ), Noi (ร้าน), Win (วิน), ประตูไปต่อ: ล้ม Stevedore 6 |
+| 2 | Freight Market | `freight_market` | 13 | ตลาดขนส่ง การ์ดท่าตรวจลังบางกล่องและปล่อยบางกล่อง ประตู: ล้ม Port Guard 6 |
+| 3 | Container Yard | `container_yard` | 15 | ลานตู้ Dock Slinger ขว้างประแจจากบนกองตู้ ประตู: ล้ม Dock Slinger 6 |
+| 4 | Crane Yard | `crane_yard` | 16 | บอส Harbourmaster Chen และเครนหย่อนตู้ จบบทที่ 2 |
 
 ภารกิจ (Uncle Chai): Dock Shakedown → Market Watch → Hooks and Wrenches → The Harbourmaster
 หลักฐาน: **The Altered Manifest** ใบขนสินค้าที่ปลายทางถูกขูดแล้วเขียนใหม่ เป็นโรงงานในเขตอุตสาหกรรม มีตราเดียวกับกล่องคืนแรก
@@ -149,10 +150,10 @@ Dr. Pim ส่งหลักฐานให้หน่วยงานตรว
 
 | ลำดับ | พื้นที่ | `id` | เลเวล | เนื้อหา |
 |---|---|---|---|---|
-| 1 | Factory Gate | `factory_gate` | 14 | ประตูจาก Crane Yard เปิดเมื่อชนะ Chen, Dr. Pim (ภารกิจ), Aunt Jum (ร้าน), Win, ประตู: ล้ม Plant Guard 6 |
-| 2 | Production Line | `production_line` | 15 | สายการผลิต บอสกลางบท Security Chief Nattapong เฝ้าทางไปบ่อของเสีย |
-| 3 | Waste Pools | `waste_pools` | 16 | บ่อของเสีย Patrol Unit (เครื่องจักร กลุ่ม Machines ตัวแรก) Hazmat Sprayer, Smogling ประตู: ล้ม Patrol Unit 6 |
-| 4 | Factory Drains | `factory_drains` | 17 | ท่อใต้โรงงาน บอส Unit K-7 ช่องไอน้ำระเบิด จบบทที่ 3 |
+| 1 | Factory Gate | `factory_gate` | 19 | ประตูจาก Crane Yard เปิดเมื่อชนะ Chen, Dr. Pim (ภารกิจ), Aunt Jum (ร้าน), Win, ประตู: ล้ม Plant Guard 6 |
+| 2 | Production Line | `production_line` | 21 | สายการผลิต บอสกลางบท Security Chief Nattapong เฝ้าทางไปบ่อของเสีย |
+| 3 | Waste Pools | `waste_pools` | 23 | บ่อของเสีย Patrol Unit (เครื่องจักร กลุ่ม Machines ตัวแรก) Hazmat Sprayer, Smogling ประตู: ล้ม Patrol Unit 6 |
+| 4 | Factory Drains | `factory_drains` | 24 | ท่อใต้โรงงาน บอส Unit K-7 ช่องไอน้ำระเบิด จบบทที่ 3 |
 
 ภารกิจ (Dr. Pim): Factory Doors → The Chief → Sample Run (ได้ **Waste Sample**) → Unit K-7 (ได้ **Experiment Log**: "The Core" ปรากฏครั้งแรก)
 คำถามปิดบท: The Core ยังทำงานอยู่ ใครปกป้องมัน → บทที่ 4 The Black Network
