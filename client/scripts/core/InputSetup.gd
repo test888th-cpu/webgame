@@ -20,6 +20,7 @@ const KEYS := {
 	"use_item": [KEY_H, KEY_Q],
 	"pause": [KEY_ESCAPE, KEY_P],
 	"auto_battle": [KEY_T],
+	"map": [KEY_M],
 	# Menu tabs. These share keys with interact and use_item, which do
 	# nothing while a menu is open.
 	"menu_prev": [KEY_Q],
@@ -39,6 +40,7 @@ const PAD_BUTTONS := {
 	"use_item": JOY_BUTTON_RIGHT_SHOULDER,
 	"pause": JOY_BUTTON_START,
 	"auto_battle": JOY_BUTTON_BACK,
+	"map": JOY_BUTTON_RIGHT_STICK,
 	"menu_prev": JOY_BUTTON_LEFT_SHOULDER,
 	"menu_next": JOY_BUTTON_RIGHT_SHOULDER,
 }

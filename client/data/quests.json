@@ -7,7 +7,8 @@
       "objective": {
         "type": "defeat",
         "enemy": "any",
-        "count": 8
+        "count": 8,
+        "area": "saltmarket"
       },
       "rewards": {
         "money": 40,
@@ -32,7 +33,8 @@
       "objective": {
         "type": "defeat",
         "enemy": "smog_warden",
-        "count": 1
+        "count": 1,
+        "area": "saltmarket"
       },
       "rewards": {
         "money": 60,
@@ -54,7 +56,8 @@
       "objective": {
         "type": "defeat",
         "enemy": "sludge_foreman",
-        "count": 1
+        "count": 1,
+        "area": "canal_works"
       },
       "rewards": {
         "money": 150,
@@ -80,7 +83,8 @@
       "objective": {
         "type": "defeat",
         "enemy": "street_thrower",
-        "count": 6
+        "count": 6,
+        "area": "rusted_corner"
       },
       "rewards": {
         "money": 130,
@@ -104,7 +108,8 @@
       "objective": {
         "type": "defeat",
         "enemy": "pipe_brute",
-        "count": 5
+        "count": 5,
+        "area": "parking_lot"
       },
       "rewards": {
         "money": 140,
@@ -127,7 +132,8 @@
       "objective": {
         "type": "defeat",
         "enemy": "dock_thug",
-        "count": 8
+        "count": 8,
+        "area": "rail_yards"
       },
       "rewards": {
         "money": 120,
@@ -151,7 +157,8 @@
       "objective": {
         "type": "defeat",
         "enemy": "market_punk",
-        "count": 10
+        "count": 10,
+        "area": "night_market"
       },
       "rewards": {
         "money": 200,
@@ -176,7 +183,8 @@
       "objective": {
         "type": "defeat",
         "enemy": "pit_champion",
-        "count": 1
+        "count": 1,
+        "area": "fight_club"
       },
       "rewards": {
         "money": 300,
@@ -200,7 +208,8 @@
       "objective": {
         "type": "defeat",
         "enemy": "refinery_enforcer",
-        "count": 5
+        "count": 5,
+        "area": "refinery"
       },
       "rewards": {
         "money": 320,
@@ -224,7 +233,8 @@
       "objective": {
         "type": "defeat",
         "enemy": "tar_hound",
-        "count": 12
+        "count": 12,
+        "area": "rat_nest"
       },
       "rewards": {
         "money": 360,
@@ -247,7 +257,8 @@
       "objective": {
         "type": "defeat",
         "enemy": "furnace_baron",
-        "count": 1
+        "count": 1,
+        "area": "gang_hq"
       },
       "rewards": {
         "money": 500,
@@ -277,7 +288,8 @@
       "objective": {
         "type": "defeat",
         "enemy": "stevedore",
-        "count": 6
+        "count": 6,
+        "area": "port_road"
       },
       "rewards": {
         "money": 380,
@@ -301,7 +313,8 @@
       "objective": {
         "type": "defeat",
         "enemy": "port_guard",
-        "count": 6
+        "count": 6,
+        "area": "freight_market"
       },
       "rewards": {
         "money": 420,
@@ -325,7 +338,8 @@
       "objective": {
         "type": "defeat",
         "enemy": "dock_slinger",
-        "count": 6
+        "count": 6,
+        "area": "container_yard"
       },
       "rewards": {
         "money": 460,
@@ -349,7 +363,8 @@
       "objective": {
         "type": "defeat",
         "enemy": "harbourmaster_chen",
-        "count": 1
+        "count": 1,
+        "area": "crane_yard"
       },
       "rewards": {
         "money": 700,
@@ -377,7 +392,8 @@
       "objective": {
         "type": "defeat",
         "enemy": "plant_guard",
-        "count": 6
+        "count": 6,
+        "area": "factory_gate"
       },
       "rewards": {
         "money": 520,
@@ -401,7 +417,8 @@
       "objective": {
         "type": "defeat",
         "enemy": "security_chief",
-        "count": 1
+        "count": 1,
+        "area": "production_line"
       },
       "rewards": {
         "money": 600,
@@ -425,7 +442,8 @@
       "objective": {
         "type": "defeat",
         "enemy": "patrol_unit",
-        "count": 6
+        "count": 6,
+        "area": "waste_pools"
       },
       "rewards": {
         "money": 640,
@@ -449,7 +467,8 @@
       "objective": {
         "type": "defeat",
         "enemy": "unit_k7",
-        "count": 1
+        "count": 1,
+        "area": "factory_drains"
       },
       "rewards": {
         "money": 900,
@@ -477,7 +496,8 @@
       "objective": {
         "type": "defeat",
         "enemy": "network_runner",
-        "count": 6
+        "count": 6,
+        "area": "warehouse_row"
       },
       "rewards": {
         "money": 700,
@@ -501,7 +521,8 @@
       "objective": {
         "type": "defeat",
         "enemy": "ringmaster",
-        "count": 1
+        "count": 1,
+        "area": "underground_ring"
       },
       "rewards": {
         "money": 1000,
@@ -525,7 +546,8 @@
       "objective": {
         "type": "defeat",
         "enemy": "network_enforcer",
-        "count": 6
+        "count": 6,
+        "area": "counting_house"
       },
       "rewards": {
         "money": 900,
@@ -549,7 +571,8 @@
       "objective": {
         "type": "defeat",
         "enemy": "big_sak",
-        "count": 1
+        "count": 1,
+        "area": "sak_tower"
       },
       "rewards": {
         "money": 1400,
@@ -577,7 +600,8 @@
       "objective": {
         "type": "defeat",
         "enemy": "facility_trooper",
-        "count": 6
+        "count": 6,
+        "area": "facility_gate"
       },
       "rewards": {
         "money": 1100,
@@ -601,7 +625,8 @@
       "objective": {
         "type": "defeat",
         "enemy": "subject_twelve",
-        "count": 1
+        "count": 1,
+        "area": "test_labs"
       },
       "rewards": {
         "money": 1500,
@@ -625,7 +650,8 @@
       "objective": {
         "type": "defeat",
         "enemy": "riot_trooper",
-        "count": 6
+        "count": 6,
+        "area": "machine_hall"
       },
       "rewards": {
         "money": 1300,
@@ -649,7 +675,8 @@
       "objective": {
         "type": "defeat",
         "enemy": "commander_arthit",
-        "count": 1
+        "count": 1,
+        "area": "control_room"
       },
       "rewards": {
         "money": 2000,
@@ -677,7 +704,8 @@
       "objective": {
         "type": "defeat",
         "enemy": "facility_trooper",
-        "count": 6
+        "count": 6,
+        "area": "core_approach"
       },
       "rewards": {
         "money": 1600,
@@ -701,7 +729,8 @@
       "objective": {
         "type": "defeat",
         "enemy": "hybrid_brute",
-        "count": 6
+        "count": 6,
+        "area": "cooling_tunnels"
       },
       "rewards": {
         "money": 1700,
@@ -725,7 +754,8 @@
       "objective": {
         "type": "defeat",
         "enemy": "core_sentinel",
-        "count": 6
+        "count": 6,
+        "area": "reactor_walkway"
       },
       "rewards": {
         "money": 1800,
@@ -749,7 +779,8 @@
       "objective": {
         "type": "defeat",
         "enemy": "director_wiroj",
-        "count": 1
+        "count": 1,
+        "area": "core_chamber"
       },
       "rewards": {
         "money": 3000,

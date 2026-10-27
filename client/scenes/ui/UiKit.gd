@@ -150,7 +150,9 @@ static func icon_rect(content: ContentDB, id: String, scale := 1.0) -> TextureRe
 
 
 ## Gives keyboard/gamepad focus to the first visible, enabled focusable
-## control. Deferred, so it also works on a screen built this frame.
+## control (one marked with the "start_focus" meta first, for screens that
+## open on something other than their first control). Deferred, so it also
+## works on a screen built this frame.
 static func focus_first(root: Node) -> void:
 	# By id: the screen may be freed (replaced) before the deferred call runs.
 	_focus_first_now.call_deferred(root.get_instance_id())
@@ -160,6 +162,7 @@ static func _focus_first_now(root_id: int) -> void:
 	var root := instance_from_id(root_id) as Node
 	if root == null or not root.is_inside_tree():
 		return
+	var first: Control = null
 	for child in root.find_children("*", "Control", true, false):
 		var control: Control = child
 		if (
@@ -167,8 +170,13 @@ static func _focus_first_now(root_id: int) -> void:
 			and control.is_visible_in_tree()
 			and not (control is BaseButton and control.disabled)
 		):
-			control.grab_focus()
-			return
+			if control.has_meta("start_focus"):
+				first = control
+				break
+			if first == null:
+				first = control
+	if first:
+		first.grab_focus()
 
 
 ## A conversation box along the bottom of the screen, with an optional

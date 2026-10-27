@@ -4,6 +4,37 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — City map
+- **Map tab** in the pause window; **M** (gamepad: press the right stick) opens and
+  closes it.
+  - Shows where the hero is: the area, its level, and its district with the hero's place
+    in it (e.g. "Port District 2 / 4").
+  - Shows the goal: the tracked quest's area, the giver once the quest is done, or the
+    next quest's giver.
+  - The street is laid out in six districts, one row each, plus the world boss arenas
+    once unlocked.
+  - Each area's level is coloured by danger. The map marks the hero, the goal, towns
+    (shop, quests, taxi) and bosses (green once beaten).
+  - Only areas the hero has reached, and the next one east, are named. Further areas
+    show `???`, and so does a district with nothing known.
+  - Moving across the boxes shows what is known of each area: services, the boss, and
+    why a gate is still shut.
+- **HUD map strip** under the area name:
+  - top line: the district's areas as dots, with the hero and the goal (or an arrow
+    pointing to it);
+  - bottom line: this area from west to east, with the fights still to win, a shut
+    gate, and where the hero stands.
+  - Tap it to open the map.
+- Entering an area now also names its district, e.g. "Saltmarket Street · South Street
+  2/11".
+- **Data:**
+  - `areas.json` `districts` defines the districts.
+  - Every quest objective names its `area`.
+  - `ContentDB` checks that districts run in street order and that each quest's area
+    actually fields its target.
+- `MapRules` (`client/sim/`) is pure and saves nothing new. Tests are in
+  `tests/unit/test_map.gd`.
+
 ### Added — Group world bosses: The Iron Colossus and Subject Zero (decision D14)
 - **The Iron Colossus**: Kraisorn's prototype security walker, woken in the Old Scrapyard.
   - For heroes of level 40 and up; it fights at level 52.

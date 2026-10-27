@@ -63,6 +63,11 @@ func _ready() -> void:
 	_feedback = GameFeedback.new(content, _hud)
 	_hud.slot_pressed.connect(func(index: int) -> void: _clicked_slot = index)
 	_hud.auto_pressed.connect(func() -> void: auto.toggle())
+	_hud.map_pressed.connect(
+		func() -> void:
+			if not menu:
+				open_pause(GameMenus.TAB_MAP)
+	)
 	enter_area(profile.area, "")
 	auto = AutoBattle.new(self)
 	print("%s %s" % [READY_MARKER, BuildInfo.summary()])
@@ -88,7 +93,11 @@ func enter_area(area_id: String, entry: String, start_x := -1.0) -> void:
 	view.update_npc_marks(profile)
 	_feedback.view = view
 	_hud.attach(zone, profile, content)
-	_hud.toast(str(zone.area.get("name", area_id)))
+	var spot := MapRules.locate(content, area_id)
+	var arrived := str(zone.area.get("name", area_id))
+	if spot:
+		arrived += "  ·  %s %d/%d" % [spot["name"], int(spot["index"]) + 1, spot["count"]]
+	_hud.toast(arrived)
 	if auto:
 		auto.entered(area_id)
 	SaveStore.save(profile)
@@ -103,6 +112,8 @@ func _physics_process(_delta: float) -> void:
 				close_item_card()
 		elif Input.is_action_just_pressed("pause"):
 			close_menu()
+		elif menu_name == "map" and Input.is_action_just_pressed("map"):
+			close_menu()
 		elif menu_name in GameMenus.TAB_MENU_NAMES:
 			if Input.is_action_just_pressed("menu_prev"):
 				GameMenus.cycle_tab(menu, -1)
@@ -112,6 +123,10 @@ func _physics_process(_delta: float) -> void:
 	if Input.is_action_just_pressed("pause"):
 		Sfx.play("ui_select", -4.0)
 		open_pause()
+		return
+	if Input.is_action_just_pressed("map"):
+		Sfx.play("ui_select", -4.0)
+		open_pause(GameMenus.TAB_MAP)
 		return
 	if Input.is_action_just_pressed("auto_battle"):
 		auto.toggle()

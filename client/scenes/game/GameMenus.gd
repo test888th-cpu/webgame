@@ -1,17 +1,19 @@
 class_name GameMenus
 extends RefCounted
-## Builds the in-game screens for Game.gd: the tabbed pause window, the shop,
+## Builds the in-game screens for Game.gd: the tabbed pause window (the Map
+## tab is MapTab), the shop,
 ## NPC conversations and the knock-out screen. Screens only show the profile
 ## and call back into Game's actions, which own every change; after an action
 ## Game simply rebuilds the screen. All styling comes from UiTheme/UiKit.
 
 ## Pause window tabs, and the menu name Game reports for each (the probe and
 ## tests read it).
-const TABS := ["Status", "Equipment", "Quests", "Controls", "Game"]
-const TAB_MENU_NAMES := ["pause", "inventory", "quests", "controls", "system"]
+const TABS := ["Status", "Equipment", "Quests", "Map", "Controls", "Game"]
+const TAB_MENU_NAMES := ["pause", "inventory", "quests", "map", "controls", "system"]
 const TAB_STATUS := 0
 const TAB_BAG := 1
 const TAB_QUESTS := 2
+const TAB_MAP := 3
 const WINDOW_SIZE := Vector2(600, 318)
 const SHOP_SIZE := Vector2(540, 304)
 const LIST_WIDTH := 180.0
@@ -25,6 +27,7 @@ const CONTROLS := [
 	["Talk, shop", "E / U", "B / Circle"],
 	["Eat (quick heal)", "H / Q", "RB / R1"],
 	["Auto battle on / off (areas you have cleared)", "T", "Back / Select"],
+	["Map", "M", "Right stick (press)"],
 	["Menu", "Esc / P", "Start"],
 	["Menu tabs", "Q  E", "LB  RB"],
 ]
@@ -46,6 +49,7 @@ static func pause(game: Game, tab: int) -> Control:
 	tabs.add_child(CharacterTabs.status(game))
 	tabs.add_child(CharacterTabs.equipment(game))
 	tabs.add_child(_quests(game))
+	tabs.add_child(MapTab.build(game))
 	tabs.add_child(_controls())
 	tabs.add_child(_system(game))
 	for i in TABS.size():
