@@ -32,6 +32,9 @@ var areas: Dictionary = {}
 ## obstacles.json; areas place them in "obstacles".
 var obstacles: Dictionary = {}
 var start_area := ""
+## The street's districts for the map, west to east: [{"name", "from": the
+## first area}]; each runs east to the next one's "from" (see MapRules).
+var districts: Array = []
 var quests: Dictionary = {}
 var shops: Dictionary = {}
 var progression: Dictionary = {}
@@ -80,6 +83,7 @@ static func load_all(dir := DATA_DIR) -> ContentDB:
 	var area_file := db._read(dir.path_join("areas.json"))
 	db.areas = area_file.get("areas", {})
 	db.start_area = str(area_file.get("start_area", ""))
+	db.districts = area_file.get("districts", [])
 	db.progression = db._read(dir.path_join("progression.json"))
 	db.weapons = db._section(dir, "weapons.json", "weapons")
 	db.obstacles = db._section(dir, "obstacles.json", "obstacles")
@@ -240,6 +244,7 @@ func validate() -> void:
 	for id: String in quests:
 		_validate_quest(id, quests[id])
 	_check(areas.has(start_area), "areas.start_area: unknown area %s" % start_area)
+	_validate_districts()
 	for id: String in areas:
 		_validate_area(id, areas[id])
 	_validate_progression()
@@ -304,6 +309,35 @@ func _validate_enemy(id: String, e: Dictionary) -> void:
 				for field in ["up", "down"]:
 					_number(shield, field, where + ".phases.shield", 1)
 	_validate_loot(e.get("loot", {}), where + ".loot")
+
+
+func _validate_districts() -> void:
+	var street := StreetMemory.street(self)
+	var last := -1
+	for i in districts.size():
+		var district: Variant = districts[i]
+		var where := "areas.districts[%d]" % i
+		if not district is Dictionary:
+			errors.append(where + ": expected an object")
+			continue
+		_check(str(district.get("name", "")) != "", where + ".name: required")
+		var at := street.find(str(district.get("from", "")))
+		_check(at > last, where + ".from: an area further east on the street")
+		_check(i > 0 or at == 0, where + ".from: the first district starts the street")
+		last = at
+
+
+## True when `area_id` fields enemy `kind` (any enemy for "any").
+func _fields(area_id: String, kind: String) -> bool:
+	var data := area(area_id)
+	for placed: Dictionary in data.get("placed", []):
+		if kind in ["any", str(placed.get("enemy"))]:
+			return true
+	for encounter: Dictionary in data.get("encounters", []):
+		for wave: Array in encounter.get("waves", []):
+			if kind == "any" or kind in wave:
+				return true
+	return false
 
 
 func _validate_world_boss() -> void:
@@ -452,6 +486,12 @@ func _validate_quest(id: String, q: Dictionary) -> void:
 			"%s.objective: unknown enemy %s" % [where, target]
 		)
 		_number(objective, "count", where + ".objective", 1)
+		# Where the map sends the hero: an area that fields the target.
+		var at := str(objective.get("area", ""))
+		_check(
+			areas.has(at) and _fields(at, target),
+			"%s.objective.area: %s fields no %s" % [where, at, target]
+		)
 	if q.has("requires"):
 		_check(
 			quests.has(str(q["requires"])), "%s.requires: unknown quest %s" % [where, q["requires"]]

@@ -1,5 +1,13 @@
 {
   "start_area": "depot_yard",
+  "districts": [
+    {"name": "South Street", "from": "depot_yard"},
+    {"name": "Port District", "from": "port_road"},
+    {"name": "Industrial District", "from": "factory_gate"},
+    {"name": "The Black Network", "from": "warehouse_row"},
+    {"name": "The Core Facility", "from": "facility_gate"},
+    {"name": "Main Control Centre", "from": "core_approach"}
+  ],
   "areas": {
     "depot_yard": {
       "name": "Depot Yard",

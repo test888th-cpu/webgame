@@ -35,6 +35,23 @@ Iron City คือเมืองอุตสาหกรรมและเม�
 - ขนวัตถุดิบโดยปลอมเอกสาร ผ่านท่าเรือและแก๊งท้องถิ่น
 - ปกปิดหลักฐานเพื่อไม่ให้ธุรกิจเสียหาย
 
+### 2.1.1 เขตบนแผนที่เมือง
+
+แผนที่ในเกม (แท็บ Map) แบ่งถนนสายหลักเป็นเขตตามบท เรียงจากตะวันตกไปตะวันออก ชื่อเขตอยู่ใน
+`client/data/areas.json` (`districts`) ใช้ชื่อจากตารางนี้เท่านั้น:
+
+| เขต | พื้นที่แรก | ที่มา |
+|---|---|---|
+| South Street | Depot Yard | Prologue และบทที่ 1 |
+| Port District | Port Road | บทที่ 2 |
+| Industrial District | Factory Gate | บทที่ 3 |
+| The Black Network | Warehouse Row | บทที่ 4 (เครือข่ายใต้ดินที่ซ่อนอยู่ทั่วเมือง ใช้ชื่อบทเป็นชื่อเขต) |
+| The Core Facility | Core Facility Gate | บทที่ 5 |
+| Main Control Centre | Core Approach | บทสุดท้าย (ศูนย์ควบคุมหลัก) |
+
+สนามบอสโลก (The Great Drain, The Old Scrapyard, The Sunken Reservoir) อยู่นอกถนนสายหลัก
+ไปได้ด้วยรถของ Win เท่านั้น แผนที่แสดงเป็นแถว World Bosses เมื่อปลดล็อกแล้ว
+
 ### 2.2 The Murk (ตีความใหม่)
 
 ในเกมปัจจุบัน The Murk คือ "หมอกควันมีชีวิต" จากอุโมงค์ใต้ดิน ข้อเสนอคือ:

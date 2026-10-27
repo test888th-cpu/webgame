@@ -11,9 +11,10 @@ in diffs and checked by tests.
 | Visual language | `client/scenes/ui/UiTheme.gd` | Palette, type scale, spacing, and the styles of every control type. Merged into the project theme at startup by `GameSession`, so every Control (also under CanvasLayers) uses it. |
 | Building blocks | `client/scenes/ui/UiKit.gd` | `label`, `button`, `menu_button`, `window`, `dialog`, `section`, `row`, `key_hint`, `icon`/`icon_rect`, `portrait`, `focus_first`. Screens are assembled from these. |
 | Bars | `client/scenes/ui/StatBar.gd` | HP/energy/XP/boss bars, drawn directly, with a damage trail. |
-| HUD | `client/scenes/ui/Hud.gd`, `HeroPortrait.gd` | Hero card (portrait in the hero's colour with a level badge, hit flash and low-HP pulse; name and role), coins, area, tracked quest, boss bar, notifications, key hints, touch controls. Reads state only. |
-| Game screens | `client/scenes/game/GameMenus.gd` | Pause window (Status, Equipment, Quests, Controls, Game tabs), shop, NPC conversation, knock-out screen. Shows the profile and calls back into `Game.gd`, which owns every change and rebuilds the screen afterwards. |
+| HUD | `client/scenes/ui/Hud.gd`, `HeroPortrait.gd` | Hero card (portrait in the hero's colour with a level badge, hit flash and low-HP pulse; name and role), coins, area, map strip (`MiniMap.gd`: the district's areas as dots with the hero and the goal, and this area's remaining fights, shut gate and the hero's place; tap to open the map), tracked quest, boss bar, notifications, key hints, touch controls. Reads state only. |
+| Game screens | `client/scenes/game/GameMenus.gd` | Pause window (Status, Equipment, Quests, Map, Controls, Game tabs), shop, NPC conversation, knock-out screen. Shows the profile and calls back into `Game.gd`, which owns every change and rebuilds the screen afterwards. |
 | Character tabs | `client/scenes/game/CharacterTabs.gd` | Status: hero card (sprite, HP/energy/XP), attributes as total + gear bonus with a line of help each, next level, record. Equipment: six worn slots around the hero (turnable), stats summary, bag grid. |
+| Map | `client/scenes/game/MapTab.gd`, `client/scenes/ui/MapNode.gd`, `client/sim/MapRules.gd` | Where the hero is (area, level, district and place in it) and the goal (the tracked quest's area, its giver once done, or the next quest's giver). One row per district, one box per area: level in its threat colour, orange where the hero stands, teal frame for a town, red corner for a boss (green when beaten), gold dot for the goal. Only areas reached and the next one east are named; the rest show `???`. Walking the boxes shows what is known of each area (services, boss, why its gate is shut). M (right stick press) opens and closes it. Read-only: travel stays with the taxi. |
 | Items | `client/scenes/ui/ItemText.gd`, `ItemSlot.gd`, `ItemCard.gd` | Rarity colours and player-facing stat text; the bag/worn cell; the item card (icon, name, rarity and slot, level requirement, effects, comparison with what is worn, story, Equip/Unequip/Use/Discard with confirmation). The shop shows the same details. |
 | Hotbar | `client/scenes/ui/Hotbar.gd`, `HotbarSlot.gd` | Seven slots from `data/skills.json` (attack, four skills, two consumables): icon, key, cooldown sweep with seconds, blue tint without energy, lock with unlock level, item count, tooltips. Keys 1–7; gamepad RT + X/Y/A/B (skills) and RT + RB (slot 7); click or tap. |
 | Feedback | `client/scenes/game/GameFeedback.gd`, `client/scenes/fx/Fx.gd`, `client/scripts/core/Sfx.gd` | Turns zone events into effects, impact flashes, shake, the hurt vignette, the level-up banner and sounds. Presentation only. |
@@ -35,7 +36,7 @@ in diffs and checked by tests.
   screen). `UiKit.label` only wraps when given `wrap_width`.
 - **Keyboard and gamepad first.** Every screen focuses its first control. W/S
   (and the d-pad) move focus, Enter/A selects, Esc/Start closes, Q/E (LB/RB)
-  switch pause tabs. Lists act on Enter, so the cursor never has to leave them.
+  switch pause tabs, M opens the map. Lists act on Enter, so the cursor never has to leave them.
 - **Screens are rebuilt, not patched.** After buying, equipping or handing in,
   `Game` rebuilds the screen from the profile and restores the selection.
 - **The world pauses** while any menu is open.

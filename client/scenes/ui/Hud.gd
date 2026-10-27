@@ -3,7 +3,7 @@ extends CanvasLayer
 ##   top left   hero card: level badge, name, HP (with damage trail), energy, XP;
 ##              under it the held weapon and the AUTO battle switch
 ##   top centre boss bar (boss fights only)
-##   top right  coins, area name, tracked quest card
+##   top right  coins, area name, map strip (MiniMap), tracked quest card
 ##   bottom     hotbar (attack, skills, items), key hints
 ##   centre     notification banner, level-up banner
 ##   edges      red vignette when the hero is hurt
@@ -13,6 +13,8 @@ extends CanvasLayer
 signal slot_pressed(index: int)
 ## The AUTO switch was clicked or tapped.
 signal auto_pressed
+## The map strip was clicked or tapped.
+signal map_pressed
 
 ## How long "GO >>" blinks after a cleared fight.
 const GO_SECONDS := 4.0
@@ -32,6 +34,7 @@ var _energy: StatBar
 var _xp: StatBar
 var _money: Label
 var _area: Label
+var _mini: MiniMap
 var _quest_card: PanelContainer
 ## "GO >>" at the right edge after a fight is cleared: the way on is east.
 var _go: Label
@@ -85,6 +88,7 @@ func attach(p_zone: ZoneSim, p_profile: PlayerProfile, p_content: ContentDB) -> 
 	profile = p_profile
 	content = p_content
 	_area.text = "%s  ·  Lv %d" % [zone.area.get("name", ""), zone.level]
+	_mini.attach(zone, profile, content)
 	_name.text = profile.name
 	var hero_data := content.hero(profile.hero)
 	var color := Color.from_string(str(hero_data.get("color", "")), UiTheme.ACCENT)
@@ -254,6 +258,11 @@ func _build_top_right(root: Control) -> void:
 	_area = UiKit.overlay_label("", UiTheme.SIZE_CAPTION, UiTheme.TEXT_DIM)
 	_area.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	column.add_child(_area)
+	_mini = MiniMap.new()
+	_mini.name = "MiniMap"
+	_mini.size_flags_horizontal = Control.SIZE_SHRINK_END
+	_mini.pressed.connect(map_pressed.emit)
+	column.add_child(_mini)
 	_world_boss = UiKit.overlay_label("", UiTheme.SIZE_SMALL, UiTheme.GOLD)
 	_world_boss.name = "WorldBoss"
 	_world_boss.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
