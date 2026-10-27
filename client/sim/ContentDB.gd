@@ -265,6 +265,13 @@ func _validate_enemy(id: String, e: Dictionary) -> void:
 			float(band.get("min", 0)) > 0 and float(band.get("max", 0)) > float(band.get("min", 0)),
 			where + ".ai.ranged: needs 0 < min < max"
 		)
+	var hazard: Variant = e.get("hazard", {})
+	if hazard is Dictionary and not hazard.is_empty():
+		_check(bool(e.get("boss", false)), where + ".hazard: only bosses call crane drops")
+		for field in ["every", "warn", "damage"]:
+			_number(hazard, field, where + ".hazard", 1)
+		var half: Variant = hazard.get("half")
+		_check(half is Array and half.size() == 2, where + ".hazard.half: [x, y]")
 	_validate_moveset(e.get("moveset", {}), where)
 	var ai: Variant = e.get("ai")
 	if ai != null:

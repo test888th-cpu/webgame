@@ -1106,6 +1106,46 @@
       "guard_break": true,
       "knockdown": true,
       "anim": "heavy"
+    },
+    "chen_jab": {
+      "startup": 10,
+      "active": 3,
+      "recovery": 18,
+      "damage": 13,
+      "hitstun": 22,
+      "knockback": 30,
+      "reach_offset": 6,
+      "reach": 38,
+      "depth_tolerance": 16
+    },
+    "chen_hook": {
+      "startup": 26,
+      "active": 8,
+      "recovery": 32,
+      "damage": 26,
+      "hitstun": 34,
+      "knockback": 110,
+      "reach_offset": -30,
+      "reach": 100,
+      "depth_tolerance": 24,
+      "guard_break": true,
+      "knockdown": true,
+      "telegraph": true,
+      "anim": "heavy"
+    },
+    "chen_chain": {
+      "startup": 24,
+      "active": 10,
+      "recovery": 38,
+      "damage": 22,
+      "hitstun": 30,
+      "knockback": 100,
+      "reach_offset": 10,
+      "reach": 120,
+      "depth_tolerance": 14,
+      "knockdown": true,
+      "telegraph": true,
+      "anim": "heavy"
     }
   }
 }

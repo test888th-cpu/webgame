@@ -27,6 +27,8 @@ const PUNCHES: Array[String] = [
 var content: ContentDB
 var view: ZoneView
 var hud: Node
+## Crane drops on screen, oldest first, matched to ZoneSim's by order.
+var _drops: Array[CraneDrop] = []
 
 
 func _init(p_content: ContentDB, p_hud: Node) -> void:
@@ -67,6 +69,20 @@ func on_event(event: ZoneEvent) -> void:
 		"weapon_break":
 			Sfx.play("break_" + str(event.data["material"]), -2.0)
 			Fx.spawn(view.effects, content, "dust", event.data["at"] + CHEST)
+		"hazard_warn":
+			var drop := CraneDrop.new()
+			drop.position = event.data["at"]
+			drop.setup(float(event.data["ticks"]) / CombatRules.TICK_RATE)
+			view.effects.add_child(drop)
+			_drops.append(drop)
+			Sfx.play("denied", -6.0)
+		"hazard_hit":
+			_drops = _drops.filter(func(d: CraneDrop) -> bool: return is_instance_valid(d))
+			if not _drops.is_empty():
+				_drops.pop_front().land()
+			Sfx.play("break_metal", 0.0)
+			Fx.spawn(view.effects, content, "dust", event.data["at"])
+			view.shake(6.0)
 
 
 func level_up(level: int, skills: Array) -> void:

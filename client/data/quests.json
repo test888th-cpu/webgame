@@ -267,6 +267,106 @@
         "title": "Chapter 1 complete",
         "subtitle": "South Street is safer. The money trail leads to the Port District."
       }
+    },
+    "dock_shakedown": {
+      "name": "Dock Shakedown",
+      "giver": "uncle_chai",
+      "requires": "furnace_baron",
+      "chapter": "Chapter 2: Port District",
+      "description": "Knock down 6 Stevedores on Port Road.",
+      "objective": {
+        "type": "defeat",
+        "enemy": "stevedore",
+        "count": 6
+      },
+      "rewards": {
+        "money": 380,
+        "xp": 1300,
+        "items": {
+          "ginger_tea": 3
+        }
+      },
+      "dialogue": {
+        "offer": "The Baron's ledger brought you here? Then you've seen the same money I have. The stevedores who take it now lean on every stall on this road. Knock down 6 of them.",
+        "active": "They work the far end of Port Road. Knock down 6 Stevedores.",
+        "done": "They said the cargo goes through the Freight Market first, under port guard. Not customs. Guards in uniforms nobody here issued."
+      }
+    },
+    "market_watch": {
+      "name": "Market Watch",
+      "giver": "uncle_chai",
+      "requires": "dock_shakedown",
+      "chapter": "Chapter 2: Port District",
+      "description": "Knock down 6 Port Guards in the Freight Market.",
+      "objective": {
+        "type": "defeat",
+        "enemy": "port_guard",
+        "count": 6
+      },
+      "rewards": {
+        "money": 420,
+        "xp": 1450,
+        "items": {
+          "ginger_tea": 3
+        }
+      },
+      "dialogue": {
+        "offer": "Those guards wave some crates through and search everyone else. Find out who they answer to. Knock down 6 of them.",
+        "active": "The Freight Market is past Port Road. Knock down 6 Port Guards.",
+        "done": "Every guard carried the same work order, signed by the harbourmaster himself. The crates go on to the container yard at night."
+      }
+    },
+    "hooks_and_wrenches": {
+      "name": "Hooks and Wrenches",
+      "giver": "uncle_chai",
+      "requires": "market_watch",
+      "chapter": "Chapter 2: Port District",
+      "description": "Knock down 6 Dock Slingers in the Container Yard.",
+      "objective": {
+        "type": "defeat",
+        "enemy": "dock_slinger",
+        "count": 6
+      },
+      "rewards": {
+        "money": 460,
+        "xp": 1600,
+        "items": {
+          "refined_alloy": 1
+        }
+      },
+      "dialogue": {
+        "offer": "Slingers sit on top of the container stacks and throw wrenches at anyone who walks the yard. Clear them, and the way to the cranes is open. Knock down 6.",
+        "active": "They keep their distance on the stacks. Close in fast. Knock down 6 Dock Slingers.",
+        "done": "Past the yard there's only the crane yard, and Chen's office above it. He runs those cranes himself. Watch the sky."
+      }
+    },
+    "harbourmaster": {
+      "name": "The Harbourmaster",
+      "giver": "uncle_chai",
+      "requires": "hooks_and_wrenches",
+      "chapter": "Chapter 2: Port District",
+      "description": "Defeat Harbourmaster Chen in the Crane Yard.",
+      "objective": {
+        "type": "defeat",
+        "enemy": "harbourmaster_chen",
+        "count": 1
+      },
+      "rewards": {
+        "money": 700,
+        "xp": 2200,
+        "items": {
+          "altered_manifest": 1
+        }
+      },
+      "dialogue": {
+        "offer": "Chen decides which crates leave this port and which papers go with them. Stop him. He'll drop a container on you if you stand still, so keep moving.",
+        "active": "The Crane Yard is past the Container Yard. When the red shadow grows under you, move.",
+        "done": "His manifest. Someone scratched out the destination and wrote in a factory in the Industrial District, and stamped it with the same mark as that first crate. This goes deeper than the port."
+      },
+      "ends_chapter": {
+        "title": "Chapter 2 complete",
+        "subtitle": "The port is quiet. The cargo leads on to the Industrial District."
+      }
     }
   }
 }

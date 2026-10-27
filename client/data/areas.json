@@ -1577,6 +1577,15 @@
         "west": {
           "to": "rat_nest",
           "entry": "east"
+        },
+        "east": {
+          "to": "port_road",
+          "entry": "west",
+          "requires": {
+            "defeat": "furnace_baron",
+            "count": 1,
+            "hint": "The Baron's men still hold the road to the port. Defeat the Baron first."
+          }
         }
       },
       "weapons": {
@@ -1661,6 +1670,546 @@
           "kind": "street_lamp",
           "x": 1450,
           "y": 240
+        }
+      ]
+    },
+    "port_road": {
+      "name": "Port Road",
+      "level": 10,
+      "width": 2000,
+      "safe": false,
+      "theme": "depot",
+      "kit_theme": "docks",
+      "palette": {
+        "sky": "#141c28",
+        "buildings": [
+          "#22303e",
+          "#2a3848",
+          "#1c2834"
+        ],
+        "windows": "#d8c890",
+        "sidewalk": "#4a4e56",
+        "street": "#22262c"
+      },
+      "exits": {
+        "west": {
+          "to": "gang_hq",
+          "entry": "east"
+        },
+        "east": {
+          "to": "freight_market",
+          "entry": "west",
+          "requires": {
+            "defeat": "stevedore",
+            "count": 6,
+            "hint": "Stevedores block the road to the market. Knock down 6 to pass."
+          }
+        }
+      },
+      "npcs": [
+        {
+          "id": "uncle_chai",
+          "name": "Uncle Chai",
+          "role": "quests",
+          "x": 300,
+          "y": 262,
+          "color": "#a07040",
+          "line": "Forty years I've fed the dock crews. Never seen them this scared.",
+          "sprite": "npc_chai"
+        },
+        {
+          "id": "vendor_noi",
+          "name": "Noi",
+          "role": "shop",
+          "shop": "port_canteen",
+          "x": 470,
+          "y": 262,
+          "color": "#d07090",
+          "line": "Rice, tea and whatever the crews leave behind. Port prices.",
+          "sprite": "npc_noi"
+        },
+        {
+          "id": "taxi_win_port",
+          "name": "Win",
+          "role": "travel",
+          "fare": 10,
+          "x": 640,
+          "y": 262,
+          "color": "#e07020",
+          "line": "Even out here at the port, ten coins. Hold on tight.",
+          "sprite": "npc_win"
+        }
+      ],
+      "weapons": {
+        "count": [
+          3,
+          5
+        ],
+        "pool": {
+          "pipe": 4,
+          "wrench": 4,
+          "chair": 2,
+          "baseball_bat": 2,
+          "plank": 2
+        }
+      },
+      "encounters": [
+        {
+          "trigger_x": 950,
+          "arena": [
+            760,
+            1380
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "stevedore",
+              "dock_thug",
+              "dock_slinger"
+            ],
+            [
+              "stevedore",
+              "stevedore",
+              "dock_thug"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1500,
+          "arena": [
+            1280,
+            1980
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "stevedore",
+              "rail_bruiser",
+              "dock_slinger"
+            ],
+            [
+              "stevedore",
+              "stevedore",
+              "port_guard"
+            ]
+          ]
+        }
+      ],
+      "obstacles": [
+        {
+          "kind": "street_lamp",
+          "x": 220,
+          "y": 240
+        },
+        {
+          "kind": "street_lamp",
+          "x": 860,
+          "y": 240
+        },
+        {
+          "kind": "pickup_truck",
+          "x": 1100,
+          "y": 262
+        },
+        {
+          "kind": "crates",
+          "x": 1420,
+          "y": 258
+        },
+        {
+          "kind": "street_lamp",
+          "x": 1600,
+          "y": 240
+        },
+        {
+          "kind": "oil_drums",
+          "x": 1800,
+          "y": 258
+        }
+      ]
+    },
+    "freight_market": {
+      "name": "Freight Market",
+      "level": 11,
+      "width": 2200,
+      "safe": false,
+      "theme": "market",
+      "kit_theme": "market",
+      "palette": {
+        "sky": "#1c1424",
+        "buildings": [
+          "#30203a",
+          "#3a2844",
+          "#281c30"
+        ],
+        "windows": "#f0b060",
+        "sidewalk": "#54484e",
+        "street": "#2a2428"
+      },
+      "exits": {
+        "west": {
+          "to": "port_road",
+          "entry": "east"
+        },
+        "east": {
+          "to": "container_yard",
+          "entry": "west",
+          "requires": {
+            "defeat": "port_guard",
+            "count": 6,
+            "hint": "Port Guards watch the yard gate. Knock down 6 to pass."
+          }
+        }
+      },
+      "weapons": {
+        "count": [
+          3,
+          5
+        ],
+        "pool": {
+          "pipe": 3,
+          "wrench": 3,
+          "chair": 3,
+          "bottle": 3,
+          "frying_pan": 2,
+          "machete": 2
+        }
+      },
+      "encounters": [
+        {
+          "trigger_x": 420,
+          "arena": [
+            200,
+            900
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "port_guard",
+              "market_punk",
+              "dock_slinger"
+            ],
+            [
+              "port_guard",
+              "stevedore",
+              "market_punk"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1100,
+          "arena": [
+            880,
+            1580
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "port_guard",
+              "dock_slinger",
+              "dock_slinger"
+            ],
+            [
+              "port_guard",
+              "stevedore",
+              "market_punk"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1750,
+          "arena": [
+            1480,
+            2180
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "port_guard",
+              "port_guard",
+              "dock_slinger"
+            ],
+            [
+              "refinery_enforcer",
+              "stevedore"
+            ]
+          ]
+        }
+      ],
+      "obstacles": [
+        {
+          "kind": "street_lamp",
+          "x": 300,
+          "y": 240
+        },
+        {
+          "kind": "tuk_tuk",
+          "x": 640,
+          "y": 262
+        },
+        {
+          "kind": "street_lamp",
+          "x": 980,
+          "y": 240
+        },
+        {
+          "kind": "crates",
+          "x": 1260,
+          "y": 258
+        },
+        {
+          "kind": "trash_bin",
+          "x": 1500,
+          "y": 234
+        },
+        {
+          "kind": "street_lamp",
+          "x": 1700,
+          "y": 240
+        },
+        {
+          "kind": "motorbike",
+          "x": 1960,
+          "y": 260
+        }
+      ]
+    },
+    "container_yard": {
+      "name": "Container Yard",
+      "level": 12,
+      "width": 2200,
+      "safe": false,
+      "theme": "depot",
+      "kit_theme": "docks",
+      "palette": {
+        "sky": "#101820",
+        "buildings": [
+          "#1e2a32",
+          "#26323c",
+          "#1a242c"
+        ],
+        "windows": "#c0d0d0",
+        "sidewalk": "#44484e",
+        "street": "#202428"
+      },
+      "exits": {
+        "west": {
+          "to": "freight_market",
+          "entry": "east"
+        },
+        "east": {
+          "to": "crane_yard",
+          "entry": "west",
+          "requires": {
+            "defeat": "dock_slinger",
+            "count": 6,
+            "hint": "Slingers on the container stacks cover the crane yard. Knock down 6 to pass."
+          }
+        }
+      },
+      "weapons": {
+        "count": [
+          3,
+          5
+        ],
+        "pool": {
+          "pipe": 4,
+          "wrench": 4,
+          "machete": 2,
+          "baseball_bat": 2
+        }
+      },
+      "encounters": [
+        {
+          "trigger_x": 420,
+          "arena": [
+            200,
+            900
+          ],
+          "max_alive": 4,
+          "waves": [
+            [
+              "dock_slinger",
+              "dock_slinger",
+              "stevedore"
+            ],
+            [
+              "port_guard",
+              "dock_slinger",
+              "stevedore"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1100,
+          "arena": [
+            880,
+            1580
+          ],
+          "max_alive": 4,
+          "waves": [
+            [
+              "dock_slinger",
+              "port_guard",
+              "stevedore"
+            ],
+            [
+              "dock_slinger",
+              "dock_slinger",
+              "port_guard"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1750,
+          "arena": [
+            1480,
+            2180
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "port_guard",
+              "port_guard",
+              "dock_slinger"
+            ],
+            [
+              "stevedore",
+              "stevedore",
+              "port_guard"
+            ]
+          ]
+        }
+      ],
+      "obstacles": [
+        {
+          "kind": "crates",
+          "x": 320,
+          "y": 258
+        },
+        {
+          "kind": "street_lamp",
+          "x": 560,
+          "y": 240
+        },
+        {
+          "kind": "oil_drums",
+          "x": 820,
+          "y": 258
+        },
+        {
+          "kind": "pickup_truck",
+          "x": 1240,
+          "y": 262
+        },
+        {
+          "kind": "street_lamp",
+          "x": 1460,
+          "y": 240
+        },
+        {
+          "kind": "crates",
+          "x": 1960,
+          "y": 258
+        }
+      ]
+    },
+    "crane_yard": {
+      "name": "Crane Yard",
+      "level": 13,
+      "width": 1600,
+      "safe": false,
+      "theme": "depot",
+      "kit_theme": "docks",
+      "palette": {
+        "sky": "#18101a",
+        "buildings": [
+          "#2a1c24",
+          "#32222c",
+          "#24181e"
+        ],
+        "windows": "#e08850",
+        "sidewalk": "#4a4246",
+        "street": "#241e22"
+      },
+      "exits": {
+        "west": {
+          "to": "container_yard",
+          "entry": "east"
+        }
+      },
+      "weapons": {
+        "count": [
+          3,
+          5
+        ],
+        "pool": {
+          "pipe": 3,
+          "wrench": 3,
+          "machete": 3,
+          "chair": 2,
+          "baseball_bat": 3
+        }
+      },
+      "encounters": [
+        {
+          "trigger_x": 420,
+          "arena": [
+            180,
+            880
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "port_guard",
+              "stevedore",
+              "dock_slinger"
+            ],
+            [
+              "port_guard",
+              "port_guard",
+              "stevedore"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1150,
+          "arena": [
+            900,
+            1580
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "harbourmaster_chen"
+            ],
+            [
+              "stevedore",
+              "dock_slinger"
+            ]
+          ]
+        }
+      ],
+      "obstacles": [
+        {
+          "kind": "street_lamp",
+          "x": 300,
+          "y": 240
+        },
+        {
+          "kind": "oil_drums",
+          "x": 700,
+          "y": 258
+        },
+        {
+          "kind": "street_lamp",
+          "x": 960,
+          "y": 240
+        },
+        {
+          "kind": "crates",
+          "x": 1420,
+          "y": 258
         }
       ]
     }

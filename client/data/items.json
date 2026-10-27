@@ -342,6 +342,87 @@
       },
       "icon": "champion_wraps",
       "description": "Taped and re-taped through a hundred nights in the alley ring. Whoever wore these never lost on his feet."
+    },
+    "dockers_cap": {
+      "name": "Docker's Cap",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "rare",
+      "level": 10,
+      "price": 380,
+      "stats": {
+        "defense": 2,
+        "max_hp": 30
+      },
+      "icon": "hard_hat",
+      "description": "A padded cap from the port crews, made to take a swinging hook."
+    },
+    "port_jacket": {
+      "name": "Port Authority Jacket",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "rare",
+      "level": 10,
+      "price": 420,
+      "stats": {
+        "defense": 4,
+        "max_hp": 30
+      },
+      "icon": "riveted_jacket",
+      "description": "Heavy canvas with reflective strips. Someone left it on a crate."
+    },
+    "cargo_gloves": {
+      "name": "Cargo Gloves",
+      "type": "equipment",
+      "slot": "hands",
+      "rarity": "rare",
+      "level": 11,
+      "price": 400,
+      "stats": {
+        "power": 0.16,
+        "defense": 1,
+        "attack_speed": 0.06
+      },
+      "icon": "iron_wraps",
+      "description": "Rope-burned leather that never slips."
+    },
+    "deck_boots": {
+      "name": "Deck Boots",
+      "type": "equipment",
+      "slot": "feet",
+      "rarity": "rare",
+      "level": 11,
+      "price": 380,
+      "stats": {
+        "speed": 0.1,
+        "defense": 2,
+        "max_hp": 15
+      },
+      "icon": "steel_toe_boots",
+      "description": "Rubber soles for wet steel decks."
+    },
+    "harbour_hook": {
+      "name": "Harbourmaster's Hook",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "legendary",
+      "level": 12,
+      "price": 0,
+      "stats": {
+        "power": 0.55,
+        "max_hp": 25,
+        "crit": 0.08
+      },
+      "icon": "baron_knuckledusters",
+      "description": "Chen's cargo hook, worn smooth by forty years of crates."
+    },
+    "altered_manifest": {
+      "name": "The Altered Manifest",
+      "type": "key",
+      "rarity": "epic",
+      "price": 0,
+      "icon": "forged_note",
+      "description": "A cargo manifest with its destination scratched out and rewritten by hand: a factory in the Industrial District, stamped with the same mark as the crate from the first night."
     }
   }
 }
