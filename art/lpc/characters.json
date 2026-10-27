@@ -2327,6 +2327,66 @@
           }
         }
       ]
+    },
+    "iron_colossus": {
+      "role": "enemy",
+      "body_type": "male",
+      "layers": [
+        {
+          "def": "body/body.json",
+          "recolor": {
+            "color": "ulpc.fur_black"
+          }
+        },
+        {
+          "def": "head/heads/human/heads_human_male.json",
+          "recolor": {
+            "color_1": "ulpc.fur_black"
+          }
+        },
+        {
+          "def": "legs/legs_armour.json"
+        },
+        {
+          "def": "torso/armour/torso_armour_plate.json"
+        },
+        {
+          "def": "headwear/helmets/helmets/hat_helmet_xeon.json"
+        }
+      ]
+    },
+    "subject_zero": {
+      "role": "enemy",
+      "body_type": "male",
+      "layers": [
+        {
+          "def": "body/body.json",
+          "recolor": {
+            "color": "ulpc.green"
+          }
+        },
+        {
+          "def": "head/heads/fantasy/heads_orc_male.json"
+        },
+        {
+          "def": "legs/pants/legs_pants2.json",
+          "recolor": {
+            "color": "ulpc.white"
+          }
+        },
+        {
+          "def": "torso/shirts/sleeveless/torso_clothes_sleeveless2.json",
+          "recolor": {
+            "color": "ulpc.white"
+          }
+        },
+        {
+          "def": "hair/spiky/hair_spiked.json",
+          "recolor": {
+            "color": "ulpc.white"
+          }
+        }
+      ]
     }
   }
 }

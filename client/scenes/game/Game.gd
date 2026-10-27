@@ -43,8 +43,8 @@ var _last_upgrade_ms := -100000
 ## Rolls upgrades. Offline the client rolls them; online the server will.
 var _upgrade_rng := RandomNumberGenerator.new()
 var _world_rng := RandomNumberGenerator.new()
-## The world boss round last announced, so each opening is told once.
-var _announced_round := -1
+## Each world boss's round last announced, so each opening is told once.
+var _announced := {}
 var _clock_timer := 0.0
 var _entering_world_boss := false
 
@@ -585,9 +585,9 @@ func _now() -> int:
 	return now_override if now_override >= 0 else int(Time.get_unix_time_from_system())
 
 
-## Win's ride to the world boss: an attempt starts on arrival.
-func _ride_world_boss(npc: Dictionary) -> void:
-	var problem := WorldBossRules.problem(profile, content, _now())
+## Win's ride to world boss `boss`: an attempt starts on arrival.
+func _ride_world_boss(npc: Dictionary, boss: String) -> void:
+	var problem := WorldBossRules.problem(profile, content, boss, _now())
 	var fare := int(npc.get("fare", 0))
 	if problem == "" and profile.money < fare:
 		problem = "Not enough coins for the ride"
@@ -597,31 +597,42 @@ func _ride_world_boss(npc: Dictionary) -> void:
 		return
 	profile.money -= fare
 	close_menu()
-	_start_world_boss()
+	_start_world_boss(boss)
 
 
-## Into the world boss arena for one attempt at this round's pool.
-func _start_world_boss() -> void:
-	var round := int(WorldBossRules.window(content, _now())["round"])
+## Into `boss`'s arena for one attempt at this round's pool.
+func _start_world_boss(boss: String) -> void:
+	var data := WorldBossRules.spec(content, boss)
+	var round := int(WorldBossRules.window(content, boss, _now())["round"])
 	_entering_world_boss = true
-	enter_area(str(content.world_boss["area"]), "west")
+	enter_area(str(data["area"]), "west")
 	_entering_world_boss = false
-	world_run = WorldBossRun.new(zone, profile, content, round)
+	world_run = WorldBossRun.new(zone, profile, content, boss, round)
 	_hud.attach(zone, profile, content)
 	auto.stop()
-	_hud.toast("The Tunnel Mother rises. %d seconds!" % world_run.seconds_left())
+	var name := str(content.enemy(str(data["enemy"]))["name"])
+	_hud.toast("%s rises. %d seconds!" % [name, world_run.seconds_left()])
 
 
-## The attempt is over: bank its damage, pay new tiers, show what it won.
+## The attempt is over: bank its damage, pay new tiers (and the kill), show
+## what it won.
 func _finish_world_boss() -> void:
 	var run := world_run
 	var paid := WorldBossRules.award(
-		profile, content, run.round, run.dealt, run.total, run.level, _world_rng
+		profile,
+		content,
+		run.boss,
+		run.round,
+		run.dealt,
+		run.total,
+		run.level,
+		_world_rng,
+		run.ended == "slain"
 	)
 	SaveStore.save(profile)
 	if run.ended == "left":
 		world_run = null
-		_hud.toast("You left the Great Drain. Damage banked.")
+		_hud.toast("You left the fight. Damage banked.")
 		return
 	_show("world_boss", GameMenus.world_boss_result(self, run, paid))
 
@@ -678,11 +689,14 @@ func _update_world_boss(delta: float) -> void:
 	if _clock_timer > 0.0:
 		return
 	_clock_timer = 1.0
-	var round := WorldBossRules.window(content, _now())
-	if round["open"] and WorldBossRules.unlocked(profile, content):
-		if int(round["round"]) != _announced_round:
-			_announced_round = int(round["round"])
-			_hud.toast("World Boss: the Tunnel Mother stirs! Ask Win for a ride.")
+	for boss: String in content.world_bosses:
+		var round := WorldBossRules.window(content, boss, _now())
+		if not round["open"] or not WorldBossRules.unlocked(profile, content, boss):
+			continue
+		if int(round["round"]) != int(_announced.get(boss, -1)):
+			_announced[boss] = int(round["round"])
+			var name := str(content.enemy(str(content.world_bosses[boss]["enemy"]))["name"])
+			_hud.toast("World Boss: %s is out! Ask Win for a ride." % name)
 
 
 func _process(delta: float) -> void:

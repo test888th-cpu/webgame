@@ -4206,6 +4206,112 @@
           "y": 258
         }
       ]
+    },
+    "old_scrapyard": {
+      "name": "The Old Scrapyard",
+      "level": 50,
+      "width": 1300,
+      "safe": false,
+      "world_boss": true,
+      "theme": "canal",
+      "kit_theme": "junkyard",
+      "palette": {
+        "sky": "#120e0a",
+        "buildings": [
+          "#2a2018",
+          "#32261c",
+          "#221a14"
+        ],
+        "windows": "#ffb050",
+        "sidewalk": "#48403a",
+        "street": "#241e1a"
+      },
+      "exits": {
+        "west": {
+          "to": "depot_yard",
+          "entry": "east"
+        }
+      },
+      "encounters": [
+        {
+          "trigger_x": 120,
+          "arena": [
+            60,
+            1280
+          ],
+          "max_alive": 4,
+          "waves": [
+            [
+              "iron_colossus"
+            ]
+          ]
+        }
+      ],
+      "obstacles": [
+        {
+          "kind": "car_wreck",
+          "x": 360,
+          "y": 262
+        },
+        {
+          "kind": "oil_drums",
+          "x": 1040,
+          "y": 258
+        }
+      ]
+    },
+    "sunken_reservoir": {
+      "name": "The Sunken Reservoir",
+      "level": 53,
+      "width": 1300,
+      "safe": false,
+      "world_boss": true,
+      "theme": "canal",
+      "kit_theme": "tunnels",
+      "palette": {
+        "sky": "#060c0a",
+        "buildings": [
+          "#10201a",
+          "#142820",
+          "#0c1814"
+        ],
+        "windows": "#60f0a0",
+        "sidewalk": "#34403a",
+        "street": "#101a16"
+      },
+      "exits": {
+        "west": {
+          "to": "depot_yard",
+          "entry": "east"
+        }
+      },
+      "encounters": [
+        {
+          "trigger_x": 120,
+          "arena": [
+            60,
+            1280
+          ],
+          "max_alive": 4,
+          "waves": [
+            [
+              "subject_zero"
+            ]
+          ]
+        }
+      ],
+      "obstacles": [
+        {
+          "kind": "crates",
+          "x": 340,
+          "y": 258
+        },
+        {
+          "kind": "oil_drums",
+          "x": 1000,
+          "y": 258
+        }
+      ]
     }
   }
 }

@@ -5,7 +5,7 @@ extends RefCounted
 ## for the backend in Milestone 4, when the server becomes the only writer.
 ## Temporary combat state (position, energy, cooldowns) never lives here.
 
-const SAVE_VERSION := 7
+const SAVE_VERSION := 8
 ## Equipment slots, in the order the character screen shows them.
 const SLOTS := ["head", "body", "hands", "weapon", "feet", "charm"]
 ## Stats an item can add, as stored in items.json "stats".
@@ -53,8 +53,9 @@ var enhance_pity := {}
 ## Fights won per area since the last rest, and areas reached (StreetMemory).
 var cleared := {}
 var visited: Array[String] = []
-## This world boss round's progress: {"round": int, "dealt": damage so far,
-## "tiers": reward tiers already paid} (WorldBossRules).
+## Each world boss's round progress, by boss id: {"round": int, "dealt":
+## damage so far, "tiers": personal tiers paid, "killed": the kill paid}
+## (WorldBossRules).
 var world_boss := {}
 
 
@@ -326,14 +327,19 @@ static func from_dict(data: Variant, content: ContentDB) -> PlayerProfile:
 			if slot in SLOTS and value > 0:
 				p.get(field)[slot] = value
 	StreetMemory.load_into(p, migrated, content)
-	var round: Variant = migrated.get("world_boss", {})
-	if round is Dictionary and round.has("round"):
-		p.world_boss = {
-			"round": int(round["round"]),
-			"dealt": maxi(0, int(round.get("dealt", 0))),
-			"tiers":
-			clampi(int(round.get("tiers", 0)), 0, content.world_boss.get("tiers", []).size()),
-		}
+	var rounds: Variant = migrated.get("world_boss", {})
+	if rounds is Dictionary:
+		for boss: Variant in rounds:
+			var state: Variant = rounds[boss]
+			var boss_data := WorldBossRules.spec(content, str(boss))
+			if boss_data.is_empty() or not state is Dictionary or not state.has("round"):
+				continue
+			p.world_boss[str(boss)] = {
+				"round": int(state["round"]),
+				"dealt": maxi(0, int(state.get("dealt", 0))),
+				"tiers": clampi(int(state.get("tiers", 0)), 0, boss_data["tiers"].size()),
+				"killed": bool(state.get("killed", false)),
+			}
 	return p
 
 
@@ -381,4 +387,13 @@ static func migrate(data: Dictionary) -> Dictionary:
 		# Version 7 keeps the world boss round's progress; none yet.
 		migrated["world_boss"] = {}
 		migrated["version"] = 7
+	if int(migrated["version"]) == 7:
+		# Version 8 keeps a round per world boss; version 7's was the Tunnel
+		# Mother's.
+		var round: Variant = migrated.get("world_boss", {})
+		var by_boss := {}
+		if round is Dictionary and round.has("round"):
+			by_boss["tunnel_mother"] = round
+		migrated["world_boss"] = by_boss
+		migrated["version"] = 8
 	return migrated
