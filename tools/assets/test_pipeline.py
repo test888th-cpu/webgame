@@ -14,7 +14,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from PIL import Image
+from PIL import Image, ImageDraw
 
 sys.path.insert(0, str(Path(__file__).parent))
 import custom_import  # noqa: E402
@@ -283,6 +283,43 @@ class KitImportTest(unittest.TestCase):
             height = pieces[p["piece"]]["size"][1] / pieces[p["piece"]]["hd"]
             self.assertEqual(p["y"] - height, spec["themes"]["fight_club"]["hanging_top"])
         self.assertIn("warehouse_wall", {p["piece"] for p in placed if p["layer"] == "front"})
+
+
+class KeyedSheetTest(unittest.TestCase):
+    def test_a_green_backdrop_is_cut_out_but_green_clothes_stay(self) -> None:
+        sheet = Image.new("RGB", (40, 20), (0, 255, 0))
+        for x in range(5, 15):
+            for y in range(3, 19):
+                # A dark green jacket inside the figure's dark outline.
+                edge = x in (5, 14) or y in (3, 18)
+                sheet.putpixel((x, y), (24, 20, 28) if edge else (40, 120, 50))
+        sheet.putpixel((10, 2), (200, 160, 120))
+        keyed = custom_import.keyed(sheet)
+        alpha = keyed.getchannel("A")
+        self.assertEqual(alpha.getpixel((0, 0)), 0, "backdrop gone")
+        self.assertEqual(alpha.getpixel((30, 10)), 0, "backdrop between frames gone")
+        self.assertEqual(alpha.getpixel((10, 10)), 255, "the figure stays")
+        self.assertEqual(keyed.getpixel((10, 10))[:3], (40, 120, 50), "its green clothes stay green")
+        self.assertEqual(keyed.size, sheet.size, "the grid is kept")
+
+
+class FigureSheetTest(unittest.TestCase):
+    def test_loose_figures_are_found_in_rows_by_their_feet(self) -> None:
+        sheet = Image.new("RGB", (300, 200), (0, 255, 0))
+        draw = ImageDraw.Draw(sheet)
+        draw.line((0, 100, 299, 100), fill=(40, 40, 40))  # a painted grid line
+        # Row 0: two figures standing on y=90, one taller; row 1: one lying on y=190.
+        for box in ((20, 40, 40, 90), (120, 20, 140, 90), (60, 170, 120, 190)):
+            draw.rectangle(box, fill=(200, 120, 60), outline=(24, 20, 28))
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "sheet.png"
+            sheet.save(path)
+            rows = custom_import.figure_rows(path, 50, [0, 0])
+        self.assertEqual([len(r) for r in rows], [2, 1], "two rows, the grid line ignored")
+        first, second = rows[0][0][0], rows[0][1][0]
+        self.assertEqual(first.height, 50, "the measured figure stands the target height")
+        self.assertGreater(second.height, first.height, "and the rest keep their size to it")
+        self.assertLess(rows[1][0][0].height, rows[1][0][0].width, "the lying figure stays lying")
 
 
 class PaintedWeaponTest(unittest.TestCase):

@@ -7,7 +7,9 @@ project owner supplies in art/custom/<asset_id>/ with an import.json.
 import.json names the source sheets (a grid of equal cells, `count` frames read
 left to right, top to bottom) and the scale that brings each sheet to the game's
 size; sheets drawn at different sizes get different scales so the character
-matches across them. Frames are anchored on the feet of each sheet's first
+matches across them. A sheet painted on a flat green backdrop says `"key": true`
+and the green is cut out the way the street kit's is (tools/assets/kit_import.py);
+otherwise the sheet must be transparent. Frames are anchored on the feet of each sheet's first
 frame, so a whole sheet keeps its own alignment.
 
 Each game animation either picks frames from a sheet, or (`from`) is derived
@@ -25,7 +27,10 @@ import json
 import sys
 from pathlib import Path
 
-from PIL import Image
+from PIL import Image, ImageChops, ImageFilter
+
+sys.path.insert(0, str(Path(__file__).parent))
+import kit_import  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE = ROOT / "art" / "custom"
@@ -50,7 +55,7 @@ def opaque_box(image: Image.Image) -> tuple[int, int, int, int] | None:
 def scaled_frames(folder: Path, spec: dict, size: tuple[int, int], feet: tuple[int, int]) -> list[Image.Image]:
     """The sheet's frames, scaled and placed so its first frame's feet land on `feet`."""
     with Image.open(folder / spec["file"]) as opened:
-        sheet = opened.convert("RGBA")
+        sheet = keyed(opened) if spec.get("key", False) else opened.convert("RGBA")
     cols, rows = spec["cols"], spec["rows"]
     cw, ch = sheet.width // cols, sheet.height // rows
     if spec["count"] > cols * rows:
@@ -75,6 +80,136 @@ def scaled_frames(folder: Path, spec: dict, size: tuple[int, int], feet: tuple[i
         frame.alpha_composite(small, (round(feet[0] - anchor[0]), round(feet[1] - anchor[1])))
         out.append(outlined(frame) if spec.get("outline", False) else frame)
     return out
+
+
+def keyed(source: Image.Image) -> Image.Image:
+    """The sheet with its flat green backdrop (and green enclosed by a figure,
+    between arm and body) made transparent, and the green fringe pulled out of
+    the figures' edges. Unlike a kit piece it is not trimmed: the grid stays."""
+    image = source.convert("RGB")
+    w, h = image.size
+    spill = kit_import.green_spill(image).tobytes()
+    gone = kit_import.backdrop(spill, bytes(w * h), w, h)
+    for i, value in enumerate(spill):
+        if value >= kit_import.HOLE_MARGIN:
+            gone[i] = 1
+    mask = Image.frombytes("L", (w, h), bytes(255 * (1 - v) for v in gone))
+    # Only the rim takes the green pulled out: green clothes stay green.
+    rim = ImageChops.subtract(mask, mask.filter(ImageFilter.MinFilter(5)))
+    r, g, b = image.split()
+    g = Image.composite(ImageChops.darker(g, ImageChops.lighter(r, b)), g, rim)
+    return Image.merge("RGBA", (r, g, b, mask))
+
+
+# A painted sheet of loose figures ("figures": true): the sheet is keyed at this
+# width at most, grid lines (long straight dark runs) are taken for backdrop,
+# and blobs smaller than MIN_FIGURE pixels (specks, slash marks) are dropped.
+FIGURE_WORK_WIDTH = 1000
+GRID_RUN = 60
+MIN_FIGURE = 120
+# Figures whose feet lie within this many working pixels form one row.
+ROW_GAP = 20
+
+
+def figure_rows(
+    path: Path, target: int, measure: list[int], row_scale: dict | None = None
+) -> list[list[Image.Image]]:
+    """The figures painted on a sheet without a strict grid, as rows (top to
+    bottom, by where their feet are) of frames (left to right). Each figure is
+    scaled so the `measure` figure ([row, index]) stands `target` pixels tall,
+    cut out on its own (bits of a neighbour never come along), with its feet
+    (the middle of its lowest fifth) at the bottom middle of a tight image."""
+    with Image.open(path) as opened:
+        image = opened.convert("RGB")
+    if image.width > FIGURE_WORK_WIDTH:
+        image = image.resize((FIGURE_WORK_WIDTH, round(image.height * FIGURE_WORK_WIDTH / image.width)), Image.LANCZOS)
+    w, h = image.size
+    spill = bytearray(kit_import.green_spill(image).tobytes())
+    for i in grid_lines(image):
+        spill[i] = 255
+    gone = kit_import.backdrop(bytes(spill), bytes(w * h), w, h)
+    for i, value in enumerate(spill):
+        if value >= kit_import.HOLE_MARGIN:
+            gone[i] = 1
+    solid = bytearray(1 - v for v in gone)
+    blobs = [g for g in kit_import.components(solid, w, h) if len(g) >= MIN_FIGURE]
+    keyed_image = keyed(image)
+    found = []
+    for blob in blobs:
+        xs = [i % w for i in blob]
+        ys = [i // w for i in blob]
+        box = (min(xs), min(ys), max(xs) + 1, max(ys) + 1)
+        low = box[3] - max(1, (box[3] - box[1]) // 5)
+        feet_x = sum(x for x, y in zip(xs, ys) if y >= low) / max(1, sum(1 for y in ys if y >= low))
+        cut = Image.new("RGBA", (box[2] - box[0], box[3] - box[1]), (0, 0, 0, 0))
+        src = keyed_image.load()
+        dst = cut.load()
+        for x, y in zip(xs, ys):
+            dst[x - box[0], y - box[1]] = src[x, y]
+        found.append((box, feet_x, cut))
+    found.sort(key=lambda f: f[0][3])
+    rows: list[list[tuple]] = []
+    for figure in found:
+        if rows and figure[0][3] - rows[-1][-1][0][3] <= ROW_GAP:
+            rows[-1].append(figure)
+        else:
+            rows.append([figure])
+    for row in rows:
+        row.sort(key=lambda f: f[0][0])
+    ref = rows[measure[0]][measure[1]][0]
+    base = target / (ref[3] - ref[1])
+    out = []
+    for index, row in enumerate(rows):
+        # A row the painter drew smaller (or larger) than the rest is brought
+        # back to the same size ("row_scale": {"row": factor}).
+        scale = base * float((row_scale or {}).get(str(index), 1.0))
+        frames = []
+        for box, feet_x, cut in row:
+            small = cut.convert("RGBa").resize(
+                (max(1, round(cut.width * scale)), max(1, round(cut.height * scale))), Image.LANCZOS
+            ).convert("RGBA")
+            small.putalpha(small.getchannel("A").point(lambda v: 255 if v >= 128 else 0))
+            frames.append((small, (feet_x - box[0]) * scale))
+        out.append(frames)
+    return out
+
+
+def grid_lines(image: Image.Image) -> list[int]:
+    """Pixel indices of straight dark runs at least GRID_RUN long, across or
+    down: the grid a painter drew between cells, never part of a figure."""
+    w, h = image.size
+    px = image.load()
+    out = []
+
+    def dark(p: tuple[int, int, int]) -> bool:
+        return max(p) < 90 and max(p) - min(p) < 40
+
+    for y in range(h):
+        run = 0
+        for x in range(w + 1):
+            if x < w and dark(px[x, y]):
+                run += 1
+                continue
+            if run >= GRID_RUN:
+                out.extend(y * w + xx for xx in range(x - run, x))
+            run = 0
+    for x in range(w):
+        run = 0
+        for y in range(h + 1):
+            if y < h and dark(px[x, y]):
+                run += 1
+                continue
+            if run >= GRID_RUN:
+                out.extend(yy * w + x for yy in range(y - run, y))
+            run = 0
+    return out
+
+
+def placed(figure: tuple[Image.Image, float], size: tuple[int, int], feet: tuple[int, int]) -> Image.Image:
+    small, feet_x = figure
+    frame = Image.new("RGBA", size, (0, 0, 0, 0))
+    frame.alpha_composite(small, (round(feet[0] - feet_x), feet[1] - small.height))
+    return frame
 
 
 def outlined(frame: Image.Image) -> Image.Image:
@@ -141,20 +276,41 @@ def head_and_shoulders(frame: Image.Image, size: int) -> list[int]:
     return [centre - size // 2, max(0, box[1] - 2), size, size]
 
 
+def pick(frames: list, at: int | list[int]) -> Image.Image:
+    """Frame `at` of a grid sheet, or [row, index] of a sheet of figures."""
+    if isinstance(at, list):
+        try:
+            return frames[at[0]][at[1]]
+        except IndexError as error:
+            raise ImportError_(f"no figure at row {at[0]}, index {at[1]}") from error
+    return frames[at]
+
+
 def import_asset(asset_id: str, out_dir: Path = OUT_DIR) -> dict:
     folder = SOURCE / asset_id
     spec = json.loads((folder / "import.json").read_text())
     size = tuple(spec["frame_size"])
     feet = tuple(spec["feet"])
-    sheets = {name: scaled_frames(folder, sheet, size, feet) for name, sheet in spec["sheets"].items()}
+    sheets = {}
+    for name, sheet_spec in spec["sheets"].items():
+        if sheet_spec.get("figures", False):
+            rows_found = figure_rows(
+                folder / sheet_spec["file"],
+                sheet_spec["height"],
+                sheet_spec["measure"],
+                sheet_spec.get("row_scale"),
+            )
+            sheets[name] = [[placed(f, size, feet) for f in row] for row in rows_found]
+        else:
+            sheets[name] = scaled_frames(folder, sheet_spec, size, feet)
     rows: list[tuple[str, list[Image.Image], dict]] = []
     for name, anim in spec["animations"].items():
         if "from" in anim:
-            base = sheets[anim["from"]][anim["frame"]]
+            base = pick(sheets[anim["from"]], anim["frame"])
             shifts = anim.get("shift", [0] * len(anim["tilt"]))
             frames = [tilted(base, t, s, feet) for t, s in zip(anim["tilt"], shifts)]
         else:
-            frames = [sheets[anim["sheet"]][i] for i in anim["frames"]]
+            frames = [pick(sheets[anim["sheet"]], i) for i in anim["frames"]]
         rows.append((name, frames, anim))
 
     width = max(len(frames) for _, frames, _ in rows) * size[0]
