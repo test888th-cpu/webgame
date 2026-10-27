@@ -1,7 +1,8 @@
 // Captures screenshots of key UI states from a web export, for visual review.
 //   node shots.ts <export-dir> <out-dir> [steps...]
 // Each step is "key:<Key>" (press), "hold:<Key>:<ms>", "wait:<ms>", "shot:<name>" or
-// "probe:<label>" (prints hero state), "type:<text>", "click:<x>:<y>" (page pixels), "walk:<x>:<y>" (walks the hero there, steering by the read-only probe)
+// "probe:<label>" (prints hero state), "type:<text>", "click:<x>:<y>" (page pixels),
+// "down:<x>:<y>" / "move:<x>:<y>" / "up" (mouse drag and drop), "walk:<x>:<y>" (walks the hero there, steering by the read-only probe)
 // or "grab" (walks to the first weapon on the street and presses E).
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
@@ -34,6 +35,10 @@ for (const step of steps) {
   if (kind === "key") await page.keyboard.press(a!);
   if (kind === "type") await page.keyboard.type(step.slice(5));
   if (kind === "click") await page.mouse.click(Number(a), Number(b));
+  // Drag and drop in steps: "down:x:y", "move:x:y" (glides there), "up".
+  if (kind === "down") { await page.mouse.move(Number(a), Number(b)); await page.mouse.down(); }
+  if (kind === "move") await page.mouse.move(Number(a), Number(b), { steps: 12 });
+  if (kind === "up") await page.mouse.up();
   // Characters with no key on a US layout (e.g. Thai), sent as key events.
   if (kind === "chars") {
     for (const ch of step.slice(6)) {

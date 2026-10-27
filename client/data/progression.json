@@ -10,6 +10,7 @@
     "power": 0.05
   },
   "defeat_money_loss": 0.1,
+  "sell_rate": 0.3,
   "enhance": {
     "bonus_per_level": 0.1,
     "pity_per_fail": 0.05,

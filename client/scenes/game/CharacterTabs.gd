@@ -126,6 +126,13 @@ static func equipment(game: Game) -> Control:
 	view.custom_minimum_size = Vector2(76, 104)
 	middle.add_child(view)
 	view.show_art(content, game.view.hero_art(), 1.6)
+	# Gear dropped on the hero goes on, into its own slot.
+	view.set_drag_forwarding(
+		Callable(),
+		func(_at: Vector2, data: Variant) -> bool:
+			return data is Dictionary and data.get("from") == "bag" and _wearable(game, data),
+		func(_at: Vector2, data: Variant) -> void: game._equip(str(data["item_id"]))
+	)
 	var turn := HBoxContainer.new()
 	turn.alignment = BoxContainer.ALIGNMENT_CENTER
 	middle.add_child(turn)
@@ -185,13 +192,20 @@ static func equipment(game: Game) -> Control:
 			slot.show_item(content, item_id, profile.count(item_id), profile.level)
 			slot.upgrade = EnhanceRules.item_level(profile, item_id)
 			slot.pressed.connect(game.inspect_item.bind(item_id, ""))
+			_bag_actions(game, slot, item_id)
 		else:
 			slot.focus_mode = Control.FOCUS_NONE
 			slot.disabled = true
+		# Worn gear dragged anywhere on the bag comes off.
+		slot.accepts = func(data: Dictionary) -> bool: return str(data["from"]).begins_with("worn:")
+		slot.dropped = func(data: Dictionary) -> void: game._unequip(str(data["from"]).substr(5))
 		grid.add_child(slot)
 	bag.add_child(
 		UiKit.label(
-			"Select an item for details.  %d kinds of item" % ids.size(),
+			(
+				"Click: details   Drag: wear or take off   Right click: wear or use   %d kind%s"
+				% [ids.size(), "" if ids.size() == 1 else "s"]
+			),
 			UiTheme.SIZE_CAPTION,
 			UiTheme.TEXT_FAINT
 		)
@@ -221,6 +235,25 @@ static func _sort_key(item: Dictionary) -> String:
 	return "%d%d%d%s" % [group, slot + 1, rarity, item.get("name", "")]
 
 
+## A bag cell's drag (gear only) and right-click action (wear gear, eat food).
+static func _bag_actions(game: Game, slot: ItemSlot, item_id: String) -> void:
+	match game.content.item(item_id).get("type"):
+		"equipment":
+			slot.drag_data = {"item_id": item_id, "from": "bag"}
+			slot.quick = game._equip.bind(item_id)
+		"consumable":
+			slot.quick = game._use.bind(item_id)
+
+
+## True when the dragged item is gear the hero can wear now.
+static func _wearable(game: Game, data: Dictionary) -> bool:
+	var item_id := str(data.get("item_id", ""))
+	return (
+		game.content.item(item_id).get("type") == "equipment"
+		and game.profile.equip_problem(item_id, game.content) == ""
+	)
+
+
 static func _slot_column(game: Game, slots: Array) -> VBoxContainer:
 	var column := VBoxContainer.new()
 	column.add_theme_constant_override("separation", 3)
@@ -235,8 +268,17 @@ static func _slot_column(game: Game, slots: Array) -> VBoxContainer:
 		slot.upgrade = EnhanceRules.level(game.profile, slot_name)
 		if item_id:
 			slot.pressed.connect(game.inspect_item.bind(item_id, slot_name))
+			slot.drag_data = {"item_id": item_id, "from": "worn:" + slot_name}
+			slot.quick = game._unequip.bind(slot_name)
 		else:
 			slot.tooltip_text = "%s: empty" % ItemText.SLOT_NAMES[slot_name]
+		slot.accepts = func(data: Dictionary) -> bool:
+			return (
+				data["from"] == "bag"
+				and _wearable(game, data)
+				and game.content.item(str(data["item_id"])).get("slot") == slot_name
+			)
+		slot.dropped = func(data: Dictionary) -> void: game._equip(str(data["item_id"]))
 		cell.add_child(slot)
 		var caption := UiKit.label(
 			ItemText.SLOT_NAMES[slot_name].to_upper(), UiTheme.SIZE_CAPTION - 1, UiTheme.TEXT_FAINT
