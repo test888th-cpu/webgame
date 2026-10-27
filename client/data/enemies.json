@@ -2020,6 +2020,311 @@
       "color": "#4a6a2a",
       "sprite": "tunnel_mother",
       "wields": false
+    },
+    "iron_colossus": {
+      "name": "The Iron Colossus",
+      "max_hp": 1000,
+      "speed": 0.5,
+      "defense": 6,
+      "power": 1.1,
+      "scale": 2.2,
+      "boss": true,
+      "poise": 150,
+      "moveset": {
+        "light": "colossus_piston",
+        "heavy": "colossus_stomp"
+      },
+      "ai": {
+        "spacing": 80,
+        "reaction": 14,
+        "cooldown": 46,
+        "cooldown_jitter": 24,
+        "heavy_chance": 0.3,
+        "heavy_cooldown": 330
+      },
+      "hazard": {
+        "every": 240,
+        "cycle": [
+          {
+            "kind": "laser",
+            "warn": 60,
+            "damage": 24,
+            "half": [
+              900,
+              9
+            ]
+          },
+          {
+            "kind": "shock",
+            "warn": 55,
+            "damage": 22,
+            "half": [
+              60,
+              14
+            ]
+          }
+        ]
+      },
+      "summon": {
+        "enemy": "core_sentinel",
+        "every": 720,
+        "count": 1,
+        "max": 2
+      },
+      "phases": [
+        {
+          "below": 0.66,
+          "speed": 0.55,
+          "power": 1.15,
+          "cooldown": 38,
+          "heavy_chance": 0.35,
+          "heavy_cooldown": 300,
+          "shield": {
+            "up": 360,
+            "down": 300
+          },
+          "hazard": {
+            "every": 120,
+            "cycle": [
+              {
+                "kind": "crane",
+                "warn": 65,
+                "damage": 26,
+                "half": [
+                  30,
+                  10
+                ]
+              },
+              {
+                "kind": "shock",
+                "warn": 55,
+                "damage": 22,
+                "half": [
+                  60,
+                  14
+                ]
+              },
+              {
+                "kind": "laser",
+                "warn": 60,
+                "damage": 24,
+                "half": [
+                  900,
+                  9
+                ]
+              }
+            ]
+          },
+          "moveset": {
+            "light": "colossus_piston",
+            "heavy": "colossus_charge"
+          }
+        },
+        {
+          "below": 0.33,
+          "speed": 0.65,
+          "power": 1.2,
+          "cooldown": 32,
+          "heavy_chance": 0.45,
+          "heavy_cooldown": 300,
+          "hazard": {
+            "every": 160,
+            "cycle": [
+              {
+                "kind": "crane",
+                "warn": 60,
+                "damage": 28,
+                "half": [
+                  30,
+                  10
+                ]
+              },
+              {
+                "kind": "laser",
+                "warn": 55,
+                "damage": 26,
+                "half": [
+                  900,
+                  9
+                ]
+              }
+            ]
+          },
+          "summon_every": 540,
+          "moveset": {
+            "light": "colossus_piston",
+            "heavy": "colossus_overload"
+          }
+        }
+      ],
+      "xp": 3000,
+      "loot": {
+        "money": [
+          800,
+          1100
+        ],
+        "drops": [
+          {
+            "item": "refined_alloy",
+            "chance": 1.0
+          },
+          {
+            "item": "herbal_tonic",
+            "chance": 0.6
+          }
+        ]
+      },
+      "color": "#30343c",
+      "sprite": "iron_colossus",
+      "wields": false
+    },
+    "subject_zero": {
+      "name": "Subject Zero",
+      "max_hp": 1100,
+      "speed": 0.7,
+      "defense": 5,
+      "power": 1.2,
+      "scale": 2.3,
+      "boss": true,
+      "poise": 150,
+      "moveset": {
+        "light": "zero_claw",
+        "heavy": "zero_slam"
+      },
+      "ai": {
+        "spacing": 76,
+        "reaction": 10,
+        "cooldown": 40,
+        "cooldown_jitter": 22,
+        "heavy_chance": 0.3,
+        "heavy_cooldown": 330
+      },
+      "hazard": {
+        "every": 220,
+        "cycle": [
+          {
+            "kind": "sludge",
+            "warn": 60,
+            "damage": 26,
+            "half": [
+              30,
+              12
+            ]
+          }
+        ]
+      },
+      "summon": {
+        "enemy": "hybrid_brute",
+        "every": 600,
+        "count": 2,
+        "max": 3
+      },
+      "phases": [
+        {
+          "below": 0.66,
+          "speed": 0.8,
+          "power": 1.25,
+          "cooldown": 34,
+          "heavy_chance": 0.35,
+          "heavy_cooldown": 300,
+          "hazard": {
+            "every": 150,
+            "cycle": [
+              {
+                "kind": "sludge",
+                "warn": 55,
+                "damage": 26,
+                "half": [
+                  30,
+                  12
+                ]
+              },
+              {
+                "kind": "steam",
+                "warn": 55,
+                "damage": 26,
+                "half": [
+                  26,
+                  10
+                ]
+              }
+            ]
+          },
+          "moveset": {
+            "light": "zero_claw",
+            "heavy": "zero_lunge"
+          }
+        },
+        {
+          "below": 0.33,
+          "speed": 0.85,
+          "power": 1.3,
+          "cooldown": 28,
+          "heavy_chance": 0.45,
+          "heavy_cooldown": 300,
+          "shield": {
+            "up": 300,
+            "down": 360
+          },
+          "hazard": {
+            "every": 100,
+            "cycle": [
+              {
+                "kind": "sludge",
+                "warn": 50,
+                "damage": 28,
+                "half": [
+                  30,
+                  12
+                ]
+              },
+              {
+                "kind": "steam",
+                "warn": 50,
+                "damage": 28,
+                "half": [
+                  26,
+                  10
+                ]
+              },
+              {
+                "kind": "laser",
+                "warn": 60,
+                "damage": 28,
+                "half": [
+                  900,
+                  9
+                ]
+              }
+            ]
+          },
+          "summon_every": 480,
+          "moveset": {
+            "light": "zero_claw",
+            "heavy": "zero_frenzy"
+          }
+        }
+      ],
+      "xp": 4000,
+      "loot": {
+        "money": [
+          1000,
+          1400
+        ],
+        "drops": [
+          {
+            "item": "refined_alloy",
+            "chance": 1.0
+          },
+          {
+            "item": "herbal_tonic",
+            "chance": 0.8
+          }
+        ]
+      },
+      "color": "#3a7a3a",
+      "sprite": "subject_zero",
+      "wields": false
     }
   }
 }

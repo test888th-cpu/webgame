@@ -856,6 +856,65 @@
       },
       "icon": "jade_charm",
       "description": "A green stone from the heart of the Great Drain. It beats, slowly, when you fight."
+    },
+    "colossus_core": {
+      "name": "Colossus Core",
+      "type": "equipment",
+      "slot": "charm",
+      "rarity": "legendary",
+      "level": 45,
+      "price": 0,
+      "stats": {
+        "max_hp": 100,
+        "power": 0.15,
+        "attack_speed": 0.1
+      },
+      "icon": "jade_charm",
+      "description": "The Colossus's power cell, still warm. It hums in time with your heart."
+    },
+    "piston_gauntlets": {
+      "name": "Piston Gauntlets",
+      "type": "equipment",
+      "slot": "hands",
+      "rarity": "legendary",
+      "level": 45,
+      "price": 0,
+      "stats": {
+        "power": 0.5,
+        "defense": 3,
+        "crit": 0.1
+      },
+      "icon": "iron_wraps",
+      "description": "Hydraulic fists from the Colossus's arms. Every punch lands like a press."
+    },
+    "zeros_mantle": {
+      "name": "Zero's Mantle",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "legendary",
+      "level": 50,
+      "price": 0,
+      "stats": {
+        "defense": 13,
+        "max_hp": 140
+      },
+      "icon": "riveted_jacket",
+      "description": "The first worker's lab coat, hardened by years in the sludge. It turns blades."
+    },
+    "iron_legacy": {
+      "name": "The Iron Legacy",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "legendary",
+      "level": 50,
+      "price": 0,
+      "stats": {
+        "power": 1.0,
+        "crit": 0.12,
+        "attack_speed": 0.08
+      },
+      "icon": "baron_knuckledusters",
+      "description": "Knuckles forged from the Core Chamber's last door. South Street's story, worn on your fists."
     }
   }
 }

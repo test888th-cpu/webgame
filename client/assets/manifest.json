@@ -6272,6 +6272,316 @@
       "source": "lpc",
       "status": "imported"
     },
+    "iron_colossus": {
+      "animations": {
+        "dodge": {
+          "fps": 12,
+          "frames": 5,
+          "loop": false,
+          "row": 6,
+          "source": "jump"
+        },
+        "down": {
+          "fps": 10,
+          "frames": 6,
+          "loop": false,
+          "row": 5,
+          "source": "hurt"
+        },
+        "heavy": {
+          "fps": 9,
+          "frames": 6,
+          "loop": false,
+          "row": 3,
+          "source": "slash"
+        },
+        "hurt": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 4,
+          "source": "hurt"
+        },
+        "idle": {
+          "fps": 4,
+          "frames": 3,
+          "loop": true,
+          "row": 0,
+          "source": "combat"
+        },
+        "light": {
+          "fps": 16,
+          "frames": 6,
+          "loop": false,
+          "row": 2,
+          "source": "1h_halfslash"
+        },
+        "stab": {
+          "fps": 14,
+          "frames": 5,
+          "loop": false,
+          "row": 7,
+          "source": "1h_halfslash"
+        },
+        "walk": {
+          "fps": 10,
+          "frames": 8,
+          "loop": true,
+          "row": 1,
+          "source": "walk"
+        }
+      },
+      "credits": "res://assets/characters/iron_colossus/credits.json",
+      "facing": "right",
+      "frame_size": [
+        64,
+        64
+      ],
+      "generator": {
+        "recipe": "art/lpc/characters.json#iron_colossus",
+        "repo": "LPC"
+      },
+      "hand_sheet": "res://assets/characters/iron_colossus/hands.png",
+      "hands": {
+        "dodge": [
+          [
+            25,
+            47,
+            40
+          ],
+          [
+            23,
+            47,
+            30
+          ],
+          [
+            20,
+            42,
+            10
+          ],
+          [
+            17,
+            39,
+            -20
+          ],
+          [
+            14,
+            37,
+            20
+          ]
+        ],
+        "down": [
+          [
+            20,
+            46,
+            45
+          ],
+          [
+            21,
+            51,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            21,
+            56,
+            45
+          ]
+        ],
+        "heavy": [
+          [
+            39,
+            46,
+            30
+          ],
+          [
+            43,
+            48,
+            30
+          ],
+          [
+            40,
+            46,
+            40
+          ],
+          [
+            48,
+            44,
+            70
+          ],
+          [
+            52,
+            33,
+            115
+          ],
+          [
+            49,
+            32,
+            135
+          ]
+        ],
+        "hurt": [
+          [
+            20,
+            46,
+            40
+          ],
+          [
+            21,
+            51,
+            50
+          ],
+          [
+            23,
+            58,
+            60
+          ]
+        ],
+        "idle": [
+          [
+            29,
+            44,
+            50
+          ],
+          [
+            29,
+            44,
+            50
+          ],
+          [
+            30,
+            45,
+            50
+          ]
+        ],
+        "light": [
+          [
+            12,
+            38,
+            -45
+          ],
+          [
+            39,
+            44,
+            -10
+          ],
+          [
+            50,
+            44,
+            65
+          ],
+          [
+            59,
+            43,
+            110
+          ],
+          [
+            59,
+            43,
+            125
+          ],
+          [
+            39,
+            44,
+            70
+          ]
+        ],
+        "stab": [
+          [
+            39,
+            44,
+            80
+          ],
+          [
+            50,
+            44,
+            90
+          ],
+          [
+            59,
+            43,
+            90
+          ],
+          [
+            59,
+            43,
+            90
+          ],
+          [
+            39,
+            44,
+            80
+          ]
+        ],
+        "walk": [
+          [
+            30,
+            48,
+            55
+          ],
+          [
+            28,
+            48,
+            50
+          ],
+          [
+            22,
+            48,
+            45
+          ],
+          [
+            21,
+            48,
+            40
+          ],
+          [
+            19,
+            48,
+            40
+          ],
+          [
+            21,
+            48,
+            45
+          ],
+          [
+            24,
+            48,
+            50
+          ],
+          [
+            26,
+            48,
+            55
+          ]
+        ]
+      },
+      "licenses": [
+        "OGA-BY 3.0"
+      ],
+      "origin": [
+        32,
+        62
+      ],
+      "role": "enemy",
+      "sheet": "res://assets/characters/iron_colossus/sheet.png",
+      "source": "lpc",
+      "status": "imported"
+    },
     "market_punk": {
       "animations": {
         "dodge": {
@@ -15553,6 +15863,317 @@
       "source": "lpc",
       "status": "imported"
     },
+    "subject_zero": {
+      "animations": {
+        "dodge": {
+          "fps": 12,
+          "frames": 5,
+          "loop": false,
+          "row": 6,
+          "source": "jump"
+        },
+        "down": {
+          "fps": 10,
+          "frames": 6,
+          "loop": false,
+          "row": 5,
+          "source": "hurt"
+        },
+        "heavy": {
+          "fps": 9,
+          "frames": 6,
+          "loop": false,
+          "row": 3,
+          "source": "slash"
+        },
+        "hurt": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 4,
+          "source": "hurt"
+        },
+        "idle": {
+          "fps": 4,
+          "frames": 3,
+          "loop": true,
+          "row": 0,
+          "source": "combat"
+        },
+        "light": {
+          "fps": 16,
+          "frames": 6,
+          "loop": false,
+          "row": 2,
+          "source": "1h_halfslash"
+        },
+        "stab": {
+          "fps": 14,
+          "frames": 5,
+          "loop": false,
+          "row": 7,
+          "source": "1h_halfslash"
+        },
+        "walk": {
+          "fps": 10,
+          "frames": 8,
+          "loop": true,
+          "row": 1,
+          "source": "walk"
+        }
+      },
+      "credits": "res://assets/characters/subject_zero/credits.json",
+      "facing": "right",
+      "frame_size": [
+        64,
+        64
+      ],
+      "generator": {
+        "recipe": "art/lpc/characters.json#subject_zero",
+        "repo": "LPC"
+      },
+      "hand_sheet": "res://assets/characters/subject_zero/hands.png",
+      "hands": {
+        "dodge": [
+          [
+            25,
+            47,
+            40
+          ],
+          [
+            23,
+            47,
+            30
+          ],
+          [
+            20,
+            42,
+            10
+          ],
+          [
+            17,
+            39,
+            -20
+          ],
+          [
+            14,
+            37,
+            20
+          ]
+        ],
+        "down": [
+          [
+            20,
+            46,
+            45
+          ],
+          [
+            21,
+            51,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            21,
+            56,
+            45
+          ]
+        ],
+        "heavy": [
+          [
+            39,
+            46,
+            30
+          ],
+          [
+            43,
+            48,
+            30
+          ],
+          [
+            40,
+            46,
+            40
+          ],
+          [
+            48,
+            44,
+            70
+          ],
+          [
+            52,
+            33,
+            115
+          ],
+          [
+            49,
+            32,
+            135
+          ]
+        ],
+        "hurt": [
+          [
+            20,
+            46,
+            40
+          ],
+          [
+            21,
+            51,
+            50
+          ],
+          [
+            23,
+            58,
+            60
+          ]
+        ],
+        "idle": [
+          [
+            29,
+            44,
+            50
+          ],
+          [
+            29,
+            44,
+            50
+          ],
+          [
+            30,
+            45,
+            50
+          ]
+        ],
+        "light": [
+          [
+            12,
+            38,
+            -45
+          ],
+          [
+            39,
+            44,
+            -10
+          ],
+          [
+            50,
+            44,
+            65
+          ],
+          [
+            59,
+            43,
+            110
+          ],
+          [
+            59,
+            43,
+            125
+          ],
+          [
+            39,
+            44,
+            70
+          ]
+        ],
+        "stab": [
+          [
+            39,
+            44,
+            80
+          ],
+          [
+            50,
+            44,
+            90
+          ],
+          [
+            59,
+            43,
+            90
+          ],
+          [
+            59,
+            43,
+            90
+          ],
+          [
+            39,
+            44,
+            80
+          ]
+        ],
+        "walk": [
+          [
+            30,
+            48,
+            55
+          ],
+          [
+            28,
+            48,
+            50
+          ],
+          [
+            22,
+            48,
+            45
+          ],
+          [
+            21,
+            48,
+            40
+          ],
+          [
+            19,
+            48,
+            40
+          ],
+          [
+            21,
+            48,
+            45
+          ],
+          [
+            24,
+            48,
+            50
+          ],
+          [
+            26,
+            48,
+            55
+          ]
+        ]
+      },
+      "licenses": [
+        "CC-BY 4.0",
+        "OGA-BY 3.0"
+      ],
+      "origin": [
+        32,
+        62
+      ],
+      "role": "enemy",
+      "sheet": "res://assets/characters/subject_zero/sheet.png",
+      "source": "lpc",
+      "status": "imported"
+    },
     "tar_hound": {
       "animations": {
         "down": {
@@ -19950,6 +20571,133 @@
         ],
         "theme": "market"
       },
+      "old_scrapyard": {
+        "layers": {
+          "buildings": {
+            "file": "res://assets/environment/old_scrapyard/buildings.png",
+            "size": [
+              1300,
+              230
+            ]
+          },
+          "far": {
+            "file": "res://assets/environment/old_scrapyard/far.png",
+            "size": [
+              640,
+              230
+            ]
+          },
+          "ground": {
+            "file": "res://assets/environment/old_scrapyard/ground.png",
+            "size": [
+              1300,
+              130
+            ]
+          },
+          "sky": {
+            "file": "res://assets/environment/old_scrapyard/sky.png",
+            "size": [
+              640,
+              230
+            ]
+          }
+        },
+        "props": [
+          {
+            "prop": "cones",
+            "x": 136,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 201,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 495,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 567,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 666,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 871,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 971,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1063,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 1196,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1305,
+            "y": 244
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 99,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 277,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 440,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 622,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 807,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 998,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1177,
+            "y": 246
+          }
+        ],
+        "theme": "canal"
+      },
       "parking_lot": {
         "layers": {
           "buildings": {
@@ -21920,6 +22668,153 @@
           }
         ],
         "theme": "market"
+      },
+      "sunken_reservoir": {
+        "layers": {
+          "buildings": {
+            "file": "res://assets/environment/sunken_reservoir/buildings.png",
+            "size": [
+              1300,
+              230
+            ]
+          },
+          "far": {
+            "file": "res://assets/environment/sunken_reservoir/far.png",
+            "size": [
+              640,
+              230
+            ]
+          },
+          "ground": {
+            "file": "res://assets/environment/sunken_reservoir/ground.png",
+            "size": [
+              1300,
+              130
+            ]
+          },
+          "sky": {
+            "file": "res://assets/environment/sunken_reservoir/sky.png",
+            "size": [
+              640,
+              230
+            ]
+          }
+        },
+        "props": [
+          {
+            "prop": "pipe_valve",
+            "x": 157,
+            "y": 244
+          },
+          {
+            "prop": "bin",
+            "x": 276,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 355,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 424,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 480,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 544,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 616,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 814,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 879,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1015,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1088,
+            "y": 244
+          },
+          {
+            "prop": "bin",
+            "x": 1149,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1212,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1317,
+            "y": 244
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 95,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 265,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 455,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 636,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 804,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 989,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1161,
+            "y": 246
+          }
+        ],
+        "theme": "canal"
       },
       "test_labs": {
         "layers": {
@@ -26727,6 +27622,204 @@
         },
         "width": 2600
       },
+      "old_scrapyard": {
+        "far": "skyline_far",
+        "ground": {
+          "road": "road_tile",
+          "sidewalk": "sidewalk_tile"
+        },
+        "placed": [
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": -45,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 111,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 356,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 616,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 815,
+            "y": 226
+          },
+          {
+            "layer": "track",
+            "piece": "skytrain_train",
+            "x": 186,
+            "y": 101
+          },
+          {
+            "layer": "track",
+            "piece": "skytrain_train",
+            "x": 1117,
+            "y": 101
+          },
+          {
+            "layer": "front",
+            "piece": "junk_shop",
+            "x": 68,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "rusted_fence",
+            "x": 305,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "junk_shop",
+            "x": 535,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "shophouse_b",
+            "x": 748,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "junk_shop",
+            "x": 961,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "rusted_fence",
+            "x": 1197,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "closed_shop",
+            "x": 1432,
+            "y": 226
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 126,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 773,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 968,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 215,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 376,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 696,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "dog_sleeping",
+            "x": 480,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 317,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "dog_sleeping",
+            "x": 826,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 589,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 1060,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "scrap_pile",
+            "x": 1170,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 1267,
+            "y": 238
+          },
+          {
+            "layer": "fg",
+            "piece": "fg_leaves",
+            "x": 304,
+            "y": 374
+          },
+          {
+            "layer": "fg",
+            "piece": "fg_leaves",
+            "x": 1202,
+            "y": 374
+          }
+        ],
+        "theme": "junkyard",
+        "tint": {
+          "back": "#8e90b0",
+          "far": "#7a7898",
+          "fg": "#3a3448",
+          "front": "#e8dcd0",
+          "track": "#b0b0c8"
+        },
+        "track": {
+          "from": -120,
+          "piece": "skytrain_track",
+          "to": 1095,
+          "top": 100
+        },
+        "width": 1300
+      },
       "parking_lot": {
         "far": "skyline_far",
         "ground": {
@@ -29104,6 +30197,133 @@
           "top": 100
         },
         "width": 2400
+      },
+      "sunken_reservoir": {
+        "far": "skyline_far",
+        "ground": {
+          "road": "tunnel_floor_tile",
+          "sidewalk": "sidewalk_tile"
+        },
+        "placed": [
+          {
+            "layer": "back",
+            "piece": "tunnel_wall",
+            "x": 198,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "tunnel_wall",
+            "x": 667,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "tunnel_wall",
+            "x": 1152,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 262,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 741,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 1225,
+            "y": 226
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 793,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 1046,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 110,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 528,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 209,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 440,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "scrap_pile",
+            "x": 287,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 931,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 1291,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 636,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 718,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "scrap_pile",
+            "x": 1141,
+            "y": 237
+          }
+        ],
+        "theme": "tunnels",
+        "tint": {
+          "back": "#3e463c",
+          "far": "#4a5048",
+          "fg": "#20261e",
+          "front": "#c8d0c0",
+          "ground": "#b8c0b0",
+          "sidewalk": "#c0c8b8"
+        },
+        "width": 1300
       },
       "test_labs": {
         "far": "skyline_far",

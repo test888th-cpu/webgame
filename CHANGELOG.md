@@ -4,6 +4,40 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — Group world bosses: The Iron Colossus and Subject Zero (decision D14)
+- **The Iron Colossus**: Kraisorn's prototype security walker, woken in the Old Scrapyard.
+  - For heroes of level 40 and up; it fights at level 52.
+  - Built for 5 players; out every 6 hours.
+  - Mechanics: lasers, shocking floor plates and falling scrap, a shield phase, and Core
+    Sentinels called in.
+- **Subject Zero**: the first worker The Core changed, broken out of the Sunken
+  Reservoir.
+  - For heroes of level 48 and up; it fights at level 55.
+  - Built for 10 players; once a day at 20:00 Thailand time.
+  - Mechanics: sludge, steam and lasers, a shield in its last phase, and Hybrid Brutes.
+  - Both unlock after Director Wiroj, and each phase brings new heavy blows.
+- **Group-sized pools, two kinds of reward** (`WorldBossRules`):
+  - **Personal tiers** are measured against one player's part of the pool (the pool
+    divided by the players it is built for). A player who pulls their weight earns
+    every tier whatever the others do.
+  - **The kill** is paid to everyone who fought, once the whole pool falls within the
+    round.
+- **Four new legendaries, rare and hard to get:**
+  - Colossus Core and Piston Gauntlets (level 45);
+  - Zero's Mantle and The Iron Legacy (level 50).
+  - The top personal tier rolls them at 1–2%, the kill at 3–8%. A test checks the drop
+    rate over 400 kills.
+- **Built for groups, on purpose.** Measured with the auto-battle pilot, a level 50 hero
+  alone deals about 6–13% of their part per Colossus attempt and 5–7% per Subject Zero
+  attempt even in full end-game gear, and is usually knocked down. Alone, these bosses
+  cannot be killed within a round. Their kill drops become reachable when online play
+  arrives (IL-7), with the same rules on the server.
+- **One schedule per boss** (`offset_minutes`); Win's taxi lists every unlocked boss
+  with its level and group size. **Save version 8** keeps a round per boss and moves a
+  version 7 round to the Tunnel Mother.
+- Tests: the level gate and fixed level, Subject Zero's daily opening, tiers by one
+  player's part, the kill paid once, the rarity of the drops, and the v7 migration.
+
 ### Added — World boss: The Tunnel Mother (decision D13)
 - **The Tunnel Mother**, a giant mutant grown from The Core's sludge, rises in **The
   Great Drain** on a real clock: every 3 hours, for 1 hour. It unlocks once Unit K-7 is

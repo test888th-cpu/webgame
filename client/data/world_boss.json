@@ -1,64 +1,184 @@
 {
-  "world_boss": {
-    "enemy": "tunnel_mother",
-    "area": "great_drain",
-    "unlock": "unit_k7",
-    "period_minutes": 180,
-    "open_minutes": 60,
-    "attempt_seconds": 150,
-    "min_level": 26,
-    "level_above_hero": 2,
-    "pool": 14,
-    "tiers": [
-      {
-        "share": 0.05,
-        "money": 300,
-        "items": {
-          "rice_box": 3
+  "world_bosses": {
+    "tunnel_mother": {
+      "enemy": "tunnel_mother",
+      "area": "great_drain",
+      "unlock": "unit_k7",
+      "period_minutes": 180,
+      "open_minutes": 60,
+      "attempt_seconds": 150,
+      "min_level": 26,
+      "level_above_hero": 2,
+      "pool": 14,
+      "tiers": [
+        {
+          "share": 0.05,
+          "money": 300,
+          "items": {
+            "rice_box": 3
+          }
+        },
+        {
+          "share": 0.15,
+          "money": 600,
+          "items": {
+            "herbal_tonic": 2,
+            "refined_alloy": 2
+          }
+        },
+        {
+          "share": 0.35,
+          "money": 1000,
+          "items": {
+            "refined_alloy": 4
+          },
+          "rolls": {
+            "mothers_fang": 0.08,
+            "mothers_heart": 0.08
+          }
+        },
+        {
+          "share": 0.6,
+          "money": 1600,
+          "items": {
+            "refined_alloy": 6,
+            "herbal_tonic": 3
+          },
+          "rolls": {
+            "mothers_fang": 0.12,
+            "mothers_heart": 0.12
+          }
+        },
+        {
+          "share": 1.0,
+          "money": 3000,
+          "items": {
+            "refined_alloy": 10
+          },
+          "rolls": {
+            "mothers_fang": 0.3,
+            "mothers_heart": 0.3
+          }
         }
-      },
-      {
-        "share": 0.15,
-        "money": 600,
-        "items": {
-          "herbal_tonic": 2,
-          "refined_alloy": 2
+      ],
+      "players": 1,
+      "offset_minutes": 0
+    },
+    "iron_colossus": {
+      "enemy": "iron_colossus",
+      "area": "old_scrapyard",
+      "unlock": "director_wiroj",
+      "min_hero_level": 40,
+      "level": 52,
+      "players": 5,
+      "pool": 14,
+      "period_minutes": 360,
+      "open_minutes": 60,
+      "offset_minutes": 120,
+      "attempt_seconds": 150,
+      "tiers": [
+        {
+          "share": 0.1,
+          "money": 1200,
+          "items": {
+            "refined_alloy": 4
+          }
+        },
+        {
+          "share": 0.3,
+          "money": 2000,
+          "items": {
+            "refined_alloy": 6,
+            "herbal_tonic": 3
+          }
+        },
+        {
+          "share": 0.6,
+          "money": 3000,
+          "items": {
+            "refined_alloy": 8
+          }
+        },
+        {
+          "share": 1.0,
+          "money": 4500,
+          "items": {
+            "refined_alloy": 12
+          },
+          "rolls": {
+            "colossus_core": 0.02,
+            "piston_gauntlets": 0.02
+          }
         }
-      },
-      {
-        "share": 0.35,
-        "money": 1000,
+      ],
+      "kill": {
+        "money": 6000,
         "items": {
-          "refined_alloy": 4
+          "refined_alloy": 15
         },
         "rolls": {
-          "mothers_fang": 0.08,
-          "mothers_heart": 0.08
-        }
-      },
-      {
-        "share": 0.6,
-        "money": 1600,
-        "items": {
-          "refined_alloy": 6,
-          "herbal_tonic": 3
-        },
-        "rolls": {
-          "mothers_fang": 0.12,
-          "mothers_heart": 0.12
-        }
-      },
-      {
-        "share": 1.0,
-        "money": 3000,
-        "items": {
-          "refined_alloy": 10
-        },
-        "rolls": {
-          "mothers_fang": 0.3,
-          "mothers_heart": 0.3
+          "colossus_core": 0.08,
+          "piston_gauntlets": 0.08
         }
       }
-    ]
+    },
+    "subject_zero": {
+      "enemy": "subject_zero",
+      "area": "sunken_reservoir",
+      "unlock": "director_wiroj",
+      "min_hero_level": 48,
+      "level": 55,
+      "players": 10,
+      "pool": 14,
+      "period_minutes": 1440,
+      "open_minutes": 60,
+      "offset_minutes": 780,
+      "attempt_seconds": 180,
+      "tiers": [
+        {
+          "share": 0.05,
+          "money": 2000,
+          "items": {
+            "refined_alloy": 6
+          }
+        },
+        {
+          "share": 0.2,
+          "money": 3500,
+          "items": {
+            "refined_alloy": 10,
+            "herbal_tonic": 5
+          }
+        },
+        {
+          "share": 0.5,
+          "money": 5000,
+          "items": {
+            "refined_alloy": 14
+          }
+        },
+        {
+          "share": 1.0,
+          "money": 8000,
+          "items": {
+            "refined_alloy": 20
+          },
+          "rolls": {
+            "zeros_mantle": 0.02,
+            "iron_legacy": 0.01
+          }
+        }
+      ],
+      "kill": {
+        "money": 12000,
+        "items": {
+          "refined_alloy": 30
+        },
+        "rolls": {
+          "zeros_mantle": 0.05,
+          "iron_legacy": 0.03
+        }
+      }
+    }
   }
 }
