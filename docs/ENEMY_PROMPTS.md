@@ -3,7 +3,7 @@
 Prompts for repainting the four enemies whose look does not fit the story yet
 ([STORY_BIBLE.md](STORY_BIBLE.md) §6). LPC has no masks or hazmat suits under the licences
 the game allows (CC0, OGA-BY, CC-BY), so these are painted by the owner like the street kit
-and Riku's sheets, and imported by `tools/assets/custom_import.py`
+and imported by `tools/assets/custom_import.py`
 ([ASSETS.md](ASSETS.md) "Art from the project owner").
 
 ## What to paint for each enemy

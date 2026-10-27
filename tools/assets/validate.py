@@ -24,6 +24,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 import gen_environment  # noqa: E402
 import kit_import  # noqa: E402
 import gen_dummy  # noqa: E402
+import gen_hero  # noqa: E402
 import gen_fx  # noqa: E402
 import gen_sfx  # noqa: E402
 import gen_ui  # noqa: E402
@@ -262,6 +263,19 @@ def validate_dummy(assets: dict) -> list[str]:
     return []
 
 
+def validate_hero(assets: dict) -> list[str]:
+    """The generated hero (Riku) matches gen_hero.py."""
+    sheet, hands_sheet, animations, hands, portrait = gen_hero.render()
+    entry = assets.get(gen_hero.ASSET_ID)
+    if entry != gen_hero.manifest_entry(animations, hands, portrait):
+        return [f"{gen_hero.ASSET_ID}: manifest entry is out of date; run tools/assets/gen_hero.py"]
+    for key, image in (("sheet", sheet), ("hand_sheet", hands_sheet)):
+        with Image.open(res_path(entry[key])) as saved:
+            if saved.convert("RGBA").tobytes() != image.tobytes():
+                return [f"{gen_hero.ASSET_ID}: {key} is out of date; run tools/assets/gen_hero.py"]
+    return []
+
+
 def wav_samples(data: bytes) -> list[int]:
     import array
     import io
@@ -333,6 +347,7 @@ def main() -> int:
     problems += validate_ui(manifest.get("ui", {}))
     problems += validate_fx(manifest.get("fx", {}))
     problems += validate_dummy(manifest.get("assets", {}))
+    problems += validate_hero(manifest.get("assets", {}))
     problems += validate_audio(manifest.get("audio", {}))
     problems += validate_fonts(manifest.get("fonts", {}))
     for problem in problems:

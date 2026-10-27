@@ -61,6 +61,7 @@ jobs:
           python3 tools/assets/gen_sfx.py
           python3 tools/assets/import_sounds.py
           python3 tools/assets/gen_dummy.py
+          python3 tools/assets/gen_hero.py
           python3 tools/assets/make_spriteframes.py
           python3 tools/assets/validate.py
       - name: Commit the result

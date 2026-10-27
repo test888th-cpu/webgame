@@ -1,14 +1,10 @@
 [
   {
-    "file": "art/custom/hero_riku",
+    "file": "tools/assets/gen_hero.py",
     "authors": [
-      "test888th-cpu (project owner)"
+      "Ironbound Streets contributors"
     ],
-    "license": "Proprietary (project owner)",
-    "offered": [
-      "Proprietary (project owner)"
-    ],
-    "urls": [],
-    "notes": "Original character art supplied by the project owner (made with the owner's own AI tools). hurt, down and the guard pose are derived from these frames by tools/assets/custom_import.py."
+    "license": "MIT",
+    "urls": []
   }
 ]
