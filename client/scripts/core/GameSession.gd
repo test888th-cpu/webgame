@@ -9,7 +9,16 @@ var profile: PlayerProfile
 ## Player preferences (not progression): kept in their own small file.
 ## Effect animations, built on first use by Fx.
 var fx_library := {}
-var settings := {"show_fps": false, "screen_shake": true, "sfx_volume": 0.8}
+var settings := {
+	"show_fps": false,
+	"screen_shake": true,
+	"sfx_volume": 0.8,
+	# Auto battle (AutoBattle): eat below this health share, farm in a loop
+	# (rest at home and ride back), and how much food to keep stocked.
+	"auto_heal_at": 0.5,
+	"auto_loop": true,
+	"auto_food": 10.0,
+}
 
 
 func _ready() -> void:

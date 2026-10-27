@@ -90,6 +90,17 @@ both places.
   viewer's area of interest.
 - AI runs only for monsters near players. Spawners outside interest stay dormant.
 
+### D7. Auto battle is a player, not a cheat
+- `client/sim/AutoPilot.gd` decides the hero's input from the zone each tick: it presses
+  the same buttons as a player (a `FighterInput`) and eats through `ZoneSim.use_item`.
+  It never writes simulation state. A zone server therefore sees ordinary input and
+  validates it like any other, and the client stays non-authoritative.
+- `client/sim/AutoRules.gd` decides where auto may run (areas already beaten by hand) and
+  when the farm loop rests. Both are pure and deterministic, like the rest of `sim/`.
+- `client/scenes/game/AutoBattle.gd` is presentation glue. It owns the switch and the
+  player's override (any input of their own wins that tick). It runs the farm loop
+  through the same actions a player has: recall home, the shop and the taxi fare.
+
 ## 3. Join flow [planned M3]
 
 1. Client → API: log in, receive a short-lived access token and a rotating refresh token.
@@ -122,3 +133,4 @@ here first.
 | Date | Decision |
 |---|---|
 | 2026-10-23 | D1–D6 recorded. Node 22 → Node 24.22.1 after checking the release schedule. |
+| 2026-10-27 | D7 recorded: auto battle produces player input only (`AutoPilot`, `AutoRules`). |

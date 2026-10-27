@@ -49,6 +49,7 @@ You do not need any local tools. All building and testing happens in GitHub Acti
 | Talk / shop (near an NPC) | E or U | B / Circle | TALK |
 | Hotbar: attack, skills, food (slots 1–7) | 1–7 | RT + X/Y/A/B for skills, RT + RB for slot 7 | Tap the slot |
 | Eat (quick heal) | H or Q | RB / R1 | EAT |
+| Auto battle on/off (areas you have cleared; any input of yours takes over) | T | Back / Select | AUTO button |
 | Pause, inventory, quests, save | Esc or P | Start | II |
 | Switch menu tabs | Q / E | LB / RB | Tap the tab |
 

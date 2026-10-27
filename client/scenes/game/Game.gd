@@ -26,6 +26,8 @@ var menu_name := ""
 var menu_focus := ""
 ## The item card open over the pause window, if any.
 var item_card: Control = null
+## Auto battle (AutoBattle): the switch, the farm loop and its tally.
+var auto: AutoBattle
 
 var _pending_exit := {}
 ## Weapons left lying in each area this session, by area id, so a street keeps
@@ -52,7 +54,9 @@ func _ready() -> void:
 	profile = GameSession.profile
 	_feedback = GameFeedback.new(content, _hud)
 	_hud.slot_pressed.connect(func(index: int) -> void: _clicked_slot = index)
+	_hud.auto_pressed.connect(func() -> void: auto.toggle())
 	enter_area(profile.area, "")
+	auto = AutoBattle.new(self)
 	print("%s %s" % [READY_MARKER, BuildInfo.summary()])
 
 
@@ -73,6 +77,8 @@ func enter_area(area_id: String, entry: String, start_x := -1.0) -> void:
 	_feedback.view = view
 	_hud.attach(zone, profile, content)
 	_hud.toast(str(zone.area.get("name", area_id)))
+	if auto:
+		auto.entered(area_id)
 	SaveStore.save(profile)
 
 
@@ -95,6 +101,8 @@ func _physics_process(_delta: float) -> void:
 		Sfx.play("ui_select", -4.0)
 		open_pause()
 		return
+	if Input.is_action_just_pressed("auto_battle"):
+		auto.toggle()
 	var modifier := Input.is_action_pressed("skill_modifier")
 	# E talks to a nearby NPC; anywhere else it picks up (or drops) a weapon.
 	var pick := false
@@ -102,7 +110,8 @@ func _physics_process(_delta: float) -> void:
 		if try_interact():
 			return
 		pick = true
-	if not modifier and Input.is_action_just_pressed("use_item"):
+	var ate := not modifier and Input.is_action_just_pressed("use_item")
+	if ate:
 		quick_heal()
 	var input := PlayerInput.read()
 	input.pick = pick
@@ -116,6 +125,8 @@ func _physics_process(_delta: float) -> void:
 	elif input.light:
 		# Z/J are the attack slot too: light it up so the link is visible.
 		_hud.flash_slot(0, true)
+	if auto.on:
+		input = auto.input(input, ate or slot >= 0 or PlayerInput.is_active(input))
 	step(input)
 
 
@@ -189,6 +200,8 @@ func step(input: FighterInput) -> Array[ZoneEvent]:
 		var exit := _pending_exit
 		_pending_exit = {}
 		enter_area(exit["to"], exit["entry"])
+	if auto:
+		auto.after_step(events)
 	return events
 
 
@@ -262,6 +275,16 @@ func try_interact() -> bool:
 	else:
 		open_quests(npc)
 	return true
+
+
+func hud_toast(text: String) -> void:
+	_hud.toast(text)
+
+
+## Feedback for food eaten by auto battle, as for the quick-heal key.
+func healed_by(item_id: String) -> void:
+	view.show_text(str(content.item(item_id)["name"]), zone.hero.position, Color(0.6, 1, 0.7))
+	_feedback.healed()
 
 
 func quick_heal() -> bool:
@@ -557,6 +580,8 @@ func _quit_to_title() -> void:
 
 
 func _process(delta: float) -> void:
+	if auto:
+		_hud.show_auto(auto, auto.on or auto.problem() == "")
 	_probe_timer += delta
 	if _probe_timer < PROBE_INTERVAL or not OS.has_feature("web"):
 		return
@@ -594,6 +619,8 @@ func _process(delta: float) -> void:
 				"cooldowns": zone.hero.cooldowns,
 				"weapon": zone.hero.weapon,
 				"street_weapons": street_weapons,
+				"auto": auto.on,
+				"auto_status": auto.pilot.status if auto.on else "",
 			}
 		)
 	)
