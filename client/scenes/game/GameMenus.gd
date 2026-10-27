@@ -23,7 +23,6 @@ const SCREENS := {
 	"settings": ["Settings", "menu_settings", "", Vector2(520, 300)],
 }
 const PAUSE_WIDTH := 190.0
-const SHOP_SIZE := Vector2(540, 304)
 const LIST_WIDTH := 180.0
 ## Shown on Settings > Controls: action, keyboard, gamepad.
 const CONTROLS := [
@@ -293,92 +292,6 @@ static func _toggle(text: String, key: String) -> CheckButton:
 	toggle.focus_mode = Control.FOCUS_ALL
 	toggle.toggled.connect(func(on: bool) -> void: GameSession.set_setting(key, on))
 	return toggle
-
-
-## The vendor: wares on the left, the selected one described on the right.
-static func shop(game: Game, npc: Dictionary) -> Control:
-	var content := game.content
-	var profile := game.profile
-	var data: Dictionary = content.shops[npc["shop"]]
-	var parts := UiKit.window(str(data["name"]), SHOP_SIZE, "Esc  Leave")
-	var body: VBoxContainer = parts["body"]
-	body.add_child(
-		UiKit.label(
-			'%s:  "%s"' % [npc["name"], npc.get("line", "")],
-			UiTheme.SIZE_SMALL,
-			UiTheme.TEXT_DIM,
-			SHOP_SIZE.x - 20
-		)
-	)
-	var columns := HBoxContainer.new()
-	columns.add_theme_constant_override("separation", UiTheme.PAD)
-	columns.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	body.add_child(columns)
-	var list := _item_list()
-	columns.add_child(list)
-	var detail := VBoxContainer.new()
-	detail.add_theme_constant_override("separation", UiTheme.GAP)
-	detail.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	columns.add_child(detail)
-	var wares: Array = data["items"]
-	var selected := 0
-	for i in wares.size():
-		var item := content.item(wares[i])
-		list.add_item(
-			"%s   %d" % [item["name"], int(item["price"])], UiKit.icon(content, item["icon"])
-		)
-		var affordable := profile.money >= int(item["price"])
-		list.set_item_custom_fg_color(
-			i, ItemText.rarity_color(item) if affordable else UiTheme.TEXT_FAINT
-		)
-		if wares[i] == game.menu_focus:
-			selected = i
-	var show := func(index: int) -> void: _shop_detail(game, npc, detail, wares[index])
-	list.item_selected.connect(show)
-	list.item_activated.connect(func(index: int) -> void: game._buy(npc, wares[index]))
-	list.select(selected)
-	show.call(selected)
-	var footer := HBoxContainer.new()
-	footer.add_theme_constant_override("separation", UiTheme.GAP)
-	footer.add_child(UiKit.key_hint("Enter", "Buy"))
-	var gap := Control.new()
-	gap.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	footer.add_child(gap)
-	footer.add_child(UiKit.label("Your coins", UiTheme.SIZE_SMALL, UiTheme.TEXT_DIM))
-	footer.add_child(UiKit.icon_rect(content, "coin"))
-	footer.add_child(UiKit.label(str(profile.money), UiTheme.SIZE_H2, UiTheme.GOLD))
-	body.add_child(footer)
-	return parts["root"]
-
-
-static func _shop_detail(
-	game: Game, npc: Dictionary, detail: VBoxContainer, item_id: String
-) -> void:
-	for child in detail.get_children():
-		child.queue_free()
-	var item := game.content.item(item_id)
-	detail.add_child(ItemCard.details(game.content, game.profile, item_id))
-	var owned := game.profile.count(item_id)
-	for slot: String in PlayerProfile.SLOTS:
-		owned += 1 if game.profile.equipment[slot] == item_id else 0
-	detail.add_child(UiKit.row("You own", UiKit.label(str(owned))))
-	var price := int(item["price"])
-	var cost := HBoxContainer.new()
-	cost.add_child(UiKit.icon_rect(game.content, "coin"))
-	cost.add_child(UiKit.label(str(price), UiTheme.SIZE_BODY, UiTheme.GOLD))
-	detail.add_child(UiKit.row("Price", cost))
-	var spacer := Control.new()
-	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	detail.add_child(spacer)
-	var short := game.profile.money < price
-	var buy := UiKit.button(
-		"Need %d more" % (price - game.profile.money) if short else "Buy",
-		game._buy.bind(npc, item_id),
-		short
-	)
-	buy.focus_mode = Control.FOCUS_NONE  # Enter on the list buys
-	buy.size_flags_horizontal = Control.SIZE_SHRINK_END
-	detail.add_child(buy)
 
 
 ## A conversation with a quest giver: their line, then what they offer.

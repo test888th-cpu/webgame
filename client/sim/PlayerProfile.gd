@@ -186,12 +186,17 @@ func add_item(item_id: String, amount := 1) -> void:
 	inventory[item_id] = count(item_id) + amount
 
 
-## Throws one away at the player's request. Evidence (key items) is the
-## story and is never thrown away.
-func discard(item_id: String, content: ContentDB) -> bool:
-	if content.item(item_id).get("type") == "key":
+## Throws `amount` away at the player's request (selling uses it too).
+## Evidence (key items) is the story and is never thrown away. Once no copy
+## is left, worn or carried, its upgrades go with it, so one bought back
+## starts again at +0.
+func discard(item_id: String, content: ContentDB, amount := 1) -> bool:
+	if content.item(item_id).get("type") == "key" or not remove_item(item_id, amount):
 		return false
-	return remove_item(item_id)
+	if count(item_id) == 0 and item_id not in equipment.values():
+		enhance.erase(item_id)
+		enhance_pity.erase(item_id)
+	return true
 
 
 func remove_item(item_id: String, amount := 1) -> bool:

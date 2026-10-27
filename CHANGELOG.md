@@ -4,6 +4,29 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added: selling, and a shop screen that always shows its Buy button
+- **Sell tab** (Q/E switch tabs). A shop pays 30% of the price (`sell_rate` in
+  progression.json). It never buys evidence or worn gear. Rare gear and upgraded
+  items ask "Sure?" first.
+- **Upgrades:** once the last copy of an item is sold or thrown away, its upgrades
+  go with it, so an item bought back starts at +0.
+- **Deal bar:** the amount, total and Buy/Sell button sit at the bottom of the shop
+  window, under the scrolling item card. Before, a long card pushed the Buy button
+  off screen.
+- **Amounts:** food and materials can be bought or sold several at a time with
+  -, + and Max (Left/Right on the list). Gear is bought one at a time.
+- **Code:** the shop has its own screen (`ShopScreen.gd`, with the window's ×
+  button). Its rules live in `sim/ShopRules.gd` (buy by amount, `sell`,
+  `sell_price`, `affordable`) so a server can run the same ones later.
+
+### Added: drag and drop in the bag
+- Drag gear from the bag onto its slot, or onto the hero, to wear it. Drag worn gear
+  onto the bag to take it off.
+- While dragging, the slots the item can go to light up.
+- Right click wears gear, eats food, or takes worn gear off, without opening the
+  card.
+- `tools/web-smoke/shots.ts` gains mouse `down`/`move`/`up` steps for drag shots.
+
 ### Fixed: skills and heavy blows are thrown with the right hand
 - The `heavy` animation, played by heavy attacks and most skills, was LPC's `slash`.
   In side view that move strikes with the far arm, so fighters punched, and swung a

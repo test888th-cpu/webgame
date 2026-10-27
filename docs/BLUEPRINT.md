@@ -58,7 +58,7 @@ Milestone ของ Master Prompt ใช้ชื่อ **IL-0 ถึง IL-7** 
 | XP/เลเวล (สูงสุด 20), เงิน, เสียเงิน 10% เมื่อแพ้ | `progression.json`, `test_progression` |
 | Loot table ใช้ RNG แบบ seed | `LootRules` |
 | อุปกรณ์ 6 ช่อง (head, body, hands, weapon, feet, charm), rarity 5 ระดับ, required level, ค่าสถานะ | `PlayerProfile`, `items.json` (21 รายการ) |
-| Inventory, ร้านค้า 2 ร้าน (Ama, Kenji) | `ShopRules`, `shops.json` |
+| Inventory (ลากของใส่ตัว, คลิกขวาใช้/ใส่), ร้านค้าซื้อ-ขาย (แท็บ Buy/Sell, ขายคืนได้ `sell_rate` ของราคา) | `ShopRules`, `ShopScreen`, `shops.json` |
 | Quest แบบสายเดียว 6 ภารกิจ (กำจัดศัตรู), รับ/ส่ง/รางวัล | `QuestRules`, `quests.json` |
 | Save/Load ในเครื่อง: มี version (3), migrate ทีละขั้น, ทำความสะอาดค่า, เขียนแบบ atomic, IndexedDB บนเว็บ | `PlayerProfile.migrate`, `SaveStore`, `test_progression` |
 | UI: Title, สร้างตัวละคร, HUD, Hotbar, หน้าจอแยก (Character, Bag, Quests, Map, Settings) + เมนูหยุด, Status, Equipment, Item card เปรียบเทียบของ, Quest log, Dialog NPC | `scenes/ui`, `scenes/game`, `test_ui` |

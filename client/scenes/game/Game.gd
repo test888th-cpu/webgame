@@ -114,8 +114,8 @@ func _physics_process(_delta: float) -> void:
 				close_item_card()
 		elif Input.is_action_just_pressed("pause"):
 			close_menu()
-		elif menu_name == "pause" or GameMenus.SCREENS.has(menu_name):
-			if not _screen_key():
+		elif menu_name == "pause" or GameMenus.SCREENS.has(menu_name) or menu_name == "shop":
+			if menu_name == "shop" or not _screen_key():
 				if Input.is_action_just_pressed("menu_prev"):
 					GameMenus.cycle_tab(menu, -1)
 				elif Input.is_action_just_pressed("menu_next"):
@@ -389,7 +389,7 @@ func _screen_key() -> bool:
 
 
 func open_shop(npc: Dictionary) -> void:
-	_show("shop", GameMenus.shop(self, npc))
+	_show("shop", ShopScreen.build(self, npc))
 
 
 ## Counts a tutorial action; a finished step chimes, and the last one says
@@ -547,12 +547,40 @@ func _reopen_bag(focus: String) -> void:
 	open_inventory()
 
 
-func _buy(npc: Dictionary, item_id: String) -> void:
-	var error := ShopRules.buy(profile, npc["shop"], item_id, content)
-	_hud.toast("Bought " + str(content.item(item_id)["name"]) if not error else "Not enough coins")
-	SaveStore.save(profile)
-	menu_focus = item_id
+func _buy(npc: Dictionary, item_id: String, amount := 1) -> void:
+	var error := ShopRules.buy(profile, npc["shop"], item_id, content, amount)
+	_trade_done(error, "Bought %s%s" % [content.item(item_id)["name"], _times(amount)])
+	if error == "not_enough_money":
+		_hud.toast("Not enough coins")
+	menu_focus = "buy:" + item_id
 	open_shop(npc)
+
+
+## Sells to the shop; the list then stays on the same item, or the next one
+## once the last is gone.
+func _sell(npc: Dictionary, item_id: String, amount := 1) -> void:
+	var before := ShopScreen.sellable(content, profile)
+	var error := ShopRules.sell(profile, item_id, content, amount)
+	var coins := ShopRules.sell_price(content, item_id) * amount
+	var name := str(content.item(item_id)["name"])
+	_trade_done(error, "Sold %s%s for %d coins" % [name, _times(amount), coins])
+	var left := ShopScreen.sellable(content, profile)
+	var index := mini(before.find(item_id), left.size() - 1)
+	menu_focus = "sell:" + (left[index] if index >= 0 else "")
+	open_shop(npc)
+
+
+func _trade_done(error: String, done: String) -> void:
+	if error:
+		Sfx.play("denied", -4.0)
+		return
+	_hud.toast(done)
+	Sfx.play("coin", -4.0)
+	SaveStore.save(profile)
+
+
+static func _times(amount: int) -> String:
+	return " x%d" % amount if amount > 1 else ""
 
 
 func _accept(npc: Dictionary, quest_id: String) -> void:
