@@ -4,8 +4,9 @@ extends Node2D
 ## the size of what it will hit, darkening and pulsing as it comes, then a
 ## shipping container falling off a crane ("crane"), a burst of scalding
 ## steam from a floor vent ("steam"), a security laser sweeping the lane
-## ("laser") or floor plates shocking ("shock"). Drawn with shapes until the
-## art pass. Presentation only; BossMechanics decides who it hits.
+## ("laser"), floor plates shocking ("shock") or a geyser of drain sludge
+## ("sludge"). Drawn with shapes until the art pass. Presentation only;
+## BossMechanics decides who it hits.
 
 const FALL_SECONDS := 0.25
 const DROP_HEIGHT := 220.0
@@ -16,6 +17,7 @@ const RIB := Color("7a3418")
 const EDGE := Color("1c1418")
 
 const STEAM := Color(0.92, 0.95, 1.0, 0.85)
+const SLUDGE := Color(0.35, 0.6, 0.2, 0.9)
 const LASER := Color(1.0, 0.18, 0.25)
 const SPARK := Color(0.55, 0.85, 1.0)
 
@@ -60,7 +62,7 @@ func _draw() -> void:
 	if not _landed:
 		var shade := Color(0.9, 0.1, 0.05, 0.25 + 0.35 * near + 0.15 * pulse)
 		_ellipse(SHADOW * (0.6 + 0.4 * near), shade)
-	if kind == "steam":
+	if kind in ["steam", "sludge"]:
 		_draw_steam(near)
 		return
 	var fall := 0.0 if _landed else clampf(_left / FALL_SECONDS, 0.0, 1.0)
@@ -94,7 +96,8 @@ func _draw_steam(near: float) -> void:
 		return
 	for i in 8:
 		var y := -10.0 - i * 14.0
-		draw_circle(Vector2(sin(i * 1.7) * 6.0, y), 10.0 + i * 1.5, Color(STEAM, 0.75 - i * 0.07))
+		var puff := SLUDGE if kind == "sludge" else STEAM
+		draw_circle(Vector2(sin(i * 1.7) * 6.0, y), 10.0 + i * 1.5, Color(puff, 0.75 - i * 0.07))
 
 
 ## A band across the lane, its full width: a thin aiming line that thickens

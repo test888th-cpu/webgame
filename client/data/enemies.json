@@ -1928,6 +1928,98 @@
       "color": "#e0e0e8",
       "sprite": "director_wiroj",
       "wields": false
+    },
+    "tunnel_mother": {
+      "name": "The Tunnel Mother",
+      "max_hp": 900,
+      "speed": 0.55,
+      "defense": 5,
+      "power": 1.0,
+      "scale": 2.0,
+      "boss": true,
+      "poise": 120,
+      "moveset": {
+        "light": "mother_swipe",
+        "heavy": "mother_slam"
+      },
+      "ai": {
+        "spacing": 70,
+        "reaction": 14,
+        "cooldown": 44,
+        "cooldown_jitter": 24,
+        "heavy_chance": 0.3,
+        "heavy_cooldown": 330
+      },
+      "hazard": {
+        "every": 260,
+        "cycle": [
+          {
+            "kind": "sludge",
+            "warn": 60,
+            "damage": 20,
+            "half": [
+              30,
+              12
+            ]
+          }
+        ]
+      },
+      "summon": {
+        "enemy": "tar_hound",
+        "every": 600,
+        "count": 2,
+        "max": 3
+      },
+      "phases": [
+        {
+          "below": 0.66,
+          "speed": 0.65,
+          "power": 1.05,
+          "cooldown": 36,
+          "heavy_chance": 0.35,
+          "heavy_cooldown": 300,
+          "hazard_every": 200,
+          "summon_every": 480,
+          "moveset": {
+            "light": "mother_swipe",
+            "heavy": "mother_lunge"
+          }
+        },
+        {
+          "below": 0.33,
+          "speed": 0.7,
+          "power": 1.1,
+          "cooldown": 30,
+          "heavy_chance": 0.4,
+          "heavy_cooldown": 300,
+          "hazard_every": 150,
+          "summon_every": 420,
+          "moveset": {
+            "light": "mother_swipe",
+            "heavy": "mother_quake"
+          }
+        }
+      ],
+      "xp": 2000,
+      "loot": {
+        "money": [
+          400,
+          600
+        ],
+        "drops": [
+          {
+            "item": "refined_alloy",
+            "chance": 1.0
+          },
+          {
+            "item": "herbal_tonic",
+            "chance": 0.5
+          }
+        ]
+      },
+      "color": "#4a6a2a",
+      "sprite": "tunnel_mother",
+      "wields": false
     }
   }
 }

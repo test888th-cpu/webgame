@@ -5,7 +5,7 @@ extends RefCounted
 ## for the backend in Milestone 4, when the server becomes the only writer.
 ## Temporary combat state (position, energy, cooldowns) never lives here.
 
-const SAVE_VERSION := 6
+const SAVE_VERSION := 7
 ## Equipment slots, in the order the character screen shows them.
 const SLOTS := ["head", "body", "hands", "weapon", "feet", "charm"]
 ## Stats an item can add, as stored in items.json "stats".
@@ -53,6 +53,9 @@ var enhance_pity := {}
 ## Fights won per area since the last rest, and areas reached (StreetMemory).
 var cleared := {}
 var visited: Array[String] = []
+## This world boss round's progress: {"round": int, "dealt": damage so far,
+## "tiers": reward tiers already paid} (WorldBossRules).
+var world_boss := {}
 
 
 ## A fresh profile for `hero_id` (the first hero if empty or unknown), named
@@ -257,6 +260,7 @@ func to_dict() -> Dictionary:
 		"enhance_pity": enhance_pity.duplicate(),
 		"cleared": cleared.duplicate(true),
 		"visited": visited.duplicate(),
+		"world_boss": world_boss.duplicate(),
 	}
 
 
@@ -322,6 +326,14 @@ static func from_dict(data: Variant, content: ContentDB) -> PlayerProfile:
 			if slot in SLOTS and value > 0:
 				p.get(field)[slot] = value
 	StreetMemory.load_into(p, migrated, content)
+	var round: Variant = migrated.get("world_boss", {})
+	if round is Dictionary and round.has("round"):
+		p.world_boss = {
+			"round": int(round["round"]),
+			"dealt": maxi(0, int(round.get("dealt", 0))),
+			"tiers":
+			clampi(int(round.get("tiers", 0)), 0, content.world_boss.get("tiers", []).size()),
+		}
 	return p
 
 
@@ -365,4 +377,8 @@ static func migrate(data: Dictionary) -> Dictionary:
 		migrated["cleared"] = {}
 		migrated["visited"] = []
 		migrated["version"] = 6
+	if int(migrated["version"]) == 6:
+		# Version 7 keeps the world boss round's progress; none yet.
+		migrated["world_boss"] = {}
+		migrated["version"] = 7
 	return migrated

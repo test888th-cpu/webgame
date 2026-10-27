@@ -62,6 +62,9 @@ var audio: Dictionary = {}
 var fonts: Dictionary = {}
 ## The first-time tutorial's steps, in order (tutorial.json).
 var tutorial: Array = []
+## The world boss: who, where, when it opens and its reward tiers
+## (world_boss.json, see WorldBossRules).
+var world_boss: Dictionary = {}
 var errors: PackedStringArray = []
 
 
@@ -86,6 +89,7 @@ static func load_all(dir := DATA_DIR) -> ContentDB:
 	db.skills = skill_file.get("skills", {})
 	db.hotbar = skill_file.get("hotbar", [])
 	db.tutorial = db._read(dir.path_join("tutorial.json")).get("steps", [])
+	db.world_boss = db._read(dir.path_join("world_boss.json")).get("world_boss", {})
 	db.item_cooldown = int(skill_file.get("item_cooldown", 0))
 	var manifest := db._read(ART_MANIFEST)
 	db.art = manifest.get("assets", {})
@@ -227,6 +231,7 @@ func validate() -> void:
 		_check(str(step.get("text", "")) != "", where + ".text: required")
 	for id: String in enemies:
 		_validate_enemy(id, enemies[id])
+	_validate_world_boss()
 	for id: String in items:
 		_validate_item(id, items[id])
 	for id: String in shops:
@@ -299,6 +304,36 @@ func _validate_enemy(id: String, e: Dictionary) -> void:
 				for field in ["up", "down"]:
 					_number(shield, field, where + ".phases.shield", 1)
 	_validate_loot(e.get("loot", {}), where + ".loot")
+
+
+func _validate_world_boss() -> void:
+	var wb := world_boss
+	var where := "world_boss"
+	_check(enemy(str(wb.get("enemy"))).get("boss", false), where + ".enemy: must be a boss")
+	_check(area(str(wb.get("area"))).get("world_boss", false), where + ".area: needs world_boss")
+	_check(enemies.has(str(wb.get("unlock"))), where + ".unlock: unknown enemy")
+	for field in ["period_minutes", "open_minutes", "attempt_seconds", "min_level", "pool"]:
+		_number(wb, field, where, 1)
+	_check(
+		int(wb.get("open_minutes", 0)) < int(wb.get("period_minutes", 0)),
+		where + ".open_minutes: shorter than the period"
+	)
+	var last := 0.0
+	for tier: Variant in wb.get("tiers", []):
+		if not tier is Dictionary:
+			errors.append(where + ".tiers: expected objects")
+			continue
+		var share := float(tier.get("share", 0))
+		_check(share > last and share <= 1.0, where + ".tiers.share: rising, at most 1")
+		last = share
+		_number(tier, "money", where + ".tiers", 0)
+		for item_id: String in tier.get("items", {}):
+			_check(items.has(item_id), where + ".tiers.items: unknown " + item_id)
+		for item_id: String in tier.get("rolls", {}):
+			_check(items.has(item_id), where + ".tiers.rolls: unknown " + item_id)
+			var chance := float(tier["rolls"][item_id])
+			_check(chance > 0.0 and chance <= 1.0, where + ".tiers.rolls: chance in (0, 1]")
+	_check(last == 1.0, where + ".tiers: the last tier is the whole pool")
 
 
 ## A boss hazard: how often ("every"), and either one hazard (its "kind",

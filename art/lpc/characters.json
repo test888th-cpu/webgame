@@ -2282,6 +2282,51 @@
           }
         }
       ]
+    },
+    "tunnel_mother": {
+      "role": "enemy",
+      "body_type": "male",
+      "layers": [
+        {
+          "def": "body/body.json",
+          "recolor": {
+            "color": "ulpc.olive"
+          }
+        },
+        {
+          "def": "head/heads/fantasy/heads_orc_male.json"
+        },
+        {
+          "def": "feet/boots/feet_boots_basic.json",
+          "recolor": {
+            "color": "ulpc.brown"
+          }
+        },
+        {
+          "def": "legs/pants/legs_pants.json",
+          "recolor": {
+            "color": "ulpc.forest"
+          }
+        },
+        {
+          "def": "torso/aprons/torso_aprons_overalls.json",
+          "recolor": {
+            "color": "ulpc.forest"
+          }
+        },
+        {
+          "def": "hair/beards/beards_medium.json",
+          "recolor": {
+            "color": "ulpc.gray"
+          }
+        },
+        {
+          "def": "hair/bald/hair_balding.json",
+          "recolor": {
+            "color": "ulpc.gray"
+          }
+        }
+      ]
     }
   }
 }

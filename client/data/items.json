@@ -827,6 +827,35 @@
       },
       "icon": "jade_charm",
       "description": "Kraisorn Heavy Industries' seal on a white-gold ring. It signed away a canal."
+    },
+    "mothers_fang": {
+      "name": "Mother's Fang",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "legendary",
+      "level": 30,
+      "price": 0,
+      "stats": {
+        "power": 0.65,
+        "crit": 0.1
+      },
+      "icon": "baron_knuckledusters",
+      "description": "A tooth the size of a fist, set in tar-black tape. The drains remember who took it."
+    },
+    "mothers_heart": {
+      "name": "Mother's Heart",
+      "type": "equipment",
+      "slot": "charm",
+      "rarity": "legendary",
+      "level": 30,
+      "price": 0,
+      "stats": {
+        "max_hp": 70,
+        "power": 0.1,
+        "attack_speed": 0.08
+      },
+      "icon": "jade_charm",
+      "description": "A green stone from the heart of the Great Drain. It beats, slowly, when you fight."
     }
   }
 }

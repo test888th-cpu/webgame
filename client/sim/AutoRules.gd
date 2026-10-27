@@ -20,6 +20,8 @@ static func problem(profile: PlayerProfile, content: ContentDB, area_id: String)
 	var area := content.area(area_id)
 	if area.get("encounters", []).is_empty():
 		return "Nothing to fight here."
+	if area.get("world_boss", false):
+		return "Auto battle is not allowed against the World Boss."
 	if not is_beaten(profile, content, area_id):
 		return "Auto unlocks once you have cleared this area yourself."
 	return ""

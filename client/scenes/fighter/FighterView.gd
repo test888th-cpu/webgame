@@ -87,7 +87,10 @@ func setup_enemy(data: Dictionary, art: Dictionary, level := 0) -> void:
 	_health.visible = show_health_bar
 	enemy_level = level if not data.get("training", false) else 0
 	var tag := "Lv %d" % enemy_level if enemy_level > 0 else ""
-	if data.get("elite", false) or data.get("boss", false):
+	if data.get("boss", false):
+		# The boss bar names a boss and its level; nothing over its head.
+		_name.visible = false
+	elif data.get("elite", false):
 		_name.text = str(data.get("name", "")) + ("  " + tag if tag else "")
 		_name.visible = true
 	elif tag:

@@ -26,6 +26,10 @@ var menu_focus := ""
 var item_card: Control = null
 ## Auto battle (AutoBattle): the switch, the farm loop and its tally.
 var auto: AutoBattle
+## The world boss attempt under way (WorldBossRun), or null.
+var world_run: WorldBossRun = null
+## Unix time to use instead of the clock (tests); -1 for the real clock.
+var now_override := -1
 
 var _pending_exit := {}
 ## Weapons left lying in each area this session, by area id, so a street keeps
@@ -38,6 +42,11 @@ var _feedback: GameFeedback
 var _last_upgrade_ms := -100000
 ## Rolls upgrades. Offline the client rolls them; online the server will.
 var _upgrade_rng := RandomNumberGenerator.new()
+var _world_rng := RandomNumberGenerator.new()
+## The world boss round last announced, so each opening is told once.
+var _announced_round := -1
+var _clock_timer := 0.0
+var _entering_world_boss := false
 
 @onready var _world: Node2D = $World
 @onready var _hud: CanvasLayer = $Hud
@@ -46,6 +55,7 @@ var _upgrade_rng := RandomNumberGenerator.new()
 
 func _ready() -> void:
 	_upgrade_rng.randomize()
+	_world_rng.randomize()
 	content = GameSession.content
 	if GameSession.profile == null:
 		GameSession.start_new_game()
@@ -59,6 +69,10 @@ func _ready() -> void:
 
 
 func enter_area(area_id: String, entry: String, start_x := -1.0) -> void:
+	# The world boss arena is only ever entered for an attempt (Win's taxi).
+	if content.area(area_id).get("world_boss", false) and not _entering_world_boss:
+		area_id = content.start_area
+		entry = ""
 	if zone:
 		_street_weapons[zone.area_id] = zone.ground_weapons.duplicate(true)
 	if view:
@@ -190,10 +204,14 @@ func step(input: FighterInput) -> Array[ZoneEvent]:
 	for event in events:
 		_handle(event)
 		_feedback.on_event(event)
+	if world_run:
+		world_run.tick(zone, events)
 	if not TutorialRules.is_done(profile, content):
 		for action: String in TutorialRules.signals_for(events, zone.hero, input, content.moves):
 			tutorial_signal(action)
 	view.sync()
+	if world_run and world_run.ended:
+		_finish_world_boss()
 	if _pending_exit:
 		var exit := _pending_exit
 		_pending_exit = {}
@@ -249,7 +267,8 @@ func _handle(event: ZoneEvent) -> void:
 			var boss := content.enemy(zone.fighter(event.data["id"]).kind)
 			_hud.toast("%s calls for backup!" % boss.get("name", "The boss"))
 		"hero_down":
-			open_game_over.call_deferred()
+			if world_run == null:
+				open_game_over.call_deferred()
 		"exit":
 			_pending_exit = event.data
 		"exit_locked":
@@ -561,6 +580,60 @@ func _ride(npc: Dictionary, area_id: String) -> void:
 	enter_area(area_id, "west")
 
 
+## Unix time now (or the test's).
+func _now() -> int:
+	return now_override if now_override >= 0 else int(Time.get_unix_time_from_system())
+
+
+## Win's ride to the world boss: an attempt starts on arrival.
+func _ride_world_boss(npc: Dictionary) -> void:
+	var problem := WorldBossRules.problem(profile, content, _now())
+	var fare := int(npc.get("fare", 0))
+	if problem == "" and profile.money < fare:
+		problem = "Not enough coins for the ride"
+	if problem:
+		_hud.toast(problem)
+		Sfx.play("denied", -4.0)
+		return
+	profile.money -= fare
+	close_menu()
+	_start_world_boss()
+
+
+## Into the world boss arena for one attempt at this round's pool.
+func _start_world_boss() -> void:
+	var round := int(WorldBossRules.window(content, _now())["round"])
+	_entering_world_boss = true
+	enter_area(str(content.world_boss["area"]), "west")
+	_entering_world_boss = false
+	world_run = WorldBossRun.new(zone, profile, content, round)
+	_hud.attach(zone, profile, content)
+	auto.stop()
+	_hud.toast("The Tunnel Mother rises. %d seconds!" % world_run.seconds_left())
+
+
+## The attempt is over: bank its damage, pay new tiers, show what it won.
+func _finish_world_boss() -> void:
+	var run := world_run
+	var paid := WorldBossRules.award(
+		profile, content, run.round, run.dealt, run.total, run.level, _world_rng
+	)
+	SaveStore.save(profile)
+	if run.ended == "left":
+		world_run = null
+		_hud.toast("You left the Great Drain. Damage banked.")
+		return
+	_show("world_boss", GameMenus.world_boss_result(self, run, paid))
+
+
+## From the results back home, rested.
+func _leave_world_boss() -> void:
+	world_run = null
+	profile.hp = profile.stats(content)["max_hp"]
+	close_menu()
+	enter_area(content.start_area, "")
+
+
 ## Straight home from the pause menu, out of a fight only. Arriving rests
 ## the hero (healed, every street's fights back) like walking in would; Win's
 ## taxi rides back out to any area reached.
@@ -585,9 +658,37 @@ func _quit_to_title() -> void:
 	get_tree().change_scene_to_file("res://scenes/title/Title.tscn")
 
 
+## The world boss on the HUD: the attempt's clock while one runs, and a
+## toast once when a round opens.
+func _update_world_boss(delta: float) -> void:
+	if world_run:
+		_hud.show_world_boss(
+			(
+				"WORLD BOSS  %d:%02d  ·  %d%% left"
+				% [
+					world_run.seconds_left() / 60,
+					world_run.seconds_left() % 60,
+					roundi(world_run.remaining_share() * 100)
+				]
+			)
+		)
+		return
+	_hud.show_world_boss("")
+	_clock_timer -= delta
+	if _clock_timer > 0.0:
+		return
+	_clock_timer = 1.0
+	var round := WorldBossRules.window(content, _now())
+	if round["open"] and WorldBossRules.unlocked(profile, content):
+		if int(round["round"]) != _announced_round:
+			_announced_round = int(round["round"])
+			_hud.toast("World Boss: the Tunnel Mother stirs! Ask Win for a ride.")
+
+
 func _process(delta: float) -> void:
 	if auto:
 		_hud.show_auto(auto, auto.on or auto.problem() == "")
+	_update_world_boss(delta)
 	_probe_timer += delta
 	if _probe_timer < PROBE_INTERVAL or not OS.has_feature("web"):
 		return
