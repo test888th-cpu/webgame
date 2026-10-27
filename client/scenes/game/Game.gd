@@ -242,6 +242,9 @@ func _handle(event: ZoneEvent) -> void:
 				_hud.toast("A boss approaches!")
 		"boss_phase":
 			_hud.toast("It's enraged!")
+		"boss_shield":
+			var shielded := bool(event.data["up"])
+			_hud.toast("Defences up. Survive!" if shielded else "System reset. Strike now!")
 		"boss_summon":
 			var boss := content.enemy(zone.fighter(event.data["id"]).kind)
 			_hud.toast("%s calls for backup!" % boss.get("name", "The boss"))
@@ -531,6 +534,9 @@ func _turn_in(npc: Dictionary, quest_id: String) -> void:
 		var chapter: Dictionary = quest.get("ends_chapter", {})
 		if chapter:
 			_hud.chapter(str(chapter["title"]), str(chapter.get("subtitle", "")))
+		if chapter.has("epilogue"):
+			_show("epilogue", GameMenus.epilogue(self, chapter))
+			return
 	open_quests(npc, str(quest.get("dialogue", {}).get("done", "")) if rewards else "")
 
 

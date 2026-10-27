@@ -3,9 +3,9 @@ extends Node2D
 ## A hazard on its way (ZoneSim hazards, called by BossMechanics): a red mark
 ## the size of what it will hit, darkening and pulsing as it comes, then a
 ## shipping container falling off a crane ("crane"), a burst of scalding
-## steam from a floor vent ("steam") or a security laser sweeping the lane
-## ("laser"). Drawn with shapes until the art pass. Presentation only;
-## BossMechanics decides who it hits.
+## steam from a floor vent ("steam"), a security laser sweeping the lane
+## ("laser") or floor plates shocking ("shock"). Drawn with shapes until the
+## art pass. Presentation only; BossMechanics decides who it hits.
 
 const FALL_SECONDS := 0.25
 const DROP_HEIGHT := 220.0
@@ -17,6 +17,7 @@ const EDGE := Color("1c1418")
 
 const STEAM := Color(0.92, 0.95, 1.0, 0.85)
 const LASER := Color(1.0, 0.18, 0.25)
+const SPARK := Color(0.55, 0.85, 1.0)
 
 var kind := "crane"
 ## Half the footprint it hits (as ZoneSim measures it).
@@ -52,6 +53,9 @@ func _draw() -> void:
 	var pulse := 0.5 + 0.5 * sin(near * 24.0)
 	if kind == "laser":
 		_draw_laser(near, pulse)
+		return
+	if kind == "shock":
+		_draw_shock(near, pulse)
 		return
 	if not _landed:
 		var shade := Color(0.9, 0.1, 0.05, 0.25 + 0.35 * near + 0.15 * pulse)
@@ -103,3 +107,23 @@ func _draw_laser(near: float, pulse: float) -> void:
 		return
 	draw_rect(band, Color(LASER, 0.7))
 	draw_line(Vector2(-half.x, 0), Vector2(half.x, 0), Color(1, 0.9, 0.9), 3.0)
+
+
+## A floor plate the size of what it hits: its seams glow brighter as it
+## charges, then it crackles with zigzag sparks.
+func _draw_shock(near: float, pulse: float) -> void:
+	var plate := Rect2(-half.x, -half.y, half.x * 2.0, half.y * 2.0)
+	draw_rect(plate, Color(0.15, 0.17, 0.22, 0.6))
+	var glow := Color(SPARK, 0.2 + 0.5 * near + 0.2 * pulse if not _landed else 0.9)
+	draw_rect(plate, glow, false, 1.5)
+	for i in range(1, 4):
+		var x := -half.x + half.x * 2.0 * i / 4.0
+		draw_line(Vector2(x, -half.y), Vector2(x, half.y), Color(glow, glow.a * 0.6), 1.0)
+	if not _landed:
+		return
+	for i in 4:
+		var x := -half.x + half.x * 2.0 * (i + 0.5) / 4.0
+		var bolt := PackedVector2Array()
+		for step in 5:
+			bolt.append(Vector2(x + (6.0 if step % 2 else -6.0), -step * 9.0))
+		draw_polyline(bolt, Color(1, 1, 1, 0.9), 2.0)

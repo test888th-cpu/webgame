@@ -107,6 +107,25 @@
         "scrap_metal",
         "refined_alloy"
       ]
+    },
+    "ama_supply": {
+      "name": "Ama's Supply Run",
+      "items": [
+        "steamed_bun",
+        "ginger_tea",
+        "rice_box",
+        "herbal_tonic",
+        "facility_helmet",
+        "trooper_vest",
+        "grip_gloves",
+        "facility_boots",
+        "core_guard_helm",
+        "reactor_plate",
+        "insulated_gauntlets",
+        "walkway_boots",
+        "scrap_metal",
+        "refined_alloy"
+      ]
     }
   }
 }

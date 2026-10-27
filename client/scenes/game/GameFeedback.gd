@@ -60,6 +60,8 @@ func on_event(event: ZoneEvent) -> void:
 			view.shake(4.0)
 		"boss_summon":
 			Sfx.play("arena_lock", -4.0)
+		"boss_shield":
+			_show_shield(int(event.data["id"]), bool(event.data["up"]))
 		"hero_down":
 			Sfx.play("ko")
 		"weapon_pickup":
@@ -90,6 +92,22 @@ func on_event(event: ZoneEvent) -> void:
 			Sfx.play(sound.get(event.data.get("kind"), "break_metal"), 0.0)
 			Fx.spawn(view.effects, content, "dust", event.data["at"])
 			view.shake(6.0)
+
+
+## Raises or drops the shield dome on fighter `id`'s view.
+func _show_shield(id: int, up: bool) -> void:
+	var fighter_view := view.view_of(id)
+	if fighter_view == null:
+		return
+	var dome := fighter_view.get_node_or_null("Shield")
+	if up and dome == null:
+		dome = ShieldView.new()
+		dome.name = "Shield"
+		fighter_view.add_child(dome)
+		Sfx.play("arena_lock", -2.0)
+	elif not up and dome:
+		dome.queue_free()
+		Sfx.play("break_metal", -4.0)
 
 
 func level_up(level: int, skills: Array) -> void:

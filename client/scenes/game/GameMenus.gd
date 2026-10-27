@@ -487,6 +487,44 @@ static func knocked_out(game: Game, loss: int, at_boss := false) -> Control:
 	return root
 
 
+## The ending: what became of the city, one line at a time, then back to the
+## street (the game goes on after the story for farming and gear).
+static func epilogue(game: Game, chapter: Dictionary) -> Control:
+	var root := Control.new()
+	root.name = "Epilogue"
+	root.set_anchors_preset(Control.PRESET_FULL_RECT)
+	root.mouse_filter = Control.MOUSE_FILTER_STOP
+	var shade := ColorRect.new()
+	shade.color = Color(0.02, 0.03, 0.06, 0.92)
+	shade.set_anchors_preset(Control.PRESET_FULL_RECT)
+	root.add_child(shade)
+	var column := VBoxContainer.new()
+	column.add_theme_constant_override("separation", UiTheme.GAP)
+	column.alignment = BoxContainer.ALIGNMENT_CENTER
+	column.set_anchors_preset(Control.PRESET_FULL_RECT)
+	root.add_child(column)
+	var heading := UiKit.overlay_label(
+		str(chapter["title"]).to_upper(), UiTheme.SIZE_LOGO - 6, UiTheme.GOLD
+	)
+	heading.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	column.add_child(heading)
+	var subtitle := UiKit.label("Epilogue: A City That Remains", UiTheme.SIZE_H2, UiTheme.TEAL)
+	subtitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	column.add_child(subtitle)
+	for line: String in chapter["epilogue"]:
+		var text := UiKit.label(line, UiTheme.SIZE_BODY, UiTheme.TEXT, 520)
+		text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		text.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		column.add_child(text)
+	var on := UiKit.button("Back to the streets", game.close_menu)
+	on.name = "Continue"
+	on.custom_minimum_size = Vector2(160, 22)
+	on.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	column.add_child(on)
+	on.call_deferred("grab_focus")
+	return root
+
+
 static func _item_list() -> ItemList:
 	var list := ItemList.new()
 	list.custom_minimum_size.x = LIST_WIDTH

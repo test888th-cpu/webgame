@@ -667,6 +667,113 @@
         "title": "Chapter 5 complete",
         "subtitle": "The final activation will spread the damage. Wiroj waits at the centre."
       }
+    },
+    "the_last_door": {
+      "name": "The Last Door",
+      "giver": "pim_core",
+      "requires": "commander_arthit",
+      "chapter": "Final: The Iron Legacy",
+      "description": "Knock down 6 Facility Troopers on the Core Approach.",
+      "objective": {
+        "type": "defeat",
+        "enemy": "facility_trooper",
+        "count": 6
+      },
+      "rewards": {
+        "money": 1600,
+        "xp": 10080,
+        "items": {
+          "herbal_tonic": 3
+        }
+      },
+      "dialogue": {
+        "offer": "This is it: the main control centre. Ama brought half of South Street's kitchen to feed us. The last of Arthit's troopers hold the approach. Knock down 6.",
+        "active": "The troopers hold the Core Approach. Knock down 6 Facility Troopers.",
+        "done": "The door's open. Below are the cooling tunnels, where the night shift is still working. They're not the enemy. Knock them down, don't break them."
+      }
+    },
+    "cooling_down": {
+      "name": "Cooling Down",
+      "giver": "pim_core",
+      "requires": "the_last_door",
+      "chapter": "Final: The Iron Legacy",
+      "description": "Knock down 6 Hybrid Brutes in the Cooling Tunnels.",
+      "objective": {
+        "type": "defeat",
+        "enemy": "hybrid_brute",
+        "count": 6
+      },
+      "rewards": {
+        "money": 1700,
+        "xp": 10920,
+        "items": {
+          "herbal_tonic": 3
+        }
+      },
+      "dialogue": {
+        "offer": "The longest-exposed workers keep the cooling running. Every one you put down is one fewer near The Core, and the report says they come back. Knock down 6 Hybrid Brutes.",
+        "active": "The Cooling Tunnels are past the approach. Knock down 6 Hybrid Brutes.",
+        "done": "The pumps are slowing. The walkway to the reactor is next, guarded by the sentinels Wiroj had built for himself."
+      }
+    },
+    "the_walkway": {
+      "name": "The Walkway",
+      "giver": "pim_core",
+      "requires": "cooling_down",
+      "chapter": "Final: The Iron Legacy",
+      "description": "Knock down 6 Core Sentinels on the Reactor Walkway.",
+      "objective": {
+        "type": "defeat",
+        "enemy": "core_sentinel",
+        "count": 6
+      },
+      "rewards": {
+        "money": 1800,
+        "xp": 11780,
+        "items": {
+          "herbal_tonic": 3
+        }
+      },
+      "dialogue": {
+        "offer": "The sentinels answer only to the Director. Knock down 6 on the walkway and nothing stands between you and him.",
+        "active": "The Reactor Walkway is past the tunnels. Knock down 6 Core Sentinels.",
+        "done": "He's in the Core Chamber. When the defences come up, he hides behind them. Survive the system, and hit him when it resets."
+      }
+    },
+    "the_iron_legacy": {
+      "name": "The Iron Legacy",
+      "giver": "pim_core",
+      "requires": "the_walkway",
+      "chapter": "Final: The Iron Legacy",
+      "description": "Defeat Director Wiroj in the Core Chamber.",
+      "objective": {
+        "type": "defeat",
+        "enemy": "director_wiroj",
+        "count": 1
+      },
+      "rewards": {
+        "money": 3000,
+        "xp": 15850,
+        "items": {}
+      },
+      "dialogue": {
+        "offer": "Wiroj will fight in his protective suit, then behind the chamber's defences, then with nothing left to lose. Steam, the floor plates, the lasers: they come in a rhythm. Learn it. Then end this.",
+        "active": "The Core Chamber is past the walkway. When the shield is up, survive. When the system resets, strike.",
+        "done": "The Core is shut down. Wiroj is in cuffs, and every page of it is evidence now. It's over. Not the work, but the fight."
+      },
+      "ends_chapter": {
+        "title": "The Iron Legacy",
+        "subtitle": "The Core is shut down. The city remains.",
+        "epilogue": [
+          "Ama's stall and the Night Market stalls open again, and nobody comes to collect.",
+          "Chief Odo calls the first community meeting in years. He stands at the front this time.",
+          "Dr. Pim hands the evidence to the city's inspectors in person. This time they read it.",
+          "Big Sak testifies. Security Chief Nattapong testifies too.",
+          "Kraisorn Heavy Industries is under investigation, and Director Wiroj answers for The Core.",
+          "The night shift goes home. Slowly, the green fades.",
+          "The canal will take years to run clean. Winning a fight is not the same as fixing a city. But it is a start."
+        ]
+      }
     }
   }
 }

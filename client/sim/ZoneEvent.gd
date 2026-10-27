@@ -3,7 +3,8 @@ extends RefCounted
 ## Something that happened during one zone tick, for presentation, saving and
 ## (later) for the server to send to clients. `type` is one of:
 ## hit, spawn, despawn, defeat, pickup, level_up, quest_complete,
-## encounter_start, wave, encounter_clear, boss_phase, boss_summon, hero_down, exit,
+## encounter_start, wave, encounter_clear, boss_phase, boss_summon,
+## boss_shield, hero_down, exit,
 ## swing (an attack or skill began), dodge, hazard_warn and hazard_hit (a
 ## crane drop's shadow appears, and it lands).
 

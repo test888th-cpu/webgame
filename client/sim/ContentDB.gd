@@ -268,14 +268,7 @@ func _validate_enemy(id: String, e: Dictionary) -> void:
 	var hazard: Variant = e.get("hazard", {})
 	if hazard is Dictionary and not hazard.is_empty():
 		_check(bool(e.get("boss", false)), where + ".hazard: only bosses call hazards")
-		_check(
-			str(hazard.get("kind", "crane")) in ["crane", "steam", "laser"],
-			where + ".hazard.kind: crane, steam or laser"
-		)
-		for field in ["every", "warn", "damage"]:
-			_number(hazard, field, where + ".hazard", 1)
-		var half: Variant = hazard.get("half")
-		_check(half is Array and half.size() == 2, where + ".hazard.half: [x, y]")
+		_validate_hazard(hazard, where + ".hazard")
 	var summon: Variant = e.get("summon", {})
 	if summon is Dictionary and not summon.is_empty():
 		_check(bool(e.get("boss", false)), where + ".summon: only bosses call reinforcements")
@@ -298,7 +291,36 @@ func _validate_enemy(id: String, e: Dictionary) -> void:
 				"%s.phases.below: expected 0 < below < 1" % where
 			)
 			_validate_moveset(phase.get("moveset", {}), where + ".phases")
+			var own: Variant = phase.get("hazard", {})
+			if own is Dictionary and not own.is_empty():
+				_validate_hazard(own, where + ".phases.hazard")
+			var shield: Variant = phase.get("shield", {})
+			if shield is Dictionary and not shield.is_empty():
+				for field in ["up", "down"]:
+					_number(shield, field, where + ".phases.shield", 1)
 	_validate_loot(e.get("loot", {}), where + ".loot")
+
+
+## A boss hazard: how often ("every"), and either one hazard (its "kind",
+## "warn", "damage" and "half") or a "cycle" of them called in turn.
+func _validate_hazard(hazard: Dictionary, where: String) -> void:
+	_number(hazard, "every", where, 1)
+	var cycle: Variant = hazard.get("cycle", [hazard])
+	_check(cycle is Array and not cycle.is_empty(), where + ".cycle: expected hazards")
+	if not cycle is Array:
+		return
+	for entry: Variant in cycle:
+		if not entry is Dictionary:
+			errors.append(where + ".cycle: expected objects")
+			continue
+		_check(
+			str(entry.get("kind", "crane")) in BossMechanics.KINDS,
+			where + ".kind: one of " + ", ".join(BossMechanics.KINDS)
+		)
+		for field in ["warn", "damage"]:
+			_number(entry, field, where, 1)
+		var half: Variant = entry.get("half")
+		_check(half is Array and half.size() == 2, where + ".half: [x, y]")
 
 
 func _validate_moveset(moveset: Variant, where: String) -> void:
@@ -400,6 +422,16 @@ func _validate_quest(id: String, q: Dictionary) -> void:
 		ends is Dictionary and (ends.is_empty() or str(ends.get("title", "")) != ""),
 		where + ".ends_chapter: needs a title"
 	)
+	if ends is Dictionary and ends.has("epilogue"):
+		var lines: Variant = ends["epilogue"]
+		_check(
+			(
+				lines is Array
+				and not lines.is_empty()
+				and lines.all(func(l: Variant) -> bool: return l is String)
+			),
+			where + ".ends_chapter.epilogue: expected lines of text"
+		)
 
 
 func _validate_area(id: String, a: Dictionary) -> void:
