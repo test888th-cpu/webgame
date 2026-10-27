@@ -1319,6 +1319,285 @@
           }
         }
       ]
+    },
+    "plant_guard": {
+      "role": "enemy",
+      "body_type": "male",
+      "layers": [
+        {
+          "def": "body/body.json",
+          "recolor": {
+            "color": "ulpc.light"
+          }
+        },
+        {
+          "def": "head/heads/human/heads_human_male.json",
+          "recolor": {
+            "color_1": "ulpc.light"
+          }
+        },
+        {
+          "def": "feet/boots/feet_boots_basic.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        },
+        {
+          "def": "legs/pants/legs_pants.json",
+          "recolor": {
+            "color": "ulpc.gray"
+          }
+        },
+        {
+          "def": "torso/shirts/longsleeve/torso_clothes_longsleeve2_buttoned.json",
+          "recolor": {
+            "color": "ulpc.slate"
+          }
+        },
+        {
+          "def": "hair/bald/hair_buzzcut.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        }
+      ]
+    },
+    "hazmat_sprayer": {
+      "role": "enemy",
+      "body_type": "male",
+      "layers": [
+        {
+          "def": "body/body.json",
+          "recolor": {
+            "color": "ulpc.olive"
+          }
+        },
+        {
+          "def": "head/heads/human/heads_human_male.json",
+          "recolor": {
+            "color_1": "ulpc.olive"
+          }
+        },
+        {
+          "def": "feet/boots/feet_boots_basic.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        },
+        {
+          "def": "legs/pants/legs_pants.json",
+          "recolor": {
+            "color": "ulpc.yellow"
+          }
+        },
+        {
+          "def": "torso/shirts/longsleeve/torso_clothes_longsleeve2.json",
+          "recolor": {
+            "color": "ulpc.yellow"
+          }
+        },
+        {
+          "def": "headwear/helmets/helmets/hat_helmet_xeon.json"
+        }
+      ]
+    },
+    "security_chief": {
+      "role": "enemy",
+      "body_type": "male",
+      "layers": [
+        {
+          "def": "body/body.json",
+          "recolor": {
+            "color": "ulpc.bronze"
+          }
+        },
+        {
+          "def": "head/heads/human/heads_human_male.json",
+          "recolor": {
+            "color_1": "ulpc.bronze"
+          }
+        },
+        {
+          "def": "feet/boots/feet_boots_basic.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        },
+        {
+          "def": "legs/pants/legs_pants.json",
+          "recolor": {
+            "color": "ulpc.charcoal"
+          }
+        },
+        {
+          "def": "torso/shirts/longsleeve/torso_clothes_longsleeve2_buttoned.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        },
+        {
+          "def": "hair/short/hair_plain.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        },
+        {
+          "def": "hair/beards/beards_trimmed.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        }
+      ]
+    },
+    "patrol_unit": {
+      "role": "enemy",
+      "body_type": "male",
+      "layers": [
+        {
+          "def": "body/body.json",
+          "recolor": {
+            "color": "ulpc.fur_black"
+          }
+        },
+        {
+          "def": "head/heads/human/heads_human_male.json",
+          "recolor": {
+            "color_1": "ulpc.fur_black"
+          }
+        },
+        {
+          "def": "legs/legs_armour.json"
+        },
+        {
+          "def": "torso/armour/torso_armour_plate.json"
+        },
+        {
+          "def": "headwear/helmets/helmets/hat_helmet_xeon.json"
+        }
+      ]
+    },
+    "unit_k7": {
+      "role": "enemy",
+      "body_type": "male",
+      "layers": [
+        {
+          "def": "body/body.json",
+          "recolor": {
+            "color": "ulpc.fur_black"
+          }
+        },
+        {
+          "def": "head/heads/human/heads_human_male.json",
+          "recolor": {
+            "color_1": "ulpc.fur_black"
+          }
+        },
+        {
+          "def": "legs/legs_armour.json"
+        },
+        {
+          "def": "torso/armour/torso_armour_plate.json"
+        },
+        {
+          "def": "headwear/helmets/helmets/hat_helmet_xeon.json"
+        }
+      ]
+    },
+    "npc_pim": {
+      "role": "npc",
+      "body_type": "female",
+      "layers": [
+        {
+          "def": "body/body.json",
+          "recolor": {
+            "color": "ulpc.light"
+          }
+        },
+        {
+          "def": "head/heads/human/heads_human_female.json",
+          "recolor": {
+            "color_1": "ulpc.light"
+          }
+        },
+        {
+          "def": "feet/shoes/feet_shoes_basic.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        },
+        {
+          "def": "legs/pants/legs_pants.json",
+          "recolor": {
+            "color": "ulpc.navy"
+          }
+        },
+        {
+          "def": "torso/shirts/longsleeve/torso_clothes_longsleeve2.json",
+          "recolor": {
+            "color": "ulpc.white"
+          }
+        },
+        {
+          "def": "headwear/accessories/glasses/facial_glasses.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        },
+        {
+          "def": "hair/braids/hair_high_ponytail.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        }
+      ]
+    },
+    "npc_jum": {
+      "role": "npc",
+      "body_type": "female",
+      "layers": [
+        {
+          "def": "body/body.json",
+          "recolor": {
+            "color": "ulpc.bronze"
+          }
+        },
+        {
+          "def": "head/heads/human/heads_human_female.json",
+          "recolor": {
+            "color_1": "ulpc.bronze"
+          }
+        },
+        {
+          "def": "feet/shoes/feet_shoes_basic.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        },
+        {
+          "def": "legs/pants/legs_pants.json",
+          "recolor": {
+            "color": "ulpc.charcoal"
+          }
+        },
+        {
+          "def": "torso/shirts/shortsleeve/torso_clothes_tshirt.json",
+          "recolor": {
+            "color": "ulpc.green"
+          }
+        },
+        {
+          "def": "torso/aprons/torso_aprons_suspenders.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        },
+        {
+          "def": "hair/braids/hair_high_ponytail.json",
+          "recolor": {
+            "color": "ulpc.gray"
+          }
+        }
+      ]
     }
   }
 }

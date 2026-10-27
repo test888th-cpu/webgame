@@ -423,6 +423,110 @@
       "price": 0,
       "icon": "forged_note",
       "description": "A cargo manifest with its destination scratched out and rewritten by hand: a factory in the Industrial District, stamped with the same mark as the crate from the first night."
+    },
+    "hazmat_hood": {
+      "name": "Hazmat Hood",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "rare",
+      "level": 14,
+      "price": 560,
+      "stats": {
+        "defense": 3,
+        "max_hp": 40
+      },
+      "icon": "iron_helm",
+      "description": "Rubberised hood from a plant locker. Smells of chemicals."
+    },
+    "plant_vest": {
+      "name": "Plant Security Vest",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "rare",
+      "level": 14,
+      "price": 620,
+      "stats": {
+        "defense": 5,
+        "max_hp": 40
+      },
+      "icon": "riveted_jacket",
+      "description": "Padded vest with a plate sewn into the back."
+    },
+    "insulated_gloves": {
+      "name": "Insulated Gloves",
+      "type": "equipment",
+      "slot": "hands",
+      "rarity": "rare",
+      "level": 15,
+      "price": 600,
+      "stats": {
+        "power": 0.2,
+        "defense": 1,
+        "crit": 0.05
+      },
+      "icon": "iron_wraps",
+      "description": "Rated for live wires. Good for live fights too."
+    },
+    "lab_boots": {
+      "name": "Lab Boots",
+      "type": "equipment",
+      "slot": "feet",
+      "rarity": "rare",
+      "level": 15,
+      "price": 560,
+      "stats": {
+        "speed": 0.12,
+        "defense": 2,
+        "attack_speed": 0.05
+      },
+      "icon": "street_runners",
+      "description": "Acid-proof soles that do not slip on wet floors."
+    },
+    "chiefs_baton": {
+      "name": "Chief's Baton",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "epic",
+      "level": 15,
+      "price": 0,
+      "stats": {
+        "power": 0.5,
+        "defense": 1,
+        "crit": 0.07
+      },
+      "icon": "brass_knuckles",
+      "description": "Nattapong left it behind when he walked out."
+    },
+    "k7_core_plate": {
+      "name": "K-7 Core Plate",
+      "type": "equipment",
+      "slot": "charm",
+      "rarity": "legendary",
+      "level": 16,
+      "price": 0,
+      "stats": {
+        "max_hp": 40,
+        "power": 0.08,
+        "attack_speed": 0.08
+      },
+      "icon": "jade_charm",
+      "description": "A warm plate from K-7's chest. It hums when you fight."
+    },
+    "waste_sample": {
+      "name": "Waste Sample",
+      "type": "key",
+      "rarity": "epic",
+      "price": 0,
+      "icon": "torn_label",
+      "description": "Black sludge from the factory's waste pools, sealed in Dr. Pim's sample jar. The same sludge that fills the canal."
+    },
+    "experiment_log": {
+      "name": "Experiment Log",
+      "type": "key",
+      "rarity": "epic",
+      "price": 0,
+      "icon": "ledger",
+      "description": "A logbook from under the factory. Page after page of readings, and one line underlined twice: \"The Core must not stop. Report every failure to the Director only.\""
     }
   }
 }

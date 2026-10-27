@@ -367,6 +367,106 @@
         "title": "Chapter 2 complete",
         "subtitle": "The port is quiet. The cargo leads on to the Industrial District."
       }
+    },
+    "factory_doors": {
+      "name": "Factory Doors",
+      "giver": "dr_pim",
+      "requires": "harbourmaster",
+      "chapter": "Chapter 3: Industrial District",
+      "description": "Knock down 6 Plant Guards at the Factory Gate.",
+      "objective": {
+        "type": "defeat",
+        "enemy": "plant_guard",
+        "count": 6
+      },
+      "rewards": {
+        "money": 520,
+        "xp": 1900,
+        "items": {
+          "ginger_tea": 3
+        }
+      },
+      "dialogue": {
+        "offer": "You found the manifest? Then you know where the sludge comes from. I need samples from inside that factory to prove it, and the guards won't let a former inspector through. Knock down 6 of them.",
+        "active": "The guards hold the doors east of here. Knock down 6 Plant Guards.",
+        "done": "The doors are open. Inside is the production line, and Security Chief Nattapong. He's no thug. He just follows orders he doesn't understand."
+      }
+    },
+    "the_chief": {
+      "name": "The Chief",
+      "giver": "dr_pim",
+      "requires": "factory_doors",
+      "chapter": "Chapter 3: Industrial District",
+      "description": "Defeat Security Chief Nattapong on the Production Line.",
+      "objective": {
+        "type": "defeat",
+        "enemy": "security_chief",
+        "count": 1
+      },
+      "rewards": {
+        "money": 600,
+        "xp": 2200,
+        "items": {
+          "refined_alloy": 2
+        }
+      },
+      "dialogue": {
+        "offer": "Nattapong guards the way to the waste pools. Beat him, but don't break him. He may be the only one in there who'd listen.",
+        "active": "He's at the end of the Production Line. Watch his rush once he's hurt.",
+        "done": "He sat on a crate and said he never asked what the pools were for. Then he took his badge off and walked out the gate. One less guard. Maybe one more witness."
+      }
+    },
+    "sample_run": {
+      "name": "Sample Run",
+      "giver": "dr_pim",
+      "requires": "the_chief",
+      "chapter": "Chapter 3: Industrial District",
+      "description": "Knock down 6 Patrol Units at the Waste Pools.",
+      "objective": {
+        "type": "defeat",
+        "enemy": "patrol_unit",
+        "count": 6
+      },
+      "rewards": {
+        "money": 640,
+        "xp": 2400,
+        "items": {
+          "waste_sample": 1
+        }
+      },
+      "dialogue": {
+        "offer": "The pools are guarded by machines now, not people. Clear 6 of them and I'll fill my jars. This is the proof I've waited six years for.",
+        "active": "The Waste Pools are past the Production Line. Knock down 6 Patrol Units.",
+        "done": "Here, keep a jar. It's the same sludge as the canal. And it's warm. Something under this factory is running hot, day and night."
+      }
+    },
+    "unit_k7": {
+      "name": "Unit K-7",
+      "giver": "dr_pim",
+      "requires": "sample_run",
+      "chapter": "Chapter 3: Industrial District",
+      "description": "Defeat Unit K-7 in the Factory Drains.",
+      "objective": {
+        "type": "defeat",
+        "enemy": "unit_k7",
+        "count": 1
+      },
+      "rewards": {
+        "money": 900,
+        "xp": 3000,
+        "items": {
+          "experiment_log": 1
+        }
+      },
+      "dialogue": {
+        "offer": "The heat comes from the drains under the factory, and something big guards them. A machine they call K-7. Stop it and bring me whatever it's protecting. Mind the vents, they burst when it's near.",
+        "active": "The Factory Drains are past the Waste Pools. Step off a hissing vent before it bursts.",
+        "done": "Their log. Readings, failures, and one name underlined twice: The Core. Whatever it is, it's still running, and someone at the top wants it kept that way."
+      },
+      "ends_chapter": {
+        "title": "Chapter 3 complete",
+        "subtitle": "The Core is real, and still running. Who protects it?"
+      }
     }
   }
 }

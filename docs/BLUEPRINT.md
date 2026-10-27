@@ -324,7 +324,7 @@ HUD ปัจจุบันมี: การ์ดฮีโร่ + เลเ�
 | IL-2 | (ทำแล้ว: เปลี่ยนชื่อ+ย้ายเซฟ, ล็อกทางออก, ดรอปบอส, อาชีพ, บทสนทนา/หลักฐาน/จบบท 1, tutorial + เซฟ v4) Complete Early Game: tutorial ใน Depot Yard, ล็อกทางออกตามภารกิจ (B3), quest objective ใหม่, บทสนทนา Prologue + บทที่ 1, เปลี่ยนชื่อแสดงผลตาม D1/D2/D5, แก้ B2 | M4 บางส่วน | สูง |
 | IL-3 | Progression: วัตถุดิบ, แหล่งดรอปใน Item card, CRIT/Attack Speed, ตีบวก (เซฟ v4), สมดุลอาชีพ | M4 | สูง |
 | IL-4 | (ทำแล้ว: Rusted Corner, Parking Lot, Fight Club, Rat Nest, Gang HQ, ศัตรูระยะไกล, Mini-boss, GO >>, อาชีพใหม่ 3 อาชีพ, ฉากวาดเองครบ 22 ชิ้น, ภาพศัตรูวาดใหม่ 4 ตัวตาม D6: Tar Rat, Smogling, Smog Warden, Sludge Foreman) Complete South Street: พื้นที่ย่อยที่เหลือ, ศัตรู Ranged/Mini-boss, เพิ่มอาชีพ Basketball/Police/Soldier ทีละตัว, ภาพศัตรูใหม่ (D6) | M5 บางส่วน | กลาง |
-| IL-5 | (ทำแล้ว: บทที่ 2 Port District 4 พื้นที่ + บอส Chen กับเครน) Main Story: Port, Industrial, Black Network, Core Facility, บอสสุดท้าย 3 phase, Epilogue | M5 | กลาง |
+| IL-5 | (ทำแล้ว: บทที่ 2 Port District 4 พื้นที่ + บอส Chen กับเครน, บทที่ 3 Industrial District 4 พื้นที่ + Nattapong + K-7 กับช่องไอน้ำ) Main Story: Port, Industrial, Black Network, Core Facility, บอสสุดท้าย 3 phase, Epilogue | M5 | กลาง |
 | IL-4+ | (ทำแล้ว) ฟื้นที่จุดล้ม/หน้าประตูบอส, ด่านที่ชนะจำไว้จนพักที่ Depot (ฟาร์มได้), วินมอเตอร์ไซค์ไปพื้นที่ที่เคยไป, เซฟ v6 | - | สูง (ลดการเล่นซ้ำที่น่าเบื่อ) |
 | IL-6 | Endgame and Polish: บอสฟาร์ม, ของระดับสูง, ภารกิจเสริม, วัด FPS/ขนาด web (B5), เพลง | M2 ข้อ 8–9, M7 | กลาง |
 | IL-7 | Online Preparation | M3, M6, M8 | หลัง single-player เสถียร (D4) |
@@ -381,6 +381,9 @@ Baron ย้ายไป Gang HQ (Lv9) ผลยังเป็น 0/10 ทุ�
 
 **บทที่ 2:** Harbourmaster Chen (Lv13) วัดโดยไม่มีเครน (ผู้เล่นสคริปต์ไม่ได้เข้าฉากสู้จริง) อยู่รอดได้ 12–18 วินาที ใกล้ Baron (16–24 วินาที)
 เครนเพิ่มความยาก แต่หลบได้ทุกครั้งถ้าเดินออกจากเงา ศัตรู Lv10–13 ตีแรงขึ้น 8%/เลเวล ผู้เล่นจริงต้องใช้ของจากร้าน Noi (ระดับ 10–11)
+
+**บทที่ 3:** Nattapong (Lv15 บอสกลางบท) บอทชนะ 0–1/10 อยู่รอดได้ 26–46 วินาที (ง่ายกว่าบอสปิดบท ตั้งใจ)
+K-7 (Lv17) อยู่รอดได้ 13–23 วินาที ใกล้ Baron และ Chen (ไม่รวมช่องไอน้ำ)
 
 ## 10. มาตรฐานเกมขายจริง (Quality bar)
 

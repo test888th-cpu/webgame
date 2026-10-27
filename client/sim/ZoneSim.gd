@@ -65,10 +65,11 @@ var solids: Array[Dictionary] = []
 ## Weapons in flight: {id, weapon, uses, owner, team, position, dir, ticks,
 ## damage}. They land as ground weapons (or break) when they hit or stop.
 var thrown: Array[Dictionary] = []
-## Crane drops on their way down: {"at": Vector2, "ticks": left, "half":
-## Vector2, "damage": int}. A boss with "hazard" in enemies.json calls one on
-## the hero's spot every so often; it warns with a shadow, then hits every
-## fighter under it but the boss, the boss's own crew included.
+## Hazards on their way: {"at": Vector2, "ticks": left, "half": Vector2,
+## "damage": int, "kind": "crane" | "steam"}. A boss with "hazard" in
+## enemies.json calls one on the hero's spot every so often (a container off
+## a crane, a steam vent bursting); it warns first, then hits every fighter
+## there but the boss, the boss's own crew included.
 var hazards: Array[Dictionary] = []
 var _hazard_timer := 0
 var _next_weapon := 1
@@ -319,14 +320,16 @@ func _drop_hazards(events: Array[ZoneEvent]) -> void:
 		hazards.erase(drop)
 		var at: Vector2 = drop["at"]
 		var half: Vector2 = drop["half"]
-		events.append(ZoneEvent.make("hazard_hit", {"at": at}))
+		events.append(ZoneEvent.make("hazard_hit", {"at": at, "kind": drop["kind"]}))
 		for f in fighters:
 			var gap := (f.position - at).abs()
 			if f.id == boss_id or not CombatRules.is_vulnerable(f):
 				continue
 			if gap.x > half.x or gap.y > half.y:
 				continue
-			var hit := CombatRules.thrown_hit(f, boss_id, at.x, int(drop["damage"]), true, "crane")
+			var hit := CombatRules.thrown_hit(
+				f, boss_id, at.x, int(drop["damage"]), true, str(drop["kind"])
+			)
 			var event := ZoneEvent.make("hit")
 			event.hit = hit
 			events.append(event)
@@ -354,9 +357,14 @@ func _drop_hazards(events: Array[ZoneEvent]) -> void:
 		"ticks": int(data["warn"]),
 		"half": Vector2(data["half"][0], data["half"][1]),
 		"damage": roundi(float(data["damage"]) * boss.power),
+		"kind": str(data.get("kind", "crane")),
 	}
 	hazards.append(drop)
-	events.append(ZoneEvent.make("hazard_warn", {"at": drop["at"], "ticks": drop["ticks"]}))
+	events.append(
+		ZoneEvent.make(
+			"hazard_warn", {"at": drop["at"], "ticks": drop["ticks"], "kind": drop["kind"]}
+		)
+	)
 
 
 ## A ranged enemy's lob: a fresh projectile (it has endless bottles) that

@@ -842,6 +842,289 @@
       "sprite": "harbourmaster_chen",
       "wields": false,
       "poise": 80
+    },
+    "plant_guard": {
+      "name": "Plant Guard",
+      "max_hp": 150,
+      "speed": 0.9,
+      "defense": 3,
+      "power": 1.1,
+      "scale": 1.1,
+      "elite": true,
+      "moveset": {
+        "light": "warden_rake",
+        "heavy": "brute_slam"
+      },
+      "ai": {
+        "spacing": 56,
+        "reaction": 10,
+        "cooldown": 46,
+        "cooldown_jitter": 24,
+        "heavy_chance": 0.3,
+        "heavy_cooldown": 300
+      },
+      "xp": 56,
+      "loot": {
+        "money": [
+          18,
+          30
+        ],
+        "drops": [
+          {
+            "item": "ginger_tea",
+            "chance": 0.3
+          },
+          {
+            "item": "hazmat_hood",
+            "chance": 0.03
+          },
+          {
+            "item": "plant_vest",
+            "chance": 0.03
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 0.15
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.5
+          }
+        ]
+      },
+      "color": "#4a5468",
+      "sprite": "plant_guard",
+      "wields": true,
+      "weapon_chance": 0.5,
+      "poise": 40
+    },
+    "hazmat_sprayer": {
+      "name": "Hazmat Sprayer",
+      "max_hp": 80,
+      "speed": 0.9,
+      "defense": 2,
+      "moveset": {
+        "light": "thug_jab",
+        "heavy": "bottle_lob"
+      },
+      "ai": {
+        "spacing": 110,
+        "reaction": 12,
+        "cooldown": 60,
+        "cooldown_jitter": 30,
+        "heavy_chance": 1.0,
+        "heavy_cooldown": 120,
+        "ranged": {
+          "min": 80,
+          "max": 150
+        }
+      },
+      "ranged": {
+        "move": "bottle_lob",
+        "projectile": "bottle",
+        "damage": 11
+      },
+      "xp": 38,
+      "loot": {
+        "money": [
+          12,
+          20
+        ],
+        "drops": [
+          {
+            "item": "steamed_bun",
+            "chance": 0.15
+          },
+          {
+            "item": "insulated_gloves",
+            "chance": 0.03
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.4
+          }
+        ]
+      },
+      "color": "#c0b030",
+      "sprite": "hazmat_sprayer",
+      "wields": false
+    },
+    "patrol_unit": {
+      "name": "Patrol Unit",
+      "max_hp": 200,
+      "speed": 0.55,
+      "defense": 4,
+      "power": 1.2,
+      "scale": 1.2,
+      "moveset": {
+        "light": "k7_piston",
+        "heavy": "brute_slam"
+      },
+      "ai": {
+        "spacing": 60,
+        "reaction": 18,
+        "cooldown": 66,
+        "cooldown_jitter": 30,
+        "heavy_chance": 0.4,
+        "heavy_cooldown": 300
+      },
+      "xp": 60,
+      "loot": {
+        "money": [
+          14,
+          24
+        ],
+        "drops": [
+          {
+            "item": "lab_boots",
+            "chance": 0.03
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 0.2
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.9
+          }
+        ]
+      },
+      "color": "#30343c",
+      "sprite": "patrol_unit",
+      "wields": false,
+      "poise": 70
+    },
+    "security_chief": {
+      "name": "Security Chief Nattapong",
+      "max_hp": 420,
+      "speed": 0.85,
+      "defense": 3,
+      "power": 1.0,
+      "scale": 1.2,
+      "boss": true,
+      "moveset": {
+        "light": "warden_rake",
+        "heavy": "brute_slam"
+      },
+      "ai": {
+        "spacing": 56,
+        "reaction": 10,
+        "cooldown": 34,
+        "cooldown_jitter": 18,
+        "heavy_chance": 0.3,
+        "heavy_cooldown": 300
+      },
+      "phases": [
+        {
+          "below": 0.5,
+          "speed": 1.0,
+          "power": 1.1,
+          "cooldown": 26,
+          "heavy_chance": 0.45,
+          "heavy_cooldown": 300,
+          "moveset": {
+            "light": "warden_rake",
+            "heavy": "champ_rush"
+          }
+        }
+      ],
+      "xp": 420,
+      "loot": {
+        "money": [
+          120,
+          180
+        ],
+        "drops": [
+          {
+            "item": "chiefs_baton",
+            "chance": 0.15
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 1.0
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 1.0
+          }
+        ]
+      },
+      "color": "#202020",
+      "sprite": "security_chief",
+      "wields": true,
+      "weapon_chance": 0.0,
+      "poise": 70
+    },
+    "unit_k7": {
+      "name": "Unit K-7",
+      "max_hp": 700,
+      "speed": 0.65,
+      "defense": 4,
+      "power": 1.0,
+      "scale": 1.45,
+      "boss": true,
+      "moveset": {
+        "light": "k7_piston",
+        "heavy": "k7_press"
+      },
+      "ai": {
+        "spacing": 62,
+        "reaction": 14,
+        "cooldown": 38,
+        "cooldown_jitter": 20,
+        "heavy_chance": 0.3,
+        "heavy_cooldown": 330
+      },
+      "hazard": {
+        "kind": "steam",
+        "every": 260,
+        "warn": 70,
+        "damage": 22,
+        "half": [
+          26,
+          10
+        ]
+      },
+      "phases": [
+        {
+          "below": 0.5,
+          "speed": 0.85,
+          "power": 1.1,
+          "cooldown": 26,
+          "heavy_chance": 0.45,
+          "heavy_cooldown": 300,
+          "hazard_every": 170,
+          "moveset": {
+            "light": "k7_piston",
+            "heavy": "k7_overdrive"
+          }
+        }
+      ],
+      "xp": 760,
+      "loot": {
+        "money": [
+          260,
+          340
+        ],
+        "drops": [
+          {
+            "item": "k7_core_plate",
+            "chance": 0.12
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 1.0
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 1.0
+          }
+        ]
+      },
+      "color": "#30343c",
+      "sprite": "unit_k7",
+      "wields": false,
+      "poise": 90
     }
   }
 }

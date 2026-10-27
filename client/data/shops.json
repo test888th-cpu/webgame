@@ -46,6 +46,23 @@
         "scrap_metal",
         "refined_alloy"
       ]
+    },
+    "jum_cart": {
+      "name": "Aunt Jum's Cart",
+      "items": [
+        "steamed_bun",
+        "ginger_tea",
+        "dockers_cap",
+        "port_jacket",
+        "cargo_gloves",
+        "deck_boots",
+        "hazmat_hood",
+        "plant_vest",
+        "insulated_gloves",
+        "lab_boots",
+        "scrap_metal",
+        "refined_alloy"
+      ]
     }
   }
 }

@@ -1146,6 +1146,48 @@
       "knockdown": true,
       "telegraph": true,
       "anim": "heavy"
+    },
+    "k7_piston": {
+      "startup": 12,
+      "active": 4,
+      "recovery": 20,
+      "damage": 14,
+      "hitstun": 24,
+      "knockback": 34,
+      "reach_offset": 6,
+      "reach": 40,
+      "depth_tolerance": 16
+    },
+    "k7_press": {
+      "startup": 30,
+      "active": 8,
+      "recovery": 34,
+      "damage": 28,
+      "hitstun": 36,
+      "knockback": 120,
+      "reach_offset": -20,
+      "reach": 90,
+      "depth_tolerance": 26,
+      "guard_break": true,
+      "knockdown": true,
+      "telegraph": true,
+      "anim": "heavy"
+    },
+    "k7_overdrive": {
+      "startup": 26,
+      "active": 14,
+      "recovery": 44,
+      "damage": 24,
+      "hitstun": 32,
+      "knockback": 110,
+      "reach_offset": 0,
+      "reach": 34,
+      "depth_tolerance": 18,
+      "advance": 130,
+      "guard_break": true,
+      "knockdown": true,
+      "telegraph": true,
+      "anim": "heavy"
     }
   }
 }
