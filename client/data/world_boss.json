@@ -1,0 +1,64 @@
+{
+  "world_boss": {
+    "enemy": "tunnel_mother",
+    "area": "great_drain",
+    "unlock": "unit_k7",
+    "period_minutes": 180,
+    "open_minutes": 60,
+    "attempt_seconds": 150,
+    "min_level": 26,
+    "level_above_hero": 2,
+    "pool": 14,
+    "tiers": [
+      {
+        "share": 0.05,
+        "money": 300,
+        "items": {
+          "rice_box": 3
+        }
+      },
+      {
+        "share": 0.15,
+        "money": 600,
+        "items": {
+          "herbal_tonic": 2,
+          "refined_alloy": 2
+        }
+      },
+      {
+        "share": 0.35,
+        "money": 1000,
+        "items": {
+          "refined_alloy": 4
+        },
+        "rolls": {
+          "mothers_fang": 0.08,
+          "mothers_heart": 0.08
+        }
+      },
+      {
+        "share": 0.6,
+        "money": 1600,
+        "items": {
+          "refined_alloy": 6,
+          "herbal_tonic": 3
+        },
+        "rolls": {
+          "mothers_fang": 0.12,
+          "mothers_heart": 0.12
+        }
+      },
+      {
+        "share": 1.0,
+        "money": 3000,
+        "items": {
+          "refined_alloy": 10
+        },
+        "rolls": {
+          "mothers_fang": 0.3,
+          "mothers_heart": 0.3
+        }
+      }
+    ]
+  }
+}

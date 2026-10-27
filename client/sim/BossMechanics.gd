@@ -17,7 +17,7 @@ extends RefCounted
 ## The zone is passed in on every call rather than kept, so the two never
 ## hold each other. Pure rules, shared with the server.
 
-const KINDS: Array[String] = ["crane", "steam", "laser", "shock"]
+const KINDS: Array[String] = ["crane", "steam", "laser", "shock", "sludge"]
 
 var _hazard_timer := 0
 var _hazard_turn := 0

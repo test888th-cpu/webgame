@@ -101,6 +101,16 @@ both places.
   player's override (any input of their own wins that tick). It runs the farm loop
   through the same actions a player has: recall home, the shop and the taxi fare.
 
+### D8. The world boss is a clock and a shared pool, decided in `sim/`
+- `client/sim/WorldBossRules.gd` numbers rounds from the Unix epoch, which keeps every
+  client and the future server on the same round. It also sizes the round's pool and
+  pays reward tiers. `client/sim/WorldBossRun.gd` runs one attempt against what is left
+  of the pool. Both are pure, with the time passed in.
+- Today the pool belongs to the player and lives in the save (version 7). At IL-7 the
+  zone server keeps one pool per round for everyone and pays tiers from the damage it
+  saw, using the same rules. The client clock and client damage are never trusted for
+  rewards online (CLAUDE.md).
+
 ## 3. Join flow [planned M3]
 
 1. Client → API: log in, receive a short-lived access token and a rotating refresh token.
@@ -134,3 +144,4 @@ here first.
 |---|---|
 | 2026-10-23 | D1–D6 recorded. Node 22 → Node 24.22.1 after checking the release schedule. |
 | 2026-10-27 | D7 recorded: auto battle produces player input only (`AutoPilot`, `AutoRules`). |
+| 2026-10-27 | D8 recorded: the world boss runs on the clock with a per-round pool (`WorldBossRules`). |

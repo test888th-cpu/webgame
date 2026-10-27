@@ -57,6 +57,7 @@ var _banner_left := 0.0
 var _auto_button: Button
 var _auto_status: Label
 var _auto_summary: Label
+var _world_boss: Label
 
 
 func _ready() -> void:
@@ -253,6 +254,11 @@ func _build_top_right(root: Control) -> void:
 	_area = UiKit.overlay_label("", UiTheme.SIZE_CAPTION, UiTheme.TEXT_DIM)
 	_area.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	column.add_child(_area)
+	_world_boss = UiKit.overlay_label("", UiTheme.SIZE_SMALL, UiTheme.GOLD)
+	_world_boss.name = "WorldBoss"
+	_world_boss.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	_world_boss.visible = false
+	column.add_child(_world_boss)
 	_quest_card = PanelContainer.new()
 	_quest_card.add_theme_stylebox_override("panel", _compact_panel())
 	column.add_child(_quest_card)
@@ -382,6 +388,12 @@ func show_auto(auto: AutoBattle, allowed: bool) -> void:
 		var dots := ".".repeat(1 + int(Time.get_ticks_msec() / 400) % 3)
 		_auto_status.text = "AUTO  %s%s" % [auto.pilot.status, dots]
 		_auto_summary.text = auto.summary()
+
+
+## The world boss attempt's clock and what is left of the pool ("" hides it).
+func show_world_boss(text: String) -> void:
+	_world_boss.visible = text != ""
+	_world_boss.text = text
 
 
 func _style_auto(on: bool) -> void:

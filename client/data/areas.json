@@ -4153,6 +4153,59 @@
           "y": 258
         }
       ]
+    },
+    "great_drain": {
+      "name": "The Great Drain",
+      "level": 26,
+      "width": 1200,
+      "safe": false,
+      "world_boss": true,
+      "theme": "canal",
+      "kit_theme": "tunnels",
+      "palette": {
+        "sky": "#081008",
+        "buildings": [
+          "#142014",
+          "#182818",
+          "#101a10"
+        ],
+        "windows": "#90f090",
+        "sidewalk": "#364036",
+        "street": "#141c14"
+      },
+      "exits": {
+        "west": {
+          "to": "depot_yard",
+          "entry": "east"
+        }
+      },
+      "encounters": [
+        {
+          "trigger_x": 120,
+          "arena": [
+            60,
+            1180
+          ],
+          "max_alive": 4,
+          "waves": [
+            [
+              "tunnel_mother"
+            ]
+          ]
+        }
+      ],
+      "obstacles": [
+        {
+          "kind": "oil_drums",
+          "x": 300,
+          "y": 258
+        },
+        {
+          "kind": "crates",
+          "x": 980,
+          "y": 258
+        }
+      ]
     }
   }
 }

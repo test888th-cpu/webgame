@@ -4,6 +4,35 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — World boss: The Tunnel Mother (decision D13)
+- **The Tunnel Mother**, a giant mutant grown from The Core's sludge, rises in **The
+  Great Drain** on a real clock: every 3 hours, for 1 hour. It unlocks once Unit K-7 is
+  beaten. While a round is open, Win's taxi offers the ride, and a toast announces it.
+- **One health pool per round**, 14 times a boss of her level. Each attempt lasts 2½
+  minutes, and the damage adds up across attempts until she falls. She fights two levels
+  above the hero (minimum 26), so she is worth fighting from Chapter 4 to level 50.
+- **Five reward tiers** (5%, 15%, 35%, 60% and 100% of the pool dealt), each paid once
+  per round. Coins grow with her level, and the higher tiers can roll the two new
+  legendaries: **Mother's Fang** (weapon) and **Mother's Heart** (charm).
+- **Her mechanics:** sludge geysers (the new `sludge` hazard kind) and Tar Rat broods,
+  both faster as she weakens, with a new heavy attack in each of her three phases.
+- **Attempts:** a results screen after each one shows the damage, the round so far, the
+  next tier and what was won. Being knocked out there costs nothing. The HUD shows the
+  attempt's clock and how much of her is left. Auto battle is not allowed against her.
+- **Save version 7** keeps the round's progress; older saves start fresh.
+- **Ready for online (ARCHITECTURE D8):** `WorldBossRules` and `WorldBossRun` are pure,
+  with the time passed in. At IL-7 the server keeps one pool for all players using the
+  same rules.
+- **Bosses no longer show their name overhead.** The boss bar already shows it and the
+  level, and on a giant boss the overhead label was huge.
+- **Measured** with the auto-battle pilot and no gear: one attempt takes 12–22% of the
+  pool at every level from 26 to 50, so a round takes about seven attempts, fewer with
+  gear.
+- **Tests:** the round clock; the unlock; level scaling; tiers paid once per round and
+  reset next round; an attempt fighting the round's pool; ending on the clock; the taxi
+  offering it only while open; the results screen instead of the game-over; the arena
+  never entered without an attempt; and the round surviving a save and v6 migration.
+
 ### Added — Final chapter: The Iron Legacy, and the Epilogue (IL-5: main story complete)
 - Four areas past the Control Room, open once Commander Arthit is down:
   - **Core Approach** (level 42)

@@ -39,7 +39,10 @@ func test_one_street_east_with_rising_levels() -> void:
 		)
 		seen.append(next)
 		here = next
-	assert_eq(seen.size(), _content().areas.size(), "every area is on the street")
+	var street_areas := _content().areas.keys().filter(
+		func(id: String) -> bool: return not _content().area(id).get("world_boss", false)
+	)
+	assert_eq(seen.size(), street_areas.size(), "every area but the world boss's is on the street")
 
 
 func test_every_gate_can_be_opened_where_it_stands() -> void:

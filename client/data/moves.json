@@ -1455,6 +1455,63 @@
       "knockdown": true,
       "telegraph": true,
       "anim": "heavy"
+    },
+    "mother_swipe": {
+      "startup": 10,
+      "active": 5,
+      "recovery": 18,
+      "damage": 13,
+      "hitstun": 22,
+      "knockback": 40,
+      "reach_offset": 4,
+      "reach": 52,
+      "depth_tolerance": 20
+    },
+    "mother_slam": {
+      "startup": 28,
+      "active": 8,
+      "recovery": 36,
+      "damage": 26,
+      "hitstun": 34,
+      "knockback": 120,
+      "reach_offset": -60,
+      "reach": 120,
+      "depth_tolerance": 26,
+      "guard_break": true,
+      "knockdown": true,
+      "telegraph": true,
+      "anim": "heavy"
+    },
+    "mother_lunge": {
+      "startup": 26,
+      "active": 14,
+      "recovery": 40,
+      "damage": 24,
+      "hitstun": 32,
+      "knockback": 120,
+      "reach_offset": 0,
+      "reach": 44,
+      "depth_tolerance": 22,
+      "advance": 130,
+      "guard_break": true,
+      "knockdown": true,
+      "telegraph": true,
+      "anim": "heavy"
+    },
+    "mother_quake": {
+      "startup": 30,
+      "active": 10,
+      "recovery": 44,
+      "damage": 30,
+      "hitstun": 36,
+      "knockback": 130,
+      "reach_offset": -80,
+      "reach": 160,
+      "depth_tolerance": 30,
+      "guard_break": true,
+      "knockdown": true,
+      "telegraph": true,
+      "anim": "heavy"
     }
   }
 }

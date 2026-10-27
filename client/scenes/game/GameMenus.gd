@@ -443,7 +443,79 @@ static func travel(game: Game, npc: Dictionary) -> Control:
 		body.add_child(
 			UiKit.label("Nowhere else you know yet.", UiTheme.SIZE_SMALL, UiTheme.TEXT_DIM)
 		)
+	if WorldBossRules.unlocked(game.profile, content):
+		body.add_child(_world_boss_ride(game, npc, fare))
 	body.add_child(_choice("Not now", game.close_menu))
+	return parts["root"]
+
+
+## Win's ride to the world boss: open (with time left) or when it opens next.
+static func _world_boss_ride(game: Game, npc: Dictionary, fare: int) -> Control:
+	var content := game.content
+	var area := content.area(str(content.world_boss["area"]))
+	var round := WorldBossRules.window(content, game._now())
+	var wait := WorldBossRules.wait_text(content, game._now())
+	var text := (
+		"%s: WORLD BOSS  (closes in %s)" % [area["name"], wait]
+		if round["open"]
+		else "%s: World Boss  (opens in %s)" % [area["name"], wait]
+	)
+	var ride := _choice(text, game._ride_world_boss.bind(npc))
+	ride.name = "Ride_world_boss"
+	ride.disabled = not round["open"] or game.profile.money < fare
+	return ride
+
+
+## After a world boss attempt: what it did to the pool, the round so far, and
+## what was won.
+static func world_boss_result(game: Game, run: WorldBossRun, paid: Dictionary) -> Control:
+	var content := game.content
+	var titles := {"slain": "THE TUNNEL MOTHER FALLS!", "time": "TIME'S UP", "down": "KNOCKED DOWN"}
+	var portrait := UiKit.portrait(
+		content, str(content.enemy(str(content.world_boss["enemy"])).get("sprite", ""))
+	)
+	var parts := UiKit.dialog(str(titles.get(run.ended, "WORLD BOSS")), portrait)
+	var body: VBoxContainer = parts["body"]
+	var state := WorldBossRules.progress(game.profile, run.round)
+	var share := float(state["dealt"]) / maxf(1.0, run.total)
+	body.add_child(
+		UiKit.label(
+			(
+				"You dealt %d damage (%.1f%% of her health)."
+				% [run.dealt, 100.0 * run.dealt / maxf(1.0, run.total)]
+			),
+			UiTheme.SIZE_BODY
+		)
+	)
+	var tiers: Array = content.world_boss["tiers"]
+	body.add_child(
+		UiKit.label(
+			(
+				"This round: %d%% dealt, reward tier %d of %d."
+				% [roundi(share * 100), int(state["tiers"]), tiers.size()]
+			),
+			UiTheme.SIZE_BODY,
+			UiTheme.TEAL
+		)
+	)
+	if int(state["tiers"]) < tiers.size():
+		var next := float(tiers[int(state["tiers"])]["share"])
+		body.add_child(
+			UiKit.label(
+				"Next reward at %d%%." % roundi(next * 100), UiTheme.SIZE_SMALL, UiTheme.TEXT_DIM
+			)
+		)
+	if paid["tiers"]:
+		var won: Array[String] = ["+%d coins" % paid["money"]]
+		for item_id: String in paid["items"]:
+			won.append("%s x%d" % [content.item(item_id)["name"], paid["items"][item_id]])
+		body.add_child(
+			UiKit.label("Rewards: " + ",  ".join(won), UiTheme.SIZE_BODY, UiTheme.GOLD, 470)
+		)
+	var home := str(content.area(content.start_area).get("name", "home"))
+	var back := _choice("Back to %s" % home, game._leave_world_boss)
+	back.name = "Leave"
+	body.add_child(back)
 	return parts["root"]
 
 
