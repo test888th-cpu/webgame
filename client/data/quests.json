@@ -467,6 +467,106 @@
         "title": "Chapter 3 complete",
         "subtitle": "The Core is real, and still running. Who protects it?"
       }
+    },
+    "follow_the_money": {
+      "name": "Follow the Money",
+      "giver": "kenji_network",
+      "requires": "unit_k7",
+      "chapter": "Chapter 4: The Black Network",
+      "description": "Knock down 6 Network Runners on Warehouse Row.",
+      "objective": {
+        "type": "defeat",
+        "enemy": "network_runner",
+        "count": 6
+      },
+      "rewards": {
+        "money": 700,
+        "xp": 3180,
+        "items": {
+          "ginger_tea": 3
+        }
+      },
+      "dialogue": {
+        "offer": "You found me. Yes, I carried their envelopes. I never opened one, and I should have. The runners bring the cash through these warehouses. Knock down 6 of them and I'll show you where it goes.",
+        "active": "The runners move cash between the warehouses east of here. Knock down 6 Network Runners.",
+        "done": "The cash goes underground, to the old ring below the Fight Club. Big Sak's people bet on the fights and wash the money through the takings."
+      }
+    },
+    "the_ring": {
+      "name": "The Ring",
+      "giver": "kenji_network",
+      "requires": "follow_the_money",
+      "chapter": "Chapter 4: The Black Network",
+      "description": "Defeat the Ringmaster in the Underground Ring.",
+      "objective": {
+        "type": "defeat",
+        "enemy": "ringmaster",
+        "count": 1
+      },
+      "rewards": {
+        "money": 1000,
+        "xp": 6760,
+        "items": {
+          "refined_alloy": 2
+        }
+      },
+      "dialogue": {
+        "offer": "The Ringmaster runs the fights and keeps the takings. Beat him in his own ring and the books will have nobody to guard them.",
+        "active": "The Underground Ring is past Warehouse Row. Watch his spinning kick: it reaches both sides.",
+        "done": "He says the ring only ever lost money. The real books are kept upstairs, in the Counting House, by Big Sak's men."
+      }
+    },
+    "cooked_books": {
+      "name": "Cooked Books",
+      "giver": "kenji_network",
+      "requires": "the_ring",
+      "chapter": "Chapter 4: The Black Network",
+      "description": "Knock down 6 Network Enforcers in the Counting House.",
+      "objective": {
+        "type": "defeat",
+        "enemy": "network_enforcer",
+        "count": 6
+      },
+      "rewards": {
+        "money": 900,
+        "xp": 3800,
+        "items": {
+          "money_trail": 1
+        }
+      },
+      "dialogue": {
+        "offer": "The Counting House is where the cash becomes clean. The enforcers guard the transfer slips. Knock down 6 of them and bring me the slips.",
+        "active": "The Counting House is past the ring. Knock down 6 Network Enforcers.",
+        "done": "Every slip carries the same signature: Director Wiroj, Kraisorn Heavy Industries. Big Sak never asked what he was paid for. He's in his tower. He'll ask now."
+      }
+    },
+    "big_sak": {
+      "name": "Big Sak",
+      "giver": "kenji_network",
+      "requires": "cooked_books",
+      "chapter": "Chapter 4: The Black Network",
+      "description": "Defeat Big Sak at Rattanachai Tower.",
+      "objective": {
+        "type": "defeat",
+        "enemy": "big_sak",
+        "count": 1
+      },
+      "rewards": {
+        "money": 1400,
+        "xp": 8500,
+        "items": {
+          "facility_pass": 1
+        }
+      },
+      "dialogue": {
+        "offer": "Big Sak runs South Street and the port, and he never fights alone. He whistles and his runners come. Beat him and he might finally talk.",
+        "active": "Rattanachai Tower is the end of the line. When he whistles, deal with his runners fast.",
+        "done": "He talked. He thought he was moving goods for a factory, not keeping a city quiet. His pass opens the Core Facility, and the final activation is in seven days."
+      },
+      "ends_chapter": {
+        "title": "Chapter 4 complete",
+        "subtitle": "The Core Facility goes live in seven days."
+      }
     }
   }
 }

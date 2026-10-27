@@ -7,8 +7,6 @@ extends Node2D
 
 const READY_MARKER := "GAME_READY"
 const PROBE_INTERVAL := 0.1
-## Healing items the quick-use button tries, in order.
-const QUICK_HEAL := ["steamed_bun", "ginger_tea"]
 const UPGRADE_GAP_MS := 400
 
 var content: ContentDB
@@ -244,6 +242,9 @@ func _handle(event: ZoneEvent) -> void:
 				_hud.toast("A boss approaches!")
 		"boss_phase":
 			_hud.toast("It's enraged!")
+		"boss_summon":
+			var boss := content.enemy(zone.fighter(event.data["id"]).kind)
+			_hud.toast("%s calls for backup!" % boss.get("name", "The boss"))
 		"hero_down":
 			open_game_over.call_deferred()
 		"exit":
@@ -287,15 +288,14 @@ func healed_by(item_id: String) -> void:
 	_feedback.healed()
 
 
+## The quick-heal key: the food that best fits what is missing (FoodRules).
 func quick_heal() -> bool:
-	for item_id: String in QUICK_HEAL:
-		if zone.use_item(item_id):
-			view.show_text(
-				str(content.item(item_id)["name"]), zone.hero.position, Color(0.6, 1, 0.7)
-			)
-			_feedback.healed()
-			return true
-	if zone.item_cooldown == 0:
+	var missing := zone.hero.max_hp - zone.hero.hp
+	var item_id := FoodRules.choose(profile, content, missing)
+	if item_id and zone.use_item(item_id):
+		healed_by(item_id)
+		return true
+	if zone.item_cooldown == 0 and item_id == "":
 		_hud.toast("Nothing to eat")
 	Sfx.play("denied", -4.0)
 	return false

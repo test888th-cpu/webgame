@@ -58,8 +58,6 @@ var status := ""
 var item := ""
 
 var _content: ContentDB
-## Healing consumables, the smallest heal first.
-var _heals: Array[String] = []
 var _target_id := 0
 var _guard_until := -1
 var _last_position := Vector2.INF
@@ -76,16 +74,6 @@ var _zone_id := 0
 
 func _init(content: ContentDB) -> void:
 	_content = content
-	for item_id: String in content.items:
-		var entry := content.item(item_id)
-		if entry.get("type") == "consumable" and int(entry.get("heal", 0)) > 0:
-			_heals.append(item_id)
-	_heals.sort_custom(
-		func(a: String, b: String) -> bool:
-			var ha := int(content.item(a)["heal"])
-			var hb := int(content.item(b)["heal"])
-			return ha < hb if ha != hb else a < b
-	)
 
 
 ## This tick's input for the hero of `zone`. Also sets `item` and `status`.
@@ -132,34 +120,20 @@ func _decide(zone: ZoneSim, foes: Array[Fighter], input: FighterInput) -> void:
 			_between_fights(zone, foes, input)
 
 
-## True when `profile` carries anything the pilot would eat to heal.
+## True when `profile` carries anything to eat.
 func has_heals(profile: PlayerProfile) -> bool:
-	for item_id in _heals:
-		if profile.count(item_id) > 0:
-			return true
-	return false
+	return FoodRules.carried(profile, _content) > 0
 
 
-## The heal to use now: below `heal_below`, the smallest one that covers most
-## of what is missing (the biggest when in real trouble). "" for none.
+## The food to eat now (see FoodRules): below `heal_below` only, the biggest
+## one when health is under half of that. "" for none.
 func _pick_heal(zone: ZoneSim) -> String:
 	var hero := zone.hero
 	var share := float(hero.hp) / maxf(1.0, hero.max_hp)
 	if zone.item_cooldown > 0 or share >= heal_below:
 		return ""
-	var missing := hero.max_hp - hero.hp
-	var owned: Array[String] = []
-	for item_id in _heals:
-		if zone.profile.count(item_id) > 0:
-			owned.append(item_id)
-	if owned.is_empty():
-		return ""
-	if share < heal_below * 0.5:
-		return owned.back()
-	for item_id in owned:
-		if int(_content.item(item_id)["heal"]) >= missing * 0.6:
-			return item_id
-	return owned.back()
+	var urgent := share < heal_below * 0.5
+	return FoodRules.choose(zone.profile, _content, hero.max_hp - hero.hp, urgent)
 
 
 ## Foes still standing.

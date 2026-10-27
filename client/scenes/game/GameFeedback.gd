@@ -58,6 +58,8 @@ func on_event(event: ZoneEvent) -> void:
 		"boss_phase":
 			Sfx.play("boss_roar")
 			view.shake(4.0)
+		"boss_summon":
+			Sfx.play("arena_lock", -4.0)
 		"hero_down":
 			Sfx.play("ko")
 		"weapon_pickup":

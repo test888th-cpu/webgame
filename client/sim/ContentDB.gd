@@ -276,6 +276,12 @@ func _validate_enemy(id: String, e: Dictionary) -> void:
 			_number(hazard, field, where + ".hazard", 1)
 		var half: Variant = hazard.get("half")
 		_check(half is Array and half.size() == 2, where + ".hazard.half: [x, y]")
+	var summon: Variant = e.get("summon", {})
+	if summon is Dictionary and not summon.is_empty():
+		_check(bool(e.get("boss", false)), where + ".summon: only bosses call reinforcements")
+		_check(enemies.has(str(summon.get("enemy"))), where + ".summon.enemy: unknown enemy")
+		for field in ["every", "count", "max"]:
+			_number(summon, field, where + ".summon", 1)
 	_validate_moveset(e.get("moveset", {}), where)
 	var ai: Variant = e.get("ai")
 	if ai != null:

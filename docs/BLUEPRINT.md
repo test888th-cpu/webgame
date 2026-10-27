@@ -20,7 +20,7 @@ Milestone ของ Master Prompt ใช้ชื่อ **IL-0 ถึง IL-7** 
 | ส่วน | ไฟล์ที่อ่าน |
 |---|---|
 | เอกสาร | README, ARCHITECTURE, GAME_DESIGN, CHANGELOG, CLAUDE.md, docs/ROADMAP, docs/REPOSITORY_AUDIT, docs/ASSETS, docs/UI |
-| กฎเกม (`client/sim/`) | CombatRules, Fighter, ZoneSim, EnemyBrain, LevelRules, LootRules, QuestRules, SkillRules, ShopRules, PlayerProfile, ContentDB, MoveLibrary |
+| กฎเกม (`client/sim/`) | CombatRules, Fighter, ZoneSim, BossMechanics, EnemyBrain, AutoPilot, AutoRules, FoodRules, LevelRules, LootRules, QuestRules, SkillRules, ShopRules, PlayerProfile, ContentDB, MoveLibrary |
 | ข้อมูล (`client/data/`) | areas, enemies, heroes, items, moves, progression, quests, shops, skills, weapons |
 | Presentation | `scenes/` (Game, Hud, FighterView, ZoneView, CharacterCreate, Title), `scripts/core/` (SaveStore, Sfx, InputSetup) |
 | Asset | `art/lpc/characters.json`, `art/kit/kit.json`, `art/weapons/`, `art/sounds/sounds.json` |
@@ -326,7 +326,7 @@ HUD ปัจจุบันมี: การ์ดฮีโร่ + เลเ�
 | IL-2 | (ทำแล้ว: เปลี่ยนชื่อ+ย้ายเซฟ, ล็อกทางออก, ดรอปบอส, อาชีพ, บทสนทนา/หลักฐาน/จบบท 1, tutorial + เซฟ v4) Complete Early Game: tutorial ใน Depot Yard, ล็อกทางออกตามภารกิจ (B3), quest objective ใหม่, บทสนทนา Prologue + บทที่ 1, เปลี่ยนชื่อแสดงผลตาม D1/D2/D5, แก้ B2 | M4 บางส่วน | สูง |
 | IL-3 | Progression: วัตถุดิบ, แหล่งดรอปใน Item card, CRIT/Attack Speed, ตีบวก (เซฟ v4), สมดุลอาชีพ | M4 | สูง |
 | IL-4 | (ทำแล้ว: Rusted Corner, Parking Lot, Fight Club, Rat Nest, Gang HQ, ศัตรูระยะไกล, Mini-boss, GO >>, อาชีพใหม่ 3 อาชีพ, ฉากวาดเองครบ 22 ชิ้น, ภาพศัตรูวาดใหม่ 4 ตัวตาม D6: Tar Rat, Smogling, Smog Warden, Sludge Foreman) Complete South Street: พื้นที่ย่อยที่เหลือ, ศัตรู Ranged/Mini-boss, เพิ่มอาชีพ Basketball/Police/Soldier ทีละตัว, ภาพศัตรูใหม่ (D6) | M5 บางส่วน | กลาง |
-| IL-5 | (ทำแล้ว: บทที่ 2 Port District 4 พื้นที่ + บอส Chen กับเครน, บทที่ 3 Industrial District 4 พื้นที่ + Nattapong + K-7 กับช่องไอน้ำ) Main Story: Port, Industrial, Black Network, Core Facility, บอสสุดท้าย 3 phase, Epilogue | M5 | กลาง |
+| IL-5 | (ทำแล้ว: บทที่ 2 Port District 4 พื้นที่ + บอส Chen กับเครน, บทที่ 3 Industrial District 4 พื้นที่ + Nattapong + K-7 กับช่องไอน้ำ, บทที่ 4 The Black Network 4 พื้นที่ + Ringmaster + Big Sak ที่เรียกลูกน้อง) Main Story: Port, Industrial, Black Network, Core Facility, บอสสุดท้าย 3 phase, Epilogue | M5 | กลาง |
 | IL-4+ | (ทำแล้ว) ฟื้นที่จุดล้ม/หน้าประตูบอส, ด่านที่ชนะจำไว้จนพักที่ Depot (ฟาร์มได้), วินมอเตอร์ไซค์ไปพื้นที่ที่เคยไป, เซฟ v6 | - | สูง (ลดการเล่นซ้ำที่น่าเบื่อ) |
 | IL-6 | Endgame and Polish: บอสฟาร์ม, ของระดับสูง, ภารกิจเสริม, วัด FPS/ขนาด web (B5), เพลง | M2 ข้อ 8–9, M7 | กลาง |
 | IL-7 | Online Preparation | M3, M6, M8 | หลัง single-player เสถียร (D4) |
