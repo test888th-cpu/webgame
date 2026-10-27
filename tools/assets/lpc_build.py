@@ -572,6 +572,10 @@ def build_character(
             "loop": anim.get("loop", True),
             "source": anim["lpc"],
         }
+        if "contact" in anim:
+            # The frames in which the blow lands; the game holds the wind-up
+            # frames until the move's hit (FighterView.attack_frame).
+            animations[name]["contact"] = anim["contact"]
     out = OUT_DIR / char_id
     out.mkdir(parents=True, exist_ok=True)
     sheet.save(out / "sheet.png", optimize=True)

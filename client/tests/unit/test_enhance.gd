@@ -1,8 +1,8 @@
 extends TestCase
-## Slot upgrades: costs and chances come from data, an attempt is all or
+## Upgrades: costs and chances come from data, an attempt is all or
 ## nothing, failure never loses the item or the level and raises the next
-## chance, upgrades follow the slot through gear changes, and saves keep
-## them (version 5).
+## chance, an upgrade belongs to the one copy that was upgraded and follows
+## it through gear changes, and saves keep them (versions 5, 9 and 10).
 
 var content: ContentDB
 
@@ -51,15 +51,35 @@ func test_a_success_raises_the_worn_item_and_pays_once() -> void:
 
 func test_a_failure_keeps_everything_but_the_cost_and_adds_pity() -> void:
 	var profile := _profile()
-	profile.enhance["work_jacket"] = 5
+	var copy := profile.own_copy("body")
+	profile.enhance[copy] = 5
 	var before := EnhanceRules.chance(profile, "body", _content())
 	var outcome := EnhanceRules.attempt(profile, "body", _content(), _rng(false))
 	assert_eq(outcome["result"], "fail", "failed")
 	assert_eq(EnhanceRules.level(profile, "body"), 5, "the level stays")
-	assert_eq(profile.equipment["body"], "work_jacket", "the item stays")
+	assert_eq(profile.equipment["body"], copy, "the item stays")
 	assert_true(EnhanceRules.chance(profile, "body", _content()) > before, "next try is better")
 	EnhanceRules.attempt(profile, "body", _content(), _rng(true))
-	assert_eq(profile.enhance_pity.get("work_jacket", 0), 0, "pity resets on success")
+	assert_eq(profile.enhance_pity.get(copy, 0), 0, "pity resets on success")
+
+
+func test_identical_copies_keep_their_own_upgrades() -> void:
+	var profile := _profile()
+	profile.add_item("work_jacket", 2)
+	EnhanceRules.attempt(profile, "body", _content(), _rng(true))
+	var copy: String = profile.equipment["body"]
+	assert_eq(copy, "work_jacket#1", "the upgraded jacket became a copy of its own")
+	assert_eq(EnhanceRules.level(profile, "body"), 1, "it is +1")
+	assert_eq(profile.count("work_jacket"), 2, "the two in the bag are still a stack")
+	assert_eq(EnhanceRules.item_level(profile, "work_jacket"), 0, "and still +0")
+	assert_eq(profile.owned("work_jacket"), 3, "three jackets in all")
+	assert_eq(_content().item(copy)["name"], "Work Jacket", "the copy is a Work Jacket")
+	profile.equip("work_jacket", _content())
+	assert_eq(EnhanceRules.level(profile, "body"), 0, "another jacket on: +0")
+	assert_eq(profile.count(copy), 1, "the +1 is back in the bag, on its own")
+	EnhanceRules.attempt(profile, "body", _content(), _rng(true))
+	assert_eq(profile.equipment["body"], "work_jacket#2", "a second copy of its own")
+	assert_eq(EnhanceRules.item_level(profile, copy), 1, "the first keeps its +1")
 
 
 func test_short_of_coins_or_materials_changes_nothing() -> void:
@@ -114,11 +134,14 @@ func test_penalties_are_never_amplified() -> void:
 
 func test_saves_keep_upgrades_and_old_saves_move_them_to_the_item() -> void:
 	var profile := _profile()
-	profile.enhance["work_jacket"] = 4
-	profile.enhance_pity["work_jacket"] = 2
+	var copy := profile.own_copy("body")
+	profile.enhance[copy] = 4
+	profile.enhance_pity[copy] = 2
 	var loaded := PlayerProfile.from_dict(profile.to_dict(), _content())
-	assert_eq(loaded.enhance, {"work_jacket": 4}, "level kept")
-	assert_eq(loaded.enhance_pity, {"work_jacket": 2}, "pity kept")
+	assert_eq(loaded.equipment["body"], copy, "the copy is still worn")
+	assert_eq(loaded.enhance, {copy: 4}, "level kept")
+	assert_eq(loaded.enhance_pity, {copy: 2}, "pity kept")
+	profile.equipment["body"] = "work_jacket"
 	var old := profile.to_dict()
 	old["version"] = 4
 	old.erase("enhance")
@@ -130,15 +153,37 @@ func test_saves_keep_upgrades_and_old_saves_move_them_to_the_item() -> void:
 	v8["enhance_pity"] = {"body": 1}
 	v8["equipment"]["head"] = ""
 	var moved := PlayerProfile.from_dict(v8, _content())
-	assert_eq(moved.enhance, {"work_jacket": 6}, "a slot's level moves to what was worn there")
-	assert_eq(moved.enhance_pity, {"work_jacket": 1}, "and its pity")
+	assert_eq(moved.enhance, {"work_jacket#1": 6}, "a slot's level moves to what was worn there")
+	assert_eq(moved.enhance_pity, {"work_jacket#1": 1}, "and its pity")
 	var hacked := profile.to_dict()
-	hacked["enhance"] = {"work_jacket": 99, "nose": 3, "steamed_bun": 2}
+	hacked["enhance"] = {"work_jacket#1": 99, "nose": 3, "steamed_bun#1": 2}
+	hacked["inventory"]["work_jacket#7"] = 50
+	var cleaned := PlayerProfile.from_dict(hacked, _content())
 	assert_eq(
-		PlayerProfile.from_dict(hacked, _content()).enhance,
-		{"work_jacket": EnhanceRules.max_level(_content())},
+		cleaned.enhance,
+		{"work_jacket#1": EnhanceRules.max_level(_content())},
 		"clamped; only equipment keeps upgrades"
 	)
+	assert_eq(cleaned.count("work_jacket#7"), 1, "a copy of its own is one item")
+
+
+func test_old_saves_give_a_shared_upgrade_to_one_copy() -> void:
+	var profile := _profile()
+	var v9 := profile.to_dict()
+	v9["version"] = 9
+	v9["equipment"]["weapon"] = "foreman_wrench"
+	v9["inventory"]["foreman_wrench"] = 17
+	v9["inventory"]["brass_knuckles"] = 2
+	v9["enhance"] = {"foreman_wrench": 10, "brass_knuckles": 9}
+	v9["enhance_pity"] = {"brass_knuckles": 3}
+	var loaded := PlayerProfile.from_dict(v9, _content())
+	assert_eq(loaded.equipment["weapon"], "foreman_wrench#1", "the worn wrench keeps the +10")
+	assert_eq(EnhanceRules.level(loaded, "weapon"), 10, "+10")
+	assert_eq(loaded.count("foreman_wrench"), 17, "the 17 in the bag are +0")
+	assert_eq(EnhanceRules.item_level(loaded, "foreman_wrench"), 0, "+0")
+	assert_eq(loaded.count("brass_knuckles"), 1, "one of the two knuckles stays plain")
+	assert_eq(EnhanceRules.item_level(loaded, "brass_knuckles#1"), 9, "the other keeps +9")
+	assert_eq(loaded.enhance_pity, {"brass_knuckles#1": 3}, "and its pity")
 
 
 func test_costs_rise_and_chances_fall() -> void:

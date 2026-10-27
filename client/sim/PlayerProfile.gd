@@ -5,7 +5,7 @@ extends RefCounted
 ## for the backend in Milestone 4, when the server becomes the only writer.
 ## Temporary combat state (position, energy, cooldowns) never lives here.
 
-const SAVE_VERSION := 9
+const SAVE_VERSION := 10
 ## Equipment slots, in the order the character screen shows them.
 const SLOTS := ["head", "body", "hands", "weapon", "feet", "charm"]
 ## Stats an item can add, as stored in items.json "stats".
@@ -31,9 +31,12 @@ var xp := 0
 var money := 0
 ## Current HP carried between areas; clamped to max HP on load and on use.
 var hp := 0
-## Item id -> count.
+## Item key -> count. A key is an item id (a stack of identical, never
+## upgraded copies) or "<item id>#<n>": one copy of its own, made when it
+## first goes to the workbench, so its upgrades are its alone (count 1).
+## ContentDB.item() takes either.
 var inventory := {}
-## Slot -> item id ("" when empty).
+## Slot -> item key ("" when empty).
 var equipment := {"head": "", "body": "", "hands": "", "weapon": "", "feet": "", "charm": ""}
 ## Quest id -> {"state": "active" | "complete" | "turned_in", "progress": int}.
 var quests := {}
@@ -46,9 +49,9 @@ var tutorial := 0
 ## How many times the current step's action was done. Not saved: a step is
 ## short enough to redo after a reload.
 var tutorial_progress := 0
-## Upgrade level per item id (EnhanceRules; it stays with the item when taken
-## off), and failed attempts since the item's last success (each raises the
-## next chance).
+## Upgrade level per copy ("<item id>#<n>" key; EnhanceRules; it stays with
+## the copy when taken off), and failed attempts since that copy's last
+## success (each raises the next chance).
 var enhance := {}
 var enhance_pity := {}
 ## Fights won per area since the last rest, and areas reached (StreetMemory).
@@ -182,6 +185,32 @@ func count(item_id: String) -> int:
 	return int(inventory.get(item_id, 0))
 
 
+## Every copy of item `item_id` the hero has, worn or carried, upgraded or not.
+func owned(item_id: String) -> int:
+	var total := 0
+	for key: String in inventory:
+		total += count(key) if ContentDB.base_id(key) == item_id else 0
+	for slot: String in SLOTS:
+		total += 1 if ContentDB.base_id(equipment[slot]) == item_id else 0
+	return total
+
+
+## Makes what is worn in `slot` a copy of its own (see `inventory`) and
+## returns its key; a copy already its own keeps its key.
+func own_copy(slot: String) -> String:
+	var key := str(equipment[slot])
+	if key == "" or key.contains("#"):
+		return key
+	var taken := {}
+	for other: String in inventory.keys() + equipment.values():
+		taken[other] = true
+	var n := 1
+	while taken.has("%s#%d" % [key, n]):
+		n += 1
+	equipment[slot] = "%s#%d" % [key, n]
+	return equipment[slot]
+
+
 func add_item(item_id: String, amount := 1) -> void:
 	inventory[item_id] = count(item_id) + amount
 
@@ -294,8 +323,10 @@ static func from_dict(data: Variant, content: ContentDB) -> PlayerProfile:
 	var saved_inventory: Variant = migrated.get("inventory", {})
 	if saved_inventory is Dictionary:
 		for item_id: String in saved_inventory:
-			if content.items.has(item_id) and int(saved_inventory[item_id]) > 0:
-				p.inventory[item_id] = int(saved_inventory[item_id])
+			if not content.item(item_id).is_empty() and int(saved_inventory[item_id]) > 0:
+				# A copy of its own is one item, however the save got edited.
+				var most := 1 if item_id.contains("#") else int(saved_inventory[item_id])
+				p.inventory[item_id] = mini(int(saved_inventory[item_id]), most)
 	var saved_equipment: Variant = migrated.get("equipment", {})
 	if saved_equipment is Dictionary:
 		for slot: String in SLOTS:
@@ -416,4 +447,45 @@ static func migrate(data: Dictionary) -> Dictionary:
 						by_item[item_id] = by_slot[slot]
 			migrated[field] = by_item
 		migrated["version"] = 9
+	if int(migrated["version"]) == 9:
+		_migrate_copies(migrated)
+		migrated["version"] = 10
 	return migrated
+
+
+## Version 10 keeps upgrades per copy: version 9 kept them per item id, so
+## every copy of an upgraded item showed (and gave) the upgrade. The upgrade
+## stays with one copy, the worn one where there is one, else one from the
+## bag; the others are +0 again.
+static func _migrate_copies(migrated: Dictionary) -> void:
+	var worn: Variant = migrated.get("equipment", {})
+	var bag: Variant = migrated.get("inventory", {})
+	if not worn is Dictionary or not bag is Dictionary:
+		migrated["enhance"] = {}
+		migrated["enhance_pity"] = {}
+		return
+	var levels: Variant = migrated.get("enhance", {})
+	var pity: Variant = migrated.get("enhance_pity", {})
+	levels = levels if levels is Dictionary else {}
+	pity = pity if pity is Dictionary else {}
+	var by_copy := {"enhance": {}, "enhance_pity": {}}
+	for item_id: String in (levels as Dictionary).keys() + (pity as Dictionary).keys():
+		var key := item_id + "#1"
+		if by_copy["enhance"].has(key) or by_copy["enhance_pity"].has(key):
+			continue
+		var slot: Variant = worn.find_key(item_id)
+		if slot != null:
+			worn[slot] = key
+		elif int(bag.get(item_id, 0)) > 0:
+			bag[item_id] = int(bag[item_id]) - 1
+			if bag[item_id] == 0:
+				bag.erase(item_id)
+			bag[key] = 1
+		else:
+			continue
+		if levels.has(item_id):
+			by_copy["enhance"][key] = levels[item_id]
+		if pity.has(item_id):
+			by_copy["enhance_pity"][key] = pity[item_id]
+	migrated["enhance"] = by_copy["enhance"]
+	migrated["enhance_pity"] = by_copy["enhance_pity"]

@@ -23,7 +23,11 @@
     "light": {
       "lpc": "1h_halfslash",
       "fps": 16,
-      "loop": false
+      "loop": false,
+      "contact": [
+        3,
+        4
+      ]
     },
     "heavy": {
       "lpc": "1h_halfslash",
@@ -104,7 +108,11 @@
             }
           ]
         }
-      }
+      },
+      "contact": [
+        4,
+        6
+      ]
     },
     "hurt": {
       "lpc": "hurt",
@@ -143,7 +151,11 @@
         5
       ],
       "fps": 14,
-      "loop": false
+      "loop": false,
+      "contact": [
+        2,
+        3
+      ]
     },
     "swing": {
       "lpc": "1h_halfslash",
@@ -182,7 +194,11 @@
             }
           ]
         }
-      }
+      },
+      "contact": [
+        3,
+        4
+      ]
     }
   },
   "weapon_pose": {

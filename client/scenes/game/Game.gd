@@ -457,7 +457,7 @@ func close_item_card() -> void:
 func _refocus() -> void:
 	if menu == null:
 		return
-	var target := menu_focus.replace("bag:", "Bag_").replace("worn:", "Worn_")
+	var target := menu_focus.replace("bag:", "Bag_").replace("worn:", "Worn_").validate_node_name()
 	var slot := menu.find_child(target, true, false) as Control
 	if slot and slot.focus_mode != Control.FOCUS_NONE:
 		slot.grab_focus()

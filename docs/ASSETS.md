@@ -103,6 +103,14 @@ game draws a held weapon at the socket of the frame on screen, so it follows eve
 swing, then draws the weapon hand again on top from `hands.png` (the sheet's pixels
 under the near-hand glove mask, one per frame), so the fist closes around the handle.
 
+**Contact frames.** Each attack animation names, in the recipe, the frames in
+which the blow lands (`"contact": [first, last]`, copied to the manifest). The game
+plays the wind-up frames over a move's start-up, the contact frames while its hitbox
+is live and the rest over its recovery (`FighterView.attack_frame`), so the fist or
+weapon is out on the tick the damage shows, however a move is timed. A test checks
+that in the contact frames the hand reaches further forward than in any wind-up
+frame, for every LPC character. Art without contact frames uses its middle frame.
+
 Animations: `idle`, `walk`, `light` (LPC half-slash), `heavy` (half-slash with a long
 wind-up and the right fist raised beside the head, borrowed from spellcast), `swing`
 (the same raise, for weapons), `stab`, `hurt`,

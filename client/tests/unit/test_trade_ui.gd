@@ -142,3 +142,21 @@ func test_gear_drags_between_the_bag_and_the_doll() -> void:
 	bag._gui_input(click)
 	assert_eq(game.profile.equipment["weapon"], "taped_knuckles", "a right click wears it")
 	_done(game)
+
+
+func test_an_upgraded_copy_has_its_own_cell_in_the_bag() -> void:
+	var game := _game()
+	game.profile.level = 10
+	game.profile.add_item("foreman_wrench", 3)
+	game.profile.equip("foreman_wrench", game.content)
+	var copy := game.profile.own_copy("weapon")
+	game.profile.enhance[copy] = 10
+	game.profile.unequip("weapon", game.content)
+	game.open_inventory()
+	await _settle()
+	var stack := game.menu.find_child("Bag_foreman_wrench", true, false) as ItemSlot
+	var own := game.menu.find_child("Bag_" + copy.validate_node_name(), true, false) as ItemSlot
+	assert_eq([stack.count, stack.upgrade], [2, 0], "the two plain wrenches: one +0 stack")
+	assert_eq([own.count, own.upgrade], [1, 10], "the +10 one on its own")
+	_check_layout(game.menu, "bag with copies")
+	_done(game)

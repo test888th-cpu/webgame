@@ -17,6 +17,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -38,6 +42,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -45,6 +53,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -52,6 +64,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -377,6 +393,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -398,6 +418,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -405,6 +429,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -412,6 +440,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -737,6 +769,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -758,6 +794,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -765,6 +805,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -772,6 +816,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -1096,6 +1144,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -1117,6 +1169,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -1124,6 +1180,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -1131,6 +1191,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -1456,6 +1520,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -1477,6 +1545,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -1484,6 +1556,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -1491,6 +1567,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -1815,6 +1895,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -1836,6 +1920,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -1843,6 +1931,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -1850,6 +1942,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -2174,6 +2270,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -2195,6 +2295,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -2202,6 +2306,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -2209,6 +2317,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -2533,6 +2645,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -2554,6 +2670,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -2561,6 +2681,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -2568,6 +2692,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -2893,6 +3021,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -2914,6 +3046,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -2921,6 +3057,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -2928,6 +3068,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -3252,6 +3396,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -3273,6 +3421,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -3280,6 +3432,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -3287,6 +3443,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -3611,6 +3771,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -3632,6 +3796,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -3639,6 +3807,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -3646,6 +3818,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -3970,6 +4146,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -3991,6 +4171,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -3998,6 +4182,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -4005,6 +4193,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -4330,6 +4522,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -4351,6 +4547,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -4358,6 +4558,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -4365,6 +4569,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -4689,6 +4897,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -4710,6 +4922,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -4717,6 +4933,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -4724,6 +4944,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -5048,6 +5272,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -5069,6 +5297,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -5076,6 +5308,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -5083,6 +5319,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -5407,6 +5647,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -5428,6 +5672,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -5435,6 +5683,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -5442,6 +5694,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -5766,6 +6022,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -5787,6 +6047,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -5794,6 +6058,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -5801,6 +6069,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -6126,6 +6398,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -6147,6 +6423,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -6154,6 +6434,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -6161,6 +6445,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -6486,6 +6774,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -6507,6 +6799,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -6514,6 +6810,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -6521,6 +6821,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -6846,6 +7150,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -6867,6 +7175,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -6874,6 +7186,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -6881,6 +7197,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -7205,6 +7525,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -7226,6 +7550,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -7233,6 +7561,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -7240,6 +7572,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -7564,6 +7900,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -7585,6 +7925,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -7592,6 +7936,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -7599,6 +7947,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -7924,6 +8276,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -7945,6 +8301,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -7952,6 +8312,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -7959,6 +8323,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -8283,6 +8651,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -8304,6 +8676,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -8311,6 +8687,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -8318,6 +8698,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -8642,6 +9026,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -8663,6 +9051,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -8670,6 +9062,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -8677,6 +9073,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -9002,6 +9402,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -9023,6 +9427,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -9030,6 +9438,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -9037,6 +9449,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -9361,6 +9777,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -9382,6 +9802,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -9389,6 +9813,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -9396,6 +9824,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -9720,6 +10152,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -9741,6 +10177,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -9748,6 +10188,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -9755,6 +10199,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -10080,6 +10528,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -10101,6 +10553,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -10108,6 +10564,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -10115,6 +10575,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -10440,6 +10904,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -10461,6 +10929,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -10468,6 +10940,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -10475,6 +10951,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -10799,6 +11279,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -10820,6 +11304,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -10827,6 +11315,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -10834,6 +11326,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -11158,6 +11654,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -11179,6 +11679,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -11186,6 +11690,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -11193,6 +11701,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -11517,6 +12029,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -11538,6 +12054,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -11545,6 +12065,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -11552,6 +12076,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -11876,6 +12404,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -11897,6 +12429,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -11904,6 +12440,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -11911,6 +12451,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -12235,6 +12779,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -12256,6 +12804,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -12263,6 +12815,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -12270,6 +12826,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -12587,6 +13147,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -12608,6 +13172,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -12615,6 +13183,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -12622,6 +13194,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -12920,6 +13496,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -12941,6 +13521,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -12948,6 +13532,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -12955,6 +13543,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -13280,6 +13872,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -13301,6 +13897,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -13308,6 +13908,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -13315,6 +13919,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -13639,6 +14247,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -13660,6 +14272,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -13667,6 +14283,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -13674,6 +14294,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -13998,6 +14622,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -14019,6 +14647,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -14026,6 +14658,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -14033,6 +14669,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -14358,6 +14998,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -14379,6 +15023,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -14386,6 +15034,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -14393,6 +15045,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -14718,6 +15374,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -14739,6 +15399,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -14746,6 +15410,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -14753,6 +15421,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -15079,6 +15751,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -15100,6 +15776,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -15107,6 +15787,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -15114,6 +15798,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -15439,6 +16127,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -15460,6 +16152,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -15467,6 +16163,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -15474,6 +16174,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -15799,6 +16503,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -15820,6 +16528,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -15827,6 +16539,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -15834,6 +16550,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -17091,6 +17811,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -17112,6 +17836,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -17119,6 +17847,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -17126,6 +17858,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -17450,6 +18186,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -17471,6 +18211,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -17478,6 +18222,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -17485,6 +18233,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -17809,6 +18561,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -17830,6 +18586,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -17837,6 +18597,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -17844,6 +18608,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -18168,6 +18936,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -18189,6 +18961,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -18196,6 +18972,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -18203,6 +18983,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -18843,6 +19627,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -18864,6 +19652,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -18871,6 +19663,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -18878,6 +19674,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -19202,6 +20002,10 @@
           "source": "hurt"
         },
         "heavy": {
+          "contact": [
+            4,
+            6
+          ],
           "fps": 12,
           "frames": 8,
           "loop": false,
@@ -19223,6 +20027,10 @@
           "source": "combat"
         },
         "light": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
@@ -19230,6 +20038,10 @@
           "source": "1h_halfslash"
         },
         "stab": {
+          "contact": [
+            2,
+            3
+          ],
           "fps": 14,
           "frames": 5,
           "loop": false,
@@ -19237,6 +20049,10 @@
           "source": "1h_halfslash"
         },
         "swing": {
+          "contact": [
+            3,
+            4
+          ],
           "fps": 16,
           "frames": 6,
           "loop": false,
