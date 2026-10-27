@@ -1,6 +1,7 @@
 extends CanvasLayer
 ## In-game heads-up display, built in code from UiKit/UiTheme:
-##   top left   hero card: level badge, name, HP (with damage trail), energy, XP
+##   top left   hero card: level badge, name, HP (with damage trail), energy, XP;
+##              under it the held weapon and the AUTO battle switch
 ##   top centre boss bar (boss fights only)
 ##   top right  coins, area name, tracked quest card
 ##   bottom     hotbar (attack, skills, items), key hints
@@ -10,6 +11,8 @@ extends CanvasLayer
 ## reports hotbar presses (slot_pressed).
 
 signal slot_pressed(index: int)
+## The AUTO switch was clicked or tapped.
+signal auto_pressed
 
 ## How long "GO >>" blinks after a cleared fight.
 const GO_SECONDS := 4.0
@@ -51,6 +54,9 @@ var _banner: VBoxContainer
 var _banner_level: Label
 var _banner_detail: Label
 var _banner_left := 0.0
+var _auto_button: Button
+var _auto_status: Label
+var _auto_summary: Label
 
 
 func _ready() -> void:
@@ -67,6 +73,7 @@ func _ready() -> void:
 	_build_banner(root)
 	_build_go(root)
 	_build_hints(root)
+	_build_auto(root)
 	_touch = TouchControls.build()
 	_touch.visible = DisplayServer.is_touchscreen_available()
 	root.add_child(_touch)
@@ -333,6 +340,66 @@ func _build_hints(root: Control) -> void:
 	more.add_child(UiKit.key_hint("E", "Grab / Throw / Talk"))
 	more.modulate.a = 0.8
 	root.add_child(more)
+
+
+## The AUTO switch: lit while auto battle runs, with what it is doing and
+## what this session has won; dimmed where auto is not allowed yet.
+func _build_auto(root: Control) -> void:
+	var column := VBoxContainer.new()
+	column.name = "Auto"
+	column.position = Vector2(6, 88)
+	column.add_theme_constant_override("separation", 1)
+	root.add_child(column)
+	var line := HBoxContainer.new()
+	line.add_theme_constant_override("separation", 4)
+	column.add_child(line)
+	_auto_button = Button.new()
+	_auto_button.name = "AutoButton"
+	_auto_button.text = "AUTO"
+	_auto_button.focus_mode = Control.FOCUS_NONE
+	_auto_button.custom_minimum_size = Vector2(44, 16)
+	_auto_button.add_theme_font_size_override("font_size", UiTheme.SIZE_SMALL)
+	_auto_button.pressed.connect(auto_pressed.emit)
+	line.add_child(_auto_button)
+	line.add_child(UiKit.key_hint("T", ""))
+	_auto_status = UiKit.overlay_label("", UiTheme.SIZE_CAPTION, UiTheme.TEAL)
+	_auto_status.name = "AutoStatus"
+	column.add_child(_auto_status)
+	_auto_summary = UiKit.overlay_label("", UiTheme.SIZE_CAPTION, UiTheme.TEXT_DIM)
+	column.add_child(_auto_summary)
+	_style_auto(false)
+
+
+## Shows auto battle's state: on (lit, with status) or off; `allowed` dims
+## the switch where it cannot start (pressing it then says why).
+func show_auto(auto: AutoBattle, allowed: bool) -> void:
+	_style_auto(auto.on)
+	_auto_button.modulate.a = 1.0 if allowed else 0.45
+	_auto_button.tooltip_text = "" if allowed else auto.problem()
+	_auto_status.visible = auto.on
+	_auto_summary.visible = auto.on
+	if auto.on:
+		var dots := ".".repeat(1 + int(Time.get_ticks_msec() / 400) % 3)
+		_auto_status.text = "AUTO  %s%s" % [auto.pilot.status, dots]
+		_auto_summary.text = auto.summary()
+
+
+func _style_auto(on: bool) -> void:
+	if _auto_button.has_meta("on") and bool(_auto_button.get_meta("on")) == on:
+		return
+	_auto_button.set_meta("on", on)
+	var style := StyleBoxFlat.new()
+	style.bg_color = UiTheme.ACCENT if on else Color(0.06, 0.06, 0.1, 0.78)
+	style.border_color = UiTheme.ACCENT
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(2)
+	style.set_content_margin_all(2)
+	for state: String in ["normal", "hover", "pressed"]:
+		_auto_button.add_theme_stylebox_override(state, style)
+	var text := UiTheme.BG if on else UiTheme.ACCENT
+	for state: String in ["font_color", "font_hover_color", "font_pressed_color"]:
+		_auto_button.add_theme_color_override(state, text)
+	_auto_button.text = "AUTO ON" if on else "AUTO"
 
 
 func _build_vignette(root: Control) -> void:

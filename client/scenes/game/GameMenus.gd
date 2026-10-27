@@ -24,6 +24,7 @@ const CONTROLS := [
 	["Guard (hold); just before a hit: parry", "Shift / I", "LB / L1"],
 	["Talk, shop", "E / U", "B / Circle"],
 	["Eat (quick heal)", "H / Q", "RB / R1"],
+	["Auto battle on / off (areas you have cleared)", "T", "Back / Select"],
 	["Menu", "Esc / P", "Start"],
 	["Menu tabs", "Q  E", "LB  RB"],
 ]
@@ -177,13 +178,22 @@ static func _system(game: Game) -> Control:
 	buttons.add_child(UiKit.button("Save and quit to title", game._quit_to_title))
 	if not TutorialRules.is_done(game.profile, game.content):
 		buttons.add_child(UiKit.button("Skip tutorial", game.skip_tutorial))
-	column.add_child(buttons)
-	column.add_child(HSeparator.new())
+	# Buttons on the left, settings on the right, so the tab fits the window.
+	var halves := HBoxContainer.new()
+	halves.add_theme_constant_override("separation", UiTheme.PAD * 2)
+	column.add_child(halves)
+	halves.add_child(buttons)
+	halves.add_child(VSeparator.new())
+	var settings := VBoxContainer.new()
+	settings.add_theme_constant_override("separation", UiTheme.GAP)
+	settings.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	halves.add_child(settings)
 	var options := UiKit.section("Options")
-	column.add_child(options)
+	settings.add_child(options)
 	options.add_child(_toggle("Screen shake on heavy hits", "screen_shake"))
 	options.add_child(_toggle("Show frame rate", "show_fps"))
 	options.add_child(_volume())
+	settings.add_child(_auto_options())
 	column.add_child(
 		UiKit.label(
 			"Progress also saves on its own when you change area, shop or hand in a quest.",
@@ -193,6 +203,41 @@ static func _system(game: Game) -> Control:
 		)
 	)
 	return column
+
+
+## Auto battle settings: when to eat, the farm loop, food to keep stocked.
+static func _auto_options() -> Control:
+	var box := UiKit.section("Auto battle")
+	box.name = "AutoOptions"
+	box.add_child(
+		_cycle("Eat when health is below", "auto_heal_at", AutoBattle.HEAL_CHOICES, "%d%%", 100.0)
+	)
+	box.add_child(
+		_toggle("Farm loop: when the area is clear, rest at home and ride back", "auto_loop")
+	)
+	box.add_child(_cycle("Food to keep stocked", "auto_food", AutoBattle.FOOD_CHOICES, "%d"))
+	return box
+
+
+## A row whose button steps through `choices` for setting `key`.
+static func _cycle(
+	text: String, key: String, choices: Array, format: String, scale := 1.0
+) -> Control:
+	var button := Button.new()
+	button.name = key
+	button.focus_mode = Control.FOCUS_ALL
+	button.custom_minimum_size.x = 48
+	var show := func() -> void:
+		button.text = format % roundi(float(GameSession.settings.get(key, choices[0])) * scale)
+	show.call()
+	button.pressed.connect(
+		func() -> void:
+			var at := choices.find(GameSession.settings.get(key, choices[0]))
+			GameSession.set_setting(key, choices[(at + 1) % choices.size()])
+			show.call()
+			Sfx.play("ui_move")
+	)
+	return UiKit.row(text, button)
 
 
 static func _volume() -> Control:

@@ -20,6 +20,19 @@ static func read() -> FighterInput:
 	return input
 
 
+## True when `input` holds anything the player pressed or held this tick.
+static func is_active(input: FighterInput) -> bool:
+	return (
+		input.move != Vector2.ZERO
+		or input.light
+		or input.heavy
+		or input.dodge
+		or input.guard
+		or input.pick
+		or input.skill != ""
+	)
+
+
 ## The hotbar slot (0-based) pressed this tick, or -1.
 static func slot_pressed() -> int:
 	for slot in InputSetup.HOTBAR_SLOTS:

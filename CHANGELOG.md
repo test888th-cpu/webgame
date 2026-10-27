@@ -4,6 +4,42 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — Auto battle (decision D12)
+- **Auto battle** (T, gamepad Back/Select, or the AUTO button under the hero card). It is
+  allowed only in areas the hero has already beaten by hand: the next area east has been
+  reached, or, at the end of the street, its bosses have been beaten. Elsewhere the
+  button is dimmed, and pressing it says why. Any input of the player's own takes over
+  for that tick.
+- The pilot (`client/sim/AutoPilot.gd`) plays like a careful player. It is deterministic
+  and only sends player input:
+  - eats below a set health share, picking the smallest food that covers the loss and
+    the biggest one in real trouble;
+  - steps out of crane and steam shadows, sidesteps or blocks thrown weapons;
+  - dodges guard breakers and telegraphed heavies, or walks out of their reach when
+    there is time, and stops queuing combo links while one is coming;
+  - guards plain blows just before they land (a perfect guard parries), and hits first
+    when its jab is quicker against a foe that flinches;
+  - picks skills from each hero's own move data: area skills into crowds, finishers saved
+    for three foes or a boss, and always energy kept for a dodge;
+  - chains light combos into a heavy finisher, and targets close, hurt or unguarded
+    ranged foes;
+  - between fights, picks up a street weapon, collects drops (giving up on any it cannot
+    reach), walks around street furniture and on to the next fight.
+- **Farm loop.** When an area is clear, or the hero is hurt with nothing left to eat, the
+  hero goes home to rest. It buys food at home up to a set stock, always keeping the taxi
+  fare, rides Win's taxi back and goes again. The HUD shows what it is doing and the
+  session's runs, KOs, coins and XP. Settings are on the pause menu's Game tab: the
+  health share to eat at, the loop on or off, and the food stock to keep.
+- **Measured** with a hero one level above each area, no gear and 10 buns:
+  - every hero clears every Chapter 1 to 3 area alone, bosses included (88 of 90 seeded
+    runs in the five hardest areas);
+  - 20 minutes of the farm loop gave 13 to 15 runs and 200+ KOs per hero, with no
+    knock-outs.
+- Tests: auto is allowed only where beaten; every hero clears a street alone and picks up
+  the drops; eating; area skills on a crowd; the big skill saved for bosses; dodging and
+  parrying; hazard shadows; the loop rules and the full loop through the game; the
+  player's input winning; the HUD switch.
+
 ### Changed — Levels 1-50, climbing chapter by chapter (decision D11, replaces D9)
 - The hero now levels up to **50**. Each chapter has its own level band: South Street
   areas run levels 1-10, the Port District 12-16 and the Industrial District 19-24.
