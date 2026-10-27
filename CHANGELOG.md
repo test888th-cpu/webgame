@@ -4,6 +4,30 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — Chapter 3: the Industrial District (IL-5)
+- Four areas past the Crane Yard, open once Harbourmaster Chen is beaten: **Factory Gate**
+  (level 14), **Production Line** (15), **Waste Pools** (16) and the **Factory Drains**
+  (17).
+- **Dr. Pim**, the former city inspector, gives the chapter's quests (Factory Doors, The
+  Chief, Sample Run, Unit K-7). **Aunt Jum** sells level 14-15 gear (Hazmat Hood, Plant
+  Security Vest, Insulated Gloves, Lab Boots), and Win's taxi stands at the gate.
+- New enemies: the **Plant Guard** (elite), the **Hazmat Sprayer** (ranged) and the **Patrol
+  Unit**, the first machine.
+- Two bosses:
+  - **Security Chief Nattapong**, mid-chapter. Beaten, he takes off his badge and walks
+    out (spared).
+  - **Unit K-7**, at the end. Its floor vents burst with steam where the hero stands, after
+    a warning. The hazard system now has kinds (`"kind": "crane" | "steam"`, validated on
+    load).
+- Evidence: the **Waste Sample**, then the **Experiment Log**, where the words "The Core"
+  appear for the first time. K-7 ends Chapter 3.
+- Fixed: the generated street backgrounds no longer crash on a sliver of building at an
+  area's end.
+- The story test allows The Core from Chapter 3 on, and only in late evidence, as the
+  story bible says.
+- Art is temporary (D10). The robots are LPC armour builds, and the vents are drawn with
+  shapes.
+
 ### Added — Chapter 2: the Port District (IL-5)
 - Four areas past the Gang Headquarters, open once the Furnace Baron is beaten: **Port
   Road** (level 10), **Freight Market** (11), **Container Yard** (12) and the **Crane

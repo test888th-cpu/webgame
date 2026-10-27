@@ -219,6 +219,8 @@ def draw_buildings(area_id: str, area: dict, theme: str) -> Image.Image:
         top = SKY_H - h
         base = shade(tones[index % len(tones)], rng.choice([1.15, 1.3, 1.45]))
         right = min(width - 1, x + w - 4)
+        if right - x < 48:  # a sliver at the street's end: leave it as sky
+            break
         if theme == "depot":
             panels(draw, (x, top, right, SKY_H - 1), shade(base, 0.9))
             # Big rolling door and a high window band.

@@ -80,18 +80,28 @@ func test_every_main_quest_belongs_to_a_chapter_and_speaks() -> void:
 
 
 func test_story_secrets_are_kept_until_their_chapter() -> void:
-	# Story bible §7: The Core is not named before chapter 3.
+	# Story bible §7: The Core is not named before chapter 3, so only chapter 3
+	# and later quests, and evidence only they hand over, may name it.
 	var content := ContentDB.load_all()
+	var early := ["Prologue", "Chapter 1: South Street", "Chapter 2: Port District"]
+	var late_items := {}
 	for quest_id: String in content.quests:
-		assert_true(
-			not JSON.stringify(content.quests[quest_id]).contains("The Core"),
-			"%s does not name The Core" % quest_id
-		)
+		var quest: Dictionary = content.quests[quest_id]
+		if str(quest.get("chapter", "")) in early:
+			assert_true(
+				not JSON.stringify(quest).contains("The Core"),
+				"%s does not name The Core" % quest_id
+			)
+		else:
+			for item_id: String in quest["rewards"].get("items", {}):
+				late_items[item_id] = true
 	for item_id: String in content.items:
-		assert_true(
-			not str(content.items[item_id]["description"]).contains("The Core"),
-			"%s does not name The Core" % item_id
-		)
+		var item: Dictionary = content.items[item_id]
+		if str(item["description"]).contains("The Core"):
+			assert_true(
+				item_id in late_items and item.get("type") == "key",
+				"%s names The Core only as late evidence" % item_id
+			)
 
 
 func test_story_items_must_not_be_for_sale() -> void:

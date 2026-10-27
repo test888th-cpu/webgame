@@ -267,7 +267,11 @@ func _validate_enemy(id: String, e: Dictionary) -> void:
 		)
 	var hazard: Variant = e.get("hazard", {})
 	if hazard is Dictionary and not hazard.is_empty():
-		_check(bool(e.get("boss", false)), where + ".hazard: only bosses call crane drops")
+		_check(bool(e.get("boss", false)), where + ".hazard: only bosses call hazards")
+		_check(
+			str(hazard.get("kind", "crane")) in ["crane", "steam"],
+			where + ".hazard.kind: crane or steam"
+		)
 		for field in ["every", "warn", "damage"]:
 			_number(hazard, field, where + ".hazard", 1)
 		var half: Variant = hazard.get("half")

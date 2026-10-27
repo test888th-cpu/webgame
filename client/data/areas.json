@@ -2136,6 +2136,15 @@
         "west": {
           "to": "container_yard",
           "entry": "east"
+        },
+        "east": {
+          "to": "factory_gate",
+          "entry": "west",
+          "requires": {
+            "defeat": "harbourmaster_chen",
+            "count": 1,
+            "hint": "Chen's crews still hold the road inland. Defeat the Harbourmaster first."
+          }
         }
       },
       "weapons": {
@@ -2208,6 +2217,502 @@
         },
         {
           "kind": "crates",
+          "x": 1420,
+          "y": 258
+        }
+      ]
+    },
+    "factory_gate": {
+      "name": "Factory Gate",
+      "level": 14,
+      "width": 2000,
+      "safe": false,
+      "theme": "canal",
+      "kit_theme": "plant",
+      "palette": {
+        "sky": "#1a1e16",
+        "buildings": [
+          "#262c20",
+          "#2e3428",
+          "#20261c"
+        ],
+        "windows": "#d0d890",
+        "sidewalk": "#4a4c44",
+        "street": "#24261e"
+      },
+      "exits": {
+        "west": {
+          "to": "crane_yard",
+          "entry": "east"
+        },
+        "east": {
+          "to": "production_line",
+          "entry": "west",
+          "requires": {
+            "defeat": "plant_guard",
+            "count": 6,
+            "hint": "Plant Guards hold the factory doors. Knock down 6 to pass."
+          }
+        }
+      },
+      "npcs": [
+        {
+          "id": "dr_pim",
+          "name": "Dr. Pim",
+          "role": "quests",
+          "x": 300,
+          "y": 262,
+          "color": "#e0e0f0",
+          "line": "I measured the canal for six years. Nobody wanted the numbers.",
+          "sprite": "npc_pim"
+        },
+        {
+          "id": "vendor_jum",
+          "name": "Aunt Jum",
+          "role": "shop",
+          "shop": "jum_cart",
+          "x": 470,
+          "y": 262,
+          "color": "#60a060",
+          "line": "Night shift eats here. So do the guards. I don't ask.",
+          "sprite": "npc_jum"
+        },
+        {
+          "id": "taxi_win_factory",
+          "name": "Win",
+          "role": "travel",
+          "fare": 10,
+          "x": 640,
+          "y": 262,
+          "color": "#e07020",
+          "line": "Factory road, port, home. Ten coins anywhere.",
+          "sprite": "npc_win"
+        }
+      ],
+      "weapons": {
+        "count": [
+          3,
+          5
+        ],
+        "pool": {
+          "pipe": 4,
+          "wrench": 4,
+          "baseball_bat": 2,
+          "machete": 2
+        }
+      },
+      "encounters": [
+        {
+          "trigger_x": 950,
+          "arena": [
+            760,
+            1380
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "plant_guard",
+              "stevedore",
+              "hazmat_sprayer"
+            ],
+            [
+              "plant_guard",
+              "plant_guard",
+              "port_guard"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1500,
+          "arena": [
+            1280,
+            1980
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "plant_guard",
+              "hazmat_sprayer",
+              "stevedore"
+            ],
+            [
+              "plant_guard",
+              "plant_guard",
+              "hazmat_sprayer"
+            ]
+          ]
+        }
+      ],
+      "obstacles": [
+        {
+          "kind": "street_lamp",
+          "x": 220,
+          "y": 240
+        },
+        {
+          "kind": "street_lamp",
+          "x": 860,
+          "y": 240
+        },
+        {
+          "kind": "pickup_truck",
+          "x": 1120,
+          "y": 262
+        },
+        {
+          "kind": "oil_drums",
+          "x": 1420,
+          "y": 258
+        },
+        {
+          "kind": "street_lamp",
+          "x": 1620,
+          "y": 240
+        },
+        {
+          "kind": "crates",
+          "x": 1820,
+          "y": 258
+        }
+      ]
+    },
+    "production_line": {
+      "name": "Production Line",
+      "level": 15,
+      "width": 1800,
+      "safe": false,
+      "theme": "canal",
+      "kit_theme": "plant",
+      "palette": {
+        "sky": "#1c1610",
+        "buildings": [
+          "#2c2218",
+          "#34281c",
+          "#241c14"
+        ],
+        "windows": "#f0a040",
+        "sidewalk": "#4e4840",
+        "street": "#262018"
+      },
+      "exits": {
+        "west": {
+          "to": "factory_gate",
+          "entry": "east"
+        },
+        "east": {
+          "to": "waste_pools",
+          "entry": "west",
+          "requires": {
+            "defeat": "security_chief",
+            "count": 1,
+            "hint": "Security Chief Nattapong guards the way to the waste pools."
+          }
+        }
+      },
+      "weapons": {
+        "count": [
+          3,
+          5
+        ],
+        "pool": {
+          "pipe": 4,
+          "wrench": 3,
+          "chair": 2,
+          "machete": 2,
+          "baseball_bat": 2
+        }
+      },
+      "encounters": [
+        {
+          "trigger_x": 420,
+          "arena": [
+            200,
+            900
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "plant_guard",
+              "patrol_unit",
+              "hazmat_sprayer"
+            ],
+            [
+              "plant_guard",
+              "plant_guard",
+              "stevedore"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1200,
+          "arena": [
+            960,
+            1780
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "security_chief"
+            ],
+            [
+              "plant_guard",
+              "hazmat_sprayer"
+            ]
+          ]
+        }
+      ],
+      "obstacles": [
+        {
+          "kind": "crates",
+          "x": 340,
+          "y": 258
+        },
+        {
+          "kind": "street_lamp",
+          "x": 620,
+          "y": 240
+        },
+        {
+          "kind": "oil_drums",
+          "x": 880,
+          "y": 258
+        },
+        {
+          "kind": "street_lamp",
+          "x": 1300,
+          "y": 240
+        },
+        {
+          "kind": "crates",
+          "x": 1640,
+          "y": 258
+        }
+      ]
+    },
+    "waste_pools": {
+      "name": "Waste Pools",
+      "level": 16,
+      "width": 2200,
+      "safe": false,
+      "theme": "canal",
+      "kit_theme": "waste",
+      "palette": {
+        "sky": "#101a10",
+        "buildings": [
+          "#1a2a18",
+          "#203020",
+          "#162214"
+        ],
+        "windows": "#a0e070",
+        "sidewalk": "#3e4a3a",
+        "street": "#1a2418"
+      },
+      "exits": {
+        "west": {
+          "to": "production_line",
+          "entry": "east"
+        },
+        "east": {
+          "to": "factory_drains",
+          "entry": "west",
+          "requires": {
+            "defeat": "patrol_unit",
+            "count": 6,
+            "hint": "Patrol Units seal the drains. Knock down 6 to pass."
+          }
+        }
+      },
+      "weapons": {
+        "count": [
+          3,
+          5
+        ],
+        "pool": {
+          "pipe": 4,
+          "wrench": 3,
+          "plank": 2,
+          "baseball_bat": 2
+        }
+      },
+      "encounters": [
+        {
+          "trigger_x": 420,
+          "arena": [
+            200,
+            900
+          ],
+          "max_alive": 4,
+          "waves": [
+            [
+              "patrol_unit",
+              "smogling",
+              "smogling",
+              "hazmat_sprayer"
+            ],
+            [
+              "patrol_unit",
+              "hazmat_sprayer",
+              "smog_warden"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1100,
+          "arena": [
+            880,
+            1580
+          ],
+          "max_alive": 4,
+          "waves": [
+            [
+              "patrol_unit",
+              "patrol_unit",
+              "smogling"
+            ],
+            [
+              "hazmat_sprayer",
+              "hazmat_sprayer",
+              "smog_warden"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1750,
+          "arena": [
+            1480,
+            2180
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "patrol_unit",
+              "plant_guard",
+              "hazmat_sprayer"
+            ],
+            [
+              "patrol_unit",
+              "patrol_unit",
+              "smog_warden"
+            ]
+          ]
+        }
+      ],
+      "obstacles": [
+        {
+          "kind": "oil_drums",
+          "x": 320,
+          "y": 258
+        },
+        {
+          "kind": "street_lamp",
+          "x": 560,
+          "y": 240
+        },
+        {
+          "kind": "oil_drums",
+          "x": 980,
+          "y": 258
+        },
+        {
+          "kind": "street_lamp",
+          "x": 1460,
+          "y": 240
+        },
+        {
+          "kind": "crates",
+          "x": 1960,
+          "y": 258
+        }
+      ]
+    },
+    "factory_drains": {
+      "name": "Factory Drains",
+      "level": 17,
+      "width": 1600,
+      "safe": false,
+      "theme": "canal",
+      "kit_theme": "tunnels",
+      "palette": {
+        "sky": "#0c120e",
+        "buildings": [
+          "#18201a",
+          "#1e2820",
+          "#141a16"
+        ],
+        "windows": "#90c0a0",
+        "sidewalk": "#3a403a",
+        "street": "#181e1a"
+      },
+      "exits": {
+        "west": {
+          "to": "waste_pools",
+          "entry": "east"
+        }
+      },
+      "weapons": {
+        "count": [
+          3,
+          5
+        ],
+        "pool": {
+          "pipe": 4,
+          "wrench": 3,
+          "machete": 2,
+          "baseball_bat": 2
+        }
+      },
+      "encounters": [
+        {
+          "trigger_x": 420,
+          "arena": [
+            180,
+            880
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "patrol_unit",
+              "hazmat_sprayer",
+              "smogling"
+            ],
+            [
+              "patrol_unit",
+              "patrol_unit",
+              "smog_warden"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1150,
+          "arena": [
+            900,
+            1580
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "unit_k7"
+            ],
+            [
+              "patrol_unit",
+              "hazmat_sprayer"
+            ]
+          ]
+        }
+      ],
+      "obstacles": [
+        {
+          "kind": "oil_drums",
+          "x": 460,
+          "y": 258
+        },
+        {
+          "kind": "crates",
+          "x": 900,
+          "y": 258
+        },
+        {
+          "kind": "oil_drums",
           "x": 1420,
           "y": 258
         }

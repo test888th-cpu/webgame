@@ -72,7 +72,10 @@ func on_event(event: ZoneEvent) -> void:
 		"hazard_warn":
 			var drop := CraneDrop.new()
 			drop.position = event.data["at"]
-			drop.setup(float(event.data["ticks"]) / CombatRules.TICK_RATE)
+			drop.setup(
+				float(event.data["ticks"]) / CombatRules.TICK_RATE,
+				str(event.data.get("kind", "crane"))
+			)
 			view.effects.add_child(drop)
 			_drops.append(drop)
 			Sfx.play("denied", -6.0)
@@ -80,7 +83,7 @@ func on_event(event: ZoneEvent) -> void:
 			_drops = _drops.filter(func(d: CraneDrop) -> bool: return is_instance_valid(d))
 			if not _drops.is_empty():
 				_drops.pop_front().land()
-			Sfx.play("break_metal", 0.0)
+			Sfx.play("break_metal" if event.data.get("kind") != "steam" else "dodge", 0.0)
 			Fx.spawn(view.effects, content, "dust", event.data["at"])
 			view.shake(6.0)
 

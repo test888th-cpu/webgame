@@ -830,6 +830,95 @@
         900,
         1400
       ]
+    },
+    "plant": {
+      "far": "skyline_far",
+      "ground": {
+        "sidewalk": "sidewalk_tile",
+        "road": "road_tile"
+      },
+      "tint": {
+        "far": "#5a6050",
+        "back": "#6a7060",
+        "fg": "#2a3020",
+        "front": "#d8d8c8"
+      },
+      "back": {
+        "condo_tower": 1
+      },
+      "back_gap": [
+        120,
+        260
+      ],
+      "front": {
+        "warehouse_wall": 1.4,
+        "steel_gate": 0.6,
+        "guard_booth": 0.5,
+        "rusted_fence": 0.6,
+        "carpark_facade": 0.3
+      },
+      "front_gap": [
+        0,
+        10
+      ],
+      "props": {
+        "oil_drums": 1,
+        "crates": 1,
+        "scrap_pile": 0.6,
+        "tyre_stack": 0.4,
+        "trash_bin": 0.4
+      },
+      "prop_gap": [
+        50,
+        110
+      ],
+      "foreground": {
+        "fg_leaves": 1
+      },
+      "fg_gap": [
+        1000,
+        1400
+      ]
+    },
+    "waste": {
+      "far": "skyline_far",
+      "ground": {
+        "sidewalk": "sidewalk_tile",
+        "road": "tunnel_floor_tile"
+      },
+      "tint": {
+        "far": "#4a6040",
+        "back": "#5a7050",
+        "fg": "#1e2a18",
+        "front": "#c8e0b8",
+        "ground": "#b0d0a0"
+      },
+      "back": {
+        "condo_tower": 1
+      },
+      "back_gap": [
+        160,
+        320
+      ],
+      "front": {
+        "rusted_fence": 1.2,
+        "warehouse_wall": 0.8,
+        "junk_shop": 0.2
+      },
+      "front_gap": [
+        0,
+        12
+      ],
+      "props": {
+        "oil_drums": 1.2,
+        "sewer_pipe": 0.8,
+        "drain_grate": 0.8,
+        "scrap_pile": 0.6
+      },
+      "prop_gap": [
+        45,
+        100
+      ]
     }
   }
 }
