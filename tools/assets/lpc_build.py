@@ -19,6 +19,10 @@ Faithfulness to the generator (pinned commit in the recipe file):
     the chosen palette, colour for colour, as the generator's recolouring does
   * credits come from each definition's "credits", matched to the files used
 No frames are invented: every output frame is a composite of source frames.
+Two recipe options restyle what LPC drew, never add frames: a recolour may
+give its own palette (a list of hex colours, darkest first, in place of a
+palette name), and "cap" turns the top of the hair layer into a snapback cap
+(see apply_cap).
 
 Licensing: every credited file used must offer a licence from the recipe's
 "allowed" list; the most permissive offered licence is recorded. A character
@@ -175,7 +179,9 @@ def layer_recolour_map(lpc: Lpc, definition: dict, wanted: dict) -> dict:
         material = info["material"]
         base_spec = info.get("base") or lpc.material_base(material)
         base = lpc.palette(material, base_spec)
-        new = lpc.palette(material, target)
+        new = target if isinstance(target, list) else lpc.palette(material, target)
+        if len(new) != len(base):
+            raise BuildError(f"{definition.get('name')}: palette {target} needs {len(base)} colours")
         for old_colour, new_colour in zip(base, new):
             mapping[hex_rgb(old_colour)] = hex_rgb(new_colour)
     return mapping
@@ -329,6 +335,63 @@ def hand_overlay(sheet: Image.Image, animations: dict, masks: dict) -> Image.Ima
     return overlay
 
 
+def apply_cap(strip: Image.Image, hair: list, head: list, spec: dict, view: str) -> None:
+    """Draws a snapback cap on each frame of `strip` from the hair layer: the
+    hair above `depth` rows below the top of the head takes the crown's
+    colours (shade for shade, so LPC's lighting stays), and a brim is added at
+    the front in the side view ("side"), along the bottom of the crown seen
+    from the front ("front"), or left off when the head lies on the ground
+    with its top towards the viewer. `hair` and `head` hold each frame's cell
+    of those layers (or None)."""
+    crown = [hex_rgb(c) for c in spec["crown"]]
+    brim = [hex_rgb(c) for c in spec["brim"]]
+    badge = hex_rgb(spec["badge"]) if spec.get("badge") else None
+    outline = crown[0]
+    depth = int(spec.get("depth", 6))
+    px = strip.load()
+    for index, (hair_cell, head_cell) in enumerate(zip(hair, head)):
+        if hair_cell is None or head_cell is None or head_cell.getbbox() is None:
+            continue
+        ox = index * FRAME
+        hair_px = hair_cell.load()
+        box = head_cell.getbbox()
+        hair_box = hair_cell.getbbox() or box
+        top = min(box[1], hair_box[1])
+        lying = view == "front" and (box[1] + box[3]) / 2 > FRAME * 0.62
+        line = FRAME if lying else top + depth
+        shades = sorted({hair_px[x, y][:3] for y in range(FRAME) for x in range(FRAME) if hair_px[x, y][3]},
+                        key=lambda c: sum(c))
+        rank = {c: round(i * (len(crown) - 1) / max(1, len(shades) - 1)) for i, c in enumerate(shades)}
+        cap_px = []
+        for y in range(top, min(line, FRAME)):
+            for x in range(FRAME):
+                r, g, b, a = hair_px[x, y]
+                if a and px[ox + x, y][:3] == (r, g, b):
+                    px[ox + x, y] = (*crown[rank[(r, g, b)]], 255)
+                    cap_px.append((x, y))
+        if lying or not cap_px:
+            continue
+        if view == "side":
+            front = max(x for x, y in cap_px if y >= line - 2)
+            length = int(spec.get("brim_length", 5))
+            for x in range(front + 1, front + length + 1):
+                tip = x == front + length
+                px[ox + x, line - 2] = (*outline, 255)
+                px[ox + x, line - 1] = (*(outline if tip else brim[-2]), 255)
+                px[ox + x, line] = (*(outline if tip else brim[1]), 255)
+                px[ox + x, line + 1] = (*outline, 255)
+            if badge:
+                px[ox + front - 2, line - 4] = (*badge, 255)
+        else:
+            xs = [x for x, y in cap_px if y >= line - 2]
+            for x in range(min(xs) - 1, max(xs) + 2):
+                px[ox + x, line - 1] = (*brim[-2], 255)
+                px[ox + x, line] = (*brim[1], 255)
+                px[ox + x, line + 1] = (*outline, 255)
+            if badge:
+                px[ox + (min(xs) + max(xs)) // 2, line - 4] = (*badge, 255)
+
+
 def build_character(
     lpc: Lpc, char_id: str, recipe: dict, game_anims: dict, allowed: list[str], poses: dict | None = None
 ) -> dict:
@@ -357,6 +420,8 @@ def build_character(
         frames = anim.get("frames", cycle)
         row_index = RIGHT_ROW if row_count == 4 else 0
         strip = Image.new("RGBA", (FRAME * len(frames), FRAME), (0, 0, 0, 0))
+        hair_cells: list = [None] * len(frames)
+        head_cells: list = [None] * len(frames)
         for _, _, definition, layer, item in layers:
             if anim["lpc"] not in definition.get("animations", []) and folder not in definition.get("animations", []):
                 if item.get("optional_animations"):
@@ -381,6 +446,12 @@ def build_character(
                     raise BuildError(f"{char_id}: {rel} has no frame {frame}")
                 cell = image.crop((frame * FRAME, row_index * FRAME, (frame + 1) * FRAME, (row_index + 1) * FRAME))
                 strip.alpha_composite(cell, (i * FRAME, 0))
+                if definition.get("type_name") == "hair":
+                    hair_cells[i] = cell
+                elif definition.get("type_name") == "head":
+                    head_cells[i] = cell
+        if recipe.get("cap"):
+            apply_cap(strip, hair_cells, head_cells, recipe["cap"], "side" if row_count == 4 else "front")
         rows.append((game_name, strip, len(frames), anim))
 
     credits = []

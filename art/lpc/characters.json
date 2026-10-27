@@ -2387,6 +2387,86 @@
           }
         }
       ]
+    },
+    "hero_riku": {
+      "role": "hero",
+      "body_type": "male",
+      "layers": [
+        {
+          "def": "body/body.json",
+          "recolor": {
+            "color": "ulpc.light"
+          }
+        },
+        {
+          "def": "head/heads/human/heads_human_male.json",
+          "recolor": {
+            "color_1": "ulpc.light"
+          }
+        },
+        {
+          "def": "feet/shoes/feet_shoes_basic.json",
+          "recolor": {
+            "color": "ulpc.white"
+          }
+        },
+        {
+          "def": "legs/pants/legs_cuffed.json",
+          "recolor": {
+            "color": "ulpc.charcoal"
+          }
+        },
+        {
+          "def": "torso/shirts/shortsleeve/torso_clothes_tshirt.json",
+          "recolor": {
+            "color": "ulpc.white"
+          }
+        },
+        {
+          "def": "torso/shirts/longsleeve/torso_clothes_longsleeve2_cardigan.json",
+          "recolor": {
+            "color": [
+              "#1d0f1a",
+              "#5a1236",
+              "#9a1b55",
+              "#d92a78",
+              "#f2589b",
+              "#ff94c2"
+            ]
+          }
+        },
+        {
+          "def": "headwear/neck/neck_necklace_chain.json",
+          "variant": "gold"
+        },
+        {
+          "def": "hair/short/hair_plain.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        }
+      ],
+      "cap": {
+        "crown": [
+          "#2a2632",
+          "#8e889c",
+          "#c6c3d2",
+          "#e2e0ea",
+          "#f4f3f8",
+          "#ffffff"
+        ],
+        "brim": [
+          "#1d0f1a",
+          "#5a1236",
+          "#9a1b55",
+          "#d92a78",
+          "#f2589b",
+          "#ff94c2"
+        ],
+        "badge": "#f2c14a",
+        "depth": 9,
+        "brim_length": 5
+      }
     }
   }
 }

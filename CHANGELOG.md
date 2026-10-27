@@ -4,21 +4,20 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
-### Changed: Riku has new art, drawn by code
-- Riku the Boxer has been redesigned from scratch. The art is original and comes from
-  `tools/assets/gen_hero.py` (MIT); the owner-supplied sheets are no longer used.
-- His outfit is a streetwear set:
+### Changed: Riku has a new streetwear look, built from LPC
+- Riku the Boxer is now built from LPC parts like the other heroes, so he has the same
+  proportions and face style as the team.
+- His outfit:
   - a white snapback with a hot-pink brim and a gold badge;
-  - an oversized hot-pink bomber over a white tee, with a gold chain;
-  - charcoal joggers with a white side stripe;
-  - chunky white sneakers and fingerless gloves.
-- **How it is drawn:**
-  - A 2D skeleton is posed for every frame. Each body part and garment is drawn at 4x
-    with cel shading, sampled down to one colour per pixel, and outlined at game size.
-  - Every animation has its own poses: guard idle, walk, jab, cross, stab, hurt, a full
-    knock-down to the ground, and a duck.
-  - Weapon hand sockets come straight from the skeleton.
-- `validate.py` checks that the committed sheet and hand sheet match the generator.
+  - a hot-pink open top over a white tee, with a gold chain;
+  - charcoal cuffed pants and white shoes.
+- The owner-supplied sheets are no longer used.
+- **Two new recipe options in `lpc_build.py`** restyle LPC parts without adding frames:
+  - A recolour can give its own palette (hex colours, darkest first), for colours LPC
+    lacks, such as hot pink.
+  - `"cap"` turns the top of the hair layer into a snapback, shade for shade. The brim
+    goes at the front in side views and along the crown in front views; it is left off
+    when the hero lies on the ground.
 
 ### Added — City map
 - **Map tab** in the pause window; **M** (gamepad: press the right stick) opens and
