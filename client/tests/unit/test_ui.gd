@@ -67,7 +67,7 @@ func test_title_menu_without_a_save() -> void:
 	var texts: Array[String] = []
 	for button: Button in title.find_children("*", "Button", true, false):
 		texts.append(button.text)
-	assert_eq(texts, ["New game", "Characters", "Credits"], "title menu")
+	assert_eq(texts, ["New game", "Gallery", "Credits"], "title menu")
 	var owner := tree.root.gui_get_focus_owner()
 	assert_true(owner is Button and (owner as Button).text == "New game", "New game focused")
 	_check_layout(title.get_node("Ui"), "title")
@@ -353,3 +353,37 @@ func test_loot_shows_the_item_icon_name_and_rarity() -> void:
 	await tree.create_timer(0.35).timeout
 	assert_true(not is_instance_valid(loot), "collected loot flies off and is freed")
 	_done(game)
+
+
+func test_gallery_lists_every_character_and_item_and_fits() -> void:
+	var gallery: Control = load("res://scenes/tools/Gallery.tscn").instantiate()
+	tree.root.add_child(gallery)
+	await _settle()
+	var content := GameSession.content
+	for art_id: String in content.art:
+		if content.art[art_id]["status"] == "imported":
+			assert_true(gallery.buttons.has(art_id), "%s is in the roster" % art_id)
+	assert_eq(gallery.names["hero_riku"], "Riku Sato", "characters go by their names")
+	assert_eq(gallery.names["furnace_baron"], "The Furnace Baron", "enemies too")
+	var owner := tree.root.gui_get_focus_owner()
+	assert_true(owner != null and gallery.is_ancestor_of(owner), "something has focus")
+	assert_true(gallery.selected != "", "the focused character is on the stage")
+	(gallery.buttons["hero_riku"] as Button).grab_focus()
+	await _settle()
+	assert_eq(gallery.selected, "hero_riku", "focus picks a character")
+	var heavy: Button = gallery.find_child("Anim_heavy", true, false)
+	heavy.pressed.emit()
+	var stage: SpriteView = gallery.find_child("Stage", true, false)
+	assert_eq(stage.sprite.animation, &"heavy", "a move plays on the stage")
+	for name: String in ["Tabs", "Stage", "Animations"]:
+		var control: Control = gallery.find_child(name, true, false)
+		assert_true(SCREEN.grow(1).encloses(control.get_global_rect()), "%s fits" % name)
+	gallery.tabs.current_tab = 1
+	await _settle()
+	for item_id: String in content.items:
+		assert_true(
+			gallery.find_child("Item_" + item_id, true, false) != null, "%s is shown" % item_id
+		)
+	assert_true(gallery.find_child("ItemDetails", true, false) != null, "an item card shows")
+	assert_true(gallery.find_child("Ground", true, false).get_child_count() == 1, "and how it lies")
+	gallery.free()

@@ -11,9 +11,10 @@ const SOURCES_SHOWN := 3
 
 
 ## The card's information, without buttons. `worn_slot` is set when showing
-## an equipped item (no comparison with itself).
+## an equipped item (no comparison with itself); `compare` false leaves out
+## the comparison with what is worn (the gallery).
 static func details(
-	content: ContentDB, profile: PlayerProfile, item_id: String, worn_slot := ""
+	content: ContentDB, profile: PlayerProfile, item_id: String, worn_slot := "", compare := true
 ) -> VBoxContainer:
 	var item := content.item(item_id)
 	var box := VBoxContainer.new()
@@ -50,7 +51,7 @@ static func details(
 		)
 	for line: Array in ItemText.effect_lines(item):
 		box.add_child(UiKit.label(line[0], UiTheme.SIZE_BODY, line[1]))
-	if item.get("type") == "equipment" and not worn_slot:
+	if item.get("type") == "equipment" and not worn_slot and compare:
 		var current := content.item(profile.equipment[item["slot"]])
 		var changes := ItemText.compare_lines(item, current)
 		var against := "Compared with %s" % current["name"] if current else "Slot is empty"

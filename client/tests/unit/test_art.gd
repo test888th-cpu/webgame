@@ -86,14 +86,7 @@ func test_hero_art_follows_armour() -> void:
 	SaveStore.path = SaveStore.DEFAULT_PATH
 
 
-func test_gallery_and_credits_build() -> void:
-	var gallery: Node = load("res://scenes/tools/Gallery.tscn").instantiate()
-	tree.root.add_child(gallery)
-	assert_true(
-		gallery.find_children("*", "AnimatedSprite2D", true, false).size() >= 6,
-		"gallery shows the characters"
-	)
-	gallery.free()
+func test_credits_build() -> void:
 	var text := CreditsText.build(GameSession.content)
 	assert_true(text.contains("OGA-BY"), "credits name licences")
 	assert_true(text.contains("Stephen Challener"), "credits name LPC authors")

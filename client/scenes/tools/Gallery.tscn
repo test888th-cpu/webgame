@@ -2,5 +2,5 @@
 
 [ext_resource type="Script" path="res://scenes/tools/Gallery.gd" id="1_gallery"]
 
-[node name="Gallery" type="Node2D"]
+[node name="Gallery" type="Control"]
 script = ExtResource("1_gallery")
