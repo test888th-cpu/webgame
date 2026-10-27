@@ -94,7 +94,7 @@ static func status(game: Game) -> Control:
 			UiTheme.TEXT_DIM
 		)
 	)
-	var go := UiKit.button("Equipment  >", GameMenus.switch_tab.bind(game, GameMenus.TAB_BAG))
+	var go := UiKit.button("Bag  >", game.open_screen.bind("bag"))
 	go.size_flags_horizontal = Control.SIZE_SHRINK_END
 	right.add_child(go)
 	return columns

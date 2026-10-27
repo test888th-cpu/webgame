@@ -130,7 +130,7 @@ func test_pause_menu_and_inventory_equip() -> void:
 	game.open_pause()
 	assert_eq(game.menu_name, "pause", "paused")
 	game.open_inventory()
-	assert_eq(game.menu_name, "inventory", "inventory open")
+	assert_eq(game.menu_name, "bag", "bag open")
 	var power: float = game.zone.hero.power
 	game._equip("taped_knuckles")
 	assert_true(game.zone.hero.power > power, "equipping raises the hero's power right away")

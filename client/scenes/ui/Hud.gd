@@ -14,12 +14,23 @@ signal slot_pressed(index: int)
 ## The AUTO switch was clicked or tapped.
 signal auto_pressed
 ## The map strip was clicked or tapped.
-signal map_pressed
+signal menu_pressed(name: String)
 
 ## How long "GO >>" blinks after a cleared fight.
 const GO_SECONDS := 4.0
 const TOAST_SECONDS := 2.4
 const BAR_WIDTH := 118.0
+## The menu bar's buttons: screen id, icon, tooltip.
+const MENU_BAR := [
+	["character", "menu_character", "Character (C)"],
+	["bag", "menu_bag", "Bag (B)"],
+	["quests", "menu_quests", "Quests (O)"],
+	["map", "menu_map", "Map (M)"],
+	["settings", "menu_settings", "Settings"],
+]
+const MENU_BUTTON := Vector2(20, 20)
+## Degrees a second the AUTO arrows turn while auto battle runs.
+const AUTO_SPIN := 180.0
 
 var zone: ZoneSim
 var profile: PlayerProfile
@@ -58,8 +69,9 @@ var _banner_level: Label
 var _banner_detail: Label
 var _banner_left := 0.0
 var _auto_button: Button
-var _auto_status: Label
-var _auto_summary: Label
+var _auto_spin: TextureRect
+var _auto_label: Label
+var _menu_bar: HBoxContainer
 var _world_boss: Label
 
 
@@ -106,6 +118,9 @@ func attach(p_zone: ZoneSim, p_profile: PlayerProfile, p_content: ContentDB) -> 
 		_hotbar.offset_top = -4
 		_hotbar.slot_pressed.connect(slot_pressed.emit)
 		get_node("Root").add_child(_hotbar)
+	if _menu_bar == null:
+		_build_menu_bar(get_node("Root"))
+		_auto_spin.texture = UiKit.icon(content, "menu_auto")
 
 
 ## Flashes hotbar slot `index`: used (accepted) or refused.
@@ -175,6 +190,8 @@ func _process(delta: float) -> void:
 		_toast_left -= delta
 		_toast.modulate.a = clampf(_toast_left / 0.4, 0.0, 1.0)
 		_toast.visible = _toast_left > 0.0
+	if _auto_spin.has_meta("on") and _auto_spin.get_meta("on"):
+		_auto_spin.rotation_degrees = fmod(_auto_spin.rotation_degrees + AUTO_SPIN * delta, 360.0)
 	_fps.visible = GameSession.settings.get("show_fps", false)
 	if _fps.visible:
 		_fps.text = "%d fps" % Engine.get_frames_per_second()
@@ -261,7 +278,7 @@ func _build_top_right(root: Control) -> void:
 	_mini = MiniMap.new()
 	_mini.name = "MiniMap"
 	_mini.size_flags_horizontal = Control.SIZE_SHRINK_END
-	_mini.pressed.connect(map_pressed.emit)
+	_mini.pressed.connect(menu_pressed.emit.bind("map"))
 	column.add_child(_mini)
 	_world_boss = UiKit.overlay_label("", UiTheme.SIZE_SMALL, UiTheme.GOLD)
 	_world_boss.name = "WorldBoss"
@@ -357,46 +374,68 @@ func _build_hints(root: Control) -> void:
 	root.add_child(more)
 
 
-## The AUTO switch: lit while auto battle runs, with what it is doing and
-## what this session has won; dimmed where auto is not allowed yet.
+## The game's screens, one small icon button each, bottom right above the
+## hints. The keys are in the tooltips, so the bar stays small.
+func _build_menu_bar(root: Control) -> void:
+	_menu_bar = HBoxContainer.new()
+	_menu_bar.name = "MenuBar"
+	_menu_bar.add_theme_constant_override("separation", 2)
+	_menu_bar.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
+	_menu_bar.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	_menu_bar.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	_menu_bar.offset_right = -6
+	_menu_bar.offset_bottom = -20
+	root.add_child(_menu_bar)
+	for entry: Array in MENU_BAR:
+		var button := Button.new()
+		button.name = "Menu_" + str(entry[0])
+		button.icon = UiKit.icon(content, entry[1])
+		button.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		button.tooltip_text = entry[2]
+		button.focus_mode = Control.FOCUS_NONE
+		button.custom_minimum_size = MENU_BUTTON
+		_style_round(button, false)
+		button.pressed.connect(menu_pressed.emit.bind(entry[0]))
+		_menu_bar.add_child(button)
+
+
+## The AUTO switch: a round button whose arrows turn and glow while auto
+## battle runs and fade where it cannot start (pressing it then says why).
 func _build_auto(root: Control) -> void:
 	var column := VBoxContainer.new()
 	column.name = "Auto"
-	column.position = Vector2(6, 88)
-	column.add_theme_constant_override("separation", 1)
+	column.position = Vector2(8, 88)
+	column.add_theme_constant_override("separation", 0)
 	root.add_child(column)
-	var line := HBoxContainer.new()
-	line.add_theme_constant_override("separation", 4)
-	column.add_child(line)
 	_auto_button = Button.new()
 	_auto_button.name = "AutoButton"
-	_auto_button.text = "AUTO"
 	_auto_button.focus_mode = Control.FOCUS_NONE
-	_auto_button.custom_minimum_size = Vector2(44, 16)
-	_auto_button.add_theme_font_size_override("font_size", UiTheme.SIZE_SMALL)
+	_auto_button.custom_minimum_size = Vector2(24, 24)
+	_auto_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	_auto_button.pressed.connect(auto_pressed.emit)
-	line.add_child(_auto_button)
-	line.add_child(UiKit.key_hint("T", ""))
-	_auto_status = UiKit.overlay_label("", UiTheme.SIZE_CAPTION, UiTheme.TEAL)
-	_auto_status.name = "AutoStatus"
-	column.add_child(_auto_status)
-	_auto_summary = UiKit.overlay_label("", UiTheme.SIZE_CAPTION, UiTheme.TEXT_DIM)
-	column.add_child(_auto_summary)
+	column.add_child(_auto_button)
+	_auto_spin = TextureRect.new()
+	_auto_spin.name = "Spin"
+	_auto_spin.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_auto_spin.size = Vector2(16, 16)
+	_auto_spin.position = Vector2(4, 4)
+	_auto_spin.pivot_offset = Vector2(8, 8)
+	_auto_button.add_child(_auto_spin)
+	_auto_label = UiKit.overlay_label("AUTO", UiTheme.SIZE_CAPTION, UiTheme.TEXT_DIM)
+	_auto_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	column.add_child(_auto_label)
 	_style_auto(false)
 
 
-## Shows auto battle's state: on (lit, with status) or off; `allowed` dims
-## the switch where it cannot start (pressing it then says why).
+## Shows auto battle's state: lit and turning while on, faded where it is not
+## allowed. The run's tally sits in the tooltip, out of the way.
 func show_auto(auto: AutoBattle, allowed: bool) -> void:
 	_style_auto(auto.on)
 	_auto_button.modulate.a = 1.0 if allowed else 0.45
-	_auto_button.tooltip_text = "" if allowed else auto.problem()
-	_auto_status.visible = auto.on
-	_auto_summary.visible = auto.on
-	if auto.on:
-		var dots := ".".repeat(1 + int(Time.get_ticks_msec() / 400) % 3)
-		_auto_status.text = "AUTO  %s%s" % [auto.pilot.status, dots]
-		_auto_summary.text = auto.summary()
+	_auto_label.modulate.a = _auto_button.modulate.a
+	_auto_button.tooltip_text = (
+		"Auto battle (T)\n" + auto.summary() if auto.on else "Auto battle (T)"
+	)
 
 
 ## The world boss attempt's clock and what is left of the pool ("" hides it).
@@ -406,21 +445,32 @@ func show_world_boss(text: String) -> void:
 
 
 func _style_auto(on: bool) -> void:
-	if _auto_button.has_meta("on") and bool(_auto_button.get_meta("on")) == on:
+	if _auto_spin.has_meta("on") and bool(_auto_spin.get_meta("on")) == on:
 		return
-	_auto_button.set_meta("on", on)
-	var style := StyleBoxFlat.new()
-	style.bg_color = UiTheme.ACCENT if on else Color(0.06, 0.06, 0.1, 0.78)
-	style.border_color = UiTheme.ACCENT
-	style.set_border_width_all(1)
-	style.set_corner_radius_all(2)
-	style.set_content_margin_all(2)
-	for state: String in ["normal", "hover", "pressed"]:
-		_auto_button.add_theme_stylebox_override(state, style)
-	var text := UiTheme.BG if on else UiTheme.ACCENT
-	for state: String in ["font_color", "font_hover_color", "font_pressed_color"]:
-		_auto_button.add_theme_color_override(state, text)
-	_auto_button.text = "AUTO ON" if on else "AUTO"
+	_auto_spin.set_meta("on", on)
+	_style_round(_auto_button, on)
+	_auto_spin.rotation_degrees = 0.0
+	_auto_spin.modulate = UiTheme.BG if on else Color.WHITE
+	_auto_label.add_theme_color_override("font_color", UiTheme.ACCENT if on else UiTheme.TEXT_DIM)
+
+
+## Round dark buttons with an accent rim; `lit` fills them with the accent.
+func _style_round(button: Button, lit: bool) -> void:
+	var states := {"normal": 0.0, "hover": 0.18, "pressed": -0.1}
+	for state: String in states:
+		var style := StyleBoxFlat.new()
+		var base := UiTheme.ACCENT if lit else Color(0.06, 0.06, 0.1, 0.78)
+		style.bg_color = (
+			base.lightened(states[state]) if states[state] > 0 else base.darkened(-states[state])
+		)
+		style.border_color = UiTheme.ACCENT if lit or state == "hover" else UiTheme.TEXT_FAINT
+		style.set_border_width_all(1)
+		style.set_corner_radius_all(int(button.custom_minimum_size.x / 2))
+		style.set_content_margin_all(2)
+		if lit:
+			style.shadow_color = Color(UiTheme.ACCENT, 0.5)
+			style.shadow_size = 3
+		button.add_theme_stylebox_override(state, style)
 
 
 func _build_vignette(root: Control) -> void:

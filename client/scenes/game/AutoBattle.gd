@@ -41,7 +41,7 @@ func problem() -> String:
 
 func toggle() -> void:
 	if on:
-		stop("Auto battle off")
+		stop("Auto off")
 		return
 	var why := problem()
 	if why:
@@ -57,7 +57,7 @@ func toggle() -> void:
 	_rest_ticks = 0
 	pilot = AutoPilot.new(_game.content)
 	Sfx.play("ui_select", -4.0)
-	_game.hud_toast("Auto battle on. Move or attack to take over at any time.")
+	_game.hud_toast("Auto on. Move or attack to take back control.")
 
 
 func stop(reason := "") -> void:
@@ -92,7 +92,7 @@ func after_step(events: Array[ZoneEvent]) -> void:
 				if event.data["kind"] == "money":
 					coins += int(event.data["amount"])
 			"hero_down":
-				stop("Knocked out. Auto battle off.")
+				stop("Knocked out. Auto off.")
 				return
 	if not on or not AutoRules.wants_rest(_game.zone, pilot):
 		_rest_ticks = 0
@@ -106,14 +106,14 @@ func after_step(events: Array[ZoneEvent]) -> void:
 ## The player (not the loop) moved to another area: auto stops there.
 func entered(area_id: String) -> void:
 	if on and not _travelling and area_id != farm_area:
-		stop("Auto battle off (new area)")
+		stop("New area. Auto off.")
 
 
 func _rest_and_return() -> void:
 	var content := _game.content
 	var cleared := pilot.status == AutoPilot.STATUS_CLEAR
 	if not GameSession.settings.get("auto_loop", true):
-		stop("Area clear. Auto battle off." if cleared else "Out of food. Auto battle off.")
+		stop("Area clear. Auto off." if cleared else "Out of food. Auto off.")
 		return
 	var home := content.start_area
 	var fare := maxi(0, AutoRules.fare(content, home))
@@ -123,7 +123,7 @@ func _rest_and_return() -> void:
 	var bought := AutoRules.restock(_game.profile, content, home, keep, fare)
 	if _game.profile.money < fare:
 		_travelling = false
-		stop("Not enough coins for the taxi back. Auto battle off.")
+		stop("Not enough coins for the ride back. Auto off.")
 		return
 	_game.profile.money -= fare
 	_game.enter_area(farm_area, "west")

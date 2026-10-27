@@ -53,7 +53,12 @@ func test_actions_have_keyboard_and_gamepad_bindings() -> void:
 		var kinds := {}
 		for event in InputMap.action_get_events(action):
 			kinds[event.get_class()] = true
-		var expected := ["InputEventKey", "InputEventJoypadButton"]
+		var expected := ["InputEventKey"]
+		# Keyboard-only screen keys: on a pad those screens are in the Start menu.
+		if InputSetup.PAD_BUTTONS.has(action):
+			expected.append("InputEventJoypadButton")
+		else:
+			assert_true(action in ["character", "bag", "quests"], "%s needs a pad button" % action)
 		if action.begins_with("move_"):
 			expected.append("InputEventJoypadMotion")
 		for kind in expected:

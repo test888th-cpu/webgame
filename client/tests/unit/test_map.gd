@@ -132,7 +132,7 @@ func test_validator_checks_districts_and_quest_areas() -> void:
 
 func test_map_tab_opens_on_the_hero_and_fits() -> void:
 	var game := _game()
-	game.open_pause(GameMenus.TAB_MAP)
+	game.open_screen("map")
 	await _settle()
 	assert_eq(game.menu_name, "map", "reported as the map")
 	for node in game.menu.find_children("*", "Control", true, false):

@@ -24,6 +24,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 import kit_import  # noqa: E402
 from custom_import import outlined  # noqa: E402
 from gear_icons import GEAR_ICONS  # noqa: E402
+from menu_icons import MENU_ICONS  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "client" / "assets" / "ui"
@@ -771,6 +772,7 @@ ICONS = {
     "slot_feet": slot_feet,
     "slot_charm": slot_charm,
     **GEAR_ICONS,
+    **MENU_ICONS,
 }
 
 
