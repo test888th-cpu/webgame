@@ -1,23 +1,31 @@
 class_name GameMenus
 extends RefCounted
-## Builds the in-game screens for Game.gd: the tabbed pause window (the Map
-## tab is MapTab), the shop,
-## NPC conversations and the knock-out screen. Screens only show the profile
-## and call back into Game's actions, which own every change; after an action
+## Builds the in-game screens for Game.gd. Each screen does one job, in its
+## own window with its icon, name, key and a close button:
+##   Character  who the hero is and what they can do (CharacterTabs.status)
+##   Bag        what is worn and carried (CharacterTabs.equipment)
+##   Quests     the quest log
+##   Map        where the hero is and where to go (MapTab)
+##   Settings   game options, auto battle and the controls
+## Esc opens the pause menu, which reaches every screen (the gamepad's way in)
+## and holds the session actions: return home, save, quit. Also the shop, NPC
+## conversations and the knock-out screen. Screens only show the profile and
+## call back into Game's actions, which own every change; after an action
 ## Game simply rebuilds the screen. All styling comes from UiTheme/UiKit.
 
-## Pause window tabs, and the menu name Game reports for each (the probe and
-## tests read it).
-const TABS := ["Status", "Equipment", "Quests", "Map", "Controls", "Game"]
-const TAB_MENU_NAMES := ["pause", "inventory", "quests", "map", "controls", "system"]
-const TAB_STATUS := 0
-const TAB_BAG := 1
-const TAB_QUESTS := 2
-const TAB_MAP := 3
-const WINDOW_SIZE := Vector2(600, 318)
+## Screen id -> [title, icon, toggle key, window size]. The id is also the
+## menu name Game reports (the probe and tests read it).
+const SCREENS := {
+	"character": ["Character", "menu_character", "C", Vector2(560, 300)],
+	"bag": ["Bag", "menu_bag", "B", Vector2(600, 318)],
+	"quests": ["Quests", "menu_quests", "O", Vector2(500, 300)],
+	"map": ["Map", "menu_map", "M", Vector2(600, 318)],
+	"settings": ["Settings", "menu_settings", "", Vector2(520, 300)],
+}
+const PAUSE_WIDTH := 190.0
 const SHOP_SIZE := Vector2(540, 304)
 const LIST_WIDTH := 180.0
-## Shown on the Controls tab: action, keyboard, gamepad.
+## Shown on Settings > Controls: action, keyboard, gamepad.
 const CONTROLS := [
 	["Move", "WASD / Arrows", "Left stick"],
 	["Light attack (combo)", "J / Z", "X / Square"],
@@ -27,9 +35,11 @@ const CONTROLS := [
 	["Talk, shop", "E / U", "B / Circle"],
 	["Eat (quick heal)", "H / Q", "RB / R1"],
 	["Auto battle on / off (areas you have cleared)", "T", "Back / Select"],
+	["Character", "C", "Start > Character"],
+	["Bag", "B", "Start > Bag"],
+	["Quests", "O", "Start > Quests"],
 	["Map", "M", "Right stick (press)"],
-	["Menu", "Esc / P", "Start"],
-	["Menu tabs", "Q  E", "LB  RB"],
+	["Pause menu", "Esc / P", "Start"],
 ]
 const STATE_TAGS := {
 	"active": ["In progress", UiTheme.TEAL],
@@ -38,39 +48,70 @@ const STATE_TAGS := {
 }
 
 
-static func pause(game: Game, tab: int) -> Control:
-	var parts := UiKit.window("Paused", WINDOW_SIZE, "Q E  Tabs     Esc  Resume")
-	var tabs := TabContainer.new()
-	tabs.name = "Tabs"
-	tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	# Focus stays on the tab's content; Q/E (LB/RB) switch tabs.
-	tabs.get_tab_bar().focus_mode = Control.FOCUS_NONE
-	parts["body"].add_child(tabs)
-	tabs.add_child(CharacterTabs.status(game))
-	tabs.add_child(CharacterTabs.equipment(game))
-	tabs.add_child(_quests(game))
-	tabs.add_child(MapTab.build(game))
-	tabs.add_child(_controls())
-	tabs.add_child(_system(game))
-	for i in TABS.size():
-		tabs.set_tab_title(i, TABS[i])
-	tabs.current_tab = tab
-	tabs.tab_changed.connect(
-		func(index: int) -> void:
-			game.menu_name = TAB_MENU_NAMES[index]
-			UiKit.focus_first(tabs.get_current_tab_control())
-	)
+## Screen `name` (a SCREENS id) in its own window.
+static func screen(game: Game, name: String) -> Control:
+	var spec: Array = SCREENS[name]
+	var parts := UiKit.screen(game.content, spec[0], spec[1], spec[2], spec[3], game.close_menu)
+	var page: Control
+	match name:
+		"character":
+			page = CharacterTabs.status(game)
+		"bag":
+			page = CharacterTabs.equipment(game)
+		"quests":
+			page = _quests(game)
+		"map":
+			page = MapTab.build(game)
+		_:
+			page = _settings(game)
+	page.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	parts["body"].add_child(page)
 	return parts["root"]
 
 
-## Switches the open pause window's tab by `step`, wrapping around.
-## Shows tab `tab` of the open pause window.
-static func switch_tab(game: Game, tab: int) -> void:
-	var tabs: TabContainer = game.menu.find_child("Tabs", true, false) if game.menu else null
-	if tabs:
-		tabs.current_tab = tab
+## The pause menu: back to the game, every screen, and the session actions.
+static func pause_menu(game: Game) -> Control:
+	var tutorial := not TutorialRules.is_done(game.profile, game.content)
+	var parts := UiKit.window("Paused", Vector2(PAUSE_WIDTH, 250 if tutorial else 232), "")
+	var body: VBoxContainer = parts["body"]
+	body.add_theme_constant_override("separation", 2)
+	body.add_child(_menu_item("Resume", "Esc", game.close_menu))
+	for name: String in SCREENS:
+		var spec: Array = SCREENS[name]
+		body.add_child(_menu_item(spec[0], spec[2], game.open_screen.bind(name)))
+	body.add_child(HSeparator.new())
+	var home := str(game.content.area(game.content.start_area).get("name", "home"))
+	var recall := _menu_item("Return to %s" % home, "", game._recall)
+	recall.name = "Recall"
+	var problem := game.zone.recall_problem()
+	recall.disabled = problem != ""
+	recall.tooltip_text = problem
+	body.add_child(recall)
+	body.add_child(_menu_item("Save game", "", game._save_game))
+	body.add_child(_menu_item("Save and quit to title", "", game._quit_to_title))
+	if tutorial:
+		body.add_child(_menu_item("Skip tutorial", "", game.skip_tutorial))
+	return parts["root"]
 
 
+## A compact pause-menu row: the action on the left, its key on the right.
+static func _menu_item(text: String, key: String, on_press: Callable) -> Button:
+	var button := UiKit.button(text, on_press)
+	button.name = text.replace(" ", "")
+	button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	button.add_theme_font_size_override("font_size", UiTheme.SIZE_SMALL)
+	button.custom_minimum_size = Vector2(PAUSE_WIDTH - 20, 15)
+	if key:
+		var cap := UiKit.label(key, UiTheme.SIZE_CAPTION, UiTheme.TEXT_FAINT)
+		cap.set_anchors_and_offsets_preset(Control.PRESET_CENTER_RIGHT)
+		cap.offset_left = -24
+		cap.offset_right = -6
+		cap.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		button.add_child(cap)
+	return button
+
+
+## Moves the open screen's tabs (Settings) by `step`, wrapping around.
 static func cycle_tab(menu: Control, step: int) -> void:
 	var tabs: TabContainer = menu.find_child("Tabs", true, false)
 	if tabs:
@@ -162,57 +203,41 @@ static func _controls() -> Control:
 	return grid
 
 
-static func _system(game: Game) -> Control:
-	var column := VBoxContainer.new()
-	column.name = "Game"
-	column.add_theme_constant_override("separation", UiTheme.GAP)
-	var buttons := VBoxContainer.new()
-	buttons.custom_minimum_size.x = 160
-	buttons.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
-	buttons.add_child(UiKit.button("Resume", game.close_menu))
-	var home := str(game.content.area(game.content.start_area).get("name", "home"))
-	var recall := UiKit.button("Return to %s" % home, game._recall)
-	recall.name = "Recall"
-	var problem := game.zone.recall_problem()
-	recall.disabled = problem != ""
-	buttons.add_child(recall)
-	if problem and game.zone.area_id != game.content.start_area:
-		buttons.add_child(UiKit.label(problem, UiTheme.SIZE_SMALL, UiTheme.TEXT_FAINT))
-	buttons.add_child(UiKit.button("Save game", game._save_game))
-	buttons.add_child(UiKit.button("Save and quit to title", game._quit_to_title))
-	if not TutorialRules.is_done(game.profile, game.content):
-		buttons.add_child(UiKit.button("Skip tutorial", game.skip_tutorial))
-	# Buttons on the left, settings on the right, so the tab fits the window.
-	var halves := HBoxContainer.new()
-	halves.add_theme_constant_override("separation", UiTheme.PAD * 2)
-	column.add_child(halves)
-	halves.add_child(buttons)
-	halves.add_child(VSeparator.new())
-	var settings := VBoxContainer.new()
-	settings.add_theme_constant_override("separation", UiTheme.GAP)
-	settings.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	halves.add_child(settings)
-	var options := UiKit.section("Options")
-	settings.add_child(options)
-	options.add_child(_toggle("Screen shake on heavy hits", "screen_shake"))
-	options.add_child(_toggle("Show frame rate", "show_fps"))
-	options.add_child(_volume())
-	settings.add_child(_auto_options())
-	column.add_child(
+## Settings: game options, auto battle and the controls, one tab each.
+static func _settings(_game: Game) -> Control:
+	var tabs := TabContainer.new()
+	tabs.name = "Tabs"
+	tabs.get_tab_bar().focus_mode = Control.FOCUS_NONE
+	var game_tab := VBoxContainer.new()
+	game_tab.name = "Game"
+	game_tab.add_theme_constant_override("separation", UiTheme.GAP)
+	game_tab.add_child(_toggle("Screen shake on heavy hits", "screen_shake"))
+	game_tab.add_child(_toggle("Show frame rate", "show_fps"))
+	game_tab.add_child(_volume())
+	game_tab.add_child(
 		UiKit.label(
 			"Progress also saves on its own when you change area, shop or hand in a quest.",
 			UiTheme.SIZE_SMALL,
 			UiTheme.TEXT_FAINT,
-			420
+			440
 		)
 	)
-	return column
+	tabs.add_child(game_tab)
+	tabs.add_child(_auto_options())
+	tabs.add_child(_controls())
+	for i in ["Game", "Auto battle", "Controls"].size():
+		tabs.set_tab_title(i, ["Game", "Auto battle", "Controls"][i])
+	tabs.tab_changed.connect(
+		func(_index: int) -> void: UiKit.focus_first(tabs.get_current_tab_control())
+	)
+	return tabs
 
 
 ## Auto battle settings: when to eat, the farm loop, food to keep stocked.
 static func _auto_options() -> Control:
-	var box := UiKit.section("Auto battle")
+	var box := VBoxContainer.new()
 	box.name = "AutoOptions"
+	box.add_theme_constant_override("separation", UiTheme.GAP)
 	box.add_child(
 		_cycle("Eat when health is below", "auto_heal_at", AutoBattle.HEAL_CHOICES, "%d%%", 100.0)
 	)

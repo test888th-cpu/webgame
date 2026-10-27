@@ -90,7 +90,7 @@ func test_the_game_teaches_as_you_play() -> void:
 	await tree.process_frame  # the HUD redraws each frame
 	var hud_text := _texts(game)
 	assert_true(hud_text.contains("TUTORIAL  2 /"), "the HUD shows the next step")
-	game.open_pause(GameMenus.TAB_STATUS)
+	game.open_pause()
 	game.skip_tutorial()
 	assert_true(TutorialRules.is_done(game.profile, game.content), "skipped from the menu")
 	game.free()

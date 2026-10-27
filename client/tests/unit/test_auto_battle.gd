@@ -234,7 +234,15 @@ func test_the_hud_switch_shows_its_state() -> void:
 	button.pressed.emit()
 	assert_true(game.auto.on, "pressing it turns auto on")
 	game._process(0.016)
-	assert_eq(button.text, "AUTO ON", "and it says so")
-	var status := game.find_child("AutoStatus", true, false) as Label
-	assert_true(status.visible and status.text.begins_with("AUTO"), "with what it is doing")
+	var spin := button.get_node("Spin") as TextureRect
+	assert_true(spin.texture != null, "the switch is an icon")
+	assert_eq(button.text, "", "with no words on it")
+	var hud: Node = game.get_node("Hud")
+	hud._process(0.1)
+	assert_true(spin.rotation_degrees > 0.0, "its arrows turn while auto runs")
+	assert_true(button.tooltip_text.contains("Run 1"), "the run's tally is in the tooltip")
+	button.pressed.emit()
+	game._process(0.016)
+	assert_true(not game.auto.on, "pressing again turns it off")
+	assert_eq(spin.rotation_degrees, 0.0, "and the arrows stop")
 	_done(game)

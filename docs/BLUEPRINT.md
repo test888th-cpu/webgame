@@ -61,7 +61,7 @@ Milestone ของ Master Prompt ใช้ชื่อ **IL-0 ถึง IL-7** 
 | Inventory, ร้านค้า 2 ร้าน (Ama, Kenji) | `ShopRules`, `shops.json` |
 | Quest แบบสายเดียว 6 ภารกิจ (กำจัดศัตรู), รับ/ส่ง/รางวัล | `QuestRules`, `quests.json` |
 | Save/Load ในเครื่อง: มี version (3), migrate ทีละขั้น, ทำความสะอาดค่า, เขียนแบบ atomic, IndexedDB บนเว็บ | `PlayerProfile.migrate`, `SaveStore`, `test_progression` |
-| UI: Title, สร้างตัวละคร, HUD, Hotbar, Pause แบบแท็บ, Status, Equipment, Item card เปรียบเทียบของ, Quest log, Dialog NPC | `scenes/ui`, `scenes/game`, `test_ui` |
+| UI: Title, สร้างตัวละคร, HUD, Hotbar, หน้าจอแยก (Character, Bag, Quests, Map, Settings) + เมนูหยุด, Status, Equipment, Item card เปรียบเทียบของ, Quest log, Dialog NPC | `scenes/ui`, `scenes/game`, `test_ui` |
 | Input: คีย์บอร์ด, เกมแพด, ทัชสกรีน | `InputSetup`, `TouchControls` |
 | เสียงเอฟเฟกต์ (สังเคราะห์ + บันทึกจริงพร้อมเครดิต), VFX, camera shake | `Sfx`, `GameFeedback`, `Fx` |
 | Web export single-thread + smoke test ใน CI | `.github/workflows/ci.yml`, `tools/web-smoke/smoke.ts` |
@@ -237,7 +237,7 @@ XP/เงิน/ของ (`LootRules`, `LevelRules`) → เปรียบเ�
 - แก้ B2: บอสดรอปของประจำตัวแบบโอกาส (เช่น legendary 8–15%) และรับประกัน **วัตถุดิบบอส** แทน
   ต้องมี "ของรางวัลภารกิจ" ครั้งแรกที่ชนะบอส เพื่อให้ผู้เล่นทุกคนได้ของที่จำเป็นต่อเนื้อเรื่อง
 - วัตถุดิบ: ไอเท็มชนิดใหม่ `"type": "material"` ใน `items.json` เก็บใน inventory เดิม (ไม่ต้องเปลี่ยนเซฟ)
-- ตีบวก +0 ถึง +10 (IL-3, **ทำแล้ว**: เซฟ v5, ล้มเหลวไม่ลดระดับเลย ไม่ใช่แค่ถึง +5, pity +5%/ครั้ง): เก็บเป็น `enhance: {slot: level}` ใน `PlayerProfile` (ค่าเริ่ม 0)
+- ตีบวก +0 ถึง +10 (IL-3, **ทำแล้ว**: เซฟ v5, ล้มเหลวไม่ลดระดับเลย ไม่ใช่แค่ถึง +5, pity +5%/ครั้ง): เก็บเป็น `enhance: {item_id: level}` ใน `PlayerProfile` (ค่าเริ่ม 0; เซฟ v9 ย้ายจากรายช่องมาเป็นรายไอเท็ม ถอดของออกแล้วระดับติดไปกับของ)
   - ใช้เงิน + วัตถุดิบ, แสดงอัตราสำเร็จก่อนกด, ล้มเหลวเสียแค่วัตถุดิบ/เงิน ไม่ทำลายไอเท็ม ไม่ลดระดับจนถึง +5
   - กฎอยู่ใน `sim/EnhanceRules.gd` (pure function + RNG ที่ส่งเข้าไป) ทำงานแบบ transaction: ตรวจ → หัก → สุ่ม → บันทึก → เซฟ ในการเรียกครั้งเดียว ปุ่มถูกปิดจนกว่าเซฟเสร็จ (กันกดรัว)
   - ออนไลน์ภายหลัง: กฎเดียวกันย้ายไปรันที่ server ได้ทันที

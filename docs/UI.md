@@ -11,8 +11,8 @@ in diffs and checked by tests.
 | Visual language | `client/scenes/ui/UiTheme.gd` | Palette, type scale, spacing, and the styles of every control type. Merged into the project theme at startup by `GameSession`, so every Control (also under CanvasLayers) uses it. |
 | Building blocks | `client/scenes/ui/UiKit.gd` | `label`, `button`, `menu_button`, `window`, `dialog`, `section`, `row`, `key_hint`, `icon`/`icon_rect`, `portrait`, `focus_first`. Screens are assembled from these. |
 | Bars | `client/scenes/ui/StatBar.gd` | HP/energy/XP/boss bars, drawn directly, with a damage trail. |
-| HUD | `client/scenes/ui/Hud.gd`, `HeroPortrait.gd` | Hero card (portrait in the hero's colour with a level badge, hit flash and low-HP pulse; name and role), coins, area, map strip (`MiniMap.gd`: the district's areas as dots with the hero and the goal, and this area's remaining fights, shut gate and the hero's place; tap to open the map), tracked quest, boss bar, notifications, key hints, touch controls. Reads state only. |
-| Game screens | `client/scenes/game/GameMenus.gd` | Pause window (Status, Equipment, Quests, Map, Controls, Game tabs), shop, NPC conversation, knock-out screen. Shows the profile and calls back into `Game.gd`, which owns every change and rebuilds the screen afterwards. |
+| HUD | `client/scenes/ui/Hud.gd`, `HeroPortrait.gd` | Hero card (portrait in the hero's colour with a level badge, hit flash and low-HP pulse; name and role), coins, area, map strip (`MiniMap.gd`: the district's areas as dots with the hero and the goal, and this area's remaining fights, shut gate and the hero's place; tap to open the map), tracked quest, boss bar, notifications, key hints, touch controls. Bottom right, a menu bar of five 20x20 icon buttons (Character, Bag, Quests, Map, Settings; the key is in the tooltip). Left, under the weapon, the AUTO switch: a round icon button with a small AUTO caption; while auto battle runs it fills with the accent, glows and its arrows turn, and the run's tally is in its tooltip. It fades where auto cannot start, and pressing it then says why in a toast. No status text on the HUD. Reads state only. |
+| Game screens | `client/scenes/game/GameMenus.gd` | One window per job, each with its icon, name, key and a × close button (`UiKit.screen`): Character (C), Bag (B), Quests (O), Map (M), Settings (Game, Auto battle, Controls). A screen's key or menu-bar button toggles it, and one screen replaces another. Esc opens the pause menu: Resume, every screen, return home, save, save and quit (and skip tutorial). Also the shop, NPC conversation, knock-out screen. Shows the profile and calls back into `Game.gd`, which owns every change and rebuilds the screen afterwards. |
 | Character tabs | `client/scenes/game/CharacterTabs.gd` | Status: hero card (sprite, HP/energy/XP), attributes as total + gear bonus with a line of help each, next level, record. Equipment: six worn slots around the hero (turnable), stats summary, bag grid. |
 | Map | `client/scenes/game/MapTab.gd`, `client/scenes/ui/MapNode.gd`, `client/sim/MapRules.gd` | Where the hero is (area, level, district and place in it) and the goal (the tracked quest's area, its giver once done, or the next quest's giver). One row per district, one box per area: level in its threat colour, orange where the hero stands, teal frame for a town, red corner for a boss (green when beaten), gold dot for the goal. Only areas reached and the next one east are named; the rest show `???`. Walking the boxes shows what is known of each area (services, boss, why its gate is shut). M (right stick press) opens and closes it. Read-only: travel stays with the taxi. |
 | Items | `client/scenes/ui/ItemText.gd`, `ItemSlot.gd`, `ItemCard.gd` | Rarity colours and player-facing stat text; the bag/worn cell; the item card (icon, name, rarity and slot, level requirement, effects, comparison with what is worn, story, Equip/Unequip/Use/Discard with confirmation). The shop shows the same details. |
@@ -36,8 +36,9 @@ in diffs and checked by tests.
   container wraps every word onto its own line (the bug in the first title
   screen). `UiKit.label` only wraps when given `wrap_width`.
 - **Keyboard and gamepad first.** Every screen focuses its first control. W/S
-  (and the d-pad) move focus, Enter/A selects, Esc/Start closes, Q/E (LB/RB)
-  switch pause tabs, M opens the map. Lists act on Enter, so the cursor never has to leave them.
+  (and the d-pad) move focus, Enter/A selects, Esc/Start closes, C/B/O/M toggle their
+  screens, Q/E (LB/RB) switch the Settings tabs. On a gamepad Start opens the pause menu,
+  which reaches every screen. Lists act on Enter, so the cursor never has to leave them.
 - **Screens are rebuilt, not patched.** After buying, equipping or handing in,
   `Game` rebuilds the screen from the profile and restores the selection.
 - **The world pauses** while any menu is open.
@@ -50,7 +51,7 @@ in diffs and checked by tests.
 
 `client/tests/unit/test_ui.gd` opens the real screens at the 640x360 base size
 and fails when a visible panel, button or label is off screen, a wrapping label
-has no width, nothing has focus, the tab keys do not switch tabs, or the talk
+has no width, nothing has focus, a screen is missing its own window or close button, the HUD menu bar is not small icons, or the talk
 prompt shows away from an NPC. `tools/web-smoke/shots.ts` captures screenshots
 of a web export for visual review:
 

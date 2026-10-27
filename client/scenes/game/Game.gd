@@ -8,6 +8,8 @@ extends Node2D
 const READY_MARKER := "GAME_READY"
 const PROBE_INTERVAL := 0.1
 const UPGRADE_GAP_MS := 400
+## The screens with a key of their own (input action = screen id).
+const SCREEN_KEYS := ["character", "bag", "quests", "map"]
 
 var content: ContentDB
 var profile: PlayerProfile
@@ -63,10 +65,10 @@ func _ready() -> void:
 	_feedback = GameFeedback.new(content, _hud)
 	_hud.slot_pressed.connect(func(index: int) -> void: _clicked_slot = index)
 	_hud.auto_pressed.connect(func() -> void: auto.toggle())
-	_hud.map_pressed.connect(
-		func() -> void:
-			if not menu:
-				open_pause(GameMenus.TAB_MAP)
+	_hud.menu_pressed.connect(
+		func(name: String) -> void:
+			if not menu or menu_name == "pause" or GameMenus.SCREENS.has(menu_name):
+				open_screen(name)
 	)
 	enter_area(profile.area, "")
 	auto = AutoBattle.new(self)
@@ -112,21 +114,18 @@ func _physics_process(_delta: float) -> void:
 				close_item_card()
 		elif Input.is_action_just_pressed("pause"):
 			close_menu()
-		elif menu_name == "map" and Input.is_action_just_pressed("map"):
-			close_menu()
-		elif menu_name in GameMenus.TAB_MENU_NAMES:
-			if Input.is_action_just_pressed("menu_prev"):
-				GameMenus.cycle_tab(menu, -1)
-			elif Input.is_action_just_pressed("menu_next"):
-				GameMenus.cycle_tab(menu, 1)
+		elif menu_name == "pause" or GameMenus.SCREENS.has(menu_name):
+			if not _screen_key():
+				if Input.is_action_just_pressed("menu_prev"):
+					GameMenus.cycle_tab(menu, -1)
+				elif Input.is_action_just_pressed("menu_next"):
+					GameMenus.cycle_tab(menu, 1)
 		return
 	if Input.is_action_just_pressed("pause"):
 		Sfx.play("ui_select", -4.0)
 		open_pause()
 		return
-	if Input.is_action_just_pressed("map"):
-		Sfx.play("ui_select", -4.0)
-		open_pause(GameMenus.TAB_MAP)
+	if _screen_key():
 		return
 	if Input.is_action_just_pressed("auto_battle"):
 		auto.toggle()
@@ -362,16 +361,31 @@ func _show(name: String, screen: Control) -> void:
 		UiKit.focus_first(menu)
 
 
-func open_pause(tab := GameMenus.TAB_STATUS) -> void:
-	_show(GameMenus.TAB_MENU_NAMES[tab], GameMenus.pause(self, tab))
+## The pause menu (Esc / Start): back to the game, every screen, and saving.
+func open_pause() -> void:
+	_show("pause", GameMenus.pause_menu(self))
+
+
+## Opens screen `name` (GameMenus.SCREENS), or closes it if it is the one open.
+func open_screen(name: String) -> void:
+	if menu_name == name:
+		close_menu()
+		return
+	Sfx.play("ui_select", -4.0)
+	_show(name, GameMenus.screen(self, name))
 
 
 func open_inventory() -> void:
-	open_pause(GameMenus.TAB_BAG)
+	_show("bag", GameMenus.screen(self, "bag"))
 
 
-func open_quest_log() -> void:
-	open_pause(GameMenus.TAB_QUESTS)
+## A screen's key (C, B, O, M) toggles that screen. True when one was pressed.
+func _screen_key() -> bool:
+	for name: String in SCREEN_KEYS:
+		if Input.is_action_just_pressed(name):
+			open_screen(name)
+			return true
+	return false
 
 
 func open_shop(npc: Dictionary) -> void:
@@ -507,7 +521,8 @@ func _upgrade(slot: String) -> void:
 			Sfx.play("denied", -4.0)
 	zone.refresh_hero()
 	SaveStore.save(profile)
-	close_item_card()
+	# Rebuild the screen behind the card too, so the slot's "+N" is current.
+	_reopen_bag("worn:" + slot)
 	inspect_item(str(profile.equipment[slot]), slot)
 
 

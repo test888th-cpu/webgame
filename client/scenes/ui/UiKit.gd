@@ -87,7 +87,41 @@ static func window(title: String, size: Vector2, close_hint := "Esc  Close") -> 
 	body.add_theme_constant_override("separation", UiTheme.GAP)
 	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	column.add_child(body)
-	return {"root": root, "body": body, "frame": frame}
+	return {"root": root, "body": body, "frame": frame, "header": header}
+
+
+## A game screen (Character, Bag, Quests, Map, Settings): a window whose title
+## bar carries the screen's icon, its name, the key that toggles it and a
+## close button. Returns window()'s parts.
+static func screen(
+	content: ContentDB,
+	title: String,
+	icon_id: String,
+	key: String,
+	size: Vector2,
+	on_close: Callable
+) -> Dictionary:
+	var parts := window(title, size, "")
+	var header: HBoxContainer = parts["header"]
+	header.add_theme_constant_override("separation", 6)
+	var mark := icon_rect(content, icon_id)
+	mark.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	header.add_child(mark)
+	header.move_child(mark, 0)
+	if key:
+		var hint := key_hint(key, "")
+		hint.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		header.add_child(hint)
+	var close := Button.new()
+	close.name = "Close"
+	close.text = "×"
+	close.tooltip_text = "Close (Esc)"
+	close.focus_mode = Control.FOCUS_NONE
+	close.custom_minimum_size = Vector2(16, 16)
+	close.add_theme_font_size_override("font_size", UiTheme.SIZE_H2)
+	close.pressed.connect(on_close)
+	header.add_child(close)
+	return parts
 
 
 ## A titled block inside a window.

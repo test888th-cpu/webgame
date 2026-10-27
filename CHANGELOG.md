@@ -4,6 +4,28 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Fixed: upgrades stay with the item
+- Upgrades now belong to the **item**, not the equipment slot. Save v9 moves each
+  slot's level onto the item worn there. A +9 weapon taken off keeps its +9 in the
+  bag, and the empty slot no longer shows a +.
+- The worn slot's +N updates the moment an upgrade lands, without reopening the menu.
+- Thirty-four pieces of gear that borrowed another item's picture now have their own
+  icon (`tools/assets/gear_icons.py`).
+
+### Changed: every screen does one job
+- Character (C), Bag (B), Quests (O), Map (M) and Settings each open in their own
+  window with an icon, a key cap and a × button, instead of sharing one tabbed pause
+  window. A screen's key toggles it.
+- Esc opens a short pause menu: Resume, the five screens, return home, save, and
+  save and quit.
+- The HUD gets a small menu bar: five 20x20 icon buttons, bottom right, with the
+  key in each tooltip (`tools/assets/menu_icons.py`).
+- The AUTO switch is a small round icon button. It glows, and its arrows turn,
+  while auto battle runs. The status and tally text lines are gone from the HUD;
+  the tally sits in the tooltip.
+- Auto battle messages are shorter and plainer ("Auto on. Move or attack to take
+  back control.").
+
 ### Changed: weapon blows and throws raise the weapon beside the head
 - A new body animation, **`swing`**, plays for every weapon blow and throw:
   - bottle, plank, pipe, machete, chair, frying pan, wrench and bat;

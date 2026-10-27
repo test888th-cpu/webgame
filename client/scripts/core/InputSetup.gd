@@ -21,6 +21,9 @@ const KEYS := {
 	"pause": [KEY_ESCAPE, KEY_P],
 	"auto_battle": [KEY_T],
 	"map": [KEY_M],
+	"character": [KEY_C],
+	"bag": [KEY_B],
+	"quests": [KEY_O],
 	# Menu tabs. These share keys with interact and use_item, which do
 	# nothing while a menu is open.
 	"menu_prev": [KEY_Q],
@@ -91,9 +94,11 @@ func _init() -> void:
 			var key := InputEventKey.new()
 			key.physical_keycode = keycode
 			InputMap.action_add_event(action, key)
-		var button := InputEventJoypadButton.new()
-		button.button_index = PAD_BUTTONS[action]
-		InputMap.action_add_event(action, button)
+		# Screens without a button of their own are reached from the pause menu.
+		if PAD_BUTTONS.has(action):
+			var button := InputEventJoypadButton.new()
+			button.button_index = PAD_BUTTONS[action]
+			InputMap.action_add_event(action, button)
 		if PAD_AXES.has(action):
 			var motion := InputEventJoypadMotion.new()
 			motion.axis = PAD_AXES[action][0]

@@ -86,21 +86,59 @@ func test_title_menu_offers_continue_first_with_a_save() -> void:
 	_done(title)
 
 
-func test_every_pause_tab_fits_and_switches_with_the_tab_keys() -> void:
+func test_every_screen_has_its_own_window_and_fits() -> void:
 	var game := _game()
 	game.profile.add_item("steamed_bun", 3)
 	game.profile.add_item("taped_knuckles")
 	QuestRules.accept(game.profile, "clear_saltmarket", game.content)
-	game.open_pause()
-	for i in GameMenus.TABS.size():
+	for name: String in GameMenus.SCREENS:
+		game.open_screen(name)
 		await _settle()
-		assert_eq(game.menu_name, GameMenus.TAB_MENU_NAMES[i], "tab %d reported" % i)
-		_check_layout(game.menu, "pause tab " + GameMenus.TABS[i])
-		GameMenus.cycle_tab(game.menu, 1)
+		assert_eq(game.menu_name, name, "%s reported" % name)
+		_check_layout(game.menu, name + " screen")
+		assert_true(
+			game.menu.find_child("Tabs", true, false) == null or name == "settings", "one job"
+		)
+		assert_true(_texts(game.menu).contains(GameMenus.SCREENS[name][0]), "%s is titled" % name)
+		var close := game.menu.find_child("Close", true, false) as Button
+		close.pressed.emit()
+		assert_eq(game.menu_name, "", "%s closes with its x" % name)
+	game.open_screen("bag")
+	game.open_screen("bag")
+	assert_eq(game.menu_name, "", "a screen's key toggles it shut")
+	_done(game)
+
+
+func test_pause_menu_reaches_every_screen() -> void:
+	var game := _game()
+	game.open_pause()
 	await _settle()
-	assert_eq(game.menu_name, "pause", "wraps back to Status")
-	GameMenus.cycle_tab(game.menu, -1)
-	assert_eq(game.menu_name, "system", "and backwards")
+	assert_eq(game.menu_name, "pause", "paused")
+	_check_layout(game.menu, "pause menu")
+	assert_true(_focus_in(game), "something has focus")
+	for name: String in GameMenus.SCREENS:
+		var title: String = GameMenus.SCREENS[name][0]
+		var button := game.menu.find_child(title, true, false) as Button
+		assert_true(button != null, "pause lists %s" % title)
+	(game.menu.find_child("Map", true, false) as Button).pressed.emit()
+	assert_eq(game.menu_name, "map", "and opens it")
+	_done(game)
+
+
+func test_the_hud_menu_bar_opens_screens() -> void:
+	var game := _game()
+	await _settle()
+	var bar := game.find_child("MenuBar", true, false) as HBoxContainer
+	assert_true(bar != null, "a menu bar on the HUD")
+	assert_true(SCREEN.encloses(bar.get_global_rect()), "on screen")
+	for button: Button in bar.get_children():
+		assert_true(button.size.x <= 22 and button.size.y <= 22, "%s is small" % button.name)
+		assert_true(button.icon != null and button.text == "", "%s is an icon" % button.name)
+		assert_true(button.tooltip_text != "", "%s is explained on hover" % button.name)
+	(bar.get_node("Menu_quests") as Button).pressed.emit()
+	assert_eq(game.menu_name, "quests", "opens its screen")
+	(bar.get_node("Menu_map") as Button).pressed.emit()
+	assert_eq(game.menu_name, "map", "and switches straight to another")
 	_done(game)
 
 
@@ -139,7 +177,7 @@ func test_item_card_equips_and_the_stats_follow() -> void:
 	var worn: ItemSlot = game.menu.find_child("Worn_weapon", true, false)
 	assert_eq(worn.item_id, "taped_knuckles", "shown on the doll")
 	assert_true(tree.root.gui_get_focus_owner() == worn, "focus follows the item")
-	GameMenus.switch_tab(game, GameMenus.TAB_STATUS)
+	game.open_screen("character")
 	await _settle()
 	assert_true(_texts(game.menu).contains("(+15 gear)"), "status shows the gear bonus")
 	_done(game)

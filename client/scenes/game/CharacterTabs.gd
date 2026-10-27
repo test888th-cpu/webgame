@@ -94,7 +94,7 @@ static func status(game: Game) -> Control:
 			UiTheme.TEXT_DIM
 		)
 	)
-	var go := UiKit.button("Equipment  >", GameMenus.switch_tab.bind(game, GameMenus.TAB_BAG))
+	var go := UiKit.button("Bag  >", game.open_screen.bind("bag"))
 	go.size_flags_horizontal = Control.SIZE_SHRINK_END
 	right.add_child(go)
 	return columns
@@ -183,6 +183,7 @@ static func equipment(game: Game) -> Control:
 			var item_id := ids[i]
 			slot.name = "Bag_" + item_id
 			slot.show_item(content, item_id, profile.count(item_id), profile.level)
+			slot.upgrade = EnhanceRules.item_level(profile, item_id)
 			slot.pressed.connect(game.inspect_item.bind(item_id, ""))
 		else:
 			slot.focus_mode = Control.FOCUS_NONE
