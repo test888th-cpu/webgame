@@ -137,14 +137,15 @@ func test_elites_and_bosses_fight_above_their_area() -> void:
 
 func test_chapters_climb_their_level_bands() -> void:
 	# Chapter 1's streets run levels 1-10, Chapter 2's 11-16, Chapter 3's 19-24
-	# Chapter 4's 26-31 and Chapter 5's 33-39; their elites and bosses stand at
-	# most two higher.
+	# Chapter 4's 26-31, Chapter 5's 33-39 and the final chapter's 42-48 (its
+	# boss at the level cap); their elites and bosses stand at most two higher.
 	var bands := {
 		"gang_hq": [1, 10],
 		"crane_yard": [11, 16],
 		"factory_drains": [19, 24],
 		"sak_tower": [26, 31],
 		"control_room": [33, 39],
+		"core_chamber": [42, 48],
 	}
 	var street := StreetMemory.street(_content())
 	var low := 1

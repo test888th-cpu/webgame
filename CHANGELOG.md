@@ -4,6 +4,49 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — Final chapter: The Iron Legacy, and the Epilogue (IL-5: main story complete)
+- Four areas past the Control Room, open once Commander Arthit is down:
+  - **Core Approach** (level 42)
+  - **Cooling Tunnels** (44)
+  - **Reactor Walkway** (46)
+  - **The Core Chamber** (48)
+- **Dr. Pim** gives the last quests: The Last Door, Cooling Down, The Walkway and The
+  Iron Legacy. **Ama** brings South Street's supplies to the front line, selling level
+  42–44 gear, and Win's taxi waits at the approach.
+- New enemies: the **Core Sentinel** (elite machine Wiroj built to guard himself) and the
+  **Hybrid Brute** (the longest-exposed workers).
+- **Director Wiroj**, at the level cap (50), in three phases (story bible §4):
+  1. His own blows, each heavy one announced.
+  2. Below 70% health, the chamber's defences come up in turn: a steam vent, shocking
+     floor plates, a sweeping laser. He waits behind a shield, untouchable for 7
+     seconds, then the system resets for 5 seconds and he can be hit.
+  3. Below 30%, the defences fail and he fights desperately: long lunging heavies with
+     long recoveries to punish.
+- **Epilogue: A City That Remains**, shown after he falls: what became of Ama, Chief
+  Odo, Dr. Pim, Big Sak, Nattapong, Kraisorn, the night shift and the canal. The game
+  then goes on: farming, enhancing and levelling to 50.
+- Boss mechanics (`BossMechanics`):
+  - a `cycle` of hazards called in turn;
+  - per-phase `hazard` (`{}` turns them off);
+  - a per-phase `shield` with `up` and `down` ticks, untouchable and standing back while
+    up;
+  - the new hazard kind `shock`;
+  - a `boss_shield` event with a dome on the boss and toasts ("Defences up. Survive!" /
+    "System reset. Strike now!").
+  All are validated on load.
+- Balance: the Hybrid Brute uses a regular telegraphed slam. Subject 12's long lunge
+  stays his own, since in a crowd it took a quarter of the hero's health a hit.
+- XP pacing: a straight run keeps the hero within two levels of every area to the Core
+  Chamber.
+- Measured with the auto-battle pilot, hero one level above each area, no gear, 10 of
+  the food the loop would buy: 85 of 90 seeded runs clear from the Test Labs to the Core
+  Chamber. The final chapter is the hardest, as it should be. With no food, Wiroj ends a
+  close fight like every chapter boss before him.
+- Tests: the street ends in the Core Chamber; Wiroj fights at the cap; three distinct
+  phases; phase 1 without defences; the shield's rhythm (up, reset, up; no new hazards
+  while reset); the defences in turn; the last stand without them; the epilogue plays
+  and the game goes on.
+
 ### Added — Chapter 5: The Core Facility (IL-5)
 - Four areas past Rattanachai Tower, open once Big Sak is down:
   - **Core Facility Gate** (level 33)

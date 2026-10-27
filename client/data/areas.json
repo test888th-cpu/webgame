@@ -3622,6 +3622,15 @@
         "west": {
           "to": "machine_hall",
           "entry": "east"
+        },
+        "east": {
+          "to": "core_approach",
+          "entry": "west",
+          "requires": {
+            "defeat": "commander_arthit",
+            "count": 1,
+            "hint": "Commander Arthit still holds the Control Room. Beat him to go on."
+          }
         }
       },
       "weapons": {
@@ -3668,6 +3677,466 @@
             [
               "facility_trooper",
               "facility_trooper"
+            ]
+          ]
+        }
+      ],
+      "obstacles": [
+        {
+          "kind": "crates",
+          "x": 620,
+          "y": 258
+        },
+        {
+          "kind": "oil_drums",
+          "x": 1560,
+          "y": 258
+        }
+      ]
+    },
+    "core_approach": {
+      "name": "Core Approach",
+      "level": 42,
+      "width": 2000,
+      "safe": false,
+      "theme": "canal",
+      "kit_theme": "plant",
+      "palette": {
+        "sky": "#0c0e16",
+        "buildings": [
+          "#1a1e2a",
+          "#202634",
+          "#161a24"
+        ],
+        "windows": "#70d0ff",
+        "sidewalk": "#42464e",
+        "street": "#1c1e26"
+      },
+      "exits": {
+        "west": {
+          "to": "control_room",
+          "entry": "east"
+        },
+        "east": {
+          "to": "cooling_tunnels",
+          "entry": "west",
+          "requires": {
+            "defeat": "facility_trooper",
+            "count": 6,
+            "hint": "The last troopers hold the approach. Knock down 6 to pass."
+          }
+        }
+      },
+      "npcs": [
+        {
+          "id": "pim_core",
+          "name": "Dr. Pim",
+          "role": "quests",
+          "x": 300,
+          "y": 262,
+          "color": "#e0e0f0",
+          "line": "Every number I ever took leads to this door.",
+          "sprite": "npc_pim"
+        },
+        {
+          "id": "vendor_ama_core",
+          "name": "Ama",
+          "role": "shop",
+          "shop": "ama_supply",
+          "x": 470,
+          "y": 262,
+          "color": "#c0576b",
+          "line": "You think I'd let you fight the Director on an empty stomach?",
+          "sprite": "npc_ama"
+        },
+        {
+          "id": "taxi_win_core",
+          "name": "Win",
+          "role": "travel",
+          "fare": 10,
+          "x": 640,
+          "y": 262,
+          "color": "#e07020",
+          "line": "End of the line. I'll wait. Ten coins, same as always.",
+          "sprite": "npc_win"
+        }
+      ],
+      "weapons": {
+        "count": [
+          2,
+          3
+        ],
+        "pool": {
+          "pipe": 3,
+          "wrench": 3,
+          "machete": 2
+        }
+      },
+      "encounters": [
+        {
+          "trigger_x": 950,
+          "arena": [
+            760,
+            1380
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "facility_trooper",
+              "facility_trooper",
+              "core_sentinel"
+            ],
+            [
+              "facility_trooper",
+              "riot_trooper",
+              "hazmat_sprayer"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1500,
+          "arena": [
+            1280,
+            1980
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "facility_trooper",
+              "hybrid_worker",
+              "dock_slinger"
+            ],
+            [
+              "facility_trooper",
+              "core_sentinel",
+              "facility_trooper"
+            ]
+          ]
+        }
+      ],
+      "obstacles": [
+        {
+          "kind": "street_lamp",
+          "x": 220,
+          "y": 240
+        },
+        {
+          "kind": "street_lamp",
+          "x": 860,
+          "y": 240
+        },
+        {
+          "kind": "crates",
+          "x": 1100,
+          "y": 258
+        },
+        {
+          "kind": "pickup_truck",
+          "x": 1300,
+          "y": 262
+        },
+        {
+          "kind": "street_lamp",
+          "x": 1620,
+          "y": 240
+        },
+        {
+          "kind": "oil_drums",
+          "x": 1820,
+          "y": 258
+        }
+      ]
+    },
+    "cooling_tunnels": {
+      "name": "Cooling Tunnels",
+      "level": 44,
+      "width": 2000,
+      "safe": false,
+      "theme": "canal",
+      "kit_theme": "tunnels",
+      "palette": {
+        "sky": "#08121a",
+        "buildings": [
+          "#122028",
+          "#162832",
+          "#0e1a22"
+        ],
+        "windows": "#90e0ff",
+        "sidewalk": "#38444c",
+        "street": "#141c22"
+      },
+      "exits": {
+        "west": {
+          "to": "core_approach",
+          "entry": "east"
+        },
+        "east": {
+          "to": "reactor_walkway",
+          "entry": "west",
+          "requires": {
+            "defeat": "hybrid_brute",
+            "count": 6,
+            "hint": "The Hybrid Brutes keep the pumps running. Knock down 6 to pass."
+          }
+        }
+      },
+      "weapons": {
+        "count": [
+          1,
+          3
+        ],
+        "pool": {
+          "pipe": 4,
+          "wrench": 3
+        }
+      },
+      "encounters": [
+        {
+          "trigger_x": 900,
+          "arena": [
+            700,
+            1340
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "hybrid_brute",
+              "facility_trooper",
+              "hazmat_sprayer"
+            ],
+            [
+              "hybrid_brute",
+              "hybrid_brute",
+              "facility_trooper"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1500,
+          "arena": [
+            1280,
+            1980
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "hybrid_brute",
+              "hybrid_worker",
+              "dock_slinger"
+            ],
+            [
+              "hybrid_brute",
+              "hybrid_brute",
+              "facility_trooper"
+            ]
+          ]
+        }
+      ],
+      "obstacles": [
+        {
+          "kind": "oil_drums",
+          "x": 460,
+          "y": 258
+        },
+        {
+          "kind": "crates",
+          "x": 820,
+          "y": 258
+        },
+        {
+          "kind": "oil_drums",
+          "x": 1260,
+          "y": 258
+        },
+        {
+          "kind": "crates",
+          "x": 1720,
+          "y": 258
+        }
+      ]
+    },
+    "reactor_walkway": {
+      "name": "Reactor Walkway",
+      "level": 46,
+      "width": 2000,
+      "safe": false,
+      "theme": "canal",
+      "kit_theme": "waste",
+      "palette": {
+        "sky": "#140a0c",
+        "buildings": [
+          "#2a1418",
+          "#341a1e",
+          "#221014"
+        ],
+        "windows": "#ff7050",
+        "sidewalk": "#4a3e40",
+        "street": "#24181a"
+      },
+      "exits": {
+        "west": {
+          "to": "cooling_tunnels",
+          "entry": "east"
+        },
+        "east": {
+          "to": "core_chamber",
+          "entry": "west",
+          "requires": {
+            "defeat": "core_sentinel",
+            "count": 6,
+            "hint": "The Core Sentinels guard the chamber door. Knock down 6 to pass."
+          }
+        }
+      },
+      "weapons": {
+        "count": [
+          1,
+          3
+        ],
+        "pool": {
+          "pipe": 4,
+          "wrench": 3
+        }
+      },
+      "encounters": [
+        {
+          "trigger_x": 900,
+          "arena": [
+            700,
+            1340
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "core_sentinel",
+              "facility_trooper",
+              "hybrid_worker"
+            ],
+            [
+              "core_sentinel",
+              "core_sentinel",
+              "riot_trooper"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1500,
+          "arena": [
+            1280,
+            1980
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "core_sentinel",
+              "hybrid_brute",
+              "hazmat_sprayer"
+            ],
+            [
+              "core_sentinel",
+              "core_sentinel",
+              "facility_trooper"
+            ]
+          ]
+        }
+      ],
+      "obstacles": [
+        {
+          "kind": "street_lamp",
+          "x": 220,
+          "y": 240
+        },
+        {
+          "kind": "oil_drums",
+          "x": 820,
+          "y": 258
+        },
+        {
+          "kind": "street_lamp",
+          "x": 1020,
+          "y": 240
+        },
+        {
+          "kind": "crates",
+          "x": 1260,
+          "y": 258
+        },
+        {
+          "kind": "oil_drums",
+          "x": 1700,
+          "y": 258
+        },
+        {
+          "kind": "street_lamp",
+          "x": 1860,
+          "y": 240
+        }
+      ]
+    },
+    "core_chamber": {
+      "name": "The Core Chamber",
+      "level": 48,
+      "width": 1700,
+      "safe": false,
+      "theme": "canal",
+      "kit_theme": "plant",
+      "palette": {
+        "sky": "#06080e",
+        "buildings": [
+          "#141826",
+          "#1a1e30",
+          "#10141e"
+        ],
+        "windows": "#40ffd0",
+        "sidewalk": "#3a3e48",
+        "street": "#14161e"
+      },
+      "exits": {
+        "west": {
+          "to": "reactor_walkway",
+          "entry": "east"
+        }
+      },
+      "weapons": {
+        "count": [
+          1,
+          2
+        ],
+        "pool": {
+          "pipe": 3,
+          "wrench": 3
+        }
+      },
+      "encounters": [
+        {
+          "trigger_x": 420,
+          "arena": [
+            180,
+            900
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "core_sentinel",
+              "facility_trooper",
+              "hybrid_worker"
+            ],
+            [
+              "riot_trooper",
+              "facility_trooper"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1200,
+          "arena": [
+            960,
+            1680
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "director_wiroj"
             ]
           ]
         }

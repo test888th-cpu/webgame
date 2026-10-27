@@ -1712,6 +1712,222 @@
       "color": "#2a3a2a",
       "sprite": "commander_arthit",
       "wields": false
+    },
+    "core_sentinel": {
+      "name": "Core Sentinel",
+      "max_hp": 250,
+      "speed": 0.6,
+      "defense": 6,
+      "power": 1.2,
+      "scale": 1.25,
+      "elite": true,
+      "poise": 90,
+      "moveset": {
+        "light": "k7_piston",
+        "heavy": "k7_press"
+      },
+      "ai": {
+        "spacing": 62,
+        "reaction": 16,
+        "cooldown": 64,
+        "cooldown_jitter": 30,
+        "heavy_chance": 0.35,
+        "heavy_cooldown": 330
+      },
+      "xp": 210,
+      "loot": {
+        "money": [
+          28,
+          44
+        ],
+        "drops": [
+          {
+            "item": "rice_box",
+            "chance": 0.2
+          },
+          {
+            "item": "core_guard_helm",
+            "chance": 0.03
+          },
+          {
+            "item": "reactor_plate",
+            "chance": 0.03
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 0.3
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.9
+          }
+        ]
+      },
+      "color": "#202430",
+      "sprite": "core_sentinel",
+      "wields": false
+    },
+    "hybrid_brute": {
+      "name": "Hybrid Brute",
+      "max_hp": 260,
+      "speed": 0.85,
+      "defense": 3,
+      "power": 1.25,
+      "scale": 1.25,
+      "poise": 80,
+      "moveset": {
+        "light": "hybrid_maul",
+        "heavy": "brute_slam"
+      },
+      "ai": {
+        "spacing": 56,
+        "reaction": 12,
+        "cooldown": 60,
+        "cooldown_jitter": 28,
+        "heavy_chance": 0.3,
+        "heavy_cooldown": 300
+      },
+      "xp": 200,
+      "loot": {
+        "money": [
+          22,
+          36
+        ],
+        "drops": [
+          {
+            "item": "rice_box",
+            "chance": 0.2
+          },
+          {
+            "item": "insulated_gauntlets",
+            "chance": 0.03
+          },
+          {
+            "item": "walkway_boots",
+            "chance": 0.03
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 0.2
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.5
+          }
+        ]
+      },
+      "color": "#3a8a3a",
+      "sprite": "hybrid_brute",
+      "wields": false
+    },
+    "director_wiroj": {
+      "name": "Director Wiroj",
+      "max_hp": 900,
+      "speed": 0.8,
+      "defense": 5,
+      "power": 1.0,
+      "scale": 1.3,
+      "boss": true,
+      "poise": 90,
+      "moveset": {
+        "light": "wiroj_jab",
+        "heavy": "wiroj_palm"
+      },
+      "ai": {
+        "spacing": 58,
+        "reaction": 10,
+        "cooldown": 36,
+        "cooldown_jitter": 20,
+        "heavy_chance": 0.3,
+        "heavy_cooldown": 330
+      },
+      "phases": [
+        {
+          "below": 0.7,
+          "speed": 0.85,
+          "power": 1.05,
+          "cooldown": 30,
+          "heavy_chance": 0.35,
+          "heavy_cooldown": 300,
+          "shield": {
+            "up": 420,
+            "down": 300
+          },
+          "hazard": {
+            "every": 100,
+            "cycle": [
+              {
+                "kind": "steam",
+                "warn": 60,
+                "damage": 24,
+                "half": [
+                  26,
+                  10
+                ]
+              },
+              {
+                "kind": "shock",
+                "warn": 55,
+                "damage": 22,
+                "half": [
+                  60,
+                  14
+                ]
+              },
+              {
+                "kind": "laser",
+                "warn": 60,
+                "damage": 26,
+                "half": [
+                  900,
+                  9
+                ]
+              }
+            ]
+          },
+          "moveset": {
+            "light": "wiroj_jab",
+            "heavy": "wiroj_sweep"
+          }
+        },
+        {
+          "below": 0.3,
+          "speed": 1.0,
+          "power": 1.15,
+          "cooldown": 22,
+          "heavy_chance": 0.6,
+          "heavy_cooldown": 270,
+          "hazard": {},
+          "moveset": {
+            "light": "wiroj_jab",
+            "heavy": "wiroj_ruin"
+          }
+        }
+      ],
+      "xp": 1500,
+      "loot": {
+        "money": [
+          600,
+          800
+        ],
+        "drops": [
+          {
+            "item": "director_signet",
+            "chance": 0.12
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 1.0
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 1.0
+          }
+        ]
+      },
+      "color": "#e0e0e8",
+      "sprite": "director_wiroj",
+      "wields": false
     }
   }
 }

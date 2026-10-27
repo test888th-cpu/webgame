@@ -754,6 +754,79 @@
       "price": 0,
       "icon": "forged_note",
       "description": "The Core's original design, from the Control Room. It was built to clean the canal, and it did, until they pushed it ten times past its limit and buried every failure. The final activation pushes it further still."
+    },
+    "core_guard_helm": {
+      "name": "Core Guard Helm",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "rare",
+      "level": 42,
+      "price": 1500,
+      "stats": {
+        "defense": 6,
+        "max_hp": 80
+      },
+      "icon": "iron_helm",
+      "description": "A sentinel's visor, pried off and padded for a human head."
+    },
+    "reactor_plate": {
+      "name": "Reactor Plate",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "rare",
+      "level": 42,
+      "price": 1650,
+      "stats": {
+        "defense": 9,
+        "max_hp": 80
+      },
+      "icon": "riveted_jacket",
+      "description": "Lead-lined plating from the reactor walkway. Heavy, and worth it."
+    },
+    "insulated_gauntlets": {
+      "name": "Insulated Gauntlets",
+      "type": "equipment",
+      "slot": "hands",
+      "rarity": "rare",
+      "level": 44,
+      "price": 1600,
+      "stats": {
+        "power": 0.35,
+        "defense": 2,
+        "crit": 0.07
+      },
+      "icon": "iron_wraps",
+      "description": "Made for live machinery. They take a shock and give one back."
+    },
+    "walkway_boots": {
+      "name": "Walkway Boots",
+      "type": "equipment",
+      "slot": "feet",
+      "rarity": "rare",
+      "level": 44,
+      "price": 1550,
+      "stats": {
+        "speed": 0.16,
+        "defense": 3,
+        "attack_speed": 0.08
+      },
+      "icon": "street_runners",
+      "description": "Grip soles for wet steel gratings and fast exits."
+    },
+    "director_signet": {
+      "name": "Director's Signet",
+      "type": "equipment",
+      "slot": "charm",
+      "rarity": "legendary",
+      "level": 48,
+      "price": 0,
+      "stats": {
+        "max_hp": 80,
+        "power": 0.12,
+        "crit": 0.07
+      },
+      "icon": "jade_charm",
+      "description": "Kraisorn Heavy Industries' seal on a white-gold ring. It signed away a canal."
     }
   }
 }

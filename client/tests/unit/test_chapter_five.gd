@@ -82,10 +82,14 @@ func test_the_hybrids_are_explained_where_they_appear() -> void:
 	assert_true(str(quest["dialogue"]["offer"]).contains("workers"), "Dr. Pim says who they were")
 	var reward: Dictionary = quest["rewards"]["items"]
 	assert_true(int(reward.get("exposure_report", 0)) == 1, "handed over with Subject 12")
-	for area_id: String in _content().areas:
+	var street := StreetMemory.street(_content())
+	for area_id in street:
 		var waves := JSON.stringify(_content().area(area_id).get("encounters", []))
-		if waves.contains("hybrid_worker"):
-			assert_true(area_id in FACILITY, "%s: no hybrids before the facility" % area_id)
+		if waves.contains("hybrid_"):
+			assert_true(
+				street.find(area_id) >= street.find(FACILITY[0]),
+				"%s: no hybrids before the facility" % area_id
+			)
 
 
 func test_a_laser_sweeps_the_whole_lane_at_the_hero_depth() -> void:

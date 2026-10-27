@@ -3,17 +3,32 @@ extends RefCounted
 ## What a boss does beyond its own blows, read from its enemies.json entry:
 ## * "hazard": calls something down on the hero's spot every so often (a
 ##   container off a crane, a steam vent bursting, a laser sweeping the whole
-##   lane at the hero's depth). It warns first, then hits every fighter in
-##   its footprint ("half": half its width and depth) but the boss, the
-##   boss's own crew included;
+##   lane at the hero's depth, the floor plates shocking). It warns first,
+##   then hits every fighter in its footprint ("half": half its width and
+##   depth) but the boss, the boss's own crew included. A "cycle" of hazards
+##   is called in turn;
 ## * "summon": whistles in reinforcements every so often, one from each side
 ##   of the fight, while fewer than its "max" helpers stand.
-## A phase may quicken either ("hazard_every", "summon_every"). Both stop the
-## moment the boss is down. The zone is passed in on every call rather than
-## kept, so the two never hold each other. Pure rules, shared with the server.
+## A phase may quicken either ("hazard_every", "summon_every"), bring its own
+## hazards ("hazard"; {} for none), and raise a "shield": for "up" ticks the
+## boss is untouchable and stands back while the hazards run, then for "down"
+## ticks the system resets, the hazards stop and the boss can be hit, in a
+## rhythm the player can read. Everything stops the moment the boss is down.
+## The zone is passed in on every call rather than kept, so the two never
+## hold each other. Pure rules, shared with the server.
+
+const KINDS: Array[String] = ["crane", "steam", "laser", "shock"]
 
 var _hazard_timer := 0
+var _hazard_turn := 0
 var _summon_timer := 0
+var _shield_timer := 0
+var _shield_up := false
+
+
+## True while the boss's shield is up (see the class comment).
+func shield_up() -> bool:
+	return _shield_up
 
 
 ## Advances the boss of `zone` one tick, appending what happened to `events`.
@@ -23,20 +38,67 @@ func tick(zone: ZoneSim, events: Array[ZoneEvent]) -> void:
 	if boss == null or boss.is_ko() or zone.hero.is_ko():
 		_hazard_timer = 0
 		_summon_timer = 0
+		_set_shield(zone, boss, false, events)
 		return
+	var phase := _phase(zone, boss)
+	var running := true
+	var shield: Dictionary = phase.get("shield", {})
+	if shield:
+		running = _tick_shield(zone, boss, shield, events)
+	else:
+		_set_shield(zone, boss, false, events)
 	var data := zone.content.enemy(boss.kind)
-	var hazard: Dictionary = data.get("hazard", {})
-	if hazard:
+	var hazard: Dictionary = phase.get("hazard", data.get("hazard", {}))
+	if hazard and running:
 		_hazard_timer += 1
-		if _hazard_timer >= _every(zone, boss, hazard, "hazard_every"):
+		if _hazard_timer >= int(phase.get("hazard_every", hazard["every"])):
 			_hazard_timer = 0
-			_call_hazard(zone, boss, hazard, events)
+			var cycle: Array = hazard.get("cycle", [hazard])
+			_call_hazard(zone, boss, cycle[_hazard_turn % cycle.size()], events)
+			_hazard_turn += 1
 	var summon: Dictionary = data.get("summon", {})
 	if summon:
 		_summon_timer += 1
 		if _summon_timer >= _every(zone, boss, summon, "summon_every"):
 			_summon_timer = 0
 			_summon(zone, boss, summon, events)
+
+
+## The phase `boss` is in ({} before its first).
+func _phase(zone: ZoneSim, boss: Fighter) -> Dictionary:
+	var done := zone.phase_of(boss.id)
+	if done == 0:
+		return {}
+	return zone.content.enemy(boss.kind).get("phases", [])[done - 1]
+
+
+## The shield's rhythm: up (untouchable, standing back) then down (open).
+## Returns true while it is up, when the hazards run.
+func _tick_shield(
+	zone: ZoneSim, boss: Fighter, shield: Dictionary, events: Array[ZoneEvent]
+) -> bool:
+	_shield_timer += 1
+	if not _shield_up and (_shield_timer == 1 or _shield_timer > int(shield["down"])):
+		_set_shield(zone, boss, true, events)
+	elif _shield_up and _shield_timer > int(shield["up"]):
+		_set_shield(zone, boss, false, events)
+	if _shield_up:
+		boss.grace = maxi(boss.grace, 2)
+		var brain: EnemyBrain = zone.brains.get(boss.id)
+		if brain:
+			brain.cooldown = maxi(brain.cooldown, 30)
+	return _shield_up
+
+
+func _set_shield(zone: ZoneSim, boss: Fighter, up: bool, events: Array[ZoneEvent]) -> void:
+	if up == _shield_up:
+		return
+	_shield_up = up
+	_shield_timer = 1
+	if not up:
+		_hazard_timer = 0
+	var id := boss.id if boss else zone.boss_id
+	events.append(ZoneEvent.make("boss_shield", {"id": id, "up": up}))
 
 
 ## How often (in ticks) `spec` fires for `boss` in its current phase.
