@@ -649,6 +649,10 @@
         ],
         "drops": [
           {
+            "item": "rice_box",
+            "chance": 0.12
+          },
+          {
             "item": "ginger_tea",
             "chance": 0.2
           },
@@ -694,6 +698,10 @@
           26
         ],
         "drops": [
+          {
+            "item": "rice_box",
+            "chance": 0.12
+          },
           {
             "item": "ginger_tea",
             "chance": 0.3
@@ -871,6 +879,10 @@
         ],
         "drops": [
           {
+            "item": "rice_box",
+            "chance": 0.12
+          },
+          {
             "item": "ginger_tea",
             "chance": 0.3
           },
@@ -975,6 +987,10 @@
           24
         ],
         "drops": [
+          {
+            "item": "rice_box",
+            "chance": 0.12
+          },
           {
             "item": "lab_boots",
             "chance": 0.03
@@ -1125,6 +1141,288 @@
       "sprite": "unit_k7",
       "wields": false,
       "poise": 90
+    },
+    "network_runner": {
+      "name": "Network Runner",
+      "max_hp": 95,
+      "speed": 1.2,
+      "defense": 2,
+      "power": 1.0,
+      "moveset": {
+        "light": "punk_flurry",
+        "heavy": "thug_kick"
+      },
+      "ai": {
+        "spacing": 46,
+        "reaction": 8,
+        "cooldown": 40,
+        "cooldown_jitter": 26,
+        "heavy_chance": 0.25,
+        "heavy_cooldown": 270
+      },
+      "xp": 44,
+      "loot": {
+        "money": [
+          14,
+          24
+        ],
+        "drops": [
+          {
+            "item": "steamed_bun",
+            "chance": 0.15
+          },
+          {
+            "item": "runner_sneakers",
+            "chance": 0.03
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.3
+          }
+        ]
+      },
+      "color": "#6a3a9a",
+      "sprite": "network_runner",
+      "wields": false
+    },
+    "network_enforcer": {
+      "name": "Network Enforcer",
+      "max_hp": 170,
+      "speed": 0.75,
+      "defense": 4,
+      "power": 1.1,
+      "scale": 1.15,
+      "moveset": {
+        "light": "brute_jab",
+        "heavy": "warden_crush"
+      },
+      "ai": {
+        "spacing": 60,
+        "reaction": 14,
+        "cooldown": 62,
+        "cooldown_jitter": 30,
+        "heavy_chance": 0.35,
+        "heavy_cooldown": 300
+      },
+      "xp": 64,
+      "loot": {
+        "money": [
+          18,
+          30
+        ],
+        "drops": [
+          {
+            "item": "rice_box",
+            "chance": 0.12
+          },
+          {
+            "item": "ginger_tea",
+            "chance": 0.25
+          },
+          {
+            "item": "kevlar_jacket",
+            "chance": 0.03
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 0.15
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.5
+          }
+        ]
+      },
+      "color": "#2a2a2e",
+      "sprite": "network_enforcer",
+      "wields": true,
+      "weapon_chance": 0.35,
+      "poise": 50
+    },
+    "ring_fighter": {
+      "name": "Ring Fighter",
+      "max_hp": 150,
+      "speed": 1.05,
+      "defense": 3,
+      "power": 1.05,
+      "scale": 1.1,
+      "elite": true,
+      "moveset": {
+        "light": "champ_jab",
+        "heavy": "champ_overhand"
+      },
+      "ai": {
+        "spacing": 50,
+        "reaction": 10,
+        "cooldown": 44,
+        "cooldown_jitter": 24,
+        "heavy_chance": 0.3,
+        "heavy_cooldown": 300
+      },
+      "xp": 70,
+      "loot": {
+        "money": [
+          20,
+          32
+        ],
+        "drops": [
+          {
+            "item": "rice_box",
+            "chance": 0.12
+          },
+          {
+            "item": "ginger_tea",
+            "chance": 0.3
+          },
+          {
+            "item": "fight_gloves",
+            "chance": 0.03
+          },
+          {
+            "item": "watch_cap",
+            "chance": 0.03
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 0.15
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.5
+          }
+        ]
+      },
+      "color": "#8a2a2a",
+      "sprite": "ring_fighter",
+      "wields": false,
+      "poise": 40
+    },
+    "ringmaster": {
+      "name": "The Ringmaster",
+      "max_hp": 560,
+      "speed": 0.95,
+      "defense": 3,
+      "power": 1.0,
+      "scale": 1.25,
+      "boss": true,
+      "poise": 70,
+      "moveset": {
+        "light": "ring_jab",
+        "heavy": "ring_spin"
+      },
+      "ai": {
+        "spacing": 52,
+        "reaction": 8,
+        "cooldown": 28,
+        "cooldown_jitter": 18,
+        "heavy_chance": 0.3,
+        "heavy_cooldown": 300
+      },
+      "phases": [
+        {
+          "below": 0.5,
+          "speed": 1.1,
+          "power": 1.1,
+          "cooldown": 22,
+          "heavy_chance": 0.45,
+          "heavy_cooldown": 270,
+          "moveset": {
+            "light": "ring_jab",
+            "heavy": "champ_rush"
+          }
+        }
+      ],
+      "xp": 620,
+      "loot": {
+        "money": [
+          240,
+          320
+        ],
+        "drops": [
+          {
+            "item": "ringmaster_wraps",
+            "chance": 0.15
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 1.0
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 1.0
+          }
+        ]
+      },
+      "color": "#a02a2a",
+      "sprite": "ringmaster",
+      "wields": false
+    },
+    "big_sak": {
+      "name": "Big Sak",
+      "max_hp": 580,
+      "speed": 0.7,
+      "defense": 4,
+      "power": 1.0,
+      "scale": 1.45,
+      "boss": true,
+      "poise": 90,
+      "moveset": {
+        "light": "sak_jab",
+        "heavy": "sak_slam"
+      },
+      "ai": {
+        "spacing": 60,
+        "reaction": 12,
+        "cooldown": 40,
+        "cooldown_jitter": 20,
+        "heavy_chance": 0.3,
+        "heavy_cooldown": 330
+      },
+      "summon": {
+        "enemy": "network_runner",
+        "every": 600,
+        "count": 2,
+        "max": 2
+      },
+      "phases": [
+        {
+          "below": 0.5,
+          "speed": 0.85,
+          "power": 1.1,
+          "cooldown": 30,
+          "heavy_chance": 0.45,
+          "heavy_cooldown": 300,
+          "summon_every": 480,
+          "moveset": {
+            "light": "sak_jab",
+            "heavy": "sak_charge"
+          }
+        }
+      ],
+      "xp": 900,
+      "loot": {
+        "money": [
+          320,
+          420
+        ],
+        "drops": [
+          {
+            "item": "sak_signet",
+            "chance": 0.12
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 1.0
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 1.0
+          }
+        ]
+      },
+      "color": "#4a2a1a",
+      "sprite": "big_sak",
+      "wields": false
     }
   }
 }

@@ -4,6 +4,45 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — Chapter 4: The Black Network (IL-5)
+- Four areas past the Factory Drains, open once Unit K-7 is down:
+  - **Warehouse Row** (level 26)
+  - **The Underground Ring** (27)
+  - **The Counting House** (29)
+  - **Rattanachai Tower** (31)
+- **Kenji**, exposed as a one-time courier for the network, gives the chapter's quests to
+  make it right: Follow the Money, The Ring, Cooked Books and Big Sak. **Uncle Thong**
+  sells level 26–27 gear, and Win's taxi stands at Warehouse Row.
+- New enemies: the **Network Runner** (fast, bare-handed courier), the **Network
+  Enforcer** (heavy) and the **Ring Fighter** (elite).
+- Two bosses:
+  - **The Ringmaster**, mid-chapter, with a spinning kick that reaches both sides.
+  - **Big Sak**, at the end. He whistles in his runners, two at a time and never more
+    than two standing, and more often once enraged.
+- Evidence: the **Money Trail** names Director Wiroj for the first time, and the **Core
+  Facility Pass** leads to Chapter 5.
+- **Boss mechanics moved out of ZoneSim** into `BossMechanics` (hazards plus the new
+  `summon`, validated on load, only for bosses), with no change to how hazards play.
+  The new `boss_summon` event shows a "calls for backup!" toast.
+
+### Added — Food that scales with the hero
+- **Rice Box** (heals 120) and **Herbal Tonic** (heals 220, plus energy), sold from the
+  Depot onwards and dropped by later enemies. Steamed buns alone heal about 6% of a level
+  30 hero.
+- `FoodRules` picks what to eat: the smallest food that covers most of the wound, or the
+  biggest when in trouble. The quick-heal key (H/Q) and auto battle both use it, so the
+  quick-heal key now eats every kind of food, not just buns and tea.
+- The farm loop buys food sized to the hero (about a third of their health per bite)
+  instead of always the cheapest.
+- Measured with the auto-battle pilot, hero one level above the area, no gear, 10 of the
+  food the loop would buy: every hero clears every area from the Crane Yard to
+  Rattanachai Tower (108 of 108 seeded runs). With no food at all, Big Sak and Unit K-7
+  are about equally hard.
+- Tests: Chapter 4's order, levels, quest chain and evidence; the Director kept out of
+  earlier chapters; the Ringmaster's gate; Big Sak's whistle (count, limit, quicker when
+  enraged, silent once he falls); summon validation; and food choice, shopping, restock
+  and the quick-heal key.
+
 ### Added — Auto battle (decision D12)
 - **Auto battle** (T, gamepad Back/Select, or the AUTO button under the hero card). It is
   allowed only in areas the hero has already beaten by hand: the next area east has been

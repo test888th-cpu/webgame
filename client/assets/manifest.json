@@ -1,5 +1,316 @@
 {
   "assets": {
+    "big_sak": {
+      "animations": {
+        "dodge": {
+          "fps": 12,
+          "frames": 5,
+          "loop": false,
+          "row": 6,
+          "source": "jump"
+        },
+        "down": {
+          "fps": 10,
+          "frames": 6,
+          "loop": false,
+          "row": 5,
+          "source": "hurt"
+        },
+        "heavy": {
+          "fps": 9,
+          "frames": 6,
+          "loop": false,
+          "row": 3,
+          "source": "slash"
+        },
+        "hurt": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 4,
+          "source": "hurt"
+        },
+        "idle": {
+          "fps": 4,
+          "frames": 3,
+          "loop": true,
+          "row": 0,
+          "source": "combat"
+        },
+        "light": {
+          "fps": 16,
+          "frames": 6,
+          "loop": false,
+          "row": 2,
+          "source": "1h_halfslash"
+        },
+        "stab": {
+          "fps": 14,
+          "frames": 5,
+          "loop": false,
+          "row": 7,
+          "source": "1h_halfslash"
+        },
+        "walk": {
+          "fps": 10,
+          "frames": 8,
+          "loop": true,
+          "row": 1,
+          "source": "walk"
+        }
+      },
+      "credits": "res://assets/characters/big_sak/credits.json",
+      "facing": "right",
+      "frame_size": [
+        64,
+        64
+      ],
+      "generator": {
+        "recipe": "art/lpc/characters.json#big_sak",
+        "repo": "LPC"
+      },
+      "hand_sheet": "res://assets/characters/big_sak/hands.png",
+      "hands": {
+        "dodge": [
+          [
+            25,
+            47,
+            40
+          ],
+          [
+            23,
+            47,
+            30
+          ],
+          [
+            20,
+            42,
+            10
+          ],
+          [
+            17,
+            39,
+            -20
+          ],
+          [
+            14,
+            37,
+            20
+          ]
+        ],
+        "down": [
+          [
+            20,
+            46,
+            45
+          ],
+          [
+            21,
+            51,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            21,
+            56,
+            45
+          ]
+        ],
+        "heavy": [
+          [
+            39,
+            46,
+            30
+          ],
+          [
+            43,
+            48,
+            30
+          ],
+          [
+            40,
+            46,
+            40
+          ],
+          [
+            48,
+            44,
+            70
+          ],
+          [
+            52,
+            33,
+            115
+          ],
+          [
+            49,
+            32,
+            135
+          ]
+        ],
+        "hurt": [
+          [
+            20,
+            46,
+            40
+          ],
+          [
+            21,
+            51,
+            50
+          ],
+          [
+            23,
+            58,
+            60
+          ]
+        ],
+        "idle": [
+          [
+            29,
+            44,
+            50
+          ],
+          [
+            29,
+            44,
+            50
+          ],
+          [
+            30,
+            45,
+            50
+          ]
+        ],
+        "light": [
+          [
+            12,
+            38,
+            -45
+          ],
+          [
+            39,
+            44,
+            -10
+          ],
+          [
+            50,
+            44,
+            65
+          ],
+          [
+            59,
+            43,
+            110
+          ],
+          [
+            59,
+            43,
+            125
+          ],
+          [
+            39,
+            44,
+            70
+          ]
+        ],
+        "stab": [
+          [
+            39,
+            44,
+            80
+          ],
+          [
+            50,
+            44,
+            90
+          ],
+          [
+            59,
+            43,
+            90
+          ],
+          [
+            59,
+            43,
+            90
+          ],
+          [
+            39,
+            44,
+            80
+          ]
+        ],
+        "walk": [
+          [
+            30,
+            48,
+            55
+          ],
+          [
+            28,
+            48,
+            50
+          ],
+          [
+            22,
+            48,
+            45
+          ],
+          [
+            21,
+            48,
+            40
+          ],
+          [
+            19,
+            48,
+            40
+          ],
+          [
+            21,
+            48,
+            45
+          ],
+          [
+            24,
+            48,
+            50
+          ],
+          [
+            26,
+            48,
+            55
+          ]
+        ]
+      },
+      "licenses": [
+        "OGA-BY 3.0",
+        "OGA-BY 3.0+"
+      ],
+      "origin": [
+        32,
+        63
+      ],
+      "role": "enemy",
+      "sheet": "res://assets/characters/big_sak/sheet.png",
+      "source": "lpc",
+      "status": "imported"
+    },
     "dock_slinger": {
       "animations": {
         "dodge": {
@@ -4409,6 +4720,626 @@
       "source": "lpc",
       "status": "imported"
     },
+    "network_enforcer": {
+      "animations": {
+        "dodge": {
+          "fps": 12,
+          "frames": 5,
+          "loop": false,
+          "row": 6,
+          "source": "jump"
+        },
+        "down": {
+          "fps": 10,
+          "frames": 6,
+          "loop": false,
+          "row": 5,
+          "source": "hurt"
+        },
+        "heavy": {
+          "fps": 9,
+          "frames": 6,
+          "loop": false,
+          "row": 3,
+          "source": "slash"
+        },
+        "hurt": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 4,
+          "source": "hurt"
+        },
+        "idle": {
+          "fps": 4,
+          "frames": 3,
+          "loop": true,
+          "row": 0,
+          "source": "combat"
+        },
+        "light": {
+          "fps": 16,
+          "frames": 6,
+          "loop": false,
+          "row": 2,
+          "source": "1h_halfslash"
+        },
+        "stab": {
+          "fps": 14,
+          "frames": 5,
+          "loop": false,
+          "row": 7,
+          "source": "1h_halfslash"
+        },
+        "walk": {
+          "fps": 10,
+          "frames": 8,
+          "loop": true,
+          "row": 1,
+          "source": "walk"
+        }
+      },
+      "credits": "res://assets/characters/network_enforcer/credits.json",
+      "facing": "right",
+      "frame_size": [
+        64,
+        64
+      ],
+      "generator": {
+        "recipe": "art/lpc/characters.json#network_enforcer",
+        "repo": "LPC"
+      },
+      "hand_sheet": "res://assets/characters/network_enforcer/hands.png",
+      "hands": {
+        "dodge": [
+          [
+            25,
+            47,
+            40
+          ],
+          [
+            23,
+            47,
+            30
+          ],
+          [
+            20,
+            42,
+            10
+          ],
+          [
+            17,
+            39,
+            -20
+          ],
+          [
+            14,
+            37,
+            20
+          ]
+        ],
+        "down": [
+          [
+            20,
+            46,
+            45
+          ],
+          [
+            21,
+            51,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            21,
+            56,
+            45
+          ]
+        ],
+        "heavy": [
+          [
+            39,
+            46,
+            30
+          ],
+          [
+            43,
+            48,
+            30
+          ],
+          [
+            40,
+            46,
+            40
+          ],
+          [
+            48,
+            44,
+            70
+          ],
+          [
+            52,
+            33,
+            115
+          ],
+          [
+            49,
+            32,
+            135
+          ]
+        ],
+        "hurt": [
+          [
+            20,
+            46,
+            40
+          ],
+          [
+            21,
+            51,
+            50
+          ],
+          [
+            23,
+            58,
+            60
+          ]
+        ],
+        "idle": [
+          [
+            29,
+            44,
+            50
+          ],
+          [
+            29,
+            44,
+            50
+          ],
+          [
+            30,
+            45,
+            50
+          ]
+        ],
+        "light": [
+          [
+            12,
+            38,
+            -45
+          ],
+          [
+            39,
+            44,
+            -10
+          ],
+          [
+            50,
+            44,
+            65
+          ],
+          [
+            59,
+            43,
+            110
+          ],
+          [
+            59,
+            43,
+            125
+          ],
+          [
+            39,
+            44,
+            70
+          ]
+        ],
+        "stab": [
+          [
+            39,
+            44,
+            80
+          ],
+          [
+            50,
+            44,
+            90
+          ],
+          [
+            59,
+            43,
+            90
+          ],
+          [
+            59,
+            43,
+            90
+          ],
+          [
+            39,
+            44,
+            80
+          ]
+        ],
+        "walk": [
+          [
+            30,
+            48,
+            55
+          ],
+          [
+            28,
+            48,
+            50
+          ],
+          [
+            22,
+            48,
+            45
+          ],
+          [
+            21,
+            48,
+            40
+          ],
+          [
+            19,
+            48,
+            40
+          ],
+          [
+            21,
+            48,
+            45
+          ],
+          [
+            24,
+            48,
+            50
+          ],
+          [
+            26,
+            48,
+            55
+          ]
+        ]
+      },
+      "licenses": [
+        "OGA-BY 3.0"
+      ],
+      "origin": [
+        32,
+        62
+      ],
+      "role": "enemy",
+      "sheet": "res://assets/characters/network_enforcer/sheet.png",
+      "source": "lpc",
+      "status": "imported"
+    },
+    "network_runner": {
+      "animations": {
+        "dodge": {
+          "fps": 12,
+          "frames": 5,
+          "loop": false,
+          "row": 6,
+          "source": "jump"
+        },
+        "down": {
+          "fps": 10,
+          "frames": 6,
+          "loop": false,
+          "row": 5,
+          "source": "hurt"
+        },
+        "heavy": {
+          "fps": 9,
+          "frames": 6,
+          "loop": false,
+          "row": 3,
+          "source": "slash"
+        },
+        "hurt": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 4,
+          "source": "hurt"
+        },
+        "idle": {
+          "fps": 4,
+          "frames": 3,
+          "loop": true,
+          "row": 0,
+          "source": "combat"
+        },
+        "light": {
+          "fps": 16,
+          "frames": 6,
+          "loop": false,
+          "row": 2,
+          "source": "1h_halfslash"
+        },
+        "stab": {
+          "fps": 14,
+          "frames": 5,
+          "loop": false,
+          "row": 7,
+          "source": "1h_halfslash"
+        },
+        "walk": {
+          "fps": 10,
+          "frames": 8,
+          "loop": true,
+          "row": 1,
+          "source": "walk"
+        }
+      },
+      "credits": "res://assets/characters/network_runner/credits.json",
+      "facing": "right",
+      "frame_size": [
+        64,
+        64
+      ],
+      "generator": {
+        "recipe": "art/lpc/characters.json#network_runner",
+        "repo": "LPC"
+      },
+      "hand_sheet": "res://assets/characters/network_runner/hands.png",
+      "hands": {
+        "dodge": [
+          [
+            25,
+            47,
+            40
+          ],
+          [
+            23,
+            47,
+            30
+          ],
+          [
+            20,
+            42,
+            10
+          ],
+          [
+            17,
+            39,
+            -20
+          ],
+          [
+            14,
+            37,
+            20
+          ]
+        ],
+        "down": [
+          [
+            20,
+            46,
+            45
+          ],
+          [
+            21,
+            51,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            21,
+            56,
+            45
+          ]
+        ],
+        "heavy": [
+          [
+            39,
+            46,
+            30
+          ],
+          [
+            43,
+            48,
+            30
+          ],
+          [
+            40,
+            46,
+            40
+          ],
+          [
+            48,
+            44,
+            70
+          ],
+          [
+            52,
+            33,
+            115
+          ],
+          [
+            49,
+            32,
+            135
+          ]
+        ],
+        "hurt": [
+          [
+            20,
+            46,
+            40
+          ],
+          [
+            21,
+            51,
+            50
+          ],
+          [
+            23,
+            58,
+            60
+          ]
+        ],
+        "idle": [
+          [
+            29,
+            44,
+            50
+          ],
+          [
+            29,
+            44,
+            50
+          ],
+          [
+            30,
+            45,
+            50
+          ]
+        ],
+        "light": [
+          [
+            12,
+            38,
+            -45
+          ],
+          [
+            39,
+            44,
+            -10
+          ],
+          [
+            50,
+            44,
+            65
+          ],
+          [
+            59,
+            43,
+            110
+          ],
+          [
+            59,
+            43,
+            125
+          ],
+          [
+            39,
+            44,
+            70
+          ]
+        ],
+        "stab": [
+          [
+            39,
+            44,
+            80
+          ],
+          [
+            50,
+            44,
+            90
+          ],
+          [
+            59,
+            43,
+            90
+          ],
+          [
+            59,
+            43,
+            90
+          ],
+          [
+            39,
+            44,
+            80
+          ]
+        ],
+        "walk": [
+          [
+            30,
+            48,
+            55
+          ],
+          [
+            28,
+            48,
+            50
+          ],
+          [
+            22,
+            48,
+            45
+          ],
+          [
+            21,
+            48,
+            40
+          ],
+          [
+            19,
+            48,
+            40
+          ],
+          [
+            21,
+            48,
+            45
+          ],
+          [
+            24,
+            48,
+            50
+          ],
+          [
+            26,
+            48,
+            55
+          ]
+        ]
+      },
+      "licenses": [
+        "OGA-BY 3.0"
+      ],
+      "origin": [
+        32,
+        62
+      ],
+      "role": "enemy",
+      "sheet": "res://assets/characters/network_runner/sheet.png",
+      "source": "lpc",
+      "status": "imported"
+    },
     "npc_ama": {
       "animations": {
         "dodge": {
@@ -6578,6 +7509,316 @@
       ],
       "role": "npc",
       "sheet": "res://assets/characters/npc_pim/sheet.png",
+      "source": "lpc",
+      "status": "imported"
+    },
+    "npc_thong": {
+      "animations": {
+        "dodge": {
+          "fps": 12,
+          "frames": 5,
+          "loop": false,
+          "row": 6,
+          "source": "jump"
+        },
+        "down": {
+          "fps": 10,
+          "frames": 6,
+          "loop": false,
+          "row": 5,
+          "source": "hurt"
+        },
+        "heavy": {
+          "fps": 9,
+          "frames": 6,
+          "loop": false,
+          "row": 3,
+          "source": "slash"
+        },
+        "hurt": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 4,
+          "source": "hurt"
+        },
+        "idle": {
+          "fps": 4,
+          "frames": 3,
+          "loop": true,
+          "row": 0,
+          "source": "combat"
+        },
+        "light": {
+          "fps": 16,
+          "frames": 6,
+          "loop": false,
+          "row": 2,
+          "source": "1h_halfslash"
+        },
+        "stab": {
+          "fps": 14,
+          "frames": 5,
+          "loop": false,
+          "row": 7,
+          "source": "1h_halfslash"
+        },
+        "walk": {
+          "fps": 10,
+          "frames": 8,
+          "loop": true,
+          "row": 1,
+          "source": "walk"
+        }
+      },
+      "credits": "res://assets/characters/npc_thong/credits.json",
+      "facing": "right",
+      "frame_size": [
+        64,
+        64
+      ],
+      "generator": {
+        "recipe": "art/lpc/characters.json#npc_thong",
+        "repo": "LPC"
+      },
+      "hand_sheet": "res://assets/characters/npc_thong/hands.png",
+      "hands": {
+        "dodge": [
+          [
+            25,
+            47,
+            40
+          ],
+          [
+            23,
+            47,
+            30
+          ],
+          [
+            20,
+            42,
+            10
+          ],
+          [
+            17,
+            39,
+            -20
+          ],
+          [
+            14,
+            37,
+            20
+          ]
+        ],
+        "down": [
+          [
+            20,
+            46,
+            45
+          ],
+          [
+            21,
+            51,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            21,
+            56,
+            45
+          ]
+        ],
+        "heavy": [
+          [
+            39,
+            46,
+            30
+          ],
+          [
+            43,
+            48,
+            30
+          ],
+          [
+            40,
+            46,
+            40
+          ],
+          [
+            48,
+            44,
+            70
+          ],
+          [
+            52,
+            33,
+            115
+          ],
+          [
+            49,
+            32,
+            135
+          ]
+        ],
+        "hurt": [
+          [
+            20,
+            46,
+            40
+          ],
+          [
+            21,
+            51,
+            50
+          ],
+          [
+            23,
+            58,
+            60
+          ]
+        ],
+        "idle": [
+          [
+            29,
+            44,
+            50
+          ],
+          [
+            29,
+            44,
+            50
+          ],
+          [
+            30,
+            45,
+            50
+          ]
+        ],
+        "light": [
+          [
+            12,
+            38,
+            -45
+          ],
+          [
+            39,
+            44,
+            -10
+          ],
+          [
+            50,
+            44,
+            65
+          ],
+          [
+            59,
+            43,
+            110
+          ],
+          [
+            59,
+            43,
+            125
+          ],
+          [
+            39,
+            44,
+            70
+          ]
+        ],
+        "stab": [
+          [
+            39,
+            44,
+            80
+          ],
+          [
+            50,
+            44,
+            90
+          ],
+          [
+            59,
+            43,
+            90
+          ],
+          [
+            59,
+            43,
+            90
+          ],
+          [
+            39,
+            44,
+            80
+          ]
+        ],
+        "walk": [
+          [
+            30,
+            48,
+            55
+          ],
+          [
+            28,
+            48,
+            50
+          ],
+          [
+            22,
+            48,
+            45
+          ],
+          [
+            21,
+            48,
+            40
+          ],
+          [
+            19,
+            48,
+            40
+          ],
+          [
+            21,
+            48,
+            45
+          ],
+          [
+            24,
+            48,
+            50
+          ],
+          [
+            26,
+            48,
+            55
+          ]
+        ]
+      },
+      "licenses": [
+        "OGA-BY 3.0"
+      ],
+      "origin": [
+        32,
+        62
+      ],
+      "role": "npc",
+      "sheet": "res://assets/characters/npc_thong/sheet.png",
       "source": "lpc",
       "status": "imported"
     },
@@ -9028,6 +10269,629 @@
       ],
       "role": "enemy",
       "sheet": "res://assets/characters/refinery_enforcer/sheet.png",
+      "source": "lpc",
+      "status": "imported"
+    },
+    "ring_fighter": {
+      "animations": {
+        "dodge": {
+          "fps": 12,
+          "frames": 5,
+          "loop": false,
+          "row": 6,
+          "source": "jump"
+        },
+        "down": {
+          "fps": 10,
+          "frames": 6,
+          "loop": false,
+          "row": 5,
+          "source": "hurt"
+        },
+        "heavy": {
+          "fps": 9,
+          "frames": 6,
+          "loop": false,
+          "row": 3,
+          "source": "slash"
+        },
+        "hurt": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 4,
+          "source": "hurt"
+        },
+        "idle": {
+          "fps": 4,
+          "frames": 3,
+          "loop": true,
+          "row": 0,
+          "source": "combat"
+        },
+        "light": {
+          "fps": 16,
+          "frames": 6,
+          "loop": false,
+          "row": 2,
+          "source": "1h_halfslash"
+        },
+        "stab": {
+          "fps": 14,
+          "frames": 5,
+          "loop": false,
+          "row": 7,
+          "source": "1h_halfslash"
+        },
+        "walk": {
+          "fps": 10,
+          "frames": 8,
+          "loop": true,
+          "row": 1,
+          "source": "walk"
+        }
+      },
+      "credits": "res://assets/characters/ring_fighter/credits.json",
+      "facing": "right",
+      "frame_size": [
+        64,
+        64
+      ],
+      "generator": {
+        "recipe": "art/lpc/characters.json#ring_fighter",
+        "repo": "LPC"
+      },
+      "hand_sheet": "res://assets/characters/ring_fighter/hands.png",
+      "hands": {
+        "dodge": [
+          [
+            25,
+            47,
+            40
+          ],
+          [
+            23,
+            47,
+            30
+          ],
+          [
+            20,
+            42,
+            10
+          ],
+          [
+            17,
+            39,
+            -20
+          ],
+          [
+            14,
+            37,
+            20
+          ]
+        ],
+        "down": [
+          [
+            20,
+            46,
+            45
+          ],
+          [
+            21,
+            51,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            21,
+            56,
+            45
+          ]
+        ],
+        "heavy": [
+          [
+            39,
+            46,
+            30
+          ],
+          [
+            43,
+            48,
+            30
+          ],
+          [
+            40,
+            46,
+            40
+          ],
+          [
+            48,
+            44,
+            70
+          ],
+          [
+            52,
+            33,
+            115
+          ],
+          [
+            49,
+            32,
+            135
+          ]
+        ],
+        "hurt": [
+          [
+            20,
+            46,
+            40
+          ],
+          [
+            21,
+            51,
+            50
+          ],
+          [
+            23,
+            58,
+            60
+          ]
+        ],
+        "idle": [
+          [
+            29,
+            44,
+            50
+          ],
+          [
+            29,
+            44,
+            50
+          ],
+          [
+            30,
+            45,
+            50
+          ]
+        ],
+        "light": [
+          [
+            12,
+            38,
+            -45
+          ],
+          [
+            39,
+            44,
+            -10
+          ],
+          [
+            50,
+            44,
+            65
+          ],
+          [
+            59,
+            43,
+            110
+          ],
+          [
+            59,
+            43,
+            125
+          ],
+          [
+            39,
+            44,
+            70
+          ]
+        ],
+        "stab": [
+          [
+            39,
+            44,
+            80
+          ],
+          [
+            50,
+            44,
+            90
+          ],
+          [
+            59,
+            43,
+            90
+          ],
+          [
+            59,
+            43,
+            90
+          ],
+          [
+            39,
+            44,
+            80
+          ]
+        ],
+        "walk": [
+          [
+            30,
+            48,
+            55
+          ],
+          [
+            28,
+            48,
+            50
+          ],
+          [
+            22,
+            48,
+            45
+          ],
+          [
+            21,
+            48,
+            40
+          ],
+          [
+            19,
+            48,
+            40
+          ],
+          [
+            21,
+            48,
+            45
+          ],
+          [
+            24,
+            48,
+            50
+          ],
+          [
+            26,
+            48,
+            55
+          ]
+        ]
+      },
+      "licenses": [
+        "CC-BY 4.0",
+        "OGA-BY 3.0",
+        "OGA-BY 3.0+"
+      ],
+      "origin": [
+        32,
+        62
+      ],
+      "role": "enemy",
+      "sheet": "res://assets/characters/ring_fighter/sheet.png",
+      "source": "lpc",
+      "status": "imported"
+    },
+    "ringmaster": {
+      "animations": {
+        "dodge": {
+          "fps": 12,
+          "frames": 5,
+          "loop": false,
+          "row": 6,
+          "source": "jump"
+        },
+        "down": {
+          "fps": 10,
+          "frames": 6,
+          "loop": false,
+          "row": 5,
+          "source": "hurt"
+        },
+        "heavy": {
+          "fps": 9,
+          "frames": 6,
+          "loop": false,
+          "row": 3,
+          "source": "slash"
+        },
+        "hurt": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 4,
+          "source": "hurt"
+        },
+        "idle": {
+          "fps": 4,
+          "frames": 3,
+          "loop": true,
+          "row": 0,
+          "source": "combat"
+        },
+        "light": {
+          "fps": 16,
+          "frames": 6,
+          "loop": false,
+          "row": 2,
+          "source": "1h_halfslash"
+        },
+        "stab": {
+          "fps": 14,
+          "frames": 5,
+          "loop": false,
+          "row": 7,
+          "source": "1h_halfslash"
+        },
+        "walk": {
+          "fps": 10,
+          "frames": 8,
+          "loop": true,
+          "row": 1,
+          "source": "walk"
+        }
+      },
+      "credits": "res://assets/characters/ringmaster/credits.json",
+      "facing": "right",
+      "frame_size": [
+        64,
+        64
+      ],
+      "generator": {
+        "recipe": "art/lpc/characters.json#ringmaster",
+        "repo": "LPC"
+      },
+      "hand_sheet": "res://assets/characters/ringmaster/hands.png",
+      "hands": {
+        "dodge": [
+          [
+            25,
+            47,
+            40
+          ],
+          [
+            23,
+            47,
+            30
+          ],
+          [
+            20,
+            42,
+            10
+          ],
+          [
+            17,
+            39,
+            -20
+          ],
+          [
+            14,
+            37,
+            20
+          ]
+        ],
+        "down": [
+          [
+            20,
+            46,
+            45
+          ],
+          [
+            21,
+            51,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            21,
+            56,
+            45
+          ]
+        ],
+        "heavy": [
+          [
+            39,
+            46,
+            30
+          ],
+          [
+            43,
+            48,
+            30
+          ],
+          [
+            40,
+            46,
+            40
+          ],
+          [
+            48,
+            44,
+            70
+          ],
+          [
+            52,
+            33,
+            115
+          ],
+          [
+            49,
+            32,
+            135
+          ]
+        ],
+        "hurt": [
+          [
+            20,
+            46,
+            40
+          ],
+          [
+            21,
+            51,
+            50
+          ],
+          [
+            23,
+            58,
+            60
+          ]
+        ],
+        "idle": [
+          [
+            29,
+            44,
+            50
+          ],
+          [
+            29,
+            44,
+            50
+          ],
+          [
+            30,
+            45,
+            50
+          ]
+        ],
+        "light": [
+          [
+            12,
+            38,
+            -45
+          ],
+          [
+            39,
+            44,
+            -10
+          ],
+          [
+            50,
+            44,
+            65
+          ],
+          [
+            59,
+            43,
+            110
+          ],
+          [
+            59,
+            43,
+            125
+          ],
+          [
+            39,
+            44,
+            70
+          ]
+        ],
+        "stab": [
+          [
+            39,
+            44,
+            80
+          ],
+          [
+            50,
+            44,
+            90
+          ],
+          [
+            59,
+            43,
+            90
+          ],
+          [
+            59,
+            43,
+            90
+          ],
+          [
+            39,
+            44,
+            80
+          ]
+        ],
+        "walk": [
+          [
+            30,
+            48,
+            55
+          ],
+          [
+            28,
+            48,
+            50
+          ],
+          [
+            22,
+            48,
+            45
+          ],
+          [
+            21,
+            48,
+            40
+          ],
+          [
+            19,
+            48,
+            40
+          ],
+          [
+            21,
+            48,
+            45
+          ],
+          [
+            24,
+            48,
+            50
+          ],
+          [
+            26,
+            48,
+            55
+          ]
+        ]
+      },
+      "licenses": [
+        "OGA-BY 3.0",
+        "OGA-BY 3.0+"
+      ],
+      "origin": [
+        32,
+        63
+      ],
+      "role": "enemy",
+      "sheet": "res://assets/characters/ringmaster/sheet.png",
       "source": "lpc",
       "status": "imported"
     },
@@ -12075,6 +13939,202 @@
         ],
         "theme": "depot"
       },
+      "counting_house": {
+        "layers": {
+          "buildings": {
+            "file": "res://assets/environment/counting_house/buildings.png",
+            "size": [
+              2000,
+              230
+            ]
+          },
+          "far": {
+            "file": "res://assets/environment/counting_house/far.png",
+            "size": [
+              640,
+              230
+            ]
+          },
+          "ground": {
+            "file": "res://assets/environment/counting_house/ground.png",
+            "size": [
+              2000,
+              130
+            ]
+          },
+          "sky": {
+            "file": "res://assets/environment/counting_house/sky.png",
+            "size": [
+              640,
+              230
+            ]
+          }
+        },
+        "props": [
+          {
+            "prop": "crate",
+            "x": 151,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 307,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 383,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 463,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 550,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 605,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 713,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 800,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 978,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 1088,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 1147,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 1250,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 1369,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 1430,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 1632,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 1691,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1809,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1928,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 2033,
+            "y": 244
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 87,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 266,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 453,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 624,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 813,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 982,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1161,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1358,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1528,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1711,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1895,
+            "y": 246
+          }
+        ],
+        "theme": "depot"
+      },
       "crane_yard": {
         "layers": {
           "buildings": {
@@ -14880,6 +16940,190 @@
         ],
         "theme": "depot"
       },
+      "sak_tower": {
+        "layers": {
+          "buildings": {
+            "file": "res://assets/environment/sak_tower/buildings.png",
+            "size": [
+              1700,
+              230
+            ]
+          },
+          "far": {
+            "file": "res://assets/environment/sak_tower/far.png",
+            "size": [
+              640,
+              230
+            ]
+          },
+          "ground": {
+            "file": "res://assets/environment/sak_tower/ground.png",
+            "size": [
+              1700,
+              130
+            ]
+          },
+          "sky": {
+            "file": "res://assets/environment/sak_tower/sky.png",
+            "size": [
+              640,
+              230
+            ]
+          }
+        },
+        "props": [
+          {
+            "prop": "bench",
+            "x": 134,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 186,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 270,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 373,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 476,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 570,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 654,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 763,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 844,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 935,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 1028,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 1142,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1193,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1297,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 1368,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1436,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 1506,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 1559,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1641,
+            "y": 244
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 83,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 272,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 440,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 633,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 819,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 991,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1168,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1359,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1523,
+            "y": 246
+          }
+        ],
+        "theme": "depot"
+      },
       "saltmarket": {
         "layers": {
           "buildings": {
@@ -15102,6 +17346,366 @@
           }
         ],
         "theme": "market"
+      },
+      "underground_ring": {
+        "layers": {
+          "buildings": {
+            "file": "res://assets/environment/underground_ring/buildings.png",
+            "size": [
+              1600,
+              230
+            ]
+          },
+          "far": {
+            "file": "res://assets/environment/underground_ring/far.png",
+            "size": [
+              640,
+              230
+            ]
+          },
+          "ground": {
+            "file": "res://assets/environment/underground_ring/ground.png",
+            "size": [
+              1600,
+              130
+            ]
+          },
+          "sky": {
+            "file": "res://assets/environment/underground_ring/sky.png",
+            "size": [
+              640,
+              230
+            ]
+          }
+        },
+        "props": [
+          {
+            "prop": "pipe_valve",
+            "x": 120,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 178,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 230,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 313,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 373,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 433,
+            "y": 244
+          },
+          {
+            "prop": "bin",
+            "x": 526,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 631,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 717,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 823,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 884,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1091,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1192,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1403,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1489,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1607,
+            "y": 244
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 94,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 272,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 451,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 636,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 808,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 991,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1169,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1351,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1528,
+            "y": 246
+          }
+        ],
+        "theme": "canal"
+      },
+      "warehouse_row": {
+        "layers": {
+          "buildings": {
+            "file": "res://assets/environment/warehouse_row/buildings.png",
+            "size": [
+              2000,
+              230
+            ]
+          },
+          "far": {
+            "file": "res://assets/environment/warehouse_row/far.png",
+            "size": [
+              640,
+              230
+            ]
+          },
+          "ground": {
+            "file": "res://assets/environment/warehouse_row/ground.png",
+            "size": [
+              2000,
+              130
+            ]
+          },
+          "sky": {
+            "file": "res://assets/environment/warehouse_row/sky.png",
+            "size": [
+              640,
+              230
+            ]
+          }
+        },
+        "props": [
+          {
+            "prop": "crate",
+            "x": 123,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 182,
+            "y": 244
+          },
+          {
+            "prop": "bench",
+            "x": 367,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 466,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 580,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 800,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 904,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 992,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 1154,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 1273,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 1329,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1446,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1529,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1617,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 1672,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 1748,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 1928,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 2010,
+            "y": 244
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 95,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 276,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 450,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 637,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 804,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 992,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1173,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1340,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1528,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1719,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1892,
+            "y": 246
+          }
+        ],
+        "theme": "depot"
       },
       "waste_pools": {
         "layers": {
@@ -16039,6 +18643,281 @@
           "front": "#d0d8e0"
         },
         "width": 2200
+      },
+      "counting_house": {
+        "far": "skyline_far",
+        "ground": {
+          "road": "road_tile",
+          "sidewalk": "sidewalk_tile"
+        },
+        "placed": [
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": -45,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 173,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 408,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 605,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 773,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 911,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 1107,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 1258,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "closed_shop",
+            "x": 82,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "guard_booth",
+            "x": 235,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "gang_hq_facade",
+            "x": 436,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "guard_booth",
+            "x": 640,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "gang_hq_facade",
+            "x": 844,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "closed_shop",
+            "x": 1101,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "gang_hq_facade",
+            "x": 1358,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "steel_gate",
+            "x": 1586,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "gang_hq_facade",
+            "x": 1818,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "guard_booth",
+            "x": 2015,
+            "y": 226
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 305,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 378,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 837,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 532,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 1132,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 1739,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 614,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 1350,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "chair_pile",
+            "x": 1589,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 1658,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 441,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 1961,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 79,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 163,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "dog_sitting",
+            "x": 752,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 1256,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "dog_sitting",
+            "x": 1412,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 1788,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 695,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 934,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "chair_pile",
+            "x": 1202,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 1505,
+            "y": 238
+          },
+          {
+            "layer": "fg",
+            "piece": "fg_leaves",
+            "x": 332,
+            "y": 374
+          },
+          {
+            "layer": "fg",
+            "piece": "fg_leaves",
+            "x": 1278,
+            "y": 374
+          },
+          {
+            "layer": "fg",
+            "piece": "fg_leaves",
+            "x": 2178,
+            "y": 374
+          }
+        ],
+        "theme": "gang_hq",
+        "tint": {
+          "back": "#80789a",
+          "far": "#6a6078",
+          "fg": "#3a3040",
+          "front": "#ecd8d0"
+        },
+        "width": 2000
       },
       "crane_yard": {
         "far": "skyline_far",
@@ -19429,6 +22308,257 @@
         },
         "width": 2000
       },
+      "sak_tower": {
+        "far": "skyline_far",
+        "ground": {
+          "road": "road_tile",
+          "sidewalk": "sidewalk_tile"
+        },
+        "placed": [
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": -45,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 222,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 397,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 670,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 834,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 987,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "steel_gate",
+            "x": 42,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "guard_booth",
+            "x": 162,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "rusted_fence",
+            "x": 341,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "guard_booth",
+            "x": 518,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "gang_hq_facade",
+            "x": 717,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "closed_shop",
+            "x": 968,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "gang_hq_facade",
+            "x": 1220,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "guard_booth",
+            "x": 1419,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "steel_gate",
+            "x": 1536,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "gang_hq_facade",
+            "x": 1767,
+            "y": 226
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 678,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "chair_pile",
+            "x": 1615,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 595,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 432,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 770,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 1287,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "dog_sitting",
+            "x": 1701,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 137,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 502,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 866,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 1369,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 1489,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "chair_pile",
+            "x": 1055,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 1199,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "chair_pile",
+            "x": 1432,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 78,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 295,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 993,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 382,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "dog_sitting",
+            "x": 1129,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 1543,
+            "y": 238
+          },
+          {
+            "layer": "fg",
+            "piece": "fg_leaves",
+            "x": 282,
+            "y": 374
+          },
+          {
+            "layer": "fg",
+            "piece": "fg_leaves",
+            "x": 1515,
+            "y": 374
+          }
+        ],
+        "theme": "gang_hq",
+        "tint": {
+          "back": "#80789a",
+          "far": "#6a6078",
+          "fg": "#3a3040",
+          "front": "#ecd8d0"
+        },
+        "width": 1700
+      },
       "saltmarket": {
         "far": "skyline_far",
         "ground": {
@@ -19727,6 +22857,388 @@
           "top": 100
         },
         "width": 2400
+      },
+      "underground_ring": {
+        "far": "skyline_far",
+        "ground": {
+          "road": "road_tile",
+          "sidewalk": "sidewalk_tile"
+        },
+        "placed": [
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": -45,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 198,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 457,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 655,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 940,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "warehouse_wall",
+            "x": 208,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "closed_shop",
+            "x": 557,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "warehouse_wall",
+            "x": 908,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "closed_shop",
+            "x": 1257,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "warehouse_wall",
+            "x": 1610,
+            "y": 226
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 287,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "chair_pile",
+            "x": 749,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 879,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 927,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "ring_ropes",
+            "x": 74,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "chair_pile",
+            "x": 458,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 323,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "chair_pile",
+            "x": 1165,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 1437,
+            "y": 238
+          },
+          {
+            "layer": "front",
+            "piece": "work_lamp_string",
+            "x": 66,
+            "y": 104
+          },
+          {
+            "layer": "front",
+            "piece": "work_lamp_string",
+            "x": 363,
+            "y": 104
+          },
+          {
+            "layer": "front",
+            "piece": "work_lamp_string",
+            "x": 628,
+            "y": 104
+          },
+          {
+            "layer": "front",
+            "piece": "work_lamp_string",
+            "x": 932,
+            "y": 104
+          },
+          {
+            "layer": "front",
+            "piece": "work_lamp_string",
+            "x": 1206,
+            "y": 104
+          },
+          {
+            "layer": "front",
+            "piece": "work_lamp_string",
+            "x": 1499,
+            "y": 104
+          }
+        ],
+        "theme": "fight_club",
+        "tint": {
+          "back": "#706c8c",
+          "far": "#5e5874",
+          "fg": "#3a3448",
+          "front": "#d8ccd0"
+        },
+        "width": 1600
+      },
+      "warehouse_row": {
+        "far": "skyline_far",
+        "ground": {
+          "road": "road_tile",
+          "sidewalk": "sidewalk_tile"
+        },
+        "placed": [
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": -45,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 159,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 425,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 649,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 802,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 1092,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "warehouse_wall",
+            "x": 210,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "guard_booth",
+            "x": 504,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "warehouse_wall",
+            "x": 792,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "guard_booth",
+            "x": 1086,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "rusted_fence",
+            "x": 1261,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "warehouse_wall",
+            "x": 1638,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "steel_gate",
+            "x": 1961,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "warehouse_wall",
+            "x": 2280,
+            "y": 226
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 996,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 1112,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 1963,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 87,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "cat",
+            "x": 1298,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 367,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 731,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 926,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 1813,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 1892,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 572,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 1055,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 1748,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 1403,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 1471,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 1212,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 1547,
+            "y": 238
+          },
+          {
+            "layer": "fg",
+            "piece": "fg_leaves",
+            "x": 229,
+            "y": 374
+          },
+          {
+            "layer": "fg",
+            "piece": "fg_leaves",
+            "x": 1443,
+            "y": 374
+          }
+        ],
+        "theme": "docks",
+        "tint": {
+          "back": "#6a7488",
+          "far": "#5a6478",
+          "fg": "#2a3040",
+          "front": "#d0d8e0"
+        },
+        "width": 2000
       },
       "waste_pools": {
         "far": "skyline_far",
@@ -20516,61 +24028,61 @@
     "icons": {
       "regions": {
         "baron_knuckledusters": [
-          112,
-          32,
+          16,
+          48,
           16,
           16
         ],
         "brass_knuckles": [
-          96,
-          32,
+          0,
+          48,
           16,
           16
         ],
         "brass_whistle": [
-          96,
           0,
+          16,
           16,
           16
         ],
         "canvas_sneakers": [
-          16,
+          48,
           32,
           16,
           16
         ],
         "champion_wraps": [
-          96,
-          48,
+          0,
+          64,
           16,
           16
         ],
         "coin": [
-          112,
-          0,
+          16,
+          16,
           16,
           16
         ],
         "dock_beanie": [
-          64,
+          96,
           16,
           16,
           16
         ],
         "fingerless_gloves": [
-          112,
           16,
+          32,
           16,
           16
         ],
         "foreman_wrench": [
-          64,
+          96,
           0,
           16,
           16
         ],
         "forged_note": [
-          48,
+          80,
           48,
           16,
           16
@@ -20582,37 +24094,43 @@
           16
         ],
         "hard_hat": [
-          80,
+          112,
           16,
           16,
           16
         ],
         "heart": [
-          32,
+          64,
           16,
           16,
           16
         ],
-        "iron_helm": [
+        "herbal_tonic": [
+          64,
           0,
+          16,
+          16
+        ],
+        "iron_helm": [
+          32,
           48,
           16,
           16
         ],
         "iron_wraps": [
-          0,
+          32,
           32,
           16,
           16
         ],
         "jade_charm": [
-          16,
+          48,
           48,
           16,
           16
         ],
         "ledger": [
-          64,
+          96,
           48,
           16,
           16
@@ -20624,43 +24142,49 @@
           16
         ],
         "lucky_coin": [
-          48,
+          80,
           32,
           16,
           16
         ],
         "padded_vest": [
-          96,
-          16,
+          0,
+          32,
           16,
           16
         ],
         "quest": [
-          0,
+          32,
           16,
           16,
           16
         ],
         "rebar_pipe": [
-          48,
+          80,
           16,
           16,
           16
         ],
         "refined_alloy": [
-          112,
+          16,
+          64,
+          16,
+          16
+        ],
+        "rice_box": [
           48,
+          0,
           16,
           16
         ],
         "riveted_jacket": [
-          64,
+          96,
           32,
           16,
           16
         ],
         "scrap_metal": [
-          80,
+          112,
           48,
           16,
           16
@@ -20816,43 +24340,43 @@
           24
         ],
         "slot_body": [
-          32,
+          64,
           64,
           16,
           16
         ],
         "slot_charm": [
-          80,
+          112,
           64,
           16,
           16
         ],
         "slot_feet": [
-          64,
+          96,
           64,
           16,
           16
         ],
         "slot_hands": [
-          48,
+          80,
           64,
           16,
           16
         ],
         "slot_head": [
-          16,
+          48,
           64,
           16,
           16
         ],
         "slot_weapon": [
-          0,
+          32,
           64,
           16,
           16
         ],
         "star": [
-          16,
+          48,
           16,
           16,
           16
@@ -20864,25 +24388,25 @@
           16
         ],
         "steel_toe_boots": [
-          32,
+          64,
           32,
           16,
           16
         ],
         "street_runners": [
-          80,
+          112,
           32,
           16,
           16
         ],
         "taped_knuckles": [
-          48,
+          80,
           0,
           16,
           16
         ],
         "torn_label": [
-          32,
+          64,
           48,
           16,
           16
@@ -20942,7 +24466,7 @@
           32
         ],
         "work_jacket": [
-          80,
+          112,
           0,
           16,
           16

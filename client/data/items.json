@@ -19,6 +19,25 @@
       "icon": "ginger_tea",
       "description": "Fiery enough to wake the dead. Restores body and breath."
     },
+    "rice_box": {
+      "name": "Rice Box",
+      "type": "consumable",
+      "rarity": "uncommon",
+      "price": 45,
+      "heal": 120,
+      "icon": "rice_box",
+      "description": "Rice, basil pork and a fried egg in a paper box. A night shift's whole meal."
+    },
+    "herbal_tonic": {
+      "name": "Herbal Tonic",
+      "type": "consumable",
+      "rarity": "rare",
+      "price": 90,
+      "heal": 220,
+      "energy": 60,
+      "icon": "herbal_tonic",
+      "description": "A bitter green tonic from an old pharmacy jar. Bones knit, breath comes back."
+    },
     "taped_knuckles": {
       "name": "Taped Knuckles",
       "type": "equipment",
@@ -527,6 +546,110 @@
       "price": 0,
       "icon": "ledger",
       "description": "A logbook from under the factory. Page after page of readings, and one line underlined twice: \"The Core must not stop. Report every failure to the Director only.\""
+    },
+    "watch_cap": {
+      "name": "Night Watch Cap",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "rare",
+      "level": 26,
+      "price": 780,
+      "stats": {
+        "defense": 4,
+        "max_hp": 50
+      },
+      "icon": "iron_helm",
+      "description": "A warehouse watchman's cap with a steel lining sewn in."
+    },
+    "kevlar_jacket": {
+      "name": "Kevlar Jacket",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "rare",
+      "level": 26,
+      "price": 860,
+      "stats": {
+        "defense": 6,
+        "max_hp": 50
+      },
+      "icon": "riveted_jacket",
+      "description": "Sold off the back of a truck. Nobody asks which truck."
+    },
+    "fight_gloves": {
+      "name": "Taped Fight Gloves",
+      "type": "equipment",
+      "slot": "hands",
+      "rarity": "rare",
+      "level": 27,
+      "price": 840,
+      "stats": {
+        "power": 0.25,
+        "defense": 1,
+        "crit": 0.06
+      },
+      "icon": "iron_wraps",
+      "description": "Thin leather under fresh tape, the way the ring fighters wear them."
+    },
+    "runner_sneakers": {
+      "name": "Runner Sneakers",
+      "type": "equipment",
+      "slot": "feet",
+      "rarity": "rare",
+      "level": 27,
+      "price": 800,
+      "stats": {
+        "speed": 0.14,
+        "defense": 2,
+        "attack_speed": 0.06
+      },
+      "icon": "street_runners",
+      "description": "Light soles for people who carry cash and cannot be caught."
+    },
+    "ringmaster_wraps": {
+      "name": "Ringmaster's Wraps",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "epic",
+      "level": 27,
+      "price": 0,
+      "stats": {
+        "power": 0.6,
+        "defense": 1,
+        "crit": 0.08
+      },
+      "icon": "brass_knuckles",
+      "description": "Red wraps the Ringmaster wore for every fight he fixed."
+    },
+    "sak_signet": {
+      "name": "Sak's Signet",
+      "type": "equipment",
+      "slot": "charm",
+      "rarity": "legendary",
+      "level": 31,
+      "price": 0,
+      "stats": {
+        "max_hp": 50,
+        "power": 0.1,
+        "crit": 0.06
+      },
+      "icon": "jade_charm",
+      "description": "A heavy gold ring with the gang's mark. It opened every door on South Street."
+    },
+    "money_trail": {
+      "name": "Money Trail",
+      "type": "key",
+      "rarity": "epic",
+      "price": 0,
+      "icon": "ledger",
+      "description": "Transfer slips from the Counting House. Every month the same sum leaves Kraisorn Heavy Industries for Big Sak's accounts, each slip approved by one name: Director Wiroj."
+    },
+    "facility_pass": {
+      "name": "Core Facility Pass",
+      "type": "key",
+      "rarity": "epic",
+      "price": 0,
+      "icon": "torn_label",
+      "description": "Big Sak's keycard and a hand-drawn map to the Core Facility north of the factories. On the back: \"Final activation in seven days. Keep the city quiet until then.\""
     }
   }
 }

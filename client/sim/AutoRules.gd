@@ -61,30 +61,24 @@ static func fare(content: ContentDB, area_id: String) -> int:
 	return -1
 
 
-## Buys the cheapest healing food sold in `area_id` until the hero carries
-## `keep` of it, never spending the coins kept back (`reserve`, the taxi fare
-## back out). Returns how many were bought.
+## Buys food sold in `area_id` (the best buy for this hero first, see
+## FoodRules.shopping_list) until the hero carries `keep` foods in all, never
+## spending the coins kept back (`reserve`, the taxi fare back out). Returns
+## how many were bought.
 static func restock(
 	profile: PlayerProfile, content: ContentDB, area_id: String, keep: int, reserve: int
 ) -> int:
-	var food := ""
-	var shop_id := ""
+	var max_hp := int(profile.stats(content)["max_hp"])
+	var bought := 0
 	for npc: Dictionary in content.area(area_id).get("npcs", []):
 		if npc.get("role") != "shop":
 			continue
-		for item_id: String in content.shops.get(str(npc["shop"]), {}).get("items", []):
-			var item := content.item(item_id)
-			if item.get("type") != "consumable" or int(item.get("heal", 0)) <= 0:
-				continue
-			if food == "" or int(item["price"]) < int(content.item(food)["price"]):
-				food = item_id
-				shop_id = str(npc["shop"])
-	if food == "":
-		return 0
-	var bought := 0
-	var price := int(content.item(food)["price"])
-	while profile.count(food) < keep and profile.money - price >= reserve:
-		if ShopRules.buy(profile, shop_id, food, content) != "":
-			break
-		bought += 1
+		var shop_id := str(npc["shop"])
+		var sold: Array = content.shops.get(shop_id, {}).get("items", [])
+		for food in FoodRules.shopping_list(content, sold, max_hp):
+			var price := int(content.item(food)["price"])
+			while FoodRules.carried(profile, content) < keep and profile.money - price >= reserve:
+				if ShopRules.buy(profile, shop_id, food, content) != "":
+					break
+				bought += 1
 	return bought

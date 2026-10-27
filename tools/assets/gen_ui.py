@@ -49,6 +49,26 @@ def tea(d: ImageDraw.ImageDraw) -> None:
         d.point((x, y), fill=(200, 210, 220, 255))
 
 
+def rice_box(d: ImageDraw.ImageDraw) -> None:
+    # A takeaway box: rice, a fried egg and a banana leaf.
+    d.rectangle((1, 6, 14, 14), fill=OUTLINE)
+    d.rectangle((2, 7, 13, 13), fill=(196, 150, 96, 255))
+    d.rectangle((3, 7, 12, 10), fill=(246, 242, 230, 255))
+    d.ellipse((7, 5, 11, 9), fill=(250, 250, 244, 255), outline=OUTLINE)
+    d.point((9, 7), fill=(240, 180, 40, 255))
+    d.line((3, 6, 6, 4), fill=(70, 150, 70, 255), width=2)
+
+
+def herbal_tonic(d: ImageDraw.ImageDraw) -> None:
+    # A small corked bottle of green herbal tonic.
+    d.rectangle((6, 1, 9, 4), fill=OUTLINE)
+    d.rectangle((7, 2, 8, 3), fill=(176, 120, 70, 255))
+    d.rounded_rectangle((3, 4, 12, 14), radius=2, fill=OUTLINE)
+    d.rounded_rectangle((4, 5, 11, 13), radius=2, fill=(70, 170, 90, 255))
+    d.rectangle((5, 8, 10, 11), fill=(236, 228, 200, 255))
+    d.point((6, 6), fill=(190, 240, 200, 255))
+
+
 def knuckles(d: ImageDraw.ImageDraw) -> None:
     d.rectangle((3, 4, 12, 13), fill=OUTLINE)
     d.rectangle((4, 5, 11, 12), fill=(224, 170, 130, 255))
@@ -712,6 +732,8 @@ ICONS = {
     "lock": lock,
     "steamed_bun": bun,
     "ginger_tea": tea,
+    "rice_box": rice_box,
+    "herbal_tonic": herbal_tonic,
     "taped_knuckles": knuckles,
     "foreman_wrench": wrench,
     "work_jacket": jacket,

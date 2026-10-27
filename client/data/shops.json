@@ -5,6 +5,8 @@
       "items": [
         "steamed_bun",
         "ginger_tea",
+        "rice_box",
+        "herbal_tonic",
         "taped_knuckles",
         "fingerless_gloves",
         "dock_beanie",
@@ -21,6 +23,7 @@
       "items": [
         "steamed_bun",
         "ginger_tea",
+        "rice_box",
         "hard_hat",
         "steel_toe_boots",
         "riveted_jacket",
@@ -36,6 +39,7 @@
       "items": [
         "steamed_bun",
         "ginger_tea",
+        "rice_box",
         "iron_helm",
         "riveted_jacket",
         "street_runners",
@@ -52,6 +56,8 @@
       "items": [
         "steamed_bun",
         "ginger_tea",
+        "rice_box",
+        "herbal_tonic",
         "dockers_cap",
         "port_jacket",
         "cargo_gloves",
@@ -60,6 +66,25 @@
         "plant_vest",
         "insulated_gloves",
         "lab_boots",
+        "scrap_metal",
+        "refined_alloy"
+      ]
+    },
+    "thong_stall": {
+      "name": "Uncle Thong's Stall",
+      "items": [
+        "steamed_bun",
+        "ginger_tea",
+        "rice_box",
+        "herbal_tonic",
+        "hazmat_hood",
+        "plant_vest",
+        "insulated_gloves",
+        "lab_boots",
+        "watch_cap",
+        "kevlar_jacket",
+        "fight_gloves",
+        "runner_sneakers",
         "scrap_metal",
         "refined_alloy"
       ]

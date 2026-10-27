@@ -2647,6 +2647,15 @@
         "west": {
           "to": "waste_pools",
           "entry": "east"
+        },
+        "east": {
+          "to": "warehouse_row",
+          "entry": "west",
+          "requires": {
+            "defeat": "unit_k7",
+            "count": 1,
+            "hint": "Unit K-7 still guards the drains. Stop it to go on."
+          }
         }
       },
       "weapons": {
@@ -2714,6 +2723,496 @@
         {
           "kind": "oil_drums",
           "x": 1420,
+          "y": 258
+        }
+      ]
+    },
+    "warehouse_row": {
+      "name": "Warehouse Row",
+      "level": 26,
+      "width": 2000,
+      "safe": false,
+      "theme": "depot",
+      "kit_theme": "docks",
+      "palette": {
+        "sky": "#14121c",
+        "buildings": [
+          "#24202e",
+          "#2c2636",
+          "#1e1a28"
+        ],
+        "windows": "#d0b0f0",
+        "sidewalk": "#46424c",
+        "street": "#22202a"
+      },
+      "exits": {
+        "west": {
+          "to": "factory_drains",
+          "entry": "east"
+        },
+        "east": {
+          "to": "underground_ring",
+          "entry": "west",
+          "requires": {
+            "defeat": "network_runner",
+            "count": 6,
+            "hint": "The runners watch the warehouse doors. Knock down 6 to pass."
+          }
+        }
+      },
+      "npcs": [
+        {
+          "id": "kenji_network",
+          "name": "Kenji",
+          "role": "quests",
+          "x": 300,
+          "y": 262,
+          "color": "#40a060",
+          "line": "I sold information. I carried envelopes too. Let me make it right.",
+          "sprite": "npc_kenji"
+        },
+        {
+          "id": "vendor_thong",
+          "name": "Uncle Thong",
+          "role": "shop",
+          "shop": "thong_stall",
+          "x": 470,
+          "y": 262,
+          "color": "#5a6a8a",
+          "line": "Thirty years watching these doors. I sell what fell off the trucks.",
+          "sprite": "npc_thong"
+        },
+        {
+          "id": "taxi_win_warehouse",
+          "name": "Win",
+          "role": "travel",
+          "fare": 10,
+          "x": 640,
+          "y": 262,
+          "color": "#e07020",
+          "line": "Warehouses, factories, port, home. Ten coins anywhere.",
+          "sprite": "npc_win"
+        }
+      ],
+      "weapons": {
+        "count": [
+          3,
+          5
+        ],
+        "pool": {
+          "pipe": 3,
+          "baseball_bat": 3,
+          "machete": 2,
+          "wrench": 2,
+          "chair": 2
+        }
+      },
+      "encounters": [
+        {
+          "trigger_x": 950,
+          "arena": [
+            760,
+            1380
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "network_runner",
+              "network_runner",
+              "dock_slinger"
+            ],
+            [
+              "network_runner",
+              "network_enforcer",
+              "network_runner"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1500,
+          "arena": [
+            1280,
+            1980
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "network_runner",
+              "network_enforcer",
+              "hazmat_sprayer"
+            ],
+            [
+              "network_runner",
+              "network_runner",
+              "network_enforcer"
+            ]
+          ]
+        }
+      ],
+      "obstacles": [
+        {
+          "kind": "street_lamp",
+          "x": 220,
+          "y": 240
+        },
+        {
+          "kind": "street_lamp",
+          "x": 860,
+          "y": 240
+        },
+        {
+          "kind": "crates",
+          "x": 1100,
+          "y": 258
+        },
+        {
+          "kind": "pickup_truck",
+          "x": 1300,
+          "y": 262
+        },
+        {
+          "kind": "street_lamp",
+          "x": 1620,
+          "y": 240
+        },
+        {
+          "kind": "oil_drums",
+          "x": 1820,
+          "y": 258
+        }
+      ]
+    },
+    "underground_ring": {
+      "name": "The Underground Ring",
+      "level": 27,
+      "width": 1600,
+      "safe": false,
+      "theme": "canal",
+      "kit_theme": "fight_club",
+      "palette": {
+        "sky": "#1e1018",
+        "buildings": [
+          "#341a22",
+          "#2a141c",
+          "#3c2026"
+        ],
+        "windows": "#ff6040",
+        "sidewalk": "#463a3c",
+        "street": "#281c20"
+      },
+      "exits": {
+        "west": {
+          "to": "warehouse_row",
+          "entry": "east"
+        },
+        "east": {
+          "to": "counting_house",
+          "entry": "west",
+          "requires": {
+            "defeat": "ringmaster",
+            "count": 1,
+            "hint": "The Ringmaster bars the stairs up. Beat him to pass."
+          }
+        }
+      },
+      "weapons": {
+        "count": [
+          2,
+          4
+        ],
+        "pool": {
+          "chair": 4,
+          "bottle": 3,
+          "baseball_bat": 2,
+          "pipe": 2
+        }
+      },
+      "encounters": [
+        {
+          "trigger_x": 420,
+          "arena": [
+            180,
+            880
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "ring_fighter",
+              "network_runner",
+              "network_runner"
+            ],
+            [
+              "ring_fighter",
+              "network_runner",
+              "network_enforcer"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1150,
+          "arena": [
+            900,
+            1580
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "ringmaster"
+            ],
+            [
+              "ring_fighter",
+              "network_runner"
+            ]
+          ]
+        }
+      ],
+      "obstacles": [
+        {
+          "kind": "street_lamp",
+          "x": 240,
+          "y": 240
+        },
+        {
+          "kind": "trash_bin",
+          "x": 700,
+          "y": 234
+        },
+        {
+          "kind": "crates",
+          "x": 900,
+          "y": 258
+        },
+        {
+          "kind": "street_lamp",
+          "x": 1300,
+          "y": 240
+        },
+        {
+          "kind": "oil_drums",
+          "x": 1480,
+          "y": 258
+        }
+      ]
+    },
+    "counting_house": {
+      "name": "The Counting House",
+      "level": 29,
+      "width": 2000,
+      "safe": false,
+      "theme": "depot",
+      "kit_theme": "gang_hq",
+      "palette": {
+        "sky": "#18141a",
+        "buildings": [
+          "#2a2228",
+          "#322830",
+          "#221c22"
+        ],
+        "windows": "#f0d070",
+        "sidewalk": "#48444a",
+        "street": "#242024"
+      },
+      "exits": {
+        "west": {
+          "to": "underground_ring",
+          "entry": "east"
+        },
+        "east": {
+          "to": "sak_tower",
+          "entry": "west",
+          "requires": {
+            "defeat": "network_enforcer",
+            "count": 6,
+            "hint": "The enforcers guard the way to the tower. Knock down 6 to pass."
+          }
+        }
+      },
+      "weapons": {
+        "count": [
+          3,
+          5
+        ],
+        "pool": {
+          "pipe": 3,
+          "machete": 3,
+          "chair": 3,
+          "baseball_bat": 3,
+          "wrench": 2
+        }
+      },
+      "encounters": [
+        {
+          "trigger_x": 900,
+          "arena": [
+            700,
+            1340
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "network_enforcer",
+              "network_enforcer",
+              "dock_slinger"
+            ],
+            [
+              "network_enforcer",
+              "ring_fighter",
+              "network_runner"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1500,
+          "arena": [
+            1280,
+            1980
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "network_enforcer",
+              "network_runner",
+              "hazmat_sprayer"
+            ],
+            [
+              "network_enforcer",
+              "network_enforcer",
+              "network_runner"
+            ]
+          ]
+        }
+      ],
+      "obstacles": [
+        {
+          "kind": "street_lamp",
+          "x": 220,
+          "y": 240
+        },
+        {
+          "kind": "crates",
+          "x": 820,
+          "y": 258
+        },
+        {
+          "kind": "street_lamp",
+          "x": 1020,
+          "y": 240
+        },
+        {
+          "kind": "car_wreck",
+          "x": 1260,
+          "y": 262
+        },
+        {
+          "kind": "oil_drums",
+          "x": 1700,
+          "y": 258
+        },
+        {
+          "kind": "street_lamp",
+          "x": 1860,
+          "y": 240
+        }
+      ]
+    },
+    "sak_tower": {
+      "name": "Rattanachai Tower",
+      "level": 31,
+      "width": 1700,
+      "safe": false,
+      "theme": "depot",
+      "kit_theme": "gang_hq",
+      "palette": {
+        "sky": "#120c14",
+        "buildings": [
+          "#2a1a24",
+          "#34202c",
+          "#20141c"
+        ],
+        "windows": "#ff50a0",
+        "sidewalk": "#443c44",
+        "street": "#201820"
+      },
+      "exits": {
+        "west": {
+          "to": "counting_house",
+          "entry": "east"
+        }
+      },
+      "weapons": {
+        "count": [
+          1,
+          3
+        ],
+        "pool": {
+          "pipe": 3,
+          "machete": 3,
+          "chair": 3,
+          "baseball_bat": 3
+        }
+      },
+      "encounters": [
+        {
+          "trigger_x": 420,
+          "arena": [
+            180,
+            900
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "network_enforcer",
+              "network_runner",
+              "network_runner"
+            ],
+            [
+              "ring_fighter",
+              "network_runner"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1200,
+          "arena": [
+            960,
+            1680
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "big_sak"
+            ],
+            [
+              "network_enforcer",
+              "network_runner"
+            ]
+          ]
+        }
+      ],
+      "obstacles": [
+        {
+          "kind": "street_lamp",
+          "x": 240,
+          "y": 240
+        },
+        {
+          "kind": "crates",
+          "x": 620,
+          "y": 258
+        },
+        {
+          "kind": "street_lamp",
+          "x": 940,
+          "y": 240
+        },
+        {
+          "kind": "taxi",
+          "x": 1100,
+          "y": 262
+        },
+        {
+          "kind": "oil_drums",
+          "x": 1560,
           "y": 258
         }
       ]
