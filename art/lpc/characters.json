@@ -26,9 +26,85 @@
       "loop": false
     },
     "heavy": {
-      "lpc": "slash",
-      "fps": 9,
-      "loop": false
+      "lpc": "1h_halfslash",
+      "frames": [
+        0,
+        1,
+        1,
+        2,
+        3,
+        4,
+        4,
+        5
+      ],
+      "fps": 12,
+      "loop": false,
+      "borrow": {
+        "1": {
+          "from": [
+            "spellcast",
+            5
+          ],
+          "erase": [
+            [
+              39,
+              25,
+              50,
+              36
+            ]
+          ],
+          "patch": [
+            {
+              "from": [
+                "1h_halfslash",
+                0
+              ],
+              "box": [
+                33,
+                35,
+                45,
+                46
+              ],
+              "to": [
+                39,
+                35
+              ]
+            }
+          ]
+        },
+        "2": {
+          "from": [
+            "spellcast",
+            5
+          ],
+          "erase": [
+            [
+              39,
+              25,
+              50,
+              36
+            ]
+          ],
+          "patch": [
+            {
+              "from": [
+                "1h_halfslash",
+                0
+              ],
+              "box": [
+                33,
+                35,
+                45,
+                46
+              ],
+              "to": [
+                39,
+                35
+              ]
+            }
+          ]
+        }
+      }
     },
     "hurt": {
       "lpc": "hurt",
@@ -154,15 +230,16 @@
       ]
     },
     "heavy": {
-      "lpc": "slash",
-      "hand": "front",
+      "lpc": "1h_halfslash",
       "angles": [
-        30,
-        30,
-        40,
-        70,
-        115,
-        135
+        -60,
+        -35,
+        -30,
+        45,
+        92,
+        105,
+        110,
+        60
       ]
     },
     "hurt": {

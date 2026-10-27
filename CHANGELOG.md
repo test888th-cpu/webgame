@@ -4,6 +4,21 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Fixed: skills and heavy blows are thrown with the right hand
+- The `heavy` animation, played by heavy attacks and most skills, was LPC's `slash`.
+  In side view that move strikes with the far arm, so fighters punched, and swung a
+  held weapon, with the left hand.
+- `heavy` is now built from the right-hand half-slash for every LPC character,
+  monsters included:
+  - a wind-up;
+  - the right fist raised beside the head and held a beat, borrowed from spellcast
+    like the weapon swing;
+  - the strike forward;
+  - a follow-through.
+  The left fist stays at the chest, and a held weapon stays in the right hand.
+- A pipeline test fails if any blow is again built from a move that strikes with the
+  left arm.
+
 ### Fixed: upgrades stay with the item
 - Upgrades now belong to the **item**, not the equipment slot. Save v9 moves each
   slot's level onto the item worn there. A +9 weapon taken off keeps its +9 in the

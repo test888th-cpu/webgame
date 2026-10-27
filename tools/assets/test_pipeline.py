@@ -161,13 +161,18 @@ class HandSocketTest(unittest.TestCase):
         self.assertEqual(lpc_build.near_hand([], (29, 44)), (29, 44))
 
     def test_the_weapon_stays_in_one_hand(self) -> None:
-        # Standing, walking and the heavy swing keep the weapon in the same
-        # hand: the socket never jumps across the body between frames.
+        # Standing and walking keep the weapon in the same hand: the socket
+        # never jumps across the body between frames. Every blow is struck
+        # with the near (right) arm: LPC's half-slash, never its slash, whose
+        # far (left) arm strikes.
         manifest = json.loads(lpc_build.MANIFEST.read_text())
         for char_id, asset in manifest["assets"].items():
             if asset.get("source") != "lpc":
                 continue
-            for name in ("idle", "walk", "heavy"):
+            for name in ("light", "heavy", "stab", "swing"):
+                if name in asset["animations"]:
+                    self.assertEqual(asset["animations"][name]["source"], "1h_halfslash", f"{char_id} {name}")
+            for name in ("idle", "walk"):
                 frames = asset["hands"].get(name, [])
                 for a, b in zip(frames, frames[1:]):
                     self.assertLessEqual(abs(a[0] - b[0]), 12, f"{char_id} {name} {frames}")
