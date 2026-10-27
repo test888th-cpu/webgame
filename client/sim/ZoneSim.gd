@@ -173,7 +173,7 @@ func refresh_hero() -> void:
 
 func spawn_enemy(kind: String, position: Vector2) -> Fighter:
 	var data := content.enemy(kind)
-	var enemy_level := level + int(data.get("level_bonus", 0))
+	var enemy_level := LevelRules.enemy_level(data, level)
 	var stats := LevelRules.enemy_stats(data, enemy_level)
 	var enemy := Fighter.new(_next_id, ENEMY_TEAM, position, stats["max_hp"])
 	_next_id += 1
@@ -743,6 +743,7 @@ func _defeat(enemy: Fighter, events: Array[ZoneEvent]) -> void:
 	profile.defeated[enemy.kind] = int(profile.defeated.get(enemy.kind, 0)) + 1
 	var scaled: Dictionary = _enemy_level.get(enemy.id, {}).get("stats", {})
 	var xp := int(scaled.get("xp", data.get("xp", 0)))
+	xp = roundi(xp * LevelRules.xp_scale(enemy_level(enemy.id), profile.level))
 	var levels := profile.add_xp(xp, content)
 	var loot := LootRules.roll(data.get("loot", {}), rng)
 	var money := roundi(loot["money"] * float(scaled.get("money_scale", 1.0)))

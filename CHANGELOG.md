@@ -4,6 +4,31 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed — Levels 1-50, climbing chapter by chapter (decision D11, replaces D9)
+- The hero now levels up to **50**. Each chapter has its own level band: South Street
+  areas run levels 1-10, the Port District 12-16 and the Industrial District 19-24.
+  Elites fight one level above their area and bosses two (`LevelRules.enemy_level`;
+  `level_bonus` still overrides). Item level requirements, weapon `min_level` and quest XP
+  follow the new bands.
+- Enemies grow at the hero's pace: per level +6% health (the hero's damage grows about
+  as fast) and +8% damage (the hero's health grows about as fast), +1 defense every 8
+  levels. An enemy at the hero's level is about as hard at level 40 as at level 4; the
+  gap decides, and gear and enhancing keep the hero ahead.
+- Brains sharpen slowly instead of peaking by level 13: reactions and attack pauses
+  shorten 1.2% per level (at most halved), guarding starts at level 4, picking up weapons
+  at 6 and dodging at 9. Chapter 1 enemies stay simple-minded.
+- **Name colours by level gap** over every enemy and on the boss bar (which now shows
+  the boss's level): grey (6+ levels below the hero), green (3-5 below), yellow (within
+  2), orange (3-5 above), red (6+ above).
+- XP depends on the gap too: grey foes pay 10%, green 60%, yellow 100%, orange 120%, red
+  140%. Money is unchanged, so old streets can still be farmed for coins.
+- XP curve `100 + 100·(L-1) + 6·(L-1)²` per level (new optional `square` term in
+  `progression.json`), tuned so that clearing each area once and handing in its quests
+  brings the hero in within two levels of every area.
+- Tests: elites and bosses fight above their area, chapters stay in their bands, early
+  enemies are simple-minded, an even-level fight stays fair from level 1 to 50, name
+  colours, XP by gap, and a straight run keeps the hero near each area's level.
+
 ### Added — Return to the Depot Yard from the pause menu
 - **Return to Depot Yard** (pause menu, Game tab) takes the hero straight home to upgrade
   gear at the workbench, shop and rest. Arriving heals and brings every street's fights

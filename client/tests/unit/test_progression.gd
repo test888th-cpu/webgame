@@ -47,7 +47,7 @@ func test_big_xp_gives_several_levels_and_stops_at_cap() -> void:
 
 func test_equipment_changes_stats_and_swaps_back() -> void:
 	var p := _profile()
-	p.level = 4  # the wrench needs level 4
+	p.level = 5  # the wrench needs level 5
 	p.add_item("taped_knuckles")
 	p.add_item("foreman_wrench")
 	var base: float = p.stats(_content())["power"]

@@ -202,7 +202,7 @@
         }
       ],
       "theme": "market",
-      "level": 1,
+      "level": 2,
       "weapons": {
         "count": [
           2,
@@ -364,7 +364,7 @@
         }
       ],
       "theme": "canal",
-      "level": 2,
+      "level": 3,
       "weapons": {
         "count": [
           2,
@@ -439,7 +439,7 @@
     },
     "rusted_corner": {
       "name": "Rusted Corner",
-      "level": 3,
+      "level": 4,
       "width": 2000,
       "safe": false,
       "theme": "depot",
@@ -598,7 +598,7 @@
     },
     "parking_lot": {
       "name": "Parking Lot",
-      "level": 4,
+      "level": 5,
       "width": 2000,
       "safe": false,
       "theme": "depot",
@@ -752,7 +752,7 @@
     },
     "rail_yards": {
       "name": "Rail Yards",
-      "level": 4,
+      "level": 6,
       "width": 2400,
       "safe": false,
       "theme": "depot",
@@ -926,7 +926,7 @@
     },
     "night_market": {
       "name": "Night Market",
-      "level": 6,
+      "level": 7,
       "width": 2600,
       "safe": false,
       "theme": "market",
@@ -1141,7 +1141,7 @@
     },
     "fight_club": {
       "name": "Fight Club",
-      "level": 7,
+      "level": 8,
       "width": 1500,
       "safe": false,
       "theme": "canal",
@@ -1249,7 +1249,7 @@
     },
     "refinery": {
       "name": "Smokestack Refinery",
-      "level": 8,
+      "level": 9,
       "width": 2200,
       "safe": false,
       "theme": "canal",
@@ -1424,7 +1424,7 @@
     },
     "rat_nest": {
       "name": "Rat Nest",
-      "level": 9,
+      "level": 10,
       "width": 1800,
       "safe": false,
       "theme": "canal",
@@ -1557,7 +1557,7 @@
     },
     "gang_hq": {
       "name": "Gang Headquarters",
-      "level": 9,
+      "level": 10,
       "width": 1600,
       "safe": false,
       "theme": "depot",
@@ -1675,7 +1675,7 @@
     },
     "port_road": {
       "name": "Port Road",
-      "level": 10,
+      "level": 12,
       "width": 2000,
       "safe": false,
       "theme": "depot",
@@ -1830,7 +1830,7 @@
     },
     "freight_market": {
       "name": "Freight Market",
-      "level": 11,
+      "level": 13,
       "width": 2200,
       "safe": false,
       "theme": "market",
@@ -1976,7 +1976,7 @@
     },
     "container_yard": {
       "name": "Container Yard",
-      "level": 12,
+      "level": 15,
       "width": 2200,
       "safe": false,
       "theme": "depot",
@@ -2116,7 +2116,7 @@
     },
     "crane_yard": {
       "name": "Crane Yard",
-      "level": 13,
+      "level": 16,
       "width": 1600,
       "safe": false,
       "theme": "depot",
@@ -2224,7 +2224,7 @@
     },
     "factory_gate": {
       "name": "Factory Gate",
-      "level": 14,
+      "level": 19,
       "width": 2000,
       "safe": false,
       "theme": "canal",
@@ -2378,7 +2378,7 @@
     },
     "production_line": {
       "name": "Production Line",
-      "level": 15,
+      "level": 21,
       "width": 1800,
       "safe": false,
       "theme": "canal",
@@ -2491,7 +2491,7 @@
     },
     "waste_pools": {
       "name": "Waste Pools",
-      "level": 16,
+      "level": 23,
       "width": 2200,
       "safe": false,
       "theme": "canal",
@@ -2627,7 +2627,7 @@
     },
     "factory_drains": {
       "name": "Factory Drains",
-      "level": 17,
+      "level": 24,
       "width": 1600,
       "safe": false,
       "theme": "canal",

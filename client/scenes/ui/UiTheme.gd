@@ -26,6 +26,15 @@ const HP := Color("e0524a")
 const EP := Color("4aa3e0")
 const XP := Color("a77be0")
 const GOLD := Color("f2c14a")
+## Enemy name colours by level gap (LevelRules.threat): grey is beneath the
+## hero, red is far above.
+const THREAT := {
+	"trivial": Color("8a8a96"),
+	"easy": Color("7bd389"),
+	"even": Color("f2e25a"),
+	"tough": Color("f2913a"),
+	"deadly": Color("ff4a3d"),
+}
 
 # Type scale (base-viewport pixels).
 const SIZE_LOGO := 34

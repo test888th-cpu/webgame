@@ -182,7 +182,12 @@ func _process(delta: float) -> void:
 	var boss := zone.fighter(zone.boss_id) if zone.boss_id else null
 	_boss.visible = boss != null and not boss.is_ko()
 	if _boss.visible:
-		_boss_name.text = str(content.enemy(boss.kind).get("name", "")).to_upper()
+		var level := zone.enemy_level(boss.id)
+		_boss_name.text = (
+			"%s  Lv %d" % [str(content.enemy(boss.kind).get("name", "")).to_upper(), level]
+		)
+		var threat := LevelRules.threat(level, profile.level)
+		_boss_name.add_theme_color_override("font_color", UiTheme.THREAT[threat])
 		_boss_bar.set_values(boss.hp, boss.max_hp)
 
 
