@@ -220,6 +220,19 @@ func in_encounter() -> bool:
 	return _active >= 0
 
 
+## Why the hero cannot go straight home to the start area right now (the
+## pause menu's "Return to Depot Yard"), or "" when they can: never in the
+## middle of a fight, so it is no escape from one.
+func recall_problem() -> String:
+	if area_id == content.start_area:
+		return "You are already there."
+	if in_encounter():
+		return "Finish this fight first."
+	if hero.is_ko() or hero.state == Fighter.State.DOWN:
+		return "Get back on your feet first."
+	return ""
+
+
 ## Advances the zone one tick. Returns everything that happened.
 func tick(hero_input: FighterInput) -> Array[ZoneEvent]:
 	tick_count += 1

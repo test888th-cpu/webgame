@@ -165,6 +165,14 @@ static func _system(game: Game) -> Control:
 	buttons.custom_minimum_size.x = 160
 	buttons.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	buttons.add_child(UiKit.button("Resume", game.close_menu))
+	var home := str(game.content.area(game.content.start_area).get("name", "home"))
+	var recall := UiKit.button("Return to %s" % home, game._recall)
+	recall.name = "Recall"
+	var problem := game.zone.recall_problem()
+	recall.disabled = problem != ""
+	buttons.add_child(recall)
+	if problem and game.zone.area_id != game.content.start_area:
+		buttons.add_child(UiKit.label(problem, UiTheme.SIZE_SMALL, UiTheme.TEXT_FAINT))
 	buttons.add_child(UiKit.button("Save game", game._save_game))
 	buttons.add_child(UiKit.button("Save and quit to title", game._quit_to_title))
 	if not TutorialRules.is_done(game.profile, game.content):
