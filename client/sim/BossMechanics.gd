@@ -2,8 +2,10 @@ class_name BossMechanics
 extends RefCounted
 ## What a boss does beyond its own blows, read from its enemies.json entry:
 ## * "hazard": calls something down on the hero's spot every so often (a
-##   container off a crane, a steam vent bursting). It warns first, then hits
-##   every fighter there but the boss, the boss's own crew included;
+##   container off a crane, a steam vent bursting, a laser sweeping the whole
+##   lane at the hero's depth). It warns first, then hits every fighter in
+##   its footprint ("half": half its width and depth) but the boss, the
+##   boss's own crew included;
 ## * "summon": whistles in reinforcements every so often, one from each side
 ##   of the fight, while fewer than its "max" helpers stand.
 ## A phase may quicken either ("hazard_every", "summon_every"). Both stop the
@@ -58,7 +60,8 @@ func _call_hazard(zone: ZoneSim, boss: Fighter, data: Dictionary, events: Array[
 	zone.hazards.append(drop)
 	events.append(
 		ZoneEvent.make(
-			"hazard_warn", {"at": drop["at"], "ticks": drop["ticks"], "kind": drop["kind"]}
+			"hazard_warn",
+			{"at": drop["at"], "ticks": drop["ticks"], "kind": drop["kind"], "half": drop["half"]}
 		)
 	)
 

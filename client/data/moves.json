@@ -1285,6 +1285,104 @@
       "knockdown": true,
       "telegraph": true,
       "anim": "heavy"
+    },
+    "hybrid_maul": {
+      "startup": 11,
+      "active": 4,
+      "recovery": 20,
+      "damage": 14,
+      "hitstun": 22,
+      "knockback": 40,
+      "reach_offset": 4,
+      "reach": 34,
+      "depth_tolerance": 16
+    },
+    "subject_lunge": {
+      "startup": 24,
+      "active": 10,
+      "recovery": 34,
+      "damage": 24,
+      "hitstun": 30,
+      "knockback": 100,
+      "reach_offset": 0,
+      "reach": 34,
+      "depth_tolerance": 18,
+      "advance": 100,
+      "guard_break": true,
+      "knockdown": true,
+      "telegraph": true,
+      "anim": "heavy"
+    },
+    "subject_frenzy": {
+      "startup": 20,
+      "active": 14,
+      "recovery": 36,
+      "damage": 22,
+      "hitstun": 30,
+      "knockback": 90,
+      "reach_offset": -36,
+      "reach": 72,
+      "depth_tolerance": 20,
+      "guard_break": true,
+      "knockdown": true,
+      "telegraph": true,
+      "anim": "heavy"
+    },
+    "arthit_baton": {
+      "startup": 8,
+      "active": 3,
+      "recovery": 14,
+      "damage": 12,
+      "hitstun": 18,
+      "knockback": 22,
+      "reach_offset": 4,
+      "reach": 38,
+      "depth_tolerance": 16,
+      "chains": {
+        "light": "arthit_baton2"
+      }
+    },
+    "arthit_baton2": {
+      "startup": 8,
+      "active": 4,
+      "recovery": 22,
+      "damage": 15,
+      "hitstun": 24,
+      "knockback": 50,
+      "reach_offset": 4,
+      "reach": 40,
+      "depth_tolerance": 16,
+      "knockdown": true
+    },
+    "arthit_strike": {
+      "startup": 24,
+      "active": 6,
+      "recovery": 32,
+      "damage": 28,
+      "hitstun": 34,
+      "knockback": 100,
+      "reach_offset": 4,
+      "reach": 44,
+      "depth_tolerance": 18,
+      "guard_break": true,
+      "knockdown": true,
+      "telegraph": true,
+      "anim": "heavy"
+    },
+    "arthit_sweep": {
+      "startup": 22,
+      "active": 8,
+      "recovery": 34,
+      "damage": 26,
+      "hitstun": 32,
+      "knockback": 100,
+      "reach_offset": -50,
+      "reach": 100,
+      "depth_tolerance": 22,
+      "guard_break": true,
+      "knockdown": true,
+      "telegraph": true,
+      "anim": "heavy"
     }
   }
 }

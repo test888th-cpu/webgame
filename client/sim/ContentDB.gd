@@ -269,8 +269,8 @@ func _validate_enemy(id: String, e: Dictionary) -> void:
 	if hazard is Dictionary and not hazard.is_empty():
 		_check(bool(e.get("boss", false)), where + ".hazard: only bosses call hazards")
 		_check(
-			str(hazard.get("kind", "crane")) in ["crane", "steam"],
-			where + ".hazard.kind: crane or steam"
+			str(hazard.get("kind", "crane")) in ["crane", "steam", "laser"],
+			where + ".hazard.kind: crane, steam or laser"
 		)
 		for field in ["every", "warn", "damage"]:
 			_number(hazard, field, where + ".hazard", 1)

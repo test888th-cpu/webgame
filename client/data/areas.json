@@ -3137,6 +3137,15 @@
         "west": {
           "to": "counting_house",
           "entry": "east"
+        },
+        "east": {
+          "to": "facility_gate",
+          "entry": "west",
+          "requires": {
+            "defeat": "big_sak",
+            "count": 1,
+            "hint": "Big Sak still holds the tower. Beat him to go on."
+          }
         }
       },
       "weapons": {
@@ -3209,6 +3218,465 @@
           "kind": "taxi",
           "x": 1100,
           "y": 262
+        },
+        {
+          "kind": "oil_drums",
+          "x": 1560,
+          "y": 258
+        }
+      ]
+    },
+    "facility_gate": {
+      "name": "Core Facility Gate",
+      "level": 33,
+      "width": 2000,
+      "safe": false,
+      "theme": "canal",
+      "kit_theme": "plant",
+      "palette": {
+        "sky": "#0e1418",
+        "buildings": [
+          "#1c262c",
+          "#222e36",
+          "#182026"
+        ],
+        "windows": "#80e0f0",
+        "sidewalk": "#444a50",
+        "street": "#1e2428"
+      },
+      "exits": {
+        "west": {
+          "to": "sak_tower",
+          "entry": "east"
+        },
+        "east": {
+          "to": "test_labs",
+          "entry": "west",
+          "requires": {
+            "defeat": "facility_trooper",
+            "count": 6,
+            "hint": "Facility Troopers hold the gate. Knock down 6 to pass."
+          }
+        }
+      },
+      "npcs": [
+        {
+          "id": "pim_facility",
+          "name": "Dr. Pim",
+          "role": "quests",
+          "x": 300,
+          "y": 262,
+          "color": "#e0e0f0",
+          "line": "Six years of numbers, and here is where they lead.",
+          "sprite": "npc_pim"
+        },
+        {
+          "id": "vendor_lek",
+          "name": "Lek",
+          "role": "shop",
+          "shop": "lek_lab_cart",
+          "x": 470,
+          "y": 262,
+          "color": "#c0c8e0",
+          "line": "I washed their glassware for two years. They let me go. I kept the keys.",
+          "sprite": "npc_lek"
+        },
+        {
+          "id": "taxi_win_facility",
+          "name": "Win",
+          "role": "travel",
+          "fare": 10,
+          "x": 640,
+          "y": 262,
+          "color": "#e07020",
+          "line": "Furthest I've ever driven. Ten coins, same as always.",
+          "sprite": "npc_win"
+        }
+      ],
+      "weapons": {
+        "count": [
+          2,
+          4
+        ],
+        "pool": {
+          "pipe": 3,
+          "wrench": 3,
+          "baseball_bat": 2,
+          "machete": 2
+        }
+      },
+      "encounters": [
+        {
+          "trigger_x": 950,
+          "arena": [
+            760,
+            1380
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "facility_trooper",
+              "facility_trooper",
+              "hazmat_sprayer"
+            ],
+            [
+              "facility_trooper",
+              "network_enforcer",
+              "facility_trooper"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1500,
+          "arena": [
+            1280,
+            1980
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "facility_trooper",
+              "patrol_unit",
+              "dock_slinger"
+            ],
+            [
+              "facility_trooper",
+              "riot_trooper",
+              "facility_trooper"
+            ]
+          ]
+        }
+      ],
+      "obstacles": [
+        {
+          "kind": "street_lamp",
+          "x": 220,
+          "y": 240
+        },
+        {
+          "kind": "street_lamp",
+          "x": 860,
+          "y": 240
+        },
+        {
+          "kind": "crates",
+          "x": 1100,
+          "y": 258
+        },
+        {
+          "kind": "pickup_truck",
+          "x": 1300,
+          "y": 262
+        },
+        {
+          "kind": "street_lamp",
+          "x": 1620,
+          "y": 240
+        },
+        {
+          "kind": "oil_drums",
+          "x": 1820,
+          "y": 258
+        }
+      ]
+    },
+    "test_labs": {
+      "name": "Test Labs",
+      "level": 35,
+      "width": 1600,
+      "safe": false,
+      "theme": "canal",
+      "kit_theme": "waste",
+      "palette": {
+        "sky": "#0c1410",
+        "buildings": [
+          "#16241c",
+          "#1c2c22",
+          "#122018"
+        ],
+        "windows": "#a0f0b0",
+        "sidewalk": "#3e4a42",
+        "street": "#18221c"
+      },
+      "exits": {
+        "west": {
+          "to": "facility_gate",
+          "entry": "east"
+        },
+        "east": {
+          "to": "machine_hall",
+          "entry": "west",
+          "requires": {
+            "defeat": "subject_twelve",
+            "count": 1,
+            "hint": "Subject 12 blocks the way on. Stop him to pass."
+          }
+        }
+      },
+      "weapons": {
+        "count": [
+          2,
+          3
+        ],
+        "pool": {
+          "pipe": 3,
+          "wrench": 3,
+          "chair": 2
+        }
+      },
+      "encounters": [
+        {
+          "trigger_x": 420,
+          "arena": [
+            180,
+            880
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "hybrid_worker",
+              "facility_trooper",
+              "hazmat_sprayer"
+            ],
+            [
+              "hybrid_worker",
+              "hybrid_worker",
+              "facility_trooper"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1150,
+          "arena": [
+            900,
+            1580
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "subject_twelve"
+            ],
+            [
+              "hybrid_worker",
+              "facility_trooper"
+            ]
+          ]
+        }
+      ],
+      "obstacles": [
+        {
+          "kind": "oil_drums",
+          "x": 460,
+          "y": 258
+        },
+        {
+          "kind": "crates",
+          "x": 900,
+          "y": 258
+        },
+        {
+          "kind": "oil_drums",
+          "x": 1420,
+          "y": 258
+        }
+      ]
+    },
+    "machine_hall": {
+      "name": "Machine Hall",
+      "level": 37,
+      "width": 2000,
+      "safe": false,
+      "theme": "canal",
+      "kit_theme": "plant",
+      "palette": {
+        "sky": "#10121a",
+        "buildings": [
+          "#20242e",
+          "#262c38",
+          "#1a1e28"
+        ],
+        "windows": "#f0c060",
+        "sidewalk": "#464850",
+        "street": "#202228"
+      },
+      "exits": {
+        "west": {
+          "to": "test_labs",
+          "entry": "east"
+        },
+        "east": {
+          "to": "control_room",
+          "entry": "west",
+          "requires": {
+            "defeat": "riot_trooper",
+            "count": 6,
+            "hint": "The riot squad holds the hall. Knock down 6 Riot Troopers to pass."
+          }
+        }
+      },
+      "weapons": {
+        "count": [
+          2,
+          4
+        ],
+        "pool": {
+          "pipe": 4,
+          "wrench": 4,
+          "machete": 2
+        }
+      },
+      "encounters": [
+        {
+          "trigger_x": 900,
+          "arena": [
+            700,
+            1340
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "riot_trooper",
+              "facility_trooper",
+              "patrol_unit"
+            ],
+            [
+              "riot_trooper",
+              "hybrid_worker",
+              "riot_trooper"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1500,
+          "arena": [
+            1280,
+            1980
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "riot_trooper",
+              "facility_trooper",
+              "hazmat_sprayer"
+            ],
+            [
+              "riot_trooper",
+              "riot_trooper",
+              "facility_trooper"
+            ]
+          ]
+        }
+      ],
+      "obstacles": [
+        {
+          "kind": "street_lamp",
+          "x": 220,
+          "y": 240
+        },
+        {
+          "kind": "oil_drums",
+          "x": 820,
+          "y": 258
+        },
+        {
+          "kind": "street_lamp",
+          "x": 1020,
+          "y": 240
+        },
+        {
+          "kind": "crates",
+          "x": 1260,
+          "y": 258
+        },
+        {
+          "kind": "oil_drums",
+          "x": 1700,
+          "y": 258
+        },
+        {
+          "kind": "street_lamp",
+          "x": 1860,
+          "y": 240
+        }
+      ]
+    },
+    "control_room": {
+      "name": "Control Room",
+      "level": 39,
+      "width": 1700,
+      "safe": false,
+      "theme": "canal",
+      "kit_theme": "tunnels",
+      "palette": {
+        "sky": "#0a0c14",
+        "buildings": [
+          "#181c2a",
+          "#1e2232",
+          "#141826"
+        ],
+        "windows": "#ff4060",
+        "sidewalk": "#3c4048",
+        "street": "#181a22"
+      },
+      "exits": {
+        "west": {
+          "to": "machine_hall",
+          "entry": "east"
+        }
+      },
+      "weapons": {
+        "count": [
+          1,
+          3
+        ],
+        "pool": {
+          "pipe": 3,
+          "wrench": 3
+        }
+      },
+      "encounters": [
+        {
+          "trigger_x": 420,
+          "arena": [
+            180,
+            900
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "riot_trooper",
+              "facility_trooper",
+              "facility_trooper"
+            ],
+            [
+              "hybrid_worker",
+              "facility_trooper"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1200,
+          "arena": [
+            960,
+            1680
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "commander_arthit"
+            ],
+            [
+              "facility_trooper",
+              "facility_trooper"
+            ]
+          ]
+        }
+      ],
+      "obstacles": [
+        {
+          "kind": "crates",
+          "x": 620,
+          "y": 258
         },
         {
           "kind": "oil_drums",
