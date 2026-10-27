@@ -96,21 +96,24 @@ manifest: `[x, y, degrees]` per frame). Positions come from LPC's glove layer (h
 only, OGA-BY) for the character's body type, which is read but never shipped; the
 angles are authored once per game animation in `weapon_pose` in the recipe file (for
 the LPC source they were drawn against): a swing arc for `light`, straight ahead for
-`stab`; in LPC's two-handed `slash` (the `heavy` blow) the other arm strikes, so its
-pose says `"hand": "front"` and the weapon follows the striking arm (waiting where it
-next shows while that arm is behind the body). The
+`stab`. Every blow is struck with the right (near) arm: LPC's two-handed `slash`
+strikes with the far, left arm, so no game animation uses it (`"hand": "front"` remains
+for a pose that must follow the far arm). The
 game draws a held weapon at the socket of the frame on screen, so it follows every
 swing, then draws the weapon hand again on top from `hands.png` (the sheet's pixels
 under the near-hand glove mask, one per frame), so the fist closes around the handle.
 
-Animations: `idle`, `walk`, `light` (LPC half-slash), `heavy` (slash), `hurt`,
+Animations: `idle`, `walk`, `light` (LPC half-slash), `heavy` (half-slash with a long
+wind-up and the right fist raised beside the head, borrowed from spellcast), `swing`
+(the same raise, for weapons), `stab`, `hurt`,
 `down`, `dodge` (jump) for the hero. Bodies LPC did not draw an animation for use
 another real LPC animation (see `animation_overrides` in the recipe file), e.g. the
 zombie body has no idle, so its idle is walk frame 0 (its standing pose).
 
 ### Known limitations of the LPC source
 - **No punch or kick animation exists in LPC.** Light attacks use the one-handed
-  half-slash and heavy attacks the slash. Unarmed, these read as punches.
+  half-slash; heavy attacks and skills add a raised wind-up to it, so every blow is
+  thrown with the right hand. Unarmed, these read as punches.
 - **Hurt and knock-down are drawn facing the camera only.** In side view, being
   hit briefly shows the front of the character.
 - No jump for zombie/skeleton bodies, so those enemies have no dodge animation
