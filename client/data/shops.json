@@ -88,6 +88,25 @@
         "scrap_metal",
         "refined_alloy"
       ]
+    },
+    "lek_lab_cart": {
+      "name": "Lek's Supply Cart",
+      "items": [
+        "steamed_bun",
+        "ginger_tea",
+        "rice_box",
+        "herbal_tonic",
+        "watch_cap",
+        "kevlar_jacket",
+        "fight_gloves",
+        "runner_sneakers",
+        "facility_helmet",
+        "trooper_vest",
+        "grip_gloves",
+        "facility_boots",
+        "scrap_metal",
+        "refined_alloy"
+      ]
     }
   }
 }

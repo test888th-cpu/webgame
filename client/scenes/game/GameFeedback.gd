@@ -27,8 +27,8 @@ const PUNCHES: Array[String] = [
 var content: ContentDB
 var view: ZoneView
 var hud: Node
-## Crane drops on screen, oldest first, matched to ZoneSim's by order.
-var _drops: Array[CraneDrop] = []
+## Hazards on screen, oldest first, matched to ZoneSim's by order.
+var _drops: Array[HazardView] = []
 
 
 func _init(p_content: ContentDB, p_hud: Node) -> void:
@@ -72,20 +72,22 @@ func on_event(event: ZoneEvent) -> void:
 			Sfx.play("break_" + str(event.data["material"]), -2.0)
 			Fx.spawn(view.effects, content, "dust", event.data["at"] + CHEST)
 		"hazard_warn":
-			var drop := CraneDrop.new()
+			var drop := HazardView.new()
 			drop.position = event.data["at"]
 			drop.setup(
 				float(event.data["ticks"]) / CombatRules.TICK_RATE,
-				str(event.data.get("kind", "crane"))
+				str(event.data.get("kind", "crane")),
+				event.data.get("half", Vector2(30, 10))
 			)
 			view.effects.add_child(drop)
 			_drops.append(drop)
 			Sfx.play("denied", -6.0)
 		"hazard_hit":
-			_drops = _drops.filter(func(d: CraneDrop) -> bool: return is_instance_valid(d))
+			_drops = _drops.filter(func(d: HazardView) -> bool: return is_instance_valid(d))
 			if not _drops.is_empty():
 				_drops.pop_front().land()
-			Sfx.play("break_metal" if event.data.get("kind") != "steam" else "dodge", 0.0)
+			var sound := {"steam": "dodge", "laser": "swing_heavy"}
+			Sfx.play(sound.get(event.data.get("kind"), "break_metal"), 0.0)
 			Fx.spawn(view.effects, content, "dust", event.data["at"])
 			view.shake(6.0)
 

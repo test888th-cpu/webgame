@@ -1423,6 +1423,295 @@
       "color": "#4a2a1a",
       "sprite": "big_sak",
       "wields": false
+    },
+    "facility_trooper": {
+      "name": "Facility Trooper",
+      "max_hp": 175,
+      "speed": 0.95,
+      "defense": 4,
+      "power": 1.1,
+      "moveset": {
+        "light": "warden_rake",
+        "heavy": "thug_kick"
+      },
+      "ai": {
+        "spacing": 54,
+        "reaction": 10,
+        "cooldown": 50,
+        "cooldown_jitter": 26,
+        "heavy_chance": 0.3,
+        "heavy_cooldown": 300
+      },
+      "xp": 105,
+      "loot": {
+        "money": [
+          20,
+          32
+        ],
+        "drops": [
+          {
+            "item": "rice_box",
+            "chance": 0.15
+          },
+          {
+            "item": "facility_helmet",
+            "chance": 0.03
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 0.15
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.5
+          }
+        ]
+      },
+      "color": "#5a6070",
+      "sprite": "facility_trooper",
+      "wields": true,
+      "weapon_chance": 0.25
+    },
+    "riot_trooper": {
+      "name": "Riot Trooper",
+      "max_hp": 210,
+      "speed": 0.7,
+      "defense": 7,
+      "power": 1.15,
+      "scale": 1.15,
+      "elite": true,
+      "poise": 60,
+      "moveset": {
+        "light": "brute_jab",
+        "heavy": "warden_crush"
+      },
+      "ai": {
+        "spacing": 58,
+        "reaction": 12,
+        "cooldown": 56,
+        "cooldown_jitter": 28,
+        "heavy_chance": 0.35,
+        "heavy_cooldown": 300
+      },
+      "xp": 130,
+      "loot": {
+        "money": [
+          24,
+          38
+        ],
+        "drops": [
+          {
+            "item": "rice_box",
+            "chance": 0.2
+          },
+          {
+            "item": "trooper_vest",
+            "chance": 0.03
+          },
+          {
+            "item": "facility_boots",
+            "chance": 0.03
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 0.2
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.6
+          }
+        ]
+      },
+      "color": "#2a2e38",
+      "sprite": "riot_trooper",
+      "wields": false
+    },
+    "hybrid_worker": {
+      "name": "Hybrid Worker",
+      "max_hp": 230,
+      "speed": 0.8,
+      "defense": 3,
+      "power": 1.25,
+      "scale": 1.15,
+      "poise": 70,
+      "moveset": {
+        "light": "hybrid_maul",
+        "heavy": "brute_slam"
+      },
+      "ai": {
+        "spacing": 56,
+        "reaction": 14,
+        "cooldown": 58,
+        "cooldown_jitter": 30,
+        "heavy_chance": 0.35,
+        "heavy_cooldown": 300
+      },
+      "xp": 120,
+      "loot": {
+        "money": [
+          16,
+          28
+        ],
+        "drops": [
+          {
+            "item": "rice_box",
+            "chance": 0.15
+          },
+          {
+            "item": "grip_gloves",
+            "chance": 0.03
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 0.15
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.4
+          }
+        ]
+      },
+      "color": "#4a8a4a",
+      "sprite": "hybrid_worker",
+      "wields": false
+    },
+    "subject_twelve": {
+      "name": "Subject 12",
+      "max_hp": 640,
+      "speed": 0.9,
+      "defense": 3,
+      "power": 1.0,
+      "scale": 1.4,
+      "boss": true,
+      "poise": 80,
+      "moveset": {
+        "light": "hybrid_maul",
+        "heavy": "subject_lunge"
+      },
+      "ai": {
+        "spacing": 56,
+        "reaction": 10,
+        "cooldown": 32,
+        "cooldown_jitter": 18,
+        "heavy_chance": 0.3,
+        "heavy_cooldown": 300
+      },
+      "phases": [
+        {
+          "below": 0.5,
+          "speed": 1.05,
+          "power": 1.1,
+          "cooldown": 24,
+          "heavy_chance": 0.45,
+          "heavy_cooldown": 270,
+          "moveset": {
+            "light": "hybrid_maul",
+            "heavy": "subject_frenzy"
+          }
+        }
+      ],
+      "xp": 760,
+      "loot": {
+        "money": [
+          300,
+          400
+        ],
+        "drops": [
+          {
+            "item": "subject_band",
+            "chance": 0.15
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 1.0
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 1.0
+          }
+        ]
+      },
+      "color": "#5a9a4a",
+      "sprite": "subject_twelve",
+      "wields": false
+    },
+    "commander_arthit": {
+      "name": "Commander Arthit",
+      "max_hp": 620,
+      "speed": 0.85,
+      "defense": 4,
+      "power": 1.0,
+      "scale": 1.35,
+      "boss": true,
+      "poise": 90,
+      "moveset": {
+        "light": "arthit_baton",
+        "heavy": "arthit_strike"
+      },
+      "ai": {
+        "spacing": 58,
+        "reaction": 10,
+        "cooldown": 38,
+        "cooldown_jitter": 20,
+        "heavy_chance": 0.3,
+        "heavy_cooldown": 330
+      },
+      "hazard": {
+        "kind": "laser",
+        "every": 360,
+        "warn": 60,
+        "damage": 26,
+        "half": [
+          900,
+          9
+        ]
+      },
+      "summon": {
+        "enemy": "facility_trooper",
+        "every": 720,
+        "count": 1,
+        "max": 1
+      },
+      "phases": [
+        {
+          "below": 0.5,
+          "speed": 0.95,
+          "power": 1.1,
+          "cooldown": 28,
+          "heavy_chance": 0.45,
+          "heavy_cooldown": 300,
+          "hazard_every": 260,
+          "summon_every": 540,
+          "moveset": {
+            "light": "arthit_baton",
+            "heavy": "arthit_sweep"
+          }
+        }
+      ],
+      "xp": 1100,
+      "loot": {
+        "money": [
+          420,
+          540
+        ],
+        "drops": [
+          {
+            "item": "arthit_baton",
+            "chance": 0.12
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 1.0
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 1.0
+          }
+        ]
+      },
+      "color": "#2a3a2a",
+      "sprite": "commander_arthit",
+      "wields": false
     }
   }
 }

@@ -1,10 +1,11 @@
-class_name CraneDrop
+class_name HazardView
 extends Node2D
-## A hazard on its way (ZoneSim hazards): a red mark on the street that
-## darkens and pulses as it comes, then either a shipping container falling
-## off a crane ("crane") or a burst of scalding steam from a floor vent
-## ("steam"). Drawn with shapes until the art pass. Presentation only;
-## ZoneSim decides who it hits.
+## A hazard on its way (ZoneSim hazards, called by BossMechanics): a red mark
+## the size of what it will hit, darkening and pulsing as it comes, then a
+## shipping container falling off a crane ("crane"), a burst of scalding
+## steam from a floor vent ("steam") or a security laser sweeping the lane
+## ("laser"). Drawn with shapes until the art pass. Presentation only;
+## BossMechanics decides who it hits.
 
 const FALL_SECONDS := 0.25
 const DROP_HEIGHT := 220.0
@@ -15,18 +16,22 @@ const RIB := Color("7a3418")
 const EDGE := Color("1c1418")
 
 const STEAM := Color(0.92, 0.95, 1.0, 0.85)
+const LASER := Color(1.0, 0.18, 0.25)
 
 var kind := "crane"
+## Half the footprint it hits (as ZoneSim measures it).
+var half := Vector2(30, 10)
 var _left := 1.0
 var _total := 1.0
 var _landed := false
 
 
 ## `seconds` until it lands (or bursts) at this node's position (its feet line).
-func setup(seconds: float, p_kind := "crane") -> void:
+func setup(seconds: float, p_kind := "crane", p_half := Vector2(30, 10)) -> void:
 	_total = maxf(seconds, 0.05)
 	_left = _total
 	kind = p_kind
+	half = p_half
 
 
 func land() -> void:
@@ -45,6 +50,9 @@ func _process(delta: float) -> void:
 func _draw() -> void:
 	var near := 1.0 - _left / _total
 	var pulse := 0.5 + 0.5 * sin(near * 24.0)
+	if kind == "laser":
+		_draw_laser(near, pulse)
+		return
 	if not _landed:
 		var shade := Color(0.9, 0.1, 0.05, 0.25 + 0.35 * near + 0.15 * pulse)
 		_ellipse(SHADOW * (0.6 + 0.4 * near), shade)
@@ -83,3 +91,15 @@ func _draw_steam(near: float) -> void:
 	for i in 8:
 		var y := -10.0 - i * 14.0
 		draw_circle(Vector2(sin(i * 1.7) * 6.0, y), 10.0 + i * 1.5, Color(STEAM, 0.75 - i * 0.07))
+
+
+## A band across the lane, its full width: a thin aiming line that thickens
+## and flickers as it charges, then a bright beam with a white core.
+func _draw_laser(near: float, pulse: float) -> void:
+	var band := Rect2(-half.x, -half.y, half.x * 2.0, half.y * 2.0)
+	if not _landed:
+		draw_rect(band, Color(LASER, 0.12 + 0.25 * near + 0.1 * pulse))
+		draw_line(Vector2(-half.x, 0), Vector2(half.x, 0), Color(LASER, 0.5 + 0.5 * pulse), 1.0)
+		return
+	draw_rect(band, Color(LASER, 0.7))
+	draw_line(Vector2(-half.x, 0), Vector2(half.x, 0), Color(1, 0.9, 0.9), 3.0)

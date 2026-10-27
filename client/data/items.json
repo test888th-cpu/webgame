@@ -650,6 +650,110 @@
       "price": 0,
       "icon": "torn_label",
       "description": "Big Sak's keycard and a hand-drawn map to the Core Facility north of the factories. On the back: \"Final activation in seven days. Keep the city quiet until then.\""
+    },
+    "facility_helmet": {
+      "name": "Facility Helmet",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "rare",
+      "level": 33,
+      "price": 1020,
+      "stats": {
+        "defense": 5,
+        "max_hp": 60
+      },
+      "icon": "iron_helm",
+      "description": "A trooper's helmet with the unit number scratched off."
+    },
+    "trooper_vest": {
+      "name": "Trooper Vest",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "rare",
+      "level": 33,
+      "price": 1120,
+      "stats": {
+        "defense": 7,
+        "max_hp": 60
+      },
+      "icon": "riveted_jacket",
+      "description": "Ceramic plates in a black carrier. Heavier than it looks."
+    },
+    "grip_gloves": {
+      "name": "Lab Grip Gloves",
+      "type": "equipment",
+      "slot": "hands",
+      "rarity": "rare",
+      "level": 35,
+      "price": 1100,
+      "stats": {
+        "power": 0.3,
+        "defense": 2,
+        "crit": 0.06
+      },
+      "icon": "iron_wraps",
+      "description": "Rubber-palmed gloves for handling heavy samples. And heavy people."
+    },
+    "facility_boots": {
+      "name": "Facility Boots",
+      "type": "equipment",
+      "slot": "feet",
+      "rarity": "rare",
+      "level": 35,
+      "price": 1040,
+      "stats": {
+        "speed": 0.15,
+        "defense": 3,
+        "attack_speed": 0.07
+      },
+      "icon": "street_runners",
+      "description": "Anti-static soles that never slip on a clean floor."
+    },
+    "subject_band": {
+      "name": "Subject 12's Band",
+      "type": "equipment",
+      "slot": "charm",
+      "rarity": "epic",
+      "level": 35,
+      "price": 0,
+      "stats": {
+        "max_hp": 60,
+        "defense": 2,
+        "crit": 0.05
+      },
+      "icon": "lucky_coin",
+      "description": "His patient band. The name on it was a worker's, before it was a number."
+    },
+    "arthit_baton": {
+      "name": "Commander's Baton",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "legendary",
+      "level": 39,
+      "price": 0,
+      "stats": {
+        "power": 0.7,
+        "crit": 0.08,
+        "attack_speed": 0.06
+      },
+      "icon": "brass_knuckles",
+      "description": "Arthit's steel baton. He carried it for thirty years and never used it in the city, until now."
+    },
+    "exposure_report": {
+      "name": "Exposure Report",
+      "type": "key",
+      "rarity": "epic",
+      "price": 0,
+      "icon": "ledger",
+      "description": "The Test Labs' own report: night-shift workers kept near The Core for months, their skin turned green, their strength doubled, their memories going. \"Effects reverse if exposure stops.\" Nobody stopped it."
+    },
+    "core_source_data": {
+      "name": "Core Source Data",
+      "type": "key",
+      "rarity": "legendary",
+      "price": 0,
+      "icon": "forged_note",
+      "description": "The Core's original design, from the Control Room. It was built to clean the canal, and it did, until they pushed it ten times past its limit and buried every failure. The final activation pushes it further still."
     }
   }
 }

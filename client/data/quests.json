@@ -180,7 +180,7 @@
       },
       "rewards": {
         "money": 300,
-        "xp": 1090,
+        "xp": 850,
         "items": {
           "refined_alloy": 2
         }
@@ -228,7 +228,7 @@
       },
       "rewards": {
         "money": 360,
-        "xp": 740,
+        "xp": 520,
         "items": {
           "ginger_tea": 3
         }
@@ -566,6 +566,106 @@
       "ends_chapter": {
         "title": "Chapter 4 complete",
         "subtitle": "The Core Facility goes live in seven days."
+      }
+    },
+    "facility_breach": {
+      "name": "Facility Breach",
+      "giver": "pim_facility",
+      "requires": "big_sak",
+      "chapter": "Chapter 5: The Core Facility",
+      "description": "Knock down 6 Facility Troopers at the Core Facility Gate.",
+      "objective": {
+        "type": "defeat",
+        "enemy": "facility_trooper",
+        "count": 6
+      },
+      "rewards": {
+        "money": 1100,
+        "xp": 7560,
+        "items": {
+          "rice_box": 4
+        }
+      },
+      "dialogue": {
+        "offer": "Big Sak's pass gets us to the gate, not through it. The troopers here answer to Commander Arthit, not the gangs. Knock down 6 and we're in.",
+        "active": "The troopers hold the gate east of here. Knock down 6 Facility Troopers.",
+        "done": "We're in. Past the gate are the Test Labs. Lek says the night shift who worked there never came home. Be ready for what you find."
+      }
+    },
+    "subject_twelve": {
+      "name": "Subject 12",
+      "giver": "pim_facility",
+      "requires": "facility_breach",
+      "chapter": "Chapter 5: The Core Facility",
+      "description": "Stop Subject 12 in the Test Labs.",
+      "objective": {
+        "type": "defeat",
+        "enemy": "subject_twelve",
+        "count": 1
+      },
+      "rewards": {
+        "money": 1500,
+        "xp": 10440,
+        "items": {
+          "exposure_report": 1
+        }
+      },
+      "dialogue": {
+        "offer": "The green-skinned ones in the labs were workers. Months beside The Core, and it changed them. The biggest guards the way on. They call him Subject 12. Stop him, don't hate him.",
+        "active": "Subject 12 is at the far end of the Test Labs. His lunge carries him a long way: get out of its line.",
+        "done": "His band has a name on it, a canal dredger from South Street. The lab's own report says it reverses if the exposure stops. So we stop it."
+      }
+    },
+    "machine_hall": {
+      "name": "Machine Hall",
+      "giver": "pim_facility",
+      "requires": "subject_twelve",
+      "chapter": "Chapter 5: The Core Facility",
+      "description": "Knock down 6 Riot Troopers in the Machine Hall.",
+      "objective": {
+        "type": "defeat",
+        "enemy": "riot_trooper",
+        "count": 6
+      },
+      "rewards": {
+        "money": 1300,
+        "xp": 9180,
+        "items": {
+          "herbal_tonic": 3
+        }
+      },
+      "dialogue": {
+        "offer": "The Machine Hall feeds The Core its power. Arthit's riot squad holds it. Knock down 6 and the Control Room door is ours.",
+        "active": "The riot squad holds the Machine Hall. Knock down 6 Riot Troopers. Their armour shrugs off light blows.",
+        "done": "The hall is quiet. One door left: the Control Room. Arthit is in there with the activation keys."
+      }
+    },
+    "commander_arthit": {
+      "name": "Commander Arthit",
+      "giver": "pim_facility",
+      "requires": "machine_hall",
+      "chapter": "Chapter 5: The Core Facility",
+      "description": "Defeat Commander Arthit in the Control Room.",
+      "objective": {
+        "type": "defeat",
+        "enemy": "commander_arthit",
+        "count": 1
+      },
+      "rewards": {
+        "money": 2000,
+        "xp": 12560,
+        "items": {
+          "core_source_data": 1
+        }
+      },
+      "dialogue": {
+        "offer": "Arthit guards the Control Room. The floor there is laced with security lasers: when the red line crosses your lane, change lanes or roll through it. Bring me whatever runs The Core.",
+        "active": "The Control Room is past the Machine Hall. When the red line crosses your lane, step off it or roll.",
+        "done": "The source data. The Core was built to clean the canal, and it worked, until they pushed it past its limits and hid every failure. The final activation will push it further. Wiroj is in the main control centre. It ends there."
+      },
+      "ends_chapter": {
+        "title": "Chapter 5 complete",
+        "subtitle": "The final activation will spread the damage. Wiroj waits at the centre."
       }
     }
   }

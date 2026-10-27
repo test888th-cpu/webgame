@@ -159,11 +159,12 @@ func _evade(zone: ZoneSim, input: FighterInput) -> bool:
 		var away := signf(gap.x)
 		if away == 0.0:
 			away = 1.0 if at.x < zone.arena.get_center().x else -1.0
-		if int(drop["ticks"]) <= 14 and hero.energy >= CombatRules.DODGE_COST:
+		if int(drop["ticks"]) <= 12 and hero.energy >= CombatRules.DODGE_COST:
+			# Too late to walk out: roll, invulnerable as it lands.
 			input.face = int(away)
 			input.dodge = true
 		else:
-			input.move = Vector2(away, signf(gap.y) * 0.5)
+			input.move = _escape(zone, gap, half, away)
 		return true
 	for entry: Dictionary in zone.thrown:
 		if int(entry["team"]) == hero.team:
@@ -184,6 +185,26 @@ func _evade(zone: ZoneSim, input: FighterInput) -> bool:
 			input.move = Vector2(0.0, side)
 			return true
 	return false
+
+
+## The quicker way out of a hazard's footprint (`gap` from its centre to the
+## hero, `half` its half size): along the street, or up or down the lane
+## when it spans the street (a laser) and the lane has room.
+func _escape(zone: ZoneSim, gap: Vector2, half: Vector2, away: float) -> Vector2:
+	var hero := zone.hero
+	var along := (half.x - absf(gap.x)) / LaneMovement.WALK_SPEED_X
+	var up := signf(gap.y)
+	if up == 0.0:
+		up = 1.0 if hero.position.y < zone.arena.get_center().y else -1.0
+	var edge := zone.arena.end.y if up > 0.0 else zone.arena.position.y
+	var target := hero.position.y + up * (half.y - absf(gap.y) + 2.0)
+	if (edge - target) * up < 0.0:
+		up = -up
+		target = hero.position.y + up * (half.y + absf(gap.y) + 2.0)
+	var across := absf(target - hero.position.y) / LaneMovement.WALK_SPEED_Y
+	if across < along:
+		return Vector2(0.0, up)
+	return Vector2(away, signf(gap.y) * 0.5)
 
 
 ## The soonest wind-up that will reach the hero: {"foe", "ticks"} (ticks
@@ -534,7 +555,8 @@ func _unstuck(zone: ZoneSim, input: FighterInput) -> FighterInput:
 
 
 ## Walks towards `goal`, around any street furniture in the way: past it on
-## the goal's side (or the roomier one) rather than into it.
+## the side the hero is on, or, pinned against the lane's edge, back and
+## round the other side.
 func _steer(zone: ZoneSim, goal: Vector2) -> Vector2:
 	var hero := zone.hero
 	var to := goal - hero.position
@@ -549,18 +571,18 @@ func _steer(zone: ZoneSim, goal: Vector2) -> Vector2:
 	var centre: Vector2 = block["position"]
 	var half: Vector2 = block["half"]
 	if absf(dir.x) >= absf(dir.y):
-		var side := signf(goal.y - centre.y)
+		# Pass on the side the hero is already on; with no room there (the
+		# lane's edge), back off and go round the far side instead.
+		var side := signf(hero.position.y - centre.y)
 		if side == 0.0:
-			side = signf(hero.position.y - centre.y)
-		if side == 0.0:
-			side = 1.0
+			side = signf(goal.y - centre.y) if goal.y != centre.y else 1.0
 		var room := (
 			zone.arena.end.y - (centre.y + half.y)
 			if side > 0.0
 			else (centre.y - half.y) - zone.arena.position.y
 		)
 		if room < Bodies.PERSON.y * 2.0 + 1.0:
-			side = -side
+			return Vector2(-signf(dir.x), -side * 0.7).normalized()
 		return Vector2(dir.x * 0.2, side).normalized()
 	var across := signf(goal.x - centre.x)
 	if across == 0.0:

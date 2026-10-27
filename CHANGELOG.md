@@ -4,6 +4,47 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — Chapter 5: The Core Facility (IL-5)
+- Four areas past Rattanachai Tower, open once Big Sak is down:
+  - **Core Facility Gate** (level 33)
+  - **Test Labs** (35)
+  - **Machine Hall** (37)
+  - **Control Room** (39)
+- **Dr. Pim** gives the chapter: Facility Breach, Subject 12, Machine Hall and Commander
+  Arthit. **Lek**, a laid-off lab technician, sells level 33–35 gear, and Win's taxi
+  stands at the gate.
+- New enemies: the **Facility Trooper**, the **Riot Trooper** (elite, heavy armour) and
+  the first **Hybrid Workers**, workers The Core changed. Dr. Pim and the Exposure Report
+  explain them (story bible §6), and they appear only in the facility.
+- Two bosses:
+  - **Subject 12**, mid-chapter: a lunge with a long reach and a frenzied sweep when
+    hurt. Beating him hands over the **Exposure Report**: the change reverses if the
+    exposure stops.
+  - **Commander Arthit**, at the end: security **lasers** that sweep the whole street at
+    the hero's depth, so the escape is a lane change or a roll, not walking away. He
+    calls in a trooper too, and both come faster once he is enraged. Beating him hands
+    over the **Core Source Data**.
+- The hazard system gains the `laser` kind. Warnings now carry their footprint, so the
+  red mark on screen is the size of what it hits. `CraneDrop` becomes `HazardView` (it
+  draws all three kinds).
+- Auto battle escapes a hazard the quicker way, along the street or across the lane, and
+  rolls when it is too late to walk.
+- **Fix:** the pilot could stall forever when pinned between a crate and the lane's edge
+  (it tried to go round the far side, through the crate). It now passes obstacles on the
+  side it is already on, or backs off and goes round.
+
+### Changed — XP pacing for the late game
+- XP curve squared term 6 → 5: late levels were costing more than the areas pay, so the
+  hero fell 3 levels behind by the Test Labs.
+- Two Chapter 1 quest rewards were trimmed (The Pit 850, Rat Nest 520), and Chapter 5's
+  trooper and hybrid XP was set for its two-level steps.
+- A straight run now keeps the hero within two levels of every area, Depot to Control
+  Room (`test_levels`).
+- Measured with the auto-battle pilot, hero one level above each area, no gear, 10 of
+  the food the loop would buy: 126 of 126 seeded runs clear every area from the Crane
+  Yard to the Control Room. With no food, each chapter boss ends a close fight (13–29%
+  of its health left on average when it wins).
+
 ### Added — Chapter 4: The Black Network (IL-5)
 - Four areas past the Factory Drains, open once Unit K-7 is down:
   - **Warehouse Row** (level 26)

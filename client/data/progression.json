@@ -3,7 +3,7 @@
   "xp": {
     "base": 100,
     "growth": 100,
-    "square": 6
+    "square": 5
   },
   "per_level": {
     "max_hp": 10,

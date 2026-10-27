@@ -66,7 +66,7 @@ var solids: Array[Dictionary] = []
 ## damage}. They land as ground weapons (or break) when they hit or stop.
 var thrown: Array[Dictionary] = []
 ## Hazards on their way: {"at": Vector2, "ticks": left, "half": Vector2,
-## "damage": int, "kind": "crane" | "steam"}, called by the boss (see
+## "damage": int, "kind": "crane" | "steam" | "laser"}, called by the boss (see
 ## BossMechanics, which also whistles in a boss's reinforcements).
 var hazards: Array[Dictionary] = []
 var _boss_mechanics := BossMechanics.new()
