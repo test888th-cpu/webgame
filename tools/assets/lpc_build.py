@@ -22,7 +22,12 @@ No frames are invented: every output frame is a composite of source frames.
 Two recipe options restyle what LPC drew, never add frames: a recolour may
 give its own palette (a list of hex colours, darkest first, in place of a
 palette name), and "cap" turns the top of the hair layer into a snapback cap
-(see apply_cap).
+(see apply_cap). An animation may also "borrow" single frames from another
+LPC move ({"1": ["spellcast", 5]} puts that frame second) for a pose its own
+move lacks, such as the weapon raised beside the head; a borrowed frame may
+"erase" boxes from it and "patch" in a box of another LPC frame
+({"from": [move, frame], "box": [x0, y0, x1, y1], "to": [x, y]}), say the
+other hand from the frames around it (see borrowed_frame).
 
 Licensing: every credited file used must offer a licence from the recipe's
 "allowed" list; the most permissive offered licence is recorded. A character
@@ -286,7 +291,8 @@ def hand_sockets(lpc: Lpc, body_type: str, game_anims: dict, poses: dict) -> tup
     layer = lpc.definition(HANDS_DEF)["layer_1"]
     if body_type not in layer:
         return {}, {}
-    lpc.fetch([sprite_path(layer[body_type], ANIMATIONS[a["lpc"]][0], None) for a in game_anims.values()])
+    names = {a["lpc"] for a in game_anims.values()} | {m for a in game_anims.values() for m in borrowed_moves(a)}
+    lpc.fetch([sprite_path(layer[body_type], ANIMATIONS[name][0], None) for name in names])
     sockets: dict = {}
     masks: dict = {}
     for game_name, anim in game_anims.items():
@@ -302,6 +308,12 @@ def hand_sockets(lpc: Lpc, body_type: str, game_anims: dict, poses: dict) -> tup
         row = RIGHT_ROW if row_count == 4 else 0
         front = pose.get("hand") == "front" and pose.get("lpc") == anim["lpc"]
         cells = [hand_blobs(image.crop((f * FRAME, row * FRAME, (f + 1) * FRAME, (row + 1) * FRAME))) for f in frames]
+        for index, spec in anim.get("borrow", {}).items():
+            name, frame = spec["from"] if isinstance(spec, dict) else spec
+            source = lpc.image(sprite_path(layer[body_type], ANIMATIONS[name][0], None))
+            source_row = RIGHT_ROW if ANIMATIONS[name][1] == 4 else 0
+            box = (frame * FRAME, source_row * FRAME, (frame + 1) * FRAME, (source_row + 1) * FRAME)
+            cells[int(index)] = hand_blobs(source.crop(box))
         both = [i for i, blobs in enumerate(cells) if len(blobs) >= 2]
         previous = None
         out, pixels = [], []
@@ -392,6 +404,103 @@ def apply_cap(strip: Image.Image, hair: list, head: list, spec: dict, view: str)
                 px[ox + (min(xs) + max(xs)) // 2, line - 4] = (*badge, 255)
 
 
+def borrowed_moves(anim: dict) -> list[str]:
+    """The LPC moves an animation's borrowed frames and patches come from."""
+    out = []
+    for spec in anim.get("borrow", {}).values():
+        if isinstance(spec, dict):
+            out.append(spec["from"][0])
+            out.extend(patch["from"][0] for patch in spec.get("patch", []))
+        else:
+            out.append(spec[0])
+    return out
+
+
+def borrowed_frame(compose, spec) -> Image.Image:
+    """A frame borrowed from another LPC move: [move, frame], or {"from":
+    [move, frame], "erase": [boxes], "patch": [{"from", "box", "to"}]}. Erased
+    edges are closed with the frame's own outline; `compose(move, frame)`
+    gives a composited frame."""
+    if not isinstance(spec, dict):
+        return compose(*spec)
+    frame = compose(*spec["from"]).copy()
+    px = frame.load()
+    outline = darkest_edge(frame)
+    for x0, y0, x1, y1 in spec.get("erase", []):
+        for y in range(y0, y1):
+            for x in range(x0, x1):
+                px[x, y] = (0, 0, 0, 0)
+        for y in range(max(0, y0 - 1), min(FRAME, y1 + 1)):
+            for x in range(max(0, x0 - 1), min(FRAME, x1 + 1)):
+                if px[x, y][3]:
+                    continue
+                for nx, ny in ((x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)):
+                    if 0 <= nx < FRAME and 0 <= ny < FRAME and px[nx, ny][3] and px[nx, ny] != outline:
+                        px[x, y] = outline
+                        break
+    for patch in spec.get("patch", []):
+        piece = compose(*patch["from"]).crop(tuple(patch["box"]))
+        frame.alpha_composite(piece, tuple(patch["to"]))
+    return frame
+
+
+def darkest_edge(frame: Image.Image) -> tuple:
+    """LPC's outline colour: the darkest colour on the figure's edge."""
+    alpha = frame.getchannel("A").load()
+    px = frame.load()
+    edge = [
+        px[x, y]
+        for y in range(1, FRAME - 1)
+        for x in range(1, FRAME - 1)
+        if alpha[x, y] and not all(alpha[x + dx, y + dy] for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)))
+    ]
+    return min(edge, key=lambda c: sum(c[:3])) if edge else (24, 20, 28, 255)
+
+
+def compose_strip(
+    lpc: Lpc, char_id: str, recipe: dict, layers: list, anim: dict, used_paths: list
+) -> tuple[Image.Image, int]:
+    """One animation's frames, every layer stacked and restyled, side by side."""
+    body_type = recipe["body_type"]
+    folder, row_count, cycle = ANIMATIONS[anim["lpc"]]
+    frames = anim.get("frames", cycle)
+    row_index = RIGHT_ROW if row_count == 4 else 0
+    strip = Image.new("RGBA", (FRAME * len(frames), FRAME), (0, 0, 0, 0))
+    hair_cells: list = [None] * len(frames)
+    head_cells: list = [None] * len(frames)
+    for _, _, definition, layer, item in layers:
+        if anim["lpc"] not in definition.get("animations", []) and folder not in definition.get("animations", []):
+            if item.get("optional_animations"):
+                continue
+        rel = sprite_path(layer[body_type], folder, item.get("variant"))
+        image = lpc.image(rel)
+        if image is None:
+            if item.get("required", True) and definition.get("type_name") in ("body", "head"):
+                raise BuildError(f"{char_id}: missing {rel}")
+            continue  # e.g. hair has no hurt sheet: the generator also skips it
+        used_paths.append((definition, rel.removeprefix("spritesheets/")))
+        mapping = layer_recolour_map(lpc, definition, item.get("recolor", {}))
+        image, changed = recolour(image, mapping)
+        # A requested recolour that touches no pixel means the source does
+        # not use the palette we assumed: fail rather than ship wrong colours.
+        if mapping and changed == 0 and image.getbbox() is not None:
+            raise BuildError(f"{char_id}: recolour {item['recolor']} matched no pixels in {rel}")
+        if image.height < FRAME * (row_index + 1):
+            raise BuildError(f"{char_id}: {rel} has {image.height // FRAME} rows, expected {row_count}")
+        for i, frame in enumerate(frames):
+            if (frame + 1) * FRAME > image.width:
+                raise BuildError(f"{char_id}: {rel} has no frame {frame}")
+            cell = image.crop((frame * FRAME, row_index * FRAME, (frame + 1) * FRAME, (row_index + 1) * FRAME))
+            strip.alpha_composite(cell, (i * FRAME, 0))
+            if definition.get("type_name") == "hair":
+                hair_cells[i] = cell
+            elif definition.get("type_name") == "head":
+                head_cells[i] = cell
+    if recipe.get("cap"):
+        apply_cap(strip, hair_cells, head_cells, recipe["cap"], "side" if row_count == 4 else "front")
+    return strip, len(frames)
+
+
 def build_character(
     lpc: Lpc, char_id: str, recipe: dict, game_anims: dict, allowed: list[str], poses: dict | None = None
 ) -> dict:
@@ -409,50 +518,18 @@ def build_character(
     files = []
     for _, _, definition, layer, item in layers:
         for anim in game_anims.values():
-            folder = ANIMATIONS[anim["lpc"]][0]
-            files.append(sprite_path(layer[body_type], folder, item.get("variant")))
+            for name in [anim["lpc"], *borrowed_moves(anim)]:
+                files.append(sprite_path(layer[body_type], ANIMATIONS[name][0], item.get("variant")))
     lpc.fetch(files)
 
     used_paths: list[tuple[dict, str]] = []
     rows = []
     for game_name, anim in game_anims.items():
-        folder, row_count, cycle = ANIMATIONS[anim["lpc"]]
-        frames = anim.get("frames", cycle)
-        row_index = RIGHT_ROW if row_count == 4 else 0
-        strip = Image.new("RGBA", (FRAME * len(frames), FRAME), (0, 0, 0, 0))
-        hair_cells: list = [None] * len(frames)
-        head_cells: list = [None] * len(frames)
-        for _, _, definition, layer, item in layers:
-            if anim["lpc"] not in definition.get("animations", []) and folder not in definition.get("animations", []):
-                if item.get("optional_animations"):
-                    continue
-            rel = sprite_path(layer[body_type], folder, item.get("variant"))
-            image = lpc.image(rel)
-            if image is None:
-                if item.get("required", True) and definition.get("type_name") in ("body", "head"):
-                    raise BuildError(f"{char_id}: missing {rel}")
-                continue  # e.g. hair has no hurt sheet: the generator also skips it
-            used_paths.append((definition, rel.removeprefix("spritesheets/")))
-            mapping = layer_recolour_map(lpc, definition, item.get("recolor", {}))
-            image, changed = recolour(image, mapping)
-            # A requested recolour that touches no pixel means the source does
-            # not use the palette we assumed: fail rather than ship wrong colours.
-            if mapping and changed == 0 and image.getbbox() is not None:
-                raise BuildError(f"{char_id}: recolour {item['recolor']} matched no pixels in {rel}")
-            if image.height < FRAME * (row_index + 1):
-                raise BuildError(f"{char_id}: {rel} has {image.height // FRAME} rows, expected {row_count}")
-            for i, frame in enumerate(frames):
-                if (frame + 1) * FRAME > image.width:
-                    raise BuildError(f"{char_id}: {rel} has no frame {frame}")
-                cell = image.crop((frame * FRAME, row_index * FRAME, (frame + 1) * FRAME, (row_index + 1) * FRAME))
-                strip.alpha_composite(cell, (i * FRAME, 0))
-                if definition.get("type_name") == "hair":
-                    hair_cells[i] = cell
-                elif definition.get("type_name") == "head":
-                    head_cells[i] = cell
-        if recipe.get("cap"):
-            apply_cap(strip, hair_cells, head_cells, recipe["cap"], "side" if row_count == 4 else "front")
-        rows.append((game_name, strip, len(frames), anim))
+        strip, count = compose_strip(lpc, char_id, recipe, layers, anim, used_paths)
+        for index, spec in anim.get("borrow", {}).items():
+            frame = borrowed_frame(lambda m, f: compose_strip(lpc, char_id, recipe, layers, {"lpc": m, "frames": [f]}, used_paths)[0], spec)
+            strip.paste(frame, (int(index) * FRAME, 0))
+        rows.append((game_name, strip, count, anim))
 
     credits = []
     seen = set()
@@ -540,6 +617,10 @@ def main() -> int:
             if name in overrides and overrides[name] is None:
                 continue
             anims[name] = overrides.get(name) or base
+        # ...or add a move of its own (Riku's overhead weapon swing).
+        for name, spec in overrides.items():
+            if spec and name not in anims:
+                anims[name] = spec
         try:
             manifest["assets"][char_id] = build_character(
                 lpc, char_id, recipe, anims, allowed, recipes.get("weapon_pose", {})

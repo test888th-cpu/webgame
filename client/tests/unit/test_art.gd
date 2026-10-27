@@ -2,6 +2,8 @@ extends TestCase
 ## Imported character art: every manifest entry loads in Godot with the
 ## animations and frame counts the manifest promises, and views use it.
 
+const FIGHTER_VIEW := preload("res://scenes/fighter/FighterView.tscn")
+
 
 func _art() -> Dictionary:
 	return GameSession.content.art
@@ -39,7 +41,7 @@ func test_pixel_art_is_not_smoothed() -> void:
 
 
 func test_fighter_view_plays_attacks_in_step_with_ticks() -> void:
-	var view: FighterView = load("res://scenes/fighter/FighterView.tscn").instantiate()
+	var view: FighterView = FIGHTER_VIEW.instantiate()
 	tree.root.add_child(view)
 	var hero := Fighter.new(1, 1, Vector2(100, 300))
 	view.fighter = hero
@@ -66,6 +68,23 @@ func test_fighter_view_plays_attacks_in_step_with_ticks() -> void:
 	view.sync()
 	assert_true(sprite.flip_h, "faces left by flipping")
 	view.free()
+
+
+func test_weapon_swings_play_the_overhead_swing_where_the_art_has_it() -> void:
+	var swing := GameSession.content.moves.get_move("bat_swing")
+	for art: Array in [["hero_mika", &"swing"], ["sludge_foreman", &"light"]]:
+		var view: FighterView = FIGHTER_VIEW.instantiate()
+		tree.root.add_child(view)
+		var hero := Fighter.new(1, 1, Vector2(100, 300))
+		view.fighter = hero
+		view.set_art(art[0], _art())
+		hero.enter(Fighter.State.ATTACK)
+		hero.move = swing
+		hero.state_tick = 0
+		view.sync()
+		var sprite: AnimatedSprite2D = view.get_node("Sprite")
+		assert_eq(sprite.animation, art[1], "%s plays %s" % art)
+		view.free()
 
 
 func test_hero_art_follows_armour() -> void:

@@ -185,24 +185,33 @@ func test_weapon_moves_play_on_every_armed_body() -> void:
 			var move := _content().moves.get_move(_content().weapons[weapon_id]["moveset"][button])
 			for art_id in bodies:
 				var art: Dictionary = _content().art.get(art_id, {})
+				# Art without the move's own animation plays its fallback.
+				var anim := move.anim
+				if not art.get("animations", {}).has(anim):
+					anim = str(FighterView.FALLBACK.get(anim, anim))
 				assert_true(
-					art.get("animations", {}).has(move.anim),
-					"%s has the %s animation for %s" % [art_id, move.anim, weapon_id]
+					art.get("animations", {}).has(anim),
+					"%s has the %s animation for %s" % [art_id, anim, weapon_id]
 				)
 				assert_eq(
-					art.get("hands", {}).get(move.anim, []).size(),
-					int(art["animations"][move.anim]["frames"]),
-					"%s has a hand socket per %s frame" % [art_id, move.anim]
+					art.get("hands", {}).get(anim, []).size(),
+					int(art["animations"][anim]["frames"]),
+					"%s has a hand socket per %s frame" % [art_id, anim]
 				)
 
 
 func test_knives_stab_and_the_rest_swing() -> void:
 	for weapon_id: String in _content().weapons:
 		var light := _content().moves.get_move(_content().weapons[weapon_id]["moveset"]["light"])
-		var expected := "stab" if weapon_id == "knife" else "light"
+		var expected := "stab" if weapon_id == "knife" else "swing"
 		assert_eq(light.anim, expected, "%s attack motion" % weapon_id)
 	# The swing carries the weapon from up and back to forward and down.
-	var hands: Array = _content().art["hero_oren"]["hands"]["light"]
-	assert_true(float(hands[0][2]) < 0.0, "wind-up points up and back")
-	assert_true(float(hands[3][2]) > 90.0, "the blow comes down in front")
-	assert_true(float(hands[3][0]) > float(hands[0][0]), "the hand travels forward")
+	for hands: Array in [
+		_content().art["hero_oren"]["hands"]["light"], _content().art["hero_riku"]["hands"]["swing"]
+	]:
+		assert_true(float(hands[0][2]) < 0.0, "wind-up points up and back")
+		assert_true(float(hands[3][2]) > 90.0, "the blow comes down in front")
+		assert_true(float(hands[3][0]) > float(hands[0][0]), "the hand travels forward")
+	# Riku raises it beside his head first (a frame borrowed from LPC's spellcast).
+	var riku: Array = _content().art["hero_riku"]["hands"]["swing"]
+	assert_true(float(riku[1][1]) < float(riku[0][1]) - 5.0, "the hand goes up to the head")
