@@ -54,6 +54,14 @@ changes the hero's look). `ContentDB` fails if any of these names a missing asse
 | hero_kan | playable hero (Basketball) | sleeveless jersey, shorts, white shoes, thick headband | OGA-BY 3.0(+) |
 | hero_dao | playable hero (Police) | female, high ponytail, khaki buttoned long sleeves, black pants, boots | OGA-BY 3.0 |
 | hero_pong | playable hero (Soldier) | buzzcut, trimmed beard, green long sleeves and pants, rim boots | OGA-BY 3.0(+) |
+| hero_riku | playable hero (Boxer) | light skin, plain hair under a code-drawn snapback (white, hot-pink brim, gold badge), hot-pink cardigan (own palette) over a white tee, gold chain, charcoal cuffed pants, white shoes | CC0, OGA-BY 3.0 |
+
+Two recipe options restyle LPC parts without inventing frames. A recolour may name
+its own palette, a list of hex colours from darkest to lightest, for colours LPC does
+not offer (Riku's hot pink). `"cap"` turns the top `depth` rows of the hair layer into
+a snapback crown in the `crown` shades, keeping LPC's lighting. It adds a `brim` at
+the front in side views and along the crown in front views, plus an optional gold
+`badge`. The brim is left off when the hero lies on the ground.
 
 The licence policy did its job on the heroes: a necktie for Dao and a vest for Pong
 were refused by `lpc_build.py` because they are only offered as CC-BY-SA/GPL, so the
@@ -250,14 +258,13 @@ standing on it).
 ## Art from the project owner (custom sheets)
 
 `tools/assets/custom_import.py` imports character sheets drawn outside LPC, placed in
-`art/custom/<asset_id>/` with an `import.json` (see `hero_riku`, the Boxer, drawn by
-the project owner). The file lists the source sheets (a grid of cells, frames read left
+`art/custom/<asset_id>/` with an `import.json` (the Smogling, Tar Rat, Smog Warden and Sludge Foreman). The file lists the source sheets (a grid of cells, frames read left
 to right), a scale per sheet that brings it to the game's size (sheets drawn at
 different sizes get different scales so the character matches), and which frames make
 each game animation. Frames are scaled with premultiplied alpha and a hard alpha cut,
 so edges stay crisp, and get the same dark 1 px outline as the LPC characters. An
 animation the art lacks can be derived from one frame by tilting it about the feet
-(`from`/`tilt`): that is how Riku's hurt and knock-down are made. A sheet painted on a flat green backdrop sets `"key": true`; the green is
+(`from`/`tilt`). A sheet painted on a flat green backdrop sets `"key": true`; the green is
 cut out like the street kit's (green clothing inside the dark outline stays). Prompts
 for painting enemy sheets: [ENEMY_PROMPTS.md](ENEMY_PROMPTS.md). A sheet of loose figures (`"figures": true`, with `height`,
 `measure` and optional `row_scale`) needs no strict grid: each figure is found on the

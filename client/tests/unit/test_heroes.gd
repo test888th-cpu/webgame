@@ -44,7 +44,7 @@ func test_riku_is_the_all_rounder_between_the_other_two() -> void:
 		"the Boxer crits most often"
 	)
 	assert_eq(db.hero_art(PlayerProfile.new_game(db, "riku")), "hero_riku", "his own sprite")
-	assert_eq(db.art["hero_riku"]["source"], "custom", "art supplied by the project owner")
+	assert_eq(db.art["hero_riku"]["source"], "lpc", "built from LPC like the other heroes")
 
 
 func test_player_names_are_cleaned_and_validated() -> void:
