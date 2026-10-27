@@ -1,0 +1,236 @@
+{
+  "id": "sludge_foreman",
+  "role": "enemy",
+  "credits": {
+    "authors": [
+      "test888th-cpu (project owner)"
+    ],
+    "license": "Proprietary (project owner)",
+    "notes": "Enemy art painted by the project owner with their own AI tools on a green backdrop; figures cut out and placed by tools/assets/custom_import.py. The kick, split across two painted cells, is left out."
+  },
+  "frame_size": [
+    80,
+    80
+  ],
+  "feet": [
+    40,
+    77
+  ],
+  "portrait_size": 26,
+  "sheets": {
+    "sheet": {
+      "file": "sheet.jpg",
+      "figures": true,
+      "height": 54,
+      "measure": [
+        0,
+        0
+      ]
+    }
+  },
+  "animations": {
+    "idle": {
+      "sheet": "sheet",
+      "frames": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          0,
+          7
+        ]
+      ],
+      "fps": 6
+    },
+    "walk": {
+      "sheet": "sheet",
+      "frames": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          1,
+          5
+        ],
+        [
+          1,
+          6
+        ],
+        [
+          1,
+          7
+        ],
+        [
+          1,
+          8
+        ],
+        [
+          1,
+          9
+        ]
+      ],
+      "fps": 10
+    },
+    "light": {
+      "sheet": "sheet",
+      "frames": [
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "fps": 14,
+      "loop": false
+    },
+    "heavy": {
+      "sheet": "sheet",
+      "frames": [
+        [
+          5,
+          0
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "fps": 10,
+      "loop": false
+    },
+    "stab": {
+      "sheet": "sheet",
+      "frames": [
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "fps": 14,
+      "loop": false
+    },
+    "hurt": {
+      "sheet": "sheet",
+      "frames": [
+        [
+          4,
+          0
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          4,
+          2
+        ]
+      ],
+      "fps": 10,
+      "loop": false
+    },
+    "down": {
+      "sheet": "sheet",
+      "frames": [
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          3
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          5,
+          7
+        ]
+      ],
+      "fps": 10,
+      "loop": false
+    }
+  }
+}

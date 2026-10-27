@@ -1,84 +1,14 @@
 [
   {
-    "file": "body/bodies/zombie",
+    "file": "art/custom/smogling",
     "authors": [
-      "Stephen Challener (Redshrike)",
-      "Johannes Sj\u00f6lund (wulax)",
-      "Sander Frenken (castelonia)",
-      "Benjamin K. Smith (BenCreating)",
-      "bluecarrot16"
+      "test888th-cpu (project owner)"
     ],
-    "license": "OGA-BY 3.0",
+    "license": "Proprietary (project owner)",
     "offered": [
-      "OGA-BY 3.0",
-      "CC-BY-SA 3.0",
-      "GPL 3.0"
+      "Proprietary (project owner)"
     ],
-    "urls": [
-      "https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles",
-      "https://opengameart.org/content/lpc-medieval-fantasy-character-sprites",
-      "https://opengameart.org/content/lpc-zombie",
-      "https://opengameart.org/content/lpc-character-bases"
-    ],
-    "notes": ""
-  },
-  {
-    "file": "legs/shorts/shorts/male",
-    "authors": [
-      "JaidynReiman",
-      "ElizaWy",
-      "Bluecarrot16",
-      "Johannes Sj\u00f6lund (wulax)",
-      "Stephen Challener (Redshrike)"
-    ],
-    "license": "OGA-BY 3.0",
-    "offered": [
-      "OGA-BY 3.0",
-      "GPL 3.0"
-    ],
-    "urls": [
-      "https://github.com/ElizaWy/LPC/tree/main/Characters/Clothing",
-      "https://opengameart.org/content/lpc-expanded-pants"
-    ],
-    "notes": "Original bases by Redshrike, thrust/shoot bases by Wulax, original overalls and shorts by ElizaWy, base animations adapted from v3 overalls by bluecarrot16, shorts by JaidynReiman"
-  },
-  {
-    "file": "legs/shorts/shorts",
-    "authors": [
-      "ElizaWy",
-      "JaidynReiman",
-      "Johannes Sj\u00f6lund (wulax)",
-      "Stephen Challener (Redshrike)"
-    ],
-    "license": "OGA-BY 3.0",
-    "offered": [
-      "OGA-BY 3.0"
-    ],
-    "urls": [
-      "https://github.com/ElizaWy/LPC/tree/main/Characters/Clothing",
-      "https://opengameart.org/content/lpc-expanded-sit-run-jump-more",
-      "https://opengameart.org/content/lpc-expanded-pants"
-    ],
-    "notes": "Original bases by Redshrike, thrust/shoot bases by Wulax, original shorts by ElizaWy, climb/jump/run/sit/emotes/revised combat by JaidynReiman"
-  },
-  {
-    "file": "head/heads/goblin",
-    "authors": [
-      "bluecarrot16",
-      "Stephen Challener (Redshrike)",
-      "William.Thomsponj"
-    ],
-    "license": "OGA-BY 3.0",
-    "offered": [
-      "OGA-BY 3.0",
-      "CC-BY 4.0",
-      "GPL 2.0",
-      "GPL 3.0"
-    ],
-    "urls": [
-      "https://opengameart.org/content/lpc-goblin",
-      "https://opengameart.org/content/lpc-folk"
-    ],
-    "notes": "original goblin by Redshrike, commisioned by William.Thomsponj; modular head extracted and enlarged by bluecarrot16"
+    "urls": [],
+    "notes": "Enemy art painted by the project owner with their own AI tools on a green backdrop; figures cut out and placed by tools/assets/custom_import.py. "
   }
 ]

@@ -1,0 +1,276 @@
+{
+  "id": "smogling",
+  "role": "enemy",
+  "credits": {
+    "authors": [
+      "test888th-cpu (project owner)"
+    ],
+    "license": "Proprietary (project owner)",
+    "notes": "Enemy art painted by the project owner with their own AI tools on a green backdrop; figures cut out and placed by tools/assets/custom_import.py. "
+  },
+  "frame_size": [
+    80,
+    80
+  ],
+  "feet": [
+    40,
+    77
+  ],
+  "portrait_size": 26,
+  "sheets": {
+    "sheet": {
+      "file": "sheet.jpg",
+      "figures": true,
+      "height": 50,
+      "measure": [
+        0,
+        0
+      ]
+    }
+  },
+  "animations": {
+    "idle": {
+      "sheet": "sheet",
+      "frames": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          0,
+          7
+        ],
+        [
+          0,
+          8
+        ],
+        [
+          0,
+          9
+        ]
+      ],
+      "fps": 6
+    },
+    "walk": {
+      "sheet": "sheet",
+      "frames": [
+        [
+          5,
+          0
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          3
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          5,
+          3
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          1
+        ]
+      ],
+      "fps": 8
+    },
+    "light": {
+      "sheet": "sheet",
+      "frames": [
+        [
+          5,
+          0
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          3
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          5,
+          7
+        ],
+        [
+          5,
+          8
+        ]
+      ],
+      "fps": 16,
+      "loop": false
+    },
+    "heavy": {
+      "sheet": "sheet",
+      "frames": [
+        [
+          5,
+          0
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          3
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          5,
+          7
+        ],
+        [
+          5,
+          8
+        ]
+      ],
+      "fps": 12,
+      "loop": false
+    },
+    "stab": {
+      "sheet": "sheet",
+      "frames": [
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          3
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          5,
+          6
+        ]
+      ],
+      "fps": 14,
+      "loop": false
+    },
+    "hurt": {
+      "sheet": "sheet",
+      "frames": [
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ]
+      ],
+      "fps": 10,
+      "loop": false
+    },
+    "down": {
+      "sheet": "sheet",
+      "frames": [
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          3,
+          7
+        ]
+      ],
+      "fps": 10,
+      "loop": false
+    }
+  }
+}

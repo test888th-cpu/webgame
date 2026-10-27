@@ -259,7 +259,10 @@ so edges stay crisp, and get the same dark 1 px outline as the LPC characters. A
 animation the art lacks can be derived from one frame by tilting it about the feet
 (`from`/`tilt`): that is how Riku's hurt and knock-down are made. A sheet painted on a flat green backdrop sets `"key": true`; the green is
 cut out like the street kit's (green clothing inside the dark outline stays). Prompts
-for painting enemy sheets: [ENEMY_PROMPTS.md](ENEMY_PROMPTS.md). The importer also
+for painting enemy sheets: [ENEMY_PROMPTS.md](ENEMY_PROMPTS.md). A sheet of loose figures (`"figures": true`, with `height`,
+`measure` and optional `row_scale`) needs no strict grid: each figure is found on the
+backdrop, rows are grouped by the figures' feet, and animations name `[row, index]`
+(the Tar Rat, Smogling, Smog Warden and Sludge Foreman are made this way). The importer also
 finds the front fist per frame (the most forward pixel at arm height) for held weapons,
 with angles from `weapon_pose`, and a head-and-shoulders portrait crop. Credits name
 the project owner under "Proprietary (project owner)", which the validator accepts
