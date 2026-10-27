@@ -37,7 +37,7 @@ func _rng(lucky: bool) -> RandomNumberGenerator:
 	return rng
 
 
-func test_a_success_raises_the_slot_and_pays_once() -> void:
+func test_a_success_raises_the_worn_item_and_pays_once() -> void:
 	var profile := _profile()
 	var cost := EnhanceRules.next_cost(profile, "body", _content())
 	var money := profile.money
@@ -51,7 +51,7 @@ func test_a_success_raises_the_slot_and_pays_once() -> void:
 
 func test_a_failure_keeps_everything_but_the_cost_and_adds_pity() -> void:
 	var profile := _profile()
-	profile.enhance["body"] = 5
+	profile.enhance["work_jacket"] = 5
 	var before := EnhanceRules.chance(profile, "body", _content())
 	var outcome := EnhanceRules.attempt(profile, "body", _content(), _rng(false))
 	assert_eq(outcome["result"], "fail", "failed")
@@ -59,7 +59,7 @@ func test_a_failure_keeps_everything_but_the_cost_and_adds_pity() -> void:
 	assert_eq(profile.equipment["body"], "work_jacket", "the item stays")
 	assert_true(EnhanceRules.chance(profile, "body", _content()) > before, "next try is better")
 	EnhanceRules.attempt(profile, "body", _content(), _rng(true))
-	assert_eq(profile.enhance_pity.get("body", 0), 0, "pity resets on success")
+	assert_eq(profile.enhance_pity.get("work_jacket", 0), 0, "pity resets on success")
 
 
 func test_short_of_coins_or_materials_changes_nothing() -> void:
@@ -81,53 +81,63 @@ func test_short_of_coins_or_materials_changes_nothing() -> void:
 
 func test_the_top_level_is_final() -> void:
 	var profile := _profile()
-	profile.enhance["body"] = EnhanceRules.max_level(_content())
+	profile.enhance["work_jacket"] = EnhanceRules.max_level(_content())
 	assert_true(EnhanceRules.next_cost(profile, "body", _content()).is_empty(), "no next level")
 	assert_eq(EnhanceRules.attempt(profile, "body", _content(), _rng(true))["result"], "max", "")
 
 
-func test_upgrades_add_stats_and_follow_the_slot() -> void:
+func test_upgrades_add_stats_and_stay_with_the_item() -> void:
 	var profile := _profile()
 	var plain := profile.stats(_content())
-	profile.enhance["body"] = 10
+	profile.enhance["work_jacket"] = 10
 	var tuned := profile.stats(_content())
 	assert_true(tuned["defense"] > plain["defense"], "+10 adds defense")
 	assert_true(tuned["max_hp"] > plain["max_hp"], "and HP")
 	profile.add_item("riveted_jacket")
 	profile.equip("riveted_jacket", _content())
-	var swapped := profile.stats(_content())
-	profile.enhance["body"] = 0
-	var swapped_plain := profile.stats(_content())
-	assert_true(swapped["defense"] > swapped_plain["defense"], "the new jacket gets the slot's +10")
+	assert_eq(EnhanceRules.level(profile, "body"), 0, "the new jacket is +0")
+	assert_eq(EnhanceRules.item_level(profile, "work_jacket"), 10, "the old one is still +10")
+	profile.unequip("body", _content())
+	assert_eq(EnhanceRules.level(profile, "body"), 0, "an empty slot shows no upgrade")
+	profile.equip("work_jacket", _content())
+	assert_eq(profile.stats(_content()), tuned, "worn again, the +10 is back")
 
 
 func test_penalties_are_never_amplified() -> void:
 	var profile := _profile()
 	profile.add_item("rebar_pipe")
 	profile.equip("rebar_pipe", _content())
-	profile.enhance["weapon"] = 10
+	profile.enhance["rebar_pipe"] = 10
 	var extra := EnhanceRules.bonus(profile, "weapon", _content().item("rebar_pipe"), _content())
 	assert_true(not extra.has("speed"), "the pipe's speed penalty stays as it is")
 
 
-func test_saves_keep_upgrades_and_old_saves_start_at_zero() -> void:
+func test_saves_keep_upgrades_and_old_saves_move_them_to_the_item() -> void:
 	var profile := _profile()
-	profile.enhance["body"] = 4
-	profile.enhance_pity["body"] = 2
+	profile.enhance["work_jacket"] = 4
+	profile.enhance_pity["work_jacket"] = 2
 	var loaded := PlayerProfile.from_dict(profile.to_dict(), _content())
-	assert_eq(loaded.enhance, {"body": 4}, "level kept")
-	assert_eq(loaded.enhance_pity, {"body": 2}, "pity kept")
+	assert_eq(loaded.enhance, {"work_jacket": 4}, "level kept")
+	assert_eq(loaded.enhance_pity, {"work_jacket": 2}, "pity kept")
 	var old := profile.to_dict()
 	old["version"] = 4
 	old.erase("enhance")
 	old.erase("enhance_pity")
 	assert_eq(PlayerProfile.from_dict(old, _content()).enhance, {}, "a v4 save starts at +0")
+	var v8 := profile.to_dict()
+	v8["version"] = 8
+	v8["enhance"] = {"body": 6, "head": 3}
+	v8["enhance_pity"] = {"body": 1}
+	v8["equipment"]["head"] = ""
+	var moved := PlayerProfile.from_dict(v8, _content())
+	assert_eq(moved.enhance, {"work_jacket": 6}, "a slot's level moves to what was worn there")
+	assert_eq(moved.enhance_pity, {"work_jacket": 1}, "and its pity")
 	var hacked := profile.to_dict()
-	hacked["enhance"] = {"body": 99, "nose": 3}
+	hacked["enhance"] = {"work_jacket": 99, "nose": 3, "steamed_bun": 2}
 	assert_eq(
 		PlayerProfile.from_dict(hacked, _content()).enhance,
-		{"body": EnhanceRules.max_level(_content())},
-		"clamped, unknown slots dropped"
+		{"work_jacket": EnhanceRules.max_level(_content())},
+		"clamped; only equipment keeps upgrades"
 	)
 
 
@@ -165,7 +175,16 @@ func test_the_workbench_upgrades_from_the_item_card() -> void:
 	game._upgrade(slot)
 	assert_eq(EnhanceRules.level(profile, slot), 1, "a double press is ignored")
 	assert_true(SaveStore.has_save(), "saved")
-	assert_eq(PlayerProfile.from_dict(_saved(), game.content).enhance.get(slot), 1, "on disk")
+	var item_id: String = profile.equipment[slot]
+	assert_eq(PlayerProfile.from_dict(_saved(), game.content).enhance.get(item_id), 1, "on disk")
+	var worn: ItemSlot = game.menu.find_child("Worn_" + slot, true, false)
+	assert_eq(worn.upgrade, 1, "the slot shows +1 at once, without reopening the menu")
+	game.close_item_card()
+	game._unequip(slot)
+	worn = game.menu.find_child("Worn_" + slot, true, false)
+	assert_eq(worn.upgrade, 0, "taken off, the empty slot shows no upgrade")
+	var bag: ItemSlot = game.menu.find_child("Bag_" + item_id, true, false)
+	assert_eq(bag.upgrade, 1, "the +1 went to the bag with the item")
 	game.free()
 	SaveStore.delete()
 	SaveStore.path = SaveStore.DEFAULT_PATH

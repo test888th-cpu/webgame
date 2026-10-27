@@ -507,7 +507,8 @@ func _upgrade(slot: String) -> void:
 			Sfx.play("denied", -4.0)
 	zone.refresh_hero()
 	SaveStore.save(profile)
-	close_item_card()
+	# Rebuild the screen behind the card too, so the slot's "+N" is current.
+	_reopen_bag("worn:" + slot)
 	inspect_item(str(profile.equipment[slot]), slot)
 
 

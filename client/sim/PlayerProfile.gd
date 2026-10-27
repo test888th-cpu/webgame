@@ -5,7 +5,7 @@ extends RefCounted
 ## for the backend in Milestone 4, when the server becomes the only writer.
 ## Temporary combat state (position, energy, cooldowns) never lives here.
 
-const SAVE_VERSION := 8
+const SAVE_VERSION := 9
 ## Equipment slots, in the order the character screen shows them.
 const SLOTS := ["head", "body", "hands", "weapon", "feet", "charm"]
 ## Stats an item can add, as stored in items.json "stats".
@@ -46,8 +46,9 @@ var tutorial := 0
 ## How many times the current step's action was done. Not saved: a step is
 ## short enough to redo after a reload.
 var tutorial_progress := 0
-## Upgrade level per equipment slot (EnhanceRules), and failed attempts since
-## the slot's last success (each raises the next chance).
+## Upgrade level per item id (EnhanceRules; it stays with the item when taken
+## off), and failed attempts since the item's last success (each raises the
+## next chance).
 var enhance := {}
 var enhance_pity := {}
 ## Fights won per area since the last rest, and areas reached (StreetMemory).
@@ -322,10 +323,10 @@ static func from_dict(data: Variant, content: ContentDB) -> PlayerProfile:
 		if not saved is Dictionary:
 			continue
 		var limit := top if field == "enhance" else 1000
-		for slot: String in saved:
-			var value := clampi(int(saved[slot]), 0, limit)
-			if slot in SLOTS and value > 0:
-				p.get(field)[slot] = value
+		for item_id: String in saved:
+			var value := clampi(int(saved[item_id]), 0, limit)
+			if content.item(item_id).get("type") == "equipment" and value > 0:
+				p.get(field)[item_id] = value
 	StreetMemory.load_into(p, migrated, content)
 	var rounds: Variant = migrated.get("world_boss", {})
 	if rounds is Dictionary:
@@ -396,4 +397,18 @@ static func migrate(data: Dictionary) -> Dictionary:
 			by_boss["tunnel_mother"] = round
 		migrated["world_boss"] = by_boss
 		migrated["version"] = 8
+	if int(migrated["version"]) == 8:
+		# Version 9 keeps upgrades on the item, not the slot: each slot's level
+		# goes to what was worn there (an empty slot's is dropped).
+		var worn: Variant = migrated.get("equipment", {})
+		for field: String in ["enhance", "enhance_pity"]:
+			var by_item := {}
+			var by_slot: Variant = migrated.get(field, {})
+			if by_slot is Dictionary and worn is Dictionary:
+				for slot: Variant in by_slot:
+					var item_id := str(worn.get(slot, ""))
+					if item_id:
+						by_item[item_id] = by_slot[slot]
+			migrated[field] = by_item
+		migrated["version"] = 9
 	return migrated

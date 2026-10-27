@@ -373,7 +373,7 @@
         "defense": 2,
         "max_hp": 30
       },
-      "icon": "hard_hat",
+      "icon": "dockers_cap",
       "description": "A padded cap from the port crews, made to take a swinging hook."
     },
     "port_jacket": {
@@ -387,7 +387,7 @@
         "defense": 4,
         "max_hp": 30
       },
-      "icon": "riveted_jacket",
+      "icon": "port_jacket",
       "description": "Heavy canvas with reflective strips. Someone left it on a crate."
     },
     "cargo_gloves": {
@@ -402,7 +402,7 @@
         "defense": 1,
         "attack_speed": 0.06
       },
-      "icon": "iron_wraps",
+      "icon": "cargo_gloves",
       "description": "Rope-burned leather that never slips."
     },
     "deck_boots": {
@@ -417,7 +417,7 @@
         "defense": 2,
         "max_hp": 15
       },
-      "icon": "steel_toe_boots",
+      "icon": "deck_boots",
       "description": "Rubber soles for wet steel decks."
     },
     "harbour_hook": {
@@ -432,7 +432,7 @@
         "max_hp": 25,
         "crit": 0.08
       },
-      "icon": "baron_knuckledusters",
+      "icon": "harbour_hook",
       "description": "Chen's cargo hook, worn smooth by forty years of crates."
     },
     "altered_manifest": {
@@ -454,7 +454,7 @@
         "defense": 3,
         "max_hp": 40
       },
-      "icon": "iron_helm",
+      "icon": "hazmat_hood",
       "description": "Rubberised hood from a plant locker. Smells of chemicals."
     },
     "plant_vest": {
@@ -468,7 +468,7 @@
         "defense": 5,
         "max_hp": 40
       },
-      "icon": "riveted_jacket",
+      "icon": "plant_vest",
       "description": "Padded vest with a plate sewn into the back."
     },
     "insulated_gloves": {
@@ -483,7 +483,7 @@
         "defense": 1,
         "crit": 0.05
       },
-      "icon": "iron_wraps",
+      "icon": "insulated_gloves",
       "description": "Rated for live wires. Good for live fights too."
     },
     "lab_boots": {
@@ -498,7 +498,7 @@
         "defense": 2,
         "attack_speed": 0.05
       },
-      "icon": "street_runners",
+      "icon": "lab_boots",
       "description": "Acid-proof soles that do not slip on wet floors."
     },
     "chiefs_baton": {
@@ -513,7 +513,7 @@
         "defense": 1,
         "crit": 0.07
       },
-      "icon": "brass_knuckles",
+      "icon": "chiefs_baton",
       "description": "Nattapong left it behind when he walked out."
     },
     "k7_core_plate": {
@@ -528,7 +528,7 @@
         "power": 0.08,
         "attack_speed": 0.08
       },
-      "icon": "jade_charm",
+      "icon": "k7_core_plate",
       "description": "A warm plate from K-7's chest. It hums when you fight."
     },
     "waste_sample": {
@@ -558,7 +558,7 @@
         "defense": 4,
         "max_hp": 50
       },
-      "icon": "iron_helm",
+      "icon": "watch_cap",
       "description": "A warehouse watchman's cap with a steel lining sewn in."
     },
     "kevlar_jacket": {
@@ -572,7 +572,7 @@
         "defense": 6,
         "max_hp": 50
       },
-      "icon": "riveted_jacket",
+      "icon": "kevlar_jacket",
       "description": "Sold off the back of a truck. Nobody asks which truck."
     },
     "fight_gloves": {
@@ -587,7 +587,7 @@
         "defense": 1,
         "crit": 0.06
       },
-      "icon": "iron_wraps",
+      "icon": "fight_gloves",
       "description": "Thin leather under fresh tape, the way the ring fighters wear them."
     },
     "runner_sneakers": {
@@ -602,7 +602,7 @@
         "defense": 2,
         "attack_speed": 0.06
       },
-      "icon": "street_runners",
+      "icon": "runner_sneakers",
       "description": "Light soles for people who carry cash and cannot be caught."
     },
     "ringmaster_wraps": {
@@ -617,7 +617,7 @@
         "defense": 1,
         "crit": 0.08
       },
-      "icon": "brass_knuckles",
+      "icon": "ringmaster_wraps",
       "description": "Red wraps the Ringmaster wore for every fight he fixed."
     },
     "sak_signet": {
@@ -632,7 +632,7 @@
         "power": 0.1,
         "crit": 0.06
       },
-      "icon": "jade_charm",
+      "icon": "sak_signet",
       "description": "A heavy gold ring with the gang's mark. It opened every door on South Street."
     },
     "money_trail": {
@@ -662,7 +662,7 @@
         "defense": 5,
         "max_hp": 60
       },
-      "icon": "iron_helm",
+      "icon": "facility_helmet",
       "description": "A trooper's helmet with the unit number scratched off."
     },
     "trooper_vest": {
@@ -676,7 +676,7 @@
         "defense": 7,
         "max_hp": 60
       },
-      "icon": "riveted_jacket",
+      "icon": "trooper_vest",
       "description": "Ceramic plates in a black carrier. Heavier than it looks."
     },
     "grip_gloves": {
@@ -691,7 +691,7 @@
         "defense": 2,
         "crit": 0.06
       },
-      "icon": "iron_wraps",
+      "icon": "grip_gloves",
       "description": "Rubber-palmed gloves for handling heavy samples. And heavy people."
     },
     "facility_boots": {
@@ -706,7 +706,7 @@
         "defense": 3,
         "attack_speed": 0.07
       },
-      "icon": "street_runners",
+      "icon": "facility_boots",
       "description": "Anti-static soles that never slip on a clean floor."
     },
     "subject_band": {
@@ -721,7 +721,7 @@
         "defense": 2,
         "crit": 0.05
       },
-      "icon": "lucky_coin",
+      "icon": "subject_band",
       "description": "His patient band. The name on it was a worker's, before it was a number."
     },
     "arthit_baton": {
@@ -736,7 +736,7 @@
         "crit": 0.08,
         "attack_speed": 0.06
       },
-      "icon": "brass_knuckles",
+      "icon": "arthit_baton",
       "description": "Arthit's steel baton. He carried it for thirty years and never used it in the city, until now."
     },
     "exposure_report": {
@@ -766,7 +766,7 @@
         "defense": 6,
         "max_hp": 80
       },
-      "icon": "iron_helm",
+      "icon": "core_guard_helm",
       "description": "A sentinel's visor, pried off and padded for a human head."
     },
     "reactor_plate": {
@@ -780,7 +780,7 @@
         "defense": 9,
         "max_hp": 80
       },
-      "icon": "riveted_jacket",
+      "icon": "reactor_plate",
       "description": "Lead-lined plating from the reactor walkway. Heavy, and worth it."
     },
     "insulated_gauntlets": {
@@ -795,7 +795,7 @@
         "defense": 2,
         "crit": 0.07
       },
-      "icon": "iron_wraps",
+      "icon": "insulated_gauntlets",
       "description": "Made for live machinery. They take a shock and give one back."
     },
     "walkway_boots": {
@@ -810,7 +810,7 @@
         "defense": 3,
         "attack_speed": 0.08
       },
-      "icon": "street_runners",
+      "icon": "walkway_boots",
       "description": "Grip soles for wet steel gratings and fast exits."
     },
     "director_signet": {
@@ -825,7 +825,7 @@
         "power": 0.12,
         "crit": 0.07
       },
-      "icon": "jade_charm",
+      "icon": "director_signet",
       "description": "Kraisorn Heavy Industries' seal on a white-gold ring. It signed away a canal."
     },
     "mothers_fang": {
@@ -839,7 +839,7 @@
         "power": 0.65,
         "crit": 0.1
       },
-      "icon": "baron_knuckledusters",
+      "icon": "mothers_fang",
       "description": "A tooth the size of a fist, set in tar-black tape. The drains remember who took it."
     },
     "mothers_heart": {
@@ -854,7 +854,7 @@
         "power": 0.1,
         "attack_speed": 0.08
       },
-      "icon": "jade_charm",
+      "icon": "mothers_heart",
       "description": "A green stone from the heart of the Great Drain. It beats, slowly, when you fight."
     },
     "colossus_core": {
@@ -869,7 +869,7 @@
         "power": 0.15,
         "attack_speed": 0.1
       },
-      "icon": "jade_charm",
+      "icon": "colossus_core",
       "description": "The Colossus's power cell, still warm. It hums in time with your heart."
     },
     "piston_gauntlets": {
@@ -884,7 +884,7 @@
         "defense": 3,
         "crit": 0.1
       },
-      "icon": "iron_wraps",
+      "icon": "piston_gauntlets",
       "description": "Hydraulic fists from the Colossus's arms. Every punch lands like a press."
     },
     "zeros_mantle": {
@@ -898,7 +898,7 @@
         "defense": 13,
         "max_hp": 140
       },
-      "icon": "riveted_jacket",
+      "icon": "zeros_mantle",
       "description": "The first worker's lab coat, hardened by years in the sludge. It turns blades."
     },
     "iron_legacy": {
@@ -913,7 +913,7 @@
         "crit": 0.12,
         "attack_speed": 0.08
       },
-      "icon": "baron_knuckledusters",
+      "icon": "iron_legacy",
       "description": "Knuckles forged from the Core Chamber's last door. South Street's story, worn on your fists."
     }
   }

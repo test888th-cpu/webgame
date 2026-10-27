@@ -183,6 +183,7 @@ static func equipment(game: Game) -> Control:
 			var item_id := ids[i]
 			slot.name = "Bag_" + item_id
 			slot.show_item(content, item_id, profile.count(item_id), profile.level)
+			slot.upgrade = EnhanceRules.item_level(profile, item_id)
 			slot.pressed.connect(game.inspect_item.bind(item_id, ""))
 		else:
 			slot.focus_mode = Control.FOCUS_NONE

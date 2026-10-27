@@ -28,7 +28,7 @@ static func details(
 	names.add_theme_constant_override("separation", 0)
 	names.alignment = BoxContainer.ALIGNMENT_CENTER
 	head.add_child(names)
-	var upgrade := EnhanceRules.level(profile, worn_slot) if worn_slot else 0
+	var upgrade := EnhanceRules.item_level(profile, item_id)
 	var title := str(item["name"]) + ("  +%d" % upgrade if upgrade else "")
 	names.add_child(UiKit.label(title, UiTheme.SIZE_H2, ItemText.rarity_color(item)))
 	names.add_child(UiKit.label(ItemText.kind(item), UiTheme.SIZE_CAPTION, UiTheme.TEXT_DIM))
