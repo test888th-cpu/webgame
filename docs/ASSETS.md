@@ -63,6 +63,28 @@ a snapback crown in the `crown` shades, keeping LPC's lighting. It adds a `brim`
 the front in side views and along the crown in front views, plus an optional gold
 `badge`. The brim is left off when the hero lies on the ground.
 
+**The weapon swing (`swing`)** is the standard move for every weapon blow and
+throw (moves with `"anim": "swing"`). It is built for every LPC character
+from `animations.swing` in `art/lpc/characters.json`, so heroes, enemies and
+any character added later get it without extra work. Its six frames are:
+1. the wind-up from LPC's one-handed half slash;
+2. the weapon raised beside the head. This frame is *borrowed*: LPC's
+   spellcast frame 5 for the raised right hand, with the left hand erased and
+   patched back from the wind-up frame. The left fist stays at the chest, as
+   in the frames around it.
+3. to 6. the blow, the hit and the follow-through, from the half slash.
+
+The held weapon's angles come from `weapon_pose.swing`: up and back, then
+level with the ground at the hit. FighterView draws the fist over the handle,
+so the grip is always inside the hand. Art without a `swing` row (painted
+custom sheets) plays `light` instead (`FighterView.FALLBACK`).
+
+A `borrow` entry puts a frame of another LPC move into an animation:
+- `{"1": ["spellcast", 5]}` borrows the whole frame.
+- `{"1": {"from": [...], "erase": [[x0, y0, x1, y1]], "patch": [{"from": [...],
+  "box": [...], "to": [x, y]}]}}` also erases parts of it and patches in
+  pieces of other frames. Erased edges are closed with the frame's outline.
+
 The licence policy did its job on the heroes: a necktie for Dao and a vest for Pong
 were refused by `lpc_build.py` because they are only offered as CC-BY-SA/GPL, so the
 recipes use other pieces.

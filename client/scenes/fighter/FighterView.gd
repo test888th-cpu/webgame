@@ -19,6 +19,8 @@ const ARM_REACH := 14.0
 const HIT_FLASH_TICKS := 6
 ## Ticks over which the knock-down animation plays before holding its last frame.
 const DOWN_TICKS := 30
+## What art without an animation plays instead (the rest fall back to idle).
+const FALLBACK := {"swing": "light"}
 const FLASH_SHADER := preload("res://scenes/fighter/flash.gdshader")
 ## Where a weapon sits without hand sockets (polygon figure), facing right.
 const FALLBACK_HAND := Vector2(10, -24)
@@ -306,7 +308,7 @@ func _has(anim: String) -> bool:
 ## Shows the frame of `anim` at `progress` (0..1) without autoplay.
 func _set_frame_by_progress(anim: String, progress: float) -> void:
 	if not _has(anim):
-		anim = "idle"
+		anim = FALLBACK.get(anim, "idle") if _has(FALLBACK.get(anim, "idle")) else "idle"
 	if _sprite.animation != anim:
 		_sprite.animation = anim
 	_sprite.pause()

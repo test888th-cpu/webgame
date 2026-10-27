@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=44 format=3]
+[gd_resource type="SpriteFrames" load_steps=50 format=3]
 
 [ext_resource type="Texture2D" path="res://assets/characters/director_wiroj/sheet.png" id="sheet"]
 
@@ -137,6 +137,30 @@ region = Rect2(192, 448, 64, 64)
 [sub_resource type="AtlasTexture" id="stab_4"]
 atlas = ExtResource("sheet")
 region = Rect2(256, 448, 64, 64)
+
+[sub_resource type="AtlasTexture" id="swing_0"]
+atlas = ExtResource("sheet")
+region = Rect2(0, 512, 64, 64)
+
+[sub_resource type="AtlasTexture" id="swing_1"]
+atlas = ExtResource("sheet")
+region = Rect2(64, 512, 64, 64)
+
+[sub_resource type="AtlasTexture" id="swing_2"]
+atlas = ExtResource("sheet")
+region = Rect2(128, 512, 64, 64)
+
+[sub_resource type="AtlasTexture" id="swing_3"]
+atlas = ExtResource("sheet")
+region = Rect2(192, 512, 64, 64)
+
+[sub_resource type="AtlasTexture" id="swing_4"]
+atlas = ExtResource("sheet")
+region = Rect2(256, 512, 64, 64)
+
+[sub_resource type="AtlasTexture" id="swing_5"]
+atlas = ExtResource("sheet")
+region = Rect2(320, 512, 64, 64)
 
 [sub_resource type="AtlasTexture" id="walk_0"]
 atlas = ExtResource("sheet")
@@ -308,6 +332,29 @@ animations = [{
 "loop": false,
 "name": &"stab",
 "speed": 14.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("swing_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("swing_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("swing_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("swing_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("swing_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("swing_5")
+}],
+"loop": false,
+"name": &"swing",
+"speed": 16.0
 }, {
 "frames": [{
 "duration": 1.0,

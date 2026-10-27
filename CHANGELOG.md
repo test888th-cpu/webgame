@@ -4,6 +4,24 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed: weapon blows and throws raise the weapon beside the head
+- A new body animation, **`swing`**, plays for every weapon blow and throw:
+  - bottle, plank, pipe, machete, chair, frying pan, wrench and bat;
+  - the hero's weapon throw, and the bottle lob of the enemies who throw.
+- **The motion:** wind up, raise the weapon beside the head, bring it down
+  forward, level with the ground at the hit, then follow through. The left fist
+  stays at the chest.
+- **Who gets it:** every LPC character (heroes, enemies and anyone added later). It
+  is built from LPC's half slash, with the raised frame borrowed from LPC's
+  spellcast.
+- Painted custom sheets fall back to their light attack.
+- **Grip:** the weapon's angle follows the swing, and the fist is drawn over the
+  handle, so the grip is always in the hand.
+- **New `lpc_build.py` option, `borrow`:** puts a frame of another LPC move into an
+  animation. It can erase parts of that frame and patch in pieces of others.
+- Tests cover the swing's wind-up, raise, hit and follow-through, the fallback,
+  and that every armed body has a hand socket per frame.
+
 ### Changed: the gallery is a proper browsing screen
 - The title's **Characters** button is now **Gallery**. Before, items and characters
   were drawn over each other and the page could not scroll.

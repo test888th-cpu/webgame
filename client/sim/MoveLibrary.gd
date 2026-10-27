@@ -12,9 +12,10 @@ const FLOAT_FIELDS := ["knockback", "reach", "depth_tolerance", "energy_cost", "
 const SIGNED_FLOAT_FIELDS := ["reach_offset"]
 const BOOL_FIELDS := ["guard_break", "knockdown", "telegraph"]
 const CHAIN_INPUTS := ["light", "heavy"]
-## Body animations a move can play: a one-arm swing, an overhead slash, or a
-## straight stab (knife).
-const ANIMS := ["light", "heavy", "stab"]
+## Body animations a move can play: a one-arm swing, an overhead slash, a
+## straight stab (knife), or a weapon brought down from beside the head
+## ("swing"; art without it plays "light", see FighterView.FALLBACK).
+const ANIMS := ["light", "heavy", "stab", "swing"]
 
 var moves: Dictionary = {}
 ## The move each input starts from neutral, e.g. {"light": "jab"}.
