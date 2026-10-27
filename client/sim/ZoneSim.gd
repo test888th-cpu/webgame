@@ -65,6 +65,12 @@ var solids: Array[Dictionary] = []
 ## Weapons in flight: {id, weapon, uses, owner, team, position, dir, ticks,
 ## damage}. They land as ground weapons (or break) when they hit or stop.
 var thrown: Array[Dictionary] = []
+## Crane drops on their way down: {"at": Vector2, "ticks": left, "half":
+## Vector2, "damage": int}. A boss with "hazard" in enemies.json calls one on
+## the hero's spot every so often; it warns with a shadow, then hits every
+## fighter under it but the boss, the boss's own crew included.
+var hazards: Array[Dictionary] = []
+var _hazard_timer := 0
 var _next_weapon := 1
 ## Where each fighter stood before this tick's movement.
 var _before := {}
@@ -250,6 +256,7 @@ func tick(hero_input: FighterInput) -> Array[ZoneEvent]:
 		_after_hit(hit, defender, events)
 	_release_throws(events)
 	_fly_thrown(events)
+	_drop_hazards(events)
 	_report_actions(events)
 	_check_phases(events)
 	_separate_crowd()
@@ -302,6 +309,54 @@ func _release_throws(events: Array[ZoneEvent]) -> void:
 		thrown.append(entry)
 		events.append(ZoneEvent.make("weapon_throw", {"id": f.id, "weapon": f.weapon}))
 		_clear_weapon(f)
+
+
+func _drop_hazards(events: Array[ZoneEvent]) -> void:
+	for drop: Dictionary in hazards.duplicate():
+		drop["ticks"] -= 1
+		if drop["ticks"] > 0:
+			continue
+		hazards.erase(drop)
+		var at: Vector2 = drop["at"]
+		var half: Vector2 = drop["half"]
+		events.append(ZoneEvent.make("hazard_hit", {"at": at}))
+		for f in fighters:
+			var gap := (f.position - at).abs()
+			if f.id == boss_id or not CombatRules.is_vulnerable(f):
+				continue
+			if gap.x > half.x or gap.y > half.y:
+				continue
+			var hit := CombatRules.thrown_hit(f, boss_id, at.x, int(drop["damage"]), true, "crane")
+			var event := ZoneEvent.make("hit")
+			event.hit = hit
+			events.append(event)
+			if f == hero:
+				profile.hp = hero.hp
+			_after_hit(hit, f, events)
+	var boss := fighter(boss_id) if boss_id != 0 else null
+	if boss == null or boss.is_ko() or hero.is_ko():
+		_hazard_timer = 0
+		return
+	var data: Dictionary = content.enemy(boss.kind).get("hazard", {})
+	if data.is_empty():
+		return
+	_hazard_timer += 1
+	var every := int(data["every"])
+	var phases: Array = content.enemy(boss.kind).get("phases", [])
+	var done := int(_phase.get(boss.id, 0))
+	if done > 0:
+		every = int(phases[done - 1].get("hazard_every", every))
+	if _hazard_timer < every:
+		return
+	_hazard_timer = 0
+	var drop := {
+		"at": hero.position,
+		"ticks": int(data["warn"]),
+		"half": Vector2(data["half"][0], data["half"][1]),
+		"damage": roundi(float(data["damage"]) * boss.power),
+	}
+	hazards.append(drop)
+	events.append(ZoneEvent.make("hazard_warn", {"at": drop["at"], "ticks": drop["ticks"]}))
 
 
 ## A ranged enemy's lob: a fresh projectile (it has endless bottles) that

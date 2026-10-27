@@ -621,6 +621,227 @@
       "color": "#8a5a3a",
       "sprite": "pit_champion",
       "wields": false
+    },
+    "stevedore": {
+      "name": "Stevedore",
+      "max_hp": 150,
+      "speed": 0.6,
+      "defense": 2,
+      "power": 1.2,
+      "scale": 1.2,
+      "moveset": {
+        "light": "brute_jab",
+        "heavy": "brute_slam"
+      },
+      "ai": {
+        "spacing": 64,
+        "reaction": 16,
+        "cooldown": 62,
+        "cooldown_jitter": 36,
+        "heavy_chance": 0.4,
+        "heavy_cooldown": 300
+      },
+      "xp": 40,
+      "loot": {
+        "money": [
+          12,
+          20
+        ],
+        "drops": [
+          {
+            "item": "ginger_tea",
+            "chance": 0.2
+          },
+          {
+            "item": "deck_boots",
+            "chance": 0.03
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.5
+          }
+        ]
+      },
+      "color": "#c06a2a",
+      "sprite": "stevedore",
+      "wields": true,
+      "weapon_chance": 0.4
+    },
+    "port_guard": {
+      "name": "Port Guard",
+      "max_hp": 130,
+      "speed": 0.9,
+      "defense": 3,
+      "power": 1.15,
+      "scale": 1.1,
+      "elite": true,
+      "moveset": {
+        "light": "warden_rake",
+        "heavy": "thug_kick"
+      },
+      "ai": {
+        "spacing": 56,
+        "reaction": 10,
+        "cooldown": 46,
+        "cooldown_jitter": 24,
+        "heavy_chance": 0.3,
+        "heavy_cooldown": 300
+      },
+      "xp": 46,
+      "loot": {
+        "money": [
+          16,
+          26
+        ],
+        "drops": [
+          {
+            "item": "ginger_tea",
+            "chance": 0.3
+          },
+          {
+            "item": "dockers_cap",
+            "chance": 0.04
+          },
+          {
+            "item": "port_jacket",
+            "chance": 0.03
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 0.12
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.5
+          }
+        ]
+      },
+      "color": "#2a3a6a",
+      "sprite": "port_guard",
+      "wields": true,
+      "weapon_chance": 0.5,
+      "poise": 40
+    },
+    "dock_slinger": {
+      "name": "Dock Slinger",
+      "max_hp": 60,
+      "speed": 0.95,
+      "defense": 1,
+      "moveset": {
+        "light": "thug_jab",
+        "heavy": "bottle_lob"
+      },
+      "ai": {
+        "spacing": 110,
+        "reaction": 12,
+        "cooldown": 64,
+        "cooldown_jitter": 30,
+        "heavy_chance": 1.0,
+        "heavy_cooldown": 120,
+        "ranged": {
+          "min": 80,
+          "max": 150
+        }
+      },
+      "ranged": {
+        "move": "bottle_lob",
+        "projectile": "wrench",
+        "damage": 9
+      },
+      "xp": 30,
+      "loot": {
+        "money": [
+          10,
+          16
+        ],
+        "drops": [
+          {
+            "item": "steamed_bun",
+            "chance": 0.15
+          },
+          {
+            "item": "cargo_gloves",
+            "chance": 0.03
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.4
+          }
+        ]
+      },
+      "color": "#2a8a8a",
+      "sprite": "dock_slinger",
+      "wields": false
+    },
+    "harbourmaster_chen": {
+      "name": "Harbourmaster Chen",
+      "max_hp": 600,
+      "speed": 0.75,
+      "defense": 3,
+      "power": 1.0,
+      "scale": 1.3,
+      "boss": true,
+      "moveset": {
+        "light": "chen_jab",
+        "heavy": "chen_hook"
+      },
+      "ai": {
+        "spacing": 62,
+        "reaction": 12,
+        "cooldown": 34,
+        "cooldown_jitter": 20,
+        "heavy_chance": 0.3,
+        "heavy_cooldown": 330
+      },
+      "hazard": {
+        "every": 300,
+        "warn": 70,
+        "damage": 24,
+        "half": [
+          30,
+          10
+        ]
+      },
+      "phases": [
+        {
+          "below": 0.5,
+          "speed": 0.9,
+          "power": 1.1,
+          "cooldown": 24,
+          "heavy_chance": 0.45,
+          "heavy_cooldown": 300,
+          "hazard_every": 200,
+          "moveset": {
+            "light": "chen_jab",
+            "heavy": "chen_chain"
+          }
+        }
+      ],
+      "xp": 600,
+      "loot": {
+        "money": [
+          220,
+          300
+        ],
+        "drops": [
+          {
+            "item": "harbour_hook",
+            "chance": 0.12
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 1.0
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 1.0
+          }
+        ]
+      },
+      "color": "#d0d0d0",
+      "sprite": "harbourmaster_chen",
+      "wields": false,
+      "poise": 80
     }
   }
 }

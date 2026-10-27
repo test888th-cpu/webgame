@@ -780,6 +780,56 @@
         900,
         1300
       ]
+    },
+    "docks": {
+      "far": "skyline_far",
+      "ground": {
+        "sidewalk": "sidewalk_tile",
+        "road": "road_tile"
+      },
+      "tint": {
+        "far": "#5a6478",
+        "back": "#6a7488",
+        "fg": "#2a3040",
+        "front": "#d0d8e0"
+      },
+      "back": {
+        "condo_tower": 1
+      },
+      "back_gap": [
+        80,
+        240
+      ],
+      "front": {
+        "warehouse_wall": 1.4,
+        "rusted_fence": 0.8,
+        "steel_gate": 0.5,
+        "guard_booth": 0.5,
+        "barrier_booth": 0.3
+      },
+      "front_gap": [
+        0,
+        10
+      ],
+      "props": {
+        "crates": 1,
+        "oil_drums": 1,
+        "tyre_stack": 0.6,
+        "scrap_pile": 0.4,
+        "trash_bin": 0.4,
+        "cat": 0.2
+      },
+      "prop_gap": [
+        50,
+        110
+      ],
+      "foreground": {
+        "fg_leaves": 1
+      },
+      "fg_gap": [
+        900,
+        1400
+      ]
     }
   }
 }

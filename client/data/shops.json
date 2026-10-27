@@ -30,6 +30,22 @@
         "scrap_metal",
         "refined_alloy"
       ]
+    },
+    "port_canteen": {
+      "name": "Noi's Canteen",
+      "items": [
+        "steamed_bun",
+        "ginger_tea",
+        "iron_helm",
+        "riveted_jacket",
+        "street_runners",
+        "dockers_cap",
+        "port_jacket",
+        "cargo_gloves",
+        "deck_boots",
+        "scrap_metal",
+        "refined_alloy"
+      ]
     }
   }
 }

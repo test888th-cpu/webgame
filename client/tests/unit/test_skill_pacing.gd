@@ -7,8 +7,6 @@ extends TestCase
 ## ULTIMATE_MAX (60 ticks a second).
 const SKILL_MAX := 270
 const ULTIMATE_MAX := 780
-## A ranged enemy's lob is its basic attack, not a signature blow.
-const LOBBERS := ["street_thrower"]
 
 var content: ContentDB
 
@@ -40,7 +38,8 @@ func test_enemy_heavies_wait_longer_than_hero_skills() -> void:
 	var longest: int = _hero_skill_cooldowns(false).max()
 	for enemy_id: String in _content().enemies:
 		var enemy: Dictionary = _content().enemies[enemy_id]
-		if not enemy.get("moveset", {}).has("heavy") or enemy_id in LOBBERS:
+		# A ranged enemy's lob is its basic attack, not a signature blow.
+		if not enemy.get("moveset", {}).has("heavy") or enemy.has("ranged"):
 			continue
 		var stages: Array = [enemy["ai"]]
 		stages.append_array(enemy.get("phases", []))

@@ -4,7 +4,8 @@ extends RefCounted
 ## (later) for the server to send to clients. `type` is one of:
 ## hit, spawn, despawn, defeat, pickup, level_up, quest_complete,
 ## encounter_start, wave, encounter_clear, boss_phase, hero_down, exit,
-## swing (an attack or skill began), dodge.
+## swing (an attack or skill began), dodge, hazard_warn and hazard_hit (a
+## crane drop's shadow appears, and it lands).
 
 var type := ""
 var data := {}

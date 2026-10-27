@@ -4,6 +4,30 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — Chapter 2: the Port District (IL-5)
+- Four areas past the Gang Headquarters, open once the Furnace Baron is beaten: **Port
+  Road** (level 10), **Freight Market** (11), **Container Yard** (12) and the **Crane
+  Yard** (13).
+- **Uncle Chai**, the dock canteen cook, gives the chapter's quests (Dock Shakedown,
+  Market Watch, Hooks and Wrenches, The Harbourmaster). **Noi** sells level 10-11 gear (Docker's
+  Cap, Port Authority Jacket, Cargo Gloves, Deck Boots), and Win's taxi waits at Port Road too.
+- New enemies: the **Stevedore** (heavy), the **Port Guard** (elite) and the **Dock Slinger**
+  (ranged, throws wrenches).
+- **Harbourmaster Chen**, boss of Chapter 2, works the cranes: every few seconds a
+  red shadow grows where the hero stands, and a container drops on it after at least a
+  second. It hits everyone under it but Chen, his own crew included, and comes faster
+  once he is enraged (`hazard` in `enemies.json`, validated on load; `hazard_warn` and
+  `hazard_hit` zone events). Beating him gives the **Altered Manifest**, whose new
+  destination points to the Industrial District, and ends Chapter 2.
+- Art is temporary (decision D10: finish the game first, then one art pass). The new
+  characters are LPC builds, the docks reuse kit pieces, and the container is drawn with
+  shapes.
+- Tests: the port follows the Gang HQ in story order; Chen ends the chapter with new
+  evidence; the crane warns, then drops on the hero's spot; stepping out of the shadow is
+  safe and Chen is never hit; it comes faster when he is enraged; there is no crane
+  outside the boss fight. Ranged enemies are exempt from the heavy-blow pause test by their
+  `ranged` block, not by name.
+
 ### Added — Painted enemy sheets on a green backdrop (IL-4, D6)
 - **Four enemies repainted by the owner, as the story describes them**: the Tar Rat (a gang
   kid in a rubber rat mask and black hoodie), the Smogling (a drifter in a yellow raincoat

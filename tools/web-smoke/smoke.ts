@@ -265,7 +265,12 @@ try {
           if (Math.abs(armed.y - y) < 1) await hold(armed.y < 320 ? "ArrowUp" : "ArrowDown", 400);
           await hold(armed.x < wx ? "ArrowRight" : "ArrowLeft", 400);
         }
-      } else if (Math.abs(armed.y - wy) > 6) await hold(armed.y > wy ? "ArrowUp" : "ArrowDown", 40);
+      } else if (Math.abs(armed.y - wy) > 6) {
+        // Long steps while far: a 40 ms tap barely moves the hero on a slow
+        // software renderer, so a weapon 25 px down the lane (after going
+        // round the dummy) used up the whole step budget.
+        await hold(armed.y > wy ? "ArrowUp" : "ArrowDown", Math.min(250, Math.max(40, Math.abs(armed.y - wy) * 6)));
+      }
       else await page.keyboard.press("KeyE");
       armed = await probe();
     }

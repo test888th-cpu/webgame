@@ -31,7 +31,7 @@ func test_the_new_areas_stand_in_story_order() -> void:
 	assert_eq(street.find("parking_lot"), street.find("rusted_corner") + 1, "after Rusted Corner")
 	assert_eq(street.find("rail_yards"), street.find("parking_lot") + 1, "before Rail Yards")
 	assert_eq(street.find("rat_nest"), street.find("refinery") + 1, "down from the Refinery")
-	assert_eq(street[-1], "gang_hq", "South Street ends at the Gang Headquarters")
+	assert_eq(street[street.find("gang_hq") + 1], "port_road", "South Street ends at the Gang HQ")
 
 
 func test_the_baron_closes_the_chapter_at_his_headquarters() -> void:
