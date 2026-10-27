@@ -4,6 +4,15 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — Painted enemy sheets on a green backdrop (IL-4, D6)
+- `custom_import.py` cuts a flat green backdrop out of a painted sprite sheet
+  (`"key": true` in `import.json`), like the street kit. The grid is kept, and green
+  clothing inside the figure's outline stays green. A pipeline test checks both.
+- `docs/ENEMY_PROMPTS.md`: sheet rules and prompts to repaint the Tar Rat, Smogling, Smog
+  Warden and Sludge Foreman as the story describes them (rat-masked gang member, drifter in a
+  home-made gas mask, hazmat security, boar-masked boss). LPC has no such masks under the
+  allowed licences.
+
 ### Added — Checkpoints, remembered fights and the motorbike taxi
 - **Knocked out, you get up where you fell**: at the west end of the same area, or just
   short of the boss fight you lost, to try again at once. Losing still costs coins.

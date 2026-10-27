@@ -285,6 +285,24 @@ class KitImportTest(unittest.TestCase):
         self.assertIn("warehouse_wall", {p["piece"] for p in placed if p["layer"] == "front"})
 
 
+class KeyedSheetTest(unittest.TestCase):
+    def test_a_green_backdrop_is_cut_out_but_green_clothes_stay(self) -> None:
+        sheet = Image.new("RGB", (40, 20), (0, 255, 0))
+        for x in range(5, 15):
+            for y in range(3, 19):
+                # A dark green jacket inside the figure's dark outline.
+                edge = x in (5, 14) or y in (3, 18)
+                sheet.putpixel((x, y), (24, 20, 28) if edge else (40, 120, 50))
+        sheet.putpixel((10, 2), (200, 160, 120))
+        keyed = custom_import.keyed(sheet)
+        alpha = keyed.getchannel("A")
+        self.assertEqual(alpha.getpixel((0, 0)), 0, "backdrop gone")
+        self.assertEqual(alpha.getpixel((30, 10)), 0, "backdrop between frames gone")
+        self.assertEqual(alpha.getpixel((10, 10)), 255, "the figure stays")
+        self.assertEqual(keyed.getpixel((10, 10))[:3], (40, 120, 50), "its green clothes stay green")
+        self.assertEqual(keyed.size, sheet.size, "the grid is kept")
+
+
 class PaintedWeaponTest(unittest.TestCase):
     def test_painted_weapons_fit_the_cell_with_the_handle_in_the_fist(self) -> None:
         import gen_ui

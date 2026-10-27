@@ -7,7 +7,9 @@ project owner supplies in art/custom/<asset_id>/ with an import.json.
 import.json names the source sheets (a grid of equal cells, `count` frames read
 left to right, top to bottom) and the scale that brings each sheet to the game's
 size; sheets drawn at different sizes get different scales so the character
-matches across them. Frames are anchored on the feet of each sheet's first
+matches across them. A sheet painted on a flat green backdrop says `"key": true`
+and the green is cut out the way the street kit's is (tools/assets/kit_import.py);
+otherwise the sheet must be transparent. Frames are anchored on the feet of each sheet's first
 frame, so a whole sheet keeps its own alignment.
 
 Each game animation either picks frames from a sheet, or (`from`) is derived
@@ -25,7 +27,10 @@ import json
 import sys
 from pathlib import Path
 
-from PIL import Image
+from PIL import Image, ImageChops, ImageFilter
+
+sys.path.insert(0, str(Path(__file__).parent))
+import kit_import  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE = ROOT / "art" / "custom"
@@ -50,7 +55,7 @@ def opaque_box(image: Image.Image) -> tuple[int, int, int, int] | None:
 def scaled_frames(folder: Path, spec: dict, size: tuple[int, int], feet: tuple[int, int]) -> list[Image.Image]:
     """The sheet's frames, scaled and placed so its first frame's feet land on `feet`."""
     with Image.open(folder / spec["file"]) as opened:
-        sheet = opened.convert("RGBA")
+        sheet = keyed(opened) if spec.get("key", False) else opened.convert("RGBA")
     cols, rows = spec["cols"], spec["rows"]
     cw, ch = sheet.width // cols, sheet.height // rows
     if spec["count"] > cols * rows:
@@ -75,6 +80,25 @@ def scaled_frames(folder: Path, spec: dict, size: tuple[int, int], feet: tuple[i
         frame.alpha_composite(small, (round(feet[0] - anchor[0]), round(feet[1] - anchor[1])))
         out.append(outlined(frame) if spec.get("outline", False) else frame)
     return out
+
+
+def keyed(source: Image.Image) -> Image.Image:
+    """The sheet with its flat green backdrop (and green enclosed by a figure,
+    between arm and body) made transparent, and the green fringe pulled out of
+    the figures' edges. Unlike a kit piece it is not trimmed: the grid stays."""
+    image = source.convert("RGB")
+    w, h = image.size
+    spill = kit_import.green_spill(image).tobytes()
+    gone = kit_import.backdrop(spill, bytes(w * h), w, h)
+    for i, value in enumerate(spill):
+        if value >= kit_import.HOLE_MARGIN:
+            gone[i] = 1
+    mask = Image.frombytes("L", (w, h), bytes(255 * (1 - v) for v in gone))
+    # Only the rim takes the green pulled out: green clothes stay green.
+    rim = ImageChops.subtract(mask, mask.filter(ImageFilter.MinFilter(5)))
+    r, g, b = image.split()
+    g = Image.composite(ImageChops.darker(g, ImageChops.lighter(r, b)), g, rim)
+    return Image.merge("RGBA", (r, g, b, mask))
 
 
 def outlined(frame: Image.Image) -> Image.Image:
