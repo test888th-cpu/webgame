@@ -4,6 +4,15 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added — Return to the Depot Yard from the pause menu
+- **Return to Depot Yard** (pause menu, Game tab) takes the hero straight home to upgrade
+  gear at the workbench, shop and rest. Arriving heals and brings every street's fights
+  back, as walking in would. Win's taxi rides back out to any area reached.
+- It is never an escape from a fight: greyed out, with the reason shown, during a fight
+  (bosses included), while knocked down, or at home already (`ZoneSim.recall_problem`).
+- Tests: recall takes the hero home rested; there is no recall mid-fight; the menu offers it
+  only when allowed.
+
 ### Added — Chapter 3: the Industrial District (IL-5)
 - Four areas past the Crane Yard, open once Harbourmaster Chen is beaten: **Factory Gate**
   (level 14), **Production Line** (15), **Waste Pools** (16) and the **Factory Drains**

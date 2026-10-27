@@ -532,6 +532,20 @@ func _ride(npc: Dictionary, area_id: String) -> void:
 	enter_area(area_id, "west")
 
 
+## Straight home from the pause menu, out of a fight only. Arriving rests
+## the hero (healed, every street's fights back) like walking in would; Win's
+## taxi rides back out to any area reached.
+func _recall() -> void:
+	var problem := zone.recall_problem()
+	if problem:
+		_hud.toast(problem)
+		Sfx.play("denied", -4.0)
+		return
+	close_menu()
+	enter_area(content.start_area, "")
+	_hud.toast("Back at %s. Rested, and the streets fill up again." % zone.area["name"])
+
+
 func _save_game() -> void:
 	_hud.toast("Saved" if SaveStore.save(profile) else "Save failed")
 	close_menu()
