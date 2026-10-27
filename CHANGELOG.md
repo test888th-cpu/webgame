@@ -4,6 +4,23 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed: the gallery is a proper browsing screen
+- The title's **Characters** button is now **Gallery**. Before, items and characters
+  were drawn over each other and the page could not scroll.
+- **Characters tab:**
+  - The roster on the left, grouped into heroes, people, enemies and bosses, each listed
+    by name.
+  - The chosen character stands large on a stage, with a button for each animation.
+    One-shot moves return to idle.
+  - Its source, licences and artists are shown below.
+- **Items tab:**
+  - Every item as slots, grouped by rarity (with counts) and sorted by type and name.
+  - The chosen item shows its card and how it looks lying on the street.
+- Works with keyboard and gamepad: arrows move, Q/E switch tabs and Esc goes back. The
+  lists scroll to follow the focus.
+- A UI test checks every character and item is listed, that selecting one plays it,
+  and that the layout fits the screen.
+
 ### Changed: Riku has a new streetwear look, built from LPC
 - Riku the Boxer is now built from LPC parts like the other heroes, so he has the same
   proportions and face style as the team.

@@ -87,7 +87,7 @@ func _build_ui(content: ContentDB) -> void:
 		menu.add_child(UiKit.menu_button("New game", _confirm_new_game))
 	else:
 		menu.add_child(UiKit.menu_button("New game", _new_game))
-	menu.add_child(UiKit.menu_button("Characters", _gallery))
+	menu.add_child(UiKit.menu_button("Gallery", _gallery))
 	menu.add_child(UiKit.menu_button("Credits", _credits))
 	UiKit.focus_first(menu)
 
