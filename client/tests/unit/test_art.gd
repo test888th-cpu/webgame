@@ -87,6 +87,53 @@ func test_weapon_swings_play_the_overhead_swing_where_the_art_has_it() -> void:
 		view.free()
 
 
+func test_blows_land_with_the_fist_out() -> void:
+	# The contact frames are the ones where the hand reaches furthest forward,
+	# for every character drawn from LPC (heroes and monsters alike).
+	for id: String in _art():
+		var entry: Dictionary = _art()[id]
+		if entry.get("source") != "lpc":
+			continue
+		for anim: String in ["light", "heavy", "swing", "stab"]:
+			if not entry["animations"].has(anim):
+				continue
+			var contact: Array = entry["animations"][anim].get("contact", [])
+			assert_eq(contact.size(), 2, "%s %s names its contact frames" % [id, anim])
+			if contact.size() != 2:
+				continue
+			var hands: Array = entry["hands"][anim]
+			var reach := 0.0
+			for frame in range(int(contact[0])):
+				reach = maxf(reach, float(hands[frame][0]))
+			for frame in range(int(contact[0]), int(contact[1]) + 1):
+				assert_true(
+					float(hands[frame][0]) > reach, "%s %s: frame %d is out" % [id, anim, frame]
+				)
+
+
+func test_the_contact_frame_shows_when_the_blow_lands() -> void:
+	var haymaker := GameSession.content.moves.get_move("haymaker")
+	var contact := [4, 6]
+	var at := func(tick: int) -> int: return FighterView.attack_frame(haymaker, tick, 8, contact)
+	assert_eq(at.call(0), 0, "wind-up starts at the first frame")
+	assert_true(at.call(haymaker.startup - 1) < 4, "still winding up a tick before the hit")
+	assert_eq(at.call(haymaker.startup), 4, "the fist is out on the tick the hit lands")
+	assert_true(at.call(haymaker.startup + haymaker.active - 1) <= 6, "and stays out while live")
+	assert_eq(at.call(haymaker.total_ticks() - 1), 7, "recovered by the last tick")
+	var view: FighterView = FIGHTER_VIEW.instantiate()
+	tree.root.add_child(view)
+	var hero := Fighter.new(1, 1, Vector2(100, 300))
+	view.fighter = hero
+	view.set_art("hero_mika", _art())
+	hero.enter(Fighter.State.ATTACK)
+	hero.move = haymaker
+	hero.state_tick = haymaker.startup
+	view.sync()
+	var sprite: AnimatedSprite2D = view.get_node("Sprite")
+	assert_eq([sprite.animation, sprite.frame], [&"heavy", 4], "Mika's haymaker lands fist out")
+	view.free()
+
+
 func test_hero_art_follows_armour() -> void:
 	SaveStore.path = "user://test_save.json"
 	GameSession.start_new_game()

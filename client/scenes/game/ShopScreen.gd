@@ -158,11 +158,9 @@ static func _deal(
 	card.add_theme_constant_override("separation", UiTheme.GAP)
 	scroll.add_child(card)
 	card.add_child(ItemCard.details(content, profile, item_id, "", mode == "buy"))
-	var owned := profile.count(item_id)
-	for slot: String in PlayerProfile.SLOTS:
-		owned += 1 if profile.equipment[slot] == item_id else 0
+	var owned := profile.owned(ContentDB.base_id(item_id))
 	card.add_child(UiKit.row("You own", UiKit.label(str(owned))))
-	if mode == "sell" and EnhanceRules.item_level(profile, item_id) > 0 and owned == 1:
+	if mode == "sell" and EnhanceRules.item_level(profile, item_id) > 0:
 		card.add_child(
 			UiKit.label("Its upgrades are lost when sold.", UiTheme.SIZE_SMALL, UiTheme.DANGER)
 		)

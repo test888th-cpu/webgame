@@ -1,9 +1,11 @@
 class_name EnhanceRules
 extends RefCounted
-## Upgrading gear at the workbench. An upgrade belongs to the *item* (+0 to
-## +N, N from progression.json): it gives bonus_per_level more of the item's
-## own stats per level while worn, and stays with the item when it is taken
-## off. The workbench upgrades what is worn, so these rules take the slot and
+## Upgrading gear at the workbench. An upgrade belongs to one *copy* of an
+## item (+0 to +N, N from progression.json): it gives bonus_per_level more of
+## the item's own stats per level while worn, and stays with that copy when
+## it is taken off. The first attempt on a worn item makes it a copy of its
+## own (PlayerProfile.own_copy), so identical items in the bag stay +0.
+## The workbench upgrades what is worn, so these rules take the slot and
 ## work on the item in it. Each attempt costs coins and materials and
 ## succeeds at the level's rate; a failure keeps the item and the level, and
 ## adds pity_per_fail to that item's next try until one succeeds.
@@ -15,7 +17,7 @@ static func level(profile: PlayerProfile, slot: String) -> int:
 	return item_level(profile, str(profile.equipment.get(slot, "")))
 
 
-## The upgrade level of item `item_id`, worn or in the bag.
+## The upgrade level of the copy with key `item_id`, worn or in the bag.
 static func item_level(profile: PlayerProfile, item_id: String) -> int:
 	return int(profile.enhance.get(item_id, 0)) if item_id else 0
 
@@ -66,17 +68,17 @@ static func attempt(
 	var blocked := problem(profile, slot, content)
 	if blocked:
 		return {"result": blocked, "level": level(profile, slot)}
+	var copy := profile.own_copy(slot)
 	var cost := next_cost(profile, slot, content)
 	var odds := chance(profile, slot, content)
 	profile.money -= int(cost["coins"])
-	for item_id: String in cost["items"]:
-		profile.remove_item(item_id, int(cost["items"][item_id]))
-	var item_id := str(profile.equipment[slot])
+	for material: String in cost["items"]:
+		profile.remove_item(material, int(cost["items"][material]))
 	if rng.randf() < odds:
-		profile.enhance[item_id] = level(profile, slot) + 1
-		profile.enhance_pity.erase(item_id)
+		profile.enhance[copy] = level(profile, slot) + 1
+		profile.enhance_pity.erase(copy)
 		return {"result": "success", "level": level(profile, slot)}
-	profile.enhance_pity[item_id] = int(profile.enhance_pity.get(item_id, 0)) + 1
+	profile.enhance_pity[copy] = int(profile.enhance_pity.get(copy, 0)) + 1
 	return {"result": "fail", "level": level(profile, slot)}
 
 

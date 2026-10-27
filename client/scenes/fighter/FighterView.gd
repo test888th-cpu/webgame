@@ -47,6 +47,8 @@ var _hands := {}
 ## The art's frame size (LPC sheets are 64x64; custom art may be larger).
 var _frame := Vector2(64, 64)
 var _rows := {}
+## Animation -> [first, last] frame in which the blow lands (manifest).
+var _contact := {}
 var _hand_sheet: Texture2D
 var _held: Sprite2D
 var _fist: Sprite2D
@@ -112,8 +114,11 @@ func set_art(id: String, art: Dictionary) -> void:
 	var frame_size: Array = entry.get("frame_size", [64, 64])
 	_frame = Vector2(frame_size[0], frame_size[1])
 	_rows = {}
+	_contact = {}
 	for anim: String in entry.get("animations", {}):
 		_rows[anim] = int(entry["animations"][anim]["row"])
+		if entry["animations"][anim].has("contact"):
+			_contact[anim] = entry["animations"][anim]["contact"]
 	var hand_path := str(entry.get("hand_sheet", ""))
 	_hand_sheet = load(hand_path) if hand_path and ResourceLoader.exists(hand_path) else null
 	if entry.get("status") != "imported":
@@ -278,7 +283,11 @@ func _animate_sprite(moved: bool) -> void:
 		Fighter.State.ATTACK:
 			var move := fighter.move
 			_warning.visible = move.telegraph and fighter.state_tick < move.startup
-			_set_frame_by_progress(move.anim, float(fighter.state_tick) / move.total_ticks())
+			var anim := _pick(move.anim)
+			_show(anim)
+			var count := _sprite.sprite_frames.get_frame_count(anim)
+			var contact: Array = _contact.get(anim, [count / 2, count / 2])
+			_sprite.frame = attack_frame(move, fighter.state_tick, count, contact)
 		Fighter.State.HITSTUN:
 			if fighter.state_tick < HIT_FLASH_TICKS:
 				_sprite.modulate = Color(1.8, 0.7, 0.7)
@@ -305,13 +314,44 @@ func _has(anim: String) -> bool:
 	return _sprite.sprite_frames.has_animation(anim)
 
 
-## Shows the frame of `anim` at `progress` (0..1) without autoplay.
-func _set_frame_by_progress(anim: String, progress: float) -> void:
-	if not _has(anim):
-		anim = FALLBACK.get(anim, "idle") if _has(FALLBACK.get(anim, "idle")) else "idle"
+## The frame of a `count`-frame attack animation at `tick` of `move`: the
+## wind-up frames play over the start-up, the `contact` frames ([first,
+## last]) while the blow can land, the rest over the recovery. So the fist or
+## weapon is out at the moment the damage shows, however the move is timed.
+static func attack_frame(move: MoveData, tick: int, count: int, contact: Array) -> int:
+	var first := clampi(int(contact[0]), 0, count - 1)
+	var last := clampi(int(contact[1]), first, count - 1)
+	if tick < move.startup:
+		return mini(first - 1, floori(float(tick) / move.startup * first)) if first > 0 else 0
+	var landed := tick - move.startup
+	if landed < move.active:
+		var span := last - first + 1
+		return first + mini(span - 1, floori(float(landed) / move.active * span))
+	var rest := count - 1 - last
+	if rest <= 0:
+		return last
+	var into := float(landed - move.active) / maxi(1, move.recovery)
+	return last + 1 + mini(rest - 1, floori(into * rest))
+
+
+## `anim`, or what stands in for it where this art does not have it.
+func _pick(anim: String) -> String:
+	if _has(anim):
+		return anim
+	return FALLBACK.get(anim, "idle") if _has(FALLBACK.get(anim, "idle")) else "idle"
+
+
+## Holds `anim` (no autoplay); the caller sets the frame.
+func _show(anim: String) -> void:
 	if _sprite.animation != anim:
 		_sprite.animation = anim
 	_sprite.pause()
+
+
+## Shows the frame of `anim` at `progress` (0..1) without autoplay.
+func _set_frame_by_progress(anim: String, progress: float) -> void:
+	anim = _pick(anim)
+	_show(anim)
 	var count := _sprite.sprite_frames.get_frame_count(anim)
 	_sprite.frame = clampi(int(clampf(progress, 0.0, 1.0) * count), 0, count - 1)
 

@@ -188,7 +188,7 @@ static func equipment(game: Game) -> Control:
 		var slot := ItemSlot.new(SLOT_SIZE)
 		if i < ids.size():
 			var item_id := ids[i]
-			slot.name = "Bag_" + item_id
+			slot.name = ("Bag_" + item_id).validate_node_name()
 			slot.show_item(content, item_id, profile.count(item_id), profile.level)
 			slot.upgrade = EnhanceRules.item_level(profile, item_id)
 			slot.pressed.connect(game.inspect_item.bind(item_id, ""))
@@ -220,7 +220,7 @@ static func bag_order(content: ContentDB, profile: PlayerProfile) -> Array[Strin
 		ids.append(item_id)
 	ids.sort_custom(
 		func(a: String, b: String) -> bool:
-			return _sort_key(content.item(a)) < _sort_key(content.item(b))
+			return _sort_key(content.item(a)) + a < _sort_key(content.item(b)) + b
 	)
 	return ids
 

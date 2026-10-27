@@ -115,8 +115,14 @@ func enemy(id: String) -> Dictionary:
 	return enemies.get(id, {})
 
 
+## Item `id`, or the item a copy key "<id>#<n>" is a copy of (PlayerProfile).
 func item(id: String) -> Dictionary:
-	return items.get(id, {})
+	return items.get(base_id(id), {})
+
+
+## The item id of an inventory or equipment key: "pipe#2" -> "pipe".
+static func base_id(key: String) -> String:
+	return key.get_slice("#", 0)
 
 
 func area(id: String) -> Dictionary:
@@ -134,7 +140,8 @@ func hero(id: String) -> Dictionary:
 ## the loot tables, shops and quests, so it can never disagree with them.
 ## Each entry is {"kind": "drop" | "shop" | "quest", "text"}; drops come
 ## first, most likely first.
-func sources(item_id: String) -> Array[Dictionary]:
+func sources(key: String) -> Array[Dictionary]:
+	var item_id := base_id(key)
 	var drops: Array[Dictionary] = []
 	for enemy_id: String in enemies:
 		for drop: Dictionary in enemies[enemy_id].get("loot", {}).get("drops", []):

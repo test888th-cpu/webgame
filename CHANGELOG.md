@@ -4,6 +4,31 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Fixed: upgrading one item no longer upgrades every copy of it
+- **Before:** upgrades were kept per item id, and identical items stack under one
+  id. Upgrading the worn wrench to +10 showed, and gave, +10 on all 17 wrenches in
+  the bag.
+- **Now:** an upgrade belongs to one copy.
+  - Untouched items still stack.
+  - The first workbench attempt on a worn item makes it a copy of its own, under the
+    key `"<item id>#<n>"`. Identical items in the bag stay +0.
+  - An upgraded copy has its own cell in the bag and its own line in the Sell tab.
+- **Save v10:** each old shared upgrade goes to one copy, the worn one if there is
+  one, else one from the bag. The other copies are +0.
+- **Code:** `ContentDB.item()` and `sources()` accept copy keys.
+  `PlayerProfile.owned()` counts every copy.
+
+### Fixed: blows land when the fist is out, not while it is raised
+- **Before:** an attack animation played at an even pace over the whole move. A
+  haymaker's damage showed while the fist was still raised beside the head.
+- **Now:** each LPC attack animation names its contact frames (`contact` in the
+  recipe and manifest). The game plays the wind-up over the move's start-up, the
+  contact frames while the hit can land, and the rest over the recovery.
+- **Who gets it:** every character, heroes and monsters, for light, heavy, swing
+  and stab.
+- **Tests:** the contact frames show on the hit tick, and they are where the hand
+  reaches furthest forward.
+
 ### Added: selling, and a shop screen that always shows its Buy button
 - **Sell tab** (Q/E switch tabs). A shop pays 30% of the price (`sell_rate` in
   progression.json). It never buys evidence or worn gear. Rare gear and upgraded
