@@ -100,8 +100,8 @@ func test_ranged_enemies_are_valid_data() -> void:
 
 
 func test_clearing_a_fight_points_the_way_on() -> void:
-	SaveStore.path = "user://test_street_save.json"
-	SaveStore.delete()
+	SaveStore.root = "user://test_street_save"
+	SaveStore.delete_all()
 	GameSession.start_new_game()
 	var game: Node2D = load("res://scenes/game/Game.tscn").instantiate()
 	tree.root.add_child(game)
@@ -113,5 +113,5 @@ func test_clearing_a_fight_points_the_way_on() -> void:
 	game._handle(ZoneEvent.make("encounter_start", {"arena": [0, 400], "boss": false}))
 	assert_true(not go.visible, "and hides when the next one starts")
 	game.free()
-	SaveStore.delete()
-	SaveStore.path = SaveStore.DEFAULT_PATH
+	SaveStore.delete_all()
+	SaveStore.root = SaveStore.DEFAULT_ROOT

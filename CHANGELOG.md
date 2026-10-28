@@ -4,6 +4,29 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added: up to four characters per account
+- **Before:** there was one save. Making a new hero replaced it, so a level 20 hero
+  was lost when a new one was started.
+- **Now:** every character has its own id and its own save file
+  (`user://characters/<id>.json`). Making a new hero never touches another.
+  - **Id:** 16 random hex digits, 64 bits, from `SaveStore.new_id()`.
+  - **Rules:** `sim/RosterRules.gd` holds the id format, the limit (`max_characters`
+    in progression.json, 4) and the rule that names must differ within an account,
+    so the server can apply the same ones.
+- **Title screen:** Continue plays the character played last. **Characters** lists
+  every character with its look, hero, level, area and when it was last played.
+  Play one, make a new one in a free slot, or delete one.
+  - Delete asks a second time, by name.
+  - A deleted character's file is moved to `characters/deleted/`, never erased.
+- **Old saves:** the single save of earlier builds becomes the first character the
+  first time the game starts. It is kept as `save.imported.json` and never imported
+  twice, even if it is carried over from the old data folder again.
+- **Separation:** items, upgrades, coins and quests belong to one character. A test
+  checks that nothing leaks between two characters. A save whose content names a
+  different id from its file name is refused.
+- **Online plan:** BLUEPRINT.md sets out how the server will key characters and item
+  copies, by (character id, copy key).
+
 ### Fixed: upgrading one item no longer upgrades every copy of it
 - **Before:** upgrades were kept per item id, and identical items stack under one
   id. Upgrading the worn wrench to +10 showed, and gave, +10 on all 17 wrenches in

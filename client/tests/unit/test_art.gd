@@ -135,7 +135,7 @@ func test_the_contact_frame_shows_when_the_blow_lands() -> void:
 
 
 func test_hero_art_follows_armour() -> void:
-	SaveStore.path = "user://test_save.json"
+	SaveStore.root = "user://test_save"
 	GameSession.start_new_game()
 	var game: Node2D = load("res://scenes/game/Game.tscn").instantiate()
 	tree.root.add_child(game)
@@ -148,8 +148,8 @@ func test_hero_art_follows_armour() -> void:
 	game.step(FighterInput.new())
 	assert_eq(game.view.view_of(ZoneSim.HERO_ID).art_id, "hero_mika_armoured", "view updated")
 	game.free()
-	SaveStore.delete()
-	SaveStore.path = SaveStore.DEFAULT_PATH
+	SaveStore.delete_all()
+	SaveStore.root = SaveStore.DEFAULT_ROOT
 
 
 func test_credits_build() -> void:

@@ -2,12 +2,12 @@ extends TestCase
 ## Drives the real Game scene tick by tick: NPCs, menus, area changes, defeat
 ## and saving. Uses its own save path so it never touches a player's save.
 
-const TEST_SAVE := "user://test_save.json"
+const TEST_SAVE := "user://test_save"
 
 
 func _game() -> Node2D:
-	SaveStore.path = TEST_SAVE
-	SaveStore.delete()
+	SaveStore.root = TEST_SAVE
+	SaveStore.delete_all()
 	GameSession.start_new_game()
 	# Tests count coins and items from zero, without the starter kit.
 	GameSession.profile.money = 0
@@ -20,8 +20,8 @@ func _game() -> Node2D:
 
 func _done(game: Node2D) -> void:
 	game.free()
-	SaveStore.delete()
-	SaveStore.path = SaveStore.DEFAULT_PATH
+	SaveStore.delete_all()
+	SaveStore.root = SaveStore.DEFAULT_ROOT
 
 
 func _walk(dir: Vector2) -> FighterInput:
@@ -35,7 +35,7 @@ func test_new_game_starts_in_the_depot_with_npcs_and_dummy() -> void:
 	assert_eq(game.zone.area_id, GameSession.content.start_area, "start area")
 	assert_eq(game.zone.enemies().size(), 1, "training dummy placed")
 	assert_eq(game.zone.area["npcs"].size(), 3, "vendor, quest giver and taxi")
-	assert_true(SaveStore.has_save(), "entering an area autosaves")
+	assert_true(SaveStore.has_characters(), "entering an area autosaves")
 	_done(game)
 
 
@@ -82,7 +82,7 @@ func test_walking_off_the_east_edge_changes_area_and_saves() -> void:
 	game.step(_walk(Vector2.RIGHT))
 	assert_eq(game.zone.area_id, "saltmarket", "now in Saltmarket")
 	assert_true(game.zone.hero.position.x < 100, "arrived at the west end")
-	var saved := SaveStore.load_profile(game.content)
+	var saved := SaveStore.load_character(game.profile.id, game.content)
 	assert_eq(saved.area, "saltmarket", "save records the new area")
 	_done(game)
 
@@ -149,16 +149,21 @@ func test_quick_heal_uses_a_bun() -> void:
 
 
 func test_save_store_round_trip() -> void:
-	SaveStore.path = TEST_SAVE
+	SaveStore.root = TEST_SAVE
 	var content := GameSession.content
 	var profile := PlayerProfile.new_game(content)
 	profile.money = 77
+	profile.id = SaveStore.new_id()
 	assert_true(SaveStore.save(profile), "saved")
-	assert_eq(SaveStore.load_profile(content).money, 77, "loaded")
-	var file := FileAccess.open(TEST_SAVE, FileAccess.WRITE)
+	assert_eq(SaveStore.load_character(profile.id, content).money, 77, "loaded")
+	var file := FileAccess.open(SaveStore.path_of(profile.id), FileAccess.WRITE)
 	file.store_string("{not json")
 	file.close()
-	assert_eq(SaveStore.load_profile(content), null, "a corrupt save is rejected, not crashed on")
-	SaveStore.delete()
-	assert_true(not SaveStore.has_save(), "deleted")
-	SaveStore.path = SaveStore.DEFAULT_PATH
+	assert_eq(
+		SaveStore.load_character(profile.id, content),
+		null,
+		"a corrupt save is rejected, not crashed on"
+	)
+	SaveStore.delete_all()
+	assert_true(not SaveStore.has_characters(), "deleted")
+	SaveStore.root = SaveStore.DEFAULT_ROOT

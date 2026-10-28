@@ -3,12 +3,12 @@ extends TestCase
 ## out, evidence is handed over on completion and can never be thrown away,
 ## and the last quest of a chapter closes it.
 
-const TEST_SAVE := "user://test_story_save.json"
+const TEST_SAVE := "user://test_story_save"
 
 
 func _game() -> Node2D:
-	SaveStore.path = TEST_SAVE
-	SaveStore.delete()
+	SaveStore.root = TEST_SAVE
+	SaveStore.delete_all()
 	GameSession.start_new_game()
 	var game: Node2D = load("res://scenes/game/Game.tscn").instantiate()
 	tree.root.add_child(game)
@@ -18,8 +18,8 @@ func _game() -> Node2D:
 
 func _done(game: Node2D) -> void:
 	game.free()
-	SaveStore.delete()
-	SaveStore.path = SaveStore.DEFAULT_PATH
+	SaveStore.delete_all()
+	SaveStore.root = SaveStore.DEFAULT_ROOT
 
 
 func _texts(root: Node) -> String:

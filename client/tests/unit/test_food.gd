@@ -2,7 +2,7 @@ extends TestCase
 ## Food (FoodRules): eat what fits the wound, keep the big food for trouble,
 ## and buy food sized to the hero, from the quick-heal key to the farm loop.
 
-const TEST_SAVE := "user://test_food_save.json"
+const TEST_SAVE := "user://test_food_save"
 
 var content: ContentDB
 
@@ -50,8 +50,8 @@ func test_the_farm_loop_restocks_with_the_right_food() -> void:
 
 
 func test_the_quick_heal_key_picks_the_fitting_food() -> void:
-	SaveStore.path = TEST_SAVE
-	SaveStore.delete()
+	SaveStore.root = TEST_SAVE
+	SaveStore.delete_all()
 	GameSession.start_new_game()
 	var game: Node2D = load("res://scenes/game/Game.tscn").instantiate()
 	tree.root.add_child(game)
@@ -64,5 +64,5 @@ func test_the_quick_heal_key_picks_the_fitting_food() -> void:
 	assert_eq(game.profile.count("steamed_bun"), 0, "the bun, for a scratch")
 	assert_eq(game.profile.count("rice_box"), 1, "the meal is kept")
 	game.free()
-	SaveStore.delete()
-	SaveStore.path = SaveStore.DEFAULT_PATH
+	SaveStore.delete_all()
+	SaveStore.root = SaveStore.DEFAULT_ROOT

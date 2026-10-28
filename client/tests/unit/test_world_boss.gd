@@ -6,7 +6,7 @@ extends TestCase
 ## the hero's level; the Iron Colossus and Subject Zero take high-level heroes
 ## only and are built for groups, their rarest drops coming with the kill.
 
-const TEST_SAVE := "user://test_world_boss_save.json"
+const TEST_SAVE := "user://test_world_boss_save"
 const MOTHER := "tunnel_mother"
 
 var content: ContentDB
@@ -41,8 +41,8 @@ func _rng() -> RandomNumberGenerator:
 
 
 func _game() -> Node2D:
-	SaveStore.path = TEST_SAVE
-	SaveStore.delete()
+	SaveStore.root = TEST_SAVE
+	SaveStore.delete_all()
 	GameSession.start_new_game()
 	var game: Node2D = load("res://scenes/game/Game.tscn").instantiate()
 	tree.root.add_child(game)
@@ -53,8 +53,8 @@ func _game() -> Node2D:
 
 func _done(game: Node2D) -> void:
 	game.free()
-	SaveStore.delete()
-	SaveStore.path = SaveStore.DEFAULT_PATH
+	SaveStore.delete_all()
+	SaveStore.root = SaveStore.DEFAULT_ROOT
 
 
 func test_rounds_open_on_the_clock() -> void:

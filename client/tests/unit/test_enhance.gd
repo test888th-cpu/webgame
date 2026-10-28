@@ -197,8 +197,8 @@ func test_costs_rise_and_chances_fall() -> void:
 
 
 func test_the_workbench_upgrades_from_the_item_card() -> void:
-	SaveStore.path = "user://test_enhance_save.json"
-	SaveStore.delete()
+	SaveStore.root = "user://test_enhance_save"
+	SaveStore.delete_all()
 	GameSession.start_new_game("mika")
 	var game: Node2D = load("res://scenes/game/Game.tscn").instantiate()
 	tree.root.add_child(game)
@@ -219,7 +219,7 @@ func test_the_workbench_upgrades_from_the_item_card() -> void:
 	assert_eq(EnhanceRules.level(profile, slot), 1, "+1 at the Depot")
 	game._upgrade(slot)
 	assert_eq(EnhanceRules.level(profile, slot), 1, "a double press is ignored")
-	assert_true(SaveStore.has_save(), "saved")
+	assert_true(SaveStore.has_characters(), "saved")
 	var item_id: String = profile.equipment[slot]
 	assert_eq(PlayerProfile.from_dict(_saved(), game.content).enhance.get(item_id), 1, "on disk")
 	var worn: ItemSlot = game.menu.find_child("Worn_" + slot, true, false)
@@ -231,12 +231,14 @@ func test_the_workbench_upgrades_from_the_item_card() -> void:
 	var bag: ItemSlot = game.menu.find_child("Bag_" + item_id, true, false)
 	assert_eq(bag.upgrade, 1, "the +1 went to the bag with the item")
 	game.free()
-	SaveStore.delete()
-	SaveStore.path = SaveStore.DEFAULT_PATH
+	SaveStore.delete_all()
+	SaveStore.root = SaveStore.DEFAULT_ROOT
 
 
 func _saved() -> Variant:
-	return JSON.parse_string(FileAccess.get_file_as_string(SaveStore.path))
+	return JSON.parse_string(
+		FileAccess.get_file_as_string(SaveStore.path_of(GameSession.profile.id))
+	)
 
 
 func _texts(root: Node) -> String:
