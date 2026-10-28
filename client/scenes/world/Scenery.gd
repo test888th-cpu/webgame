@@ -23,6 +23,8 @@ const ROAD_TOP := 244.0
 const FURNITURE_GROUP := "street_furniture"
 ## Foliage in front of the fighters is drawn above them.
 const FOREGROUND_Z := 1
+## How far the road and sidewalk run past each end of the street.
+const GROUND_OVERRUN := 640.0
 
 
 ## Builds the scenery of `area_id`; false when it has none to build. The
@@ -67,8 +69,12 @@ static func _build_kit(parent: Node2D, content: ContentDB, area: Dictionary) -> 
 		layers[layer] = _layer(parent, layer, scroll[layer], tint)
 	layers["front"] = _layer(parent, "front", 1.0, tint)
 	var ground := _layer(parent, "ground", 1.0, tint)
-	_tile(ground, pieces[area["ground"]["road"]], Vector2(0, ROAD_TOP), width)
-	_tile(ground, pieces[area["ground"]["sidewalk"]], Vector2(0, SIDEWALK_TOP), width)
+	# The road and sidewalk run on past both ends of the street, so no camera
+	# position or window shape ever shows the end of the ground.
+	var from := -GROUND_OVERRUN
+	var length := width + GROUND_OVERRUN * 2.0
+	_tile(ground, pieces[area["ground"]["road"]], Vector2(from, ROAD_TOP), length)
+	_tile(ground, pieces[area["ground"]["sidewalk"]], Vector2(from, SIDEWALK_TOP), length)
 	if area.has("track"):
 		# The elevated track runs unbroken; trains stand on it.
 		var track: Dictionary = area["track"]

@@ -4,6 +4,21 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Fixed: the street no longer ends early in narrow fight arenas
+- **The bug:** in a fight, the camera is fenced to the locked arena. When that
+  arena was narrower than the screen (the Pit Champion's at the Fight Club, or
+  any arena on a wide browser window), the camera kept the left fence and
+  showed past the right. The road and sidewalk then stopped short of the edge.
+  It happened only in some arenas and window shapes, so it looked random.
+- **The fix:**
+  - A narrow range now grows evenly to the view's width and is moved back
+    inside the street (`ZoneView.camera_limits`, a pure function).
+  - The road and sidewalk also run 640 px past both ends of every street
+    (`Scenery.GROUND_OVERRUN`), so no camera position or window shape can show
+    a gap.
+- **Tests:** every area and every fight arena, on 16:9 and wider windows, is
+  checked to stay on the street with room for the whole view.
+
 ### Added: a hotbar the player lays out, and a Skills screen
 - **Before:** the seven slots were fixed (attack, four skills, two foods). Food
   could not be moved, and when it ran out no other food could take its place.
