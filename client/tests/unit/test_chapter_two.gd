@@ -114,7 +114,8 @@ func test_the_crane_comes_faster_when_chen_is_enraged() -> void:
 	var calm: Dictionary = data["hazard"]
 	var rage: Dictionary = data["phases"][0]["hazard"]
 	assert_true(int(rage["every"]) < int(calm["every"]), "faster in phase 2")
-	assert_true(int(rage["count"]) > int(calm["count"]), "and more containers at once")
+	assert_eq(int(calm.get("count", 1)), 1, "one container at a time")
+	assert_eq(int(rage["count"]), 2, "two when enraged: a stage boss, not a world boss")
 	for hazard: Dictionary in [calm, rage]:
 		assert_true(int(hazard["warn"]) >= 60, "always a full second of warning")
 
@@ -137,7 +138,7 @@ func test_the_crane_drops_a_volley_the_hero_must_run_from() -> void:
 			if not warns.is_empty():
 				break
 		var where := "phase %d" % (phase + 1)
-		assert_eq(warns.size(), int(hazard["count"]), where + ": a whole volley")
+		assert_eq(warns.size(), int(hazard.get("count", 1)), where + ": a whole volley")
 		assert_near(warns[0]["at"].x, 1200.0, where + ": the first on the hero")
 		var half: Vector2 = warns[0]["half"]
 		assert_true(half.x >= 40.0, where + ": a container-sized footprint")
@@ -145,7 +146,7 @@ func test_the_crane_drops_a_volley_the_hero_must_run_from() -> void:
 			assert_true(zone.arena.grow(0.5).has_point(warns[i]["at"]), where + ": in the fight")
 			assert_eq(
 				int(warns[i]["ticks"]),
-				int(hazard["warn"]) + i * int(hazard["stagger"]),
+				int(hazard["warn"]) + i * int(hazard.get("stagger", 0)),
 				where + ": landing one after another"
 			)
 			for j in range(i + 1, warns.size()):

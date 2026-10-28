@@ -828,13 +828,7 @@
         "half": [
           50,
           18
-        ],
-        "count": 3,
-        "spread": [
-          140,
-          40
-        ],
-        "stagger": 14
+        ]
       },
       "phases": [
         {
@@ -852,12 +846,12 @@
               50,
               18
             ],
-            "count": 5,
+            "count": 2,
             "spread": [
-              190,
-              44
+              150,
+              40
             ],
-            "stagger": 10
+            "stagger": 14
           },
           "moveset": {
             "light": "chen_jab",
