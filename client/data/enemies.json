@@ -823,12 +823,18 @@
       },
       "hazard": {
         "every": 300,
-        "warn": 70,
+        "warn": 75,
         "damage": 24,
         "half": [
-          30,
-          10
-        ]
+          50,
+          18
+        ],
+        "count": 3,
+        "spread": [
+          140,
+          40
+        ],
+        "stagger": 14
       },
       "phases": [
         {
@@ -838,7 +844,21 @@
           "cooldown": 24,
           "heavy_chance": 0.45,
           "heavy_cooldown": 300,
-          "hazard_every": 200,
+          "hazard": {
+            "every": 220,
+            "warn": 70,
+            "damage": 26,
+            "half": [
+              50,
+              18
+            ],
+            "count": 5,
+            "spread": [
+              190,
+              44
+            ],
+            "stagger": 10
+          },
           "moveset": {
             "light": "chen_jab",
             "heavy": "chen_chain"

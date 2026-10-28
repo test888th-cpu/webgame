@@ -98,6 +98,9 @@ func on_event(event: ZoneEvent) -> void:
 				_drops.pop_front().land()
 			var sound := {"steam": "dodge", "laser": "swing_heavy"}
 			Sfx.play(sound.get(event.data.get("kind"), "break_metal"), 0.0)
+			if event.data.get("kind", "crane") == "crane":
+				# A container hitting the street: the ground shakes.
+				view.shake(4.0)
 			Fx.spawn(view.effects, content, "dust", event.data["at"])
 			view.shake(6.0)
 
