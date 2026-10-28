@@ -7,8 +7,7 @@
       "period_minutes": 180,
       "open_minutes": 60,
       "attempt_seconds": 150,
-      "min_level": 26,
-      "level_above_hero": 2,
+      "level": 32,
       "pool": 14,
       "tiers": [
         {
@@ -61,14 +60,23 @@
           }
         }
       ],
-      "players": 1,
-      "offset_minutes": 0
+      "players": 3,
+      "offset_minutes": 0,
+      "kill": {
+        "money": 3000,
+        "items": {
+          "refined_alloy": 8
+        },
+        "rolls": {
+          "mothers_fang": 0.15,
+          "mothers_heart": 0.15
+        }
+      }
     },
     "iron_colossus": {
       "enemy": "iron_colossus",
       "area": "old_scrapyard",
       "unlock": "director_wiroj",
-      "min_hero_level": 40,
       "level": 52,
       "players": 5,
       "pool": 14,
@@ -126,7 +134,6 @@
       "enemy": "subject_zero",
       "area": "sunken_reservoir",
       "unlock": "director_wiroj",
-      "min_hero_level": 48,
       "level": 55,
       "players": 10,
       "pool": 14,

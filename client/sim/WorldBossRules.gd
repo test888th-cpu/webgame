@@ -14,10 +14,11 @@ extends RefCounted
 ## * the kill ("kill"): paid to everyone who fought, once the whole pool falls
 ##   within the round. A boss built for one player can fall to one player; a
 ##   boss built for ten needs ten, and its rarest drops come with the kill.
-## Some bosses take only heroes of "min_hero_level" or more and fight at a
-## fixed "level"; others keep pace with the hero ("level_above_hero", never
-## below "min_level"). Rounds are numbered from the Unix epoch, so every
-## client and the future server agree on which round it is.
+## Like a field boss in an MMO, each fights at its own fixed "level" with a
+## fixed pool, whoever comes: it never scales to the hero and no level is
+## asked at the door. Heroes grow strong, gear up and band together to take
+## it on. Rounds are numbered from the Unix epoch, so every client and the
+## future server agree on which round it is.
 ##
 ## Single-player today, the pool is the hero's own; at IL-7 the server keeps
 ## one pool per boss for all players and pays from the damage it saw. These
@@ -57,9 +58,6 @@ static func problem(profile: PlayerProfile, content: ContentDB, boss: String, no
 	if not unlocked(profile, content, boss):
 		var unlock := str(content.enemy(str(data["unlock"])).get("name", ""))
 		return "Not yet. Defeat %s first." % unlock
-	var needed := int(data.get("min_hero_level", 1))
-	if profile.level < needed:
-		return "Only heroes of level %d or more stand a chance." % needed
 	if not window(content, boss, now)["open"]:
 		return "Not out now. Back in %s." % wait_text(content, boss, now)
 	return ""
@@ -73,19 +71,15 @@ static func wait_text(content: ContentDB, boss: String, now: int) -> String:
 	return "%dh %dm" % [minutes / 60, minutes % 60] if minutes >= 60 else "%dm" % minutes
 
 
-## The level `boss` fights at for this hero.
-static func level_for(profile: PlayerProfile, content: ContentDB, boss: String) -> int:
-	var data := spec(content, boss)
-	if data.has("level"):
-		return int(data["level"])
-	var above := int(data.get("level_above_hero", 2))
-	return maxi(int(data.get("min_level", 1)), profile.level + above)
+## The level `boss` always fights at.
+static func level(content: ContentDB, boss: String) -> int:
+	return int(spec(content, boss)["level"])
 
 
-## The round's whole health pool at boss level `level`.
-static func pool(content: ContentDB, boss: String, level: int) -> int:
+## The round's whole health pool: the same for everyone, every round.
+static func pool(content: ContentDB, boss: String) -> int:
 	var data := spec(content, boss)
-	var stats := LevelRules.enemy_stats(content.enemy(str(data["enemy"])), level)
+	var stats := LevelRules.enemy_stats(content.enemy(str(data["enemy"])), level(content, boss))
 	return int(stats["max_hp"]) * int(data["pool"]) * int(data.get("players", 1))
 
 

@@ -398,14 +398,14 @@ static func travel(game: Game, npc: Dictionary) -> Control:
 
 
 ## Win's ride to world boss `boss`: open (with time left) or when it opens
-## next, and who it is for (the level it needs, the players it is built for).
+## next, and what it is (its fixed level, the players it is built for).
 static func _world_boss_ride(game: Game, npc: Dictionary, fare: int, boss: String) -> Control:
 	var content := game.content
 	var data := WorldBossRules.spec(content, boss)
 	var name := str(content.enemy(str(data["enemy"]))["name"])
 	var round := WorldBossRules.window(content, boss, game._now())
 	var wait := WorldBossRules.wait_text(content, boss, game._now())
-	var who := "Lv %d+, " % int(data["min_hero_level"]) if data.has("min_hero_level") else ""
+	var who := "Lv %d, " % WorldBossRules.level(content, boss)
 	var players := int(data.get("players", 1))
 	who += "%d players" % players if players > 1 else "solo"
 	var text := (

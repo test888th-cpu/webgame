@@ -4,6 +4,23 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed: world bosses are fixed, like field bosses in an MMO
+- **The rule:** every world boss now fights at its own fixed `level`, with a
+  fixed health pool, whoever comes. Nothing scales to the hero, and no level
+  is asked at the door. Heroes grow strong, gear up and band together to take
+  it on.
+- **The Tunnel Mother:** fixed at Lv 32, no longer hero level +2 with a floor
+  of 26. It is built for 3 players and now has a kill reward (3000 coins,
+  refined alloy, a 15% roll each for Mother's Fang and Mother's Heart).
+  Personal tiers are shares of one player's third of the pool.
+- **The Iron Colossus (Lv 52) and Subject Zero (Lv 55):** no longer turn away
+  heroes below Lv 40 and Lv 48. Win's ride shows the boss's level.
+- **Content rules:** `world_boss.json` needs a `level`. `min_level`,
+  `level_above_hero` and `min_hero_level` are rejected.
+- **API:** `WorldBossRules.level` and `pool` no longer take the hero.
+- **Tests:** `test_world_boss.gd` covers the fixed level and pool, entry with
+  no level gate, and the validator.
+
 ### Changed: bosses never flinch, stagger or fall, except to a crowd
 - **Bosses and mini-bosses are unshaken** (`Fighter.unshaken`). No blow
   makes them flinch, stagger, reel from a parry, stun from a guard break or

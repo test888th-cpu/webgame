@@ -2,9 +2,9 @@ extends TestCase
 ## World bosses (WorldBossRules, WorldBossRun): each on its own clock, with
 ## one health pool per round worn down attempt by attempt, personal reward
 ## tiers paid once each, a kill paid once, and a results screen (no knock-out
-## penalty) instead of the game-over. The Tunnel Mother is for one player at
-## the hero's level; the Iron Colossus and Subject Zero take high-level heroes
-## only and are built for groups, their rarest drops coming with the kill.
+## penalty) instead of the game-over. Each fights at a fixed level with a
+## fixed pool, for anyone who unlocked it; all three are built for groups,
+## their rarest drops coming with the kill.
 
 const TEST_SAVE := "user://test_world_boss_save"
 const MOTHER := "tunnel_mother"
@@ -80,21 +80,27 @@ func test_it_waits_for_the_drains_to_be_reached() -> void:
 	)
 
 
-func test_the_boss_keeps_pace_with_the_hero() -> void:
-	var low := WorldBossRules.level_for(_hero(20), _content(), MOTHER)
-	assert_eq(low, int(_spec()["min_level"]), "never below its minimum")
-	assert_eq(WorldBossRules.level_for(_hero(40), _content(), MOTHER), 42, "two above the hero")
-	assert_true(
-		WorldBossRules.pool(_content(), MOTHER, 42) > WorldBossRules.pool(_content(), MOTHER, 30),
-		"bigger pool"
-	)
+func test_a_world_boss_is_the_same_for_everyone() -> void:
+	# Fixed like a field boss: its level and pool never follow the hero.
+	for boss: String in _content().world_bosses:
+		var level := WorldBossRules.level(_content(), boss)
+		assert_eq(level, int(_spec(boss)["level"]), "%s at its own level" % boss)
+		var zone_low := ZoneSim.new(_content(), _hero(10), "depot_yard", "", 1)
+		var zone_high := ZoneSim.new(_content(), _hero(50), "depot_yard", "", 1)
+		var low := WorldBossRun.new(zone_low, _hero(10), _content(), boss, 1)
+		var high := WorldBossRun.new(zone_high, _hero(50), _content(), boss, 1)
+		assert_eq(low.level, high.level, "%s: the same level for a rookie and a veteran" % boss)
+		assert_eq(low.total, high.total, "%s: and the same pool" % boss)
+	assert_eq(WorldBossRules.level(_content(), MOTHER), 32, "the Mother is level 32")
 
 
 func test_tiers_pay_once_per_round_and_reset_next_round() -> void:
 	var profile := _hero()
 	var total := 10000
 	var tiers: Array = _spec()["tiers"]
-	var first := ceili(total * float(tiers[0]["share"]))
+	# Tiers are shares of one player's part of the pool.
+	var part := WorldBossRules.part(_content(), MOTHER, total)
+	var first := ceili(part * float(tiers[0]["share"]))
 	var money := profile.money
 	var paid := WorldBossRules.award(profile, _content(), MOTHER, 7, first - 1, total, 30, _rng())
 	assert_true(paid["tiers"].is_empty(), "short of the first tier: nothing")
@@ -206,23 +212,25 @@ func test_the_round_is_saved() -> void:
 	assert_eq(PlayerProfile.from_dict(old, _content()).world_boss, {}, "a v6 save starts fresh")
 
 
-func test_the_big_ones_take_high_level_heroes_only() -> void:
+func test_no_level_is_asked_at_the_door() -> void:
+	# Anyone who has unlocked it may try; being ready is up to them.
 	var now := _period("iron_colossus") * 100 + int(_spec("iron_colossus")["offset_minutes"]) * 60
-	var low := _hero(39)
-	assert_true(
-		WorldBossRules.problem(low, _content(), "iron_colossus", now + 10).contains("level"),
-		"level 39 is turned away"
-	)
 	assert_eq(
-		WorldBossRules.problem(_hero(40), _content(), "iron_colossus", now + 10),
+		WorldBossRules.problem(_hero(5), _content(), "iron_colossus", now + 10),
 		"",
-		"level 40 may go"
+		"a level 5 hero may walk in"
 	)
-	assert_eq(
-		WorldBossRules.level_for(_hero(40), _content(), "iron_colossus"),
-		int(_spec("iron_colossus")["level"]),
-		"and fights it at its own level"
-	)
+
+
+func test_the_validator_rejects_a_scaling_world_boss() -> void:
+	var broken := ContentDB.load_all()
+	broken.errors.clear()
+	broken.world_bosses[MOTHER]["level_above_hero"] = 2
+	broken.world_bosses["iron_colossus"].erase("level")
+	broken.validate()
+	var all := "\n".join(broken.errors)
+	assert_true("tunnel_mother.level_above_hero" in all, "no scaling")
+	assert_true("iron_colossus.level" in all, "a fixed level is required")
 
 
 func test_subject_zero_rises_once_a_day_in_the_evening() -> void:

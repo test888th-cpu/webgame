@@ -26,8 +26,8 @@ func _init(
 ) -> void:
 	boss = p_boss
 	round = p_round
-	level = WorldBossRules.level_for(profile, content, boss)
-	total = WorldBossRules.pool(content, boss, level)
+	level = WorldBossRules.level(content, boss)
+	total = WorldBossRules.pool(content, boss)
 	var state := WorldBossRules.progress(profile, boss, round)
 	_remaining = maxi(1, total - int(state["dealt"]))
 	var seconds := int(WorldBossRules.spec(content, boss)["attempt_seconds"])

@@ -371,7 +371,9 @@ func _validate_world_boss() -> void:
 		_check(enemies.has(str(wb.get("unlock"))), where + ".unlock: unknown enemy")
 		for field in ["period_minutes", "open_minutes", "attempt_seconds", "pool"]:
 			_number(wb, field, where, 1)
-		_check(wb.has("level") or wb.has("min_level"), where + ": needs level or min_level")
+		_number(wb, "level", where, 1)
+		for scaled in ["min_level", "level_above_hero", "min_hero_level"]:
+			_check(not wb.has(scaled), "%s.%s: a world boss is fixed, for anyone" % [where, scaled])
 		_check(
 			int(wb.get("open_minutes", 0)) < int(wb.get("period_minutes", 0)),
 			where + ".open_minutes: shorter than the period"
