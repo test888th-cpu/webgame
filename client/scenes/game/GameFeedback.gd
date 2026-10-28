@@ -136,7 +136,7 @@ func healed() -> void:
 func _on_hit(hit: CombatEvent) -> void:
 	var attacker := view.view_of(hit.attacker_id)
 	var defender := view.view_of(hit.defender_id)
-	var heavy := hit.knocked_down or hit.ko or hit.damage >= HEAVY_DAMAGE
+	var heavy := hit.knocked_down or hit.ko or hit.staggered or hit.damage >= HEAVY_DAMAGE
 	# Sparks sit between the two fighters, on the side the blow came from.
 	var side := 1.0
 	if attacker and defender:
@@ -168,6 +168,9 @@ func _on_hit(hit: CombatEvent) -> void:
 			hud.hurt(1.5 if heavy else 1.0)
 	if attacker and not hit.blocked:
 		attacker.impact(Color.WHITE, 0.0, freeze)
+	if hit.staggered:
+		# A boss stood up to a knockdown blow: it rocks but keeps its feet.
+		view.shake(2.0)
 	if hit.knocked_down or hit.ko:
 		Sfx.play_later("knockdown", 0.18, -2.0)
 		_dust(hit.defender_id, 0.2)

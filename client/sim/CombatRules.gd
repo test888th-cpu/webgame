@@ -40,6 +40,15 @@ const STUN_DECAY := 1
 const WAKE_GRACE_TICKS := 36
 ## How long a fighter whose poise broke shrugs off hitstun.
 const ARMOR_TICKS := 90
+## Bosses stand up to knockdown blows (Fighter.down_limit, BOSS_DOWN_BLOWS
+## unless enemies.json says "down_blows"): one that does not floor them
+## staggers them for STAGGER_TICKS. The blows add up only while each comes
+## within DOWN_WINDOW ticks of the last (a hero who keeps the pressure on),
+## and after a fall a boss cannot be floored again for DOWN_REST ticks.
+const BOSS_DOWN_BLOWS := 3
+const STAGGER_TICKS := 14
+const DOWN_WINDOW := 240
+const DOWN_REST := 480
 ## Perfect guard: a guard raised at most PERFECT_GUARD_TICKS before a hit
 ## from the front parries it (no damage, no energy lost, guard breakers
 ## included) and refunds PARRY_ENERGY; the attacker reels for PARRY_STUN
@@ -133,6 +142,12 @@ static func _step(f: Fighter, input: FighterInput, library: MoveLibrary, bounds:
 		f.parry_lockout -= 1
 	if f.exposed > 0:
 		f.exposed -= 1
+	if f.down_rest > 0:
+		f.down_rest -= 1
+	if f.down_window > 0:
+		f.down_window -= 1
+		if f.down_window == 0:
+			f.down_meter = 0
 	if f.state != Fighter.State.HITSTUN:
 		f.stun_meter = maxi(0, f.stun_meter - STUN_DECAY)
 	for skill_id: String in f.cooldowns.keys():
@@ -315,9 +330,9 @@ static func thrown_hit(
 	elif not event.blocked and is_unflinching(defender):
 		event.armored = true
 	elif not event.blocked:
-		event.knocked_down = knockdown
 		if knockdown:
-			defender.enter(Fighter.State.DOWN)
+			event.knocked_down = _knock_down(defender)
+			event.staggered = not event.knocked_down
 		else:
 			event.knocked_down = _stun(defender, THROWN_HITSTUN)
 	return event
@@ -388,8 +403,8 @@ static func _apply_hit(
 			event.armored = true
 			defender.knockback_remaining *= 0.25
 		elif move.knockdown:
-			event.knocked_down = true
-			defender.enter(Fighter.State.DOWN)
+			event.knocked_down = _knock_down(defender)
+			event.staggered = not event.knocked_down
 		else:
 			event.knocked_down = _stun(defender, move.hitstun)
 			event.armored = defender.armor > 0 and not event.knocked_down
@@ -435,6 +450,25 @@ static func _is_skill(f: Fighter, move_id: String) -> bool:
 		if f.skills[skill_id]["move"] == move_id:
 			return true
 	return false
+
+
+## A knockdown blow: floors the defender, unless it is sturdy (a boss) and
+## this is not yet the down_limit-th blow in a row, or it got up from a fall
+## less than DOWN_REST ticks ago: then it only staggers. Returns true if
+## floored.
+static func _knock_down(defender: Fighter) -> bool:
+	if defender.down_limit > 0:
+		if defender.down_rest == 0:
+			defender.down_meter += 1
+			defender.down_window = DOWN_WINDOW
+		if defender.down_rest > 0 or defender.down_meter < defender.down_limit:
+			defender.enter(Fighter.State.HITSTUN, STAGGER_TICKS)
+			return false
+		defender.down_meter = 0
+		defender.down_window = 0
+		defender.down_rest = DOWN_REST
+	defender.enter(Fighter.State.DOWN)
+	return true
 
 
 ## Puts the defender in hitstun, or knocks them down when stun-lock

@@ -268,6 +268,9 @@ func _validate_enemy(id: String, e: Dictionary) -> void:
 	_number(e, "xp", where, 0)
 	if e.has("poise"):
 		_number(e, "poise", where, 1)
+	if e.has("down_blows"):
+		_number(e, "down_blows", where, 1)
+		_check(bool(e.get("boss", false)), where + ".down_blows: only bosses are sturdy")
 	var ranged: Variant = e.get("ranged", {})
 	if ranged is Dictionary and not ranged.is_empty():
 		_check(
