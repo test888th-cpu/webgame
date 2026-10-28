@@ -108,10 +108,14 @@ func test_four_slots_and_one_name_each() -> void:
 	var three: Array[PlayerProfile] = []
 	for name: String in ["Ana", "Bea", "Cid"]:
 		three.append(PlayerProfile.new_game(content, "mika", name))
-	assert_eq(RosterRules.problem(three, content, "Dot"), "", "a fourth is fine")
-	assert_eq(RosterRules.problem(three, content, "bea"), "name", "names are the account's own")
+	assert_eq(RosterRules.problem(three.size(), three, content, "Dot"), "", "a fourth is fine")
+	assert_eq(
+		RosterRules.problem(three.size(), three, content, "bea"),
+		"name",
+		"names are the account's own"
+	)
 	three.append(PlayerProfile.new_game(content, "mika", "Dot"))
-	assert_eq(RosterRules.problem(three, content, "Eve"), "full", "not a fifth")
+	assert_eq(RosterRules.problem(three.size(), three, content, "Eve"), "full", "not a fifth")
 
 
 func test_characters_share_nothing() -> void:

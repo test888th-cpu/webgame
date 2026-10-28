@@ -22,6 +22,7 @@ var settings := {
 
 
 func _ready() -> void:
+	SaveStore.claim_web_lock()
 	content = ContentDB.load_all()
 	for error in content.errors:
 		push_error("content: " + error)

@@ -116,7 +116,7 @@ func test_defeat_wakes_you_where_you_fell_and_costs_coins() -> void:
 			break
 	game.open_game_over()
 	assert_eq(game.menu_name, "game_over", "game over shown")
-	game._recover(10)
+	game._recover()
 	assert_eq(game.profile.money, 90, "lost 10%")
 	assert_eq(game.zone.area_id, "saltmarket", "back on your feet in the same street")
 	assert_true(game.zone.hero.position.x < 120.0, "at its west end")

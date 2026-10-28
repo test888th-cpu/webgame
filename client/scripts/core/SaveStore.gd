@@ -15,6 +15,9 @@ const DEFAULT_ROOT := "user://"
 const LEGACY_SAVE := "save.json"
 const IMPORTED_SAVE := "save.imported.json"
 const UNREADABLE_SAVE := "save.unreadable.json"
+## A character's files: the save, the last good save before it, and a save
+## being written (complete once it is there: it is checked before renaming).
+const SUFFIXES := [".json", ".json.bak", ".json.tmp"]
 ## Godot names the user data folder after the project, so renaming the game
 ## from "Ironbound Streets" to "The Iron Legacy" moved user:// to a new,
 ## empty folder (in the browser too: IndexedDB holds the same folder tree).
@@ -24,6 +27,9 @@ const FORMER_NAMES := ["Ironbound Streets"]
 const CARRIED_FILES := ["save.json", "settings.json"]
 
 var root := DEFAULT_ROOT
+## Set when another browser tab holds the saves (see claim_web_lock): this
+## tab then never writes, so it cannot overwrite or delete the other's files.
+var read_only := false
 
 
 func _init() -> void:
@@ -31,7 +37,10 @@ func _init() -> void:
 	var here := OS.get_user_data_dir()
 	# Once imported, the old save must not come back as a second character.
 	var files := CARRIED_FILES.duplicate()
-	if FileAccess.file_exists(DEFAULT_ROOT.path_join(IMPORTED_SAVE)):
+	for done: String in [IMPORTED_SAVE, UNREADABLE_SAVE]:
+		if FileAccess.file_exists(DEFAULT_ROOT.path_join(done)):
+			files.erase(LEGACY_SAVE)
+	if DirAccess.dir_exists_absolute(DEFAULT_ROOT.path_join("characters")):
 		files.erase(LEGACY_SAVE)
 	for former: String in FORMER_NAMES:
 		carry_over(here.get_base_dir().path_join(former), here, files)
@@ -79,8 +88,13 @@ func has_characters() -> bool:
 	return not _ids().is_empty()
 
 
-## Every playable character, last played first. Unreadable files are left
-## alone (and logged), never deleted.
+## Slots in use: every character with files, readable or not, so a save
+## that cannot be read still holds its place (and is never overwritten).
+func slots_used() -> int:
+	return _ids().size()
+
+
+## Every playable character, last played first.
 func characters(content: ContentDB) -> Array[PlayerProfile]:
 	_import_legacy(content)
 	var found: Array[PlayerProfile] = []
@@ -95,53 +109,84 @@ func characters(content: ContentDB) -> Array[PlayerProfile]:
 	return found
 
 
-## Writes atomically: to a temporary file first, then renamed over the old
-## save, so a crash mid-write cannot leave a truncated save behind.
-## A character not saved before is refused once the account is full
-## (RosterRules.max_characters), so no character is ever out of reach.
+## Characters whose every file fails to load (corrupt, or from a newer
+## build). They are listed, not hidden, and kept until the player deletes.
+func unreadable(content: ContentDB) -> Array[String]:
+	var ids: Array[String] = []
+	for id in _ids():
+		if load_character(id, content) == null:
+			ids.append(id)
+	return ids
+
+
+## Writes safely: the new save goes to a temporary file, is read back and
+## compared, the current save is kept as .bak, and only then the new one
+## takes its place. A failed write never touches the good save. A character
+## not saved before is refused once the account is full
+## (RosterRules.max_characters), so none is ever out of reach.
 func save(profile: PlayerProfile) -> bool:
+	if read_only:
+		return false
 	if not RosterRules.is_id(profile.id):
 		push_warning("save refused: the character has no id")
 		return false
 	var limit := RosterRules.max_characters(GameSession.content)
-	if not FileAccess.file_exists(path_of(profile.id)) and _ids().size() >= limit:
+	if not profile.id in _ids() and _ids().size() >= limit:
 		push_warning("save refused: the account already has %d characters" % limit)
 		return false
 	DirAccess.make_dir_recursive_absolute(folder())
 	profile.saved_at = int(Time.get_unix_time_from_system())
 	var target := path_of(profile.id)
 	var temp := target + ".tmp"
+	var text := JSON.stringify(profile.to_dict())
 	var file := FileAccess.open(temp, FileAccess.WRITE)
 	if file == null:
 		push_warning("save failed: %s" % error_string(FileAccess.get_open_error()))
 		return false
-	file.store_string(JSON.stringify(profile.to_dict()))
+	var written := file.store_string(text) and file.get_error() == OK
 	file.close()
+	if not written or FileAccess.get_file_as_string(temp) != text:
+		push_warning("save failed: the file did not read back as written")
+		DirAccess.remove_absolute(temp)
+		return false
+	if FileAccess.file_exists(target):
+		DirAccess.copy_absolute(target, target + ".bak")
 	return DirAccess.rename_absolute(temp, target) == OK
 
 
-## Character `id`, or null when it has no usable save. The file name is the
-## id; a save claiming another id is not trusted.
+## Character `id`: its save, else a complete save left by an interrupted
+## rename, else its last good save. Null when none can be used. A file
+## claiming another id is not trusted.
 func load_character(id: String, content: ContentDB) -> PlayerProfile:
-	if not RosterRules.is_id(id) or not FileAccess.file_exists(path_of(id)):
+	if not RosterRules.is_id(id):
 		return null
-	var profile := _read(path_of(id), content)
-	if profile == null:
-		return null
-	if profile.id != id:
-		push_warning("save %s names another character; ignoring it" % id)
-		return null
-	return profile
+	var newest: PlayerProfile = null
+	for suffix: String in SUFFIXES:
+		var path := folder().path_join(id + suffix)
+		if not FileAccess.file_exists(path):
+			continue
+		var profile := _read(path, content)
+		if profile and profile.id == id and (newest == null or profile.saved_at > newest.saved_at):
+			newest = profile
+		if newest and suffix == ".json":
+			return newest
+	return newest
 
 
-## Moves character `id` out of the roster (to characters/deleted/).
+## Moves character `id`'s files out of the roster (to characters/deleted/).
 func delete_character(id: String) -> bool:
-	if not RosterRules.is_id(id) or not FileAccess.file_exists(path_of(id)):
+	if read_only or not id in _ids():
 		return false
 	var bin := folder().path_join("deleted")
 	DirAccess.make_dir_recursive_absolute(bin)
 	var stamp := int(Time.get_unix_time_from_system())
-	return DirAccess.rename_absolute(path_of(id), bin.path_join("%s-%d.json" % [id, stamp])) == OK
+	var moved := false
+	for suffix: String in SUFFIXES:
+		var path := folder().path_join(id + suffix)
+		if FileAccess.file_exists(path):
+			var aside := bin.path_join("%s-%d%s" % [id, stamp, suffix])
+			moved = DirAccess.rename_absolute(path, aside) == OK or moved
+	return moved
 
 
 ## Removes every save under `root` (tests use their own root).
@@ -152,9 +197,41 @@ func delete_all() -> void:
 		for file in DirAccess.get_files_at(dir):
 			DirAccess.remove_absolute(dir.path_join(file))
 		DirAccess.remove_absolute(dir)
-	for file: String in [LEGACY_SAVE, IMPORTED_SAVE]:
+	for file: String in [LEGACY_SAVE, IMPORTED_SAVE, UNREADABLE_SAVE]:
 		if FileAccess.file_exists(root.path_join(file)):
 			DirAccess.remove_absolute(root.path_join(file))
+
+
+## In the browser every tab has its own copy of the files and writes it all
+## back to IndexedDB, so two tabs would undo each other's saves (or delete a
+## new character). The first tab takes a Web Lock and keeps it; a later tab
+## finds it taken (web_lock_state() == "taken") and must not save.
+func claim_web_lock() -> void:
+	if not OS.has_feature("web"):
+		return
+	(
+		JavaScriptBridge
+		. eval(
+			"""
+		window.ironLegacyLock = 'pending';
+		if (navigator.locks) {
+			navigator.locks.request('the-iron-legacy-saves', {ifAvailable: true}, (lock) => {
+				if (!lock) { window.ironLegacyLock = 'taken'; return; }
+				window.ironLegacyLock = 'held';
+				return new Promise(() => {});
+			});
+		} else { window.ironLegacyLock = 'held'; }
+		""",
+			true
+		)
+	)
+
+
+## "held", "taken", "pending", or "held" off the web.
+func web_lock_state() -> String:
+	if not OS.has_feature("web"):
+		return "held"
+	return str(JavaScriptBridge.eval("window.ironLegacyLock || 'pending'", true))
 
 
 func _ids() -> Array[String]:
@@ -162,8 +239,9 @@ func _ids() -> Array[String]:
 	if not DirAccess.dir_exists_absolute(folder()):
 		return ids
 	for file in DirAccess.get_files_at(folder()):
-		if file.ends_with(".json") and RosterRules.is_id(file.get_basename()):
-			ids.append(file.get_basename())
+		var id := file.left(16)
+		if RosterRules.is_id(id) and file.substr(16) in SUFFIXES and not id in ids:
+			ids.append(id)
 	return ids
 
 
@@ -179,12 +257,12 @@ func _read(path: String, content: ContentDB) -> PlayerProfile:
 
 ## The one save of builds before character slots becomes a character; the
 ## old file is renamed, not deleted, and only once it is safely written. Its
-## id comes from its content, so if the rename ever fails the next import
-## rewrites the same character instead of adding a copy. A save that cannot
+## id comes from its content; if that character exists already (an earlier
+## import whose rename failed) it is never overwritten. A save that cannot
 ## be read is set aside once (kept, not deleted) rather than re-read forever.
 func _import_legacy(content: ContentDB) -> void:
 	var legacy := root.path_join(LEGACY_SAVE)
-	if not FileAccess.file_exists(legacy):
+	if read_only or not FileAccess.file_exists(legacy):
 		return
 	var profile := _read(legacy, content)
 	if profile == null:
@@ -192,5 +270,5 @@ func _import_legacy(content: ContentDB) -> void:
 		return
 	if not RosterRules.is_id(profile.id):
 		profile.id = FileAccess.get_sha256(legacy).left(16)
-	if save(profile):
+	if profile.id in _ids() or save(profile):
 		DirAccess.rename_absolute(legacy, root.path_join(IMPORTED_SAVE))

@@ -905,6 +905,19 @@ func _update_downed(events: Array[ZoneEvent]) -> void:
 			events.append(ZoneEvent.make("despawn", {"id": id}))
 
 
+## Banks every coin and item still on the ground, wherever the hero is (on
+## leaving the area, so nothing dropped is ever lost). Returns how many.
+func collect_all() -> int:
+	var count := pickups.size()
+	for pickup in pickups:
+		if pickup["kind"] == "money":
+			profile.money += int(pickup["amount"])
+		else:
+			profile.add_item(pickup["item"], int(pickup["amount"]))
+	pickups.clear()
+	return count
+
+
 func _collect_pickups(events: Array[ZoneEvent]) -> void:
 	if hero.is_ko():
 		return

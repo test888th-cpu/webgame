@@ -16,19 +16,21 @@ const CARD := Vector2(134, 196)
 static func build(
 	content: ContentDB,
 	roster: Array[PlayerProfile],
+	damaged: Array[String],
 	on_play: Callable,
 	on_create: Callable,
 	on_delete: Callable,
 	on_close: Callable
 ) -> Control:
 	var most := RosterRules.max_characters(content)
+	var used := roster.size() + damaged.size()
 	var parts := UiKit.screen(content, "Characters", "menu_character", "", SIZE, on_close)
 	var body: VBoxContainer = parts["body"]
 	body.add_child(
 		UiKit.label(
 			(
 				"%d of %d slots used. Each character keeps its own level, gear and story."
-				% [roster.size(), most]
+				% [used, most]
 			),
 			UiTheme.SIZE_SMALL,
 			UiTheme.TEXT_DIM
@@ -50,14 +52,19 @@ static func build(
 	var pick := func(id: String) -> void:
 		state["id"] = id
 		state["armed"] = false
-		play.disabled = id == ""
+		play.disabled = id == "" or id in damaged
 		delete.disabled = id == ""
 		delete.text = "Delete"
 		delete.remove_theme_color_override("font_color")
 	# Never fewer cards than characters, so none is ever out of reach.
-	for i in maxi(most, roster.size()):
+	for i in maxi(most, used):
 		var card: Button
-		if i < roster.size():
+		if i >= roster.size() and i < used:
+			# Kept, not hidden: it can be deleted (moved aside) to free the slot.
+			var id := damaged[i - roster.size()]
+			card = _damaged_card()
+			card.focus_entered.connect(pick.bind(id))
+		elif i < roster.size():
 			var character := roster[i]
 			card = _card(content, character)
 			card.pressed.connect(on_play.bind(character.id))
@@ -77,7 +84,7 @@ static func build(
 			# The only way back is the saves folder: ask once more, by name.
 			if not state["armed"]:
 				state["armed"] = true
-				var who := ""
+				var who := "this save"
 				for character in roster:
 					who = character.name if character.id == id else who
 				delete.text = "Delete %s for good?" % who
@@ -169,6 +176,17 @@ static func _card(content: ContentDB, character: PlayerProfile) -> Button:
 		label.clip_text = true
 		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		column.add_child(label)
+	return card
+
+
+static func _damaged_card() -> Button:
+	var card := Button.new()
+	card.custom_minimum_size = CARD
+	card.focus_mode = Control.FOCUS_ALL
+	card.text = "This save\ncannot be read.\n\nIt is kept as it is."
+	card.add_theme_color_override("font_color", UiTheme.DANGER)
+	card.add_theme_font_size_override("font_size", UiTheme.SIZE_SMALL)
+	_frame(card, UiTheme.DANGER)
 	return card
 
 

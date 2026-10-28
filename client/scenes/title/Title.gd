@@ -85,8 +85,9 @@ func _build_ui(content: ContentDB) -> void:
 	menu.add_theme_constant_override("separation", 3)
 	_ui.add_child(menu)
 	_roster = SaveStore.characters(content)
-	if _roster:
-		menu.add_child(UiKit.menu_button("Continue", _continue))
+	if SaveStore.has_characters():
+		if _roster:
+			menu.add_child(UiKit.menu_button("Continue", _continue))
 		menu.add_child(UiKit.menu_button("Characters", open_characters))
 	else:
 		menu.add_child(UiKit.menu_button("New game", _new_game))
@@ -128,10 +129,33 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _process(delta: float) -> void:
+	if not SaveStore.read_only and SaveStore.web_lock_state() == "taken":
+		_another_tab()
 	_probe_timer += delta
 	if _probe_timer >= 0.1:
 		_probe_timer = 0.0
 		GameSession.publish_probe({"scene": "title", "has_save": not _roster.is_empty()})
+
+
+## Another tab of the game holds the saves: this one must not write, or the
+## two would undo each other's progress.
+func _another_tab() -> void:
+	SaveStore.read_only = true
+	var window := UiKit.window("Already open", Vector2(300, 110), "")
+	var body: VBoxContainer = window["body"]
+	body.add_child(
+		UiKit.label(
+			(
+				"The game is open in another tab. Play there, or close it and reload"
+				+ " this page. Nothing is saved from this tab."
+			),
+			UiTheme.SIZE_BODY,
+			UiTheme.TEXT_DIM,
+			280
+		)
+	)
+	_open_modal(window["root"])
+	menu.visible = false
 
 
 func _new_game() -> void:
@@ -176,9 +200,11 @@ func _save_card(content: ContentDB, saved: PlayerProfile) -> void:
 
 ## The account's characters: play one, make another, or delete one.
 func open_characters() -> void:
-	_roster = SaveStore.characters(GameSession.content)
+	var content := GameSession.content
+	_roster = SaveStore.characters(content)
+	var damaged := SaveStore.unreadable(content)
 	_open_modal(
-		CharacterSelect.build(GameSession.content, _roster, _play, _new_game, _delete, _close_modal)
+		CharacterSelect.build(content, _roster, damaged, _play, _new_game, _delete, _close_modal)
 	)
 
 

@@ -20,11 +20,12 @@ static func max_characters(content: ContentDB) -> int:
 	return int(content.progression.get("max_characters", 1))
 
 
-## Why another character cannot be made ("" if it can): "full" or "name"
-## (another character of the account already has that name, ignoring case).
-## An invalid name is PlayerProfile.clean_name's to judge.
-static func problem(characters: Array, content: ContentDB, name: String) -> String:
-	if characters.size() >= max_characters(content):
+## Why another character cannot be made ("" if it can): "full" (`used`
+## slots, unreadable saves included, reach the limit) or "name" (another of
+## the account's `characters` has that name, ignoring case). An invalid name
+## is PlayerProfile.clean_name's to judge.
+static func problem(used: int, characters: Array, content: ContentDB, name: String) -> String:
+	if used >= max_characters(content):
 		return "full"
 	if name_taken(characters, name):
 		return "name"

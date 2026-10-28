@@ -111,7 +111,7 @@ func test_getting_up_keeps_won_fights() -> void:
 	_win_first_fight(game.zone)
 	game.zone.hero.hp = 0
 	game.open_game_over()
-	game._recover(0)
+	game._recover()
 	assert_eq(game.zone.area_id, "saltmarket", "same street")
 	assert_eq(game.zone._encounters[0]["state"], "cleared", "the won fight stays won")
 	_done(game)
