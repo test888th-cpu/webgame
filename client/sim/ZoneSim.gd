@@ -475,16 +475,18 @@ func _drop_weapon(f: Fighter, at: Vector2, events: Array[ZoneEvent]) -> void:
 	_clear_weapon(f)
 
 
-## The pick button: take the weapon underfoot (dropping any held one in its
-## place), or put the held weapon down if there is nothing to take.
+## The pick button: a thrower holding a weapon throws it, even on a pile (one
+## press, one meaning); empty hands take the one underfoot; an enemy swaps
+## for it, or puts its weapon down.
 func _pick_or_drop(f: Fighter, events: Array[ZoneEvent]) -> void:
 	if f == null or f.state != Fighter.State.IDLE:
 		return
+	if f.weapon and f.throws:
+		CombatRules.start_move(f, content.moves.get_move(THROW_MOVE))
+		return
 	var found := weapon_in_reach(f.position)
 	if found < 0:
-		if f.weapon and f.throws:
-			CombatRules.start_move(f, content.moves.get_move(THROW_MOVE))
-		elif f.weapon:
+		if f.weapon:
 			_drop_weapon(f, f.position + Vector2(f.facing * 10.0, 2.0), events)
 		return
 	var entry: Dictionary = ground_weapons[found]

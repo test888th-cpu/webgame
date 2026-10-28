@@ -1,5 +1,5 @@
 extends TestCase
-## Throwing the held weapon: E with nothing underfoot winds up, lets go, and
+## Throwing the held weapon: E winds up (even standing on other weapons), lets go, and
 ## the weapon flies along the street, hits the first foe and lands (or
 ## breaks on its last use).
 
@@ -63,6 +63,24 @@ func test_the_hero_throws_instead_of_putting_down() -> void:
 	assert_eq(_of_type(events, "weapon_throw").size(), 1, "let go once")
 	assert_eq(zone.hero.weapon, "", "hands empty")
 	assert_eq(zone.thrown.size(), 1, "in flight")
+
+
+func test_a_pile_underfoot_never_swallows_the_throw() -> void:
+	# Weapons heap up where foes drop them: E still throws the one in hand,
+	# and the next E picks up from the pile.
+	var zone := _zone()
+	zone.equip_weapon(zone.hero, "pipe", 6)
+	for weapon_id: String in ["chair", "bottle", "plank"]:
+		zone.place_weapon(weapon_id, zone.hero.position + Vector2(2, 1), 4)
+	_run(zone, 1, _press("pick"))
+	assert_eq(zone.hero.state, Fighter.State.ATTACK, "winding up the throw, not swapping")
+	var events := _run(zone, 40)
+	assert_eq(_of_type(events, "weapon_throw").size(), 1, "the pipe flew")
+	assert_eq(_of_type(events, "weapon_pickup").size(), 0, "nothing picked up meanwhile")
+	assert_eq(zone.ground_weapons.size(), 4, "the pile, and the pipe further on")
+	events = _run(zone, 1, _press("pick"))
+	assert_eq(_of_type(events, "weapon_pickup").size(), 1, "the next press picks one up")
+	assert_true(zone.hero.weapon in ["chair", "bottle", "plank"], "from the pile underfoot")
 
 
 func test_a_thrown_weapon_hits_the_first_foe_and_lands() -> void:

@@ -84,8 +84,8 @@ var parry_window := CombatRules.PERFECT_GUARD_TICKS
 var parry_open := false
 var parry_lockout := 0
 var exposed := 0
-## With nothing underfoot to pick up, the pick button throws the held weapon
-## instead of putting it down (the hero; enemies only put weapons down).
+## The pick button throws the held weapon (even with others underfoot)
+## instead of swapping or putting it down (the hero; enemies never throw).
 var throws := false
 
 
