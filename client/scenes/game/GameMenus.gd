@@ -521,7 +521,7 @@ static func knocked_out(game: Game, loss: int, at_boss := false) -> Control:
 	)
 	cost.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	column.add_child(cost)
-	var again := UiKit.button("Get back up", game._recover.bind(loss))
+	var again := UiKit.button("Get back up", game._recover)
 	again.custom_minimum_size = Vector2(140, 22)
 	again.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	column.add_child(again)

@@ -4,6 +4,56 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Fixed: nothing a player owns can be lost
+- **Safe saves:**
+  - A save is written to a temporary file and read back before it replaces the old
+    one. A full disk or a quota error never truncates a good save.
+  - The previous save is kept as `<id>.json.bak`. If the save cannot be read, the
+    newest of the `.tmp` and `.bak` copies is used.
+- **Unreadable characters are kept:** a corrupt save, or one from a newer build, is
+  shown as "This save cannot be read" on the Characters screen. It is not hidden.
+  - It still holds its slot, so a new character can never be made that then
+    fails to save.
+  - It can be deleted, which moves it aside.
+- **Unknown items are kept:**
+  - Items this build does not know (renamed, removed, or from a newer build) are
+    parked in `unknown` with their upgrades, saved unchanged, and come back when a
+    build knows them again.
+  - Worn gear that no longer fits its slot goes to the bag. Before, it vanished.
+- **Ground loot:**
+  - Loot left on the ground is picked up automatically on leaving an area (taxi,
+    recall, getting up, auto battle).
+  - Picking something up saves at once.
+- **More saves:** the game also saves every 20 seconds and when the tab is hidden or
+  the window closes.
+- **World boss:** a fight cut short by a closed tab or a crash is banked the next
+  time the game starts.
+- **One tab:** only one browser tab may hold the saves (Web Lock). A second tab says
+  "Already open" and writes nothing, so two tabs can no longer undo each other's
+  progress.
+- **Old save:** the old single save can never overwrite a character it was already
+  imported as.
+- **Money rules:** the knock-out penalty and all fares (taxi, world boss ride, auto
+  battle's ride back) moved to `sim/EconomyRules.gd`, so the server can apply the
+  same rules.
+
+### Fixed: upgrade review
+- **Loading a save:** upgrades are kept only on a copy of its own (`#n` key) that
+  the hero still has. A level on a plain item id would upgrade its whole stack
+  again.
+  - A copy found both worn and in the bag is kept in one place, the worn one.
+  - A new copy never takes a key left over from an old upgrade or pity entry.
+- **Item card:**
+  - The comparison counts upgrades on both sides ("Compared with Foreman's Wrench
+    +5").
+  - A carried upgraded copy shows "Upgraded +N" and what it adds.
+  - The note under the upgrade now says upgrades stay with the item. It used to
+    say they stay with the slot.
+- **Losing an upgraded copy:** the Sell tab shows "+N" on upgraded copies.
+  Discarding one asks "Discard +N for good?".
+- **Workbench:** says why nothing happened on an item that is already fully
+  upgraded, or on an empty slot.
+
 ### Added: up to four characters per account
 - **Before:** there was one save. Making a new hero replaced it, so a level 20 hero
   was lost when a new one was started.

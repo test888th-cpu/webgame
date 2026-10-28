@@ -483,7 +483,7 @@ func _on_name_changed(text: String) -> void:
 	_name_edited = text != str(content.hero(selected).get("default_name", ""))
 	var valid := PlayerProfile.clean_name(text) != ""
 	var taken := valid and RosterRules.name_taken(_roster, PlayerProfile.clean_name(text))
-	var full := _roster.size() >= RosterRules.max_characters(content)
+	var full := SaveStore.slots_used() >= RosterRules.max_characters(content)
 	start_button.disabled = not valid or taken or full
 	if full:
 		_name_hint.text = (
@@ -525,7 +525,7 @@ func _confirm_hero(hero_id: String) -> void:
 ## Creates the profile and starts the game, if the name is valid.
 func start() -> void:
 	var player_name := PlayerProfile.clean_name(name_field.text)
-	var problem := RosterRules.problem(_roster, content, player_name)
+	var problem := RosterRules.problem(SaveStore.slots_used(), _roster, content, player_name)
 	if player_name == "" or problem == "name":
 		Sfx.play("denied")
 		name_field.grab_focus()

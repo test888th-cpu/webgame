@@ -60,6 +60,9 @@ var tutorial_progress := 0
 ## success (each raises the next chance).
 var enhance := {}
 var enhance_pity := {}
+## What a save held that this build does not know (see _load_gear), kept
+## and saved unchanged: {"inventory", "enhance", "enhance_pity"}.
+var unknown := {"inventory": {}, "enhance": {}, "enhance_pity": {}}
 ## Fights won per area since the last rest, and areas reached (StreetMemory).
 var cleared := {}
 var visited: Array[String] = []
@@ -208,7 +211,9 @@ func own_copy(slot: String) -> String:
 	if key == "" or key.contains("#"):
 		return key
 	var taken := {}
-	for other: String in inventory.keys() + equipment.values():
+	for other: String in inventory.keys() + equipment.values() + enhance.keys():
+		taken[other] = true
+	for other: String in enhance_pity:
 		taken[other] = true
 	var n := 1
 	while taken.has("%s#%d" % [key, n]):
@@ -302,6 +307,7 @@ func to_dict() -> Dictionary:
 		"tutorial": tutorial,
 		"enhance": enhance.duplicate(),
 		"enhance_pity": enhance_pity.duplicate(),
+		"unknown": unknown.duplicate(true),
 		"cleared": cleared.duplicate(true),
 		"visited": visited.duplicate(),
 		"world_boss": world_boss.duplicate(),
@@ -331,19 +337,7 @@ static func from_dict(data: Variant, content: ContentDB) -> PlayerProfile:
 	p.level = clampi(int(migrated.get("level", 1)), 1, p.max_level(content))
 	p.xp = clampi(int(migrated.get("xp", 0)), 0, p.xp_to_next(content) - 1)
 	p.money = maxi(0, int(migrated.get("money", 0)))
-	var saved_inventory: Variant = migrated.get("inventory", {})
-	if saved_inventory is Dictionary:
-		for item_id: String in saved_inventory:
-			if not content.item(item_id).is_empty() and int(saved_inventory[item_id]) > 0:
-				# A copy of its own is one item, however the save got edited.
-				var most := 1 if item_id.contains("#") else int(saved_inventory[item_id])
-				p.inventory[item_id] = mini(int(saved_inventory[item_id]), most)
-	var saved_equipment: Variant = migrated.get("equipment", {})
-	if saved_equipment is Dictionary:
-		for slot: String in SLOTS:
-			var item_id := str(saved_equipment.get(slot, ""))
-			if content.item(item_id).get("slot") == slot:
-				p.equipment[slot] = item_id
+	_load_gear(p, migrated, content)
 	var saved_quests: Variant = migrated.get("quests", {})
 	if saved_quests is Dictionary:
 		for quest_id: String in saved_quests:
@@ -364,16 +358,6 @@ static func from_dict(data: Variant, content: ContentDB) -> PlayerProfile:
 	var max_hp: int = p.stats(content)["max_hp"]
 	p.hp = clampi(int(migrated.get("hp", max_hp)), 1, max_hp)
 	p.tutorial = clampi(int(migrated.get("tutorial", 0)), 0, content.tutorial.size())
-	var top := EnhanceRules.max_level(content)
-	for field: String in ["enhance", "enhance_pity"]:
-		var saved: Variant = migrated.get(field, {})
-		if not saved is Dictionary:
-			continue
-		var limit := top if field == "enhance" else 1000
-		for item_id: String in saved:
-			var value := clampi(int(saved[item_id]), 0, limit)
-			if content.item(item_id).get("type") == "equipment" and value > 0:
-				p.get(field)[item_id] = value
 	StreetMemory.load_into(p, migrated, content)
 	var rounds: Variant = migrated.get("world_boss", {})
 	if rounds is Dictionary:
@@ -388,7 +372,68 @@ static func from_dict(data: Variant, content: ContentDB) -> PlayerProfile:
 				"tiers": clampi(int(state.get("tiers", 0)), 0, boss_data["tiers"].size()),
 				"killed": bool(state.get("killed", false)),
 			}
+			var attempt: Variant = state.get("attempt")
+			if attempt is Dictionary and attempt.has_all(["dealt", "total", "level"]):
+				p.world_boss[str(boss)]["attempt"] = {
+					"dealt": maxi(0, int(attempt["dealt"])),
+					"total": maxi(1, int(attempt["total"])),
+					"level": maxi(1, int(attempt["level"])),
+				}
 	return p
+
+
+## Inventory, equipment and upgrades from saved data. Nothing the player
+## owns is thrown away: an item this build does not know (renamed, removed,
+## or from a newer build) goes to `unknown` with its upgrades, is saved as it
+## was, and comes back the first time a build knows it again. Worn gear that
+## no longer fits its slot goes to the bag.
+static func _load_gear(p: PlayerProfile, migrated: Dictionary, content: ContentDB) -> void:
+	var parked: Variant = migrated.get("unknown", {})
+	parked = parked if parked is Dictionary else {}
+	var bag := {}
+	for source: Variant in [migrated.get("inventory", {}), parked.get("inventory", {})]:
+		if source is Dictionary:
+			for key: Variant in source:
+				bag[str(key)] = int(bag.get(str(key), 0)) + maxi(0, int(source[key]))
+	var worn: Variant = migrated.get("equipment", {})
+	if worn is Dictionary:
+		for slot: String in SLOTS:
+			var key := str(worn.get(slot, ""))
+			if key == "":
+				continue
+			if content.item(key).get("slot") == slot and key not in p.equipment.values():
+				p.equipment[slot] = key
+				# A copy of its own is in one place: worn wins over the bag.
+				if key.contains("#"):
+					bag.erase(key)
+			else:
+				bag[key] = int(bag.get(key, 0)) + 1
+	for key: String in bag:
+		if bag[key] <= 0 or key in p.equipment.values():
+			continue
+		# A copy of its own is one item, however the save got edited.
+		var amount: int = mini(bag[key], 1) if key.contains("#") else bag[key]
+		if content.item(key).is_empty():
+			p.unknown["inventory"][key] = amount
+		else:
+			p.inventory[key] = amount
+	var top := EnhanceRules.max_level(content)
+	for field: String in ["enhance", "enhance_pity"]:
+		var levels := {}
+		for source: Variant in [migrated.get(field, {}), parked.get(field, {})]:
+			if source is Dictionary:
+				for key: Variant in source:
+					levels[str(key)] = source[key]
+		var limit := top if field == "enhance" else 1000
+		for key: String in levels:
+			var value := clampi(int(levels[key]), 0, limit)
+			if value <= 0 or not key.contains("#"):
+				continue  # a plain id would upgrade a whole stack at once
+			if p.unknown["inventory"].has(key):
+				p.unknown[field][key] = int(levels[key])  # kept unclamped, with its item
+			elif p.count(key) > 0 or key in p.equipment.values():
+				if content.item(key).get("type") == "equipment":
+					p.get(field)[key] = value
 
 
 ## Upgrades saved data one version at a time to SAVE_VERSION. Returns {} for

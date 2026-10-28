@@ -51,10 +51,19 @@ static func details(
 		)
 	for line: Array in ItemText.effect_lines(item):
 		box.add_child(UiKit.label(line[0], UiTheme.SIZE_BODY, line[1]))
+	if item.get("type") == "equipment" and not worn_slot:
+		_carried_upgrade(box, content, profile, item_id, item)
 	if item.get("type") == "equipment" and not worn_slot and compare:
-		var current := content.item(profile.equipment[item["slot"]])
-		var changes := ItemText.compare_lines(item, current)
-		var against := "Compared with %s" % current["name"] if current else "Slot is empty"
+		# Copies of one item can differ in level, so both sides count theirs.
+		var worn_key := str(profile.equipment[item["slot"]])
+		var current := content.item(worn_key)
+		var changes := ItemText.compare_lines(
+			upgraded(content, profile, item_id), upgraded(content, profile, worn_key)
+		)
+		var against := "Slot is empty"
+		if current:
+			var plus := EnhanceRules.item_level(profile, worn_key)
+			against = "Compared with %s%s" % [current["name"], " +%d" % plus if plus else ""]
 		box.add_child(UiKit.label(against, UiTheme.SIZE_CAPTION, UiTheme.TEXT_FAINT))
 		if current and changes.is_empty():
 			box.add_child(UiKit.label("No change", UiTheme.SIZE_SMALL, UiTheme.TEXT_DIM))
@@ -84,6 +93,45 @@ static func details(
 				)
 			)
 	return box
+
+
+## Item `key` with its copy's upgrades added to its stats.
+static func upgraded(content: ContentDB, profile: PlayerProfile, key: String) -> Dictionary:
+	var item := content.item(key)
+	var extra := EnhanceRules.copy_bonus(profile, key, item, content)
+	if extra.is_empty():
+		return item
+	var stats: Dictionary = item.get("stats", {}).duplicate()
+	for stat: String in extra:
+		stats[stat] = float(stats.get(stat, 0.0)) + float(extra[stat])
+	var result := item.duplicate()
+	result["stats"] = stats
+	return result
+
+
+## An upgraded copy in the bag (or the shop's Sell tab): its level and what
+## it adds once worn.
+static func _carried_upgrade(
+	box: VBoxContainer, content: ContentDB, profile: PlayerProfile, key: String, item: Dictionary
+) -> void:
+	var plus := EnhanceRules.item_level(profile, key)
+	if plus == 0:
+		return
+	var parts: Array[String] = []
+	var extra := EnhanceRules.copy_bonus(profile, key, item, content)
+	for stat: String in ItemText.STAT_NAMES:
+		if extra.has(stat):
+			parts.append(
+				(
+					"%s %s"
+					% [ItemText.bonus_value(stat, float(extra[stat])), ItemText.STAT_NAMES[stat]]
+				)
+			)
+	box.add_child(
+		UiKit.label(
+			"Upgraded +%d:  %s" % [plus, ",  ".join(parts)], UiTheme.SIZE_SMALL, UiTheme.GOLD
+		)
+	)
 
 
 ## What the slot's upgrades add now, and what the next one costs (red where
@@ -137,7 +185,7 @@ static func _upgrade_lines(
 	)
 	box.add_child(
 		UiKit.label(
-			"  Upgrades stay with the %s slot when you change gear." % slot,
+			"  Upgrades stay with this item when you take it off.",
 			UiTheme.SIZE_CAPTION,
 			UiTheme.TEXT_FAINT,
 			WIDTH - 16

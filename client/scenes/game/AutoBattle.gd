@@ -121,11 +121,10 @@ func _rest_and_return() -> void:
 	_game.enter_area(home, "")
 	var keep := int(GameSession.settings.get("auto_food", 10.0))
 	var bought := AutoRules.restock(_game.profile, content, home, keep, fare)
-	if _game.profile.money < fare:
+	if not EconomyRules.charge(_game.profile, fare):
 		_travelling = false
 		stop("Not enough coins for the ride back. Auto off.")
 		return
-	_game.profile.money -= fare
 	_game.enter_area(farm_area, "west")
 	_travelling = false
 	runs += 1

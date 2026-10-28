@@ -8,6 +8,9 @@ extends Node2D
 const READY_MARKER := "GAME_READY"
 const PROBE_INTERVAL := 0.1
 const UPGRADE_GAP_MS := 400
+## Seconds between saves while playing, on top of the saves at each change
+## that matters, so a closed tab or a crash never costs more than this.
+const AUTOSAVE_SECONDS := 20.0
 ## The screens with a key of their own (input action = screen id).
 const SCREEN_KEYS := ["character", "bag", "quests", "map"]
 
@@ -49,10 +52,24 @@ var _world_rng := RandomNumberGenerator.new()
 var _announced := {}
 var _clock_timer := 0.0
 var _entering_world_boss := false
+var _autosave_left := AUTOSAVE_SECONDS
 
 @onready var _world: Node2D = $World
 @onready var _hud: CanvasLayer = $Hud
 @onready var _menus: CanvasLayer = $Menus
+
+
+## Saves when the window closes or the tab is hidden (the browser may then
+## stop the page at any moment).
+func _notification(what: int) -> void:
+	var leaving := [
+		NOTIFICATION_WM_CLOSE_REQUEST,
+		NOTIFICATION_APPLICATION_FOCUS_OUT,
+		NOTIFICATION_APPLICATION_PAUSED,
+		NOTIFICATION_WM_WINDOW_FOCUS_OUT,
+	]
+	if what in leaving and profile:
+		SaveStore.save(profile)
 
 
 func _ready() -> void:
@@ -70,6 +87,7 @@ func _ready() -> void:
 			if not menu or menu_name == "pause" or GameMenus.SCREENS.has(menu_name):
 				open_screen(name)
 	)
+	_settle_world_boss()
 	enter_area(profile.area, "")
 	auto = AutoBattle.new(self)
 	print("%s %s" % [READY_MARKER, BuildInfo.summary()])
@@ -82,6 +100,8 @@ func enter_area(area_id: String, entry: String, start_x := -1.0) -> void:
 		entry = ""
 	if zone:
 		_street_weapons[zone.area_id] = zone.ground_weapons.duplicate(true)
+		if zone.collect_all() > 0:
+			_hud.toast("Picked up what was left on the ground")
 	if view:
 		_world.remove_child(view)
 		view.queue_free()
@@ -220,6 +240,14 @@ func step(input: FighterInput) -> Array[ZoneEvent]:
 		_feedback.on_event(event)
 	if world_run:
 		world_run.tick(zone, events)
+		WorldBossRules.note_attempt(
+			profile,
+			world_run.boss,
+			world_run.round,
+			world_run.dealt,
+			world_run.total,
+			world_run.level
+		)
 	if not TutorialRules.is_done(profile, content):
 		for action: String in TutorialRules.signals_for(events, zone.hero, input, content.moves):
 			tutorial_signal(action)
@@ -232,6 +260,10 @@ func step(input: FighterInput) -> Array[ZoneEvent]:
 		enter_area(exit["to"], exit["entry"])
 	if auto:
 		auto.after_step(events)
+	for event in events:
+		if event.type == "pickup":
+			SaveStore.save(profile)  # once per step, whatever was picked up
+			break
 	return events
 
 
@@ -417,7 +449,7 @@ func open_quests(npc: Dictionary, said := "") -> void:
 
 
 func open_game_over() -> void:
-	var loss := int(profile.money * float(content.progression.get("defeat_money_loss", 0.0)))
+	var loss := EconomyRules.defeat_loss(profile, content)
 	var boss := zone.respawn_x() > zone.bounds.position.x + 24.0
 	_show("game_over", GameMenus.knocked_out(self, loss, boss))
 
@@ -441,7 +473,10 @@ func inspect_item(item_id: String, worn_slot: String) -> void:
 		actions.append({"text": "Use", "call": _use.bind(item_id)})
 	# Evidence is the story: it cannot be thrown away.
 	if not worn_slot and item.get("type") != "key":
-		actions.append({"text": "Discard", "confirm": "Discard 1?", "call": _discard.bind(item_id)})
+		# An upgraded copy says what is lost with it.
+		var plus := EnhanceRules.item_level(profile, item_id)
+		var confirm := "Discard +%d for good?" % plus if plus else "Discard 1?"
+		actions.append({"text": "Discard", "confirm": confirm, "call": _discard.bind(item_id)})
 	menu_focus = "worn:" + worn_slot if worn_slot else "bag:" + item_id
 	item_card = ItemCard.popup(menu, content, profile, item_id, worn_slot, actions, close_item_card)
 	Sfx.play("ui_select", -6.0)
@@ -518,6 +553,12 @@ func _upgrade(slot: String) -> void:
 			Sfx.play("denied", -4.0)
 		"materials":
 			_hud.toast("Not enough materials. The item card says where to find them.")
+			Sfx.play("denied", -4.0)
+		"max":
+			_hud.toast("Already fully upgraded.")
+			Sfx.play("denied", -4.0)
+		"empty":
+			_hud.toast("Nothing worn there to upgrade.")
 			Sfx.play("denied", -4.0)
 	zone.refresh_hero()
 	SaveStore.save(profile)
@@ -619,8 +660,8 @@ func _turn_in(npc: Dictionary, quest_id: String) -> void:
 
 ## Back on your feet where you fell: at the west end of the same area, or just
 ## short of the boss fight lost. Fights already won stay won (StreetMemory).
-func _recover(loss: int) -> void:
-	profile.money -= loss
+func _recover() -> void:
+	EconomyRules.charge(profile, EconomyRules.defeat_loss(profile, content))
 	profile.hp = profile.stats(content)["max_hp"]
 	close_menu()
 	enter_area(zone.area_id, "west", zone.respawn_x())
@@ -628,12 +669,10 @@ func _recover(loss: int) -> void:
 
 ## The motorbike taxi: pay the fare and ride to an area reached before.
 func _ride(npc: Dictionary, area_id: String) -> void:
-	var fare := int(npc.get("fare", 0))
-	if profile.money < fare:
+	if not EconomyRules.charge(profile, int(npc.get("fare", 0))):
 		_hud.toast("Not enough coins for the ride")
 		Sfx.play("denied", -4.0)
 		return
-	profile.money -= fare
 	close_menu()
 	enter_area(area_id, "west")
 
@@ -646,14 +685,12 @@ func _now() -> int:
 ## Win's ride to world boss `boss`: an attempt starts on arrival.
 func _ride_world_boss(npc: Dictionary, boss: String) -> void:
 	var problem := WorldBossRules.problem(profile, content, boss, _now())
-	var fare := int(npc.get("fare", 0))
-	if problem == "" and profile.money < fare:
+	if problem == "" and not EconomyRules.charge(profile, int(npc.get("fare", 0))):
 		problem = "Not enough coins for the ride"
 	if problem:
 		_hud.toast(problem)
 		Sfx.play("denied", -4.0)
 		return
-	profile.money -= fare
 	close_menu()
 	_start_world_boss(boss)
 
@@ -727,6 +764,14 @@ func _quit_to_title() -> void:
 	get_tree().change_scene_to_file("res://scenes/title/Title.tscn")
 
 
+## Banks a world boss attempt the game closed in the middle of.
+func _settle_world_boss() -> void:
+	var settled := WorldBossRules.settle(profile, content, _world_rng)
+	if not settled.is_empty():
+		SaveStore.save(profile)
+		_hud.toast("Your last world boss fight was banked.")
+
+
 ## The world boss on the HUD: the attempt's clock while one runs, and a
 ## toast once when a round opens.
 func _update_world_boss(delta: float) -> void:
@@ -758,6 +803,10 @@ func _update_world_boss(delta: float) -> void:
 
 
 func _process(delta: float) -> void:
+	_autosave_left -= delta
+	if _autosave_left <= 0.0:
+		_autosave_left = AUTOSAVE_SECONDS
+		SaveStore.save(profile)
 	if auto:
 		_hud.show_auto(auto, auto.on or auto.problem() == "")
 	_update_world_boss(delta)

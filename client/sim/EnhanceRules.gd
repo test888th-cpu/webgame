@@ -87,16 +87,23 @@ static func attempt(
 static func bonus(
 	profile: PlayerProfile, slot: String, item: Dictionary, content: ContentDB
 ) -> Dictionary:
+	return copy_bonus(profile, str(profile.equipment.get(slot, "")), item, content)
+
+
+## The extra stats the copy with key `key` would give, worn or not.
+static func copy_bonus(
+	profile: PlayerProfile, key: String, item: Dictionary, content: ContentDB
+) -> Dictionary:
 	var extra := {}
-	var steps := level(profile, slot)
+	var steps := item_level(profile, key)
 	if steps == 0:
 		return extra
 	var per := float(content.progression.get("enhance", {}).get("bonus_per_level", 0.0))
 	var stats: Dictionary = item.get("stats", {})
-	for key: String in stats:
-		var value := float(stats[key])
+	for stat: String in stats:
+		var value := float(stats[stat])
 		if value <= 0.0:
 			continue
 		var add := value * per * steps
-		extra[key] = roundi(add) if key in ["max_hp", "defense"] else add
+		extra[stat] = roundi(add) if stat in ["max_hp", "defense"] else add
 	return extra

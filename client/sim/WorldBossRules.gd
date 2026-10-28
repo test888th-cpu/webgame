@@ -140,7 +140,41 @@ static func award(
 	profile.money += int(paid["money"])
 	for item_id: String in paid["items"]:
 		profile.add_item(item_id, int(paid["items"][item_id]))
+	state.erase("attempt")
 	return paid
+
+
+## Keeps the damage of an attempt still being fought on the profile, so it
+## is saved with it: if the game closes mid-fight, settle() banks it later.
+static func note_attempt(
+	profile: PlayerProfile, boss: String, round: int, dealt: int, total: int, level: int
+) -> void:
+	var state := progress(profile, boss, round)
+	state["attempt"] = {"dealt": dealt, "total": total, "level": level}
+
+
+## Banks every attempt that never finished (the tab closed, the game
+## crashed) as if it had ended there. Returns {boss id: what it paid}.
+static func settle(
+	profile: PlayerProfile, content: ContentDB, rng: RandomNumberGenerator
+) -> Dictionary:
+	var settled := {}
+	for boss: String in profile.world_boss.keys():
+		var state: Dictionary = profile.world_boss[boss]
+		if not state.has("attempt") or spec(content, boss).is_empty():
+			continue
+		var attempt: Dictionary = state["attempt"]
+		settled[boss] = award(
+			profile,
+			content,
+			boss,
+			int(state["round"]),
+			int(attempt["dealt"]),
+			int(attempt["total"]),
+			int(attempt["level"]),
+			rng
+		)
+	return settled
 
 
 ## Adds one reward (coins, items, rolled drops) to `paid`.
