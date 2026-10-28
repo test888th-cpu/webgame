@@ -4,7 +4,7 @@ extends TestCase
 ## won stay won until a rest at the Depot brings them all back for farming, and
 ## the motorbike taxi rides to any area reached before.
 
-const TEST_SAVE := "user://test_checkpoint_save.json"
+const TEST_SAVE := "user://test_checkpoint_save"
 
 var content: ContentDB
 
@@ -20,8 +20,8 @@ func _profile() -> PlayerProfile:
 
 
 func _game() -> Node2D:
-	SaveStore.path = TEST_SAVE
-	SaveStore.delete()
+	SaveStore.root = TEST_SAVE
+	SaveStore.delete_all()
 	GameSession.start_new_game()
 	var game: Node2D = load("res://scenes/game/Game.tscn").instantiate()
 	tree.root.add_child(game)
@@ -31,8 +31,8 @@ func _game() -> Node2D:
 
 func _done(game: Node2D) -> void:
 	game.free()
-	SaveStore.delete()
-	SaveStore.path = SaveStore.DEFAULT_PATH
+	SaveStore.delete_all()
+	SaveStore.root = SaveStore.DEFAULT_ROOT
 
 
 func _win_first_fight(zone: ZoneSim) -> void:

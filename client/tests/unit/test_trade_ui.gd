@@ -3,13 +3,13 @@ extends TestCase
 ## screen, stacks are bought and sold back, rare gear asks before it goes,
 ## and gear drags between the bag and the doll (docs/UI.md).
 
-const TEST_SAVE := "user://test_save.json"
+const TEST_SAVE := "user://test_save"
 const SCREEN := Rect2(0, 0, 640, 360)
 
 
 func _game() -> Game:
-	SaveStore.path = TEST_SAVE
-	SaveStore.delete()
+	SaveStore.root = TEST_SAVE
+	SaveStore.delete_all()
 	GameSession.start_new_game()
 	GameSession.profile.money = 0
 	GameSession.profile.inventory.clear()
@@ -21,8 +21,8 @@ func _game() -> Game:
 
 func _done(node: Node) -> void:
 	node.free()
-	SaveStore.delete()
-	SaveStore.path = SaveStore.DEFAULT_PATH
+	SaveStore.delete_all()
+	SaveStore.root = SaveStore.DEFAULT_ROOT
 
 
 func _settle() -> void:

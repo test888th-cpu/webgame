@@ -6,7 +6,7 @@ extends TestCase
 ## then a desperate last stand. Beating him plays the epilogue.
 
 const CORE := ["core_approach", "cooling_tunnels", "reactor_walkway", "core_chamber"]
-const TEST_SAVE := "user://test_final_save.json"
+const TEST_SAVE := "user://test_final_save"
 
 var content: ContentDB
 
@@ -124,8 +124,8 @@ func test_his_last_stand_drops_the_defences() -> void:
 
 
 func test_beating_him_plays_the_epilogue() -> void:
-	SaveStore.path = TEST_SAVE
-	SaveStore.delete()
+	SaveStore.root = TEST_SAVE
+	SaveStore.delete_all()
 	GameSession.start_new_game()
 	var game: Node2D = load("res://scenes/game/Game.tscn").instantiate()
 	tree.root.add_child(game)
@@ -147,5 +147,5 @@ func test_beating_him_plays_the_epilogue() -> void:
 	game.close_menu()
 	assert_eq(game.menu_name, "", "and the streets go on")
 	game.free()
-	SaveStore.delete()
-	SaveStore.path = SaveStore.DEFAULT_PATH
+	SaveStore.delete_all()
+	SaveStore.root = SaveStore.DEFAULT_ROOT

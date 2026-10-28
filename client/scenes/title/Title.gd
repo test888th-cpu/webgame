@@ -1,9 +1,10 @@
 extends Node2D
 ## Title screen. A slow pan along Saltmarket Street at night behind the logo
-## and menu, the heroes and a Murk creature in the foreground. Continue comes
-## first when a save exists, with a card showing who you continue as; New
-## game (after a confirmation if it would replace a save) opens hero
-## creation.
+## and menu, the heroes and a Murk creature in the foreground. With saved
+## characters, Continue (the one played last, shown on a card) comes first,
+## then Characters: every character of the account, to play, make another
+## (up to RosterRules.max_characters) or delete. Without, New game opens hero
+## creation. A new character never replaces another.
 ## Prints the boot marker the browser smoke test waits for.
 
 const BOOT_MARKER := "BOOT_OK"
@@ -14,6 +15,7 @@ const PAN_SECONDS := 45.0
 
 var menu: Control
 var _modal: Control
+var _roster: Array[PlayerProfile] = []
 var _probe_timer := 0.0
 
 @onready var _world: Node2D = $World
@@ -82,9 +84,10 @@ func _build_ui(content: ContentDB) -> void:
 	menu.position = Vector2(30, 150)
 	menu.add_theme_constant_override("separation", 3)
 	_ui.add_child(menu)
-	if SaveStore.has_save():
+	_roster = SaveStore.characters(content)
+	if _roster:
 		menu.add_child(UiKit.menu_button("Continue", _continue))
-		menu.add_child(UiKit.menu_button("New game", _confirm_new_game))
+		menu.add_child(UiKit.menu_button("Characters", open_characters))
 	else:
 		menu.add_child(UiKit.menu_button("New game", _new_game))
 	menu.add_child(UiKit.menu_button("Gallery", _gallery))
@@ -93,7 +96,7 @@ func _build_ui(content: ContentDB) -> void:
 
 	# The saved hero leads the line-up; otherwise the whole roster.
 	var heroes: Array = content.hero_order.duplicate()
-	var saved := SaveStore.load_profile(content) if SaveStore.has_save() else null
+	var saved: PlayerProfile = _roster[0] if _roster else null
 	if saved:
 		heroes.erase(saved.hero)
 		heroes.push_front(saved.hero)
@@ -128,7 +131,7 @@ func _process(delta: float) -> void:
 	_probe_timer += delta
 	if _probe_timer >= 0.1:
 		_probe_timer = 0.0
-		GameSession.publish_probe({"scene": "title", "has_save": SaveStore.has_save()})
+		GameSession.publish_probe({"scene": "title", "has_save": not _roster.is_empty()})
 
 
 func _new_game() -> void:
@@ -171,28 +174,37 @@ func _save_card(content: ContentDB, saved: PlayerProfile) -> void:
 	)
 
 
-func _confirm_new_game() -> void:
-	var window := UiKit.window("Start over?", Vector2(260, 104), "")
-	var body: VBoxContainer = window["body"]
-	body.add_child(
-		UiKit.label(
-			"Your saved progress will be replaced by a new game.",
-			UiTheme.SIZE_BODY,
-			UiTheme.TEXT_DIM,
-			240
-		)
+## The account's characters: play one, make another, or delete one.
+func open_characters() -> void:
+	_roster = SaveStore.characters(GameSession.content)
+	_open_modal(
+		CharacterSelect.build(GameSession.content, _roster, _play, _new_game, _delete, _close_modal)
 	)
-	var buttons := HBoxContainer.new()
-	buttons.alignment = BoxContainer.ALIGNMENT_END
-	buttons.add_child(UiKit.button("Keep my save", _close_modal))
-	buttons.add_child(UiKit.button("Start over", _new_game))
-	body.add_child(buttons)
-	_open_modal(window["root"])
+
+
+func _play(id: String) -> void:
+	if GameSession.play(id):
+		get_tree().change_scene_to_file(GAME_SCENE)
+
+
+## Deleting rebuilds the whole title (the Continue card, the line-up and the
+## menu all name the characters), back on the Characters screen if any are
+## left.
+func _delete(id: String) -> void:
+	SaveStore.delete_character(id)
+	Sfx.play("break_metal", -6.0)
+	_modal = null
+	for child in _ui.get_children():
+		_ui.remove_child(child)
+		child.queue_free()
+	_build_ui(GameSession.content)
+	if _roster:
+		open_characters()
 
 
 func _continue() -> void:
-	if GameSession.continue_game():
-		get_tree().change_scene_to_file(GAME_SCENE)
+	if _roster:
+		_play(_roster[0].id)
 
 
 func _gallery() -> void:

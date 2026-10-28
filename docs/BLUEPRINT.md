@@ -60,7 +60,8 @@ Milestone ของ Master Prompt ใช้ชื่อ **IL-0 ถึง IL-7** 
 | อุปกรณ์ 6 ช่อง (head, body, hands, weapon, feet, charm), rarity 5 ระดับ, required level, ค่าสถานะ | `PlayerProfile`, `items.json` (21 รายการ) |
 | Inventory (ลากของใส่ตัว, คลิกขวาใช้/ใส่), ร้านค้าซื้อ-ขาย (แท็บ Buy/Sell, ขายคืนได้ `sell_rate` ของราคา) | `ShopRules`, `ShopScreen`, `shops.json` |
 | Quest แบบสายเดียว 6 ภารกิจ (กำจัดศัตรู), รับ/ส่ง/รางวัล | `QuestRules`, `quests.json` |
-| Save/Load ในเครื่อง: มี version (3), migrate ทีละขั้น, ทำความสะอาดค่า, เขียนแบบ atomic, IndexedDB บนเว็บ | `PlayerProfile.migrate`, `SaveStore`, `test_progression` |
+| Save/Load ในเครื่อง: มี version, migrate ทีละขั้น, ทำความสะอาดค่า, เขียนแบบ atomic, IndexedDB บนเว็บ | `PlayerProfile.migrate`, `SaveStore`, `test_progression` |
+| หลายตัวละครต่อบัญชี (สูงสุด 4, `max_characters`): ตัวละครละ id (16 hex สุ่ม 64 บิต) ตัวละครละไฟล์ `characters/<id>.json` สร้างตัวใหม่ไม่ทับตัวเก่า, ชื่อห้ามซ้ำในบัญชี, ลบ = ย้ายไฟล์ไป `characters/deleted/` ไม่ลบทิ้ง, เซฟเดี่ยวแบบเก่าถูกนำเข้าเป็นตัวละครตัวแรกอัตโนมัติ, ของ/เงิน/ตีบวกเป็นของตัวละครนั้นเท่านั้น | `RosterRules`, `SaveStore`, `CharacterSelect`, `test_roster` |
 | UI: Title, สร้างตัวละคร, HUD, Hotbar, หน้าจอแยก (Character, Bag, Quests, Map, Settings) + เมนูหยุด, Status, Equipment, Item card เปรียบเทียบของ, Quest log, Dialog NPC | `scenes/ui`, `scenes/game`, `test_ui` |
 | Input: คีย์บอร์ด, เกมแพด, ทัชสกรีน | `InputSetup`, `TouchControls` |
 | เสียงเอฟเฟกต์ (สังเคราะห์ + บันทึกจริงพร้อมเครดิต), VFX, camera shake | `Sfx`, `GameFeedback`, `Fx` |
@@ -427,6 +428,13 @@ client/sim/  (กฎล้วน, deterministic, RNG มี seed)
 client/scenes/ (แสดงผลและรับ input เท่านั้น)  ──►  PlayerProfile (เซฟมี version) ──► SaveStore
                                                        └─► ภายหลัง: backend เป็นผู้เขียนข้อมูลถาวร (IL-7)
 ```
+
+**ตัวละครและไอเท็มเมื่อออนไลน์ (แผนสำหรับ backend):** บัญชี (`accounts.id`) มีตัวละครได้ `max_characters` ตัว
+ตาราง `characters (id, account_id → accounts, name, hero, ...)` ใช้ id ของตัวละครเป็นกุญแจ ตัวละครที่ถูกลบเป็น soft delete
+ไอเท็มที่แยกชิ้นแล้ว (`"<item>#<n>"`) อยู่ใน `character_items (character_id, key, item_id, count, upgrade, pity)`
+กุญแจหลักคือ `(character_id, key)` คีย์ของชิ้นจึงไม่ชนกันข้ามตัวละครหรือข้ามบัญชี
+ถ้าวันหนึ่งมีการแลกเปลี่ยนไอเท็ม server จะออกคีย์ใหม่ให้ชิ้นนั้นในตัวละครผู้รับเสมอ
+กฎจำนวนตัวละคร ชื่อซ้ำ และรูปแบบ id อยู่ใน `RosterRules` (sim) เพื่อให้ server ใช้กฎเดียวกัน
 
 - เพิ่มเนื้อหา (ศัตรู ไอเท็ม ภารกิจ ด่าน อาชีพ) = แก้ JSON + ภาพ ไม่ต้องแก้โค้ด
 - กฎใหม่ทุกข้ออยู่ใน `sim/` พร้อมเทสต์ ฉากห้ามคำนวณกฎเอง

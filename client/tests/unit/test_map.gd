@@ -3,7 +3,7 @@ extends TestCase
 ## the hero knows only what they have reached plus the way on, the goal
 ## follows the quest chain, and the Map tab and HUD strip show it all.
 
-const TEST_SAVE := "user://test_map_save.json"
+const TEST_SAVE := "user://test_map_save"
 const SCREEN := Rect2(0, 0, 640, 360)
 
 var content: ContentDB
@@ -16,8 +16,8 @@ func _content() -> ContentDB:
 
 
 func _game() -> Game:
-	SaveStore.path = TEST_SAVE
-	SaveStore.delete()
+	SaveStore.root = TEST_SAVE
+	SaveStore.delete_all()
 	GameSession.start_new_game()
 	var game: Game = load("res://scenes/game/Game.tscn").instantiate()
 	tree.root.add_child(game)
@@ -27,8 +27,8 @@ func _game() -> Game:
 
 func _done(node: Node) -> void:
 	node.free()
-	SaveStore.delete()
-	SaveStore.path = SaveStore.DEFAULT_PATH
+	SaveStore.delete_all()
+	SaveStore.root = SaveStore.DEFAULT_ROOT
 
 
 func _settle() -> void:

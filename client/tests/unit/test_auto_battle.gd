@@ -4,7 +4,7 @@ extends TestCase
 ## skills by their move data; the farm loop rests, restocks and rides back;
 ## and the player's own input always takes over.
 
-const TEST_SAVE := "user://test_auto_save.json"
+const TEST_SAVE := "user://test_auto_save"
 
 var content: ContentDB
 
@@ -33,8 +33,8 @@ func _foe(zone: ZoneSim, kind: String, at: Vector2) -> Fighter:
 
 
 func _game() -> Node2D:
-	SaveStore.path = TEST_SAVE
-	SaveStore.delete()
+	SaveStore.root = TEST_SAVE
+	SaveStore.delete_all()
 	GameSession.start_new_game()
 	var game: Node2D = load("res://scenes/game/Game.tscn").instantiate()
 	tree.root.add_child(game)
@@ -44,8 +44,8 @@ func _game() -> Node2D:
 
 func _done(game: Node2D) -> void:
 	game.free()
-	SaveStore.delete()
-	SaveStore.path = SaveStore.DEFAULT_PATH
+	SaveStore.delete_all()
+	SaveStore.root = SaveStore.DEFAULT_ROOT
 
 
 func test_auto_is_only_for_areas_already_beaten() -> void:

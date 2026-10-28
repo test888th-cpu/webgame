@@ -69,6 +69,8 @@ var _details: VBoxContainer
 var _name_hint: Label
 var _name_edited := false
 var _probe_timer := 0.0
+## The account's other characters (their names are taken).
+var _roster: Array[PlayerProfile] = []
 
 @onready var _world: Node2D = $World
 @onready var _ui: CanvasLayer = $Ui
@@ -76,6 +78,7 @@ var _probe_timer := 0.0
 
 func _ready() -> void:
 	content = GameSession.content
+	_roster = SaveStore.characters(content)
 	_build_backdrop()
 	_build_layout()
 	select(str(content.hero_order[0]))
@@ -479,8 +482,19 @@ func _card_style(bg: Color, border: Color, width: int, filled := true) -> StyleB
 func _on_name_changed(text: String) -> void:
 	_name_edited = text != str(content.hero(selected).get("default_name", ""))
 	var valid := PlayerProfile.clean_name(text) != ""
-	start_button.disabled = not valid
-	if valid:
+	var taken := valid and RosterRules.name_taken(_roster, PlayerProfile.clean_name(text))
+	var full := _roster.size() >= RosterRules.max_characters(content)
+	start_button.disabled = not valid or taken or full
+	if full:
+		_name_hint.text = (
+			"All %d character slots are in use. Delete one on the Characters screen first."
+			% RosterRules.max_characters(content)
+		)
+		_name_hint.add_theme_color_override("font_color", UiTheme.DANGER)
+	elif taken:
+		_name_hint.text = "Another of your characters is called that."
+		_name_hint.add_theme_color_override("font_color", UiTheme.DANGER)
+	elif valid:
 		_name_hint.text = (
 			"Letters, numbers, spaces.  %d-%d characters."
 			% [PlayerProfile.NAME_MIN, PlayerProfile.NAME_MAX]
@@ -511,9 +525,14 @@ func _confirm_hero(hero_id: String) -> void:
 ## Creates the profile and starts the game, if the name is valid.
 func start() -> void:
 	var player_name := PlayerProfile.clean_name(name_field.text)
-	if player_name == "":
+	var problem := RosterRules.problem(_roster, content, player_name)
+	if player_name == "" or problem == "name":
 		Sfx.play("denied")
 		name_field.grab_focus()
+		return
+	if problem == "full":
+		Sfx.play("denied")
+		_back()
 		return
 	GameSession.start_new_game(selected, player_name)
 	get_tree().change_scene_to_file(GAME_SCENE)

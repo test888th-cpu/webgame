@@ -2,7 +2,7 @@ extends TestCase
 ## Playable heroes: the roster data, player names, per-hero stats and skills,
 ## and saves that remember who you play.
 
-const TEST_SAVE := "user://test_save.json"
+const TEST_SAVE := "user://test_save"
 
 var content: ContentDB
 
@@ -110,7 +110,7 @@ func test_version_1_saves_become_mika() -> void:
 
 
 func test_hero_art_follows_the_hero_and_armour() -> void:
-	SaveStore.path = TEST_SAVE
+	SaveStore.root = TEST_SAVE
 	GameSession.start_new_game("oren", "Tank")
 	var game: Game = load("res://scenes/game/Game.tscn").instantiate()
 	tree.root.add_child(game)
@@ -121,5 +121,5 @@ func test_hero_art_follows_the_hero_and_armour() -> void:
 	game._equip("work_jacket")
 	assert_eq(game.view.hero_art(), "hero_oren_armoured", "armoured look")
 	game.free()
-	SaveStore.delete()
-	SaveStore.path = SaveStore.DEFAULT_PATH
+	SaveStore.delete_all()
+	SaveStore.root = SaveStore.DEFAULT_ROOT

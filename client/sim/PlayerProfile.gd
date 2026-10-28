@@ -22,6 +22,12 @@ const NAME_MIN := 2
 const NAME_MAX := 16
 const NAME_PATTERN := "^[\\p{L}\\p{M}\\p{N}][\\p{L}\\p{M}\\p{N} '.\\-]*$"
 
+## The character's id (RosterRules.is_id: 16 hex digits, "" until the store
+## gives one). An account plays several characters; everything below is this
+## one's alone, item copy keys included.
+var id := ""
+## When it was last saved (Unix seconds), for "last played".
+var saved_at := 0
 ## Which playable hero (heroes.json id) and the name the player gave them.
 var hero := ""
 var name := ""
@@ -280,6 +286,8 @@ func use_item(item_id: String, hero: Fighter, content: ContentDB) -> bool:
 func to_dict() -> Dictionary:
 	return {
 		"version": SAVE_VERSION,
+		"id": id,
+		"saved_at": saved_at,
 		"hero": hero,
 		"name": name,
 		"level": level,
@@ -314,6 +322,9 @@ static func from_dict(data: Variant, content: ContentDB) -> PlayerProfile:
 	if not content.heroes.has(saved_hero):
 		return null
 	p.hero = saved_hero
+	var saved_id := str(migrated.get("id", ""))
+	p.id = saved_id if RosterRules.is_id(saved_id) else ""
+	p.saved_at = maxi(0, int(migrated.get("saved_at", 0)))
 	p.name = clean_name(str(migrated.get("name", "")))
 	if p.name == "":
 		p.name = str(content.hero(p.hero)["default_name"])

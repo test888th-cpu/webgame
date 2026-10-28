@@ -4,14 +4,14 @@ extends TestCase
 ## unsized wrapping label stacks one word per line), something has focus so
 ## keyboard and gamepad work, and the world shows who you can talk to.
 
-const TEST_SAVE := "user://test_save.json"
+const TEST_SAVE := "user://test_save"
 const SCREEN := Rect2(0, 0, 640, 360)
 const TITLE_SCENE := "res://scenes/title/Title.tscn"
 
 
 func _game() -> Game:
-	SaveStore.path = TEST_SAVE
-	SaveStore.delete()
+	SaveStore.root = TEST_SAVE
+	SaveStore.delete_all()
 	GameSession.start_new_game()
 	# Tests count coins and items from zero, without the starter kit.
 	GameSession.profile.money = 0
@@ -24,8 +24,8 @@ func _game() -> Game:
 
 func _done(node: Node) -> void:
 	node.free()
-	SaveStore.delete()
-	SaveStore.path = SaveStore.DEFAULT_PATH
+	SaveStore.delete_all()
+	SaveStore.root = SaveStore.DEFAULT_ROOT
 
 
 func _settle() -> void:
@@ -59,8 +59,8 @@ func _focus_in(game: Game) -> bool:
 
 
 func test_title_menu_without_a_save() -> void:
-	SaveStore.path = TEST_SAVE
-	SaveStore.delete()
+	SaveStore.root = TEST_SAVE
+	SaveStore.delete_all()
 	var title: Node = load(TITLE_SCENE).instantiate()
 	tree.root.add_child(title)
 	await _settle()
@@ -75,14 +75,16 @@ func test_title_menu_without_a_save() -> void:
 
 
 func test_title_menu_offers_continue_first_with_a_save() -> void:
-	SaveStore.path = TEST_SAVE
-	SaveStore.save(PlayerProfile.new_game(GameSession.content))
+	SaveStore.root = TEST_SAVE
+	var saved := PlayerProfile.new_game(GameSession.content)
+	saved.id = SaveStore.new_id()
+	SaveStore.save(saved)
 	var title: Node = load(TITLE_SCENE).instantiate()
 	tree.root.add_child(title)
 	await _settle()
 	var buttons := title.find_children("*", "Button", true, false)
 	assert_eq((buttons[0] as Button).text, "Continue", "Continue first")
-	assert_eq((buttons[1] as Button).text, "New game", "then New game")
+	assert_eq((buttons[1] as Button).text, "Characters", "then the account's characters")
 	_done(title)
 
 
@@ -324,6 +326,8 @@ func test_skill_effect_plays_on_the_hero() -> void:
 
 
 func test_character_creation_shows_heroes_and_validates_the_name() -> void:
+	SaveStore.root = TEST_SAVE
+	SaveStore.delete_all()
 	var screen: Node = load("res://scenes/create/CharacterCreate.tscn").instantiate()
 	tree.root.add_child(screen)
 	await _settle()
@@ -346,7 +350,7 @@ func test_character_creation_shows_heroes_and_validates_the_name() -> void:
 	await _settle()
 	assert_eq(screen.name_field.text, "Big Tank", "a typed name is kept when switching hero")
 	screen.free()
-	SaveStore.path = SaveStore.DEFAULT_PATH
+	SaveStore.root = SaveStore.DEFAULT_ROOT
 
 
 func test_hud_portrait_shows_the_hero_level_and_low_hp() -> void:

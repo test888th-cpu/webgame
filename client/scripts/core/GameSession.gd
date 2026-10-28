@@ -68,13 +68,16 @@ func _load_settings() -> void:
 			settings[key] = json.data[key]
 
 
+## A new character with an id of its own; it is saved as soon as it enters
+## the street, next to the account's other characters.
 func start_new_game(hero_id := "", player_name := "") -> void:
 	profile = PlayerProfile.new_game(content, hero_id, player_name)
+	profile.id = SaveStore.new_id()
 
 
-## Returns false when there is no usable save.
-func continue_game() -> bool:
-	var loaded := SaveStore.load_profile(content)
+## Plays character `id`. Returns false when it has no usable save.
+func play(id: String) -> bool:
+	var loaded := SaveStore.load_character(id, content)
 	if loaded == null:
 		return false
 	profile = loaded

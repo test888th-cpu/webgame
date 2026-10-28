@@ -2,7 +2,7 @@ extends TestCase
 ## The first-time tutorial: steps finish by doing what they teach, progress
 ## is saved, players from before it never see it, and it can be skipped.
 
-const TEST_SAVE := "user://test_tutorial_save.json"
+const TEST_SAVE := "user://test_tutorial_save"
 
 var content: ContentDB
 
@@ -77,8 +77,8 @@ func test_actions_in_the_zone_become_signals() -> void:
 
 
 func test_the_game_teaches_as_you_play() -> void:
-	SaveStore.path = TEST_SAVE
-	SaveStore.delete()
+	SaveStore.root = TEST_SAVE
+	SaveStore.delete_all()
 	GameSession.start_new_game()
 	var game: Node2D = load("res://scenes/game/Game.tscn").instantiate()
 	tree.root.add_child(game)
@@ -94,8 +94,8 @@ func test_the_game_teaches_as_you_play() -> void:
 	game.skip_tutorial()
 	assert_true(TutorialRules.is_done(game.profile, game.content), "skipped from the menu")
 	game.free()
-	SaveStore.delete()
-	SaveStore.path = SaveStore.DEFAULT_PATH
+	SaveStore.delete_all()
+	SaveStore.root = SaveStore.DEFAULT_ROOT
 
 
 func test_every_step_is_valid() -> void:
