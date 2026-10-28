@@ -97,7 +97,7 @@ static func about(
 		var service := str(SERVICES.get(str(npc.get("role")), ""))
 		if service and service not in info["services"]:
 			info["services"].append(service)
-	var boss := _boss(content, area_id)
+	var boss := boss_of(content, area_id)
 	if boss:
 		info["boss"] = str(content.enemy(boss).get("name", boss))
 		info["beaten"] = int(profile.defeated.get(boss, 0)) > 0
@@ -142,8 +142,9 @@ static func _npc(content: ContentDB, npc_id: String) -> Dictionary:
 	return {}
 
 
-## The first boss fighting in `area_id`, or "".
-static func _boss(content: ContentDB, area_id: String) -> String:
+## The first boss fighting in `area_id`, or "". The route shows where the
+## bosses wait even before an area is reached (not who they are).
+static func boss_of(content: ContentDB, area_id: String) -> String:
 	for encounter: Dictionary in content.area(area_id).get("encounters", []):
 		for wave: Array in encounter["waves"]:
 			for kind: String in wave:

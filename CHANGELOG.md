@@ -4,6 +4,23 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed: the HUD map strip is a route card players can read at a glance
+- **Before:** a row of unlabelled dots with no district name and no count.
+  Players could not tell where they were.
+- **Now** (`MiniMap.gd`, top right):
+  - **Header:** the district name and the position in it ("SOUTH STREET ·
+    AREA 1 / 11").
+  - **Route:** one node per area. The hero's area is ringed orange under a marker.
+    Areas reached are filled, the next one east is an empty ring, and towns are a
+    teal house. Bosses are a red skull, grey with a tick once beaten; you see
+    where a boss is before you get there, but not who it is. The goal flies a
+    gold flag. The way travelled is solid and the way ahead dashed.
+  - **Below the route:** the area name and level, and a thin bar of the fights
+    left in the area, its shut gate and the hero.
+  - **Hover:** a node names its area, its boss and whether it is the goal. A tap
+    still opens the map.
+- `MapRules.boss_of` is now public.
+
 ### Fixed: nothing a player owns can be lost
 - **Safe saves:**
   - A save is written to a temporary file and read back before it replaces the old

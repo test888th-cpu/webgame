@@ -44,7 +44,6 @@ var _hp: StatBar
 var _energy: StatBar
 var _xp: StatBar
 var _money: Label
-var _area: Label
 var _mini: MiniMap
 var _quest_card: PanelContainer
 ## "GO >>" at the right edge after a fight is cleared: the way on is east.
@@ -99,7 +98,6 @@ func attach(p_zone: ZoneSim, p_profile: PlayerProfile, p_content: ContentDB) -> 
 	zone = p_zone
 	profile = p_profile
 	content = p_content
-	_area.text = "%s  ·  Lv %d" % [zone.area.get("name", ""), zone.level]
 	_mini.attach(zone, profile, content)
 	_name.text = profile.name
 	var hero_data := content.hero(profile.hero)
@@ -262,7 +260,7 @@ func _build_top_right(root: Control) -> void:
 	column.alignment = BoxContainer.ALIGNMENT_BEGIN
 	column.add_theme_constant_override("separation", 3)
 	column.set_anchors_preset(Control.PRESET_TOP_RIGHT)
-	column.offset_left = -170
+	column.offset_left = -180
 	column.offset_right = -6
 	column.offset_top = 6
 	root.add_child(column)
@@ -272,12 +270,9 @@ func _build_top_right(root: Control) -> void:
 	column.add_child(money)
 	_money = UiKit.overlay_label("0", UiTheme.SIZE_H2, UiTheme.GOLD)
 	money.add_child(_money)
-	_area = UiKit.overlay_label("", UiTheme.SIZE_CAPTION, UiTheme.TEXT_DIM)
-	_area.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	column.add_child(_area)
 	_mini = MiniMap.new()
 	_mini.name = "MiniMap"
-	_mini.size_flags_horizontal = Control.SIZE_SHRINK_END
+	_mini.size_flags_horizontal = Control.SIZE_FILL
 	_mini.pressed.connect(menu_pressed.emit.bind("map"))
 	column.add_child(_mini)
 	_world_boss = UiKit.overlay_label("", UiTheme.SIZE_SMALL, UiTheme.GOLD)
