@@ -318,6 +318,7 @@ func _validate_enemy(id: String, e: Dictionary) -> void:
 				"%s.phases.below: expected 0 < below < 1" % where
 			)
 			_validate_moveset(phase.get("moveset", {}), where + ".phases")
+			_check_phase_hardens(e, phase, where + ".phases")
 			var own: Variant = phase.get("hazard", {})
 			if own is Dictionary and not own.is_empty():
 				_validate_hazard(own, where + ".phases.hazard")
@@ -390,6 +391,26 @@ func _validate_world_boss() -> void:
 		_check(last == 1.0, where + ".tiers: the last tier is a whole part")
 		if wb.has("kill"):
 			_validate_reward(wb["kill"], where + ".kill")
+
+
+## A phase is written on the enemy's base scale and only ever makes the
+## fight harder: no weaker blows, slower feet or longer rests than the boss
+## had before it (a lower value would read as a bug in play).
+func _check_phase_hardens(e: Dictionary, phase: Dictionary, where: String) -> void:
+	var ai: Dictionary = e.get("ai") if e.get("ai") is Dictionary else {}
+	var base := {
+		"power": float(e.get("power", 1.0)),
+		"speed": float(e.get("speed", 1.0)),
+		"heavy_chance": float(ai.get("heavy_chance", 0.0)),
+	}
+	for field: String in base:
+		if phase.has(field):
+			_check(float(phase[field]) >= base[field], "%s.%s: below the base" % [where, field])
+	for field: String in ["cooldown", "heavy_cooldown"]:
+		if phase.has(field) and ai.has(field):
+			_check(
+				float(phase[field]) <= float(ai[field]), "%s.%s: above the base" % [where, field]
+			)
 
 
 ## Coins, items and rolled drops paid by a world boss.
