@@ -762,17 +762,17 @@ func _check_phases(events: Array[ZoneEvent]) -> void:
 		if float(enemy.hp) / enemy.max_hp >= float(phase["below"]):
 			continue
 		_phase[enemy.id] = done + 1
-		enemy.speed = float(phase.get("speed", enemy.speed))
-		enemy.power = float(phase.get("power", enemy.power))
+		# Scaled to the boss's level like its own stats (LevelRules.phase_stats).
+		var stats := LevelRules.phase_stats(content.enemy(enemy.kind), phase, enemy_level(enemy.id))
+		enemy.speed = stats["speed"]
+		enemy.power = stats["power"]
 		if phase.has("moveset"):
 			enemy.moveset = phase["moveset"].duplicate()
 		if brains.has(enemy.id):
 			var brain: EnemyBrain = brains[enemy.id]
-			brain.cooldown_ticks = int(phase.get("cooldown", brain.cooldown_ticks))
-			brain.heavy_chance = float(phase.get("heavy_chance", brain.heavy_chance))
-			brain.heavy_cooldown_ticks = int(
-				phase.get("heavy_cooldown", brain.heavy_cooldown_ticks)
-			)
+			brain.cooldown_ticks = stats["cooldown"]
+			brain.heavy_chance = stats["heavy_chance"]
+			brain.heavy_cooldown_ticks = stats["heavy_cooldown"]
 			brain.planned = ""
 		events.append(ZoneEvent.make("boss_phase", {"id": enemy.id, "phase": done + 1}))
 

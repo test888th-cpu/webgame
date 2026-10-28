@@ -59,6 +59,32 @@ static func enemy_stats(data: Dictionary, level: int) -> Dictionary:
 	}
 
 
+## A boss phase's stats at `level`. Phases are written on the same base
+## (level 1) scale as the enemy's own block ("power": 1.5 against a base of
+## 1.3 means 15% harder), so they go through the very same level scaling:
+## the fight keeps its shape at any level and a phase never undoes it.
+## {"power", "speed", "cooldown", "heavy_chance", "heavy_cooldown"}.
+static func phase_stats(data: Dictionary, phase: Dictionary, level: int) -> Dictionary:
+	var body := data.duplicate()
+	for field in ["power", "speed"]:
+		if phase.has(field):
+			body[field] = phase[field]
+	var ai: Dictionary = (data.get("ai") if data.get("ai") is Dictionary else {}).duplicate()
+	for field in ["cooldown", "heavy_chance", "heavy_cooldown"]:
+		if phase.has(field):
+			ai[field] = phase[field]
+	var moveset: Dictionary = phase.get("moveset", data.get("moveset", {}))
+	var stats := enemy_stats(body, level)
+	var scaled := enemy_ai(ai, level, moveset.has("heavy"))
+	return {
+		"power": stats["power"],
+		"speed": stats["speed"],
+		"cooldown": int(scaled.get("cooldown", 50)),
+		"heavy_chance": float(scaled.get("heavy_chance", 0.0)),
+		"heavy_cooldown": int(scaled.get("heavy_cooldown", EnemyBrain.DEFAULT_HEAVY_COOLDOWN)),
+	}
+
+
 ## The "ai" block for `level`: quicker, pushier, and new tricks, a little at a time.
 static func enemy_ai(ai: Dictionary, level: int, has_heavy: bool) -> Dictionary:
 	var steps := maxi(0, level - 1)

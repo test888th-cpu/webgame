@@ -4,6 +4,25 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Fixed: bosses grew weaker in their later phases
+- **The bug:** a boss phase's `power`, `speed`, `cooldown` and
+  `heavy_chance` are written on the enemy's base (level 1) scale. They were
+  applied raw, which threw away the boss's level scaling. At 66% health the
+  Tunnel Mother (Lv 32) fell from power x3.48 to x1.05: its light blow went
+  from 45 to 14 and its heavy from 90 to 25. Every levelled boss had the
+  same problem, story bosses included.
+- **The fix:** `LevelRules.phase_stats` runs a phase through the same level
+  scaling as the boss's own block (`enemy_stats`, `enemy_ai`), and
+  `ZoneSim._check_phases` uses it. At Lv 32 the Mother's phases now hit for
+  48/88 and 50/115, and it moves and attacks faster. At level 1 a phase is
+  exactly what the data says.
+- **Content rule:** the validator rejects a phase that softens its boss.
+  Lower power, speed or heavy chance than the base is rejected, and so is a
+  longer cooldown.
+- **Tests:** `test_boss_phases.gd` checks every phase of every boss at levels
+  1-55, the fight in a zone, and the validator. The zone test fails on the
+  old code.
+
 ### Changed: world bosses are fixed, like field bosses in an MMO
 - **The rule:** every world boss now fights at its own fixed `level`, with a
   fixed health pool, whoever comes. Nothing scales to the hero, and no level
