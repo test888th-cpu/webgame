@@ -213,7 +213,12 @@
         "cooldown": 37,
         "cooldown_jitter": 30,
         "heavy_chance": 0.35,
-        "heavy_cooldown": 300
+        "heavy_cooldown": 300,
+        "grab": {
+          "chance": 0.35,
+          "every": 300,
+          "range": 140
+        }
       },
       "phases": [
         {
@@ -469,7 +474,12 @@
         "cooldown": 35,
         "cooldown_jitter": 20,
         "heavy_chance": 0.3,
-        "heavy_cooldown": 330
+        "heavy_cooldown": 330,
+        "grab": {
+          "chance": 0.4,
+          "every": 300,
+          "range": 160
+        }
       },
       "phases": [
         {
@@ -581,7 +591,12 @@
         "cooldown": 27,
         "cooldown_jitter": 18,
         "heavy_chance": 0.3,
-        "heavy_cooldown": 300
+        "heavy_cooldown": 300,
+        "grab": {
+          "chance": 0.2,
+          "every": 360,
+          "range": 120
+        }
       },
       "phases": [
         {
@@ -799,7 +814,12 @@
         "cooldown": 34,
         "cooldown_jitter": 20,
         "heavy_chance": 0.3,
-        "heavy_cooldown": 330
+        "heavy_cooldown": 330,
+        "grab": {
+          "chance": 0.3,
+          "every": 330,
+          "range": 140
+        }
       },
       "hazard": {
         "every": 300,
@@ -1028,7 +1048,12 @@
         "cooldown": 34,
         "cooldown_jitter": 18,
         "heavy_chance": 0.3,
-        "heavy_cooldown": 300
+        "heavy_cooldown": 300,
+        "grab": {
+          "chance": 0.35,
+          "every": 300,
+          "range": 150
+        }
       },
       "phases": [
         {
@@ -1316,7 +1341,12 @@
         "cooldown": 28,
         "cooldown_jitter": 18,
         "heavy_chance": 0.3,
-        "heavy_cooldown": 300
+        "heavy_cooldown": 300,
+        "grab": {
+          "chance": 0.4,
+          "every": 270,
+          "range": 170
+        }
       },
       "phases": [
         {
@@ -1376,7 +1406,12 @@
         "cooldown": 40,
         "cooldown_jitter": 20,
         "heavy_chance": 0.3,
-        "heavy_cooldown": 330
+        "heavy_cooldown": 330,
+        "grab": {
+          "chance": 0.45,
+          "every": 270,
+          "range": 170
+        }
       },
       "summon": {
         "enemy": "network_runner",
@@ -1654,7 +1689,12 @@
         "cooldown": 38,
         "cooldown_jitter": 20,
         "heavy_chance": 0.3,
-        "heavy_cooldown": 330
+        "heavy_cooldown": 330,
+        "grab": {
+          "chance": 0.25,
+          "every": 360,
+          "range": 140
+        }
       },
       "hazard": {
         "kind": "laser",
@@ -1839,7 +1879,12 @@
         "cooldown": 36,
         "cooldown_jitter": 20,
         "heavy_chance": 0.3,
-        "heavy_cooldown": 330
+        "heavy_cooldown": 330,
+        "grab": {
+          "chance": 0.2,
+          "every": 390,
+          "range": 130
+        }
       },
       "phases": [
         {

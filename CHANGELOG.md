@@ -4,6 +4,33 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added: bosses sometimes grab weapons off the street
+- **What happens:** in a fight, a boss or mini-boss may go for a weapon on
+  the ground. It does not happen every time.
+  - **When it looks:** every few seconds (`ai.grab.every`). It considers the
+    nearest weapon only if it is in range and the boss would reach it before
+    the hero, so a boss never takes a weapon from under the hero's feet.
+  - **Whether it goes:** it rolls its own chance (`ai.grab.chance`).
+  - **The warning:** a gold "!" over its head shows it is going. The hero can
+    race it to the weapon or knock it down.
+  - **Giving up:** the boss stops when the weapon is gone, or after 2.5
+    seconds of walking.
+  - **Once it has the weapon:** the weapon's name flashes over the boss. It
+    swings the weapon for its light blows but keeps its own signature heavy.
+    The weapon wears out and breaks as usual, and the boss drops it when
+    knocked down.
+- **Which bosses:** nine human bosses, each tuned to its character. Big Sak
+  and the Ringmaster are the most eager; the Pit Champion, a boxer, rarely
+  bothers. Robots and hybrids never grab.
+- **Content rules:** `ai.grab` is validated: bosses only, with
+  0 < chance <= 1, and `every` and `range` at least 1.
+- **Refactor:** street-weapon placement moved from `ZoneSim` to
+  `StreetWeapons`.
+- **Tests:** `test_boss_grab.gd` covers the first look, the walk and pickup,
+  never taking a weapon from under the hero's feet, giving up, the share of
+  looks that become a grab, the boss keeping its own heavy, and the
+  validator.
+
 ### Fixed: E always throws the weapon in hand
 - **The bug:** with a weapon in hand, E threw it only when nothing lay
   underfoot. Standing on a pile (where foes drop their weapons), E swapped
