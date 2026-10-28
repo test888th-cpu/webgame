@@ -5,8 +5,11 @@ extends RefCounted
 ##   container off a crane, a steam vent bursting, a laser sweeping the whole
 ##   lane at the hero's depth, the floor plates shocking). It warns first,
 ##   then hits every fighter in its footprint ("half": half its width and
-##   depth) but the boss, the boss's own crew included. A "cycle" of hazards
-##   is called in turn;
+##   depth) but the boss, the boss's own crew included. A volley ("count",
+##   default 1) drops the first on the hero and the rest at random spots
+##   within "spread" ([x, y]) of them, never stacked on one another, landing
+##   "stagger" ticks apart: the hero must read the shadows and run, not just
+##   side-step. A "cycle" of hazards is called in turn;
 ## * "summon": whistles in reinforcements every so often, one from each side
 ##   of the fight, while fewer than its "max" helpers stand.
 ## A phase may quicken either ("hazard_every", "summon_every"), bring its own
@@ -18,6 +21,8 @@ extends RefCounted
 ## hold each other. Pure rules, shared with the server.
 
 const KINDS: Array[String] = ["crane", "steam", "laser", "shock", "sludge"]
+## Random spots a volley tries for each extra drop before giving it up.
+const VOLLEY_TRIES := 12
 
 var _hazard_timer := 0
 var _hazard_turn := 0
@@ -112,20 +117,47 @@ func _every(zone: ZoneSim, boss: Fighter, spec: Dictionary, phase_key: String) -
 
 
 func _call_hazard(zone: ZoneSim, boss: Fighter, data: Dictionary, events: Array[ZoneEvent]) -> void:
-	var drop := {
-		"at": zone.hero.position,
-		"ticks": int(data["warn"]),
-		"half": Vector2(data["half"][0], data["half"][1]),
-		"damage": roundi(float(data["damage"]) * boss.power),
-		"kind": str(data.get("kind", "crane")),
-	}
-	zone.hazards.append(drop)
-	events.append(
-		ZoneEvent.make(
-			"hazard_warn",
-			{"at": drop["at"], "ticks": drop["ticks"], "kind": drop["kind"], "half": drop["half"]}
-		)
-	)
+	var half := Vector2(data["half"][0], data["half"][1])
+	var spots := volley(zone, data, half)
+	for i in spots.size():
+		var drop := {
+			"at": spots[i],
+			"ticks": int(data["warn"]) + i * int(data.get("stagger", 0)),
+			"half": half,
+			"damage": roundi(float(data["damage"]) * boss.power),
+			"kind": str(data.get("kind", "crane")),
+		}
+		zone.hazards.append(drop)
+		var warn := {"at": drop["at"], "ticks": drop["ticks"], "kind": drop["kind"], "half": half}
+		events.append(ZoneEvent.make("hazard_warn", warn))
+
+
+## Where a volley of `data` lands: on the hero first, then up to "count" - 1
+## spots within "spread" of them, inside the fight and clear of each other
+## (a spot that would overlap another is rolled again, and dropped if no
+## room is found), so there is always somewhere to run.
+static func volley(zone: ZoneSim, data: Dictionary, half: Vector2) -> Array[Vector2]:
+	var spots: Array[Vector2] = [zone.hero.position]
+	var spread: Array = data.get("spread", [0, 0])
+	var room := zone.arena if zone.arena.size.x > 0.0 else zone.bounds
+	for i in int(data.get("count", 1)) - 1:
+		for _try in VOLLEY_TRIES:
+			var at := (
+				zone.hero.position
+				+ Vector2(
+					zone.rng.randf_range(-float(spread[0]), float(spread[0])),
+					zone.rng.randf_range(-float(spread[1]), float(spread[1]))
+				)
+			)
+			at = LaneMovement.clamp_to(at, room)
+			var clear := true
+			for other in spots:
+				var gap := (other - at).abs()
+				clear = clear and (gap.x >= half.x * 1.6 or gap.y >= half.y * 1.6)
+			if clear:
+				spots.append(at)
+				break
+	return spots
 
 
 ## Hazards whose warning has run out land on whoever stands there.

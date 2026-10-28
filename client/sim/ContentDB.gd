@@ -444,6 +444,11 @@ func _validate_hazard(hazard: Dictionary, where: String) -> void:
 			_number(entry, field, where, 1)
 		var half: Variant = entry.get("half")
 		_check(half is Array and half.size() == 2, where + ".half: [x, y]")
+		if entry.has("count"):
+			_number(entry, "count", where, 1)
+			var spread: Variant = entry.get("spread")
+			_check(spread is Array and spread.size() == 2, where + ".spread: [x, y] for a volley")
+			_number(entry, "stagger", where, 0)
 
 
 func _validate_moveset(moveset: Variant, where: String) -> void:

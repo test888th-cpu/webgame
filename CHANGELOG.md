@@ -4,6 +4,26 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed: Harbourmaster Chen's crane drops real, container-sized drops
+- **Before:** the drop was small. Its footprint was 60x20 px, so a short
+  side step dodged it.
+- **Container size:** each drop is a full container, 100x36 px. The hero
+  has to really get out from under it.
+- **How many:** one falls on the hero. When Chen is enraged, two fall: one
+  on the hero, one within 150 px, 14 ticks later. He is a stage boss, so
+  it stays at that.
+- **Look and feel:** each container is drawn as wide as what it hits and
+  hangs from two crane cables. A sharp outline marks the danger zone from
+  the first frame, and every landing shakes the screen.
+- **Volleys for any boss:** hazards can take a volley (`count`, `spread`,
+  `stagger`, all validated). `BossMechanics.volley` picks the spots from
+  the zone's seeded RNG and never stacks drops, so there is always a way
+  out.
+- **Tests:** `test_chapter_two.gd`:
+  - checks one drop, two when enraged, the first on the hero, staggered
+    landings, no stacking and a safe spot;
+  - the enraged test now checks the phase's own hazard.
+
 ### Fixed: bosses grew weaker in their later phases
 - **The bug:** a boss phase's `power`, `speed`, `cooldown` and
   `heavy_chance` are written on the enemy's base (level 1) scale. They were

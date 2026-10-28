@@ -2,16 +2,16 @@ class_name HazardView
 extends Node2D
 ## A hazard on its way (ZoneSim hazards, called by BossMechanics): a red mark
 ## the size of what it will hit, darkening and pulsing as it comes, then a
-## shipping container falling off a crane ("crane"), a burst of scalding
+## shipping container as wide as that mark falling off a crane ("crane"), a burst of scalding
 ## steam from a floor vent ("steam"), a security laser sweeping the lane
 ## ("laser"), floor plates shocking ("shock") or a geyser of drain sludge
 ## ("sludge"). Drawn with shapes until the art pass. Presentation only;
 ## BossMechanics decides who it hits.
 
 const FALL_SECONDS := 0.25
-const DROP_HEIGHT := 220.0
-const SHADOW := Vector2(30, 10)
-const BOX := Vector2(56, 34)
+const DROP_HEIGHT := 260.0
+## A container is as wide as what it hits, and this tall for its width.
+const BOX_HEIGHT := 0.62
 const STEEL := Color("b4532a")
 const RIB := Color("7a3418")
 const EDGE := Color("1c1418")
@@ -61,19 +61,35 @@ func _draw() -> void:
 		return
 	if not _landed:
 		var shade := Color(0.9, 0.1, 0.05, 0.25 + 0.35 * near + 0.15 * pulse)
-		_ellipse(SHADOW * (0.6 + 0.4 * near), shade)
+		_ellipse(half * (0.6 + 0.4 * near), shade)
+		if kind == "crane":
+			# The shadow's edge, sharp from the start: exactly what it covers.
+			_ellipse_outline(half, Color(1, 0.2, 0.1, 0.5 + 0.4 * pulse))
 	if kind in ["steam", "sludge"]:
 		_draw_steam(near)
 		return
 	var fall := 0.0 if _landed else clampf(_left / FALL_SECONDS, 0.0, 1.0)
 	if _landed or _left <= FALL_SECONDS:
-		var top := Vector2(-BOX.x / 2.0, -BOX.y - fall * DROP_HEIGHT)
-		draw_rect(Rect2(top, BOX), STEEL)
-		for i in range(1, 7):
-			var x := top.x + BOX.x * i / 7.0
-			draw_line(Vector2(x, top.y + 3), Vector2(x, top.y + BOX.y - 3), RIB, 2.0)
-		draw_rect(Rect2(top, BOX), EDGE, false, 2.0)
-		draw_line(Vector2(0, top.y), Vector2(0, top.y - DROP_HEIGHT), EDGE, 1.0)
+		var box := Vector2(half.x * 2.0, half.x * 2.0 * BOX_HEIGHT)
+		var top := Vector2(-box.x / 2.0, -box.y - fall * DROP_HEIGHT)
+		draw_rect(Rect2(top, box), STEEL)
+		var ribs := maxi(4, roundi(box.x / 9.0))
+		for i in range(1, ribs):
+			var x := top.x + box.x * i / ribs
+			draw_line(Vector2(x, top.y + 3), Vector2(x, top.y + box.y - 3), RIB, 2.0)
+		draw_rect(Rect2(top, box), EDGE, false, 2.0)
+		# Two crane cables to the corners, cut the moment it lands.
+		if not _landed:
+			for corner in [top + Vector2(4, 0), top + Vector2(box.x - 4, 0)]:
+				draw_line(corner, Vector2(0, top.y - DROP_HEIGHT), EDGE, 1.0)
+
+
+func _ellipse_outline(radius: Vector2, color: Color) -> void:
+	var points := PackedVector2Array()
+	for i in 25:
+		var angle := TAU * i / 24.0
+		points.append(Vector2(cos(angle) * radius.x, sin(angle) * radius.y))
+	draw_polyline(points, color, 1.5)
 
 
 func _ellipse(radius: Vector2, color: Color) -> void:
