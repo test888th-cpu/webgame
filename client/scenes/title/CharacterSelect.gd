@@ -2,9 +2,10 @@ class_name CharacterSelect
 extends RefCounted
 ## The account's characters, one card per slot (RosterRules.max_characters):
 ## the hero as they look now, their name, hero, level, where they are and
-## when they were last played. Enter (or a click) on a card plays it; an
-## empty slot makes a new character. Delete asks once more, by name, before
-## the character goes (SaveStore keeps the file aside, it is never erased).
+## when they were last played. A click (or the keys) chooses a card; Play,
+## Enter or a double click plays it. An empty slot makes a new character.
+## Delete asks once more, by name, before the chosen character goes
+## (SaveStore keeps the file aside, it is never erased).
 
 const SIZE := Vector2(600, 300)
 const CARD := Vector2(134, 196)
@@ -39,22 +40,29 @@ static func build(
 	row.add_theme_constant_override("separation", 6)
 	row.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	body.add_child(row)
+	var state := {"id": "", "armed": false}
+	var play := UiKit.button("Play", func() -> void: on_play.call(state["id"]))
+	play.name = "Play"
+	play.focus_mode = Control.FOCUS_NONE
 	var delete := UiKit.button("Delete", func() -> void: pass)
 	delete.name = "Delete"
 	delete.focus_mode = Control.FOCUS_NONE
-	var chosen := [""]
 	var pick := func(id: String) -> void:
-		chosen[0] = id
+		state["id"] = id
+		state["armed"] = false
+		play.disabled = id == ""
 		delete.disabled = id == ""
 		delete.text = "Delete"
 		delete.remove_theme_color_override("font_color")
-	for i in most:
+	# Never fewer cards than characters, so none is ever out of reach.
+	for i in maxi(most, roster.size()):
 		var card: Button
 		if i < roster.size():
 			var character := roster[i]
 			card = _card(content, character)
 			card.pressed.connect(on_play.bind(character.id))
 			card.focus_entered.connect(pick.bind(character.id))
+			card.gui_input.connect(_click.bind(card, on_play.bind(character.id)))
 		else:
 			card = _empty_card()
 			card.pressed.connect(on_create)
@@ -63,14 +71,15 @@ static func build(
 		row.add_child(card)
 	delete.pressed.connect(
 		func() -> void:
-			var id: String = chosen[0]
+			var id: String = state["id"]
 			if id == "":
 				return
-			var who := ""
-			for character in roster:
-				who = character.name if character.id == id else who
 			# The only way back is the saves folder: ask once more, by name.
-			if delete.text == "Delete":
+			if not state["armed"]:
+				state["armed"] = true
+				var who := ""
+				for character in roster:
+					who = character.name if character.id == id else who
 				delete.text = "Delete %s for good?" % who
 				delete.add_theme_color_override("font_color", UiTheme.DANGER)
 				return
@@ -85,9 +94,23 @@ static func build(
 	gap.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	footer.add_child(gap)
 	footer.add_child(delete)
+	footer.add_child(play)
 	body.add_child(footer)
 	pick.call(roster[0].id if roster else "")
 	return parts["root"]
+
+
+## A single click on a character's card only chooses it (so Delete can
+## reach any card with a mouse or a finger); a double click plays it.
+static func _click(event: InputEvent, card: Button, play: Callable) -> void:
+	var mouse := event as InputEventMouseButton
+	if mouse == null or not mouse.pressed or mouse.button_index != MOUSE_BUTTON_LEFT:
+		return
+	card.accept_event()
+	if mouse.double_click:
+		play.call()
+	else:
+		card.grab_focus()
 
 
 ## "just now", "5 min ago", "3 h ago", "2 days ago".

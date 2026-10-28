@@ -149,22 +149,85 @@ func test_the_characters_screen_plays_creates_and_deletes() -> void:
 	for card: Button in slots.get_children():
 		texts.append(card.text)
 	assert_eq(texts.count("+\nNew character"), 2, "two free")
-	for node in title.find_child("Slots", true, false).find_children("*", "Control", true, false):
+	for node in slots.find_children("*", "Control", true, false):
 		var control: Control = node
 		if control is Label and control.is_visible_in_tree():
 			assert_true(
 				Rect2(0, 0, 640, 360).grow(1).encloses(control.get_global_rect()),
 				"%s fits" % (control as Label).text
 			)
-	(slots.get_child(1) as Button).grab_focus()
+	# A mouse click only chooses the card, so Delete can reach any of them.
+	var second := slots.get_child(1) as Button
+	var click := InputEventMouseButton.new()
+	click.button_index = MOUSE_BUTTON_LEFT
+	click.pressed = true
+	second.gui_input.emit(click)
+	assert_true(second.has_focus(), "a click chooses the second card")
+	assert_true(GameSession.profile.name != "" and title.is_inside_tree(), "and does not play it")
+	var who: String = SaveStore.characters(_content())[1].name
 	var delete := title.find_child("Delete", true, false) as Button
 	delete.pressed.emit()
 	assert_eq(SaveStore.characters(_content()).size(), 2, "the first press only asks")
-	assert_true(delete.text.contains("for good"), "by name")
+	assert_true(delete.text.contains(who), "by name")
 	delete.pressed.emit()
-	assert_eq(SaveStore.characters(_content()).size(), 1, "the second deletes")
+	var left := SaveStore.characters(_content())
+	assert_eq(left.size(), 1, "the second deletes")
+	assert_true(left[0].name != who, "the chosen one")
+	await tree.process_frame
+	var card := title.find_child("SaveCard", true, false)
+	assert_true(_texts(card).contains(left[0].name), "the Continue card names who is left")
+	assert_true(title.find_child("Slots", true, false) != null, "back on the Characters screen")
 	title.free()
 	_end()
+
+
+func test_a_full_account_takes_no_more() -> void:
+	_begin()
+	for name: String in ["Ana", "Bea", "Cid", "Dot"]:
+		_character("mika", name)
+	GameSession.start_new_game("mika", "Eve")
+	assert_true(not SaveStore.save(GameSession.profile), "a fifth is refused")
+	assert_eq(SaveStore.characters(_content()).size(), 4, "still four")
+	var old := PlayerProfile.new_game(_content(), "mika", "Old")
+	var data := old.to_dict()
+	data.erase("id")
+	_write(ROOT.path_join(SaveStore.LEGACY_SAVE), JSON.stringify(data))
+	assert_eq(SaveStore.characters(_content()).size(), 4, "an old save waits while full")
+	assert_true(FileAccess.file_exists(ROOT.path_join(SaveStore.LEGACY_SAVE)), "and is kept")
+	var create: Node = load("res://scenes/create/CharacterCreate.tscn").instantiate()
+	tree.root.add_child(create)
+	await tree.process_frame
+	create.name_field.text = "Fay"
+	create.name_field.text_changed.emit("Fay")
+	assert_true(create.start_button.disabled, "creation says the slots are full")
+	create.free()
+	_end()
+
+
+func test_an_old_save_is_imported_under_one_id_however_often() -> void:
+	_begin()
+	var data := PlayerProfile.new_game(_content(), "mika", "Once").to_dict()
+	data.erase("id")
+	var legacy := ROOT.path_join(SaveStore.LEGACY_SAVE)
+	_write(legacy, JSON.stringify(data))
+	var first := SaveStore.characters(_content())[0].id
+	# As if the rename had failed: the same old save is there again.
+	_write(legacy, JSON.stringify(data))
+	var roster := SaveStore.characters(_content())
+	assert_eq(roster.size(), 1, "no copy")
+	assert_eq(roster[0].id, first, "the same character")
+	_write(legacy, "{not json")
+	SaveStore.characters(_content())
+	assert_true(not FileAccess.file_exists(legacy), "an unreadable old save is set aside")
+	assert_true(FileAccess.file_exists(ROOT.path_join(SaveStore.UNREADABLE_SAVE)), "and kept")
+	_end()
+
+
+func _texts(root: Node) -> String:
+	var parts: Array[String] = []
+	for label: Label in root.find_children("*", "Label", true, false):
+		parts.append(label.text)
+	return " | ".join(parts)
 
 
 func _write(path: String, text: String) -> void:

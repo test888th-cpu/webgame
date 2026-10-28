@@ -15,12 +15,17 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
     so the server can apply the same ones.
 - **Title screen:** Continue plays the character played last. **Characters** lists
   every character with its look, hero, level, area and when it was last played.
-  Play one, make a new one in a free slot, or delete one.
+  Click a card to choose it. Play, Enter or a double click plays it. A free slot
+  makes a new character.
   - Delete asks a second time, by name.
   - A deleted character's file is moved to `characters/deleted/`, never erased.
 - **Old saves:** the single save of earlier builds becomes the first character the
-  first time the game starts. It is kept as `save.imported.json` and never imported
-  twice, even if it is carried over from the old data folder again.
+  first time the game starts. It is kept as `save.imported.json`.
+  - Its id comes from its content, so it is never imported twice, even if the
+    rename fails or it is carried over from the old data folder again.
+  - An unreadable old save is set aside as `save.unreadable.json`.
+- **Full account:** a fifth character is refused at save time, and character
+  creation says that all slots are in use.
 - **Separation:** items, upgrades, coins and quests belong to one character. A test
   checks that nothing leaks between two characters. A save whose content names a
   different id from its file name is refused.

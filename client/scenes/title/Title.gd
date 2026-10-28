@@ -187,18 +187,24 @@ func _play(id: String) -> void:
 		get_tree().change_scene_to_file(GAME_SCENE)
 
 
+## Deleting rebuilds the whole title (the Continue card, the line-up and the
+## menu all name the characters), back on the Characters screen if any are
+## left.
 func _delete(id: String) -> void:
 	SaveStore.delete_character(id)
 	Sfx.play("break_metal", -6.0)
-	if SaveStore.has_characters():
+	_modal = null
+	for child in _ui.get_children():
+		_ui.remove_child(child)
+		child.queue_free()
+	_build_ui(GameSession.content)
+	if _roster:
 		open_characters()
-	else:
-		get_tree().reload_current_scene()
 
 
 func _continue() -> void:
-	if GameSession.continue_game():
-		get_tree().change_scene_to_file(GAME_SCENE)
+	if _roster:
+		_play(_roster[0].id)
 
 
 func _gallery() -> void:

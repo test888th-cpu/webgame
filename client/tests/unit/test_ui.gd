@@ -326,6 +326,8 @@ func test_skill_effect_plays_on_the_hero() -> void:
 
 
 func test_character_creation_shows_heroes_and_validates_the_name() -> void:
+	SaveStore.root = TEST_SAVE
+	SaveStore.delete_all()
 	var screen: Node = load("res://scenes/create/CharacterCreate.tscn").instantiate()
 	tree.root.add_child(screen)
 	await _settle()

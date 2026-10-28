@@ -14,6 +14,7 @@ extends Node
 const DEFAULT_ROOT := "user://"
 const LEGACY_SAVE := "save.json"
 const IMPORTED_SAVE := "save.imported.json"
+const UNREADABLE_SAVE := "save.unreadable.json"
 ## Godot names the user data folder after the project, so renaming the game
 ## from "Ironbound Streets" to "The Iron Legacy" moved user:// to a new,
 ## empty folder (in the browser too: IndexedDB holds the same folder tree).
@@ -66,10 +67,6 @@ static func new_id() -> String:
 	return Crypto.new().generate_random_bytes(8).hex_encode()
 
 
-static func is_id(text: String) -> bool:
-	return RosterRules.is_id(text)
-
-
 func folder() -> String:
 	return root.path_join("characters")
 
@@ -100,9 +97,15 @@ func characters(content: ContentDB) -> Array[PlayerProfile]:
 
 ## Writes atomically: to a temporary file first, then renamed over the old
 ## save, so a crash mid-write cannot leave a truncated save behind.
+## A character not saved before is refused once the account is full
+## (RosterRules.max_characters), so no character is ever out of reach.
 func save(profile: PlayerProfile) -> bool:
-	if not is_id(profile.id):
+	if not RosterRules.is_id(profile.id):
 		push_warning("save refused: the character has no id")
+		return false
+	var limit := RosterRules.max_characters(GameSession.content)
+	if not FileAccess.file_exists(path_of(profile.id)) and _ids().size() >= limit:
+		push_warning("save refused: the account already has %d characters" % limit)
 		return false
 	DirAccess.make_dir_recursive_absolute(folder())
 	profile.saved_at = int(Time.get_unix_time_from_system())
@@ -120,7 +123,7 @@ func save(profile: PlayerProfile) -> bool:
 ## Character `id`, or null when it has no usable save. The file name is the
 ## id; a save claiming another id is not trusted.
 func load_character(id: String, content: ContentDB) -> PlayerProfile:
-	if not is_id(id) or not FileAccess.file_exists(path_of(id)):
+	if not RosterRules.is_id(id) or not FileAccess.file_exists(path_of(id)):
 		return null
 	var profile := _read(path_of(id), content)
 	if profile == null:
@@ -133,7 +136,7 @@ func load_character(id: String, content: ContentDB) -> PlayerProfile:
 
 ## Moves character `id` out of the roster (to characters/deleted/).
 func delete_character(id: String) -> bool:
-	if not is_id(id) or not FileAccess.file_exists(path_of(id)):
+	if not RosterRules.is_id(id) or not FileAccess.file_exists(path_of(id)):
 		return false
 	var bin := folder().path_join("deleted")
 	DirAccess.make_dir_recursive_absolute(bin)
@@ -159,7 +162,7 @@ func _ids() -> Array[String]:
 	if not DirAccess.dir_exists_absolute(folder()):
 		return ids
 	for file in DirAccess.get_files_at(folder()):
-		if file.ends_with(".json") and is_id(file.get_basename()):
+		if file.ends_with(".json") and RosterRules.is_id(file.get_basename()):
 			ids.append(file.get_basename())
 	return ids
 
@@ -175,15 +178,19 @@ func _read(path: String, content: ContentDB) -> PlayerProfile:
 
 
 ## The one save of builds before character slots becomes a character; the
-## old file is renamed, not deleted, and only once it is safely written.
+## old file is renamed, not deleted, and only once it is safely written. Its
+## id comes from its content, so if the rename ever fails the next import
+## rewrites the same character instead of adding a copy. A save that cannot
+## be read is set aside once (kept, not deleted) rather than re-read forever.
 func _import_legacy(content: ContentDB) -> void:
 	var legacy := root.path_join(LEGACY_SAVE)
 	if not FileAccess.file_exists(legacy):
 		return
 	var profile := _read(legacy, content)
 	if profile == null:
+		DirAccess.rename_absolute(legacy, root.path_join(UNREADABLE_SAVE))
 		return
-	if not is_id(profile.id):
-		profile.id = new_id()
+	if not RosterRules.is_id(profile.id):
+		profile.id = FileAccess.get_sha256(legacy).left(16)
 	if save(profile):
 		DirAccess.rename_absolute(legacy, root.path_join(IMPORTED_SAVE))

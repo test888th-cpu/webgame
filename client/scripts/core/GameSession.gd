@@ -75,12 +75,6 @@ func start_new_game(hero_id := "", player_name := "") -> void:
 	profile.id = SaveStore.new_id()
 
 
-## Plays the character played last. Returns false when there is none.
-func continue_game() -> bool:
-	var roster := SaveStore.characters(content)
-	return not roster.is_empty() and play(roster[0].id)
-
-
 ## Plays character `id`. Returns false when it has no usable save.
 func play(id: String) -> bool:
 	var loaded := SaveStore.load_character(id, content)

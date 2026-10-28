@@ -483,8 +483,15 @@ func _on_name_changed(text: String) -> void:
 	_name_edited = text != str(content.hero(selected).get("default_name", ""))
 	var valid := PlayerProfile.clean_name(text) != ""
 	var taken := valid and RosterRules.name_taken(_roster, PlayerProfile.clean_name(text))
-	start_button.disabled = not valid or taken
-	if taken:
+	var full := _roster.size() >= RosterRules.max_characters(content)
+	start_button.disabled = not valid or taken or full
+	if full:
+		_name_hint.text = (
+			"All %d character slots are in use. Delete one on the Characters screen first."
+			% RosterRules.max_characters(content)
+		)
+		_name_hint.add_theme_color_override("font_color", UiTheme.DANGER)
+	elif taken:
 		_name_hint.text = "Another of your characters is called that."
 		_name_hint.add_theme_color_override("font_color", UiTheme.DANGER)
 	elif valid:
