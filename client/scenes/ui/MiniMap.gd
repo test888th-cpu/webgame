@@ -1,27 +1,40 @@
 class_name MiniMap
 extends Control
-## The HUD's route card, top right:
-##   SOUTH STREET   Saltmarket Street · Lv 2   the district, the area, its level
-##   ⌂ ─ ▲ ┃ ○ ─ ○ ─ ○ ─ ○ ─ ○ ─ ○ ─ ☠ BOSS     one node per area, west to east
-##   1   2   3   4   5   6   7   8   9  GOAL▸  each area's number in the district
-## The numbers say how far along the district the hero is; the names stay,
-## because quests and the story send the hero to places by name.
-## The hero's area is an orange ▲; areas reached are filled rings, the rest
-## empty; a town is a teal house; the district's last area, where its boss
-## waits, is a red skull marked BOSS (grey with a tick once beaten). A red
-## bar just east of the hero means the way on is still shut. The goal
-## (MapRules.goal) flies a gold flag, or "GOAL" with an arrow says it lies
-## in a district that way. The way travelled is solid, the way ahead dashed.
-## Hovering a node says what the hero knows of it; a click or tap opens the
-## map. Everything that only changes with the area is worked out in attach().
+## The HUD's route card, top right (MapRules.route draws the facts):
+##   SOUTH STREET   Saltmarket Street · Lv 2       the district, the area, its level
+##            ▼
+##   ⌂ ─ ● ┃ ○ ─ 👹 ─ ○ ─ ○ ─ ○ ─ 👹 ─ ○ ─ ○ ─ 💀 BOSS   one node per area
+##   1   2   3   4   5   6   7   8   9  10  11       each area's number
+## Icons (map_* in the icon sheet): the hero's marker over their area, a
+## teal house for a town, a horned orange skull where a mini-boss waits, a
+## crowned red skull marked BOSS where the district ends on its boss (both
+## grey with a green tick once beaten), a gold flag on the goal. Plain areas
+## are rings, filled once reached. Bosses show before they are reached (who
+## they are does not: MapRules.about). A red bar east of the hero means the
+## way on is still shut; "GOAL" with an arrow says the goal lies in another
+## district. The way travelled is solid, the way ahead dashed. The numbers
+## say how far along the hero is; the names stay, because quests and the
+## story send the hero to places by name. Hovering a node says what the hero
+## knows of it; a click or tap opens the map. The route is rebuilt a few
+## times a second, not every frame.
 
 signal pressed
 
-const SIZE := Vector2(172, 40)
-const PAD := 6.0
-const HEADER_Y := 10.0
-const ROUTE_Y := 22.0
-const NUMBER_Y := 35.0
+const SIZE := Vector2(172, 46)
+const PAD := 7.0
+const HEADER_Y := 9.0
+const ROUTE_Y := 27.0
+const NUMBER_Y := 42.0
+const REFRESH := 0.25
+const ICONS := [
+	"map_boss",
+	"map_boss_beaten",
+	"map_mini_boss",
+	"map_mini_boss_beaten",
+	"map_town",
+	"map_hero",
+	"map_goal",
+]
 ## Room right of the last node for BOSS (and GOAL under it).
 const LABEL_ROOM := 28.0
 const ELLIPSIS := "…"
@@ -30,11 +43,13 @@ var zone: ZoneSim
 var profile: PlayerProfile
 var content: ContentDB
 var _district := {}
-## The district's boss (in its last area), or "".
-var _boss := ""
 var _step := 0.0
 var _goal := ""
 var _panel: StyleBoxFlat
+## MapRules.route of the hero's district ({} off the street).
+var _route := {}
+var _icons := {}
+var _refresh_left := 0.0
 
 
 func _init() -> void:
@@ -54,7 +69,9 @@ func attach(p_zone: ZoneSim, p_profile: PlayerProfile, p_content: ContentDB) -> 
 		if zone.area_id in district["areas"]:
 			_district = district
 	var areas := _areas()
-	_boss = MapRules.boss_of(content, areas[-1]) if areas else ""
+	for id: String in ICONS:
+		_icons[id] = UiKit.icon(content, id)
+	_refresh()
 	_step = (SIZE.x - PAD * 2.0 - LABEL_ROOM) / maxf(1.0, areas.size() - 1)
 	tooltip_text = str(zone.area.get("name", ""))
 	if areas:
@@ -94,8 +111,10 @@ func _get_tooltip(at: Vector2) -> String:
 			text += "  Lv %d" % info["level"]
 		if info["boss"]:
 			text += "\nBoss: %s%s" % [info["boss"], "  (beaten)" if info["beaten"] else ""]
-		elif i == areas.size() - 1 and _boss:
+		elif info["kind"] == MapRules.BOSS:
 			text += "\nThe district's boss waits here"
+		elif info["kind"] == MapRules.MINI_BOSS:
+			text += "\nA mini-boss waits here"
 		if info["gate"] and areas[i] == zone.area_id:
 			text += "\n" + str(info["gate"])
 		if areas[i] == _goal:
@@ -104,10 +123,19 @@ func _get_tooltip(at: Vector2) -> String:
 	return tooltip_text
 
 
-func _process(_delta: float) -> void:
-	if zone:
-		_goal = str(MapRules.goal(profile, content).get("area", ""))
-		queue_redraw()
+func _process(delta: float) -> void:
+	if zone == null:
+		return
+	_refresh_left -= delta
+	if _refresh_left <= 0.0:
+		_refresh()
+	queue_redraw()
+
+
+func _refresh() -> void:
+	_refresh_left = REFRESH
+	_route = MapRules.route(profile, content, zone.area_id)
+	_goal = str(MapRules.goal(profile, content).get("area", ""))
 
 
 func _draw() -> void:
@@ -152,33 +180,34 @@ func _text(font: Font, at: Vector2, text: String, color: Color) -> void:
 
 
 func _draw_route(font: Font) -> void:
-	var areas := _areas()
-	var here := areas.find(zone.area_id)
-	var reached := here
-	for i in areas.size():
-		if areas[i] in profile.visited:
-			reached = maxi(reached, i)
+	if _route.is_empty():
+		return
+	var nodes: Array = _route["nodes"]
+	var here := int(_route["here"])
+	var reached := int(_route["reached"])
 	# The way travelled, solid; the way ahead, dashed.
-	for i in range(1, areas.size()):
-		var a := node_at(i - 1) + Vector2(3, 0)
-		var b := node_at(i) - Vector2(3, 0)
+	for i in range(1, nodes.size()):
+		var a := node_at(i - 1) + Vector2(4, 0)
+		var b := node_at(i) - Vector2(4, 0)
 		if i <= reached:
 			draw_line(a, b, UiTheme.TEXT_DIM, 1.5)
 		else:
 			draw_dashed_line(a, b, UiTheme.TEXT_FAINT, 1.0, 2.0)
 	# The way on is shut: a red bar across the road just east of the hero.
-	if here >= 0 and here < areas.size() - 1 and not zone.exit_locked("east").is_empty():
-		var gate := node_at(here).x + _step / 2.0
+	if here >= 0 and here < nodes.size() - 1 and not zone.exit_locked("east").is_empty():
+		var gate := node_at(here).x + minf(5.0, _step / 2.0)
 		draw_rect(Rect2(gate - 1.0, ROUTE_Y - 4.0, 2.0, 8.0), UiTheme.DANGER)
-	for i in areas.size():
-		_draw_node(font, i, areas[i])
+	for i in nodes.size():
+		_draw_node(font, i, nodes[i], i <= reached)
 		var color := UiTheme.TEXT_FAINT
 		if i == here:
 			color = UiTheme.ACCENT
 		elif i <= reached:
 			color = UiTheme.TEXT_DIM
-		var digits := str(i + 1)
+		var digits := str(nodes[i]["number"])
 		_text(font, Vector2(node_at(i).x - _width(font, digits) / 2.0, NUMBER_Y), digits, color)
+	if here >= 0:
+		_icon("map_hero", node_at(here) + Vector2(0, -11))
 	_draw_goal_elsewhere(font)
 
 
@@ -200,57 +229,31 @@ func _draw_goal_elsewhere(font: Font) -> void:
 	)
 
 
-func _draw_node(font: Font, index: int, area_id: String) -> void:
+func _draw_node(font: Font, index: int, node: Dictionary, reached: bool) -> void:
 	var at := node_at(index)
-	var seen := MapRules.state(profile, content, area_id, zone.area_id)
-	if index == _areas().size() - 1 and _boss:
-		var beaten := int(profile.defeated.get(_boss, 0)) > 0
-		var color := UiTheme.TEXT_DIM if beaten else UiTheme.DANGER
-		_skull(at, color)
-		if beaten:
-			draw_polyline(
-				PackedVector2Array([at + Vector2(2, 3), at + Vector2(3, 4), at + Vector2(6, 1)]),
-				UiTheme.GOOD,
-				1.0
-			)
-		_text(font, Vector2(at.x + 5.0, ROUTE_Y + 2.5), "BOSS", color)
-	elif content.area(area_id).get("safe", false) and seen != MapRules.UNKNOWN:
-		_house(at, UiTheme.TEAL)
-	elif seen == MapRules.KNOWN or seen == MapRules.HERE:
-		draw_circle(at, 2.5, UiTheme.TEXT)
-	else:
-		draw_arc(at, 2.2, 0.0, TAU, 12, UiTheme.TEXT_FAINT, 1.0)
-	if seen == MapRules.HERE:
-		# The hero: an orange triangle standing on the node.
-		var tip := at + Vector2(0, -1.5)
-		var points := [tip + Vector2(-4, 4), tip + Vector2(0, -4), tip + Vector2(4, 4)]
-		draw_colored_polygon(PackedVector2Array(points), UiTheme.ACCENT)
-		draw_polyline(PackedVector2Array(points + [points[0]]), Color(0, 0, 0, 0.8), 1.0)
-	if area_id == _goal:
-		var pole := at + Vector2(3, -3)
-		draw_line(pole, pole + Vector2(0, -7), UiTheme.GOLD, 1.0)
-		draw_colored_polygon(
-			PackedVector2Array(
-				[pole + Vector2(0, -7), pole + Vector2(4, -5.5), pole + Vector2(0, -4)]
-			),
-			UiTheme.GOLD
-		)
+	var beaten: bool = node["beaten"]
+	match str(node["kind"]):
+		MapRules.BOSS:
+			_icon("map_boss_beaten" if beaten else "map_boss", at + Vector2(0, -1))
+			var color := UiTheme.TEXT_DIM if beaten else UiTheme.DANGER
+			_text(font, Vector2(at.x + 7.0, ROUTE_Y + 3.0), "BOSS", color)
+		MapRules.MINI_BOSS:
+			_icon("map_mini_boss_beaten" if beaten else "map_mini_boss", at + Vector2(0, -1))
+		MapRules.TOWN:
+			_icon("map_town", at + Vector2(0, -1))
+		_:
+			if node["state"] == MapRules.HERE:
+				draw_circle(at, 3.0, UiTheme.ACCENT)
+			elif reached:
+				draw_circle(at, 2.5, UiTheme.TEXT)
+			else:
+				draw_arc(at, 2.2, 0.0, TAU, 12, UiTheme.TEXT_FAINT, 1.0)
+	if node["goal"]:
+		_icon("map_goal", at + Vector2(6, -8))
 
 
-## A small skull: the district's boss.
-func _skull(at: Vector2, color: Color) -> void:
-	draw_circle(at + Vector2(0, -0.5), 3.0, color)
-	draw_rect(Rect2(at + Vector2(-1.5, 1.5), Vector2(3, 2)), color)
-	for eye: float in [-1.2, 1.2]:
-		draw_circle(at + Vector2(eye, -0.5), 0.8, UiTheme.BG)
-
-
-## A small house: a town (a safe area).
-func _house(at: Vector2, color: Color) -> void:
-	draw_colored_polygon(
-		PackedVector2Array(
-			[at + Vector2(-3.5, -0.5), at + Vector2(0, -4), at + Vector2(3.5, -0.5)]
-		),
-		color
-	)
-	draw_rect(Rect2(at + Vector2(-2.5, -0.5), Vector2(5, 3.5)), color)
+## Draws icon `id` (16x16) centred on `at`.
+func _icon(id: String, at: Vector2) -> void:
+	var texture: Texture2D = _icons.get(id)
+	if texture:
+		draw_texture(texture, (at - Vector2(8, 8)).round())

@@ -3,8 +3,10 @@ extends Button
 ## One area on the map screen (MapRules.about): a box with the area's level
 ## in its threat colour, joined to the area west of it by a line. Filled
 ## orange where the hero stands; a teal frame for a town (shop, quests,
-## taxi); a red corner for a boss (green once beaten); a gold dot for the
-## goal. A focusable button so keyboard and gamepad can walk the map; it only
+## taxi); the map icons (map_icons.py) at its top right: a crowned red skull
+## where the district's boss waits, a horned orange skull for a mini-boss
+## (grey with a tick once beaten, shown before the area is reached); a gold
+## dot for the goal. A focusable button so keyboard and gamepad can walk the map; it only
 ## shows, never travels.
 
 const LINK := 8.0
@@ -15,6 +17,8 @@ var goal := false
 var hero_level := 1
 ## The first area of its row has no line to the west.
 var first := false
+## Icon textures by id (MapTab passes them, loaded once for the whole map).
+var icons := {}
 
 
 func setup(p_info: Dictionary, p_goal: bool, p_hero_level: int, p_first: bool) -> void:
@@ -49,12 +53,12 @@ func _draw() -> void:
 		draw_rect(box, fill[seen])
 	var frame := UiTheme.TEAL if not info["services"].is_empty() else UiTheme.BORDER
 	draw_rect(box, UiTheme.TEXT_FAINT if faint else frame, false, 1.0)
-	if info["boss"]:
-		var corner := box.position + Vector2(box.size.x, 0)
-		var mark := UiTheme.GOOD if info["beaten"] else UiTheme.DANGER
-		draw_colored_polygon(
-			PackedVector2Array([corner, corner + Vector2(-6, 0), corner + Vector2(0, 6)]), mark
-		)
+	var badge := ""
+	match str(info.get("kind", "")):
+		MapRules.BOSS:
+			badge = "map_boss_beaten" if info["beaten"] else "map_boss"
+		MapRules.MINI_BOSS:
+			badge = "map_mini_boss_beaten" if info["beaten"] else "map_mini_boss"
 	var text := "?" if faint else str(info["level"])
 	var color := UiTheme.TEXT_FAINT
 	if not faint:
@@ -70,5 +74,7 @@ func _draw() -> void:
 	draw_string(font, at, text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, color)
 	if goal:
 		draw_circle(box.position + Vector2(2.5, 2.5), 2.5, UiTheme.GOLD)
+	if badge and icons.get(badge):
+		draw_texture(icons[badge], box.position + Vector2(box.size.x - 11, -6))
 	if has_focus():
 		draw_rect(box.grow(1), UiTheme.TEXT, false, 1.0)

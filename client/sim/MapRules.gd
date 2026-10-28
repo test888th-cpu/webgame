@@ -19,6 +19,11 @@ const KNOWN := "known"
 const IN_SIGHT := "in_sight"
 const UNKNOWN := "unknown"
 const UNKNOWN_NAME := "???"
+## What an area is, as the map marks it (kind_of).
+const TOWN := "town"
+const AREA := "area"
+const MINI_BOSS := "mini_boss"
+const BOSS := "boss"
 ## What each NPC role offers, as the map lists it.
 const SERVICES := {"shop": "Shop", "quests": "Quests", "travel": "Taxi"}
 
@@ -70,9 +75,11 @@ static func state(
 
 
 ## What the map shows of `area_id`: {"state", "name", "level" (0 when
-## unknown), "services": [names], "boss": the boss's name or "", "beaten":
-## the boss is down, "gate": why the way east is still shut or ""}. Only a
-## known area shows more than its name and level.
+## unknown), "kind" (kind_of: shown for every area, so the hero can see
+## where bosses wait), "services": [names], "boss": the boss's name or "",
+## "beaten": its boss is down, "gate": why the way east is still shut or
+## ""}. Only a known area shows more than its name, level and kind; who a
+## boss is stays hidden until the hero gets there.
 static func about(
 	profile: PlayerProfile, content: ContentDB, area_id: String, here: String
 ) -> Dictionary:
@@ -82,11 +89,14 @@ static func about(
 		"state": seen,
 		"name": UNKNOWN_NAME,
 		"level": 0,
+		"kind": kind_of(content, area_id),
 		"services": [],
 		"boss": "",
 		"beaten": false,
 		"gate": "",
 	}
+	var boss := boss_of(content, area_id)
+	info["beaten"] = boss != "" and int(profile.defeated.get(boss, 0)) > 0
 	if seen == UNKNOWN:
 		return info
 	info["name"] = str(area.get("name", area_id))
@@ -97,12 +107,63 @@ static func about(
 		var service := str(SERVICES.get(str(npc.get("role")), ""))
 		if service and service not in info["services"]:
 			info["services"].append(service)
-	var boss := boss_of(content, area_id)
 	if boss:
 		info["boss"] = str(content.enemy(boss).get("name", boss))
-		info["beaten"] = int(profile.defeated.get(boss, 0)) > 0
 	info["gate"] = _gate(profile, area)
 	return info
+
+
+## What `area_id` is on the map: BOSS where a district ends on a boss (and
+## a world boss arena), MINI_BOSS where a boss waits before that, TOWN for a
+## safe area, else AREA.
+static func kind_of(content: ContentDB, area_id: String) -> String:
+	var area := content.area(area_id)
+	if area.get("world_boss", false):
+		return BOSS
+	if boss_of(content, area_id):
+		var spot := locate(content, area_id)
+		var last: bool = spot and int(spot["index"]) == int(spot["count"]) - 1
+		return BOSS if last else MINI_BOSS
+	return TOWN if area.get("safe", false) else AREA
+
+
+## The hero's district as the HUD route shows it: {"name", "here": the
+## hero's index or -1, "reached": the furthest index reached, "nodes": [{
+## "area", "number" (from 1), "state", "kind", "beaten", "goal"}]}, west to
+## east; {} off the street (a world boss arena).
+static func route(profile: PlayerProfile, content: ContentDB, here: String) -> Dictionary:
+	var goal_area := str(goal(profile, content).get("area", ""))
+	for district in districts(content):
+		var areas: Array = district["areas"]
+		if here not in areas:
+			continue
+		var nodes: Array[Dictionary] = []
+		var reached := areas.find(here)
+		for i in areas.size():
+			var area_id := str(areas[i])
+			if area_id in profile.visited:
+				reached = maxi(reached, i)
+			var boss := boss_of(content, area_id)
+			(
+				nodes
+				. append(
+					{
+						"area": area_id,
+						"number": i + 1,
+						"state": state(profile, content, area_id, here),
+						"kind": kind_of(content, area_id),
+						"beaten": boss != "" and int(profile.defeated.get(boss, 0)) > 0,
+						"goal": area_id == goal_area,
+					}
+				)
+			)
+		return {
+			"name": district["name"],
+			"here": areas.find(here),
+			"reached": reached,
+			"nodes": nodes,
+		}
+	return {}
 
 
 ## The hero's goal: {"area", "text"}, or {} with nothing left to do. The

@@ -22,6 +22,9 @@ static func build(game: Game) -> Control:
 	column.add_child(_goal_line(content, goal))
 	var detail := _detail()
 	var focus: MapNode = null
+	var icons := {}
+	for id: String in MiniMap.ICONS:
+		icons[id] = UiKit.icon(content, id)
 	var rows: Array = []
 	for district in MapRules.districts(content):
 		rows.append([district["name"], district["areas"]])
@@ -40,6 +43,7 @@ static func build(game: Game) -> Control:
 			known = known or info["state"] != MapRules.UNKNOWN
 			var node := MapNode.new()
 			node.name = "Area_" + area_id
+			node.icons = icons
 			node.setup(
 				info, goal.get("area") == area_id, profile.level, nodes.get_child_count() == 0
 			)
@@ -56,7 +60,7 @@ static func build(game: Game) -> Control:
 		line.add_child(title)
 		line.add_child(nodes)
 	column.add_child(detail)
-	column.add_child(_legend())
+	column.add_child(_legend(content))
 	if focus:
 		# Open on the hero's own box (UiKit.focus_first); it fills the detail.
 		focus.set_meta("start_focus", true)
@@ -129,23 +133,31 @@ static func _show(panel: PanelContainer, info: Dictionary, goal: bool) -> void:
 		parts.append("Your goal is here")
 	if not info["services"].is_empty():
 		parts.append(", ".join(info["services"]))
+	var kind := "boss" if info["kind"] == MapRules.BOSS else "mini-boss"
 	if info["boss"]:
-		parts.append("%s (%s)" % [info["boss"], "beaten" if info["beaten"] else "boss"])
+		parts.append("%s (%s)" % [info["boss"], "beaten" if info["beaten"] else kind])
+	elif info["kind"] in [MapRules.BOSS, MapRules.MINI_BOSS]:
+		parts.append("A %s waits here" % kind)
 	if info["gate"]:
 		parts.append(str(info["gate"]))
 	lines.text = "  ·  ".join(parts)
 
 
-static func _legend() -> Control:
+static func _legend(content: ContentDB) -> Control:
 	var line := HBoxContainer.new()
-	line.add_theme_constant_override("separation", UiTheme.PAD)
+	line.add_theme_constant_override("separation", UiTheme.GAP)
 	var keys := [
-		["Orange: you", UiTheme.ACCENT],
-		["Gold dot: goal", UiTheme.GOLD],
-		["Teal frame: town", UiTheme.TEAL],
-		["Red corner: boss", UiTheme.DANGER],
-		["Number: area level, coloured by danger", UiTheme.TEXT_DIM],
+		["", "Orange: you", UiTheme.ACCENT],
+		["", "Gold dot: goal", UiTheme.GOLD],
+		["", "Teal frame: town", UiTheme.TEAL],
+		["map_boss", "Boss", UiTheme.DANGER],
+		["map_mini_boss", "Mini-boss", UiTheme.ACCENT],
+		["", "Number: level, coloured by danger", UiTheme.TEXT_DIM],
 	]
 	for key: Array in keys:
-		line.add_child(UiKit.label(key[0], UiTheme.SIZE_CAPTION, key[1]))
+		if key[0]:
+			var mark := UiKit.icon_rect(content, key[0])
+			mark.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+			line.add_child(mark)
+		line.add_child(UiKit.label(key[1], UiTheme.SIZE_CAPTION, key[2]))
 	return line

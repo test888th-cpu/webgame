@@ -151,6 +151,32 @@ func test_map_tab_opens_on_the_hero_and_fits() -> void:
 	_done(game)
 
 
+func test_the_route_marks_the_town_the_mini_bosses_and_the_boss() -> void:
+	var content := GameSession.content
+	var profile := PlayerProfile.new_game(content)
+	var route := MapRules.route(profile, content, "depot_yard")
+	assert_eq(route["name"], "South Street", "the district")
+	assert_eq(route["here"], 0, "the hero at its first area")
+	var kinds := {}
+	for node: Dictionary in route["nodes"]:
+		kinds[node["number"]] = node["kind"]
+	assert_eq(kinds[1], MapRules.TOWN, "1: the town")
+	assert_eq(kinds[3], MapRules.MINI_BOSS, "3: Canal Works' mini-boss")
+	assert_eq(kinds[8], MapRules.MINI_BOSS, "8: the Fight Club's mini-boss")
+	assert_eq(kinds[11], MapRules.BOSS, "11: the district's boss")
+	assert_eq(kinds[2], MapRules.AREA, "2: a plain area")
+	for district in MapRules.districts(content):
+		var last: String = district["areas"][-1]
+		assert_eq(MapRules.kind_of(content, last), MapRules.BOSS, "%s ends on its boss" % last)
+	var unknown := MapRules.about(profile, content, "fight_club", "depot_yard")
+	assert_eq(unknown["kind"], MapRules.MINI_BOSS, "known to hold a mini-boss before it is reached")
+	assert_eq(unknown["boss"], "", "its name is not")
+	profile.defeated["sludge_foreman"] = 1
+	route = MapRules.route(profile, content, "depot_yard")
+	assert_true(route["nodes"][2]["beaten"], "a beaten mini-boss is marked")
+	assert_eq(MapRules.route(profile, content, "great_drain"), {}, "an arena has no route")
+
+
 func test_hud_strip_opens_the_map() -> void:
 	var game := _game()
 	await _settle()
@@ -164,9 +190,9 @@ func test_hud_strip_opens_the_map() -> void:
 	assert_true(MapRules.boss_of(game.content, district[-1]) != "", "the district ends on a boss")
 	assert_true(last.contains("boss"), "and its node says so before it is reached (%s)" % last)
 	assert_true(not last.contains("Lv"), "without giving away more")
-	for i in range(1, district.size() - 1):
-		var tip := strip._get_tooltip(strip.node_at(i))
-		assert_true(not tip.contains("boss"), "an unreached area keeps its boss secret (%s)" % tip)
+	var third := strip._get_tooltip(strip.node_at(2))
+	assert_true(third.contains("A mini-boss waits here"), "a mini-boss shows early (%s)" % third)
+	assert_true(not third.contains("Sludge"), "but not who it is")
 	# The longest names stay on the card.
 	for area_id: String in StreetMemory.street(game.content):
 		game.enter_area(area_id, "west")
