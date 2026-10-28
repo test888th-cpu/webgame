@@ -96,3 +96,36 @@ func _find(zone: ZoneSim, kind: String) -> Dictionary:
 		if solid["kind"] == kind:
 			return solid
 	return {}
+
+
+func test_every_street_weapon_can_be_picked_up() -> void:
+	# Weapons are scattered at random: over many rolls in every area, each one
+	# lies where the hero can stand on it and pick it up, and from nowhere the
+	# hero can pick it up is an NPC in talk reach (E talks before it picks up:
+	# a pipe by the taxi driver once opened the taxi instead).
+	var content := ContentDB.load_all()
+	var profile := PlayerProfile.new_game(content)
+	var checked := 0
+	for area_id: String in content.areas:
+		if content.area(area_id).get("weapons", {}).is_empty():
+			continue
+		for seed in range(1, 121):
+			var zone := ZoneSim.new(content, profile, area_id, "", seed)
+			for i in zone.ground_weapons.size():
+				var at: Vector2 = zone.ground_weapons[i]["position"]
+				var where := "%s seed %d: the weapon at %s" % [area_id, seed, at]
+				checked += 1
+				assert_true(Bodies.is_clear(at, zone.solids, zone.bounds), where + " has room")
+				assert_eq(zone.weapon_in_reach(at), i, where + " is reached from on top")
+				assert_eq(_talker_near(zone, at), "", where + " is not by an NPC")
+	assert_true(checked > 500, "many weapons checked (%d)" % checked)
+
+
+## An NPC in talk reach of any spot within pickup reach of `at`, or "".
+func _talker_near(zone: ZoneSim, at: Vector2) -> String:
+	for npc: Dictionary in zone.area.get("npcs", []):
+		var offset := (Vector2(npc["x"], npc["y"]) - at).abs()
+		var reach := ZoneSim.TALK_REACH + ZoneSim.WEAPON_REACH
+		if offset.x <= reach.x and offset.y <= reach.y:
+			return str(npc["id"])
+	return ""

@@ -4,6 +4,19 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Fixed: street weapons can always be picked up
+- **The bug:** a weapon could be scattered close enough to an NPC (the taxi
+  driver, the vendor) that, from where the hero stood to pick it up, the NPC
+  was within talk reach. E talks before it picks up, so it opened the taxi or
+  the shop instead. A weapon could also be pushed off one solid into another.
+- **The fix:** `ZoneSim` now owns `TALK_REACH`, and `NPC_CLEARANCE` is
+  derived from it (talk reach + pickup reach + a margin). A weapon spot that
+  is near an NPC or has no room to stand is rolled again (`_weapon_spot`).
+  `Bodies.clear_spot` keeps pushing until the spot is clear of every solid.
+- **Tests:** every area over 120 seeds: each weapon has room around it, can be
+  reached from where it lies, and no NPC can be talked to from anywhere it can
+  be picked up. The test fails with the old placement.
+
 ### Fixed: the street no longer ends early in narrow fight arenas
 - **The bug:** in a fight, the camera is fenced to the locked arena. When that
   arena was narrower than the screen (the Pit Champion's at the Fight Club, or

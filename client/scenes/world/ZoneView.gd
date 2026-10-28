@@ -7,8 +7,6 @@ extends Node2D
 
 const FIGHTER_SCENE := preload("res://scenes/fighter/FighterView.tscn")
 const VIEW_HEIGHT := 360.0
-## How close the hero must stand to talk to an NPC.
-const TALK_REACH := Vector2(34.0, 26.0)
 ## Camera shake on heavy impacts, in pixels, and how much it fades per tick.
 const SHAKE_PIXELS := 3.0
 const SHAKE_FADE := 0.25
@@ -122,7 +120,7 @@ func show_text(text: String, at: Vector2, color := Color.WHITE) -> void:
 func npc_near(hero: Fighter) -> Dictionary:
 	for npc: Dictionary in zone.area.get("npcs", []):
 		var offset := Vector2(npc["x"], npc["y"]) - hero.position
-		if absf(offset.x) <= TALK_REACH.x and absf(offset.y) <= TALK_REACH.y:
+		if absf(offset.x) <= ZoneSim.TALK_REACH.x and absf(offset.y) <= ZoneSim.TALK_REACH.y:
 			return npc
 	return {}
 
