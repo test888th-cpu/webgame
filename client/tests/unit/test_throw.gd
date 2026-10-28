@@ -118,7 +118,7 @@ func test_a_last_use_breaks_on_impact() -> void:
 	assert_eq(zone.ground_weapons.size(), 0, "nothing left to pick up")
 
 
-func test_bosses_are_stunned_not_floored() -> void:
+func test_bosses_shrug_off_a_thrown_weapon() -> void:
 	var zone := _zone()
 	var boss := zone.spawn_enemy("furnace_baron", zone.hero.position + Vector2(70, 0))
 	boss.facing = -1
@@ -128,6 +128,7 @@ func test_bosses_are_stunned_not_floored() -> void:
 	var hits := _of_type(events, "hit")
 	assert_eq(hits.size(), 1, "the boss is hit")
 	assert_true(not hits[0].hit.knocked_down, "but stays on their feet")
+	assert_true(boss.state != Fighter.State.HITSTUN, "without even flinching")
 
 
 func test_a_guard_blocks_a_thrown_weapon_only_from_the_front() -> void:

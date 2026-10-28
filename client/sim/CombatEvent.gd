@@ -19,7 +19,7 @@ var critical := false
 ## wind-up): damage only.
 var armored := false
 var knocked_down := false
-## A knockdown blow a sturdy fighter (a boss) stood up to: a short stagger.
-var staggered := false
+## The blow that broke a boss: knocked down by an overwhelming beating.
+var broken := false
 var ko := false
 var position := Vector2.ZERO

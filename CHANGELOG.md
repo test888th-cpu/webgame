@@ -4,26 +4,25 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
-### Changed: bosses are hard to knock down
-- **Before:** a knockdown blow floored a boss every time, just like an
-  ordinary enemy. In a simulated fight about 70% of the blows that landed on
-  a boss knocked it down.
-- **Now:** bosses and mini-bosses stand up to knockdown blows
-  (`Fighter.down_limit`):
-  - **Stagger:** a knockdown blow only staggers the boss for a moment. The
-    screen shakes and the damage number turns steel grey.
-  - **Third blow floors it:** the third knockdown blow in a row knocks it
-    down. Each blow must land within 4 s of the last one, so the hero has
-    to keep up the pressure.
-  - **Rest after a fall:** once back on its feet, the boss cannot be
-    floored again for 8 s.
-  - **Ordinary enemies and the hero** fall as before.
-- **Result:** in the same simulation about 7% of the blows floor the boss,
-  roughly one fall per fight.
-- **Content:** `CombatRules.BOSS_DOWN_BLOWS` sets the default (3). An enemy
-  can set its own with `down_blows` in `enemies.json`. It is validated:
-  bosses only, at least 1.
-- **Tests:** `test_boss_sturdy.gd`.
+### Changed: bosses never flinch, stagger or fall, except to a crowd
+- **Bosses and mini-bosses are unshaken** (`Fighter.unshaken`). No blow
+  makes them flinch, stagger, reel from a parry, stun from a guard break or
+  fall to a knockdown or a thrown weapon. They still take the damage, and a
+  parry still leaves them open to a counter.
+- **The break:** the damage a boss takes fills a hidden break meter. The
+  meter drains 6% of the boss's max HP every second. When it reaches 35% of
+  max HP, the boss is broken: knocked down, with "BREAK!" and a hard screen
+  shake. It cannot be broken again for 20 s.
+- **Who can break a boss:**
+  - **Rarely possible:** a hero fighting alone at the boss's level never
+    deals damage faster than the meter drains. In simulated fights, an
+    at-level hero broke the boss 0 times, and a hero 20 levels above it
+    broke it now and then.
+  - **Built for crowds:** a break is meant for a crowd beating on the boss
+    together. That is the online case.
+- **Replaces** the earlier three-knockdown-blows rule.
+- **Ordinary enemies, elites and the hero** are unchanged.
+- **Tests:** `test_boss_unshaken.gd`.
 
 ### Added: bosses sometimes grab weapons off the street
 - **What happens:** in a fight, a boss or mini-boss may go for a weapon on
