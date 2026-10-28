@@ -4,6 +4,46 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added: mini-bosses on the map, with map icons
+- **Route card and map screen:** both now show where every boss waits, before the
+  area is reached. A horned orange skull marks a mini-boss and a round red skull
+  marks the district's boss. Both turn grey with a green tick once beaten. Who a
+  boss is stays hidden until the hero gets there ("A mini-boss waits here").
+- **New pixel-art map icons** (`tools/assets/map_icons.py`): mini-boss, boss,
+  both beaten, and goal flag. They are small, about 7 px, so they sit on the
+  route without crowding it. The route card and the map screen's boxes and
+  legend all use them.
+- **Smaller route card:** 152×36. The hero is a small orange marker over an
+  orange dot. A town is a teal dot (no house, so nothing stacks on the first
+  node), and the gold flag alone marks the goal.
+- **`MapRules`:**
+  - `kind_of` tells a town, a plain area, a mini-boss and the district's boss
+    apart.
+  - `route` builds the HUD route from the rules, so the card only draws it.
+  - `about` gives every area's kind.
+  - The card rebuilds its route four times a second, not every frame.
+
+### Changed: the HUD map strip is a route card players can read at a glance
+- **Before:** a row of unlabelled dots with no district name and no count.
+  Players could not tell where they were.
+- **Now** (`MiniMap.gd`, top right), two lines:
+  - The district, then the area and its level ("SOUTH STREET   Depot Yard ·
+    Lv 1").
+  - The route, one node per area: ⌂ town, ○ area (filled once reached), an
+    orange ▲ where the hero is, and the district's last area as a red ☠ BOSS
+    (grey with a tick once beaten). The goal flies a gold flag. The way
+    travelled is solid and the way ahead dashed.
+  - A red bar on the road just east of the hero while the way on is still shut.
+  - "GOAL" with an arrow, under BOSS, when the goal lies in another district.
+  - A long district and area name never run off the card: the area name is
+    shortened and the level always shows.
+  - Under each node, the area's number in the district (1, 2, 3 …, the hero's in
+    orange). The names stay, because quests and the story send the hero to
+    places by name.
+  - Hovering a node names its area, its boss and whether it is the goal. A tap
+    still opens the map.
+- `MapRules.boss_of` is now public.
+
 ### Fixed: nothing a player owns can be lost
 - **Safe saves:**
   - A save is written to a temporary file and read back before it replaces the old
