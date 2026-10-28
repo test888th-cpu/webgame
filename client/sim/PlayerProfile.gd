@@ -63,6 +63,9 @@ var enhance_pity := {}
 ## What a save held that this build does not know (see _load_gear), kept
 ## and saved unchanged: {"inventory", "enhance", "enhance_pity"}.
 var unknown := {"inventory": {}, "enhance": {}, "enhance_pity": {}}
+## The hotbar's seven keys (HotbarRules); empty until the player changes it,
+## which means skills.json's default for the hero.
+var hotbar: Array[String] = []
 ## Fights won per area since the last rest, and areas reached (StreetMemory).
 var cleared := {}
 var visited: Array[String] = []
@@ -311,6 +314,7 @@ func to_dict() -> Dictionary:
 		"cleared": cleared.duplicate(true),
 		"visited": visited.duplicate(),
 		"world_boss": world_boss.duplicate(),
+		"hotbar": hotbar.duplicate(),
 	}
 
 
@@ -359,6 +363,9 @@ static func from_dict(data: Variant, content: ContentDB) -> PlayerProfile:
 	p.hp = clampi(int(migrated.get("hp", max_hp)), 1, max_hp)
 	p.tutorial = clampi(int(migrated.get("tutorial", 0)), 0, content.tutorial.size())
 	StreetMemory.load_into(p, migrated, content)
+	var bar: Variant = migrated.get("hotbar", [])
+	if bar is Array and not (bar as Array).is_empty():
+		p.hotbar = HotbarRules.clean(bar, p, content)
 	var rounds: Variant = migrated.get("world_boss", {})
 	if rounds is Dictionary:
 		for boss: Variant in rounds:

@@ -13,6 +13,7 @@ const FRAMES := {
 	"attack": Color("f2a54a"),
 	"skill": Color("d0503a"),
 	"item": Color("5fbf7a"),
+	"empty": Color("3a3d55"),
 }
 
 var key := ""

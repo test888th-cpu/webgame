@@ -196,10 +196,18 @@ static func equipment(game: Game) -> Control:
 		else:
 			slot.focus_mode = Control.FOCUS_NONE
 			slot.disabled = true
-		# Worn gear dragged anywhere on the bag comes off.
-		slot.accepts = func(data: Dictionary) -> bool: return str(data["from"]).begins_with("worn:")
-		slot.dropped = func(data: Dictionary) -> void: game._unequip(str(data["from"]).substr(5))
+		# Worn gear dragged anywhere on the bag comes off; a hotbar slot dragged
+		# onto it is emptied.
+		slot.accepts = func(data: Dictionary) -> bool:
+			var from := str(data["from"])
+			return from.begins_with("worn:") or from == "hotbar"
+		slot.dropped = func(data: Dictionary) -> void:
+			if str(data["from"]) == "hotbar":
+				game._hotbar_clear(int(data["index"]))
+			else:
+				game._unequip(str(data["from"]).substr(5))
 		grid.add_child(slot)
+	bag.add_child(HotbarEditor.bar(game, HotbarEditor.ITEMS))
 	bag.add_child(
 		UiKit.label(
 			(
@@ -243,6 +251,8 @@ static func _bag_actions(game: Game, slot: ItemSlot, item_id: String) -> void:
 			slot.quick = game._equip.bind(item_id)
 		"consumable":
 			slot.quick = game._use.bind(item_id)
+			slot.drag_data = {"item_id": item_id, "from": "bag"}
+			slot.set_meta(HotbarEditor.KEY_META, "item:" + item_id)
 
 
 ## True when the dragged item is gear the hero can wear now.

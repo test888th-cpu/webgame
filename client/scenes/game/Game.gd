@@ -12,7 +12,7 @@ const UPGRADE_GAP_MS := 400
 ## that matters, so a closed tab or a crash never costs more than this.
 const AUTOSAVE_SECONDS := 20.0
 ## The screens with a key of their own (input action = screen id).
-const SCREEN_KEYS := ["character", "bag", "quests", "map"]
+const SCREEN_KEYS := ["character", "bag", "skills", "quests", "map"]
 
 var content: ContentDB
 var profile: PlayerProfile
@@ -135,7 +135,7 @@ func _physics_process(_delta: float) -> void:
 		elif Input.is_action_just_pressed("pause"):
 			close_menu()
 		elif menu_name == "pause" or GameMenus.SCREENS.has(menu_name) or menu_name == "shop":
-			if menu_name == "shop" or not _screen_key():
+			if menu_name == "shop" or not (_hotbar_key() or _screen_key()):
 				if Input.is_action_just_pressed("menu_prev"):
 					GameMenus.cycle_tab(menu, -1)
 				elif Input.is_action_just_pressed("menu_next"):
@@ -195,9 +195,11 @@ func _explain_refusals(input: FighterInput) -> void:
 ## Presses hotbar slot `index` for this tick's input. Checks here only give
 ## the player feedback; the simulation decides again whether a skill fires.
 func use_slot(index: int, input: FighterInput) -> bool:
-	var entry: Dictionary = content.hotbar_for(profile.hero)[index]
+	var entry := HotbarRules.entry(profile, content, index)
 	var ok := true
 	match entry["type"]:
+		"empty":
+			return false
 		"attack":
 			input.light = true
 		"skill":
@@ -580,6 +582,45 @@ func _discard(item_id: String) -> void:
 		_hud.toast("Discarded " + str(content.item(item_id)["name"]))
 		SaveStore.save(profile)
 	_reopen_bag("")
+
+
+## Puts hotbar key `key` on slot `index` (HotbarRules.place), from the Bag
+## or the Skills screen.
+func _hotbar_put(index: int, key: String) -> void:
+	_hotbar_changed(HotbarRules.place(profile, content, index, key))
+
+
+func _hotbar_swap(a: int, b: int) -> void:
+	_hotbar_changed(HotbarRules.swap(profile, content, a, b))
+
+
+func _hotbar_clear(index: int) -> void:
+	_hotbar_changed(HotbarRules.clear(profile, content, index))
+
+
+func _hotbar_changed(done: bool) -> void:
+	Sfx.play("ui_select" if done else "denied", -6.0)
+	if not done:
+		return
+	SaveStore.save(profile)
+	if menu_name == "skills":
+		_show("skills", GameMenus.screen(self, "skills"))
+	else:
+		_reopen_bag(menu_focus)
+
+
+## In the Bag (food) or Skills (skills): pointing at one and pressing 1-7
+## puts it on that slot of the hotbar. True when a key was used that way.
+func _hotbar_key() -> bool:
+	var index := PlayerInput.slot_pressed()
+	if index < 0 or menu_name not in ["bag", "skills"]:
+		return false
+	var hovered := get_viewport().gui_get_hovered_control()
+	while hovered and not hovered.has_meta(HotbarEditor.KEY_META):
+		hovered = hovered.get_parent() as Control
+	if hovered:
+		_hotbar_put(index, str(hovered.get_meta(HotbarEditor.KEY_META)))
+	return hovered != null
 
 
 func _reopen_bag(focus: String) -> void:

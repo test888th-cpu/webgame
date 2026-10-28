@@ -4,6 +4,32 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added: a hotbar the player lays out, and a Skills screen
+- **Before:** the seven slots were fixed (attack, four skills, two foods). Food
+  could not be moved, and when it ran out no other food could take its place.
+- **Now:**
+  - Any slot takes the attack, one of the hero's skills or any consumable, in
+    any order (say, food on 3).
+  - Each one is on the bar once: putting it on a slot moves it there and swaps
+    out what was there.
+  - The layout is saved per character (`PlayerProfile.hotbar`). Without one,
+    skills.json's default for the hero is used.
+- **Items and skills stay apart:**
+  - The **Bag** has a HOTBAR row that only takes food from the bag.
+  - The new **Skills screen** (V, with a menu-bar button and a pause-menu entry)
+    lists the attack and the hero's skills. Each card shows its energy,
+    cooldown, unlock level, help and current key, and its row only takes skills.
+- **Editing either row:**
+  - Drag onto a slot.
+  - Drag a slot onto another to swap them, or back onto the list to empty it.
+  - Right-click a slot to empty it.
+  - Or point at something and press 1–7.
+- **Running out:** food that runs out stays on the bar, tinted, until other food
+  replaces it. An empty slot does nothing when pressed.
+- **Rules:** in `sim/HotbarRules.gd`, shared with the server: only the hero's own
+  skills and consumables are allowed, nothing goes on twice, and saved layouts
+  are cleaned on load.
+
 ### Added: mini-bosses on the map, with map icons
 - **Route card and map screen:** both now show where every boss waits, before the
   area is reached. A horned orange skull marks a mini-boss and a round red skull

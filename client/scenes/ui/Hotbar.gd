@@ -1,51 +1,63 @@
 class_name Hotbar
 extends PanelContainer
-## The seven-slot action bar along the bottom of the screen, laid out by
-## data/skills.json and the hero's skills: 1 attack, 2-5 skills, 6-7
-## consumables. It shows what the
-## simulation says (cooldowns, energy, unlocks, counts) and reports presses;
-## whether a press does anything is decided by the game and the simulation.
+## The seven-slot action bar along the bottom of the screen, as the player
+## laid it out (HotbarRules: any slot can hold the attack, a skill or food,
+## in any order; the Bag screen edits it). It shows what the simulation says
+## (cooldowns, energy, unlocks, counts) and reports presses; whether a press
+## does anything is decided by the game and the simulation. It rebuilds
+## itself when the layout changes.
 
 signal slot_pressed(index: int)
 
 var slots: Array[HotbarSlot] = []
 var entries: Array[Dictionary] = []
 var _content: ContentDB
+var _keys: Array[String] = []
+var _row: HBoxContainer
 
 
-func build(content: ContentDB, hero_id: String) -> void:
+func build(content: ContentDB, profile: PlayerProfile) -> void:
 	_content = content
-	entries = content.hotbar_for(hero_id)
 	name = "Hotbar"
 	var style := UiTheme.panel_style()
 	style.bg_color = Color(0.04, 0.04, 0.07, 0.72)
 	style.set_content_margin_all(3)
 	style.shadow_size = 0
 	add_theme_stylebox_override("panel", style)
-	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 3)
-	add_child(row)
-	for i in entries.size():
-		var entry := entries[i]
+	_row = HBoxContainer.new()
+	_row.add_theme_constant_override("separation", 3)
+	add_child(_row)
+	_lay_out(HotbarRules.layout(profile, content))
+
+
+func _lay_out(keys: Array[String]) -> void:
+	_keys = keys
+	for child in _row.get_children():
+		_row.remove_child(child)
+		child.queue_free()
+	slots.clear()
+	entries.clear()
+	for i in keys.size():
+		var entry := HotbarRules.entry_of(keys[i])
+		entries.append(entry)
 		var slot := HotbarSlot.new()
 		slot.name = "Slot%d" % (i + 1)
-		# The attack slot shares its key with Z, so show both.
+		# The attack shares its key with Z, so show both.
 		slot.key = "%d Z" % (i + 1) if entry["type"] == "attack" else str(i + 1)
 		slot.kind = str(entry["type"])
-		slot.icon = UiKit.icon(content, icon_id(content, entry))
-		slot.tooltip_text = tooltip(content, entry)
+		var icon := icon_id(_content, entry)
+		slot.icon = UiKit.icon(_content, icon) if icon else null
+		slot.tooltip_text = tooltip(_content, entry)
 		slot.pressed.connect(func() -> void: slot_pressed.emit(i))
-		row.add_child(slot)
+		_row.add_child(slot)
 		slots.append(slot)
-		if i == 0 or i == 4:
-			# Gaps group the bar: attack | skills | items.
-			var gap := Control.new()
-			gap.custom_minimum_size.x = 3
-			row.add_child(gap)
 
 
 ## Mirrors the hero's state onto the slots.
 func refresh(zone: ZoneSim, profile: PlayerProfile) -> void:
+	var keys := HotbarRules.layout(profile, _content)
+	if keys != _keys:
+		_lay_out(keys)
 	var hero := zone.hero
 	for i in slots.size():
 		var entry := entries[i]
@@ -81,7 +93,17 @@ static func icon_id(content: ContentDB, entry: Dictionary) -> String:
 			return str(content.skills[entry["id"]]["icon"])
 		"item":
 			return str(content.item(entry["id"]).get("icon", ""))
-	return str(entry.get("icon", ""))
+		"attack":
+			return str(attack_entry(content).get("icon", ""))
+	return ""
+
+
+## skills.json's attack slot (its icon, name and help).
+static func attack_entry(content: ContentDB) -> Dictionary:
+	for entry: Dictionary in content.hotbar:
+		if entry.get("type") == "attack":
+			return entry
+	return {}
 
 
 static func tooltip(content: ContentDB, entry: Dictionary) -> String:
@@ -102,4 +124,7 @@ static func tooltip(content: ContentDB, entry: Dictionary) -> String:
 		"item":
 			var item := content.item(entry["id"])
 			return "%s\n%s" % [item["name"], item.get("description", "")]
-	return "%s\n%s" % [entry.get("name", ""), entry.get("description", "")]
+		"attack":
+			var attack := attack_entry(content)
+			return "%s\n%s" % [attack.get("name", ""), attack.get("description", "")]
+	return "Empty. Fill it from the Bag (B)."
