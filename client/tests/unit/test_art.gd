@@ -237,6 +237,45 @@ func test_every_area_is_built_from_the_street_kit() -> void:
 		view.free()
 
 
+func test_the_camera_never_shows_past_the_end_of_the_street() -> void:
+	# Every area, every fight's locked arena, on 16:9 and wider windows: the
+	# camera's range is at least the view's width and stays on the street.
+	var content := GameSession.content
+	for area_id: String in content.areas:
+		var area := content.area(area_id)
+		var width := float(area["width"])
+		var spans: Array[Vector2] = [Vector2(0, width)]
+		for encounter: Dictionary in area.get("encounters", []):
+			var left := maxf(ZoneSim.EDGE_MARGIN, float(encounter["arena"][0]))
+			var right := minf(width - ZoneSim.EDGE_MARGIN, float(encounter["arena"][1]))
+			spans.append(Vector2(left - ZoneSim.EDGE_MARGIN, right + ZoneSim.EDGE_MARGIN))
+		for view: float in [640.0, 720.0, 854.0]:
+			for span in spans:
+				var limits := ZoneView.camera_limits(span, width, view)
+				var what := "%s %s in a %d-wide view" % [area_id, span, view]
+				assert_true(limits.y - limits.x >= view - 1.0, what + ": room for the view")
+				if width >= view:
+					assert_true(limits.x >= 0.0 and limits.y <= width, what + ": on the street")
+				assert_true(
+					limits.x <= span.x and limits.y >= span.y, what + ": the whole arena shows"
+				)
+
+
+func test_the_ground_runs_past_both_ends() -> void:
+	var content := GameSession.content
+	for area_id: String in content.kit.get("areas", {}):
+		var view := ZoneView.new()
+		tree.root.add_child(view)
+		view.build(ZoneSim.new(content, PlayerProfile.new_game(content), area_id, "", 1), content)
+		var width := float(content.area(area_id)["width"])
+		for strip: Sprite2D in view.get_node("KitGround").get_children():
+			var left := strip.position.x
+			var right := left + strip.region_rect.size.x * strip.scale.x
+			assert_true(left <= -320.0, "%s ground starts before the street" % area_id)
+			assert_true(right >= width + 320.0, "%s ground runs past its end" % area_id)
+		view.free()
+
+
 func test_kit_pieces_stand_on_the_street() -> void:
 	var content := GameSession.content
 	var pieces: Dictionary = content.kit["pieces"]

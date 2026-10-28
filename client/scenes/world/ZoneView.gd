@@ -7,8 +7,6 @@ extends Node2D
 
 const FIGHTER_SCENE := preload("res://scenes/fighter/FighterView.tscn")
 const VIEW_HEIGHT := 360.0
-## How close the hero must stand to talk to an NPC.
-const TALK_REACH := Vector2(34.0, 26.0)
 ## Camera shake on heavy impacts, in pixels, and how much it fades per tick.
 const SHAKE_PIXELS := 3.0
 const SHAKE_FADE := 0.25
@@ -122,7 +120,7 @@ func show_text(text: String, at: Vector2, color := Color.WHITE) -> void:
 func npc_near(hero: Fighter) -> Dictionary:
 	for npc: Dictionary in zone.area.get("npcs", []):
 		var offset := Vector2(npc["x"], npc["y"]) - hero.position
-		if absf(offset.x) <= TALK_REACH.x and absf(offset.y) <= TALK_REACH.y:
+		if absf(offset.x) <= ZoneSim.TALK_REACH.x and absf(offset.y) <= ZoneSim.TALK_REACH.y:
 			return npc
 	return {}
 
@@ -173,16 +171,48 @@ func _make_pickup_view(pickup: Dictionary) -> Node2D:
 
 
 func _follow_hero() -> void:
-	# During a fight the camera is held inside the locked arena.
 	var width := zone.bounds.end.x + ZoneSim.EDGE_MARGIN
-	var fighting := zone.in_encounter()
-	camera.limit_left = int(zone.arena.position.x - ZoneSim.EDGE_MARGIN) if fighting else 0
-	camera.limit_right = int(zone.arena.end.x + ZoneSim.EDGE_MARGIN) if fighting else int(width)
+	var span := Vector2(0, width)
+	if zone.in_encounter():
+		span = (
+			Vector2(zone.arena.position.x, zone.arena.end.x) + Vector2(-1, 1) * ZoneSim.EDGE_MARGIN
+		)
+	var limits := camera_limits(span, width, get_viewport_rect().size.x)
+	camera.limit_left = int(limits.x)
+	camera.limit_right = int(limits.y)
 	camera.limit_top = 0
 	camera.limit_bottom = int(VIEW_HEIGHT)
 	camera.position = Vector2(zone.hero.position.x, VIEW_HEIGHT / 2.0)
 	camera.offset = Vector2(randf_range(-1, 1), randf_range(-1, 1)) * _shake
 	_shake = maxf(0.0, _shake - SHAKE_FADE)
+
+
+## The camera's left and right limits for showing `span` (x from, x to: the
+## whole area, or a fight's locked arena) of an area `width` wide in a view
+## `view_width` wide. A camera whose limits are closer than the view is wide
+## keeps the left one and shows past the right, beyond the end of the street
+## (the gap players saw in narrow boss arenas, wider on wide windows). So a
+## narrow span grows evenly to the view's width, then shifts back inside the
+## street; only an area narrower than the view itself is shown centred.
+static func camera_limits(span: Vector2, width: float, view_width: float) -> Vector2:
+	var left := span.x
+	var right := span.y
+	var short := view_width - (right - left)
+	if short > 0.0:
+		left -= short / 2.0
+		right += short / 2.0
+	if left < 0.0:
+		right -= left
+		left = 0.0
+	if right > width:
+		left -= right - width
+		right = width
+	if left < 0.0:
+		# The whole street is narrower than the view: centre it.
+		var extra := -left
+		left = -extra / 2.0
+		right = width + extra / 2.0
+	return Vector2(floorf(left), ceilf(right))
 
 
 ## Shakes the camera by up to `pixels` (if the player has shake turned on).
@@ -258,10 +288,13 @@ func _build_flat_scenery() -> void:
 	var palette: Dictionary = zone.area.get("palette", {})
 	var width := float(zone.area.get("width", 960))
 	var ground := ZoneSim.LANE_TOP - 20.0
-	_rect(Rect2(0, 0, width, ground), _color(palette, "sky", "#1a1830"))
-	_rect(Rect2(0, ground, width, 20), _color(palette, "sidewalk", "#5c5a60"))
+	# Past both ends too, as the street kit does (Scenery.GROUND_OVERRUN).
+	var from := -Scenery.GROUND_OVERRUN
+	var length := width + Scenery.GROUND_OVERRUN * 2.0
+	_rect(Rect2(from, 0, length, ground), _color(palette, "sky", "#1a1830"))
+	_rect(Rect2(from, ground, length, 20), _color(palette, "sidewalk", "#5c5a60"))
 	_rect(
-		Rect2(0, ZoneSim.LANE_TOP, width, VIEW_HEIGHT - ZoneSim.LANE_TOP),
+		Rect2(from, ZoneSim.LANE_TOP, length, VIEW_HEIGHT - ZoneSim.LANE_TOP),
 		_color(palette, "street", "#38383f")
 	)
 

@@ -9,6 +9,8 @@ extends RefCounted
 
 ## Half extents of a standing person's footprint.
 const PERSON := Vector2(9.0, 4.0)
+## How many times clear_spot goes round the solids.
+const MAX_PASSES := 6
 
 
 ## How far apart two footprints are: below 1.0 they overlap.
@@ -44,15 +46,34 @@ static func blocker(from: Vector2, to: Vector2, half: Vector2, solids: Array) ->
 
 
 ## `at` moved sideways along the street just clear of any solid it lands in,
-## so a dropped item or a spawn never sits inside a lamp post.
+## so a dropped item or a spawn never sits inside a lamp post. Pushed off one
+## solid it may land in the next (a motorbike parked by a pole), so it keeps
+## going until it is clear of all of them or MAX_PASSES have run.
 static func clear_spot(at: Vector2, solids: Array, bounds: Rect2) -> Vector2:
+	for _pass in MAX_PASSES:
+		var moved := false
+		for solid: Dictionary in solids:
+			if gap(at, PERSON, solid) >= 1.0:
+				continue
+			var centre: Vector2 = solid["position"]
+			var side := 1.0 if at.x >= centre.x else -1.0
+			var x := centre.x + side * (float(solid["half"].x) + PERSON.x + 2.0)
+			if x < bounds.position.x or x > bounds.end.x:
+				x = centre.x - side * (float(solid["half"].x) + PERSON.x + 2.0)
+			at.x = x
+			moved = true
+		at = LaneMovement.clamp_to(at, bounds)
+		if not moved:
+			break
+	return at
+
+
+## True when a person could stand at `at`: clear of every solid by `room`
+## (1.0 is touching) and inside `bounds`.
+static func is_clear(at: Vector2, solids: Array, bounds: Rect2, room := 1.0) -> bool:
+	if not bounds.grow(0.01).has_point(at):
+		return false
 	for solid: Dictionary in solids:
-		if gap(at, PERSON, solid) >= 1.0:
-			continue
-		var centre: Vector2 = solid["position"]
-		var side := 1.0 if at.x >= centre.x else -1.0
-		var x := centre.x + side * (float(solid["half"].x) + PERSON.x + 2.0)
-		if x < bounds.position.x or x > bounds.end.x:
-			x = centre.x - side * (float(solid["half"].x) + PERSON.x + 2.0)
-		at.x = x
-	return LaneMovement.clamp_to(at, bounds)
+		if gap(at, PERSON, solid) < room:
+			return false
+	return true
