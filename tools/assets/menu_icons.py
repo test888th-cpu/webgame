@@ -31,6 +31,17 @@ def menu_bag(d: ImageDraw.ImageDraw) -> None:
     d.line((4, 12, 11, 12), fill=DIM)
 
 
+def menu_skills(d: ImageDraw.ImageDraw) -> None:
+    # A clenched fist with a spark: what the hero can do.
+    d.rounded_rectangle((3, 5, 11, 14), radius=2, fill=OUTLINE)
+    d.rounded_rectangle((4, 6, 10, 13), radius=1, fill=LIGHT)
+    for x in (5, 7, 9):
+        d.line((x, 6, x, 9), fill=DIM)
+    d.rectangle((4, 10, 10, 10), fill=DIM)
+    d.polygon([(12, 1), (13, 4), (16, 5), (13, 6), (12, 9), (11, 6), (8, 5), (11, 4)], fill=OUTLINE)
+    d.polygon([(12, 2), (12, 4), (14, 5), (12, 6), (12, 8), (11, 5)], fill=ACCENT)
+
+
 def menu_quests(d: ImageDraw.ImageDraw) -> None:
     # A scroll with lines of writing.
     d.rectangle((3, 2, 12, 14), fill=OUTLINE)
@@ -85,6 +96,7 @@ def menu_auto(d: ImageDraw.ImageDraw) -> None:
 MENU_ICONS = {
     "menu_character": menu_character,
     "menu_bag": menu_bag,
+    "menu_skills": menu_skills,
     "menu_quests": menu_quests,
     "menu_map": menu_map,
     "menu_settings": menu_settings,

@@ -4,6 +4,7 @@ extends RefCounted
 ## own window with its icon, name, key and a close button:
 ##   Character  who the hero is and what they can do (CharacterTabs.status)
 ##   Bag        what is worn and carried (CharacterTabs.equipment)
+##   Skills     what the hero can do, and which key does it (SkillsScreen)
 ##   Quests     the quest log
 ##   Map        where the hero is and where to go (MapTab)
 ##   Settings   game options, auto battle and the controls
@@ -18,6 +19,7 @@ extends RefCounted
 const SCREENS := {
 	"character": ["Character", "menu_character", "C", Vector2(560, 300)],
 	"bag": ["Bag", "menu_bag", "B", Vector2(600, 318)],
+	"skills": ["Skills", "menu_skills", "V", Vector2(580, 330)],
 	"quests": ["Quests", "menu_quests", "O", Vector2(500, 300)],
 	"map": ["Map", "menu_map", "M", Vector2(600, 318)],
 	"settings": ["Settings", "menu_settings", "", Vector2(520, 300)],
@@ -36,6 +38,7 @@ const CONTROLS := [
 	["Auto battle on / off (areas you have cleared)", "T", "Back / Select"],
 	["Character", "C", "Start > Character"],
 	["Bag", "B", "Start > Bag"],
+	["Skills", "V", "Start > Skills"],
 	["Quests", "O", "Start > Quests"],
 	["Map", "M", "Right stick (press)"],
 	["Pause menu", "Esc / P", "Start"],
@@ -57,6 +60,8 @@ static func screen(game: Game, name: String) -> Control:
 			page = CharacterTabs.status(game)
 		"bag":
 			page = CharacterTabs.equipment(game)
+		"skills":
+			page = SkillsScreen.build(game)
 		"quests":
 			page = _quests(game)
 		"map":

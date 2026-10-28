@@ -134,7 +134,10 @@ func test_gear_drags_between_the_bag_and_the_doll() -> void:
 	assert_eq(game.profile.count("taped_knuckles"), 1, "back in the bag")
 	await _settle()
 	var bun := game.menu.find_child("Bag_steamed_bun", true, false) as ItemSlot
-	assert_eq(bun._get_drag_data(Vector2.ZERO), null, "food is not dragged")
+	var food: Variant = bun._get_drag_data(Vector2.ZERO)
+	assert_true(food is Dictionary and food["from"] == "bag", "food drags (to the hotbar)")
+	var head2 := game.menu.find_child("Worn_head", true, false) as ItemSlot
+	assert_true(not head2._can_drop_data(Vector2.ZERO, food), "but never onto gear slots")
 	bag = game.menu.find_child("Bag_taped_knuckles", true, false) as ItemSlot
 	var click := InputEventMouseButton.new()
 	click.button_index = MOUSE_BUTTON_RIGHT

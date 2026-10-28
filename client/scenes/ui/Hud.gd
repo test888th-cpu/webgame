@@ -26,6 +26,7 @@ const BAR_WIDTH := 118.0
 const MENU_BAR := [
 	["character", "menu_character", "Character (C)"],
 	["bag", "menu_bag", "Bag (B)"],
+	["skills", "menu_skills", "Skills (V)"],
 	["quests", "menu_quests", "Quests (O)"],
 	["map", "menu_map", "Map (M)"],
 	["settings", "menu_settings", "Settings"],
@@ -110,7 +111,7 @@ func attach(p_zone: ZoneSim, p_profile: PlayerProfile, p_content: ContentDB) -> 
 	_money_icon_once()
 	if _hotbar == null:
 		_hotbar = Hotbar.new()
-		_hotbar.build(content, profile.hero)
+		_hotbar.build(content, profile)
 		_hotbar.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
 		_hotbar.grow_horizontal = Control.GROW_DIRECTION_BOTH
 		_hotbar.grow_vertical = Control.GROW_DIRECTION_BEGIN

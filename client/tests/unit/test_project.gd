@@ -58,7 +58,9 @@ func test_actions_have_keyboard_and_gamepad_bindings() -> void:
 		if InputSetup.PAD_BUTTONS.has(action):
 			expected.append("InputEventJoypadButton")
 		else:
-			assert_true(action in ["character", "bag", "quests"], "%s needs a pad button" % action)
+			assert_true(
+				action in ["character", "bag", "skills", "quests"], "%s needs a pad button" % action
+			)
 		if action.begins_with("move_"):
 			expected.append("InputEventJoypadMotion")
 		for kind in expected:

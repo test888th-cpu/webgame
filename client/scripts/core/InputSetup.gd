@@ -23,6 +23,7 @@ const KEYS := {
 	"map": [KEY_M],
 	"character": [KEY_C],
 	"bag": [KEY_B],
+	"skills": [KEY_V],
 	"quests": [KEY_O],
 	# Menu tabs. These share keys with interact and use_item, which do
 	# nothing while a menu is open.
