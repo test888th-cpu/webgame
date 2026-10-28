@@ -299,6 +299,16 @@ func _validate_enemy(id: String, e: Dictionary) -> void:
 		if ai is Dictionary:
 			for field in ["spacing", "reaction", "cooldown", "cooldown_jitter", "heavy_chance"]:
 				_number(ai, field, where + ".ai", 0)
+			var grab: Variant = ai.get("grab", {})
+			if grab is Dictionary and not grab.is_empty():
+				_check(bool(e.get("boss", false)), where + ".ai.grab: only bosses grab weapons")
+				for field in ["every", "range"]:
+					_number(grab, field, where + ".ai.grab", 1)
+				var chance: Variant = grab.get("chance")
+				_check(
+					(chance is float or chance is int) and chance > 0 and chance <= 1,
+					where + ".ai.grab.chance: expected 0 < chance <= 1"
+				)
 	for phase: Variant in e.get("phases", []):
 		_check(phase is Dictionary, "%s.phases: expected objects" % where)
 		if phase is Dictionary:

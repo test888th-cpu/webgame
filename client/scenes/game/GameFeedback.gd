@@ -64,8 +64,16 @@ func on_event(event: ZoneEvent) -> void:
 			_show_shield(int(event.data["id"]), bool(event.data["up"]))
 		"hero_down":
 			Sfx.play("ko")
+		"weapon_eyed":
+			# A boss has set off for a weapon: "!" over its head, so the hero
+			# can race it there or get in the way.
+			var boss := view.zone.fighter(int(event.data["id"]))
+			if boss:
+				view.show_text("!", boss.position + Vector2(16, -16), UiTheme.GOLD)
+				Sfx.play("ui_select", -4.0, 0.0, 0.8)
 		"weapon_pickup":
 			Sfx.play("weapon_grab", -3.0)
+			_boss_armed(event)
 		"weapon_throw":
 			Sfx.play("swing_heavy", -2.0, 0.06, 0.8)
 		"weapon_drop":
@@ -243,3 +251,12 @@ func _later_world(seconds: float, fighter_id: int) -> void:
 			if fighter_view:
 				Fx.spawn(zone_view.effects, content, "dust", fighter_view.position)
 	)
+
+
+## A boss that picked up a weapon shows what it now swings.
+func _boss_armed(event: ZoneEvent) -> void:
+	var boss := view.zone.fighter(int(event.data["id"]))
+	if boss == null or not content.enemy(boss.kind).get("boss", false):
+		return
+	var weapon: Dictionary = content.weapons.get(str(event.data["weapon"]), {})
+	view.show_text(str(weapon.get("name", "")) + "!", boss.position, UiTheme.DANGER)

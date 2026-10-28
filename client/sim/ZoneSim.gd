@@ -24,10 +24,6 @@ const CROWD_GAP := 18.0
 const PICKUP_REACH := Vector2(16.0, 12.0)
 ## How close a fighter must stand to pick up a weapon from the street.
 const WEAPON_REACH := Vector2(18.0, 12.0)
-## A street weapon lies where the hero has room to stand on it, and gets
-## this many random spots to find one.
-const WEAPON_ROOM := 1.2
-const WEAPON_SPOT_TRIES := 24
 ## Oldest weapons on the street vanish beyond this many.
 const MAX_GROUND_WEAPONS := 10
 ## How close the hero must stand to an NPC to talk to them (E talks before it
@@ -263,6 +259,9 @@ func tick(hero_input: FighterInput) -> Array[ZoneEvent]:
 				_nearest_weapon(enemy.position),
 				tick_count
 			)
+			if brains[id].eyed:
+				var eyed := {"id": id, "at": brains[id].fetching}
+				events.append(ZoneEvent.make("weapon_eyed", eyed))
 	for id: int in inputs:
 		if inputs[id].pick:
 			_pick_or_drop(fighter(id), events)
@@ -441,6 +440,9 @@ func equip_weapon(f: Fighter, weapon_id: String, uses: int) -> void:
 	f.weapon_uses = uses
 	f.weapon_moveset = weapon["moveset"].duplicate()
 	f.weapon_speed = float(weapon.get("speed", 1.0))
+	# A boss swings the weapon but keeps its own heavy, its signature blow.
+	if content.enemy(f.kind).get("boss", false):
+		f.weapon_moveset.erase("heavy")
 
 
 ## Puts a weapon on the street (oldest ones vanish past the limit).
@@ -573,32 +575,9 @@ func _scatter_weapons() -> void:
 		var weapon_id := LevelRules.roll_weapon(content.weapons, level, rng, spec.get("pool", {}))
 		if weapon_id == "":
 			continue
-		var at := _weapon_spot()
+		var at := StreetWeapons.spot(rng, bounds, solids, area.get("npcs", []))
 		if at.is_finite():
 			place_weapon(weapon_id, at, int(content.weapons[weapon_id]["durability"]))
-
-
-## A random spot for a street weapon where the hero can stand on it and pick
-## it up: off every solid with room to spare, and NPC_CLEARANCE from every
-## NPC (near one, E talks instead). A spot that fails is rolled again; if
-## none is found, Vector2.INF and the weapon is not placed.
-func _weapon_spot() -> Vector2:
-	for _try in WEAPON_SPOT_TRIES:
-		var at := Vector2(
-			rng.randf_range(bounds.position.x + 160.0, bounds.end.x - 40.0),
-			rng.randf_range(bounds.position.y + 6.0, bounds.end.y - 6.0)
-		)
-		at = Bodies.clear_spot(at, solids, bounds)
-		if Bodies.is_clear(at, solids, bounds, WEAPON_ROOM) and not _near_npc(at):
-			return at
-	return Vector2.INF
-
-
-func _near_npc(at: Vector2) -> bool:
-	for npc: Dictionary in area.get("npcs", []):
-		if absf(at.x - float(npc["x"])) < NPC_CLEARANCE:
-			return true
-	return false
 
 
 ## The level an enemy fights at (for its label), 0 if unknown.
