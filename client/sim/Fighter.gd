@@ -71,6 +71,14 @@ var grace := 0
 ## winding up a telegraphed attack: dodge it, guard it or parry it.
 var poise_limit := 0
 var armor := 0
+## Sturdy (bosses, down_limit > 0): a knockdown blow only staggers them and
+## fills down_meter; the down_limit-th blow, each within
+## CombatRules.DOWN_WINDOW ticks (down_window) of the last, floors them.
+## After a fall they cannot be floored again for down_rest ticks.
+var down_limit := 0
+var down_meter := 0
+var down_window := 0
+var down_rest := 0
 ## Skills cannot be interrupted once started (Pong the Soldier).
 var skill_armor := false
 ## Perfect guard (the hero only, so enemy guards never punish the player's

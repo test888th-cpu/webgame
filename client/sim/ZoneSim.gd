@@ -201,6 +201,7 @@ func spawn_enemy(kind: String, position: Vector2) -> Fighter:
 			equip_weapon(enemy, weapon_id, int(content.weapons[weapon_id]["durability"]))
 	if data.get("boss", false):
 		boss_id = enemy.id
+		enemy.down_limit = int(data.get("down_blows", CombatRules.BOSS_DOWN_BLOWS))
 	return enemy
 
 

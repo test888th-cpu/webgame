@@ -4,6 +4,27 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed: bosses are hard to knock down
+- **Before:** a knockdown blow floored a boss every time, just like an
+  ordinary enemy. In a simulated fight about 70% of the blows that landed on
+  a boss knocked it down.
+- **Now:** bosses and mini-bosses stand up to knockdown blows
+  (`Fighter.down_limit`):
+  - **Stagger:** a knockdown blow only staggers the boss for a moment. The
+    screen shakes and the damage number turns steel grey.
+  - **Third blow floors it:** the third knockdown blow in a row knocks it
+    down. Each blow must land within 4 s of the last one, so the hero has
+    to keep up the pressure.
+  - **Rest after a fall:** once back on its feet, the boss cannot be
+    floored again for 8 s.
+  - **Ordinary enemies and the hero** fall as before.
+- **Result:** in the same simulation about 7% of the blows floor the boss,
+  roughly one fall per fight.
+- **Content:** `CombatRules.BOSS_DOWN_BLOWS` sets the default (3). An enemy
+  can set its own with `down_blows` in `enemies.json`. It is validated:
+  bosses only, at least 1.
+- **Tests:** `test_boss_sturdy.gd`.
+
 ### Added: bosses sometimes grab weapons off the street
 - **What happens:** in a fight, a boss or mini-boss may go for a weapon on
   the ground. It does not happen every time.
