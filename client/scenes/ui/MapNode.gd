@@ -3,7 +3,7 @@ extends Button
 ## One area on the map screen (MapRules.about): a box with the area's level
 ## in its threat colour, joined to the area west of it by a line. Filled
 ## orange where the hero stands; a teal frame for a town (shop, quests,
-## taxi); the map icons (map_icons.py) at its top right: a crowned red skull
+## taxi); the map icons (map_icons.py) at its top right: a round red skull
 ## where the district's boss waits, a horned orange skull for a mini-boss
 ## (grey with a tick once beaten, shown before the area is reached); a gold
 ## dot for the goal. A focusable button so keyboard and gamepad can walk the map; it only

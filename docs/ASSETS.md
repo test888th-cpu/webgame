@@ -154,7 +154,7 @@ zombie body has no idle, so its idle is walk frame 0 (its standing pose).
 coin, quest marks) into `client/assets/ui/icons.png` and records their regions in
 the manifest's `ui` section. `gear_icons.py` holds the painters that give every piece of
 equipment its own icon, and `menu_icons.py` the HUD menu bar and AUTO icons, and `map_icons.py` the map's
-(hero marker, town, mini-boss, boss, both beaten, goal flag). Each item in `items.json` names its `icon`. The
+(mini-boss, boss, both beaten, goal flag; about 7 px each). Each item in `items.json` names its `icon`. The
 validator regenerates the sheet in memory and fails when it is stale or an item
 names an unknown icon. See [UI.md](UI.md).
 

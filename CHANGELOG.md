@@ -6,12 +6,16 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ### Added: mini-bosses on the map, with map icons
 - **Route card and map screen:** both now show where every boss waits, before the
-  area is reached. A horned orange skull marks a mini-boss and a crowned red skull
+  area is reached. A horned orange skull marks a mini-boss and a round red skull
   marks the district's boss. Both turn grey with a green tick once beaten. Who a
   boss is stays hidden until the hero gets there ("A mini-boss waits here").
-- **New pixel-art map icons** (`tools/assets/map_icons.py`): hero marker, town,
-  mini-boss, boss, both beaten, and goal flag. The route card and the map
-  screen's boxes and legend all use them.
+- **New pixel-art map icons** (`tools/assets/map_icons.py`): mini-boss, boss,
+  both beaten, and goal flag. They are small, about 7 px, so they sit on the
+  route without crowding it. The route card and the map screen's boxes and
+  legend all use them.
+- **Smaller route card:** 152×36. The hero is a small orange marker over an
+  orange dot. A town is a teal dot (no house, so nothing stacks on the first
+  node), and the gold flag alone marks the goal.
 - **`MapRules`:**
   - `kind_of` tells a town, a plain area, a mini-boss and the district's boss
     apart.
