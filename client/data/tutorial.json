@@ -7,7 +7,7 @@
     {"id": "dodge", "signal": "dodge", "count": 1, "text": "Dodge: Space. Nothing can touch you mid-roll."},
     {"id": "guard", "signal": "guard", "count": 1, "text": "Guard: hold Shift. Raise it just before a hit to parry."},
     {"id": "pickup", "signal": "pickup", "count": 1, "text": "Stand on a weapon in the yard and press E to pick it up."},
-    {"id": "throw", "signal": "throw", "count": 1, "text": "Press E again with nothing underfoot to throw it."},
+    {"id": "throw", "signal": "throw", "count": 1, "text": "Press E again to throw it."},
     {"id": "talk", "signal": "talk", "count": 1, "text": "Talk to Chief Odo (E) for your first job."}
   ]
 }

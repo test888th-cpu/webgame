@@ -4,6 +4,17 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Fixed: E always throws the weapon in hand
+- **The bug:** with a weapon in hand, E threw it only when nothing lay
+  underfoot. Standing on a pile (where foes drop their weapons), E swapped
+  for one of them instead, so the throw seemed not to work.
+- **The fix:** for the hero, E with a weapon in hand always throws it; the
+  next E picks up from the pile. Enemies still swap or put weapons down. The
+  "[E] Pick up" highlight no longer shows while the hero holds a weapon, and
+  the tutorial line says "Press E again to throw it."
+- **Tests:** a pile underfoot does not stop the throw, and the next press
+  picks up from the pile.
+
 ### Fixed: street weapons can always be picked up
 - **The bug:** a weapon could be scattered close enough to an NPC (the taxi
   driver, the vendor) that, from where the hero stood to pick it up, the NPC

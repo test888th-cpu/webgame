@@ -222,14 +222,15 @@ func shake(pixels: float) -> void:
 
 
 ## Shows "[E] Talk" (or Shop) over the NPC the hero can talk to right now,
-## or else "[E] Pick up" over the weapon at the hero's feet.
+## or else "[E] Pick up" over the weapon at the hero's feet (not while the
+## hero holds one: then E throws it).
 func _update_prompts() -> void:
 	var near := npc_near(zone.hero)
 	for npc_id: String in _npc_prompts:
 		_npc_prompts[npc_id].visible = not near.is_empty() and near["id"] == npc_id
 	var reach := zone.weapon_in_reach(zone.hero.position) if near.is_empty() else -1
 	var lit: int = zone.ground_weapons[reach]["id"] if reach >= 0 else -1
-	if zone.hero.state != Fighter.State.IDLE:
+	if zone.hero.state != Fighter.State.IDLE or (zone.hero.weapon and zone.hero.throws):
 		lit = -1
 	for id: int in _weapons:
 		_weapons[id].set_highlight(id == lit)
