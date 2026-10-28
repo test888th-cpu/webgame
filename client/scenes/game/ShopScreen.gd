@@ -99,7 +99,9 @@ static func _page(game: Game, npc: Dictionary, mode: String, chosen: String) -> 
 		var count := profile.count(ids[i])
 		var text := "%s   %d" % [item["name"], price]
 		if mode == "sell":
-			text = "%s  x%d   %d" % [item["name"], count, price]
+			var plus := EnhanceRules.item_level(profile, ids[i])
+			var name := "%s +%d" % [item["name"], plus] if plus else str(item["name"])
+			text = "%s  x%d   %d" % [name, count, price]
 		list.add_item(text, UiKit.icon(content, item["icon"]))
 		var dim := mode == "buy" and profile.money < price
 		list.set_item_custom_fg_color(i, UiTheme.TEXT_FAINT if dim else ItemText.rarity_color(item))

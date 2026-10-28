@@ -208,7 +208,9 @@ func own_copy(slot: String) -> String:
 	if key == "" or key.contains("#"):
 		return key
 	var taken := {}
-	for other: String in inventory.keys() + equipment.values():
+	for other: String in inventory.keys() + equipment.values() + enhance.keys():
+		taken[other] = true
+	for other: String in enhance_pity:
 		taken[other] = true
 	var n := 1
 	while taken.has("%s#%d" % [key, n]):
@@ -342,8 +344,11 @@ static func from_dict(data: Variant, content: ContentDB) -> PlayerProfile:
 	if saved_equipment is Dictionary:
 		for slot: String in SLOTS:
 			var item_id := str(saved_equipment.get(slot, ""))
-			if content.item(item_id).get("slot") == slot:
+			if content.item(item_id).get("slot") == slot and item_id not in p.equipment.values():
 				p.equipment[slot] = item_id
+				# A copy of its own is in one place: worn wins over the bag.
+				if item_id.contains("#"):
+					p.inventory.erase(item_id)
 	var saved_quests: Variant = migrated.get("quests", {})
 	if saved_quests is Dictionary:
 		for quest_id: String in saved_quests:
@@ -372,7 +377,11 @@ static func from_dict(data: Variant, content: ContentDB) -> PlayerProfile:
 		var limit := top if field == "enhance" else 1000
 		for item_id: String in saved:
 			var value := clampi(int(saved[item_id]), 0, limit)
-			if content.item(item_id).get("type") == "equipment" and value > 0:
+			# Only a copy of its own that the hero still has carries upgrades:
+			# a plain id would upgrade every copy in its stack at once.
+			var held := p.count(item_id) > 0 or item_id in p.equipment.values()
+			var gear: bool = content.item(item_id).get("type") == "equipment"
+			if item_id.contains("#") and held and gear and value > 0:
 				p.get(field)[item_id] = value
 	StreetMemory.load_into(p, migrated, content)
 	var rounds: Variant = migrated.get("world_boss", {})

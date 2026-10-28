@@ -4,6 +4,23 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Fixed: upgrade review
+- **Loading a save:** upgrades are kept only on a copy of its own (`#n` key) that
+  the hero still has. A level on a plain item id would upgrade its whole stack
+  again.
+  - A copy found both worn and in the bag is kept in one place, the worn one.
+  - A new copy never takes a key left over from an old upgrade or pity entry.
+- **Item card:**
+  - The comparison counts upgrades on both sides ("Compared with Foreman's Wrench
+    +5").
+  - A carried upgraded copy shows "Upgraded +N" and what it adds.
+  - The note under the upgrade now says upgrades stay with the item. It used to
+    say they stay with the slot.
+- **Losing an upgraded copy:** the Sell tab shows "+N" on upgraded copies.
+  Discarding one asks "Discard +N for good?".
+- **Workbench:** says why nothing happened on an item that is already fully
+  upgraded, or on an empty slot.
+
 ### Added: up to four characters per account
 - **Before:** there was one save. Making a new hero replaced it, so a level 20 hero
   was lost when a new one was started.

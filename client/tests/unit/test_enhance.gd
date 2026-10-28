@@ -4,6 +4,8 @@ extends TestCase
 ## chance, an upgrade belongs to the one copy that was upgraded and follows
 ## it through gear changes, and saves keep them (versions 5, 9 and 10).
 
+const GAME_SCENE := preload("res://scenes/game/Game.tscn")
+
 var content: ContentDB
 
 
@@ -156,6 +158,7 @@ func test_saves_keep_upgrades_and_old_saves_move_them_to_the_item() -> void:
 	assert_eq(moved.enhance, {"work_jacket#1": 6}, "a slot's level moves to what was worn there")
 	assert_eq(moved.enhance_pity, {"work_jacket#1": 1}, "and its pity")
 	var hacked := profile.to_dict()
+	hacked["equipment"]["body"] = "work_jacket#1"
 	hacked["enhance"] = {"work_jacket#1": 99, "nose": 3, "steamed_bun#1": 2}
 	hacked["inventory"]["work_jacket#7"] = 50
 	var cleaned := PlayerProfile.from_dict(hacked, _content())
@@ -200,7 +203,7 @@ func test_the_workbench_upgrades_from_the_item_card() -> void:
 	SaveStore.root = "user://test_enhance_save"
 	SaveStore.delete_all()
 	GameSession.start_new_game("mika")
-	var game: Node2D = load("res://scenes/game/Game.tscn").instantiate()
+	var game: Node2D = GAME_SCENE.instantiate()
 	tree.root.add_child(game)
 	game.set_physics_process(false)
 	var profile: PlayerProfile = game.profile
@@ -246,3 +249,54 @@ func _texts(root: Node) -> String:
 	for label: Label in root.find_children("*", "Label", true, false):
 		parts.append(label.text)
 	return " | ".join(parts)
+
+
+func test_loading_keeps_upgrades_only_on_copies_the_hero_has() -> void:
+	var profile := _profile()
+	var copy := profile.own_copy("body")
+	profile.enhance[copy] = 3
+	var data := profile.to_dict()
+	data["enhance"] = {copy: 3, "work_jacket": 5, "work_jacket#9": 7}
+	data["inventory"][copy] = 1  # the worn copy written into the bag as well
+	var loaded := PlayerProfile.from_dict(data, _content())
+	assert_eq(loaded.enhance, {copy: 3}, "no stack-wide level, none on a copy not held")
+	assert_eq(loaded.count(copy), 0, "a copy of its own is in one place: worn")
+	assert_eq(loaded.equipment["body"], copy, "still worn")
+	loaded.enhance_pity["work_jacket#2"] = 4  # a leftover
+	loaded.add_item("work_jacket")
+	loaded.equip("work_jacket", _content())
+	assert_eq(loaded.own_copy("body"), "work_jacket#3", "a new copy never inherits a leftover")
+
+
+func test_the_card_compares_upgraded_copies_and_warns_before_they_go() -> void:
+	SaveStore.root = "user://test_enhance_card"
+	SaveStore.delete_all()
+	GameSession.start_new_game("mika")
+	var game: Node2D = GAME_SCENE.instantiate()
+	tree.root.add_child(game)
+	game.set_physics_process(false)
+	var profile: PlayerProfile = game.profile
+	profile.level = 10
+	profile.add_item("foreman_wrench", 2)
+	profile.equip("foreman_wrench", game.content)
+	var worn := profile.own_copy("weapon")
+	profile.enhance[worn] = 5
+	game.open_inventory()
+	game.inspect_item("foreman_wrench", "")
+	var text := _texts(game.item_card)
+	assert_true(text.contains("Compared with Foreman's Wrench +5"), "against the +5 one worn")
+	assert_true(text.contains("-"), "a plain copy is a step down from it")
+	game.close_item_card()
+	profile.unequip("weapon", game.content)
+	game.inspect_item(worn, "")
+	text = _texts(game.item_card)
+	assert_true(text.contains("Upgraded +5"), "a carried copy shows its level")
+	var discard := ""
+	for button: Button in game.item_card.find_children("*", "Button", true, false):
+		if button.text == "Discard":
+			button.pressed.emit()
+			discard = button.text
+	assert_eq(discard, "Discard +5 for good?", "and says what is lost")
+	game.free()
+	SaveStore.delete_all()
+	SaveStore.root = SaveStore.DEFAULT_ROOT

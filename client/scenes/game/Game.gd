@@ -441,7 +441,10 @@ func inspect_item(item_id: String, worn_slot: String) -> void:
 		actions.append({"text": "Use", "call": _use.bind(item_id)})
 	# Evidence is the story: it cannot be thrown away.
 	if not worn_slot and item.get("type") != "key":
-		actions.append({"text": "Discard", "confirm": "Discard 1?", "call": _discard.bind(item_id)})
+		# An upgraded copy says what is lost with it.
+		var plus := EnhanceRules.item_level(profile, item_id)
+		var confirm := "Discard +%d for good?" % plus if plus else "Discard 1?"
+		actions.append({"text": "Discard", "confirm": confirm, "call": _discard.bind(item_id)})
 	menu_focus = "worn:" + worn_slot if worn_slot else "bag:" + item_id
 	item_card = ItemCard.popup(menu, content, profile, item_id, worn_slot, actions, close_item_card)
 	Sfx.play("ui_select", -6.0)
@@ -518,6 +521,12 @@ func _upgrade(slot: String) -> void:
 			Sfx.play("denied", -4.0)
 		"materials":
 			_hud.toast("Not enough materials. The item card says where to find them.")
+			Sfx.play("denied", -4.0)
+		"max":
+			_hud.toast("Already fully upgraded.")
+			Sfx.play("denied", -4.0)
+		"empty":
+			_hud.toast("Nothing worn there to upgrade.")
 			Sfx.play("denied", -4.0)
 	zone.refresh_hero()
 	SaveStore.save(profile)
