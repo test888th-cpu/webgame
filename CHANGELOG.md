@@ -14,6 +14,9 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
     orange ▲ where the hero is, and the district's last area as a red ☠ BOSS
     (grey with a tick once beaten). The goal flies a gold flag. The way
     travelled is solid and the way ahead dashed.
+  - Under each node, the area's number in the district (1, 2, 3 …, the hero's in
+    orange). The names stay, because quests and the story send the hero to
+    places by name.
   - Hovering a node names its area, its boss and whether it is the goal. A tap
     still opens the map.
 - `MapRules.boss_of` is now public.

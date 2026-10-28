@@ -1,8 +1,11 @@
 class_name MiniMap
 extends Control
-## The HUD's route card, top right, two lines:
-##   SOUTH STREET   Depot Yard · Lv 1          the district, the area, its level
-##   ⌂ ─ ○ ─ ▲ ─ ○ ─ ○ ─ ○ ─ ○ ─ ○ ─ ☠ BOSS     one node per area, west to east
+## The HUD's route card, top right:
+##   SOUTH STREET   Saltmarket Street · Lv 2   the district, the area, its level
+##   ⌂ ─ ▲ ─ ○ ─ ○ ─ ○ ─ ○ ─ ○ ─ ○ ─ ☠ BOSS     one node per area, west to east
+##   1   2   3   4   5   6   7   8   9         each area's number in the district
+## The numbers say how far along the district the hero is; the names stay,
+## because quests and the story send the hero to places by name.
 ## The hero's area is an orange ▲; areas reached are filled rings, the rest
 ## empty; a town is a teal house; the district's last area, where its boss
 ## waits, is a red skull marked BOSS (grey with a tick once beaten); the
@@ -12,10 +15,11 @@ extends Control
 
 signal pressed
 
-const SIZE := Vector2(172, 32)
+const SIZE := Vector2(172, 40)
 const PAD := 6.0
 const HEADER_Y := 10.0
-const ROUTE_Y := 23.0
+const ROUTE_Y := 22.0
+const NUMBER_Y := 35.0
 ## Room right of the last node for its BOSS label.
 const BOSS_LABEL := 28.0
 
@@ -141,8 +145,19 @@ func _draw_route() -> void:
 			draw_line(a, b, UiTheme.TEXT_DIM, 1.5)
 		else:
 			draw_dashed_line(a, b, UiTheme.TEXT_FAINT, 1.0, 2.0)
+	var font := get_theme_default_font()
 	for i in areas.size():
 		_draw_node(i, areas[i])
+		var color := UiTheme.TEXT_FAINT
+		if i == here:
+			color = UiTheme.ACCENT
+		elif i <= reached:
+			color = UiTheme.TEXT_DIM
+		var digits := str(i + 1)
+		var wide := (
+			font.get_string_size(digits, HORIZONTAL_ALIGNMENT_LEFT, -1, UiTheme.SIZE_CAPTION).x
+		)
+		_text(font, Vector2(node_at(i).x - wide / 2.0, NUMBER_Y), digits, color)
 	if _goal and _goal not in areas and not areas.is_empty():
 		var street := StreetMemory.street(content)
 		var east := street.find(_goal) > street.find(str(areas[0]))
