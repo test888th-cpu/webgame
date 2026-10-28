@@ -14,6 +14,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
     orange ▲ where the hero is, and the district's last area as a red ☠ BOSS
     (grey with a tick once beaten). The goal flies a gold flag. The way
     travelled is solid and the way ahead dashed.
+  - A red bar on the road just east of the hero while the way on is still shut.
+  - "GOAL" with an arrow, under BOSS, when the goal lies in another district.
+  - A long district and area name never run off the card: the area name is
+    shortened and the level always shows.
   - Under each node, the area's number in the district (1, 2, 3 …, the hero's in
     orange). The names stay, because quests and the story send the hero to
     places by name.

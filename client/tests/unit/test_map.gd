@@ -158,12 +158,22 @@ func test_hud_strip_opens_the_map() -> void:
 	assert_true(strip != null and strip.is_visible_in_tree(), "the strip is on the HUD")
 	assert_true(strip.tooltip_text.begins_with("South Street  1 / 11"), "says where")
 	var first := strip._get_tooltip(strip.node_at(0))
-	assert_true(first.begins_with("Depot Yard  Lv 1"), "a node names its area (%s)" % first)
+	assert_true(first.begins_with("1. Depot Yard  Lv 1"), "a node names its area (%s)" % first)
 	var district := MapRules.districts(game.content)[0]["areas"] as Array
 	var last := strip._get_tooltip(strip.node_at(district.size() - 1))
 	assert_true(MapRules.boss_of(game.content, district[-1]) != "", "the district ends on a boss")
 	assert_true(last.contains("boss"), "and its node says so before it is reached (%s)" % last)
 	assert_true(not last.contains("Lv"), "without giving away more")
+	for i in range(1, district.size() - 1):
+		var tip := strip._get_tooltip(strip.node_at(i))
+		assert_true(not tip.contains("boss"), "an unreached area keeps its boss secret (%s)" % tip)
+	# The longest names stay on the card.
+	for area_id: String in StreetMemory.street(game.content):
+		game.enter_area(area_id, "west")
+		await tree.process_frame
+		var line := strip.header(strip.get_theme_default_font())
+		assert_true(line["right"] <= strip.size.x - MiniMap.PAD + 0.5, "%s fits" % line["area"])
+		assert_true(str(line["area"]).contains("Lv"), "%s: the level always shows" % area_id)
 	assert_true(SCREEN.encloses(strip.get_global_rect()), "the card is on screen")
 	strip.pressed.emit()
 	assert_eq(game.menu_name, "map", "a tap opens the map")

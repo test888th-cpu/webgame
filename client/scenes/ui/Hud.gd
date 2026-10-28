@@ -3,7 +3,9 @@ extends CanvasLayer
 ##   top left   hero card: level badge, name, HP (with damage trail), energy, XP;
 ##              under it the held weapon and the AUTO battle switch
 ##   top centre boss bar (boss fights only)
-##   top right  coins, area name, map strip (MiniMap), tracked quest card
+##   top right  coins, the route card (MiniMap: district, area and level,
+##              the district's areas with the hero and its boss), tracked
+##              quest card
 ##   bottom     hotbar (attack, skills, items), key hints
 ##   centre     notification banner, level-up banner
 ##   edges      red vignette when the hero is hurt
