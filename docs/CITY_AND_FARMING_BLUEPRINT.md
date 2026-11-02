@@ -1,7 +1,15 @@
-# City Hub and Farming Areas: Phase 1 Blueprint
+# City Hub and Farming Areas: Blueprint
 
-> **Status: plan only, waiting for owner approval.** No gameplay code, data or
-> assets were changed to write this document.
+> **Status:**
+> - Phase 1 (this plan) was reviewed by the owner.
+> - **Phase 2 is built: Iron City Central (`main_city`)**, a separate city map. See
+>   §12.
+> - The owner **rejected** §3's recommendation to grow Depot Yard into the hub.
+>   Depot Yard (Story Area 1) stays exactly as it is on `main`.
+> - Phase 3 (farming grounds) has not started.
+>
+> Sections 1 to 11 are the Phase 1 plan as written, kept for the record. Where §3, §6, §7,
+> §10 or §11 talk about widening Depot Yard, §12 replaces them.
 >
 > Audited on 2026-11-02 at commit `f8bc743` (main after PR #53). Where this document
 > and `client/data/*.json` disagree, the JSON is right. Story, names and places come
@@ -529,3 +537,122 @@ updated, docs updated.
 
 Not touched: combat/AI/boss rules, `items.json`, `enemies.json` loot, `progression.json`,
 `world_boss.json`, `SaveStore` (unless a v11 turns out to be needed), `backend/`.
+
+---
+
+## 12. Phase 2 record: Iron City Central (`main_city`)
+
+### 12.1 Owner decisions (2026-11-02)
+
+| # | Decision |
+|---|---|
+| City | A **separate area**, `main_city`, named **Iron City Central**. It is not Story Area 1 and not a farming area. |
+| Walking link | **One-way gate east** from the city into Depot Yard's west end. **Depot Yard gets no west exit**, and its "no west exit" test stays. |
+| Rest | **Option A:** arriving heals and refills the streets exactly like Depot Yard, using the existing `heal_on_enter`. No new rest system. |
+| Home flows | **Unchanged:** Recall, auto battle's trip home and the return after a world boss all still go to Depot Yard. The city is a separate destination. |
+| Taxi | Every stand gets the grouped, scrollable list, with the same rides, fares and unlock rules, plus a ride to the city. |
+| Keeper | **A self-service kiosk.** No new character, sprite or dialogue in this phase. |
+| Save bug | **Approved fix:** a save made off the story street must not mark the whole street as reached. |
+
+### 12.2 What was found and fixed in passing (verified)
+
+`StreetMemory.load_into` marks every area west of the saved area as reached. That is
+right for a save made on the street. For a save made **off** the street (a world-boss
+arena, and now the city), the loop never met the saved area, so it marked **all 31
+areas, up to the final chapter, as reached**. A level 1 hero who saved in the city
+could have ridden Win's taxi to the Core Chamber.
+
+- **Before the fix:** a probe showed a fresh profile saved in `great_drain` loading
+  with 31 visited areas, including `core_chamber`.
+- **After the fix:** off the street, loading adds only the start area (every hero
+  begins there). Saves made on the street are unchanged.
+- **Proof:** with the old file put back, the new save tests fail (a city save loads
+  with 31 areas; all 3 world-boss arenas fail). With the fix, they pass.
+
+### 12.3 The city (all **[V]**: built and covered by tests)
+
+Iron City Central is 1,600 px long, under the skytrain. Hand-placed frontage built from
+the owner's existing kit pieces (no new art). Signs over the shopfronts name each part.
+
+| x | Place | What E does | Built on |
+|---|---|---|---|
+| 0–330 | **Taxi Rank** (arrival point, bus stop, parked songthaew) | Win (`taxi_win_city`, fare 10): every area reached, grouped by district, plus the world bosses that are unlocked | existing `role: travel` |
+| 440 | **Notice Board** | Current job and where to report (`MapRules.goal`). World bosses are named and timed **only once unlocked**, like the map; locked ones read "???". Trading Post and Guild Hall are listed as **not open yet**; a Farming heading says to farm any cleared street. Its only button is Close. | `WorldBossRules`, `MapRules` |
+| 700 | **Market**: Self-Service Kiosk | Shop: buy and sell | existing `role: shop`; shop `city_kiosk` has **exactly** `depot_stall`'s items, and prices come from `items.json` |
+| 1,000 | **Workshop**: Workbench | Opens the Bag on worn gear; each card has *Upgrade +N* | existing `Game._upgrade` → `EnhanceRules`, which needs a safe area (the city is safe) |
+| 1,150–1,340 | **Training Yard**: dummy and 2 practice weapons | Practise (the training dummy gives nothing) | existing dummy; `weapons.span` |
+| 1,400 / 1,530 | **Trading Post: planned**, **Guild Hall: planned** | Nothing: signs only, with no prompt | `landmarks` |
+| 1,600 | **Gate east** | Walk on to Depot Yard (west end) | existing exit, one way |
+
+How you get there:
+- Win's ride "Iron City Central" is first at **every** existing stand.
+- The pause menu has **Go to Iron City Central**. It is free, with Recall's checks (not
+  in a fight, not while knocked down) plus one more: not during a world-boss attempt.
+- The map has its own **City** row, known from the first night.
+
+The city is off the story street, like the world-boss arenas. The street is still Depot
+Yard plus the 30 story areas, the districts are unchanged, and no area walks into the
+city.
+
+### 12.4 Changes, by file
+
+**Restored to `main`:** every Depot Yard change from the first attempt is reverted.
+Depot Yard's `areas.json` entry, kit layout, generated scenery entry and its four
+images are byte-identical to `main`; `test_main_city.gd` checks their SHA-256.
+
+| File | Change |
+|---|---|
+| `client/data/areas.json` | **Additions only:** `"city_area": "main_city"` and the `main_city` area. No existing area changed. |
+| `client/data/shops.json` | **Addition only:** `city_kiosk`, a copy of `depot_stall`'s item list |
+| `art/kit/kit.json` | **Addition only:** `layouts.main_city` (hand-placed frontage and props) |
+| `client/assets/manifest.json`, `client/assets/environment/main_city/*` | Generated by the pipeline. Only `main_city` entries were added. |
+| `tools/assets/kit_import.py`, `tools/assets/test_pipeline.py` | Optional per-area hand-placed `layouts`, and a test for them |
+| `client/sim/StreetMemory.gd` | The save-loading fix (§12.2) |
+| `client/sim/ContentDB.gd` | `city_area`. Roles `workbench` and `board`, drawn as kit `piece`s. Validation: the city is safe, rests, has no fights, is not the start area, nothing walks into it and its only exit is east; a workbench needs a safe area; `landmarks`, `planned_services`, `farming_planned` and `weapons.span` are checked |
+| `client/sim/ZoneSim.gd` | `weapons.span`. `leave_problem()` is split out of `recall_problem()`; Recall's behaviour is identical |
+| `client/sim/MapRules.gd` | The city is always known; "Upgrades" and "Notices" are listed as services |
+| `client/scenes/game/Game.gd` | E at a workbench or board; `city_problem()` and `_go_to_city()` |
+| `client/scenes/game/GameMenus.gd` | Taxi list grouped by district, scrollable and sized to its rows; the city ride; the pause item; the notice board |
+| `client/scenes/game/MapTab.gd` | The City row |
+| `client/scenes/world/Scenery.gd`, `ZoneView.gd` | Things to use drawn as kit pieces, with their own prompt and mark; landmark signs |
+| `client/tests/unit/test_main_city.gd` (new, 18 tests), `test_city_saves.gd` (new, 5 tests) | See §12.5 |
+| `client/tests/unit/test_map.gd`, `test_south_street.gd` | Two counts: the map has one more row (the city), and the city is an area that is neither on the street nor a world-boss arena |
+
+**Not changed:**
+- Depot Yard and every story area, gate, boss and quest; the tutorial.
+- Combat, AI and world-boss rules.
+- Items, drops, prices and enhancement costs.
+- Recall, the auto-battle loop and the return after a world boss.
+- The save format (still v10, no new fields) and `backend/`.
+
+### 12.5 Verification (2026-11-02, this session)
+
+| Check | Result |
+|---|---|
+| `gdformat --check .` / `gdlint .` (gdtoolkit 4.5.0) | 133 files unchanged / no problems |
+| `godot --headless --path client --import` (4.7.2) | exit 0 |
+| Godot tests | **416 passed, 0 failed** (was 393 on `main`; 23 new) |
+| Same suite with `main`'s `StreetMemory.gd` | 3 failures, as intended: the new save tests catch the bug |
+| `python3 -m unittest tools/assets/test_pipeline.py` (Pillow 13.0.0) | 39 tests OK |
+| `tools/assets/validate.py` | 56 checked, 0 problems |
+| `tools/ci/check-repo.sh` | exit 0 |
+| Web export (release, single-threaded) | exit 0. `index.pck` is 11,091,616 bytes against 11,047,904 for `main` built the same way (**+43.7 KB**); `index.wasm` unchanged (39,514,754) |
+| Browser smoke test (`tools/web-smoke/smoke.ts`, headless Chromium) | Passed: boot, combat, skill, weapon, pause menu, Depot Yard → Saltmarket, street fight. Run with the preinstalled Playwright **1.63.0**, not the pinned 1.56.1; CI runs the pinned version. |
+| Screenshots of the web build | Depot Yard's taxi offering the city, arrival at the Taxi Rank, Market, Workshop, Training Yard, the planned plots, and the gate back into an unchanged Depot Yard |
+| Backend typecheck and tests | **Not run here.** No PostgreSQL, and Node 22 instead of 24. Nothing in `backend/` changed. |
+
+### 12.6 Known limits
+
+- **Not open yet:** the Trading Post and the Guild Hall are only listed on the board
+  and signs. Farming grounds and boss rematches are not announced in the game.
+- **No multiplayer:** no trading, guild or social system exists.
+- **The HUD route card** is empty in the city, as in the world-boss arenas, because it
+  shows a district's route and the city is off the street.
+- **The workbench** is drawn with the kit's crates, and the notice board with a blank
+  sign; there are no painted pieces for them.
+- **Depot Yard's taxi line** still says "on South Street". The wording is old, and it
+  is left as on `main` because Depot Yard is protected. The ride list itself always
+  covered every district.
+- **The tutorial card** follows the hero into the city. Its steps can be done there
+  (the city has a dummy and weapons), except "talk to Chief Odo", who stays in Depot
+  Yard.

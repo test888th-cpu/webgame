@@ -23558,6 +23558,175 @@
         ],
         "theme": "canal"
       },
+      "main_city": {
+        "layers": {
+          "buildings": {
+            "file": "res://assets/environment/main_city/buildings.png",
+            "size": [
+              1600,
+              230
+            ]
+          },
+          "far": {
+            "file": "res://assets/environment/main_city/far.png",
+            "size": [
+              640,
+              230
+            ]
+          },
+          "ground": {
+            "file": "res://assets/environment/main_city/ground.png",
+            "size": [
+              1600,
+              130
+            ]
+          },
+          "sky": {
+            "file": "res://assets/environment/main_city/sky.png",
+            "size": [
+              640,
+              230
+            ]
+          }
+        },
+        "props": [
+          {
+            "prop": "crate",
+            "x": 140,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 215,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 302,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 411,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 471,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 546,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 633,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 713,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 794,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1004,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 1064,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1144,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 1204,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 1256,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 1349,
+            "y": 244
+          },
+          {
+            "prop": "crate",
+            "x": 1593,
+            "y": 244
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 91,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 260,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 459,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 634,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 803,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 996,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1165,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1359,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1538,
+            "y": 246
+          }
+        ],
+        "theme": "depot"
+      },
       "night_market": {
         "layers": {
           "buildings": {
@@ -30555,6 +30724,192 @@
           "front": "#d8d8c8"
         },
         "width": 2000
+      },
+      "main_city": {
+        "far": "skyline_far",
+        "ground": {
+          "road": "road_tile",
+          "sidewalk": "sidewalk_tile"
+        },
+        "placed": [
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": -45,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 135,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 322,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 567,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 717,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 886,
+            "y": 226
+          },
+          {
+            "layer": "track",
+            "piece": "skytrain_train",
+            "x": 242,
+            "y": 101
+          },
+          {
+            "layer": "track",
+            "piece": "skytrain_train",
+            "x": 1124,
+            "y": 101
+          },
+          {
+            "layer": "front",
+            "piece": "carpark_facade",
+            "x": 190,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "closed_shop",
+            "x": 535,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "convenience_store",
+            "x": 790,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "junk_shop",
+            "x": 1037,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "shophouse_b",
+            "x": 1243,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "closed_shop",
+            "x": 1457,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "shophouse_a",
+            "x": 1673,
+            "y": 226
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "umbrella_stall",
+            "x": 600,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "scrap_pile",
+            "x": 1070,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 1180,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "bus_stop",
+            "x": 90,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 950,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "potted_plants",
+            "x": 1300,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "blank_sign_tall",
+            "x": 1400,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "blank_sign_wide",
+            "x": 1530,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "motorbike_row",
+            "x": 310,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "plastic_stools",
+            "x": 760,
+            "y": 238
+          },
+          {
+            "layer": "fg",
+            "piece": "fg_leaves",
+            "x": 242,
+            "y": 374
+          },
+          {
+            "layer": "fg",
+            "piece": "fg_leaves",
+            "x": 1226,
+            "y": 374
+          }
+        ],
+        "theme": "depot",
+        "tint": {
+          "back": "#8e90b0",
+          "far": "#7a7898",
+          "fg": "#3a3448",
+          "front": "#e8dcd0",
+          "track": "#b0b0c8"
+        },
+        "track": {
+          "from": -120,
+          "piece": "skytrain_track",
+          "to": 1320,
+          "top": 100
+        },
+        "width": 1600
       },
       "night_market": {
         "far": "skyline_far",

@@ -25,7 +25,12 @@ const SCREENS := {
 	"settings": ["Settings", "menu_settings", "", Vector2(520, 300)],
 }
 const PAUSE_WIDTH := 190.0
+## The pause menu's extra row for the ride to the city.
+const CITY_ROW := 17.0
 const LIST_WIDTH := 180.0
+## The tallest a dialog's list (Win's rides, the notice board) grows before
+## it scrolls, so the dialog always fits the 360 px screen.
+const LIST_HEIGHT := 170.0
 ## Shown on Settings > Controls: action, keyboard, gamepad.
 const CONTROLS := [
 	["Move", "WASD / Arrows", "Left stick"],
@@ -76,7 +81,10 @@ static func screen(game: Game, name: String) -> Control:
 ## The pause menu: back to the game, every screen, and the session actions.
 static func pause_menu(game: Game) -> Control:
 	var tutorial := not TutorialRules.is_done(game.profile, game.content)
-	var parts := UiKit.window("Paused", Vector2(PAUSE_WIDTH, 250 if tutorial else 232), "")
+	var tall := 232.0 + (CITY_ROW if game.content.city_area != "" else 0.0)
+	var parts := UiKit.window(
+		"Paused", Vector2(PAUSE_WIDTH, tall + (18.0 if tutorial else 0.0)), ""
+	)
 	var body: VBoxContainer = parts["body"]
 	body.add_theme_constant_override("separation", 2)
 	body.add_child(_menu_item("Resume", "Esc", game.close_menu))
@@ -91,6 +99,14 @@ static func pause_menu(game: Game) -> Control:
 	recall.disabled = problem != ""
 	recall.tooltip_text = problem
 	body.add_child(recall)
+	if game.content.city_area != "":
+		var city := str(game.content.area(game.content.city_area).get("name", "the city"))
+		var go := _menu_item("Go to %s" % city, "", game._go_to_city)
+		go.name = "GoToCity"
+		var why := game.city_problem()
+		go.disabled = why != ""
+		go.tooltip_text = why
+		body.add_child(go)
 	body.add_child(_menu_item("Save game", "", game._save_game))
 	body.add_child(_menu_item("Save and quit to title", "", game._quit_to_title))
 	if tutorial:
@@ -368,8 +384,10 @@ static func _choice(text: String, on_press: Callable) -> Button:
 	return choice
 
 
-## The motorbike taxi's stand: one ride per area reached before, in street
-## order, for the driver's fare.
+## The motorbike taxi's stand, the way out to everything reached: one ride
+## per area reached before, under its district in street order, then the
+## world bosses unlocked, for the driver's fare. The list scrolls (late in the
+## story it is longer than the screen) and follows the focus.
 static func travel(game: Game, npc: Dictionary) -> Control:
 	var content := game.content
 	var parts := UiKit.dialog(str(npc["name"]), UiKit.portrait(content, str(npc.get("sprite", ""))))
@@ -378,22 +396,169 @@ static func travel(game: Game, npc: Dictionary) -> Control:
 	var line := '"%s"' % str(npc.get("line", "Where to?"))
 	body.add_child(UiKit.label(line, UiTheme.SIZE_BODY, UiTheme.TEXT_DIM, 470))
 	body.add_child(UiKit.label("Fare: %d coins" % fare, UiTheme.SIZE_SMALL, UiTheme.GOLD))
+	var list := VBoxContainer.new()
+	list.name = "Rides"
+	list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	list.add_theme_constant_override("separation", 2)
+	# The city first: every stand rides there, from the first night on.
+	var city := content.city_area
+	var to_city := city != "" and game.zone.area_id != city
+	if to_city:
+		list.add_child(_heading("City"))
+		var hub := content.area(city)
+		var ride_home := _choice("%s  (safe, rest)" % hub["name"], game._ride.bind(npc, city))
+		ride_home.name = "Ride_" + city
+		ride_home.disabled = game.profile.money < fare
+		list.add_child(ride_home)
 	var places := StreetMemory.destinations(game.profile, content, game.zone.area_id)
-	for area_id in places:
-		var area := content.area(area_id)
-		var text := "%s  (Lv %d)" % [area["name"], int(area.get("level", 1))]
-		var ride := _choice(text, game._ride.bind(npc, area_id))
-		ride.name = "Ride_" + area_id
-		ride.disabled = game.profile.money < fare
-		body.add_child(ride)
-	if places.is_empty():
-		body.add_child(
+	for district in MapRules.districts(content):
+		var here: Array[String] = []
+		for area_id: String in district["areas"]:
+			if area_id in places:
+				here.append(area_id)
+		if here.is_empty():
+			continue
+		list.add_child(_heading(str(district["name"])))
+		for area_id in here:
+			var area := content.area(area_id)
+			var text := "%s  (Lv %d)" % [area["name"], int(area.get("level", 1))]
+			var ride := _choice(text, game._ride.bind(npc, area_id))
+			ride.name = "Ride_" + area_id
+			ride.disabled = game.profile.money < fare
+			list.add_child(ride)
+	if places.is_empty() and not to_city:
+		list.add_child(
 			UiKit.label("Nowhere else you know yet.", UiTheme.SIZE_SMALL, UiTheme.TEXT_DIM)
 		)
+	var bosses: Array[String] = []
 	for boss: String in content.world_bosses:
 		if WorldBossRules.unlocked(game.profile, content, boss):
-			body.add_child(_world_boss_ride(game, npc, fare, boss))
+			bosses.append(boss)
+	if not bosses.is_empty():
+		list.add_child(_heading("World Bosses"))
+	for boss in bosses:
+		list.add_child(_world_boss_ride(game, npc, fare, boss))
+	body.add_child(_scrolling(list))
 	body.add_child(_choice("Not now", game.close_menu))
+	return parts["root"]
+
+
+## A heading inside a dialog's list.
+static func _heading(text: String) -> Label:
+	var heading := UiKit.label(text.to_upper(), UiTheme.SIZE_CAPTION, UiTheme.TEXT_FAINT)
+	heading.name = "Heading_" + text.validate_node_name()
+	return heading
+
+
+## `list` in a box at most LIST_HEIGHT tall that scrolls when the list is
+## longer, keeping the focused row in view.
+static func _scrolling(list: Control) -> ScrollContainer:
+	var scroll := ScrollContainer.new()
+	scroll.name = "Scroll"
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.follow_focus = true
+	scroll.add_child(list)
+	# A first guess from the rows, then the list's real height once it is laid
+	# out (minimum sizes are only known on screen): never cut, never too tall.
+	var tall := 0.0
+	for row: Node in list.get_children():
+		tall += 22.0 if row is Button else (28.0 if row is VBoxContainer else 14.0)
+	scroll.custom_minimum_size.y = minf(tall, LIST_HEIGHT)
+	# Signals of the box and list themselves, so they go when the dialog does.
+	var fit := func() -> void:
+		scroll.custom_minimum_size.y = minf(list.get_combined_minimum_size().y, LIST_HEIGHT)
+	scroll.ready.connect(fit)
+	list.minimum_size_changed.connect(fit)
+	return scroll
+
+
+## The city's notice board: the hero's current job and where to report (the
+## map's goal), the world bosses as far as the story has revealed them (named
+## and timed once unlocked, like the map), and what is planned but not open:
+## farming grounds and other services, marked as such. It only informs: the
+## rides are Win's, at the taxi rank.
+static func notice_board(game: Game, npc: Dictionary) -> Control:
+	var content := game.content
+	var profile := game.profile
+	var parts := UiKit.dialog(str(npc["name"]), null)
+	var body: VBoxContainer = parts["body"]
+	var line := '"%s"' % str(npc.get("line", ""))
+	body.add_child(UiKit.label(line, UiTheme.SIZE_SMALL, UiTheme.TEXT_DIM, 520))
+	var list := VBoxContainer.new()
+	list.name = "Notices"
+	list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	list.add_theme_constant_override("separation", 2)
+	var goal := MapRules.goal(profile, content)
+	list.add_child(_heading("Current Job"))
+	var job := "Nothing left to do. Farm, gear up, take on the World Bosses."
+	if not goal.is_empty():
+		var at := str(content.area(str(goal["area"])).get("name", ""))
+		job = "%s  ·  %s" % [goal["text"], at]
+	var job_label := UiKit.label("    " + job, UiTheme.SIZE_SMALL, UiTheme.TEXT)
+	job_label.name = "Job"
+	list.add_child(job_label)
+	list.add_child(_heading("World Bosses"))
+	for boss: String in content.world_bosses:
+		var entry := VBoxContainer.new()
+		entry.name = "Boss_" + boss
+		entry.add_theme_constant_override("separation", 0)
+		list.add_child(entry)
+		# Like the map: a world boss is named only once the story unlocks it.
+		if not WorldBossRules.unlocked(profile, content, boss):
+			entry.add_child(UiKit.label("???", UiTheme.SIZE_SMALL, UiTheme.TEXT_FAINT))
+			entry.add_child(
+				UiKit.label(
+					"    Rises later in the story.", UiTheme.SIZE_CAPTION, UiTheme.TEXT_FAINT
+				)
+			)
+			continue
+		var data := WorldBossRules.spec(content, boss)
+		var name := str(content.enemy(str(data["enemy"]))["name"])
+		var arena := str(content.area(str(data["area"])).get("name", ""))
+		var players := int(data.get("players", 1))
+		var who := "%d players" % players if players > 1 else "solo"
+		var level := WorldBossRules.level(content, boss)
+		var text := "%s  ·  %s  ·  Lv %d, %s" % [name, arena, level, who]
+		var wait := WorldBossRules.wait_text(content, boss, game._now())
+		var state := "Rises again in %s." % wait
+		var color := UiTheme.TEXT_DIM
+		if WorldBossRules.window(content, boss, game._now())["open"]:
+			state = "OUT NOW, for %s. Ride with Win." % wait
+			color = UiTheme.GOOD
+		entry.add_child(UiKit.label(text, UiTheme.SIZE_SMALL, UiTheme.TEXT))
+		entry.add_child(UiKit.label("    " + state, UiTheme.SIZE_CAPTION, color))
+	# Farming today: any cleared street, re-armed by resting (StreetMemory).
+	list.add_child(_heading("Farming"))
+	var tip := UiKit.label(
+		"    Farm any street you have cleared: rest here, ride out, fight.",
+		UiTheme.SIZE_CAPTION,
+		UiTheme.TEXT_DIM
+	)
+	tip.name = "FarmingTip"
+	list.add_child(tip)
+	var planned: Array = npc.get("farming_planned", [])
+	if not planned.is_empty():
+		list.add_child(_heading("Farming Grounds (planned, not open yet)"))
+		for i in planned.size():
+			var plan: Dictionary = planned[i]
+			var levels: Array = plan["levels"]
+			var text := (
+				"%s, Lv %d-%d: not built yet" % [plan["district"], int(levels[0]), int(levels[1])]
+			)
+			var notice := UiKit.label("    " + text, UiTheme.SIZE_CAPTION, UiTheme.TEXT_FAINT)
+			notice.name = "Planned_%d" % i
+			list.add_child(notice)
+	var services: Array = npc.get("planned_services", [])
+	if not services.is_empty():
+		list.add_child(_heading("Also Planned"))
+		for i in services.size():
+			var notice := UiKit.label(
+				"    %s: not open yet" % services[i], UiTheme.SIZE_CAPTION, UiTheme.TEXT_FAINT
+			)
+			notice.name = "Service_%d" % i
+			list.add_child(notice)
+	body.add_child(_scrolling(list))
+	body.add_child(_choice("Close", game.close_menu))
 	return parts["root"]
 
 

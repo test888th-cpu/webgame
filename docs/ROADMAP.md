@@ -54,6 +54,22 @@ XP and levels, quests, save versioning tests, crash-replay test (no duplicate re
 City hub with data-driven NPCs, shops, crafting and upgrades, storage, housing (ownership
 separate from shared visuals), multiple zones, teleports, capacity limits and queues.
 
+**Done for single player (2026-11-02):** Iron City Central (`main_city`), a separate,
+safe city map off the story street, with:
+- a taxi rank;
+- a notice board;
+- a self-service kiosk (same stock as Ama's stall);
+- a workbench (the existing upgrades);
+- a training yard;
+- signs for a planned Trading Post and Guild Hall.
+
+You reach it by Win's taxi from every stand or from the pause menu. A one-way gate
+leads east into Depot Yard. Details and test results are in
+[CITY_AND_FARMING_BLUEPRINT.md](CITY_AND_FARMING_BLUEPRINT.md) §12.
+
+**Still open:** storage, housing, trading and guilds (online, IL-7), capacity limits,
+and the farming grounds (Phase 3).
+
 ## Milestone 6 — Multiplayer content
 Parties, shared farming, elites on schedules, instanced bosses (multi-phase), dungeons,
 guilds and mail (Redis decision record if needed).

@@ -126,6 +126,24 @@
         "scrap_metal",
         "refined_alloy"
       ]
+    },
+    "city_kiosk": {
+      "name": "Self-Service Kiosk",
+      "items": [
+        "steamed_bun",
+        "ginger_tea",
+        "rice_box",
+        "herbal_tonic",
+        "taped_knuckles",
+        "fingerless_gloves",
+        "dock_beanie",
+        "padded_vest",
+        "canvas_sneakers",
+        "work_jacket",
+        "hard_hat",
+        "steel_toe_boots",
+        "scrap_metal"
+      ]
     }
   }
 }

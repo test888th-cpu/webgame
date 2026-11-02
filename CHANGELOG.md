@@ -4,6 +4,48 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added: Iron City Central, the city hub (`main_city`)
+- **A separate, safe city map**, off the story street. It is not Depot Yard, not a story
+  stage and not a farming area. Arriving heals the hero and refills the streets,
+  exactly as at Depot Yard.
+- **Places, west to east:**
+  - Taxi Rank, with Win;
+  - Notice Board: current job, world bosses once the story unlocks them, planned
+    services;
+  - Market: a self-service kiosk with exactly Ama's stock and prices;
+  - Workshop: a workbench that opens the existing upgrades;
+  - Training Yard: dummy and practice weapons;
+  - Trading Post and Guild Hall signs, marked planned with nothing to press;
+  - a one-way gate east into Depot Yard.
+- **Getting there:**
+  - Win's first ride at every stand;
+  - "Go to Iron City Central" in the pause menu: free, with Recall's checks, and never
+    during a world-boss attempt;
+  - its own row on the map.
+- **Unchanged:** Depot Yard (its data, art and NPCs are byte-identical to before, and a
+  test checks that), every story area, Recall, auto battle's trip home, the return
+  after a world boss, items, drops, prices, upgrade costs and the save format (v10).
+- **Every taxi stand:** rides are grouped by district and the list scrolls. With every
+  area reached, the old list (33 rides) was taller than the screen. Rides, fares and
+  unlock rules are unchanged.
+
+### Fixed: loading a save made off the story street unlocked the whole street
+- **The bug:** a save made in a world-boss arena (and, without this fix, in the new
+  city) loaded with every story area marked as reached. That opened Win's rides up to
+  the final chapter, even for a level 1 hero.
+- **The fix:** loading now walks the street only when the save was made on it. Saves
+  made on the street load exactly as before, from every version 5 to 10.
+- **Tests:** `test_city_saves.gd` covers the city, all three world-boss arenas,
+  versions 5 to 10, and a normal save on the street.
+
+### Verification
+- gdformat and gdlint pass.
+- Godot import exit 0; **416 tests passed, 0 failed**.
+- Asset pipeline: 39 tests OK; asset validation reports 0 problems.
+- Web export succeeds: `index.pck` grows by 43.7 KB.
+- The browser smoke test passes locally.
+- Backend not run: no change there.
+
 ### Added: City hub and farming blueprint (plan only, no gameplay change)
 - `docs/CITY_AND_FARMING_BLUEPRINT.md`: an audit of the current state, verified
   against the code and data at `f8bc743` (393 tests passing). It plans the city hub

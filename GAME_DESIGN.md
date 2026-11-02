@@ -142,6 +142,20 @@ in the quest card's place, skippable from the menu; progress is saved (save v4).
 
 ## World structure
 
+**[built] Iron City Central** (`main_city`) is the city hub, separate from the story
+street. It is safe, and arriving heals the hero and refills the streets, as Depot Yard
+does. It has:
+- Win's taxi rank;
+- a notice board with the current job, the world bosses unlocked, and planned services;
+- a self-service kiosk with Ama's stock;
+- a workbench for upgrades;
+- a training yard.
+
+The Trading Post and Guild Hall are planned and marked as such. You reach the city by
+taxi from any stand or from the pause menu, and a one-way gate leads east to Depot
+Yard. Recall still goes to Depot Yard. See
+[docs/CITY_AND_FARMING_BLUEPRINT.md](docs/CITY_AND_FARMING_BLUEPRINT.md) §12.
+
 **[built] The street so far**, east from the yard:
 
 | Area | Level | Enemies | Boss |

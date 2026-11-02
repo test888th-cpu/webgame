@@ -1,5 +1,6 @@
 {
   "start_area": "depot_yard",
+  "city_area": "main_city",
   "districts": [
     {"name": "South Street", "from": "depot_yard"},
     {"name": "Port District", "from": "port_road"},
@@ -4317,6 +4318,151 @@
         {
           "kind": "oil_drums",
           "x": 1000,
+          "y": 258
+        }
+      ]
+    },
+    "main_city": {
+      "name": "Iron City Central",
+      "width": 1600,
+      "safe": true,
+      "heal_on_enter": true,
+      "theme": "depot",
+      "level": 1,
+      "palette": {
+        "sky": "#161a34",
+        "buildings": [
+          "#262a3e",
+          "#2e2c44",
+          "#20283c"
+        ],
+        "windows": "#8fd0f0",
+        "sidewalk": "#5a5c66",
+        "street": "#36373f"
+      },
+      "exits": {
+        "east": {
+          "to": "depot_yard",
+          "entry": "west"
+        }
+      },
+      "npcs": [
+        {
+          "id": "taxi_win_city",
+          "name": "Win",
+          "role": "travel",
+          "fare": 10,
+          "x": 200,
+          "y": 262,
+          "color": "#e07020",
+          "line": "Every route in the city starts here. Ten coins, anywhere you've been.",
+          "sprite": "npc_win"
+        },
+        {
+          "id": "city_notice_board",
+          "name": "Notice Board",
+          "role": "board",
+          "piece": "blank_sign_tall",
+          "x": 440,
+          "y": 262,
+          "color": "#c8c0a0",
+          "line": "Notices from all over the city, pinned three deep.",
+          "planned_services": ["Trading Post", "Guild Hall"]
+        },
+        {
+          "id": "city_kiosk",
+          "name": "Self-Service Kiosk",
+          "role": "shop",
+          "shop": "city_kiosk",
+          "piece": "vending_machine",
+          "x": 700,
+          "y": 262,
+          "color": "#60a0c0",
+          "line": "Coins in, goods out. Same stock and prices as Ama's stall."
+        },
+        {
+          "id": "city_workbench",
+          "name": "Workbench",
+          "role": "workbench",
+          "piece": "crates",
+          "x": 1000,
+          "y": 262,
+          "color": "#b08850",
+          "line": "Scrap, alloy and coins in, a better piece out. Pick worn gear to upgrade it."
+        }
+      ],
+      "placed": [
+        {
+          "enemy": "training_dummy",
+          "x": 1240,
+          "y": 300
+        }
+      ],
+      "encounters": [],
+      "weapons": {
+        "count": [
+          2,
+          2
+        ],
+        "pool": {
+          "plank": 1,
+          "knife": 1,
+          "frying_pan": 1
+        },
+        "span": [1150, 1340]
+      },
+      "landmarks": [
+        {"x": 200, "text": "Taxi Rank"},
+        {"x": 700, "text": "Market"},
+        {"x": 1000, "text": "Workshop"},
+        {"x": 1240, "text": "Training Yard"},
+        {"x": 1400, "text": "Trading Post: not open yet"},
+        {"x": 1530, "text": "Guild Hall: not open yet"}
+      ],
+      "obstacles": [
+        {
+          "kind": "street_lamp",
+          "x": 420,
+          "y": 240
+        },
+        {
+          "kind": "street_lamp",
+          "x": 660,
+          "y": 240
+        },
+        {
+          "kind": "street_lamp",
+          "x": 880,
+          "y": 240
+        },
+        {
+          "kind": "street_lamp",
+          "x": 1130,
+          "y": 240
+        },
+        {
+          "kind": "street_lamp",
+          "x": 1350,
+          "y": 240
+        },
+        {
+          "kind": "street_lamp",
+          "x": 1470,
+          "y": 240
+        },
+        {
+          "kind": "songthaew",
+          "x": 330,
+          "y": 262
+        },
+        {
+          "kind": "motorbike",
+          "x": 560,
+          "y": 260
+        },
+        {
+          "kind": "oil_drums",
+          "x": 1080,
           "y": 258
         }
       ]

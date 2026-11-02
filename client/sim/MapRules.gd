@@ -25,7 +25,13 @@ const AREA := "area"
 const MINI_BOSS := "mini_boss"
 const BOSS := "boss"
 ## What each NPC role offers, as the map lists it.
-const SERVICES := {"shop": "Shop", "quests": "Quests", "travel": "Taxi"}
+const SERVICES := {
+	"shop": "Shop",
+	"quests": "Quests",
+	"travel": "Taxi",
+	"workbench": "Upgrades",
+	"board": "Notices"
+}
 
 
 ## The street's districts, west to east: [{"name", "areas": [area ids]}].
@@ -66,6 +72,9 @@ static func state(
 ) -> String:
 	if area_id == here:
 		return HERE
+	# The city is open from the first night (any taxi, the pause menu).
+	if area_id == content.city_area:
+		return KNOWN
 	if content.area(area_id).get("world_boss", false):
 		return KNOWN if area_id in arenas(profile, content) else UNKNOWN
 	if area_id in profile.visited:

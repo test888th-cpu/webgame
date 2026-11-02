@@ -10,6 +10,13 @@ const VIEW_HEIGHT := 360.0
 ## Camera shake on heavy impacts, in pixels, and how much it fades per tick.
 const SHAKE_PIXELS := 3.0
 const SHAKE_FADE := 0.25
+## What E does at each NPC role, as the prompt over them says ("Talk" if
+## not listed), and the mark always shown over a role that offers a service.
+const VERBS := {"shop": "Shop", "travel": "Ride", "workbench": "Upgrade", "board": "Read"}
+const MARKS := {"shop": "$", "travel": ">>", "workbench": "+", "board": "?"}
+## Where landmark signs hang: on the shopfronts, above the marks and names
+## over the people and things in the street.
+const LANDMARK_Y := 128.0
 
 var zone: ZoneSim
 var content: ContentDB
@@ -40,6 +47,7 @@ func build(p_zone: ZoneSim, p_content: ContentDB) -> void:
 	add_child(_entities)
 	_build_npcs()
 	_build_furniture()
+	_build_landmarks()
 	effects = Node2D.new()
 	effects.name = "Effects"
 	add_child(effects)
@@ -136,8 +144,8 @@ func update_npc_marks(profile: PlayerProfile) -> void:
 		for quest_id in quests_of(npc):
 			var state := QuestRules.status(profile, quest_id, content)
 			pending = pending or state in ["available", "complete"]
-		mark.visible = pending or npc["role"] in ["shop", "travel"]
-		mark.text = {"shop": "$", "travel": ">>"}.get(npc["role"], "!")
+		mark.visible = pending or MARKS.has(npc["role"])
+		mark.text = str(MARKS.get(npc["role"], "!"))
 
 
 func quests_of(npc: Dictionary) -> Array[String]:
@@ -349,20 +357,17 @@ func _update_exit_signs() -> void:
 
 func _build_npcs() -> void:
 	for npc: Dictionary in zone.area.get("npcs", []):
-		var stand_in := Fighter.new(0, 0, Vector2(npc["x"], npc["y"]))
-		stand_in.facing = -1
-		var view: FighterView = FIGHTER_SCENE.instantiate()
-		view.fighter = stand_in
-		view.body_color = Color.from_string(str(npc.get("color", "#888888")), Color.GRAY)
-		_entities.add_child(view)
-		view.set_art(str(npc.get("sprite", "")), content.art)
-		view.sync()
+		var view := _npc_body(npc)
+		# Labels sit over the head, or over the top of a thing (a workbench).
+		var top := -50.0
+		if npc.has("piece"):
+			top = minf(-Scenery.piece_height(content, str(npc["piece"])) - 8.0, -20.0)
 		var name_label := Label.new()
 		name_label.text = str(npc["name"])
 		name_label.add_theme_font_size_override("font_size", 7)
 		name_label.add_theme_constant_override("outline_size", 3)
 		name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		name_label.position = Vector2(-40, -58)
+		name_label.position = Vector2(-40, top - 8)
 		name_label.size = Vector2(80, 10)
 		view.add_child(name_label)
 		var mark := Label.new()
@@ -370,19 +375,61 @@ func _build_npcs() -> void:
 		mark.add_theme_constant_override("outline_size", 4)
 		mark.add_theme_color_override("font_color", Color(1, 0.85, 0.3))
 		mark.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		mark.position = Vector2(-10, -74)
+		mark.position = Vector2(-10, top - 24)
 		mark.size = Vector2(20, 14)
 		view.add_child(mark)
 		_npc_marks[npc["id"]] = mark
 		var prompt := CenterContainer.new()
 		prompt.name = "Prompt"
-		prompt.position = Vector2(-40, -92)
+		prompt.position = Vector2(-40, top - 42)
 		prompt.size = Vector2(80, 12)
 		prompt.visible = false
-		var verb: String = {"shop": "Shop", "travel": "Ride"}.get(npc["role"], "Talk")
-		prompt.add_child(UiKit.key_hint("E", verb))
+		prompt.add_child(UiKit.key_hint("E", str(VERBS.get(npc["role"], "Talk"))))
 		view.add_child(prompt)
 		_npc_prompts[npc["id"]] = prompt
+
+
+## Signs naming the parts of a place (areas.json "landmarks", e.g. the
+## city's Taxi Rank and Market) over the shopfronts. Only words to read:
+## nothing to press.
+func _build_landmarks() -> void:
+	var marks: Array = zone.area.get("landmarks", [])
+	for i in marks.size():
+		var mark: Dictionary = marks[i]
+		var sign := Label.new()
+		sign.name = "Landmark_%d" % i
+		sign.text = str(mark["text"]).to_upper()
+		sign.add_theme_font_size_override("font_size", UiTheme.SIZE_CAPTION)
+		sign.add_theme_constant_override("outline_size", 3)
+		sign.add_theme_color_override("font_color", UiTheme.GOLD)
+		sign.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		sign.position = Vector2(float(mark["x"]) - 60.0, LANDMARK_Y)
+		sign.size = Vector2(120, 10)
+		add_child(sign)
+		# Behind the fighters, so a sign never covers anyone.
+		move_child(sign, _entities.get_index())
+
+
+## A person (their character art) or a thing to use (a street-kit piece),
+## standing at the NPC's spot among the fighters so depth sorts them.
+func _npc_body(npc: Dictionary) -> Node2D:
+	var at := Vector2(npc["x"], npc["y"])
+	if npc.has("piece"):
+		var thing := Scenery.piece_node(content, str(npc["piece"]))
+		if thing != null:
+			thing.name = "Station_" + str(npc["id"])
+			thing.position = at
+			_entities.add_child(thing)
+			return thing
+	var stand_in := Fighter.new(0, 0, at)
+	stand_in.facing = -1
+	var view: FighterView = FIGHTER_SCENE.instantiate()
+	view.fighter = stand_in
+	view.body_color = Color.from_string(str(npc.get("color", "#888888")), Color.GRAY)
+	_entities.add_child(view)
+	view.set_art(str(npc.get("sprite", "")), content.art)
+	view.sync()
+	return view
 
 
 func _rect(rect: Rect2, color: Color) -> void:

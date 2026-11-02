@@ -95,7 +95,16 @@ static func load_into(profile: PlayerProfile, saved: Dictionary, content: Conten
 		for area_id: Variant in visited:
 			if content.areas.has(str(area_id)):
 				visit(profile, str(area_id))
-	for area_id in street(content):
+	# Only a hero standing on the street walked through the areas west of it.
+	# Off the street (the city, a world boss arena) nothing more is implied:
+	# without this check the walk never met the saved area and marked the
+	# whole street, up to the final chapter, as reached.
+	var road := street(content)
+	if profile.area not in road:
+		# Every hero starts at the start area, so that much is always reached.
+		visit(profile, content.start_area)
+		return
+	for area_id in road:
 		visit(profile, area_id)
 		if area_id == profile.area:
 			break

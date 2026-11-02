@@ -343,6 +343,10 @@ func try_interact() -> bool:
 		open_shop(npc)
 	elif npc["role"] == "travel":
 		_show("travel", GameMenus.travel(self, npc))
+	elif npc["role"] == "workbench":
+		open_workbench()
+	elif npc["role"] == "board":
+		_show("board", GameMenus.notice_board(self, npc))
 	else:
 		open_quests(npc)
 	return true
@@ -411,6 +415,22 @@ func open_screen(name: String) -> void:
 
 func open_inventory() -> void:
 	_show("bag", GameMenus.screen(self, "bag"))
+
+
+## The hub's workbench: the Bag, where each worn item's card has the upgrade
+## (EnhanceRules through _upgrade, the one way to upgrade), focused on the
+## first worn item.
+func open_workbench() -> void:
+	menu_focus = ""
+	for slot: String in PlayerProfile.SLOTS:
+		if str(profile.equipment[slot]) != "":
+			menu_focus = "worn:" + slot
+			break
+	open_inventory()
+	if menu_focus == "":
+		_hud.toast("Wear some gear first, then upgrade it here.")
+	else:
+		_hud.toast("Workbench: pick worn gear to upgrade it (up to +10).")
 
 
 ## A screen's key (C, B, O, M) toggles that screen. True when one was pressed.
@@ -793,6 +813,33 @@ func _recall() -> void:
 	close_menu()
 	enter_area(content.start_area, "")
 	_hud.toast("Back at %s. Rested, and the streets fill up again." % zone.area["name"])
+
+
+## Why the pause menu cannot take the hero to the city right now, or "".
+## Recall's checks (ZoneSim.leave_problem), and never during a world boss
+## attempt: its clock and pool are settled only by finishing or leaving it.
+func city_problem() -> String:
+	if content.city_area == "":
+		return "There is no city to go to."
+	if zone.area_id == content.city_area:
+		return "You are already there."
+	if world_run != null:
+		return "Finish the World Boss fight first."
+	return zone.leave_problem()
+
+
+## To the city from the pause menu: free, like Recall, and like walking in
+## it rests the hero (Iron City Central heals and fills the streets again,
+## as Depot Yard does). Recall itself still goes to Depot Yard.
+func _go_to_city() -> void:
+	var problem := city_problem()
+	if problem:
+		_hud.toast(problem)
+		Sfx.play("denied", -4.0)
+		return
+	close_menu()
+	enter_area(content.city_area, "west")
+	_hud.toast("%s. Rested, and the streets fill up again." % zone.area["name"])
 
 
 func _save_game() -> void:

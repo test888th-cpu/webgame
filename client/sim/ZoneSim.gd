@@ -230,6 +230,13 @@ func in_encounter() -> bool:
 func recall_problem() -> String:
 	if area_id == content.start_area:
 		return "You are already there."
+	return leave_problem()
+
+
+## Why the hero cannot be whisked away from here right now (Recall, the
+## pause menu's ride to the city), or "" when they can: the same checks for
+## both, so neither is an escape from a fight or a knock-down.
+func leave_problem() -> String:
 	if in_encounter():
 		return "Finish this fight first."
 	if hero.is_ko() or hero.state == Fighter.State.DOWN:
@@ -572,11 +579,19 @@ func _scatter_weapons() -> void:
 	if spec.is_empty():
 		return
 	var count := rng.randi_range(int(spec["count"][0]), int(spec["count"][1]))
+	# StreetWeapons.spot keeps 160 px clear of the west end and 40 px of the
+	# east one; a "span" narrows the strip so its weapons lie inside it.
+	var strip := bounds
+	var span: Array = spec.get("span", [])
+	if span.size() == 2:
+		var left := maxf(bounds.position.x, float(span[0]) - 160.0)
+		var right := minf(bounds.end.x, float(span[1]) + 40.0)
+		strip = Rect2(left, bounds.position.y, right - left, bounds.size.y)
 	for i in count:
 		var weapon_id := LevelRules.roll_weapon(content.weapons, level, rng, spec.get("pool", {}))
 		if weapon_id == "":
 			continue
-		var at := StreetWeapons.spot(rng, bounds, solids, area.get("npcs", []))
+		var at := StreetWeapons.spot(rng, strip, solids, area.get("npcs", []))
 		if at.is_finite():
 			place_weapon(weapon_id, at, int(content.weapons[weapon_id]["durability"]))
 
