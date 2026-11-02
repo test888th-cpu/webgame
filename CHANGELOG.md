@@ -4,6 +4,24 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added: UI test harness (phase U0)
+- **UI audit** (`client/tests/ui/UiAuditRun.gd`, `UiAuditSession.gd`, detectors in
+  `UiAudit.gd`): every screen (title, hero creation, HUD, pause, Character, Bag,
+  Skills, Quests, Map, Settings, item card, shop, conversation, taxi, knock-out)
+  at four landscape window sizes (1280x720 mouse; 640x360, 844x390, 960x440
+  touch), as is, with 150% text and with 40% longer strings. Checks off-screen,
+  truncated and too-small text, keyboard focus, covered controls, touch target
+  size and placement, touch buttons over people or the lane, and key hints on
+  touch.
+- **Baseline ratchet** (`client/tests/ui/baseline.json`, 351 known problems): CI fails
+  on a new problem and on a fixed one still listed. Runs in the `godot-tests` job;
+  report uploaded as the **ui-audit** artifact.
+- **Detector self-tests and real input** in `test_ui_audit.gd` (15 tests, 436 in all).
+- **Browser screenshots** (`tools/web-smoke/ui-shots.ts`) at the same four sizes,
+  checking that keys, a mouse click and a touch reach the game; uploaded as the
+  **ui-shots** artifact. See `docs/UI_TESTING.md`.
+- Landscape-only: no portrait window size is tested.
+
 ### Added: measurement harness for progression and economy (`client/tests/harness/`)
 - **Measures only**, from the game's own rules: it changes no game data, no save and
   no balance value, and refuses to write its report inside the repository.

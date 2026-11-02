@@ -75,6 +75,19 @@ jobs:
           if grep -E "^(SCRIPT )?ERROR" import.log; then exit 1; fi
       - name: Unit tests
         run: '"$GODOT_DIR/godot" --headless --path client --script res://tests/TestRunner.gd'
+      # Every screen at 1280x720 (mouse) and 640x360, 844x390, 960x440 (touch),
+      # as is, with 150% text and with 40% longer strings. Fails on a UI problem not
+      # in client/tests/ui/baseline.json, or a fixed one still listed there.
+      - name: UI audit (window sizes, touch, text scaling, long strings)
+        run: '"$GODOT_DIR/godot" --headless --path client --script res://tests/ui/UiAuditRun.gd -- --out=../build/ui-audit'
+      - name: Upload the UI audit report
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: ui-audit
+          path: build/ui-audit
+          retention-days: 30
+          if-no-files-found: warn
 
   backend:
     name: Backend typecheck, tests and migrations
@@ -195,6 +208,19 @@ jobs:
           npm ci --no-audit --no-fund
           npx playwright install --only-shell chromium
           node smoke.ts ../../build/web --screenshot=../../smoke-screenshot.png
+      # Screenshots of every main screen at the four landscape window sizes,
+      # with mouse, touch and keyboard input checked to reach the game.
+      - name: UI screenshots at four landscape window sizes
+        working-directory: tools/web-smoke
+        run: node ui-shots.ts ../../build/web ../../build/ui-shots
+      - name: Upload the UI screenshots
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: ui-shots
+          path: build/ui-shots
+          retention-days: 30
+          if-no-files-found: warn
       - name: Record build manifest
         run: |
           {
