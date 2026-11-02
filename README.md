@@ -117,7 +117,7 @@ TEST_DATABASE_URL=postgres://user:pass@localhost:5432/postgres npm test
 [DATABASE](DATABASE.md) · [SECURITY](SECURITY.md) · [WEB_EXPORT](WEB_EXPORT.md) ·
 [PERFORMANCE](PERFORMANCE.md) · [DEPLOYMENT](DEPLOYMENT.md) ·
 [BACKUP_AND_RECOVERY](BACKUP_AND_RECOVERY.md) · [CONTRIBUTING](CONTRIBUTING.md) ·
-[CHANGELOG](CHANGELOG.md) · [Blueprint](docs/BLUEPRINT.md) · [Story bible](docs/STORY_BIBLE.md) · [Scene prompts](docs/SCENE_PROMPTS.md) ·
+[CHANGELOG](CHANGELOG.md) · [Blueprint](docs/BLUEPRINT.md) · [City and farming blueprint](docs/CITY_AND_FARMING_BLUEPRINT.md) · [Story bible](docs/STORY_BIBLE.md) · [Scene prompts](docs/SCENE_PROMPTS.md) ·
 [Repository audit](docs/REPOSITORY_AUDIT.md) ·
 [Roadmap and backlog](docs/ROADMAP.md) · [Interface](docs/UI.md) · [CLAUDE.md](CLAUDE.md)
 

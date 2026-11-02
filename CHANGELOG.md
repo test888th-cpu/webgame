@@ -4,6 +4,18 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added: City hub and farming blueprint (plan only, no gameplay change)
+- `docs/CITY_AND_FARMING_BLUEPRINT.md`: an audit of the current state, verified
+  against the code and data at `f8bc743` (393 tests passing). It plans the city hub
+  (Depot Yard widened, same id), seven data-only farming grounds that reuse
+  existing areas and enemies, boss rematch arenas, and what the later unified drop
+  table needs.
+- It records a gap between the design target and the repository: 50 stages are
+  targeted, but the repository has 6 chapters and 30 story areas with 11 story
+  bosses. The owner decides this before Phase 2.
+- Found, not fixed: the item card shows no source for the six world-boss
+  legendaries. README and GAME_DESIGN figures are out of date.
+
 ### Changed: Harbourmaster Chen's crane drops real, container-sized drops
 - **Before:** the drop was small. Its footprint was 60x20 px, so a short
   side step dodged it.
