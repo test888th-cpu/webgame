@@ -4,6 +4,22 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added: measurement harness for progression and economy (`client/tests/harness/`)
+- **Measures only**, from the game's own rules: it changes no game data, no save and
+  no balance value, and refuses to write its report inside the repository.
+- **Story XP model** (exact arithmetic over the data and `LevelRules`): one story pass
+  ends at level 48, 23,431 XP short of 50; scenarios for no level-gap multipliers,
+  each boss once more, and every area twice.
+- **Simulated yields**: `ZoneSim` played by `AutoPilot` with fixed seeds, per area,
+  gear profile (shop or boss gear, chosen from the data) and boss-only runs: time,
+  XP, coins, Scrap Metal and Refined Alloy per minute, food, damage, knock-outs.
+- **Boss reward comparison scenarios** (current, reduced repeat rewards, separate
+  rematch channel). Their parameters in `harness_config.json` are comparison values,
+  not approved game values.
+- Run: `godot --headless --path client --script res://tests/harness/HarnessRun.gd --
+  --out=<folder outside the repository> [--quick]`. See `docs/HARNESS.md`.
+- 5 unit tests in `test_harness.gd` (421 tests in all).
+
 ### Added: Iron City Central, the city hub (`main_city`)
 - **A separate, safe city map**, off the story street. It is not Depot Yard, not a story
   stage and not a farming area. Arriving heals the hero and refills the streets,

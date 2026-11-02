@@ -1,0 +1,31 @@
+{
+  "note": "Measurement settings for tests/harness/HarnessRun.gd. The model numbers are comparison scenarios only, not approved game balance values; nothing here changes what the game pays.",
+  "full": {
+    "heroes": "all",
+    "seeds": [3, 7, 11],
+    "gear": ["shop", "boss"],
+    "areas": "street",
+    "boss_only": true,
+    "food": {"rice_box": 10, "herbal_tonic": 5},
+    "max_ticks": 36000
+  },
+  "quick": {
+    "heroes": ["mika"],
+    "seeds": [3],
+    "gear": ["shop"],
+    "areas": ["saltmarket", "canal_works"],
+    "boss_only": true,
+    "food": {"rice_box": 10, "herbal_tonic": 5},
+    "max_ticks": 36000
+  },
+  "story_scenarios": {
+    "baseline": {},
+    "no_threat_multipliers": {"flat_threat": true},
+    "each_boss_once_more": {"boss_repeats": 1},
+    "every_area_twice": {"passes": 2}
+  },
+  "boss_models": {
+    "repeat_boss_coin_share": 0.25,
+    "rematch_wins_per_item": 10
+  }
+}
