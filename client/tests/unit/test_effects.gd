@@ -28,11 +28,14 @@ func test_arrivals_phases_and_fallen_enemies_have_effects() -> void:
 	var game := _game()
 	game.profile.level = 40
 	game.content.areas["farm_facility_annex"]["spawning"]["elite_chance"] = 0.25
+	# Game seeds each area from the global generator: fixed here, so an elite
+	# comes in the same few seconds on every run.
+	seed(5)
 	game.enter_area("farm_facility_annex", "west")
 	var arrived := false
 	var elite := false
 	var faded_in := false
-	for i in 400:
+	for i in 3000:
 		for event in game.step(FighterInput.new()):
 			if event.type != "spawn":
 				continue
@@ -44,6 +47,7 @@ func test_arrivals_phases_and_fallen_enemies_have_effects() -> void:
 			break
 	game.content.areas["farm_facility_annex"]["spawning"]["elite_chance"] = 0.05
 	assert_true(arrived, "enemies came")
+	assert_true(elite, "an elite came")
 	assert_true(faded_in, "an arrival fades in, no pop-in")
 	var shown: Array[String] = []
 	for sprite: AnimatedSprite2D in game.view.effects.find_children(
