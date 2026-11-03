@@ -355,7 +355,12 @@ func try_interact() -> bool:
 	if npc.is_empty():
 		return false
 	if npc["role"] == "shop":
-		open_shop(npc)
+		var closed := ShopRules.closed_text(profile, content, str(npc["shop"]))
+		if closed:
+			_hud.toast("%s: %s" % [npc["name"], closed])
+			Sfx.play("denied", -4.0)
+		else:
+			open_shop(npc)
 	elif npc["role"] == "travel":
 		_show("travel", GameMenus.travel(self, npc))
 	elif npc["role"] == "workbench":

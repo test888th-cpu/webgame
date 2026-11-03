@@ -125,6 +125,7 @@ static func problems(content: ContentDB) -> PackedStringArray:
 					]
 				)
 			)
+	out.append_array(_unique_problems(content))
 	for shop_id: String in content.shops:
 		for item_id: Variant in content.shops[shop_id].get("items", []):
 			var item := content.item(str(item_id))
@@ -135,4 +136,41 @@ static func problems(content: ContentDB) -> PackedStringArray:
 						% [shop_id, item_id, item.get("rarity"), " or ".join(SHOP_GRADES)]
 					)
 				)
+	return out
+
+
+## A unique item ("unique": true) is a quest's prize only: no shop sells it
+## and no enemy, field elite or world boss drops it.
+static func _unique_problems(content: ContentDB) -> PackedStringArray:
+	var out: PackedStringArray = []
+	var dropped := {}
+	for shop_id: String in content.shops:
+		for item_id: Variant in content.shops[shop_id].get("items", []):
+			dropped[str(item_id)] = "shops.%s" % shop_id
+	for enemy_id: String in content.enemies:
+		for drop: Dictionary in content.enemies[enemy_id].get("loot", {}).get("drops", []):
+			dropped[str(drop["item"])] = "enemies.%s" % enemy_id
+	for area_id: String in content.areas:
+		for prize: Variant in FarmSpawner.spec(content, area_id).get("elite_drops", []):
+			if prize is Dictionary:
+				dropped[str(prize.get("item", ""))] = "areas.%s" % area_id
+	for boss: String in content.world_bosses:
+		var data: Dictionary = content.world_bosses[boss]
+		for part: Variant in data.get("tiers", []) + [data.get("kill", {})]:
+			if part is Dictionary:
+				for item_id: String in part.get("rolls", {}):
+					dropped[item_id] = "world_bosses.%s" % boss
+	var rewarded := false
+	for id: String in content.items:
+		if not content.items[id] is Dictionary or not content.items[id].get("unique", false):
+			continue
+		if dropped.has(id):
+			out.append("items.%s: unique, yet %s gives it" % [id, dropped[id]])
+		rewarded = false
+		for quest_id: String in content.quests:
+			rewarded = (
+				rewarded or content.quests[quest_id].get("rewards", {}).get("items", {}).has(id)
+			)
+		if not rewarded:
+			out.append("items.%s: unique, so a quest must give it" % id)
 	return out

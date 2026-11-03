@@ -17,17 +17,15 @@ const ROAD_Y := 300.0
 const SERVICES := {
 	"taxi_win_city": ["travel", "travel"],
 	"city_notice_board": ["board", "board"],
-	"city_kiosk": ["shop", "shop"],
+	"vendor_ama": ["shop", "shop"],
 	"city_workbench": ["workbench", "bag"],
 }
 ## Depot Yard as it is on main (SHA-256 of its areas.json entry, its kit and
 ## generated scenery entries, sorted-key JSON, and of its four scenery images).
 ## The city must never change Story Area 1.
-const WIN_LINE := "Choose a destination you've unlocked. I'll take you there."
-const MAIN_WIN_LINE := (
-	"Motorbike taxi. Anywhere you've been on South Street, " + "ten coins. Hold on tight."
-)
-const DEPOT_AREA_SHA := "24dee5917418c9609470767f8509a7f8d93fa03f5e09eeca701d0b9d712ab642"
+## Depot Yard without its NPCs: the owner moved Ama's stall and Win's rank to
+## the city (2026-11-03); the yard keeps Chief Odo, a story rest point.
+const DEPOT_AREA_SHA := "392475033404b717094a20cff283941f6e5213793a0129f0dbb47f6aef9274b6"
 const DEPOT_KIT_SHA := "d73d184ceaa63434c1309f90032f4c49fd6983276aa44d2fb52b23595e272e22"
 const DEPOT_ENV_SHA := "cfa32a60f4d172a6d40a25cfdc28c6ef727f3c335bed0f0add4080095d51fd2f"
 const DEPOT_PNG_SHA := {
@@ -159,11 +157,11 @@ func _rides(menu: Control) -> Array[String]:
 
 func test_depot_yard_is_exactly_as_on_main() -> void:
 	var depot := _content().area("depot_yard").duplicate(true)
-	# The one change the owner asked for since: Win's line (the taxi now goes
-	# beyond South Street). Everything else is byte for byte as on main.
-	var win: Dictionary = depot["npcs"][2]
-	assert_eq(str(win["line"]), WIN_LINE, "Win's line, as the owner asked")
-	win["line"] = MAIN_WIN_LINE
+	# The owner's changes since: the merchants and Win moved to the city, so
+	# only Chief Odo stays. Everything else is byte for byte as on main.
+	var npcs: Array = depot["npcs"]
+	assert_eq(npcs.map(func(n: Dictionary) -> String: return n["id"]), ["chief_odo"], "Odo stays")
+	depot.erase("npcs")
 	assert_eq(JSON.stringify(depot, "", true).sha256_text(), DEPOT_AREA_SHA, "Depot Yard's data")
 	assert_eq(
 		JSON.stringify(_content().kit["areas"]["depot_yard"], "", true).sha256_text(),
@@ -236,7 +234,7 @@ func test_arriving_rests_exactly_like_depot_yard() -> void:
 	profile.xp = 40
 	profile.add_item("scrap_metal", 2)
 	profile.defeated["smogling"] = 7
-	profile.quests["clear_saltmarket"] = {"state": "active", "progress": 3}
+	profile.quests["foreman"] = {"state": "active", "progress": 0}
 	profile.world_boss["tunnel_mother"] = {"round": 9, "dealt": 50, "tiers": 1, "killed": false}
 	StreetMemory.mark_cleared(profile, "saltmarket", 0)
 	var before := profile.to_dict()
@@ -253,31 +251,26 @@ func test_arriving_rests_exactly_like_depot_yard() -> void:
 # --- Getting there and back -----------------------------------------------
 
 
-func test_every_taxi_stand_rides_to_the_city_and_keeps_its_old_rides() -> void:
+func test_only_the_city_has_merchants_and_a_taxi() -> void:
+	# The owner's rule: services live in the city; the story has quest givers.
+	for area_id in StreetMemory.street(_content()):
+		for npc: Dictionary in _content().area(area_id).get("npcs", []):
+			assert_eq(
+				str(npc["role"]), "quests", "%s: only a quest giver (%s)" % [area_id, npc["id"]]
+			)
+	var roles := {}
+	for npc: Dictionary in _city()["npcs"]:
+		roles[npc["role"]] = int(roles.get(npc["role"], 0)) + 1
+	assert_eq(int(roles.get("travel", 0)), 1, "Win's rank")
+	assert_eq(int(roles.get("shop", 0)), _content().shops.size(), "every merchant has a stall")
 	var game := _game()
 	game.profile.money = 1000
 	for area_id in StreetMemory.street(game.content):
 		StreetMemory.visit(game.profile, area_id)
-	for area_id: String in game.content.areas:
-		if area_id == CITY:
-			continue
-		for npc: Dictionary in game.content.area(area_id).get("npcs", []):
-			if npc["role"] != "travel":
-				continue
-			game.enter_area(area_id, "west")
-			game._show("travel", GameMenus.travel(game, npc))
-			var expected: Array[String] = [CITY]
-			expected.append_array(StreetMemory.destinations(game.profile, game.content, area_id))
-			expected.sort()
-			assert_eq(_rides(game.menu), expected, "%s: the city and the story" % npc["id"])
-			assert_eq(int(npc["fare"]), 10, "%s's fare unchanged" % npc["id"])
-			game.close_menu()
-	var money: int = game.profile.money
-	game.enter_area("port_road", "west")
-	game._ride(_content().area("port_road")["npcs"][2], CITY)
-	assert_eq(game.zone.area_id, CITY, "rode to the city")
-	assert_eq(game.profile.money, money - 10, "for the usual fare")
-	assert_true(game.zone.hero.position.x < float(_npc("taxi_win_city")["x"]), "at the rank")
+	game._go_to_city()
+	game._ride(_npc("taxi_win_city"), "port_road")
+	assert_eq(game.zone.area_id, "port_road", "rode out to the story")
+	assert_eq(game.profile.money, 990, "for the usual fare")
 	_done(game)
 
 
@@ -385,7 +378,7 @@ func test_the_story_goes_home_to_depot_yard_and_the_hub_content_to_the_city() ->
 	var c := _content()
 	assert_eq(c.start_area, "depot_yard", "the story's home")
 	assert_eq(AreaRules.hub(c), CITY, "the farming grounds' and world bosses' home")
-	assert_eq(AreaRules.rest_home(c, "port_road"), "depot_yard", "auto rests on the street")
+	assert_eq(AreaRules.rest_home(c, "port_road"), CITY, "auto rests in the city, story or not")
 	assert_eq(AreaRules.rest_home(c, "farm_facility_annex"), CITY, "and in the city from a ground")
 	assert_eq(AutoRules.fare(c, CITY), 10, "auto battle's ride back from the city")
 	for boss: String in c.world_bosses:
@@ -435,19 +428,22 @@ func test_every_service_opens_what_it_says() -> void:
 	_done(game)
 
 
-func test_the_kiosk_sells_amas_stock_at_amas_prices() -> void:
-	assert_eq(
-		_content().shops["city_kiosk"]["items"],
-		_content().shops["depot_stall"]["items"],
-		"the same stock"
-	)
+func test_the_market_opens_each_merchant_with_their_chapter() -> void:
 	var game := _game()
 	game._go_to_city()
 	game.profile.money = 50
 	var price := int(game.content.item("steamed_bun")["price"])
-	game._buy(_npc("city_kiosk"), "steamed_bun")
-	assert_eq(game.profile.money, 50 - price, "at the usual price")
+	game._buy(_npc("vendor_ama"), "steamed_bun")
+	assert_eq(game.profile.money, 50 - price, "Ama's stall is open from the start")
 	assert_eq(game.profile.count("steamed_bun"), 4, "bought one (3 in the starter kit)")
+	for npc: Dictionary in _city()["npcs"]:
+		if npc["role"] != "shop" or npc["id"] == "vendor_ama":
+			continue
+		var shop := str(npc["shop"])
+		assert_true(not ShopRules.is_open(game.profile, game.content, shop), shop + ": closed")
+		assert_eq(ShopRules.buy(game.profile, shop, "steamed_bun", game.content), "closed", shop)
+		StreetMemory.visit(game.profile, str(game.content.shops[shop]["unlock"]["reached"]))
+		assert_true(ShopRules.is_open(game.profile, game.content, shop), shop + ": opens")
 	_done(game)
 
 
@@ -513,7 +509,7 @@ func test_planned_services_are_marked_and_offer_nothing_to_press() -> void:
 		if "Trading Post" in text or "Guild Hall" in text:
 			assert_true("not open yet" in text, "%s says it is not open yet" % text)
 	var prompts := game.view.find_children("Prompt", "CenterContainer", true, false)
-	assert_eq(prompts.size(), SERVICES.size(), "a prompt only where E does something")
+	assert_eq(prompts.size(), _city()["npcs"].size(), "a prompt only where E does something")
 	_done(game)
 
 
@@ -548,10 +544,10 @@ func test_riding_out_and_coming_back_keeps_the_character_intact() -> void:
 
 
 func test_a_short_ride_list_is_shown_whole() -> void:
-	# A new hero at Depot Yard: Win's list is just the city, under its heading.
+	# A new hero in the city: Win's list is short, and shown whole.
 	var game := _game()
-	var depot_win: Dictionary = game.content.area("depot_yard")["npcs"][2]
-	game._show("travel", GameMenus.travel(game, depot_win))
+	game._go_to_city()
+	game._show("travel", GameMenus.travel(game, _npc("taxi_win_city")))
 	await _settle()
 	var scroll: ScrollContainer = game.menu.find_child("Scroll", true, false)
 	var box := scroll.get_global_rect()

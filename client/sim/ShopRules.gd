@@ -9,14 +9,32 @@ extends RefCounted
 const MAX_AMOUNT := 99
 
 
-## Returns "" on success, otherwise the reason: "unknown_shop", "not_sold",
-## "bad_amount" or "not_enough_money".
+## True when `shop_id` trades with the hero: always, or once the story has
+## reached the area in its "unlock" ({"reached": area}). The city's market
+## holds every merchant; each opens for the chapter that brings them in.
+static func is_open(profile: PlayerProfile, content: ContentDB, shop_id: String) -> bool:
+	var rule: Dictionary = content.shops.get(shop_id, {}).get("unlock", {})
+	return not rule.has("reached") or str(rule["reached"]) in profile.visited
+
+
+## What a closed shop says: "Opens once you have reached Port Road.", or "".
+static func closed_text(profile: PlayerProfile, content: ContentDB, shop_id: String) -> String:
+	if is_open(profile, content, shop_id):
+		return ""
+	var place := str(content.shops[shop_id]["unlock"]["reached"])
+	return "Opens once you have reached %s." % content.area(place).get("name", place)
+
+
+## Returns "" on success, otherwise the reason: "unknown_shop", "closed",
+## "not_sold", "bad_amount" or "not_enough_money".
 static func buy(
 	profile: PlayerProfile, shop_id: String, item_id: String, content: ContentDB, amount := 1
 ) -> String:
 	var shop: Dictionary = content.shops.get(shop_id, {})
 	if shop.is_empty():
 		return "unknown_shop"
+	if not is_open(profile, content, shop_id):
+		return "closed"
 	if item_id not in shop.get("items", []):
 		return "not_sold"
 	if amount < 1 or amount > max_amount(content, item_id):

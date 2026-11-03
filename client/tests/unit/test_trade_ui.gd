@@ -45,7 +45,8 @@ func test_the_deal_bar_is_on_screen_for_every_ware() -> void:
 	var game := _game()
 	game.profile.money = 100000
 	game.profile.level = 30
-	game.zone.hero.position = Vector2(410, 262)
+	game.enter_area("main_city", "west")
+	game.zone.hero.position = Vector2(500, 262)
 	assert_true(game.try_interact(), "vendor in reach")
 	await _settle()
 	var list := game.menu.find_child("List", true, false) as ItemList
@@ -63,7 +64,8 @@ func test_the_deal_bar_is_on_screen_for_every_ware() -> void:
 func test_buying_a_stack_and_selling_it_back() -> void:
 	var game := _game()
 	game.profile.money = 100
-	game.zone.hero.position = Vector2(410, 262)
+	game.enter_area("main_city", "west")
+	game.zone.hero.position = Vector2(500, 262)
 	assert_true(game.try_interact(), "vendor in reach")
 	await _settle()
 	var step := game.menu.find_child("Step+", true, false) as Button

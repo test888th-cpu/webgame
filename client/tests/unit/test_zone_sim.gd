@@ -136,7 +136,7 @@ func test_attack_tokens_limit_simultaneous_attackers() -> void:
 
 func test_clearing_waves_rewards_and_unlocks() -> void:
 	var zone := _zone("saltmarket")
-	QuestRules.accept(zone.profile, "clear_saltmarket", _content())
+	QuestRules.accept(zone.profile, "foreman", _content())
 	_stroll(zone, 200)
 	var events := _beat_nearest(zone)
 	var types := _types(events)
@@ -147,7 +147,7 @@ func test_clearing_waves_rewards_and_unlocks() -> void:
 	assert_eq(zone.arena, zone.bounds, "full street walkable again")
 	assert_true(zone.profile.xp > 0 or zone.profile.level > 1, "XP earned")
 	assert_eq(zone.profile.defeated.get("smogling", 0), 4, "four smoglings counted")
-	assert_eq(zone.profile.quests["clear_saltmarket"]["progress"], 5, "quest counted all five")
+	assert_eq(zone.profile.quests["foreman"]["progress"], 0, "a stage quest counts only its boss")
 	assert_true(zone.pickups.size() > 0, "loot dropped")
 
 
@@ -174,11 +174,11 @@ func test_pickups_are_collected_by_walking_over_them() -> void:
 
 func test_training_dummy_gives_nothing_and_respawns() -> void:
 	var zone := _zone("depot_yard")
-	QuestRules.accept(zone.profile, "clear_saltmarket", _content())
+	QuestRules.accept(zone.profile, "foreman", _content())
 	var events := _beat_nearest(zone, 400)
 	assert_true("defeat" not in _types(events), "no defeat rewards from a dummy")
 	assert_eq(zone.profile.xp, 0, "no XP")
-	assert_eq(zone.profile.quests["clear_saltmarket"]["progress"], 0, "no quest progress")
+	assert_eq(zone.profile.quests["foreman"]["progress"], 0, "no quest progress")
 	var dummy := zone.enemies()[0]
 	_run(zone, int(_content().enemy("training_dummy")["respawn_ticks"]) + 5)
 	assert_eq(dummy.hp, dummy.max_hp, "dummy back to full")

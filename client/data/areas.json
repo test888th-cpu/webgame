@@ -34,17 +34,6 @@
       },
       "npcs": [
         {
-          "id": "vendor_ama",
-          "name": "Ama",
-          "role": "shop",
-          "shop": "depot_stall",
-          "x": 430,
-          "y": 262,
-          "color": "#c0576b",
-          "line": "Buns, tea, gear. Coin first, questions later.",
-          "sprite": "npc_ama"
-        },
-        {
           "id": "chief_odo",
           "name": "Chief Odo",
           "role": "quests",
@@ -53,17 +42,6 @@
           "color": "#4f6fb0",
           "line": "The street needs clearing. You up for it?",
           "sprite": "npc_odo"
-        },
-        {
-          "id": "taxi_win",
-          "name": "Win",
-          "role": "travel",
-          "fare": 10,
-          "x": 850,
-          "y": 262,
-          "color": "#e07020",
-          "line": "Choose a destination you've unlocked. I'll take you there.",
-          "sprite": "npc_win"
         }
       ],
       "placed": [
@@ -980,30 +958,7 @@
           "baseball_bat": 2
         }
       },
-      "npcs": [
-        {
-          "id": "vendor_kenji",
-          "name": "Kenji",
-          "role": "shop",
-          "shop": "night_stall",
-          "x": 300,
-          "y": 262,
-          "color": "#d0a050",
-          "line": "Fresh gear for the long night. Better than what Ama sells, and priced like it.",
-          "sprite": "npc_kenji"
-        },
-        {
-          "id": "taxi_win",
-          "name": "Win",
-          "role": "travel",
-          "fare": 10,
-          "x": 770,
-          "y": 262,
-          "color": "#e07020",
-          "line": "Choose a destination you've unlocked. I'll take you there.",
-          "sprite": "npc_win"
-        }
-      ],
+      "npcs": [],
       "encounters": [
         {
           "trigger_x": 620,
@@ -1725,28 +1680,6 @@
           "color": "#a07040",
           "line": "Forty years I've fed the dock crews. Never seen them this scared.",
           "sprite": "npc_chai"
-        },
-        {
-          "id": "vendor_noi",
-          "name": "Noi",
-          "role": "shop",
-          "shop": "port_canteen",
-          "x": 470,
-          "y": 262,
-          "color": "#d07090",
-          "line": "Rice, tea and whatever the crews leave behind. Port prices.",
-          "sprite": "npc_noi"
-        },
-        {
-          "id": "taxi_win_port",
-          "name": "Win",
-          "role": "travel",
-          "fare": 10,
-          "x": 640,
-          "y": 262,
-          "color": "#e07020",
-          "line": "Even out here at the port, ten coins. Hold on tight.",
-          "sprite": "npc_win"
         }
       ],
       "weapons": {
@@ -2274,28 +2207,6 @@
           "color": "#e0e0f0",
           "line": "I measured the canal for six years. Nobody wanted the numbers.",
           "sprite": "npc_pim"
-        },
-        {
-          "id": "vendor_jum",
-          "name": "Aunt Jum",
-          "role": "shop",
-          "shop": "jum_cart",
-          "x": 470,
-          "y": 262,
-          "color": "#60a060",
-          "line": "Night shift eats here. So do the guards. I don't ask.",
-          "sprite": "npc_jum"
-        },
-        {
-          "id": "taxi_win_factory",
-          "name": "Win",
-          "role": "travel",
-          "fare": 10,
-          "x": 640,
-          "y": 262,
-          "color": "#e07020",
-          "line": "Factory road, port, home. Ten coins anywhere.",
-          "sprite": "npc_win"
         }
       ],
       "weapons": {
@@ -2779,28 +2690,6 @@
           "color": "#40a060",
           "line": "I sold information. I carried envelopes too. Let me make it right.",
           "sprite": "npc_kenji"
-        },
-        {
-          "id": "vendor_thong",
-          "name": "Uncle Thong",
-          "role": "shop",
-          "shop": "thong_stall",
-          "x": 470,
-          "y": 262,
-          "color": "#5a6a8a",
-          "line": "Thirty years watching these doors. I sell what fell off the trucks.",
-          "sprite": "npc_thong"
-        },
-        {
-          "id": "taxi_win_warehouse",
-          "name": "Win",
-          "role": "travel",
-          "fare": 10,
-          "x": 640,
-          "y": 262,
-          "color": "#e07020",
-          "line": "Warehouses, factories, port, home. Ten coins anywhere.",
-          "sprite": "npc_win"
         }
       ],
       "weapons": {
@@ -3278,28 +3167,6 @@
           "color": "#e0e0f0",
           "line": "Six years of numbers, and here is where they lead.",
           "sprite": "npc_pim"
-        },
-        {
-          "id": "vendor_lek",
-          "name": "Lek",
-          "role": "shop",
-          "shop": "lek_lab_cart",
-          "x": 470,
-          "y": 262,
-          "color": "#c0c8e0",
-          "line": "I washed their glassware for two years. They let me go. I kept the keys.",
-          "sprite": "npc_lek"
-        },
-        {
-          "id": "taxi_win_facility",
-          "name": "Win",
-          "role": "travel",
-          "fare": 10,
-          "x": 640,
-          "y": 262,
-          "color": "#e07020",
-          "line": "Furthest I've ever driven. Ten coins, same as always.",
-          "sprite": "npc_win"
         }
       ],
       "weapons": {
@@ -3746,28 +3613,6 @@
           "color": "#e0e0f0",
           "line": "Every number I ever took leads to this door.",
           "sprite": "npc_pim"
-        },
-        {
-          "id": "vendor_ama_core",
-          "name": "Ama",
-          "role": "shop",
-          "shop": "ama_supply",
-          "x": 470,
-          "y": 262,
-          "color": "#c0576b",
-          "line": "You think I'd let you fight the Director on an empty stomach?",
-          "sprite": "npc_ama"
-        },
-        {
-          "id": "taxi_win_core",
-          "name": "Win",
-          "role": "travel",
-          "fare": 10,
-          "x": 640,
-          "y": 262,
-          "color": "#e07020",
-          "line": "End of the line. I'll wait. Ten coins, same as always.",
-          "sprite": "npc_win"
         }
       ],
       "weapons": {
@@ -4370,22 +4215,88 @@
           "planned_services": ["Trading Post", "Guild Hall"]
         },
         {
-          "id": "city_kiosk",
-          "name": "Self-Service Kiosk",
+          "id": "vendor_ama",
+          "name": "Ama",
           "role": "shop",
-          "shop": "city_kiosk",
-          "piece": "vending_machine",
-          "x": 700,
+          "shop": "depot_stall",
+          "x": 520,
           "y": 262,
-          "color": "#60a0c0",
-          "line": "Coins in, goods out. Same stock and prices as Ama's stall."
+          "color": "#c0576b",
+          "line": "Buns, tea, gear. Coin first, questions later. I moved my stall up here where it's safe.",
+          "sprite": "npc_ama"
+        },
+        {
+          "id": "vendor_kenji",
+          "name": "Kenji",
+          "role": "shop",
+          "shop": "night_stall",
+          "x": 600,
+          "y": 262,
+          "color": "#d0a050",
+          "line": "Fresh gear for the long night. Better than what Ama sells, and priced like it.",
+          "sprite": "npc_kenji"
+        },
+        {
+          "id": "vendor_noi",
+          "name": "Noi",
+          "role": "shop",
+          "shop": "port_canteen",
+          "x": 680,
+          "y": 262,
+          "color": "#d07090",
+          "line": "Rice, tea and whatever the crews leave behind. Port prices.",
+          "sprite": "npc_noi"
+        },
+        {
+          "id": "vendor_jum",
+          "name": "Aunt Jum",
+          "role": "shop",
+          "shop": "jum_cart",
+          "x": 760,
+          "y": 262,
+          "color": "#60a060",
+          "line": "Night shift eats here. So do the guards. I don't ask.",
+          "sprite": "npc_jum"
+        },
+        {
+          "id": "vendor_thong",
+          "name": "Uncle Thong",
+          "role": "shop",
+          "shop": "thong_stall",
+          "x": 840,
+          "y": 262,
+          "color": "#5a6a8a",
+          "line": "Thirty years watching these doors. I sell what fell off the trucks.",
+          "sprite": "npc_thong"
+        },
+        {
+          "id": "vendor_lek",
+          "name": "Lek",
+          "role": "shop",
+          "shop": "lek_lab_cart",
+          "x": 920,
+          "y": 262,
+          "color": "#c0c8e0",
+          "line": "I washed their glassware for two years. They let me go. I kept the keys.",
+          "sprite": "npc_lek"
+        },
+        {
+          "id": "ama_supply_crates",
+          "name": "Ama's Supply Crates",
+          "role": "shop",
+          "shop": "ama_supply",
+          "piece": "crates",
+          "x": 1000,
+          "y": 262,
+          "color": "#c0576b",
+          "line": "Ama's crates for the last push: the best food and gear she could carry. Take what you need."
         },
         {
           "id": "city_workbench",
           "name": "Workbench",
           "role": "workbench",
           "piece": "crates",
-          "x": 1000,
+          "x": 1080,
           "y": 262,
           "color": "#b08850",
           "line": "Scrap, alloy and coins in, a better piece out. Pick worn gear to upgrade it."
@@ -4414,7 +4325,7 @@
       "landmarks": [
         {"x": 200, "text": "Taxi Rank"},
         {"x": 700, "text": "Market"},
-        {"x": 1000, "text": "Workshop"},
+        {"x": 1080, "text": "Workshop"},
         {"x": 1240, "text": "Training Yard"},
         {"x": 1400, "text": "Trading Post: not open yet"},
         {"x": 1530, "text": "Guild Hall: not open yet"}
@@ -4457,12 +4368,12 @@
         },
         {
           "kind": "motorbike",
-          "x": 560,
+          "x": 1320,
           "y": 260
         },
         {
           "kind": "oil_drums",
-          "x": 1080,
+          "x": 1170,
           "y": 258
         }
       ]

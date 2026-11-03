@@ -4,6 +4,30 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed: the city holds every service; the story gives one quest per stage
+- **Services in the city only (owner decision).** Every merchant (Ama, Kenji, Noi,
+  Aunt Jum, Uncle Thong, Lek, and Ama's supply crates) now keeps a stall in Iron City
+  Central's market. Each stall opens once the story reaches that merchant's chapter
+  (`shops.json` `unlock`, `ShopRules.is_open`); until then the stall says when it opens.
+  - Win's rank in the city is the only taxi. The story road keeps only quest givers, at
+    each district's rest point.
+  - The kiosk is replaced by Ama's stall.
+  - Auto battle rests and restocks in the city, from the story too.
+- **Stage quests.** A stage is one quest: take it at a rest point, fight through to the
+  stage's boss, hand it in.
+  - **The chain:** 12 quests (Foreman, Pit Champion, Furnace Baron, Chen, Security
+    Chief, K-7, Ringmaster, Big Sak, Subject 12, Arthit, the Reactor Walkway's
+    sentinels, Director Wiroj). They replace the 31 "defeat N" quests.
+  - **Kept:** the story's dialogue and every piece of evidence. Quest XP over the whole
+    story is unchanged (136,660), and the hero stays within two levels of every area.
+  - **Rewards:** each stage pays its own Rare gear (12 new quest-only pieces).
+  - **The last stage:** it pays the **Heart of Iron City**, a one-of-a-kind Legendary
+    given once. The validator refuses it anywhere else.
+  - **Saves:** evidence or a unique prize already held is never handed over twice.
+    Saves load as they are (version 10): a retired quest is dropped, and the next stage
+    is offered.
+- **Story bible** updated (market, Win, quest chains). Tests: 520 (new: `test_stage_quests.gd`).
+
 ### Added: loot guidance (the bag's upgrade arrow, prizes on the map)
 - **The bag:** a green arrow marks carried gear the hero could wear now that beats what is
   worn in its slot. It is scored with upgrades included (`ItemRules.is_upgrade`); gear

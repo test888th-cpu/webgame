@@ -132,14 +132,15 @@ func test_the_taxi_rides_only_where_you_have_been() -> void:
 func test_a_ride_costs_the_fare() -> void:
 	var game := _game()
 	StreetMemory.visit(game.profile, "saltmarket")
+	game.enter_area("main_city", "west")
 	var taxi: Dictionary = {}
 	for npc: Dictionary in game.zone.area["npcs"]:
 		if npc["role"] == "travel":
 			taxi = npc
-	assert_true(not taxi.is_empty(), "a taxi waits at the Depot")
+	assert_true(not taxi.is_empty(), "a taxi waits in the city")
 	game.profile.money = 5
 	game._ride(taxi, "saltmarket")
-	assert_eq(game.zone.area_id, "depot_yard", "too poor to ride")
+	assert_eq(game.zone.area_id, "main_city", "too poor to ride")
 	game.profile.money = 50
 	game._ride(taxi, "saltmarket")
 	assert_eq(game.zone.area_id, "saltmarket", "rode there")

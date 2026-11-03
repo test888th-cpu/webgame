@@ -199,6 +199,8 @@ static func route(profile: PlayerProfile, content: ContentDB, here: String) -> D
 ## with none, the next quest on offer.
 static func goal(profile: PlayerProfile, content: ContentDB) -> Dictionary:
 	for quest_id: String in profile.quests:
+		if not content.quests.has(quest_id):
+			continue
 		var quest: Dictionary = content.quests[quest_id]
 		var giver := str(quest["giver"])
 		match str(profile.quests[quest_id]["state"]):

@@ -94,29 +94,31 @@ func test_shop_checks_stock_and_money() -> void:
 
 func test_quest_chain_progress_and_single_turn_in() -> void:
 	var p := _profile()
-	assert_eq(QuestRules.status(p, "warden", _content()), "locked", "needs the first quest")
-	assert_true(QuestRules.accept(p, "clear_saltmarket", _content()), "accepted")
-	assert_true(not QuestRules.accept(p, "clear_saltmarket", _content()), "not twice")
+	assert_eq(QuestRules.status(p, "the_pit", _content()), "locked", "needs the first stage")
+	assert_true(QuestRules.accept(p, "foreman", _content()), "accepted")
+	assert_true(not QuestRules.accept(p, "foreman", _content()), "not twice")
 	for i in 7:
 		QuestRules.on_defeat(p, "smogling", _content())
-	assert_eq(QuestRules.status(p, "clear_saltmarket", _content()), "active", "7 of 8")
-	assert_eq(QuestRules.on_defeat(p, "tar_hound", _content()), ["clear_saltmarket"], "complete")
-	var rewards := QuestRules.turn_in(p, "clear_saltmarket", _content())
-	assert_eq(rewards.get("money"), 40, "money reward")
-	assert_eq(p.money, 40, "money paid")
-	assert_eq(p.count("ginger_tea"), 2, "items given")
-	assert_eq(QuestRules.turn_in(p, "clear_saltmarket", _content()), {}, "no second payout")
-	assert_eq(p.money, 40, "still 40")
-	assert_eq(QuestRules.status(p, "warden", _content()), "available", "next quest unlocked")
+	assert_eq(QuestRules.status(p, "foreman", _content()), "active", "the stage ends at its boss")
+	assert_eq(QuestRules.on_defeat(p, "sludge_foreman", _content()), ["foreman"], "complete")
+	var rewards := QuestRules.turn_in(p, "foreman", _content())
+	var paid := int(_content().quests["foreman"]["rewards"]["money"])
+	assert_eq(rewards.get("money"), paid, "money reward")
+	assert_eq(p.money, paid, "money paid")
+	assert_eq(p.count("odos_old_gloves"), 1, "the stage's gear")
+	assert_eq(p.count("torn_label"), 1, "and its evidence")
+	assert_eq(QuestRules.turn_in(p, "foreman", _content()), {}, "no second payout")
+	assert_eq(p.money, paid, "paid once")
+	assert_eq(QuestRules.status(p, "the_pit", _content()), "available", "next stage unlocked")
 
 
 func test_targeted_quest_ignores_other_enemies() -> void:
 	var p := _profile()
-	p.quests["warden"] = {"state": "active", "progress": 0}
+	p.quests["foreman"] = {"state": "active", "progress": 0}
 	QuestRules.on_defeat(p, "smogling", _content())
-	assert_eq(p.quests["warden"]["progress"], 0, "a smogling is not the warden")
-	QuestRules.on_defeat(p, "smog_warden", _content())
-	assert_eq(QuestRules.status(p, "warden", _content()), "complete", "warden counts")
+	assert_eq(p.quests["foreman"]["progress"], 0, "a smogling is not the Foreman")
+	QuestRules.on_defeat(p, "sludge_foreman", _content())
+	assert_eq(QuestRules.status(p, "foreman", _content()), "complete", "the Foreman counts")
 
 
 func test_loot_is_deterministic_per_seed() -> void:
@@ -141,7 +143,7 @@ func test_save_round_trip() -> void:
 	p.add_item("steamed_bun", 3)
 	p.add_item("work_jacket")
 	p.equip("work_jacket", _content())
-	QuestRules.accept(p, "clear_saltmarket", _content())
+	QuestRules.accept(p, "foreman", _content())
 	p.area = "saltmarket"
 	StreetMemory.visit(p, "depot_yard")
 	StreetMemory.visit(p, "saltmarket")
@@ -164,7 +166,7 @@ func test_bad_saves_are_rejected_or_sanitised() -> void:
 		"hp": 99999,
 		"inventory": {"steamed_bun": 2, "gold_bar": 99},
 		"equipment": {"weapon": "work_jacket", "armor": "work_jacket"},
-		"quests": {"clear_saltmarket": {"state": "hacked"}, "made_up": {"state": "active"}},
+		"quests": {"foreman": {"state": "hacked"}, "made_up": {"state": "active"}},
 		"area": "moon",
 	}
 	var p := PlayerProfile.from_dict(tampered, _content())

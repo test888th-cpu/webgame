@@ -113,6 +113,10 @@ func _open(game: Game, screen: String) -> Control:
 		"shop", "conversation", "travel":
 			var role: String = {"shop": "shop", "conversation": "quests", "travel": "travel"}[screen]
 			var npc := _npc(game, role)
+			if npc.is_empty() and game.content.city_area != "":
+				# Merchants and Win are in the city; the story has quest givers.
+				game.enter_area(game.content.city_area, "west")
+				npc = _npc(game, role)
 			if npc.is_empty():
 				return null
 			game.zone.hero.position = Vector2(float(npc["x"]) - 20.0, float(npc["y"]))

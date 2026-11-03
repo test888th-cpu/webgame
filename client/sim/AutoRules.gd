@@ -82,6 +82,8 @@ static func restock(
 		if npc.get("role") != "shop":
 			continue
 		var shop_id := str(npc["shop"])
+		if not ShopRules.is_open(profile, content, shop_id):
+			continue
 		var sold: Array = content.shops.get(shop_id, {}).get("items", [])
 		for food in FoodRules.shopping_list(content, sold, max_hp):
 			var price := int(content.item(food)["price"])

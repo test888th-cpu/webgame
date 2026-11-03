@@ -37,22 +37,22 @@ func _talk_to_odo(game: Node2D) -> void:
 func test_the_offer_is_spoken_and_the_goal_spelled_out() -> void:
 	var game := _game()
 	_talk_to_odo(game)
-	var quest: Dictionary = game.content.quests["clear_saltmarket"]
+	var quest: Dictionary = game.content.quests["foreman"]
 	var text := _texts(game.menu)
 	assert_true(text.contains(str(quest["dialogue"]["offer"])), "speaks the offer")
 	assert_true(text.contains("Goal: " + str(quest["description"])), "spells out the goal")
-	assert_true(text.contains("PROLOGUE"), "names the chapter")
+	assert_true(text.contains("CHAPTER 1"), "names the chapter")
 	assert_true(not text.contains("Torn Shipping Label"), "evidence is not dangled as a reward")
 	_done(game)
 
 
 func test_handing_in_gives_evidence_and_the_closing_line() -> void:
 	var game := _game()
-	game.profile.quests["clear_saltmarket"] = {"state": "complete", "progress": 8}
+	game.profile.quests["foreman"] = {"state": "complete", "progress": 1}
 	_talk_to_odo(game)
-	game._turn_in(game.view.npc_near(game.zone.hero), "clear_saltmarket")
+	game._turn_in(game.view.npc_near(game.zone.hero), "foreman")
 	assert_eq(game.profile.count("torn_label"), 1, "evidence in the bag")
-	var done := str(game.content.quests["clear_saltmarket"]["dialogue"]["done"])
+	var done := str(game.content.quests["foreman"]["dialogue"]["done"])
 	assert_true(_texts(game.menu).contains(done), "the chief says what it means")
 	_done(game)
 
