@@ -4,6 +4,16 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added: loot guidance (the bag's upgrade arrow, prizes on the map)
+- **The bag:** a green arrow marks carried gear the hero could wear now that beats what is
+  worn in its slot. It is scored with upgrades included (`ItemRules.is_upgrade`); gear
+  above the hero's level gets no arrow.
+- **The Map:** the detail line names the gear to be won in each area: a boss's drops, a
+  farming ground's elite prizes and a world boss's rolls. It reads, for example,
+  "Legendary: Harbourmaster's Hook · Epic: Harbourmaster's Cap, Dockmaster's Boots"
+  (`MapRules.prizes`).
+- **Tests:** 513.
+
 ### Changed: gear grades, boss loot and a smoother difficulty curve
 - **Grades mean something now** (`sim/ItemRules.gd`).
   - **Budget:** every piece of gear is worth a budget set by its level, slot and grade:

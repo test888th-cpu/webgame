@@ -201,3 +201,39 @@ func test_spare_boss_gear_sells_by_its_grade() -> void:
 	profile.add_item("harbour_hook")
 	assert_eq(ShopRules.sell(profile, "harbour_hook", c), "", "and the shop takes it")
 	assert_eq(profile.money, 30 + hook, "paid")
+
+
+func test_the_bag_marks_what_beats_the_worn_gear() -> void:
+	var c := _content()
+	var profile := PlayerProfile.new_game(c, "oren")
+	profile.level = 15
+	profile.add_item("dock_hook")
+	profile.add_item("brass_knuckles")
+	profile.add_item("harbour_hook")
+	profile.add_item("iron_legacy")
+	assert_true(ItemRules.is_upgrade(profile, "dock_hook", c), "anything beats an empty hand")
+	assert_true(profile.equip("dock_hook", c), "worn")
+	assert_true(not ItemRules.is_upgrade(profile, "brass_knuckles", c), "a weaker one: no")
+	assert_true(ItemRules.is_upgrade(profile, "harbour_hook", c), "the boss's: yes")
+	assert_true(not ItemRules.is_upgrade(profile, "iron_legacy", c), "not before its level")
+	assert_true(not ItemRules.is_upgrade(profile, "steamed_bun", c), "not food")
+	var dock_hook := ItemRules.copy_score(profile, "dock_hook", c)
+	profile.enhance["dock_hook"] = 5
+	assert_true(ItemRules.copy_score(profile, "dock_hook", c) > dock_hook, "upgrades count")
+
+
+func test_the_map_names_the_prizes_to_be_won() -> void:
+	var c := _content()
+	var profile := PlayerProfile.new_game(c)
+	for area_id in StreetMemory.street(c):
+		StreetMemory.visit(profile, area_id)
+	var crane := MapRules.about(profile, c, "crane_yard", "depot_yard")
+	assert_true("Legendary: Harbourmaster's Hook" in crane["prize_text"], crane["prize_text"])
+	assert_true("Epic: Harbourmaster's Cap" in crane["prize_text"], "and the Epics")
+	var ground := MapRules.about(profile, c, "farm_harbour_stacks", "depot_yard")
+	assert_true("Epic:" in ground["prize_text"], "a ground's elite prizes")
+	profile.defeated[str(WorldBossRules.spec(c, "tunnel_mother")["unlock"])] = 1
+	StreetMemory.visit(profile, "great_drain")
+	var drain := MapRules.about(profile, c, "great_drain", "depot_yard")
+	assert_true("Legendary:" in drain["prize_text"], "a world boss's prizes")
+	assert_eq(MapRules.about(profile, c, "saltmarket", "depot_yard")["prize_text"], "", "none")

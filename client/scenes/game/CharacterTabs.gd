@@ -191,6 +191,9 @@ static func equipment(game: Game) -> Control:
 			slot.name = ("Bag_" + item_id).validate_node_name()
 			slot.show_item(content, item_id, profile.count(item_id), profile.level)
 			slot.upgrade = EnhanceRules.item_level(profile, item_id)
+			slot.better = ItemRules.is_upgrade(profile, item_id, content)
+			if slot.better:
+				slot.tooltip_text += "\nBetter than what you wear"
 			slot.pressed.connect(game.inspect_item.bind(item_id, ""))
 			_bag_actions(game, slot, item_id)
 		else:
