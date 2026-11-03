@@ -393,7 +393,14 @@ source.
 | fx | project contributors | MIT | (none recorded) | fx |
 | ui | project contributors | MIT | (none recorded) | ui |
 | fx:block | Patch; Hugo Duprez (adapted from Sprite Fusion's pixel art VFX) | MIT | https://github.com/patch-gg/pixelfx | combat effects |
+| fx:boss_defeat | Patch; Hugo Duprez (adapted from Sprite Fusion's pixel art VFX) | MIT | https://github.com/patch-gg/pixelfx | combat effects |
+| fx:boss_impact | Patch; Hugo Duprez (adapted from Sprite Fusion's pixel art VFX) | MIT | https://github.com/patch-gg/pixelfx | combat effects |
 | fx:boss_land | Patch; Hugo Duprez (adapted from Sprite Fusion's pixel art VFX) | MIT | https://github.com/patch-gg/pixelfx | combat effects |
+| fx:boss_windup_brawl | Patch; Hugo Duprez (adapted from Sprite Fusion's pixel art VFX) | MIT | https://github.com/patch-gg/pixelfx | combat effects |
+| fx:boss_windup_fire | Patch; Hugo Duprez (adapted from Sprite Fusion's pixel art VFX) | MIT | https://github.com/patch-gg/pixelfx | combat effects |
+| fx:boss_windup_shadow | Patch; Hugo Duprez (adapted from Sprite Fusion's pixel art VFX) | MIT | https://github.com/patch-gg/pixelfx | combat effects |
+| fx:boss_windup_tech | Patch; Hugo Duprez (adapted from Sprite Fusion's pixel art VFX) | MIT | https://github.com/patch-gg/pixelfx | combat effects |
+| fx:boss_windup_toxic | Patch; Hugo Duprez (adapted from Sprite Fusion's pixel art VFX) | MIT | https://github.com/patch-gg/pixelfx | combat effects |
 | fx:crit | Patch; Hugo Duprez (adapted from Sprite Fusion's pixel art VFX) | MIT | https://github.com/patch-gg/pixelfx | combat effects |
 | fx:elite_flare | Patch; Hugo Duprez (adapted from Sprite Fusion's pixel art VFX) | MIT | https://github.com/patch-gg/pixelfx | combat effects |
 | fx:heal | Patch | MIT | https://github.com/patch-gg/pixelfx | combat effects |
@@ -403,7 +410,12 @@ source.
 | fx:parry | Patch; Hugo Duprez (adapted from Sprite Fusion's pixel art VFX) | MIT | https://github.com/patch-gg/pixelfx | combat effects |
 | fx:phase_burst | Patch; Hugo Duprez (adapted from Sprite Fusion's pixel art VFX) | MIT | https://github.com/patch-gg/pixelfx | combat effects |
 | fx:poof | Patch; Hugo Duprez (adapted from Sprite Fusion's pixel art VFX) | MIT | https://github.com/patch-gg/pixelfx | combat effects |
+| fx:shield_break | Patch; Hugo Duprez (adapted from Sprite Fusion's pixel art VFX) | MIT | https://github.com/patch-gg/pixelfx | combat effects |
+| fx:shield_dome | Patch; Hugo Duprez (adapted from Sprite Fusion's pixel art VFX) | MIT | https://github.com/patch-gg/pixelfx | combat effects |
+| fx:shock_zap | Patch; Hugo Duprez (adapted from Sprite Fusion's pixel art VFX) | MIT | https://github.com/patch-gg/pixelfx | combat effects |
 | fx:slam | Patch; Hugo Duprez (adapted from Sprite Fusion's pixel art VFX) | MIT | https://github.com/patch-gg/pixelfx | combat effects |
+| fx:sludge_splash | Patch; Hugo Duprez (adapted from Sprite Fusion's pixel art VFX) | MIT | https://github.com/patch-gg/pixelfx | combat effects |
+| fx:steam_burst | Patch; Hugo Duprez (adapted from Sprite Fusion's pixel art VFX) | MIT | https://github.com/patch-gg/pixelfx | combat effects |
 | fx:uppercut | Patch; Hugo Duprez (adapted from Sprite Fusion's pixel art VFX) | MIT | https://github.com/patch-gg/pixelfx | combat effects |
 | fx:whirlwind | Patch; Hugo Duprez (adapted from Sprite Fusion's pixel art VFX) | MIT | https://github.com/patch-gg/pixelfx | combat effects |
 | audio:synthesised | project contributors | MIT | (none recorded) | sound effects |

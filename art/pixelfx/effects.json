@@ -12,19 +12,156 @@
   ],
   "attribution": "Effects from pixelfx by Patch (github.com/patch-gg/pixelfx), MIT licence; its particle simulation adapts Sprite Fusion's pixel art VFX by Hugo Duprez (MIT) and its acting adapts Hollow Crown by rehan-remade (MIT).",
   "effects": {
-    "hit": {"source": "impacts/hit-spark"},
-    "hit_heavy": {"source": "impacts/blunt-hit"},
-    "crit": {"source": "impacts/crit-hit"},
-    "block": {"source": "impacts/shield-block"},
-    "parry": {"source": "impacts/parry"},
-    "slam": {"source": "impacts/ground-slam", "stride": 2},
-    "uppercut": {"source": "melee/uppercut"},
-    "whirlwind": {"source": "melee/spin-slash"},
-    "heal": {"source": "holy/heal", "stride": 2},
-    "levelup": {"source": "holy/holy-pillar", "stride": 2},
-    "poof": {"source": "spawn/poof", "stride": 2},
-    "elite_flare": {"source": "arcane/blink-in"},
-    "boss_land": {"source": "impacts/heavy-landing", "stride": 2},
-    "phase_burst": {"source": "explosions/implosion", "stride": 2}
+    "hit": {
+      "source": "impacts/hit-spark"
+    },
+    "hit_heavy": {
+      "source": "impacts/blunt-hit"
+    },
+    "crit": {
+      "source": "impacts/crit-hit"
+    },
+    "block": {
+      "source": "impacts/shield-block"
+    },
+    "parry": {
+      "source": "impacts/parry"
+    },
+    "slam": {
+      "source": "impacts/ground-slam",
+      "stride": 2
+    },
+    "uppercut": {
+      "source": "melee/uppercut"
+    },
+    "whirlwind": {
+      "source": "melee/spin-slash"
+    },
+    "heal": {
+      "source": "holy/heal",
+      "stride": 2
+    },
+    "levelup": {
+      "source": "holy/holy-pillar",
+      "stride": 2
+    },
+    "poof": {
+      "source": "spawn/poof",
+      "stride": 2
+    },
+    "elite_flare": {
+      "source": "arcane/blink-in"
+    },
+    "boss_land": {
+      "source": "impacts/heavy-landing",
+      "stride": 2
+    },
+    "phase_burst": {
+      "source": "explosions/implosion",
+      "stride": 2
+    },
+    "boss_windup_fire": {
+      "source": "arcane/spell-charge",
+      "palette": [
+        "#200",
+        "#500",
+        "#a10",
+        "#e30",
+        "#f72",
+        "#fdb"
+      ],
+      "end": 0.7
+    },
+    "boss_windup_tech": {
+      "source": "arcane/spell-charge",
+      "palette": [
+        "#012",
+        "#036",
+        "#07c",
+        "#3cf",
+        "#bff",
+        "#fff"
+      ],
+      "end": 0.7
+    },
+    "boss_windup_toxic": {
+      "source": "arcane/spell-charge",
+      "palette": [
+        "#020",
+        "#140",
+        "#3a0",
+        "#8e2",
+        "#df6",
+        "#fff"
+      ],
+      "end": 0.7
+    },
+    "boss_windup_brawl": {
+      "source": "arcane/spell-charge",
+      "palette": [
+        "#210",
+        "#530",
+        "#a70",
+        "#fb2",
+        "#fe8",
+        "#fff"
+      ],
+      "end": 0.7
+    },
+    "boss_windup_shadow": {
+      "source": "arcane/spell-charge",
+      "palette": [
+        "#102",
+        "#315",
+        "#62a",
+        "#a5f",
+        "#dbf",
+        "#fff"
+      ],
+      "end": 0.7
+    },
+    "boss_impact": {
+      "source": "explosions/dirt-explosion",
+      "end": 1.4,
+      "stride": 2
+    },
+    "boss_defeat": {
+      "source": "explosions/big-explosion",
+      "end": 2.0,
+      "stride": 3
+    },
+    "steam_burst": {
+      "source": "water/geyser",
+      "palette": [
+        "#223",
+        "#556",
+        "#889",
+        "#bbc",
+        "#eef",
+        "#fff"
+      ],
+      "start": 1.2,
+      "end": 2.8,
+      "stride": 2
+    },
+    "shock_zap": {
+      "source": "lightning/zap-hit"
+    },
+    "sludge_splash": {
+      "source": "nature/acid-splash",
+      "start": 0.3,
+      "end": 2.0,
+      "stride": 2
+    },
+    "shield_dome": {
+      "source": "scifi/force-field",
+      "stride": 2,
+      "loop": true
+    },
+    "shield_break": {
+      "source": "scifi/emp-blast",
+      "end": 1.2,
+      "stride": 2
+    }
   }
 }

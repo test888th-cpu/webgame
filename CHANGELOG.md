@@ -4,6 +4,32 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added: boss skill effects for every boss (pixelfx, MIT, credited)
+- **Wind-up glow:** a boss's heavy blow is telegraphed by a glow gathering on it through
+  the wind-up, coloured by the boss's theme. The themes are brawl (gold), fire (red-orange),
+  toxic (green), tech (cyan) and shadow (violet), set per boss in `data/boss_fx.json`.
+- **Heavy blows:** a boss's heavy blow lands with a burst of debris and a shake.
+- **Hazards:** each kind has its own effect.
+  - Falling crates: a dust explosion.
+  - Steam: a geyser.
+  - Shock and laser: arcing lightning.
+  - Sludge: an acid splash.
+- **Shields:** a boss's shield is a hexagon force-field dome that loops for as long as it
+  holds, and bursts when it drops. It replaces the drawn dome (`ShieldView`).
+- **Summons:** reinforcements arrive in a flare.
+- **Defeat:** a fallen boss goes up in a blast.
+- **Where it is defined:** `sim/BossFxRules.gd` reads `data/boss_fx.json`. The validator
+  checks that every boss has a theme, every hazard kind used has an effect, and every
+  named effect exists.
+- **Imported effects:** 12 more from pixelfx at the same pinned commit: five recoloured
+  spell-charge glows, dirt explosion, big explosion, a recoloured geyser, zap hit, acid
+  splash, force field and EMP blast.
+  - The importer can now cut a time window (`start`/`end`), recolour (`palette`) and keep
+    looping effects whole.
+  - Every effect has its own credit-register row (410 rows in all).
+- **Size:** pixelfx sheets now total about 5 MB.
+- **Tests:** 526.
+
 ### Changed: combat effects from pixelfx (MIT, credited)
 - **What is new:** 14 effects from [pixelfx](https://github.com/patch-gg/pixelfx) by Patch now play
   in the fights.

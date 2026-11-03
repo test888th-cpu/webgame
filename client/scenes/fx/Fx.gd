@@ -61,7 +61,8 @@ static func _library(content: ContentDB) -> Dictionary:
 		var top := float(effect.get("y", 0))
 		var size := Vector2(effect["size"][0], effect["size"][1])
 		frames.add_animation(id)
-		frames.set_animation_loop(id, false)
+		# A looping effect (a shield dome) plays until its holder frees it.
+		frames.set_animation_loop(id, bool(effect.get("loop", false)))
 		frames.set_animation_speed(id, float(effect["fps"]))
 		for frame in int(effect["frames"]):
 			var atlas := AtlasTexture.new()

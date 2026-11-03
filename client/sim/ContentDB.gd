@@ -69,6 +69,9 @@ var fx: Dictionary = {}
 ## Who made the imported effects and under what licence (manifest
 ## "fx_pixelfx" without its effects): the in-game credits show it.
 var fx_credits: Dictionary = {}
+## How each boss's fights look (boss_fx.json): its theme's wind-up glow, and
+## the effects of heavy blows, hazards, shields, summons and its defeat.
+var boss_fx: Dictionary = {}
 var audio: Dictionary = {}
 ## Bundled fonts: {"thai": {"file", "license", ...}}.
 var fonts: Dictionary = {}
@@ -104,6 +107,7 @@ static func load_all(dir := DATA_DIR) -> ContentDB:
 	db.hotbar = skill_file.get("hotbar", [])
 	db.tutorial = db._read(dir.path_join("tutorial.json")).get("steps", [])
 	db.world_bosses = db._read(dir.path_join("world_boss.json")).get("world_bosses", {})
+	db.boss_fx = db._read(dir.path_join("boss_fx.json"))
 	db.item_cooldown = int(skill_file.get("item_cooldown", 0))
 	var manifest := db._read(ART_MANIFEST)
 	db.art = manifest.get("assets", {})
@@ -261,6 +265,7 @@ func validate() -> void:
 	for id: String in enemies:
 		_validate_enemy(id, enemies[id])
 	_validate_world_boss()
+	errors.append_array(BossFxRules.problems(self))
 	for id: String in items:
 		_validate_item(id, items[id])
 	for id: String in shops:

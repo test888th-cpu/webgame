@@ -64,6 +64,18 @@ func on_event(event: ZoneEvent) -> void:
 			_arrival(event.data)
 		"boss_summon":
 			Sfx.play("arena_lock", -4.0)
+			for id: Variant in event.data.get("ids", []):
+				var called := view.zone.fighter(int(id))
+				if called:
+					Fx.spawn(
+						view.effects,
+						content,
+						BossFxRules.effect(content, "summon"),
+						called.position
+					)
+		"defeat":
+			if event.data.get("boss", false):
+				_boss_down(int(event.data["id"]))
 		"boss_shield":
 			_show_shield(int(event.data["id"]), bool(event.data["up"]))
 		"hero_down":
@@ -105,8 +117,20 @@ func on_event(event: ZoneEvent) -> void:
 			if event.data.get("kind", "crane") == "crane":
 				# A container hitting the street: the ground shakes.
 				view.shake(4.0)
-			Fx.spawn(view.effects, content, "dust", event.data["at"])
+			var kind := str(event.data.get("kind", "crane"))
+			var landing := BossFxRules.hazard(content, kind)
+			Fx.spawn(view.effects, content, landing if landing else "dust", event.data["at"])
 			view.shake(6.0)
+
+
+## A boss falls: the arena goes up in a blast and the screen shakes.
+func _boss_down(id: int) -> void:
+	var boss := view.zone.fighter(id)
+	if boss == null:
+		return
+	Fx.spawn(view.effects, content, BossFxRules.effect(content, "defeat"), boss.position)
+	view.shake(8.0)
+	Sfx.play("break_metal", 0.0, 0.0, 0.6)
 
 
 ## An enemy steps in with a puff of dust where it stands (no pop-in); an
@@ -141,14 +165,15 @@ func _show_shield(id: int, up: bool) -> void:
 	var fighter_view := view.view_of(id)
 	if fighter_view == null:
 		return
-	var dome := fighter_view.get_node_or_null("Shield")
+	var dome := fighter_view.get_node_or_null("ShieldDome")
 	if up and dome == null:
-		dome = ShieldView.new()
-		dome.name = "Shield"
-		fighter_view.add_child(dome)
+		dome = Fx.spawn(fighter_view, content, BossFxRules.effect(content, "shield"), Vector2.ZERO)
+		dome.name = "ShieldDome"
 		Sfx.play("arena_lock", -2.0)
 	elif not up and dome:
 		dome.queue_free()
+		var at := fighter_view.position + CHEST
+		Fx.spawn(view.effects, content, BossFxRules.effect(content, "shield_break"), at)
 		Sfx.play("break_metal", -4.0)
 
 
@@ -203,6 +228,13 @@ func _on_hit(hit: CombatEvent) -> void:
 			hud.hurt(1.5 if heavy else 1.0)
 	if attacker and not hit.blocked:
 		attacker.impact(Color.WHITE, 0.0, freeze)
+	var striker := view.zone.fighter(hit.attacker_id)
+	var boss_blow: bool = striker != null and content.enemy(striker.kind).get("boss", false)
+	if boss_blow and heavy and not hit.blocked and defender:
+		# A boss's heavy blow lands with a burst of debris at the target's feet.
+		var impact := BossFxRules.effect(content, "heavy_impact")
+		Fx.spawn(view.effects, content, impact, defender.position)
+		view.shake(3.0)
 	if hit.broken:
 		# A boss beaten off its feet: rare, so it lands hard.
 		view.shake(5.0)
@@ -241,6 +273,12 @@ func _on_swing(data: Dictionary) -> void:
 		var big := move.anim == "heavy" or move.knockdown
 		var sound := "swing_heavy" if big else "swing_light"
 		Sfx.play(sound, -6.0 if hero else -12.0)
+		if big and content.enemy(fighter.kind).get("boss", false):
+			# A boss's heavy blow is telegraphed: its theme's glow gathers on it
+			# through the wind-up, so the player can see it coming.
+			var glow := BossFxRules.windup(content, fighter.kind)
+			if glow:
+				Fx.spawn(fighter_view, content, glow, CHEST, fighter.facing < 0)
 		return
 	var skill: Dictionary = content.skills[skill_id]
 	Sfx.play(str(skill["sound"]))

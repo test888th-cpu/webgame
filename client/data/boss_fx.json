@@ -1,0 +1,37 @@
+{
+  "themes": {
+    "brawl": {"windup": "boss_windup_brawl"},
+    "fire": {"windup": "boss_windup_fire"},
+    "toxic": {"windup": "boss_windup_toxic"},
+    "tech": {"windup": "boss_windup_tech"},
+    "shadow": {"windup": "boss_windup_shadow"}
+  },
+  "bosses": {
+    "sludge_foreman": "toxic",
+    "pit_champion": "brawl",
+    "furnace_baron": "fire",
+    "harbourmaster_chen": "brawl",
+    "security_chief": "brawl",
+    "unit_k7": "tech",
+    "ringmaster": "brawl",
+    "big_sak": "brawl",
+    "subject_twelve": "shadow",
+    "commander_arthit": "tech",
+    "director_wiroj": "tech",
+    "tunnel_mother": "toxic",
+    "iron_colossus": "tech",
+    "subject_zero": "shadow"
+  },
+  "heavy_impact": "boss_impact",
+  "defeat": "boss_defeat",
+  "summon": "elite_flare",
+  "shield": "shield_dome",
+  "shield_break": "shield_break",
+  "hazards": {
+    "crane": "boss_impact",
+    "steam": "steam_burst",
+    "shock": "shock_zap",
+    "laser": "shock_zap",
+    "sludge": "sludge_splash"
+  }
+}

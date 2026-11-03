@@ -9,11 +9,13 @@ own tool at that commit (it needs only Node):
   git checkout <commit from art/pixelfx/effects.json>
   node tools/render.mjs impacts/hit-spark ... --sheet --no-actor --out <dir>
 
-then:
+and each recoloured one (an effect with a "palette") on its own, into
+<dir>/palette/<effect id> (`--commands <dir>` prints every command), then:
 
   python3 tools/assets/import_pixelfx.py <dir> <path to the pixelfx checkout>
 
-For each effect it keeps every `stride`-th frame, drops the trailing frames
+For each effect it keeps the frames between `start` and `end` seconds (all
+by default), then every `stride`-th of them, drops the trailing frames
 that have faded to almost nothing, crops to the pixels any kept frame uses,
 and writes client/assets/fx/pixelfx/<id>.png (a grid, `columns` wide), the
 manifest's "fx_pixelfx" section (frames, fps, origin, size, licence,
@@ -41,9 +43,20 @@ FADED = 0.02
 MAX_WIDTH = 2048
 
 
-def load_rendered(rendered: Path, source: str) -> tuple[list[Image.Image], dict]:
+def rendered_folder(rendered: Path, effect_id: str, spec: dict) -> Path:
+    """Where pixelfx wrote `spec`'s sheet: recoloured effects each have their own."""
+    base = rendered / "palette" / effect_id if spec.get("palette") else rendered
+    return base / spec["source"]
+
+
+def render_command(rendered: Path, effect_id: str, spec: dict) -> str:
+    out = rendered / "palette" / effect_id if spec.get("palette") else rendered
+    opts = f" --opts '{json.dumps({'palette': spec['palette']})}'" if spec.get("palette") else ""
+    return f"node tools/render.mjs {spec['source']} --sheet --no-actor --out {out}{opts}"
+
+
+def load_rendered(folder: Path, source: str) -> tuple[list[Image.Image], dict]:
     name = source.split("/")[-1]
-    folder = rendered / source
     meta = json.loads((folder / f"{name}.json").read_text())
     sheet = Image.open(folder / f"{name}.png").convert("RGBA")
     frames = meta["frames"] if isinstance(meta["frames"], list) else list(meta["frames"].values())
@@ -70,11 +83,15 @@ def authors(checkout: Path, source: str) -> list[str]:
 
 
 def build(effect_id: str, spec: dict, rendered: Path) -> tuple[Image.Image, dict]:
-    images, meta = load_rendered(rendered, spec["source"])
+    images, meta = load_rendered(rendered_folder(rendered, effect_id, spec), spec["source"])
+    fps = int(meta["fps"])
+    first = int(round(float(spec.get("start", 0.0)) * fps))
+    last = int(round(float(spec["end"]) * fps)) if "end" in spec else len(images)
     stride = int(spec.get("stride", 1))
-    kept = images[::stride]
+    kept = images[first:last][::stride]
     peak = max(opacity(image) for image in kept)
-    while len(kept) > 1 and opacity(kept[-1]) < peak * FADED:
+    # A looping effect plays round and round: keep its whole cycle.
+    while not spec.get("loop") and len(kept) > 1 and opacity(kept[-1]) < peak * FADED:
         kept.pop()
     box = None
     for image in kept:
@@ -104,10 +121,19 @@ def build(effect_id: str, spec: dict, rendered: Path) -> tuple[Image.Image, dict
         "size": [w, h],
         "origin": [int(pivot[0]) - left, int(pivot[1]) - top],
     }
+    if spec.get("loop"):
+        entry["loop"] = True
+    if spec.get("palette"):
+        entry["palette"] = spec["palette"]
     return sheet, entry
 
 
 def main(argv: list[str]) -> int:
+    if len(argv) == 3 and argv[1] == "--commands":
+        config = json.loads(CONFIG.read_text())
+        for effect_id, spec in config["effects"].items():
+            print(render_command(Path(argv[2]), effect_id, spec))
+        return 0
     if len(argv) != 3:
         print(__doc__)
         return 2
