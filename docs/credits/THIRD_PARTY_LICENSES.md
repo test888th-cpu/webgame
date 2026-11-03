@@ -8,13 +8,16 @@ not claim to own them: each keeps its own licence and its creators' rights.
 | What | Creators | Licence | Credits |
 |---|---|---|---|
 | Character sprites built from the Universal LPC Spritesheet Character Generator's asset library (heroes, NPCs, 33 enemies) | the LPC contributors named per file | per file: OGA-BY 3.0 / 3.0+, CC0, CC BY 4.0 (the spiked hair) | each character's `client/assets/characters/<id>/credits.json` |
+| Combat effects (14: hit sparks, crit, block, parry, ground slam, uppercut, spin slash, heal, level-up pillar, poof, elite flare, heavy landing, phase burst) from **pixelfx** | Patch; its particle simulation adapts Sprite Fusion's pixel art VFX by Hugo Duprez; its acting adapts Hollow Crown by rehan-remade | MIT (Copyright (c) 2026 Patch, Copyright (c) 2026 Hugo Duprez) | `client/assets/fx/pixelfx/LICENSE.txt` and `NOTICE.md`; manifest `fx_pixelfx` (source <https://github.com/patch-gg/pixelfx> at commit `a84159688af3ca37a4be05a0d422b94451b2e24e`); in-game Credits |
 | Recorded sound effects | the Freesound creators named per sound | CC BY 3.0, CC BY 4.0, CC0 | `client/assets/manifest.json` → `audio.recorded` |
 | Noto Sans Thai font | The Noto Project Authors | SIL OFL 1.1 | `client/assets/fonts/NotoSansThai-OFL.txt` |
 
 Not third-party: the street kit and the four painted enemies (Smogling, Tar Rat,
 Smog Warden, The Sludge Foreman) are the project owner's own work
 ("Proprietary (project owner)"); the generated environment, effects, UI icons,
-synthesised sounds and training dummy are the project's own (MIT).
+synthesised sounds and training dummy are the project's own (MIT). The pixelfx
+effects are third-party (MIT, above): the project does not claim them; the
+copyright and permission notice ship with them and appear in the game's Credits.
 
 - Not every asset is CC0 or OGA-BY: the monster-art selection (CC0 and OGA-BY
   3.0) is a rule for new monster art, not a description of what ships today.

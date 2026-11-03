@@ -250,6 +250,47 @@ def validate_fx(fx: dict) -> list[str]:
     return []
 
 
+def validate_pixelfx(imported: dict) -> list[str]:
+    """Effects imported from pixelfx (tools/assets/import_pixelfx.py): every
+    effect art/pixelfx/effects.json names has its sheet, of the size its frame
+    table says, and the licence, copyright, attribution and pinned source the
+    MIT licence and the credits need are all there."""
+    config_path = ROOT / "art" / "pixelfx" / "effects.json"
+    if not config_path.exists():
+        return [] if not imported else ["fx_pixelfx: art/pixelfx/effects.json missing"]
+    config = json.loads(config_path.read_text())
+    problems: list[str] = []
+    effects = imported.get("effects", {})
+    if set(effects) != set(config["effects"]):
+        problems.append("fx_pixelfx: effects differ from art/pixelfx/effects.json; run import_pixelfx.py")
+    for field in ("license", "copyright", "attribution", "repository", "commit", "notice"):
+        if not imported.get(field):
+            problems.append(f"fx_pixelfx: {field} missing")
+    if imported.get("commit") != config["source"]["commit"]:
+        problems.append("fx_pixelfx: not imported from the pinned commit")
+    if "Permission is hereby granted" not in str(imported.get("notice", "")):
+        problems.append("fx_pixelfx: the MIT permission notice is missing")
+    if not res_path("res://assets/fx/pixelfx/LICENSE.txt").exists():
+        problems.append("fx_pixelfx: assets/fx/pixelfx/LICENSE.txt missing")
+    for effect_id, entry in sorted(effects.items()):
+        spec = config["effects"].get(effect_id, {})
+        if not entry.get("authors"):
+            problems.append(f"fx_pixelfx: {effect_id} names no authors")
+        if entry.get("source") != spec.get("source"):
+            problems.append(f"fx_pixelfx: {effect_id} source is not {spec.get('source')}")
+        path = res_path(entry["sheet"])
+        if not path.exists():
+            problems.append(f"fx_pixelfx: {effect_id} sheet missing")
+            continue
+        columns, frames = int(entry["columns"]), int(entry["frames"])
+        w, h = entry["size"]
+        rows = (frames + columns - 1) // columns
+        with Image.open(path) as sheet:
+            if sheet.size != (columns * w, rows * h):
+                problems.append(f"fx_pixelfx: {effect_id} sheet is {sheet.size}, not {(columns * w, rows * h)}")
+    return problems
+
+
 def validate_dummy(assets: dict) -> list[str]:
     """The generated training dummy matches gen_dummy.py."""
     sheet, animations = gen_dummy.render()
@@ -332,6 +373,7 @@ def main() -> int:
     problems += validate_kit(manifest.get("kit", {}))
     problems += validate_ui(manifest.get("ui", {}))
     problems += validate_fx(manifest.get("fx", {}))
+    problems += validate_pixelfx(manifest.get("fx_pixelfx", {}))
     problems += validate_dummy(manifest.get("assets", {}))
     problems += validate_audio(manifest.get("audio", {}))
     problems += validate_fonts(manifest.get("fonts", {}))

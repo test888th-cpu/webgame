@@ -41,12 +41,28 @@ static func build(content: ContentDB) -> String:
 		+ "Street scenery (buildings, shops, vehicles, props, animals) and street weapons:\n"
 		+ "painted by the project owner, assembled by the project's tools.\n\n"
 		+ "Sky, effects, icons, sounds and the training dummy: original, generated\n"
-		+ "by the project's tools (MIT licence), except the recorded sounds below.\n\n"
+		+ "by the project's tools (MIT licence), except the effects and recorded\n"
+		+ "sounds below.\n\n"
+		+ _pixelfx(content)
 		+ _sounds(content)
 		+ _fonts(content)
 		+ "Made with the Godot Engine (godotengine.org/license):\n"
 		+ Engine.get_license_text()
 	)
+
+
+## The effects imported from pixelfx, with the copyright and permission
+## notice the MIT licence asks to travel with them.
+static func _pixelfx(content: ContentDB) -> String:
+	var source: Dictionary = content.fx_credits
+	if source.is_empty():
+		return ""
+	var text := "Effects: %s\n" % source.get("attribution", "")
+	text += "%s\n" % "\n".join(source.get("copyright", []))
+	text += "Source: %s (commit %s)\n" % [source.get("repository", ""), source.get("commit", "")]
+	# The notice is kept in the manifest: the web export leaves .txt files out.
+	var notice := str(source.get("notice", ""))
+	return text + (notice.strip_edges() + "\n\n" if notice else "\n")
 
 
 ## Recorded sound effects and their authors (CC-BY asks for credit).

@@ -4,6 +4,38 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed: combat effects from pixelfx (MIT, credited)
+- **What is new:** 14 effects from [pixelfx](https://github.com/patch-gg/pixelfx) by Patch now play
+  in the fights.
+  - Replaced: hit spark, heavy hit, block, the slam, uppercut and whirlwind skills, heal,
+    level-up.
+  - New: critical hit, parry, enemy poof (arrival and defeat), elite flare, a boss's heavy
+    landing, a boss's phase burst.
+  - They play at their native pixel scale, which suits the characters, so they stay sharp.
+  - The generated dust and rush trail stay.
+- **Import:**
+  - Rendered with pixelfx's own tool at the pinned commit
+    `a84159688af3ca37a4be05a0d422b94451b2e24e`.
+  - Imported by `tools/assets/import_pixelfx.py`, which keeps every Nth frame, drops faded
+    tails and crops. `art/pixelfx/effects.json` names which pixelfx effect plays as which
+    game effect.
+  - Sheets are in `client/assets/fx/pixelfx/` (2.3 MB). `Fx.gd` reads per-effect sheets laid
+    out as a grid.
+- **Credits, per the MIT licence:**
+  - pixelfx's LICENSE and NOTICE ship beside the sheets, and the permission notice is
+    stored in the manifest (`fx_pixelfx`) so the web build carries it too.
+  - The game's Credits print the attribution, both copyright lines, the source and commit,
+    and the full MIT notice.
+  - The credit register has one row per effect with its authors: Patch, plus Hugo Duprez
+    for the 12 effects whose source says they adapt his Sprite Fusion effects. Their status
+    is `VERIFIED_MIT`, because the licence was read in the source repository at that commit.
+  - THIRD_PARTY_LICENSES and LICENSE_REGISTER are updated.
+  - pixelfx's gallery font, which is not MIT, is not used.
+- **Validation:** the asset validator checks every imported sheet, the pinned commit, the
+  authors, the licence file and the notice.
+- **Tests:** 524. Every effect loads with all its frames, a pixelfx effect plays, and the
+  Credits carry the notice.
+
 ### Fixed and added: effects around the fights
 - **Audit:** AutoPilot fought through every boss area, a farming ground and a world boss
   arena with every frame drawn.
