@@ -1,6 +1,6 @@
 extends TestCase
 ## A farming ground's living field (FarmSpawner): it fills up to its cap,
-## sends one more in after each loss, keeps entrances away from the hero and
+## sends whole packs in once there is room, keeps entrances away from the hero and
 ## the way out, is the same for the same seed, makes the odd elite worth
 ## more, and stays out of every other kind of area.
 

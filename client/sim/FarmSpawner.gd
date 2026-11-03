@@ -68,7 +68,7 @@ static func active(content: ContentDB, area_id: String) -> bool:
 
 
 ## One step of the field: counts who is standing and, when it is time, sends
-## one more in. Does nothing in an area without "spawning".
+## the next one or the next pack in. Does nothing in an area without "spawning".
 func tick(zone: ZoneSim, events: Array[ZoneEvent]) -> void:
 	var data := spec(zone.content, zone.area_id)
 	if data.is_empty():
