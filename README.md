@@ -61,8 +61,8 @@ GitHub → **Actions** → **CI**. Each run has these jobs:
 |---|---|
 | Repository policy | Required docs exist; `.env.example` has placeholders only; no key files tracked |
 | GDScript lint and format | `gdlint` and `gdformat --check` (gdtoolkit 4.5.0) |
-| Godot project opens and tests pass | Headless import with no script errors; 225 unit/scene tests (combat, skills, heroes, AI, encounters, loot, quests, shop, saves, game scenes, interface, effects) |
-| Web export and browser smoke test | Release web export; headless Chromium loads it, waits for boot, **plays it with real keys: title → new game → hero creation (pick a hero, type a name) → combo on the dummy → a skill from the hotbar → pick up a weapon → pause → next area → a real fight**; uploads the build, a manifest with SHA-256s and a screenshot |
+| Godot project opens and tests pass | Headless import with no script errors; 492 unit/scene tests (combat, skills, heroes, AI, encounters, loot, quests, shop, saves, the city hub, game scenes, interface, effects, the UI audit's detectors); the UI audit of every screen at four landscape window sizes against `client/tests/ui/baseline.json` (report: **ui-audit** artifact; see `docs/UI_TESTING.md`) |
+| Web export and browser smoke test | Release web export; headless Chromium loads it, waits for boot, **plays it with real keys: title → new game → hero creation (pick a hero, type a name) → combo on the dummy → a skill from the hotbar → pick up a weapon → pause → next area → a real fight**; uploads the build, a manifest with SHA-256s and a screenshot UI screenshots at four landscape window sizes with input checks (**ui-shots** artifact). |
 | Backend typecheck, tests and migrations | `tsc`, API + migration tests against a real PostgreSQL, fresh-DB migration, API reaches `/readyz` |
 | Backend image build, container scan and SBOM | Docker image builds, runs as non-root on the pinned Node, Trivy scan, CycloneDX SBOM |
 
@@ -117,7 +117,7 @@ TEST_DATABASE_URL=postgres://user:pass@localhost:5432/postgres npm test
 [DATABASE](DATABASE.md) · [SECURITY](SECURITY.md) · [WEB_EXPORT](WEB_EXPORT.md) ·
 [PERFORMANCE](PERFORMANCE.md) · [DEPLOYMENT](DEPLOYMENT.md) ·
 [BACKUP_AND_RECOVERY](BACKUP_AND_RECOVERY.md) · [CONTRIBUTING](CONTRIBUTING.md) ·
-[CHANGELOG](CHANGELOG.md) · [Blueprint](docs/BLUEPRINT.md) · [Story bible](docs/STORY_BIBLE.md) · [Scene prompts](docs/SCENE_PROMPTS.md) ·
+[CHANGELOG](CHANGELOG.md) · [Blueprint](docs/BLUEPRINT.md) · [City and farming blueprint](docs/CITY_AND_FARMING_BLUEPRINT.md) · [Story bible](docs/STORY_BIBLE.md) · [Scene prompts](docs/SCENE_PROMPTS.md) ·
 [Repository audit](docs/REPOSITORY_AUDIT.md) ·
 [Roadmap and backlog](docs/ROADMAP.md) · [Interface](docs/UI.md) · [CLAUDE.md](CLAUDE.md)
 

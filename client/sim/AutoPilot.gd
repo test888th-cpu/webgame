@@ -18,7 +18,9 @@ extends RefCounted
 ##   5. light combos chained into a heavy finisher, on the best target (close,
 ##      hurt, or a thrower left alone);
 ##   6. between fights: pick up a street weapon, collect drops, walk on to the
-##      next fight. With nothing left, it reports "clear".
+##      next fight. With nothing left, it reports "clear"; in a farming ground
+##      it walks back west instead, where the fights come back for another
+##      round (StreetMemory.refill), so it never leaves the ground itself.
 
 const STATUS_FIGHT := "Fighting"
 const STATUS_EVADE := "Dodging"
@@ -26,6 +28,7 @@ const STATUS_LOOT := "Looting"
 const STATUS_WEAPON := "Grabbing a weapon"
 const STATUS_ADVANCE := "To the next fight"
 const STATUS_CLEAR := "Area clear"
+const STATUS_ROUND := "Back for another round"
 const STATUS_DOWN := "Knocked out"
 
 ## Skills with a cooldown this long are the big finishers: saved for a crowd
@@ -483,6 +486,13 @@ func _between_fights(zone: ZoneSim, foes: Array[Fighter], input: FighterInput) -
 			input.move = Vector2(signf(middle.x - hero.position.x), 0.0)
 		return
 	var next := _next_fight_x(zone)
+	var refill := StreetMemory.refill_x(_content, zone.area_id)
+	if next == INF and refill != -INF:
+		# Back west past the first fight's ground, short of the way out.
+		status = STATUS_ROUND
+		var back := maxf(refill - 60.0, zone.bounds.position.x + 40.0)
+		input.move = _steer(zone, Vector2(back, hero.position.y))
+		return
 	if next == INF:
 		status = STATUS_CLEAR
 		return

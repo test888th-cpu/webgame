@@ -147,7 +147,13 @@ func test_map_tab_opens_on_the_hero_and_fits() -> void:
 	var heading: Label = game.menu.find_child("Heading", true, false)
 	assert_true(heading.text.begins_with("Depot Yard"), "shows where the hero is")
 	var rows := game.menu.find_children("Area_*", "MapNode", true, false)
-	assert_eq(rows.size(), StreetMemory.street(game.content).size(), "every street area")
+	assert_eq(
+		rows.size(), StreetMemory.street(game.content).size() + 1, "every street area and the city"
+	)
+	assert_true(
+		game.menu.find_child("Area_" + game.content.city_area, true, false) != null,
+		"the city has its own row"
+	)
 	_done(game)
 
 

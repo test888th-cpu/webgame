@@ -5,7 +5,15 @@ extends Node
 ## diffs and testable headlessly. Touch controls fire the same actions through
 ## TouchScreenButton, so gameplay code only ever reads actions.
 
+## The input the player used last ("keyboard" also covers the mouse), so the
+## screen can fit it: touch controls for touch, key hints for the keyboard.
+signal device_changed(device: String)
+
 const DEADZONE := 0.3
+const DEVICES := ["keyboard", "touch", "gamepad"]
+## Browsers send a mouse click after a tap; within this long of a touch it is
+## the same finger, not a mouse.
+const TOUCH_ECHO_MS := 800
 
 const KEYS := {
 	"move_left": [KEY_LEFT, KEY_A],
@@ -65,6 +73,42 @@ const HOTBAR_SLOTS := 7
 ## Extra keys for the built-in UI navigation actions, so menus follow the
 ## same WASD layout as walking.
 const UI_KEYS := {"ui_up": KEY_W, "ui_down": KEY_S, "ui_left": KEY_A, "ui_right": KEY_D}
+
+var device := "keyboard"
+var _last_touch_ms := -100000
+
+
+func _ready() -> void:
+	# A touch screen starts with touch controls; any key, click or pad press
+	# switches (and switches back on the next touch).
+	if DisplayServer.is_touchscreen_available():
+		device = "touch"
+
+
+func _input(event: InputEvent) -> void:
+	var seen := ""
+	if event is InputEventScreenTouch or event is InputEventScreenDrag:
+		seen = "touch"
+		_last_touch_ms = Time.get_ticks_msec()
+	elif event is InputEventKey and event.pressed:
+		seen = "keyboard"
+	elif event is InputEventMouseButton and event.pressed:
+		var echo := Time.get_ticks_msec() - _last_touch_ms < TOUCH_ECHO_MS
+		if event.device != InputEvent.DEVICE_ID_EMULATION and not echo:
+			seen = "keyboard"
+	elif event is InputEventJoypadButton and event.pressed:
+		seen = "gamepad"
+	elif event is InputEventJoypadMotion and absf(event.axis_value) > 0.5:
+		seen = "gamepad"
+	if seen != "":
+		set_device(seen)
+
+
+## Records `value` as the input in use, announcing a change.
+func set_device(value: String) -> void:
+	if value in DEVICES and value != device:
+		device = value
+		device_changed.emit(value)
 
 
 func _init() -> void:

@@ -1,8 +1,10 @@
 class_name MapTab
 extends RefCounted
 ## The Map tab of the pause window (MapRules): where the hero is and where
-## the goal is, then the street district by district, west to east, one row
-## each, and the world boss arenas the hero knows. Walking the boxes
+## the goal is, then the city (Iron City Central, off the street), the
+## street district by district, west to east, one row each, the farming
+## grounds open to the hero (AreaRules) and the world boss arenas the hero
+## knows. Walking the boxes
 ## (keyboard, gamepad, mouse) shows what is known of each area underneath.
 ## Read-only: travel stays with Win's taxi.
 
@@ -26,8 +28,14 @@ static func build(game: Game) -> Control:
 	for id: String in MiniMap.ICONS:
 		icons[id] = UiKit.icon(content, id)
 	var rows: Array = []
+	if content.city_area != "":
+		rows.append(["City", [content.city_area]])
 	for district in MapRules.districts(content):
 		rows.append([district["name"], district["areas"]])
+	# Farming grounds: only those open to the hero, once there is one.
+	var grounds := AreaRules.open_farms(profile, content)
+	if not grounds.is_empty():
+		rows.append(["Farming", grounds])
 	var arenas := MapRules.arenas(profile, content)
 	if not arenas.is_empty():
 		rows.append(["World Bosses", arenas])
@@ -126,9 +134,14 @@ static func _show(panel: PanelContainer, info: Dictionary, goal: bool) -> void:
 		MapRules.UNKNOWN: "Unknown: push further east to find it",
 	}
 	heading.text = str(info["name"])
+	var farm := str(info.get("purpose", "")) != ""
 	if int(info["level"]) > 0:
-		heading.text += "   Lv %d" % info["level"]
+		heading.text += ("   Suggested Lv %d" if farm else "   Lv %d") % info["level"]
 	var parts: Array[String] = [states[info["state"]]]
+	if farm:
+		# A farming ground's level is advice for the fights there, not a gate.
+		parts.append("No level needed to enter")
+		parts.append(str(info["purpose"]))
 	if goal:
 		parts.append("Your goal is here")
 	if not info["services"].is_empty():

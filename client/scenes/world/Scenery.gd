@@ -103,18 +103,32 @@ static func _build_kit(parent: Node2D, content: ContentDB, area: Dictionary) -> 
 ## its feet at the node's origin, so it sorts in depth with the fighters; null
 ## if its picture is missing.
 static func furniture(content: ContentDB, kind: String) -> Node2D:
-	var piece_id := str(content.obstacles.get(kind, {}).get("piece", ""))
+	var node := piece_node(content, str(content.obstacles.get(kind, {}).get("piece", "")))
+	if node != null:
+		node.name = "Furniture"
+		node.add_to_group(FURNITURE_GROUP)
+	return node
+
+
+## Street-kit piece `piece_id` standing with its feet at the node's origin
+## (furniture, or a thing in the street to use such as the hub's workbench);
+## null if its picture is missing.
+static func piece_node(content: ContentDB, piece_id: String) -> Node2D:
 	var piece: Dictionary = content.kit.get("pieces", {}).get(piece_id, {})
 	if piece.is_empty():
 		return null
 	var node := Node2D.new()
-	node.name = "Furniture"
-	node.add_to_group(FURNITURE_GROUP)
 	node.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 	var sprite := _piece(node, piece, 0.0, 0.0)
 	if piece.has("glow"):
 		_glow(node, content, sprite.position + _game_size(piece) * _vec(piece["glow"]))
 	return node
+
+
+## How tall street-kit piece `piece_id` stands, in game pixels (0 if missing).
+static func piece_height(content: ContentDB, piece_id: String) -> float:
+	var piece: Dictionary = content.kit.get("pieces", {}).get(piece_id, {})
+	return 0.0 if piece.is_empty() else _game_size(piece).y
 
 
 ## A depth layer: a Parallax2D scrolling at `scroll` (1 = with the street),

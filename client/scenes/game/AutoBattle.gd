@@ -94,6 +94,9 @@ func after_step(events: Array[ZoneEvent]) -> void:
 			"hero_down":
 				stop("Knocked out. Auto off.")
 				return
+			"fights_back":
+				# A farming ground refilled: the next round, without a ride.
+				runs += 1
 	if not on or not AutoRules.wants_rest(_game.zone, pilot):
 		_rest_ticks = 0
 		return

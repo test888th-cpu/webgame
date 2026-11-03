@@ -3,6 +3,8 @@ extends RefCounted
 ## On-screen controls for touch devices: a d-pad on the left, combat and
 ## utility buttons on the right. Each is a TouchScreenButton bound to the same
 ## input action as the keyboard, so gameplay code only ever reads actions.
+## build() makes them; arrange() puts and sizes them where the screen layout
+## says (ScreenLayout.pad_cell), at least 44 CSS px each.
 
 const PAD := [
 	["Left", "move_left", Vector2(16, 276)],
@@ -46,6 +48,7 @@ static func _button(
 	button.action = action
 	button.visibility_mode = TouchScreenButton.VISIBILITY_ALWAYS
 	var face := Polygon2D.new()
+	face.name = "Face"
 	face.color = color
 	face.polygon = PackedVector2Array(
 		[Vector2.ZERO, Vector2(size, 0), Vector2(size, size), Vector2(0, size)]
@@ -53,6 +56,7 @@ static func _button(
 	button.add_child(face)
 	if text:
 		var caption := Label.new()
+		caption.name = "Caption"
 		caption.text = text
 		caption.size = Vector2(size, size)
 		caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -60,3 +64,27 @@ static func _button(
 		caption.add_theme_font_size_override("font_size", UiTheme.SIZE_CAPTION)
 		button.add_child(caption)
 	return button
+
+
+## Places and sizes every button in its ScreenLayout cell; a button with no
+## cell there is hidden.
+static func arrange(root: Control, layout: ScreenLayout) -> void:
+	for node in root.get_children():
+		var button := node as TouchScreenButton
+		if button == null:
+			continue
+		var cell := layout.pad_cell(str(button.name))
+		button.visible = cell.size.x > 0.0
+		if not button.visible:
+			continue
+		button.position = cell.position
+		var shape := button.shape as RectangleShape2D
+		shape.size = cell.size
+		var face := button.get_node_or_null("Face") as Polygon2D
+		if face:
+			face.polygon = PackedVector2Array(
+				[Vector2.ZERO, Vector2(cell.size.x, 0), cell.size, Vector2(0, cell.size.y)]
+			)
+		var caption := button.get_node_or_null("Caption") as Label
+		if caption:
+			caption.size = cell.size

@@ -920,5 +920,132 @@
         100
       ]
     }
+  },
+  "layouts": {
+    "farm_facility_annex": {
+      "_note": "The facility's secured storage wing: steel gates and guard booths from its district's plant kit, never the warehouse wall that marks Harbour Stacks.",
+      "front": [
+        {
+          "piece": "steel_gate",
+          "x": 52
+        },
+        {
+          "piece": "guard_booth",
+          "x": 170
+        },
+        {
+          "piece": "steel_gate",
+          "x": 288
+        },
+        {
+          "piece": "steel_gate",
+          "x": 433
+        },
+        {
+          "piece": "carpark_facade",
+          "x": 747
+        },
+        {
+          "piece": "steel_gate",
+          "x": 1061
+        },
+        {
+          "piece": "guard_booth",
+          "x": 1178
+        },
+        {
+          "piece": "steel_gate",
+          "x": 1296
+        },
+        {
+          "piece": "steel_gate",
+          "x": 1441
+        }
+      ]
+    },
+    "main_city": {
+      "front": [
+        {
+          "piece": "carpark_facade",
+          "x": 190
+        },
+        {
+          "piece": "closed_shop",
+          "x": 535
+        },
+        {
+          "piece": "convenience_store",
+          "x": 790
+        },
+        {
+          "piece": "junk_shop",
+          "x": 1037
+        },
+        {
+          "piece": "shophouse_b",
+          "x": 1243
+        },
+        {
+          "piece": "closed_shop",
+          "x": 1457
+        },
+        {
+          "piece": "shophouse_a",
+          "x": 1673
+        }
+      ],
+      "props": [
+        {
+          "piece": "bus_stop",
+          "x": 90,
+          "y": 236
+        },
+        {
+          "piece": "motorbike_row",
+          "x": 310,
+          "y": 238
+        },
+        {
+          "piece": "umbrella_stall",
+          "x": 600,
+          "y": 234
+        },
+        {
+          "piece": "plastic_stools",
+          "x": 760,
+          "y": 238
+        },
+        {
+          "piece": "tyre_stack",
+          "x": 950,
+          "y": 236
+        },
+        {
+          "piece": "scrap_pile",
+          "x": 1070,
+          "y": 234
+        },
+        {
+          "piece": "crates",
+          "x": 1180,
+          "y": 235
+        },
+        {
+          "piece": "potted_plants",
+          "x": 1300,
+          "y": 236
+        },
+        {
+          "piece": "blank_sign_tall",
+          "x": 1400,
+          "y": 236
+        },
+        {
+          "piece": "blank_sign_wide",
+          "x": 1530,
+          "y": 236
+        }
+      ]
+    }
   }
 }

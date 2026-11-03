@@ -274,10 +274,20 @@ def track_span(width: int, scroll: float) -> tuple[int, int]:
     return (round(VIEW_W / 2 * scroll - VIEW_W / 2) - 40, round((width - VIEW_W / 2) * scroll + VIEW_W / 2) + 40)
 
 
-def lay_out(area_id: str, area: dict, theme: dict, pieces: dict, scrolls: dict) -> list[dict]:
+def lay_out(area_id: str, area: dict, theme: dict, pieces: dict, scrolls: dict, fixed: dict | None = None) -> list[dict]:
     """Deterministic placements for one area. x is the piece's centre and y
     its foot line, in the coordinates of the piece's layer (a layer scrolling
-    at s covers 320s - 320 .. (width - 320)s + 320 as the camera moves)."""
+    at s covers 320s - 320 .. (width - 320)s + 320 as the camera moves).
+
+    `fixed` (kit.json "layouts", per area) replaces the generated shopfronts
+    ("front": [{piece, x}]) and sidewalk props ("props": [{piece, x, y}]) with
+    hand-placed ones, for a place laid out on purpose: the city hub, where each
+    service stands in front of its own landmark. The skyline, towers, track
+    and foliage are still generated."""
+    fixed = fixed or {}
+    for entry in fixed.get("front", []) + fixed.get("props", []):
+        if entry["piece"] not in pieces:
+            raise KitError(f"{area_id}: layout uses unknown piece {entry['piece']}")
     rng = seeded(area_id, "kit")
     width = int(area["width"])
     placed: list[dict] = []
@@ -291,7 +301,10 @@ def lay_out(area_id: str, area: dict, theme: dict, pieces: dict, scrolls: dict) 
         while x < span[1]:
             placed.append({"piece": theme["train"], "layer": "track", "x": round(x + train_w / 2), "y": theme["track_top"] + 1})
             x += train_w + rng.randint(*theme["train_gap"])
-    placed += row(rng, pieces, theme["front"], rng.randint(-40, -10), width + 40, theme["front_gap"], "front", BUILDING_FEET)
+    if "front" in fixed:
+        placed += [{"piece": f["piece"], "layer": "front", "x": f["x"], "y": BUILDING_FEET} for f in fixed["front"]]
+    else:
+        placed += row(rng, pieces, theme["front"], rng.randint(-40, -10), width + 40, theme["front_gap"], "front", BUILDING_FEET)
 
     # Street furniture (areas.json "obstacles") is drawn by the game among the
     # fighters: lamp posts, poles and bins on the sidewalk, crates, drums and
@@ -301,8 +314,8 @@ def lay_out(area_id: str, area: dict, theme: dict, pieces: dict, scrolls: dict) 
     taken = list(furniture)
     # Nothing tall stands right behind an NPC, where it would be hidden.
     taken += [(npc["x"] - 22, npc["x"] + 22) for npc in area.get("npcs", [])]
-    props = []
-    x = 30
+    props = [{"piece": f["piece"], "layer": "sidewalk", "x": f["x"], "y": f["y"]} for f in fixed.get("props", [])]
+    x = 30 if "props" not in fixed else width
     while x < width - 40:
         x += rng.randint(*theme["prop_gap"])
         piece_id = pick(rng, theme["props"])
@@ -375,7 +388,7 @@ def lay_out_all(spec: dict, pieces: dict) -> dict:
             "tint": theme.get("tint", {}),
             "ground": theme["ground"],
             "far": theme["far"],
-            "placed": lay_out(area_id, area, theme, pieces, spec["scroll"]),
+            "placed": lay_out(area_id, area, theme, pieces, spec["scroll"], spec.get("layouts", {}).get(area_id)),
         }
         if theme.get("track"):
             start, end = track_span(int(area["width"]), spec["scroll"]["track"])
@@ -393,11 +406,16 @@ def main() -> int:
     except (KitError, OSError, KeyError) as error:
         print(f"FAILED: {error}", file=sys.stderr)
         return 1
+    try:
+        areas = lay_out_all(spec, pieces)
+    except KitError as error:
+        print(f"FAILED: {error}", file=sys.stderr)
+        return 1
     manifest["kit"] = {
         "credits": spec["credits"],
         "scroll": spec["scroll"],
         "pieces": pieces,
-        "areas": lay_out_all(spec, pieces),
+        "areas": areas,
     }
     MANIFEST.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
     print(f"kit: {len(pieces)} pieces, {len(manifest['kit']['areas'])} areas")

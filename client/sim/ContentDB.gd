@@ -17,7 +17,10 @@ const DIALOGUE_LINES := ["offer", "active", "done"]
 ## From most common to rarest; the UI colours names by rarity.
 const RARITIES := ["common", "uncommon", "rare", "epic", "legendary"]
 const EXIT_SIDES := ["west", "east"]
-const NPC_ROLES := ["shop", "quests", "travel"]
+## NPC roles: people (shop, quests, travel) and things to use (a workbench
+## that opens the upgrade screen, a notice board to read). A thing names the
+## street-kit "piece" it is drawn as instead of a character sprite.
+const NPC_ROLES := ["shop", "quests", "travel", "workbench", "board"]
 const HOTBAR_TYPES := ["attack", "skill", "item"]
 const HOTBAR_SLOTS := 7
 ## Skills each hero brings to the hotbar.
@@ -32,6 +35,9 @@ var areas: Dictionary = {}
 ## obstacles.json; areas place them in "obstacles".
 var obstacles: Dictionary = {}
 var start_area := ""
+## The city hub (Iron City Central): a safe area of its own off the street,
+## reached by taxi or the pause menu, never a story stage ("" if none).
+var city_area := ""
 ## The street's districts for the map, west to east: [{"name", "from": the
 ## first area}]; each runs east to the next one's "from" (see MapRules).
 var districts: Array = []
@@ -83,6 +89,7 @@ static func load_all(dir := DATA_DIR) -> ContentDB:
 	var area_file := db._read(dir.path_join("areas.json"))
 	db.areas = area_file.get("areas", {})
 	db.start_area = str(area_file.get("start_area", ""))
+	db.city_area = str(area_file.get("city_area", ""))
 	db.districts = area_file.get("districts", [])
 	db.progression = db._read(dir.path_join("progression.json"))
 	db.weapons = db._section(dir, "weapons.json", "weapons")
@@ -254,6 +261,8 @@ func validate() -> void:
 	_validate_districts()
 	for id: String in areas:
 		_validate_area(id, areas[id])
+	_validate_city()
+	errors.append_array(AreaRules.problems(self))
 	_validate_progression()
 	_validate_weapons()
 	_validate_heroes()
@@ -597,6 +606,17 @@ func _validate_area(id: String, a: Dictionary) -> void:
 				shops.has(str(npc.get("shop"))),
 				"%s.npcs: unknown shop %s" % [where, npc.get("shop")]
 			)
+		_validate_station(npc, a, where)
+	for mark: Variant in a.get("landmarks", []):
+		_check(
+			(
+				mark is Dictionary
+				and str(mark.get("text", "")) != ""
+				and float(mark.get("x", -1)) >= 0
+				and float(mark.get("x", -1)) <= float(a.get("width", 0))
+			),
+			"%s.landmarks: expected {x inside the area, text}" % where
+		)
 	for placed: Variant in a.get("placed", []):
 		_check(
 			enemies.has(str(placed.get("enemy"))),
@@ -672,7 +692,86 @@ func _validate_weapons() -> void:
 			)
 			for weapon_id: String in spec.get("pool", {}):
 				_check(weapons.has(weapon_id), "areas.%s.weapons: unknown %s" % [id, weapon_id])
+			# Optional: where along the area weapons lie ([left, right]), e.g.
+			# the hub's training yard, so practice weapons are by the dummy.
+			var span: Variant = spec.get("span", [])
+			_check(
+				(
+					span is Array
+					and (
+						span.is_empty()
+						or (
+							span.size() == 2
+							and span[0] >= 0
+							and span[1] - span[0] >= 80
+							and span[1] <= float(areas[id].get("width", 0))
+						)
+					)
+				),
+				"areas.%s.weapons.span: expected [left, right] inside the area" % id
+			)
 		_number(areas[id], "level", "areas.%s" % id, 1)
+
+
+## A workbench or notice board: drawn as a street-kit piece; upgrades need a
+## safe area, so a workbench stands only in one; a board's planned farming
+## grounds name real districts and levels.
+func _validate_station(npc: Dictionary, a: Dictionary, where: String) -> void:
+	if npc.has("piece") and not kit.is_empty():
+		_check(
+			kit.get("pieces", {}).has(str(npc["piece"])),
+			"%s.npcs: unknown piece %s" % [where, npc["piece"]]
+		)
+	if npc.get("role") == "workbench":
+		_check(bool(a.get("safe", false)), "%s.npcs: a workbench needs a safe area" % where)
+	for service: Variant in npc.get("planned_services", []):
+		_check(
+			service is String and service != "", "%s.npcs.planned_services: expected names" % where
+		)
+	var names: Array = []
+	for district: Dictionary in districts:
+		names.append(str(district.get("name", "")))
+	var top := int(progression.get("max_level", 1))
+	for plan: Variant in npc.get("farming_planned", []):
+		var levels: Variant = plan.get("levels") if plan is Dictionary else null
+		_check(
+			(
+				plan is Dictionary
+				and str(plan.get("district", "")) in names
+				and levels is Array
+				and levels.size() == 2
+				and 1 <= int(levels[0])
+				and int(levels[0]) <= int(levels[1])
+				and int(levels[1]) <= top
+			),
+			"%s.npcs.farming_planned: expected {district, levels: [low, high]}" % where
+		)
+
+
+## The city: a safe place to rest with nothing to fight, off the street (no
+## story area leads into it, so the street and its districts stay as they
+## are), whose one way out is the gate east onto the street.
+func _validate_city() -> void:
+	if city_area == "":
+		return
+	var where := "areas.city_area"
+	_check(areas.has(city_area), "%s: unknown area %s" % [where, city_area])
+	if not areas.has(city_area):
+		return
+	var city: Dictionary = areas[city_area]
+	_check(city_area != start_area, where + ": the city is not the start area")
+	_check(bool(city.get("safe", false)), where + ": the city must be safe")
+	_check(bool(city.get("heal_on_enter", false)), where + ": the city is a place to rest")
+	_check(city.get("encounters", []).is_empty(), where + ": no fights in the city")
+	_check(not city.get("world_boss", false), where + ": not a world boss arena")
+	var exits: Dictionary = city.get("exits", {})
+	_check(exits.keys() == ["east"], where + ": its one way out is the gate east")
+	for id: String in areas:
+		for side: String in areas[id].get("exits", {}):
+			_check(
+				str(areas[id]["exits"][side].get("to")) != city_area,
+				"%s: %s leads into the city; it is reached by taxi only" % [where, id]
+			)
 
 
 func _validate_heroes() -> void:

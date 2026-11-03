@@ -274,6 +274,24 @@ class KitImportTest(unittest.TestCase):
                 half = kit_import.game_width(pieces, p["piece"]) / 2
                 self.assertTrue(80 <= p["x"] - half and p["x"] + half <= 1720, "clear of the exits")
 
+    def test_a_hand_placed_layout_replaces_the_shopfronts_and_props(self) -> None:
+        spec = json.loads(kit_import.SPEC.read_text())
+        manifest = json.loads(kit_import.MANIFEST.read_text())
+        pieces = manifest["kit"]["pieces"]
+        fixed = spec["layouts"]["main_city"]
+        placed = kit_import.lay_out_all(spec, pieces)["main_city"]["placed"]
+        front = [(p["piece"], p["x"]) for p in placed if p["layer"] == "front"]
+        self.assertEqual(front, [(f["piece"], f["x"]) for f in fixed["front"]], "the city's landmarks, as placed")
+        props = sorted((p["piece"], p["x"], p["y"]) for p in placed if p["layer"] == "sidewalk")
+        self.assertEqual(props, sorted((f["piece"], f["x"], f["y"]) for f in fixed["props"]))
+        self.assertTrue(any(p["layer"] == "back" for p in placed), "the skyline is still generated")
+        for a, b in zip(front, front[1:]):
+            right = a[1] + kit_import.game_width(pieces, a[0]) / 2
+            left = b[1] - kit_import.game_width(pieces, b[0]) / 2
+            self.assertLessEqual(right, left, f"{a[0]} and {b[0]} do not overlap")
+        with self.assertRaises(kit_import.KitError):
+            kit_import.lay_out("x", {"width": 960}, spec["themes"]["depot"], pieces, spec["scroll"], {"front": [{"piece": "nope", "x": 0}]})
+
     def test_kit_theme_picks_its_own_pieces_and_hangs_lamps_overhead(self) -> None:
         spec = json.loads(kit_import.SPEC.read_text())
         manifest = json.loads(kit_import.MANIFEST.read_text())
