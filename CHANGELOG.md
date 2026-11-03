@@ -4,6 +4,43 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed: gear grades, boss loot and a smoother difficulty curve
+- **Grades mean something now** (`sim/ItemRules.gd`).
+  - **Budget:** every piece of gear is worth a budget set by its level, slot and grade:
+    Common ×0.85, Uncommon ×1.0, Rare ×1.15, Epic ×1.35, Legendary ×1.6. The validator
+    keeps each item within ±15% of its budget.
+  - **Shops:** they sell only Common and Uncommon gear (the steady baseline).
+  - **Bosses:** Epic and Legendary come from bosses. The shop items that were labelled
+    Rare are Uncommon now, and every item's stats were refitted to its budget.
+  - **Effect on boss gear:** a story boss's gear now beats the shops' at its level by at
+    least 20%. Late Legendaries were far below that and gained the most (Arthit's Baton
+    power 0.70 → 1.35).
+- **Every boss drops its own set.**
+  - **New pieces:** 13 (boots, headgear, coats and gloves), so each slot has boss gear
+    along the whole road.
+  - **Drop rates:** a boss's Epics drop at 20 to 30%, its Legendary at 6%.
+  - **Bad-luck protection:** a Legendary gets 25% of its chance more likely with every
+    defeat while the hero has none, up to 50% (`LootRules.chance`). It reads the
+    existing save (defeats, owned items), so nothing new is saved.
+- **Field elites** in the farming grounds may drop their district bosses' Epics (3% each).
+- **Drop feedback:** an Epic shows "Epic find: …"; a Legendary shows "LEGENDARY! …" with
+  a fanfare, on top of the existing rarity beams.
+- **Shop weapons:** five Uncommon weapons (Dock Hook L13, Shock Baton L21, Weighted
+  Knuckles L27, Riot Baton L35, Alloy Knuckles L44). Before, the shops sold no weapon
+  past level 6, which made the late story a wall for shop-geared heroes.
+- **Selling boss gear:** spare boss gear sells by its grade and level (`ItemRules.value`).
+  Before, it was worth nothing.
+- **Difficulty, measured** (harness; Oren, Mika and Riku; 2 seeds; story areas at their
+  level with the shops' gear and 6 rice boxes):
+  - Ordinary areas now cost 15 to 77% of the hero's HP, and boss areas 120 to 180% (3 to
+    5 meals).
+  - Knock-outs from level 12 on went from 6 to 1 (the final boss, 1 in 6 runs). With boss
+    gear there were none.
+  - South Street (levels 2 to 10) is unchanged and stays gentle for new players.
+- **Unchanged:** saves (version 10), enemy stats, XP, story.
+- **Tests:** 511. New: `test_item_grades.gd`; the shop, progression and UI tests read the
+  refitted stats.
+
 ### Changed: the farming grounds are living fields
 - **What changed:** each of the seven grounds is now a living field (`"spawning"` in
   `areas.json`, rules in `sim/FarmSpawner.gd`). The old loop was two fixed fights, then

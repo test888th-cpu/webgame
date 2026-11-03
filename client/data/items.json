@@ -46,7 +46,7 @@
       "level": 1,
       "price": 60,
       "stats": {
-        "power": 0.15
+        "power": 0.13
       },
       "icon": "taped_knuckles",
       "description": "Cloth tape wound tight over the knuckles. Simple and honest."
@@ -59,8 +59,8 @@
       "level": 4,
       "price": 0,
       "stats": {
-        "power": 0.25,
-        "speed": -0.05
+        "power": 0.29,
+        "speed": -0.06
       },
       "icon": "rebar_pipe",
       "description": "Pried from a collapsed scaffold. Heavy, but it makes a point."
@@ -73,8 +73,8 @@
       "level": 5,
       "price": 0,
       "stats": {
-        "power": 0.35,
-        "max_hp": 10
+        "power": 0.31,
+        "max_hp": 9
       },
       "icon": "foreman_wrench",
       "description": "Taken from the Sludge Foreman. It still smells of the Murk."
@@ -87,7 +87,7 @@
       "level": 1,
       "price": 30,
       "stats": {
-        "max_hp": 10
+        "max_hp": 15
       },
       "icon": "dock_beanie",
       "description": "Knitted wool, salt-stained. Keeps your head warm on night shifts."
@@ -100,7 +100,7 @@
       "level": 4,
       "price": 90,
       "stats": {
-        "max_hp": 15,
+        "max_hp": 16,
         "defense": 1
       },
       "icon": "hard_hat",
@@ -114,7 +114,7 @@
       "level": 1,
       "price": 45,
       "stats": {
-        "defense": 1
+        "defense": 2
       },
       "icon": "padded_vest",
       "description": "Quilted canvas over a cotton shirt. Takes the edge off a punch."
@@ -142,8 +142,8 @@
       "level": 1,
       "price": 35,
       "stats": {
-        "power": 0.05,
-        "attack_speed": 0.05
+        "power": 0.02,
+        "attack_speed": 0.03
       },
       "icon": "fingerless_gloves",
       "description": "A firmer grip and a little more bite on every jab."
@@ -156,9 +156,9 @@
       "level": 5,
       "price": 0,
       "stats": {
-        "power": 0.12,
+        "power": 0.06,
         "defense": 1,
-        "crit": 0.04
+        "crit": 0.02
       },
       "icon": "iron_wraps",
       "description": "Chain links sewn into leather wraps. The Warden's favourite."
@@ -185,8 +185,8 @@
       "price": 95,
       "stats": {
         "defense": 1,
-        "max_hp": 10,
-        "speed": -0.03
+        "max_hp": 14,
+        "speed": -0.02
       },
       "icon": "steel_toe_boots",
       "description": "Heavy boots for heavy work. You will not be knocked off balance easily."
@@ -199,8 +199,8 @@
       "level": 3,
       "price": 0,
       "stats": {
-        "max_hp": 10,
-        "power": 0.03,
+        "max_hp": 9,
+        "power": 0.01,
         "crit": 0.03
       },
       "icon": "lucky_coin",
@@ -223,12 +223,12 @@
       "name": "Riveted Jacket",
       "type": "equipment",
       "slot": "body",
-      "rarity": "rare",
+      "rarity": "uncommon",
       "level": 6,
       "price": 220,
       "stats": {
-        "defense": 3,
-        "max_hp": 20
+        "defense": 2,
+        "max_hp": 21
       },
       "icon": "riveted_jacket",
       "look": "armoured",
@@ -238,13 +238,13 @@
       "name": "Street Runners",
       "type": "equipment",
       "slot": "feet",
-      "rarity": "rare",
+      "rarity": "uncommon",
       "level": 6,
       "price": 200,
       "stats": {
-        "speed": 0.1,
+        "speed": 0.04,
         "defense": 1,
-        "attack_speed": 0.04
+        "attack_speed": 0.02
       },
       "icon": "street_runners",
       "description": "Night-market sneakers with soles that grip wet tiles."
@@ -253,12 +253,12 @@
       "name": "Brass Knuckles",
       "type": "equipment",
       "slot": "weapon",
-      "rarity": "rare",
+      "rarity": "uncommon",
       "level": 6,
       "price": 260,
       "stats": {
-        "power": 0.3,
-        "crit": 0.05
+        "power": 0.21,
+        "crit": 0.04
       },
       "icon": "brass_knuckles",
       "description": "Heavy brass rings. Every punch lands like a hammer."
@@ -267,12 +267,12 @@
       "name": "Iron Helm",
       "type": "equipment",
       "slot": "head",
-      "rarity": "rare",
+      "rarity": "uncommon",
       "level": 7,
       "price": 240,
       "stats": {
         "defense": 2,
-        "max_hp": 20
+        "max_hp": 13
       },
       "icon": "iron_helm",
       "description": "A refinery safety helmet, dented but solid."
@@ -286,7 +286,7 @@
       "price": 0,
       "stats": {
         "max_hp": 25,
-        "power": 0.06,
+        "power": 0.05,
         "attack_speed": 0.06
       },
       "icon": "jade_charm",
@@ -300,9 +300,9 @@
       "level": 9,
       "price": 0,
       "stats": {
-        "power": 0.45,
-        "max_hp": 20,
-        "crit": 0.08
+        "power": 0.36,
+        "max_hp": 16,
+        "crit": 0.07
       },
       "icon": "baron_knuckledusters",
       "description": "Still hot from the furnace. Taken from the Baron himself."
@@ -355,9 +355,9 @@
       "level": 7,
       "price": 0,
       "stats": {
-        "power": 0.14,
-        "crit": 0.06,
-        "attack_speed": 0.05
+        "power": 0.09,
+        "crit": 0.04,
+        "attack_speed": 0.03
       },
       "icon": "champion_wraps",
       "description": "Taped and re-taped through a hundred nights in the alley ring. Whoever wore these never lost on his feet."
@@ -366,12 +366,12 @@
       "name": "Docker's Cap",
       "type": "equipment",
       "slot": "head",
-      "rarity": "rare",
+      "rarity": "uncommon",
       "level": 11,
       "price": 380,
       "stats": {
         "defense": 2,
-        "max_hp": 30
+        "max_hp": 25
       },
       "icon": "dockers_cap",
       "description": "A padded cap from the port crews, made to take a swinging hook."
@@ -380,11 +380,11 @@
       "name": "Port Authority Jacket",
       "type": "equipment",
       "slot": "body",
-      "rarity": "rare",
+      "rarity": "uncommon",
       "level": 11,
       "price": 420,
       "stats": {
-        "defense": 4,
+        "defense": 3,
         "max_hp": 30
       },
       "icon": "port_jacket",
@@ -394,13 +394,13 @@
       "name": "Cargo Gloves",
       "type": "equipment",
       "slot": "hands",
-      "rarity": "rare",
+      "rarity": "uncommon",
       "level": 13,
       "price": 400,
       "stats": {
-        "power": 0.16,
+        "power": 0.13,
         "defense": 1,
-        "attack_speed": 0.06
+        "attack_speed": 0.04
       },
       "icon": "cargo_gloves",
       "description": "Rope-burned leather that never slips."
@@ -409,13 +409,13 @@
       "name": "Deck Boots",
       "type": "equipment",
       "slot": "feet",
-      "rarity": "rare",
+      "rarity": "uncommon",
       "level": 13,
       "price": 380,
       "stats": {
-        "speed": 0.1,
-        "defense": 2,
-        "max_hp": 15
+        "speed": 0.07,
+        "defense": 1,
+        "max_hp": 16
       },
       "icon": "deck_boots",
       "description": "Rubber soles for wet steel decks."
@@ -447,7 +447,7 @@
       "name": "Hazmat Hood",
       "type": "equipment",
       "slot": "head",
-      "rarity": "rare",
+      "rarity": "uncommon",
       "level": 19,
       "price": 560,
       "stats": {
@@ -461,7 +461,7 @@
       "name": "Plant Security Vest",
       "type": "equipment",
       "slot": "body",
-      "rarity": "rare",
+      "rarity": "uncommon",
       "level": 19,
       "price": 620,
       "stats": {
@@ -475,11 +475,11 @@
       "name": "Insulated Gloves",
       "type": "equipment",
       "slot": "hands",
-      "rarity": "rare",
+      "rarity": "uncommon",
       "level": 21,
       "price": 600,
       "stats": {
-        "power": 0.2,
+        "power": 0.19,
         "defense": 1,
         "crit": 0.05
       },
@@ -490,11 +490,11 @@
       "name": "Lab Boots",
       "type": "equipment",
       "slot": "feet",
-      "rarity": "rare",
+      "rarity": "uncommon",
       "level": 21,
       "price": 560,
       "stats": {
-        "speed": 0.12,
+        "speed": 0.11,
         "defense": 2,
         "attack_speed": 0.05
       },
@@ -509,9 +509,9 @@
       "level": 21,
       "price": 0,
       "stats": {
-        "power": 0.5,
+        "power": 0.68,
         "defense": 1,
-        "crit": 0.07
+        "crit": 0.09
       },
       "icon": "chiefs_baton",
       "description": "Nattapong left it behind when he walked out."
@@ -524,9 +524,9 @@
       "level": 23,
       "price": 0,
       "stats": {
-        "max_hp": 40,
-        "power": 0.08,
-        "attack_speed": 0.08
+        "max_hp": 65,
+        "power": 0.15,
+        "attack_speed": 0.13
       },
       "icon": "k7_core_plate",
       "description": "A warm plate from K-7's chest. It hums when you fight."
@@ -551,7 +551,7 @@
       "name": "Night Watch Cap",
       "type": "equipment",
       "slot": "head",
-      "rarity": "rare",
+      "rarity": "uncommon",
       "level": 26,
       "price": 780,
       "stats": {
@@ -565,12 +565,12 @@
       "name": "Kevlar Jacket",
       "type": "equipment",
       "slot": "body",
-      "rarity": "rare",
+      "rarity": "uncommon",
       "level": 26,
       "price": 860,
       "stats": {
         "defense": 6,
-        "max_hp": 50
+        "max_hp": 55
       },
       "icon": "kevlar_jacket",
       "description": "Sold off the back of a truck. Nobody asks which truck."
@@ -579,7 +579,7 @@
       "name": "Taped Fight Gloves",
       "type": "equipment",
       "slot": "hands",
-      "rarity": "rare",
+      "rarity": "uncommon",
       "level": 27,
       "price": 840,
       "stats": {
@@ -594,11 +594,11 @@
       "name": "Runner Sneakers",
       "type": "equipment",
       "slot": "feet",
-      "rarity": "rare",
+      "rarity": "uncommon",
       "level": 27,
       "price": 800,
       "stats": {
-        "speed": 0.14,
+        "speed": 0.16,
         "defense": 2,
         "attack_speed": 0.06
       },
@@ -613,9 +613,9 @@
       "level": 27,
       "price": 0,
       "stats": {
-        "power": 0.6,
+        "power": 0.85,
         "defense": 1,
-        "crit": 0.08
+        "crit": 0.11
       },
       "icon": "ringmaster_wraps",
       "description": "Red wraps the Ringmaster wore for every fight he fixed."
@@ -628,9 +628,9 @@
       "level": 31,
       "price": 0,
       "stats": {
-        "max_hp": 50,
-        "power": 0.1,
-        "crit": 0.06
+        "max_hp": 90,
+        "power": 0.19,
+        "crit": 0.11
       },
       "icon": "sak_signet",
       "description": "A heavy gold ring with the gang's mark. It opened every door on South Street."
@@ -655,7 +655,7 @@
       "name": "Facility Helmet",
       "type": "equipment",
       "slot": "head",
-      "rarity": "rare",
+      "rarity": "uncommon",
       "level": 33,
       "price": 1020,
       "stats": {
@@ -669,11 +669,11 @@
       "name": "Trooper Vest",
       "type": "equipment",
       "slot": "body",
-      "rarity": "rare",
+      "rarity": "uncommon",
       "level": 33,
       "price": 1120,
       "stats": {
-        "defense": 7,
+        "defense": 8,
         "max_hp": 60
       },
       "icon": "trooper_vest",
@@ -683,11 +683,11 @@
       "name": "Lab Grip Gloves",
       "type": "equipment",
       "slot": "hands",
-      "rarity": "rare",
+      "rarity": "uncommon",
       "level": 35,
       "price": 1100,
       "stats": {
-        "power": 0.3,
+        "power": 0.31,
         "defense": 2,
         "crit": 0.06
       },
@@ -698,13 +698,13 @@
       "name": "Facility Boots",
       "type": "equipment",
       "slot": "feet",
-      "rarity": "rare",
+      "rarity": "uncommon",
       "level": 35,
       "price": 1040,
       "stats": {
-        "speed": 0.15,
+        "speed": 0.17,
         "defense": 3,
-        "attack_speed": 0.07
+        "attack_speed": 0.08
       },
       "icon": "facility_boots",
       "description": "Anti-static soles that never slip on a clean floor."
@@ -717,9 +717,9 @@
       "level": 35,
       "price": 0,
       "stats": {
-        "max_hp": 60,
-        "defense": 2,
-        "crit": 0.05
+        "max_hp": 100,
+        "defense": 3,
+        "crit": 0.08
       },
       "icon": "subject_band",
       "description": "His patient band. The name on it was a worker's, before it was a number."
@@ -732,9 +732,9 @@
       "level": 39,
       "price": 0,
       "stats": {
-        "power": 0.7,
-        "crit": 0.08,
-        "attack_speed": 0.06
+        "power": 1.35,
+        "crit": 0.15,
+        "attack_speed": 0.12
       },
       "icon": "arthit_baton",
       "description": "Arthit's steel baton. He carried it for thirty years and never used it in the city, until now."
@@ -759,12 +759,12 @@
       "name": "Core Guard Helm",
       "type": "equipment",
       "slot": "head",
-      "rarity": "rare",
+      "rarity": "uncommon",
       "level": 42,
       "price": 1500,
       "stats": {
         "defense": 6,
-        "max_hp": 80
+        "max_hp": 75
       },
       "icon": "core_guard_helm",
       "description": "A sentinel's visor, pried off and padded for a human head."
@@ -773,12 +773,12 @@
       "name": "Reactor Plate",
       "type": "equipment",
       "slot": "body",
-      "rarity": "rare",
+      "rarity": "uncommon",
       "level": 42,
       "price": 1650,
       "stats": {
         "defense": 9,
-        "max_hp": 80
+        "max_hp": 85
       },
       "icon": "reactor_plate",
       "description": "Lead-lined plating from the reactor walkway. Heavy, and worth it."
@@ -787,13 +787,13 @@
       "name": "Insulated Gauntlets",
       "type": "equipment",
       "slot": "hands",
-      "rarity": "rare",
+      "rarity": "uncommon",
       "level": 44,
       "price": 1600,
       "stats": {
-        "power": 0.35,
+        "power": 0.39,
         "defense": 2,
-        "crit": 0.07
+        "crit": 0.08
       },
       "icon": "insulated_gauntlets",
       "description": "Made for live machinery. They take a shock and give one back."
@@ -802,13 +802,13 @@
       "name": "Walkway Boots",
       "type": "equipment",
       "slot": "feet",
-      "rarity": "rare",
+      "rarity": "uncommon",
       "level": 44,
       "price": 1550,
       "stats": {
-        "speed": 0.16,
-        "defense": 3,
-        "attack_speed": 0.08
+        "speed": 0.19,
+        "defense": 4,
+        "attack_speed": 0.1
       },
       "icon": "walkway_boots",
       "description": "Grip soles for wet steel gratings and fast exits."
@@ -821,9 +821,9 @@
       "level": 48,
       "price": 0,
       "stats": {
-        "max_hp": 80,
-        "power": 0.12,
-        "crit": 0.07
+        "max_hp": 155,
+        "power": 0.24,
+        "crit": 0.13
       },
       "icon": "director_signet",
       "description": "Kraisorn Heavy Industries' seal on a white-gold ring. It signed away a canal."
@@ -836,8 +836,8 @@
       "level": 30,
       "price": 0,
       "stats": {
-        "power": 0.65,
-        "crit": 0.1
+        "power": 1.12,
+        "crit": 0.17
       },
       "icon": "mothers_fang",
       "description": "A tooth the size of a fist, set in tar-black tape. The drains remember who took it."
@@ -850,9 +850,9 @@
       "level": 30,
       "price": 0,
       "stats": {
-        "max_hp": 70,
-        "power": 0.1,
-        "attack_speed": 0.08
+        "max_hp": 105,
+        "power": 0.15,
+        "attack_speed": 0.11
       },
       "icon": "mothers_heart",
       "description": "A green stone from the heart of the Great Drain. It beats, slowly, when you fight."
@@ -865,9 +865,9 @@
       "level": 45,
       "price": 0,
       "stats": {
-        "max_hp": 100,
-        "power": 0.15,
-        "attack_speed": 0.1
+        "max_hp": 150,
+        "power": 0.22,
+        "attack_speed": 0.15
       },
       "icon": "colossus_core",
       "description": "The Colossus's power cell, still warm. It hums in time with your heart."
@@ -880,9 +880,9 @@
       "level": 45,
       "price": 0,
       "stats": {
-        "power": 0.5,
-        "defense": 3,
-        "crit": 0.1
+        "power": 0.62,
+        "defense": 4,
+        "crit": 0.12
       },
       "icon": "piston_gauntlets",
       "description": "Hydraulic fists from the Colossus's arms. Every punch lands like a press."
@@ -895,8 +895,8 @@
       "level": 50,
       "price": 0,
       "stats": {
-        "defense": 13,
-        "max_hp": 140
+        "defense": 16,
+        "max_hp": 165
       },
       "icon": "zeros_mantle",
       "description": "The first worker's lab coat, hardened by years in the sludge. It turns blades."
@@ -909,12 +909,274 @@
       "level": 50,
       "price": 0,
       "stats": {
-        "power": 1.0,
-        "crit": 0.12,
-        "attack_speed": 0.08
+        "power": 1.68,
+        "crit": 0.2,
+        "attack_speed": 0.14
       },
       "icon": "iron_legacy",
       "description": "Knuckles forged from the Core Chamber's last door. South Street's story, worn on your fists."
+    },
+    "foreman_boots": {
+      "name": "Foreman's Boots",
+      "type": "equipment",
+      "slot": "feet",
+      "rarity": "epic",
+      "level": 3,
+      "price": 0,
+      "stats": {
+        "defense": 1,
+        "max_hp": 7,
+        "speed": 0.03
+      },
+      "icon": "steel_toe_boots",
+      "description": "Sludge-caked steel toes from the canal works. They never slip."
+    },
+    "champion_headband": {
+      "name": "Champion's Headband",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "epic",
+      "level": 7,
+      "price": 0,
+      "stats": {
+        "max_hp": 30,
+        "crit": 0.04
+      },
+      "icon": "dock_beanie",
+      "description": "The Pit Champion's sweat-stiff headband. The crowd still roars for it."
+    },
+    "smelter_apron": {
+      "name": "Smelter's Apron",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "epic",
+      "level": 9,
+      "price": 0,
+      "stats": {
+        "defense": 3,
+        "max_hp": 40
+      },
+      "icon": "work_jacket",
+      "description": "The Furnace Baron's leather apron, scorched through but never burned."
+    },
+    "harbourmaster_cap": {
+      "name": "Harbourmaster's Cap",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "epic",
+      "level": 15,
+      "price": 0,
+      "stats": {
+        "defense": 3,
+        "max_hp": 40,
+        "crit": 0.02
+      },
+      "icon": "dockers_cap",
+      "description": "Chen's braided cap. Dockhands still straighten up when they see it."
+    },
+    "dockmaster_boots": {
+      "name": "Dockmaster's Boots",
+      "type": "equipment",
+      "slot": "feet",
+      "rarity": "epic",
+      "level": 15,
+      "price": 0,
+      "stats": {
+        "speed": 0.1,
+        "defense": 2,
+        "max_hp": 20
+      },
+      "icon": "deck_boots",
+      "description": "Salt-white boots that walked every crane rail in the yard."
+    },
+    "chiefs_gloves": {
+      "name": "Chief's Gloves",
+      "type": "equipment",
+      "slot": "hands",
+      "rarity": "epic",
+      "level": 21,
+      "price": 0,
+      "stats": {
+        "power": 0.22,
+        "defense": 2,
+        "crit": 0.07
+      },
+      "icon": "insulated_gloves",
+      "description": "Security Chief issue: padded knuckles, a grip that does not let go."
+    },
+    "k7_plating": {
+      "name": "K7 Plating",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "epic",
+      "level": 23,
+      "price": 0,
+      "stats": {
+        "defense": 7,
+        "max_hp": 70
+      },
+      "icon": "kevlar_jacket",
+      "description": "Armour peeled from Unit K7's hull, strapped on with cargo belts."
+    },
+    "ringmaster_topper": {
+      "name": "Ringmaster's Topper",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "legendary",
+      "level": 27,
+      "price": 0,
+      "stats": {
+        "defense": 5,
+        "max_hp": 70,
+        "crit": 0.07
+      },
+      "icon": "watch_cap",
+      "description": "The Ringmaster's hat. Whoever wears it calls the next fight."
+    },
+    "sak_loafers": {
+      "name": "Sak's Loafers",
+      "type": "equipment",
+      "slot": "feet",
+      "rarity": "epic",
+      "level": 31,
+      "price": 0,
+      "stats": {
+        "speed": 0.2,
+        "defense": 4,
+        "attack_speed": 0.09
+      },
+      "icon": "runner_sneakers",
+      "description": "Big Sak's polished loafers, made for walking away from trouble fast."
+    },
+    "subject_grips": {
+      "name": "Subject Grips",
+      "type": "equipment",
+      "slot": "hands",
+      "rarity": "legendary",
+      "level": 35,
+      "price": 0,
+      "stats": {
+        "power": 0.37,
+        "defense": 3,
+        "crit": 0.11,
+        "attack_speed": 0.07
+      },
+      "icon": "grip_gloves",
+      "description": "Lab restraints, torn open and worn as gauntlets. Still warm."
+    },
+    "commander_greaves": {
+      "name": "Commander's Greaves",
+      "type": "equipment",
+      "slot": "feet",
+      "rarity": "epic",
+      "level": 39,
+      "price": 0,
+      "stats": {
+        "speed": 0.24,
+        "defense": 5,
+        "attack_speed": 0.11
+      },
+      "icon": "facility_boots",
+      "description": "Commander Arthit's field greaves, built to hold a line."
+    },
+    "director_coat": {
+      "name": "Director's Coat",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "epic",
+      "level": 48,
+      "price": 0,
+      "stats": {
+        "defense": 14,
+        "max_hp": 125
+      },
+      "icon": "reactor_plate",
+      "description": "Director Wiroj's long coat, lined with reactor-grade weave."
+    },
+    "director_crown": {
+      "name": "Director's Crown",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "legendary",
+      "level": 48,
+      "price": 0,
+      "stats": {
+        "defense": 9,
+        "max_hp": 115,
+        "crit": 0.11
+      },
+      "icon": "core_guard_helm",
+      "description": "The Director's command halo, cracked across the middle. It still hums."
+    },
+    "dock_hook": {
+      "name": "Dock Hook",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "uncommon",
+      "level": 13,
+      "price": 500,
+      "stats": {
+        "power": 0.37,
+        "crit": 0.05
+      },
+      "icon": "rebar_pipe",
+      "description": "A stevedore's cargo hook with a taped grip."
+    },
+    "shock_baton": {
+      "name": "Shock Baton",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "uncommon",
+      "level": 21,
+      "price": 740,
+      "stats": {
+        "power": 0.54,
+        "crit": 0.07
+      },
+      "icon": "chiefs_baton",
+      "description": "A plant guard's stun baton. The battery died long ago; the steel did not."
+    },
+    "weighted_knuckles": {
+      "name": "Weighted Knuckles",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "uncommon",
+      "level": 27,
+      "price": 1000,
+      "stats": {
+        "power": 0.68,
+        "crit": 0.08
+      },
+      "icon": "brass_knuckles",
+      "description": "Knuckledusters with lead in the grip. Ring fighters swear by them."
+    },
+    "riot_baton": {
+      "name": "Riot Baton",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "uncommon",
+      "level": 35,
+      "price": 1320,
+      "stats": {
+        "power": 0.84,
+        "crit": 0.1
+      },
+      "icon": "arthit_baton",
+      "description": "Standard facility issue, heavier than it looks."
+    },
+    "alloy_knuckles": {
+      "name": "Alloy Knuckles",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "uncommon",
+      "level": 44,
+      "price": 1950,
+      "stats": {
+        "power": 1.06,
+        "crit": 0.11
+      },
+      "icon": "brass_knuckles",
+      "description": "Refined alloy, cast to fit a fist. Light, cold, hard."
     }
   }
 }

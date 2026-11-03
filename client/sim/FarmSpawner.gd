@@ -11,7 +11,8 @@ extends RefCounted
 ## west end (where the hero arrives and comes to) is a safe spot. Who comes
 ## is drawn from `pool` ({enemy: weight}); one in `elite_chance` is an
 ## elite: tougher, worth ELITE_REWARD times the XP, coins and loot rolls,
-## named in gold.
+## named in gold, with a chance at the ground's own prizes (`elite_drops`,
+## [{item, chance}]: the Epic gear of its district's bosses).
 ## Nothing locks the hero in and nothing here is saved: leaving and coming
 ## back starts a fresh field. Rewards are paid where every enemy's are
 ## (ZoneSim._defeat). Pure rules on ZoneSim's seeded rng, shared with the
@@ -124,9 +125,12 @@ func _pay_elites(zone: ZoneSim) -> void:
 			continue
 		_elites.erase(id)
 		var loot: Dictionary = zone.content.enemy(enemy.kind).get("loot", {})
+		var prizes := {"drops": spec(zone.content, zone.area_id).get("elite_drops", [])}
+		var dropped: Array[String] = LootRules.roll(prizes, zone.rng)["items"]
 		for roll in roundi(ELITE_REWARD) - 1:
-			for item_id: String in LootRules.roll(loot, zone.rng)["items"]:
-				zone._drop({"kind": "item", "item": item_id, "amount": 1}, enemy.position)
+			dropped.append_array(LootRules.roll(loot, zone.rng)["items"])
+		for item_id in dropped:
+			zone._drop({"kind": "item", "item": item_id, "amount": 1}, enemy.position)
 
 
 ## An enemy kind drawn from `pool` ({kind: weight}) in its data order.
@@ -183,6 +187,11 @@ static func problems(content: ContentDB) -> PackedStringArray:
 		var from_x := float(data.get("from_x", -1.0))
 		if from_x < 0.0 or from_x > float(area.get("width", 960)) - MIN_GAP:
 			out.append(where + ".from_x: inside the area, with room east of it")
+		for prize: Variant in data.get("elite_drops", []):
+			var ok: bool = prize is Dictionary and float(prize.get("chance", 0.0)) > 0.0
+			var item := content.item(str(prize.get("item", ""))) if prize is Dictionary else {}
+			if not ok or item.get("type") != "equipment":
+				out.append(where + ".elite_drops: [{item: gear, chance > 0}]")
 		var pool: Variant = data.get("pool", {})
 		if not pool is Dictionary or (pool as Dictionary).is_empty():
 			out.append(where + ".pool: {enemy: weight}, at least one")

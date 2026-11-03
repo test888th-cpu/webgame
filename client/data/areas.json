@@ -4503,6 +4503,9 @@
         "cap": 4,
         "respawn_ticks": 300,
         "elite_chance": 0.05,
+        "elite_drops": [
+          {"item": "foreman_boots", "chance": 0.03}
+        ],
         "from_x": 320,
         "pool": {
           "smogling": 4,
@@ -4593,6 +4596,10 @@
         "cap": 4,
         "respawn_ticks": 310,
         "elite_chance": 0.05,
+        "elite_drops": [
+          {"item": "smelter_apron", "chance": 0.03},
+          {"item": "jade_charm", "chance": 0.03}
+        ],
         "from_x": 320,
         "pool": {
           "dock_thug": 3,
@@ -4678,6 +4685,10 @@
         "cap": 4,
         "respawn_ticks": 360,
         "elite_chance": 0.05,
+        "elite_drops": [
+          {"item": "harbourmaster_cap", "chance": 0.03},
+          {"item": "dockmaster_boots", "chance": 0.03}
+        ],
         "from_x": 320,
         "pool": {
           "stevedore": 4,
@@ -4762,6 +4773,10 @@
         "cap": 4,
         "respawn_ticks": 500,
         "elite_chance": 0.05,
+        "elite_drops": [
+          {"item": "chiefs_gloves", "chance": 0.03},
+          {"item": "chiefs_baton", "chance": 0.03}
+        ],
         "from_x": 320,
         "pool": {
           "patrol_unit": 4,
@@ -4844,6 +4859,10 @@
         "cap": 4,
         "respawn_ticks": 500,
         "elite_chance": 0.05,
+        "elite_drops": [
+          {"item": "k7_plating", "chance": 0.03},
+          {"item": "ringmaster_wraps", "chance": 0.03}
+        ],
         "from_x": 320,
         "pool": {
           "network_runner": 5,
@@ -4927,6 +4946,10 @@
         "cap": 4,
         "respawn_ticks": 580,
         "elite_chance": 0.05,
+        "elite_drops": [
+          {"item": "sak_loafers", "chance": 0.03},
+          {"item": "subject_band", "chance": 0.03}
+        ],
         "from_x": 320,
         "pool": {
           "facility_trooper": 6,
@@ -5005,6 +5028,9 @@
         "cap": 4,
         "respawn_ticks": 690,
         "elite_chance": 0.05,
+        "elite_drops": [
+          {"item": "director_coat", "chance": 0.03}
+        ],
         "from_x": 320,
         "pool": {
           "facility_trooper": 8,

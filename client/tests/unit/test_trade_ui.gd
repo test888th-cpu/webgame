@@ -94,6 +94,8 @@ func test_buying_a_stack_and_selling_it_back() -> void:
 
 func test_rare_gear_asks_before_it_is_sold() -> void:
 	var game := _game()
+	# Shops sell only Common and Uncommon gear: try it as a Rare one.
+	game.content.items["brass_knuckles"]["rarity"] = "rare"
 	game.profile.add_item("brass_knuckles")
 	game.menu_focus = "sell:brass_knuckles"
 	game.open_shop({"name": "Kenji", "shop": "night_stall", "role": "shop"})
@@ -106,6 +108,7 @@ func test_rare_gear_asks_before_it_is_sold() -> void:
 	assert_eq(trade.text, "Sure?", "it asks")
 	trade.pressed.emit()
 	assert_eq(game.profile.count("brass_knuckles"), 0, "sold on the second")
+	game.content.items["brass_knuckles"]["rarity"] = "uncommon"
 	_done(game)
 
 
