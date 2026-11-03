@@ -83,7 +83,7 @@ func sync() -> void:
 		_views[f.id].sync()
 	for id: int in _views.keys():
 		if not alive.has(id):
-			_views[id].queue_free()
+			_fade_out(_views[id])
 			_views.erase(id)
 	var present := {}
 	for pickup in zone.pickups:
@@ -99,6 +99,17 @@ func sync() -> void:
 	_update_exit_signs()
 	_update_prompts()
 	_follow_hero()
+
+
+## A fallen enemy's body fades into a puff of dust instead of vanishing.
+func _fade_out(gone: FighterView) -> void:
+	if not is_inside_tree() or gone.fighter == null or gone.fighter.id == ZoneSim.HERO_ID:
+		gone.queue_free()
+		return
+	Fx.spawn(effects, content, "dust", gone.position)
+	var tween := gone.create_tween()
+	tween.tween_property(gone, "modulate:a", 0.0, 0.3)
+	tween.tween_callback(gone.queue_free)
 
 
 func view_of(id: int) -> FighterView:

@@ -4,6 +4,20 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Fixed and added: effects around the fights
+- **Audit:** AutoPilot fought through every boss area, a farming ground and a world boss
+  arena with every frame drawn.
+  - No effect was left playing and no hazard marker was left behind.
+  - No node leaked and no engine error was logged.
+  - At most 19 effects were on screen at once.
+- **Arrivals:** an enemy now arrives in a puff of dust instead of popping in. A field
+  elite also flares gold (with a chime); a boss lands with a shockwave.
+- **Boss phases:** a boss entering a new phase flares red and throws out a shockwave, on
+  top of the roar and the shake.
+- **Defeated enemies:** a defeated enemy's body fades into dust instead of vanishing
+  (`ZoneView._fade_out`).
+- **Tests:** 522. New: `test_effects.gd`.
+
 ### Changed: the city holds every service; the story gives one quest per stage
 - **Services in the city only (owner decision).** Every merchant (Ama, Kenji, Noi,
   Aunt Jum, Uncle Thong, Lek, and Ama's supply crates) now keeps a stall in Iron City
