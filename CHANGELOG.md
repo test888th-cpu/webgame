@@ -4,6 +4,29 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added: monster art audit, credit register and licence check (documents and tools only)
+- **Audit (no game change):** `docs/monster_art/ENEMY_INVENTORY.md` (all 38 enemies:
+  where they fight, art source, frames, scale, credits; classified KEEP 12, REWORK 17,
+  REPLACE 5, INVESTIGATE 4), `FACTION_STYLE_GUIDE.md`,
+  `CHARACTER_DESIGN_SPECIFICATIONS.md` (one design per enemy from licence-checked LPC
+  parts), `LPC_GENERATOR_AUDIT.md` (the generator's licence filter, what LPC can and
+  cannot give a modern city), `SAMPLE_GROUP_PROPOSAL.md` (South Street Gang first,
+  awaiting approval).
+- **Findings:** all 224 LPC credit rows match the generator's own records at the
+  pinned commit; 4 (the spiked hair) are CC BY 4.0 only; three recipe parts (open
+  vest, trench coat, tabard) are never drawn because the recipes ask for a recolour
+  of a part the generator ships only as colour-named files; machines and the Tunnel
+  Mother cannot be made in LPC.
+- **Credit register:** `tools/assets/credit_register.py build` writes
+  `docs/credits/ASSET_CREDITS.csv` and `.md` (384 rows, every shipped asset) from the
+  repository's credit records; `docs/credits/LICENSE_REGISTER.md` and
+  `THIRD_PARTY_LICENSES.md` summarise the licences.
+- **Licence check:** `credit_register.py check` validates each enemy against the
+  monster-art rules and writes `docs/monster_art/LICENSE_AUDIT_REPORT.md` (today 0 of
+  38 compliant: website exports and per-monster manifests do not exist yet, and no
+  licence is verified at its source). 10 tests in `tools/assets/test_credit_register.py`
+  (not yet run by CI).
+
 ### Changed: Win's line, and a full-loop farming measurement
 - **Win's line** at Depot Yard and Night Market (it said "Anywhere you've been on
   South Street") is now "Choose a destination you've unlocked. I'll take you there."

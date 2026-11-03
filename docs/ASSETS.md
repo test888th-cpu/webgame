@@ -144,6 +144,9 @@ zombie body has no idle, so its idle is walk frame 0 (its standing pose).
   are then CC-BY-SA too. That's a decision for the owner, not the pipeline.
 - Credits: each asset's `credits.json` (file, authors, licence chosen, licences
   offered, source URLs). The in-game Credits screen lists all authors and licences.
+  `tools/assets/credit_register.py build` collects them into
+  [docs/credits/ASSET_CREDITS.csv](credits/ASSET_CREDITS.csv); its `check` command
+  applies the monster-art licence rules ([monster_art/](monster_art/)).
 - The pipeline's own code is MIT. The LPC generator's *code* (GPL-3.0) is **not**
   used or copied. Only its asset files and data definitions are read, at
   build time.
