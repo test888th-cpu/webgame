@@ -78,6 +78,7 @@ var thrown: Array[Dictionary] = []
 ## BossMechanics, which also whistles in a boss's reinforcements).
 var hazards: Array[Dictionary] = []
 var _boss_mechanics := BossMechanics.new()
+var _farm := FarmSpawner.new()
 var _next_weapon := 1
 ## Where each fighter stood before this tick's movement.
 var _before := {}
@@ -260,6 +261,7 @@ func tick(hero_input: FighterInput) -> Array[ZoneEvent]:
 	item_cooldown = maxi(0, item_cooldown - 1)
 	var events: Array[ZoneEvent] = []
 	_update_encounter(events)
+	_farm.tick(self, events)
 	_before.clear()
 	for f in fighters:
 		_before[f.id] = f.position

@@ -30,6 +30,7 @@ const STATUS_ADVANCE := "To the next fight"
 const STATUS_CLEAR := "Area clear"
 const STATUS_ROUND := "Back for another round"
 const STATUS_DOWN := "Knocked out"
+const STATUS_HUNT := "Hunting"
 
 ## Skills with a cooldown this long are the big finishers: saved for a crowd
 ## of three or a boss.
@@ -485,6 +486,9 @@ func _between_fights(zone: ZoneSim, foes: Array[Fighter], input: FighterInput) -
 		if absf(middle.x - hero.position.x) > 24.0:
 			input.move = Vector2(signf(middle.x - hero.position.x), 0.0)
 		return
+	if FarmSpawner.active(_content, zone.area_id):
+		_hunt(zone, foes, input)
+		return
 	var next := _next_fight_x(zone)
 	var refill := StreetMemory.refill_x(_content, zone.area_id)
 	if next == INF and refill != -INF:
@@ -499,6 +503,23 @@ func _between_fights(zone: ZoneSim, foes: Array[Fighter], input: FighterInput) -
 	status = STATUS_ADVANCE
 	var goal := Vector2(minf(next + 24.0, zone.bounds.end.x - 30.0), zone.bounds.get_center().y)
 	input.move = _steer(zone, Vector2(goal.x, hero.position.y + (goal.y - hero.position.y) * 0.3))
+
+
+## In a living field (FarmSpawner) there is no next fight to walk to: go for
+## the nearest enemy standing, or wait mid-field for the next to come in.
+func _hunt(zone: ZoneSim, foes: Array[Fighter], input: FighterInput) -> void:
+	var hero := zone.hero
+	status = STATUS_HUNT
+	var goal := Vector2(zone.bounds.get_center().x, hero.position.y)
+	var nearest := INF
+	for foe in foes:
+		var gap := hero.position.distance_to(foe.position)
+		if gap < nearest:
+			nearest = gap
+			goal = foe.position
+	if hero.position.distance_to(goal) > 24.0:
+		_chase(zone, goal)
+		input.move = _steer(zone, goal)
 
 
 ## Where the next fight not won yet starts (its trigger line), or INF.

@@ -1,14 +1,31 @@
 extends TestCase
-## Farming in the seven grounds: their fights repeat (StreetMemory.refill),
-## the repeat survives saving and loading, auto battle may farm a ground as
-## soon as its story unlock is met (nothing new is saved), and it farms round
-## after round with the same rules, rewards and boundaries as a player.
+## Farming in the seven grounds: each is a living field (FarmSpawner), auto
+## battle may farm a ground as soon as its story unlock is met (nothing new
+## is saved) and hunts there with the same rules, rewards and boundaries as a
+## player. A ground with fixed fights instead of a field repeats them
+## (StreetMemory.refill): tested on Saltmarket Backlots' former fights.
 
 const TEST_SAVE := "user://test_farming_loop_save"
 const GROUND := "farm_saltmarket_backlots"
 const FOOD := {"rice_box": 10}
+## Saltmarket Backlots' fixed fights before it became a living field.
+const FIXED_FIGHTS := [
+	{
+		"trigger_x": 380,
+		"arena": [180, 860],
+		"max_alive": 3,
+		"waves": [["smogling", "tar_hound", "smogling"], ["street_thrower", "pipe_brute"]]
+	},
+	{
+		"trigger_x": 1040,
+		"arena": [860, 1380],
+		"max_alive": 3,
+		"waves": [["tar_hound", "smogling", "street_thrower"], ["smogling", "smog_warden"]]
+	},
+]
 
 var content: ContentDB
+var fixed: ContentDB
 
 
 func _content() -> ContentDB:
@@ -57,8 +74,17 @@ func _done(game: Game) -> void:
 	SaveStore.root = SaveStore.DEFAULT_ROOT
 
 
-func _won_all(profile: PlayerProfile, area_id: String) -> void:
-	for i in _content().area(area_id)["encounters"].size():
+## The content with GROUND as a ground of fixed fights (no living field).
+func _fixed() -> ContentDB:
+	if fixed == null:
+		fixed = ContentDB.load_all()
+		fixed.areas[GROUND].erase("spawning")
+		fixed.areas[GROUND]["encounters"] = FIXED_FIGHTS.duplicate(true)
+	return fixed
+
+
+func _won_all(profile: PlayerProfile, area_id: String, c := _fixed()) -> void:
+	for i in c.area(area_id)["encounters"].size():
 		StreetMemory.mark_cleared(profile, area_id, i)
 
 
@@ -70,7 +96,7 @@ func _types(events: Array[ZoneEvent]) -> Array[String]:
 
 
 func test_a_won_out_ground_refills_once_the_hero_is_back_at_its_west_end() -> void:
-	var c := _content()
+	var c := _fixed()
 	var profile := _hero(4)
 	_won_all(profile, GROUND)
 	var zone := ZoneSim.new(c, profile, GROUND, "west", 3)
@@ -94,19 +120,21 @@ func test_a_won_out_ground_refills_once_the_hero_is_back_at_its_west_end() -> vo
 
 
 func test_a_ground_refills_only_when_every_fight_is_won() -> void:
-	var c := _content()
+	var c := _fixed()
 	var profile := _hero(4)
 	StreetMemory.mark_cleared(profile, GROUND, 0)
 	assert_true(not StreetMemory.refill(profile, c, GROUND, 0.0), "one fight still to win")
 	assert_eq(StreetMemory.pending(profile, c, GROUND), [1] as Array[int], "it stays to win")
 	assert_true(not StreetMemory.refill(profile, c, "saltmarket", 0.0), "streets do not refill")
 	assert_eq(StreetMemory.refill_x(c, "saltmarket"), -INF, "no refill line on the street")
-	_won_all(profile, "saltmarket")
+	_won_all(profile, "saltmarket", c)
 	assert_true(not StreetMemory.refill(profile, c, "saltmarket", 0.0), "a street waits for a rest")
+	var real := _content()
+	assert_eq(StreetMemory.refill_x(real, GROUND), -INF, "a living field has no refill line")
 
 
 func test_cleared_and_uncleared_ground_fights_survive_save_and_load() -> void:
-	var c := _content()
+	var c := _fixed()
 	var profile := _hero(4)
 	profile.area = GROUND
 	StreetMemory.mark_cleared(profile, GROUND, 0)
@@ -172,15 +200,11 @@ func test_every_ground_holds_only_enemies_its_unlock_has_taken_the_hero_past() -
 		var by := street.size() - 1
 		if rule.has("reached"):
 			by = street.find(str(rule["reached"]))
-		for encounter: Dictionary in c.area(gid)["encounters"]:
-			for wave: Array in encounter["waves"]:
-				for kind: String in wave:
-					assert_true(
-						int(first_seen.get(kind, 999)) <= by, "%s: %s met first" % [gid, kind]
-					)
+		for kind: String in FarmSpawner.spec(c, gid)["pool"]:
+			assert_true(int(first_seen.get(kind, 999)) <= by, "%s: %s met first" % [gid, kind])
 
 
-func test_auto_battle_farms_every_ground_round_after_round_inside_it() -> void:
+func test_auto_battle_hunts_every_grounds_field_at_its_level() -> void:
 	var c := _content()
 	for gid in AreaRules.farms(c):
 		var level := int(c.area(gid)["level"])
@@ -189,21 +213,19 @@ func test_auto_battle_farms_every_ground_round_after_round_inside_it() -> void:
 		zone.refresh_hero()
 		zone.hero.hp = zone.hero.max_hp
 		var pilot := AutoPilot.new(c)
-		var foes := 0
-		for encounter: Dictionary in c.area(gid)["encounters"]:
-			for wave: Array in encounter["waves"]:
-				foes += wave.size()
 		var before := ProgressionHarness._wealth(c, profile, FOOD)
 		var defeats := 0
 		var xp_paid := 0
 		var coins_picked := 0
-		var refills := 0
 		var left := false
+		var hunted := false
 		var west_most := INF
-		var ticks := 0
-		while ticks < 40000 and refills < 2 and not zone.hero.is_ko():
-			ticks += 1
+		# Three minutes of play.
+		for tick in 10800:
+			if zone.hero.is_ko():
+				break
 			var input := pilot.think(zone)
+			hunted = hunted or pilot.status == AutoPilot.STATUS_HUNT
 			if pilot.item:
 				zone.use_item(pilot.item)
 			for event in zone.tick(input):
@@ -214,24 +236,26 @@ func test_auto_battle_farms_every_ground_round_after_round_inside_it() -> void:
 					"pickup":
 						if event.data["kind"] == "money":
 							coins_picked += int(event.data["amount"])
-					"fights_back":
-						refills += 1
 					"exit":
 						left = true
 			west_most = minf(west_most, zone.hero.position.x)
 		var after := ProgressionHarness._wealth(c, profile, FOOD)
-		assert_eq(refills, 2, "%s: two rounds won and a third begun (%d ticks)" % [gid, ticks])
 		assert_true(not zone.hero.is_ko(), gid + ": no knock-out at its suggested level")
+		assert_true(not zone.in_encounter() and not zone.fight_locked(), gid + ": never walled in")
+		assert_true(hunted, gid + ": it goes looking for the next enemy")
 		assert_true(not left, gid + ": auto never walks out of the ground")
 		assert_true(west_most > zone.bounds.position.x + 20.0, gid + ": stays clear of the exit")
-		assert_true(defeats >= foes * 2, "%s: every enemy fought, each round (%d)" % [gid, defeats])
+		# At most one comes per respawn time; at least half that many fall.
+		var respawn := float(FarmSpawner.spec(c, gid)["respawn_ticks"])
+		var expected := maxi(10, roundi(0.5 * 10800.0 / respawn))
+		assert_true(defeats >= expected, "%s: the field keeps coming (%d)" % [gid, defeats])
 		assert_eq(int(after["coins"]) - int(before["coins"]), coins_picked, gid + ": coins as won")
 		var capped := level >= int(c.progression["max_level"])
 		var gained := int(after["xp"]) - int(before["xp"])
 		assert_eq(gained, 0 if capped else xp_paid, gid + ": XP as the defeats paid it")
 
 
-func test_auto_battle_in_a_ground_goes_round_again_without_riding_home() -> void:
+func test_auto_battle_in_a_ground_keeps_fighting_without_riding_home() -> void:
 	var game := _game()
 	var strong := _hero(12)
 	game.profile.visited = strong.visited
@@ -241,13 +265,14 @@ func test_auto_battle_in_a_ground_goes_round_again_without_riding_home() -> void
 	game.enter_area(GROUND, "west")
 	game.auto.toggle()
 	assert_true(game.auto.on, "auto on in an open ground")
-	for tick in 20000:
+	for tick in 7200:
 		game.step(game.auto.input(FighterInput.new(), false))
-		if game.auto.runs > 1 or not game.auto.on:
+		if not game.auto.on:
 			break
-	assert_eq(game.auto.runs, 2, "a second round began")
+	assert_true(game.auto.kills >= 10, "two minutes, a steady stream (%d)" % game.auto.kills)
 	assert_true(game.auto.on, "still farming")
-	assert_eq(game.zone.area_id, GROUND, "in the same ground, no ride home")
+	assert_eq(game.auto.runs, 1, "no ride home needed")
+	assert_eq(game.zone.area_id, GROUND, "in the same ground")
 	_done(game)
 
 

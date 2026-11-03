@@ -284,6 +284,10 @@ func _handle(event: ZoneEvent) -> void:
 			if event.data.get("boss", false):
 				_hud.toast("%s defeated!" % data.get("name", "Boss"))
 			SaveStore.save(profile)
+		"spawn":
+			if event.data.get("elite", false):
+				var name := str(content.enemy(event.data["kind"]).get("name", "enemy"))
+				_hud.toast("An elite %s joins the fight!" % name)
 		"quest_complete":
 			var quest: Dictionary = content.quests[event.data["quest"]]
 			_hud.toast("Quest complete: %s" % quest["name"])

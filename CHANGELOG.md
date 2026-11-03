@@ -4,6 +4,43 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed: the farming grounds are living fields
+- **What changed:** each of the seven grounds is now a living field (`"spawning"` in
+  `areas.json`, rules in `sim/FarmSpawner.gd`). The old loop was two fixed fights, then
+  walking back west to refill them.
+  - Up to 4 enemies stand at once, and one more comes in after each loss, so the fight
+    never stops.
+  - Enemies enter away from the hero (off camera where the field allows).
+  - Nothing walls the hero in. The way out is always open.
+  - The west end is a safe spot: enemies never follow into it, so arriving or coming
+    to after a knock-out starts calm.
+- **Elites:** 1 in 20 is an elite, with a gold name and an "An elite ... joins the
+  fight!" toast. It has ×3 HP, ×1.25 power, and pays ×3 XP, ×3 coins and three loot
+  rolls.
+- **Auto battle:** in a field it goes after the nearest enemy (status "Hunting") or waits
+  mid-field. It rests in the city only when hurt with no food.
+- **Same income:** respawn times are tuned per ground (300 to 690 ticks) so earnings stay
+  near the old loop's. Measured with the harness: Oren and Mika, 3 seeds, 10 minutes per
+  ground, against the old loop.
+
+  | Ground | Respawn | Coins/min | XP/min |
+  |---|---|---|---|
+  | Saltmarket Backlots | 300 | ×1.09 | ×1.07 |
+  | Rail Sidings | 310 | ×1.03 | ×1.02 |
+  | Harbour Stacks | 360 | ×1.09 | ×1.05 |
+  | Plant Outskirts | 500 | ×1.03 | ×1.01 |
+  | Network Backrooms | 500 | ×1.07 | ×1.07 |
+  | Facility Annex | 580 | ×0.97 | ×0.97 |
+  | Core Overflow | 690 | ×0.92 | (level cap) |
+
+  - Scrap and Refined Alloy came out at ×0.83 to ×1.27 (few drops per run, so noisy).
+  - No knock-outs in 42 runs. The old loop had one, at Core Overflow.
+- **Unchanged:** the story, the refill mechanism (`StreetMemory.refill`, for any ground
+  with fixed fights), saves (version 10), drops, enemies.
+- **Tests:** 502. New: `test_farm_spawner.gd` covers filling, respawn, entrances, the
+  safe spot, the seed, elites and their loot, other areas, and the validator. The
+  grounds and auto battle tests now cover the field.
+
 ### Changed: the farming grounds and world bosses are reached from the city only
 - **Owner decision:** the story and the hub content are kept apart. Iron City Central
   is the hub (`AreaRules.hub`): the only way into a farming ground or a world boss

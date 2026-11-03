@@ -23,7 +23,9 @@ func _street() -> Array[String]:
 
 
 func _fights_in(area_id: String, enemy_id: String) -> bool:
-	return JSON.stringify(_content().areas[area_id]["encounters"]).contains('"%s"' % enemy_id)
+	var area: Dictionary = _content().areas[area_id]
+	var fights := [area.get("encounters", []), area.get("spawning", {})]
+	return JSON.stringify(fights).contains('"%s"' % enemy_id)
 
 
 func test_the_new_areas_stand_in_story_order() -> void:

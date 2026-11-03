@@ -97,12 +97,11 @@ func _everything(profile: PlayerProfile) -> void:
 			profile.defeated[enemy_id] = 1
 
 
+## Who comes to a ground's living field (its "spawning" pool).
 static func _kinds(area: Dictionary) -> Array[String]:
 	var out: Array[String] = []
-	for encounter: Dictionary in area["encounters"]:
-		for wave: Array in encounter["waves"]:
-			for kind: String in wave:
-				out.append(kind)
+	for kind: String in area["spawning"]["pool"]:
+		out.append(kind)
 	return out
 
 
@@ -140,8 +139,7 @@ func test_each_ground_fights_only_its_districts_enemies() -> void:
 			if c.enemy(kind).get("elite", false):
 				elites[kind] = true
 		assert_eq(elites.keys(), [GROUNDS[gid][3]], gid + ": its one elite")
-		for encounter: Dictionary in c.area(gid)["encounters"]:
-			assert_true(int(encounter["max_alive"]) <= 3, gid + ": at most 3 at once")
+		assert_true(int(c.area(gid)["spawning"]["cap"]) <= 4, gid + ": at most 4 at once")
 
 
 func test_each_ground_draws_its_own_scenery() -> void:
@@ -246,13 +244,13 @@ func test_the_map_shows_a_grounds_level_as_a_suggestion_and_what_it_is_for() -> 
 	assert_true("no XP" in str(c.area("farm_core_overflow")["purpose"]), "the cap is said")
 
 
-func test_auto_battle_clears_each_ground_at_its_level() -> void:
+func test_auto_battle_farms_each_ground_at_its_level() -> void:
 	var c := _content()
 	for gid: String in GROUNDS:
-		var run := ProgressionHarness.run_area(
-			c, {"area": gid, "hero": "oren", "seed": 3, "food": {"rice_box": 8}}
+		var run := ProgressionHarness.run_loop(
+			c, {"area": gid, "hero": "oren", "seed": 3, "ticks": 7200}
 		)
-		assert_true(run["clear"], "%s: cleared (%d ticks)" % [gid, run["ticks"]])
+		assert_eq(int(run["ticks"]), 7200, "%s: two minutes played" % gid)
 		assert_true(not run["ko"], gid + ": the hero stays standing")
 		assert_true(int(run["coins"]) > 0, gid + ": coins")
 		# A hero at the level cap earns no XP (PlayerProfile), so a ground at
@@ -261,19 +259,20 @@ func test_auto_battle_clears_each_ground_at_its_level() -> void:
 		assert_eq(int(run["xp"]) > 0, not capped, gid + ": XP unless at the level cap")
 
 
-func test_cleared_fights_stay_down_until_a_rest() -> void:
+func test_each_ground_is_a_living_field_with_nothing_to_win_or_save() -> void:
 	var c := _content()
 	var profile := PlayerProfile.new_game(c)
+	_everything(profile)
 	for gid: String in GROUNDS:
-		var count: int = c.area(gid)["encounters"].size()
-		assert_eq(StreetMemory.pending(profile, c, gid).size(), count, gid + ": all to fight")
-		for i in count:
-			StreetMemory.mark_cleared(profile, gid, i)
-		assert_eq(StreetMemory.pending(profile, c, gid).size(), 0, gid + ": cleared")
-	StreetMemory.rest(profile)
-	for gid: String in GROUNDS:
-		var count: int = c.area(gid)["encounters"].size()
-		assert_eq(StreetMemory.pending(profile, c, gid).size(), count, gid + ": back after a rest")
+		assert_true(FarmSpawner.active(c, gid), gid + ": a living field")
+		assert_true(c.area(gid).get("encounters", []).is_empty(), gid + ": no fixed fights")
+		assert_true(StreetMemory.pending(profile, c, gid).is_empty(), gid + ": nothing to win")
+		var zone := ZoneSim.new(c, profile, gid, "west", 1)
+		for tick in 600:
+			zone.tick(FighterInput.new())
+		assert_eq(zone.enemies().size(), int(c.area(gid)["spawning"]["cap"]), gid + ": filled")
+		assert_true(not zone.fight_locked(), gid + ": nothing walls the hero in")
+		assert_true(not profile.cleared.has(gid), gid + ": nothing saved about it")
 
 
 func test_a_save_made_in_a_ground_loads_there() -> void:

@@ -20,7 +20,7 @@ const LOW_HEALTH := 0.35
 ## Why auto battle cannot run in `area_id` right now, or "" when it can.
 static func problem(profile: PlayerProfile, content: ContentDB, area_id: String) -> String:
 	var area := content.area(area_id)
-	if area.get("encounters", []).is_empty():
+	if area.get("encounters", []).is_empty() and not FarmSpawner.active(content, area_id):
 		return "No one to fight here."
 	if area.get("world_boss", false):
 		return "The World Boss has to be fought by hand."
