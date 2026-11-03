@@ -179,6 +179,8 @@ func _make_fighter_view(f: Fighter) -> FighterView:
 	_entities.add_child(view)
 	if f.team == ZoneSim.ENEMY_TEAM:
 		view.setup_enemy(content.enemy(f.kind), content.art, zone.enemy_level(f.id))
+		if f.elite:
+			view.mark_elite(content.enemy(f.kind))
 	return view
 
 

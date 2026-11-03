@@ -11,6 +11,8 @@ var id := 0
 var team := 0
 ## Content id: "hero" or an enemy id from enemies.json.
 var kind := ""
+## A farming ground's elite (FarmSpawner): tougher, worth more, named in gold.
+var elite := false
 ## Input -> move id. Empty means the library's default starters (the hero).
 var moveset := {}
 ## Damage multiplier, flat damage reduction, and walk speed multiplier.

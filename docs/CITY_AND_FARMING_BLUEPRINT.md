@@ -20,6 +20,14 @@
 >   shows two sections, STORY and IRON CITY CENTRAL. This replaces §4's and §5's
 >   "west exit to `depot_yard`".
 >
+> - **Living fields (2026-11-03):** each ground's fixed fights became a living field
+>   (`"spawning"` in `areas.json`, `sim/FarmSpawner.gd`): up to 4 enemies standing,
+>   one more after each loss, entrances away from the hero, a safe spot at the west
+>   end, 1 in 20 an elite (×3 HP, ×3 XP and coins, gold name). Nothing walls the hero
+>   in and nothing is saved. Respawn times are tuned per ground so income per minute
+>   stays near the old loop's (CHANGELOG). The refill mechanism
+>   (`StreetMemory.refill`) stays for any ground with fixed fights.
+>
 > Sections 1 to 11 are the Phase 1 plan as written, kept for the record. Where §3, §6, §7,
 > §10 or §11 talk about widening Depot Yard, §12 replaces them.
 >

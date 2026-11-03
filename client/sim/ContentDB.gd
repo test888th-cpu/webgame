@@ -263,6 +263,7 @@ func validate() -> void:
 		_validate_area(id, areas[id])
 	_validate_city()
 	errors.append_array(AreaRules.problems(self))
+	errors.append_array(FarmSpawner.problems(self))
 	_validate_progression()
 	_validate_weapons()
 	_validate_heroes()

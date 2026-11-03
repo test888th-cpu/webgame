@@ -74,7 +74,8 @@ func _ready() -> void:
 ## `level` (shown over its head; 0 hides it).
 ## Colours the name by how this enemy compares with a hero at `hero_level`.
 func show_threat(hero_level: int) -> void:
-	if enemy_level <= 0:
+	# A farming ground's elite keeps its gold name (mark_elite).
+	if enemy_level <= 0 or fighter.elite:
 		return
 	var threat := LevelRules.threat(enemy_level, hero_level)
 	if threat != _threat:
@@ -102,6 +103,14 @@ func setup_enemy(data: Dictionary, art: Dictionary, level := 0) -> void:
 		_name.visible = true
 	if data.has("sprite"):
 		set_art(str(data["sprite"]), art)
+
+
+## A farming ground's elite (FarmSpawner): its name and level overhead, in gold.
+func mark_elite(data: Dictionary) -> void:
+	var tag := "  Lv %d" % enemy_level if enemy_level > 0 else ""
+	_name.text = "Elite %s%s" % [data.get("name", ""), tag]
+	_name.add_theme_color_override("font_color", UiTheme.GOLD)
+	_name.visible = true
 
 
 ## Switches to an imported character asset (or back to polygons with "").

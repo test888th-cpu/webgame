@@ -4499,46 +4499,19 @@
       },
       "npcs": [],
       "placed": [],
-      "encounters": [
-        {
-          "trigger_x": 380,
-          "arena": [
-            180,
-            860
-          ],
-          "max_alive": 3,
-          "waves": [
-            [
-              "smogling",
-              "tar_hound",
-              "smogling"
-            ],
-            [
-              "street_thrower",
-              "pipe_brute"
-            ]
-          ]
-        },
-        {
-          "trigger_x": 1040,
-          "arena": [
-            860,
-            1380
-          ],
-          "max_alive": 3,
-          "waves": [
-            [
-              "tar_hound",
-              "smogling",
-              "street_thrower"
-            ],
-            [
-              "smogling",
-              "smog_warden"
-            ]
-          ]
+      "spawning": {
+        "cap": 4,
+        "respawn_ticks": 300,
+        "elite_chance": 0.05,
+        "from_x": 320,
+        "pool": {
+          "smogling": 4,
+          "tar_hound": 2,
+          "street_thrower": 2,
+          "pipe_brute": 1,
+          "smog_warden": 1
         }
-      ],
+      },
       "weapons": {
         "count": [
           2,
@@ -4616,46 +4589,18 @@
       },
       "npcs": [],
       "placed": [],
-      "encounters": [
-        {
-          "trigger_x": 380,
-          "arena": [
-            180,
-            860
-          ],
-          "max_alive": 3,
-          "waves": [
-            [
-              "dock_thug",
-              "market_punk",
-              "market_punk"
-            ],
-            [
-              "rail_bruiser",
-              "dock_thug"
-            ]
-          ]
-        },
-        {
-          "trigger_x": 1040,
-          "arena": [
-            860,
-            1380
-          ],
-          "max_alive": 3,
-          "waves": [
-            [
-              "market_punk",
-              "dock_thug",
-              "rail_bruiser"
-            ],
-            [
-              "rail_bruiser",
-              "refinery_enforcer"
-            ]
-          ]
+      "spawning": {
+        "cap": 4,
+        "respawn_ticks": 310,
+        "elite_chance": 0.05,
+        "from_x": 320,
+        "pool": {
+          "dock_thug": 3,
+          "market_punk": 3,
+          "rail_bruiser": 3,
+          "refinery_enforcer": 1
         }
-      ],
+      },
       "weapons": {
         "count": [
           2,
@@ -4729,47 +4674,18 @@
       },
       "npcs": [],
       "placed": [],
-      "encounters": [
-        {
-          "trigger_x": 380,
-          "arena": [
-            180,
-            860
-          ],
-          "max_alive": 3,
-          "waves": [
-            [
-              "stevedore",
-              "dock_slinger",
-              "dock_thug"
-            ],
-            [
-              "dock_slinger",
-              "dock_slinger",
-              "stevedore"
-            ]
-          ]
-        },
-        {
-          "trigger_x": 1040,
-          "arena": [
-            860,
-            1380
-          ],
-          "max_alive": 3,
-          "waves": [
-            [
-              "stevedore",
-              "stevedore",
-              "dock_slinger"
-            ],
-            [
-              "dock_thug",
-              "port_guard"
-            ]
-          ]
+      "spawning": {
+        "cap": 4,
+        "respawn_ticks": 360,
+        "elite_chance": 0.05,
+        "from_x": 320,
+        "pool": {
+          "stevedore": 4,
+          "dock_slinger": 4,
+          "dock_thug": 2,
+          "port_guard": 1
         }
-      ],
+      },
       "weapons": {
         "count": [
           2,
@@ -4842,46 +4758,17 @@
       },
       "npcs": [],
       "placed": [],
-      "encounters": [
-        {
-          "trigger_x": 380,
-          "arena": [
-            180,
-            860
-          ],
-          "max_alive": 3,
-          "waves": [
-            [
-              "patrol_unit",
-              "hazmat_sprayer"
-            ],
-            [
-              "hazmat_sprayer",
-              "hazmat_sprayer",
-              "patrol_unit"
-            ]
-          ]
-        },
-        {
-          "trigger_x": 1040,
-          "arena": [
-            860,
-            1380
-          ],
-          "max_alive": 3,
-          "waves": [
-            [
-              "patrol_unit",
-              "patrol_unit",
-              "hazmat_sprayer"
-            ],
-            [
-              "hazmat_sprayer",
-              "plant_guard"
-            ]
-          ]
+      "spawning": {
+        "cap": 4,
+        "respawn_ticks": 500,
+        "elite_chance": 0.05,
+        "from_x": 320,
+        "pool": {
+          "patrol_unit": 4,
+          "hazmat_sprayer": 5,
+          "plant_guard": 1
         }
-      ],
+      },
       "weapons": {
         "count": [
           2,
@@ -4953,44 +4840,17 @@
       },
       "npcs": [],
       "placed": [],
-      "encounters": [
-        {
-          "trigger_x": 380,
-          "arena": [
-            180,
-            860
-          ],
-          "max_alive": 3,
-          "waves": [
-            [
-              "network_runner",
-              "network_runner"
-            ],
-            [
-              "network_enforcer",
-              "network_runner"
-            ]
-          ]
-        },
-        {
-          "trigger_x": 1040,
-          "arena": [
-            860,
-            1380
-          ],
-          "max_alive": 3,
-          "waves": [
-            [
-              "network_runner",
-              "network_enforcer"
-            ],
-            [
-              "network_runner",
-              "ring_fighter"
-            ]
-          ]
+      "spawning": {
+        "cap": 4,
+        "respawn_ticks": 500,
+        "elite_chance": 0.05,
+        "from_x": 320,
+        "pool": {
+          "network_runner": 5,
+          "network_enforcer": 2,
+          "ring_fighter": 1
         }
-      ],
+      },
       "weapons": {
         "count": [
           2,
@@ -5063,46 +4923,18 @@
       },
       "npcs": [],
       "placed": [],
-      "encounters": [
-        {
-          "trigger_x": 380,
-          "arena": [
-            180,
-            860
-          ],
-          "max_alive": 3,
-          "waves": [
-            [
-              "facility_trooper",
-              "hazmat_sprayer",
-              "facility_trooper"
-            ],
-            [
-              "facility_trooper",
-              "facility_trooper"
-            ]
-          ]
-        },
-        {
-          "trigger_x": 1040,
-          "arena": [
-            860,
-            1380
-          ],
-          "max_alive": 3,
-          "waves": [
-            [
-              "facility_trooper",
-              "facility_trooper",
-              "hazmat_sprayer"
-            ],
-            [
-              "patrol_unit",
-              "riot_trooper"
-            ]
-          ]
+      "spawning": {
+        "cap": 4,
+        "respawn_ticks": 580,
+        "elite_chance": 0.05,
+        "from_x": 320,
+        "pool": {
+          "facility_trooper": 6,
+          "hazmat_sprayer": 2,
+          "patrol_unit": 1,
+          "riot_trooper": 1
         }
-      ],
+      },
       "weapons": {
         "count": [
           2,
@@ -5169,46 +5001,17 @@
       },
       "npcs": [],
       "placed": [],
-      "encounters": [
-        {
-          "trigger_x": 380,
-          "arena": [
-            180,
-            860
-          ],
-          "max_alive": 3,
-          "waves": [
-            [
-              "facility_trooper",
-              "facility_trooper"
-            ],
-            [
-              "facility_trooper",
-              "patrol_unit",
-              "facility_trooper"
-            ]
-          ]
-        },
-        {
-          "trigger_x": 1040,
-          "arena": [
-            860,
-            1380
-          ],
-          "max_alive": 3,
-          "waves": [
-            [
-              "facility_trooper",
-              "facility_trooper",
-              "facility_trooper"
-            ],
-            [
-              "facility_trooper",
-              "core_sentinel"
-            ]
-          ]
+      "spawning": {
+        "cap": 4,
+        "respawn_ticks": 690,
+        "elite_chance": 0.05,
+        "from_x": 320,
+        "pool": {
+          "facility_trooper": 8,
+          "patrol_unit": 1,
+          "core_sentinel": 1
         }
-      ],
+      },
       "weapons": {
         "count": [
           2,
