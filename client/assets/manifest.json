@@ -28653,26 +28653,6 @@
         ],
         "source": "explosions/implosion"
       },
-      "poof": {
-        "authors": [
-          "Patch",
-          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
-        ],
-        "blend": "mix",
-        "columns": 18,
-        "fps": 15,
-        "frames": 18,
-        "origin": [
-          44,
-          66
-        ],
-        "sheet": "res://assets/fx/pixelfx/poof.png",
-        "size": [
-          93,
-          78
-        ],
-        "source": "spawn/poof"
-      },
       "shield_break": {
         "authors": [
           "Patch",

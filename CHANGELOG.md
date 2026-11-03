@@ -14,6 +14,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
     (`ZoneView.ground`), and no longer slide along with the hero.
   - Strike bursts and the uppercut's arc stay where the blow landed.
   - Only a charge's trail and a spin around the body travel with the fighter (`FOLLOWS`).
+- **No smoke when enemies come or go:** the puff of smoke on an enemy's arrival and at its
+  fall looked like a ninja vanishing, and nobody in this game teleports.
+  - An ordinary enemy now fades in over a quarter of a second (`ZoneView._fade_in`).
+  - A fallen enemy's body just fades away.
+  - An elite still arrives in gold light, and a boss with its landing slam.
+  - The unused `poof` effect is removed from the assets and the credit register.
 - **Quieter, plainer sounds:**
   - Each synthesised sound now has its own level (`gen_sfx.py`), so small sounds heard
     often sit well under the blows.

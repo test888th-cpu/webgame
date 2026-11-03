@@ -53,10 +53,6 @@
       "source": "holy/holy-pillar",
       "stride": 2
     },
-    "poof": {
-      "source": "spawn/poof",
-      "stride": 2
-    },
     "elite_flare": {
       "source": "arcane/blink-in"
     },

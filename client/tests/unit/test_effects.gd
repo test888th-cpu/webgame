@@ -1,6 +1,6 @@
 extends TestCase
-## What the player sees around the fights: enemies arrive with a puff of
-## smoke (an elite with a flare), a boss's new phase flares, and a fallen
+## What the player sees around the fights: enemies fade in (an elite with a
+## flare, no smoke), a boss's new phase flares, and a fallen
 ## enemy fades out instead of vanishing (GameFeedback, ZoneView).
 
 const TEST_SAVE := "user://test_effects_save"
@@ -31,16 +31,27 @@ func test_arrivals_phases_and_fallen_enemies_have_effects() -> void:
 	game.enter_area("farm_facility_annex", "west")
 	var arrived := false
 	var elite := false
+	var faded_in := false
 	for i in 400:
 		for event in game.step(FighterInput.new()):
-			arrived = arrived or event.type == "spawn"
-			elite = elite or (event.type == "spawn" and event.data.get("elite", false))
+			if event.type != "spawn":
+				continue
+			arrived = true
+			elite = elite or event.data.get("elite", false)
+			var fresh := game.view.view_of(int(event.data["id"]))
+			faded_in = faded_in or (fresh != null and fresh.modulate.a < 1.0)
 		if elite:
 			break
 	game.content.areas["farm_facility_annex"]["spawning"]["elite_chance"] = 0.05
 	assert_true(arrived, "enemies came")
-	var puffs := game.view.effects.find_children("*", "AnimatedSprite2D", false, false)
-	assert_true(puffs.size() > 0, "an arrival raises dust (%d)" % puffs.size())
+	assert_true(faded_in, "an arrival fades in, no pop-in")
+	var shown: Array[String] = []
+	for sprite: AnimatedSprite2D in game.view.effects.find_children(
+		"*", "AnimatedSprite2D", true, false
+	):
+		shown.append(str(sprite.animation))
+	assert_true("elite_flare" in shown, "an elite arrives in gold light")
+	assert_true("poof" not in shown, "and nobody in a puff of smoke (%s)" % [shown])
 	var enemy: Fighter = game.zone.enemies()[0]
 	var enemy_view := game.view.view_of(enemy.id)
 	game.zone.fighters.erase(enemy)

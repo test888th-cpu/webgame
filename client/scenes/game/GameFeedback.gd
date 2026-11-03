@@ -146,8 +146,8 @@ func _boss_down(id: int) -> void:
 	Sfx.play("break_metal", 0.0, 0.0, 0.6)
 
 
-## An enemy steps in with a puff of dust where it stands (no pop-in); an
-## elite (FarmSpawner) arrives in a burst of gold light, a boss in a slam.
+## An elite (FarmSpawner) arrives in a burst of gold light, a boss in a
+## slam; anyone else just fades in (ZoneView), with no smoke.
 func _arrival(data: Dictionary) -> void:
 	var fighter := view.zone.fighter(int(data["id"]))
 	if fighter == null:
@@ -157,8 +157,6 @@ func _arrival(data: Dictionary) -> void:
 		Sfx.play("elite_arrive", -6.0)
 	elif data.get("boss", false):
 		Fx.spawn(view.effects, content, "boss_land", fighter.position)
-	else:
-		Fx.spawn(view.effects, content, "poof", fighter.position)
 
 
 ## A boss entering a new phase flares red and throws out a shockwave, so the
