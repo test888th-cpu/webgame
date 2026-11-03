@@ -4,6 +4,42 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed: auto battle plays the story and fights every boss
+- **No first clear by hand:** auto battle now runs wherever there is a fight
+  (`AutoRules.problem`):
+  - story areas not cleared yet, and their bosses;
+  - world boss arenas: it fights to the end of the attempt and never goes home halfway;
+  - open farming grounds, as before.
+- **Auto quest** (`StoryAuto`, new in `sim/`): following the map's goal (`MapRules.goal`),
+  auto plays the story one step at a time:
+  - At a rest point it hands in the quest that is done and takes the next one from the
+    quest giver.
+  - It fights through each area, walks on through the east exit, and fights the stage's
+    boss.
+  - Then it rests in the city and rides Win's taxi to where the quest goes next. The fare
+    and the food restock work as in the farm loop.
+  - It starts from the city or a quest giver's rest point too, with no one to fight there.
+  - When the story is done, auto turns off.
+- **Player control is unchanged:** any input of the player's own takes over, and the
+  player walking to another area turns auto off. A knock-out turns auto off.
+- **Setting:** "Story: take each quest and fight on to its boss" in the auto options (on
+  by default). Off, auto stays in the area and farms it as before.
+- **Hand-ins:** auto's quest steps go through the same quest rules as the giver's menu:
+  the rewards, a level up, a chapter's end and the epilogue (`Game._hand_in`).
+- **Wears better gear:** out of a fight, auto puts on any better gear the hero carries
+  (`AutoRules.wear_upgrades`, the bag's "better" mark), after a drop or a quest's rewards.
+  Setting: "Wear better gear found" (on by default).
+- **Measured** (scratch run, not in CI): a new hero on auto, never touched, from Chief
+  Odo's first quest to the epilogue:
+  - Oren: about 60 minutes of play, 0 knock-outs, level 50 at the end.
+  - Mika: about 57 minutes, 0 knock-outs, level 50.
+  - Without wearing better gear, the same run was knocked out over and over by Unit K-7
+    at level 25; that is why auto wears it.
+- **Tests:** the steps of the first stage, and a new game playing stage one to the next
+  quest on auto alone; wearing the best gear carried; no trip home from a world boss
+  arena. The auto rules tests now cover the story areas, the city and the world boss
+  arenas. 530 in all.
+
 ### Changed: farming fields send enemies in packs
 - **What changes:** after the first fill, a field no longer trickles in one enemy each
   time one falls.

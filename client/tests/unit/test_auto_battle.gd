@@ -1,8 +1,9 @@
 extends TestCase
-## Auto battle: allowed only in areas the hero has beaten by hand; the pilot
-## clears a street alone with every hero, eats, dodges, guards and uses its
-## skills by their move data; the farm loop rests, restocks and rides back;
-## and the player's own input always takes over.
+## Auto battle: allowed wherever there is a fight (story areas not cleared
+## yet included) or a story step to take; the pilot clears a street alone
+## with every hero, eats, dodges, guards and uses its skills by their move
+## data; the farm loop rests, restocks and rides back; and the player's own
+## input always takes over.
 
 const TEST_SAVE := "user://test_auto_save"
 
@@ -43,25 +44,23 @@ func _game() -> Node2D:
 
 
 func _done(game: Node2D) -> void:
+	GameSession.settings["auto_story"] = true
 	game.free()
 	SaveStore.delete_all()
 	SaveStore.root = SaveStore.DEFAULT_ROOT
 
 
-func test_auto_is_only_for_areas_already_beaten() -> void:
+func test_auto_runs_wherever_there_is_a_fight_or_a_story_step() -> void:
 	var profile := PlayerProfile.new_game(_content())
-	assert_true(AutoRules.problem(profile, _content(), "depot_yard") != "", "nothing to fight")
-	assert_true(AutoRules.problem(profile, _content(), "saltmarket") != "", "not beaten yet")
-	StreetMemory.visit(profile, "canal_works")
-	assert_eq(AutoRules.problem(profile, _content(), "saltmarket"), "", "beaten: walked on east")
-	var last := StreetMemory.street(_content()).back() as String
-	assert_true(AutoRules.problem(profile, _content(), last) != "", "the last area's boss is up")
-	for encounter: Dictionary in _content().area(last)["encounters"]:
-		for wave: Array in encounter["waves"]:
-			for kind: String in wave:
-				if _content().enemy(kind).get("boss", false):
-					profile.defeated[kind] = 1
-	assert_eq(AutoRules.problem(profile, _content(), last), "", "its bosses beaten")
+	for area_id in StreetMemory.street(_content()):
+		if not _content().area(area_id).get("encounters", []).is_empty():
+			assert_eq(AutoRules.problem(profile, _content(), area_id), "", area_id + ": not beaten")
+	assert_eq(AutoRules.problem(profile, _content(), "depot_yard"), "", "a quest to take there")
+	var off := AutoRules.problem(profile, _content(), "depot_yard", false)
+	assert_true(off != "", "nothing to fight there without the story")
+	for quest_id: String in _content().quests:
+		profile.quests[quest_id] = {"state": "turned_in", "progress": 1}
+	assert_true(AutoRules.problem(profile, _content(), "depot_yard") != "", "the story is done")
 
 
 func test_every_hero_clears_a_street_alone() -> void:
@@ -183,23 +182,26 @@ func test_the_farm_loop_rules() -> void:
 
 func test_auto_starts_only_where_allowed_and_the_player_takes_over() -> void:
 	var game := _game()
+	game.enter_area("main_city", "west")
+	GameSession.settings["auto_story"] = false
+	game.auto.toggle()
+	assert_true(not game.auto.on, "refused with no one to fight and no story to follow")
+	GameSession.settings["auto_story"] = true
 	game.enter_area("saltmarket", "west")
 	game.auto.toggle()
-	assert_true(not game.auto.on, "refused in an area not beaten yet")
-	StreetMemory.visit(game.profile, "canal_works")
-	game.auto.toggle()
-	assert_true(game.auto.on, "on in a beaten area")
+	assert_true(game.auto.on, "on in an area not beaten yet")
 	var manual := FighterInput.new()
 	manual.move = Vector2.LEFT
 	assert_eq(game.auto.input(manual, true), manual, "the player's own input wins")
 	assert_true(game.auto.input(FighterInput.new(), false) != null, "otherwise the pilot plays")
 	game.enter_area("canal_works", "west")
-	assert_true(not game.auto.on, "walking on to another area turns it off")
+	assert_true(not game.auto.on, "the player walking on to another area turns it off")
 	_done(game)
 
 
 func test_the_farm_loop_rests_restocks_and_rides_back() -> void:
 	var game := _game()
+	GameSession.settings["auto_story"] = false
 	var profile: PlayerProfile = game.profile
 	StreetMemory.visit(profile, "canal_works")
 	profile.defeated["smog_warden"] = 1

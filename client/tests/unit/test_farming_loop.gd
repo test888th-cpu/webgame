@@ -176,11 +176,13 @@ func test_auto_battle_works_in_a_ground_as_soon_as_it_opens() -> void:
 		assert_true(AreaRules.unlocked(profile, c, gid), gid + ": open on its story rule")
 		assert_true(profile.cleared.is_empty(), gid + ": no fight won anywhere")
 		assert_eq(AutoRules.problem(profile, c, gid), "", gid + ": auto at once")
-		assert_true(AutoRules.problem(profile, c, "saltmarket") != "", "a street not beaten: no")
+		assert_eq(
+			AutoRules.problem(profile, c, "saltmarket"), "", "and on the street, beaten or not"
+		)
 	var everything := _hero(10)
 	for boss: String in c.world_bosses:
 		var arena := str(WorldBossRules.spec(c, boss)["area"])
-		assert_true(AutoRules.problem(everything, c, arena) != "", arena + ": still by hand only")
+		assert_eq(AutoRules.problem(everything, c, arena), "", arena + ": auto fights its boss")
 
 
 func test_every_ground_holds_only_enemies_its_unlock_has_taken_the_hero_past() -> void:

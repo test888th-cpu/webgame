@@ -258,7 +258,8 @@ static func _settings(_game: Game) -> Control:
 	return tabs
 
 
-## Auto battle settings: when to eat, the farm loop, food to keep stocked.
+## Auto battle settings: when to eat, following the story, wearing better
+## gear, the farm loop, food to keep stocked.
 static func _auto_options() -> Control:
 	var box := VBoxContainer.new()
 	box.name = "AutoOptions"
@@ -266,6 +267,8 @@ static func _auto_options() -> Control:
 	box.add_child(
 		_cycle("Eat when health is below", "auto_heal_at", AutoBattle.HEAL_CHOICES, "%d%%", 100.0)
 	)
+	box.add_child(_toggle("Story: take each quest and fight on to its boss", "auto_story"))
+	box.add_child(_toggle("Wear better gear found", "auto_gear"))
 	box.add_child(
 		_toggle("Farm loop: when the area is clear, rest at home and ride back", "auto_loop")
 	)

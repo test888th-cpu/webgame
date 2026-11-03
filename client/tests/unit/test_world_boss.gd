@@ -173,7 +173,7 @@ func test_an_attempt_from_the_taxi_to_the_results() -> void:
 	game._ride_world_boss({"fare": 10}, MOTHER)
 	assert_eq(game.zone.area_id, "great_drain", "in the Great Drain")
 	assert_true(game.world_run != null, "an attempt under way")
-	assert_eq(AutoRules.problem(game.profile, _content(), "great_drain") != "", true, "no auto")
+	assert_eq(AutoRules.problem(game.profile, _content(), "great_drain"), "", "auto may fight it")
 	var money: int = game.profile.money
 	for tick in 120:
 		game.zone.hero.position.x = 200

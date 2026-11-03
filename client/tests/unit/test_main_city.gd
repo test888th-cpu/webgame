@@ -206,8 +206,9 @@ func test_the_city_is_its_own_area_off_the_street() -> void:
 				assert_eq(to, CITY, "%s: walked out of, it leads back to the city" % area_id)
 			else:
 				assert_true(to != CITY, "no story area walks into the city (%s)" % area_id)
-	var auto := AutoRules.problem(PlayerProfile.new_game(_content()), _content(), CITY)
-	assert_true(auto != "", "no auto battle in the city")
+	var fresh := PlayerProfile.new_game(_content())
+	assert_true(AutoRules.problem(fresh, _content(), CITY, false) != "", "no fight in the city")
+	assert_eq(AutoRules.problem(fresh, _content(), CITY), "", "but auto rides out for the story")
 
 
 func test_its_one_way_out_is_the_gate_east_into_depot_yard() -> void:

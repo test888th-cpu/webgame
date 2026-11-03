@@ -1,39 +1,44 @@
 class_name AutoRules
 extends RefCounted
-## Where auto battle is allowed: only in an area the hero has already beaten,
-## so it farms streets the player has won by hand and never plays new ones
-## for them; and in a farming ground once it is open (AreaRules.unlocked),
-## which holds only enemies its unlock rule has already taken the hero past.
-## An area counts as beaten once the hero has walked on to the next area east
-## (its gate opened and was passed), or, at the end of the street, once every
-## boss fighting there has been defeated. Derived from what the
-## profile already keeps, so nothing new is saved. Pure rules, shared with the
-## server.
+## Where auto battle is allowed: in any area with a fight in it, story areas
+## not cleared yet and their bosses included (AutoPilot plays only the
+## buttons a player has, so it can win nothing a player could not), every
+## world boss arena, and a farming ground once it is open
+## (AreaRules.unlocked). Following the story (StoryAuto), it also starts
+## where there is no one to fight, such as the hub or a quest giver's rest
+## point, as long as the story has a next step.
+## `is_beaten` tells which street areas the hero has already passed
+## (StreetMemory.passed). Derived from what the profile already keeps, so
+## nothing new is saved. Pure rules, shared with the server.
 ##
 ## It also holds the farm loop's decisions: when to go home and rest, what
-## the taxi back costs, and restocking food at home.
+## the taxi back costs, restocking food at home, and wearing better gear.
 
 ## Health share below which a hero with nothing to eat goes home to rest.
 const LOW_HEALTH := 0.35
 
 
 ## Why auto battle cannot run in `area_id` right now, or "" when it can.
-static func problem(profile: PlayerProfile, content: ContentDB, area_id: String) -> String:
-	var area := content.area(area_id)
-	if area.get("encounters", []).is_empty() and not FarmSpawner.active(content, area_id):
-		return "No one to fight here."
-	if area.get("world_boss", false):
-		return "The World Boss has to be fought by hand."
+## `story`: auto follows the story (StoryAuto) when there is no fight here.
+static func problem(
+	profile: PlayerProfile, content: ContentDB, area_id: String, story := true
+) -> String:
 	if AreaRules.kind(content, area_id) == AreaRules.FARM:
 		return (
 			"" if AreaRules.unlocked(profile, content, area_id) else "This ground is not open yet."
 		)
-	if not is_beaten(profile, content, area_id):
-		return "Clear this area yourself once, then auto can take over."
-	return ""
+	if not content.area(area_id).get("encounters", []).is_empty():
+		return ""
+	var world := bool(content.area(area_id).get("world_boss", false))
+	if story and not world:
+		if StoryAuto.step(profile, content, area_id, true)["do"] != StoryAuto.DONE:
+			return ""
+	return "No one to fight here."
 
 
-## True once the hero has beaten `area_id` by hand (see the class comment).
+## True once the hero has passed `area_id`: walked on to the next area east
+## (its gate opened and was passed), or, at the end of the street, beaten
+## every boss fighting there.
 static func is_beaten(profile: PlayerProfile, content: ContentDB, area_id: String) -> bool:
 	var area := content.area(area_id)
 	var east: Dictionary = area.get("exits", {}).get("east", {})
@@ -51,8 +56,11 @@ static func is_beaten(profile: PlayerProfile, content: ContentDB, area_id: Strin
 
 
 ## True when a farming hero should go home to rest: the area is cleared, or
-## health is low with nothing left to eat and no fight on to finish.
+## health is low with nothing left to eat and no fight on to finish. Never
+## in a world boss arena: the attempt is fought to its end.
 static func wants_rest(zone: ZoneSim, pilot: AutoPilot) -> bool:
+	if zone.area.get("world_boss", false):
+		return false
 	if pilot.status == AutoPilot.STATUS_CLEAR:
 		return true
 	if zone.in_encounter() or zone.hero.is_ko():
@@ -92,3 +100,23 @@ static func restock(
 					break
 				bought += 1
 	return bought
+
+
+## Puts on, slot by slot, the best gear the hero carries that beats what is
+## worn (ItemRules.is_upgrade, the bag's "better" mark), as a player would
+## from the bag. Returns the item keys put on.
+static func wear_upgrades(profile: PlayerProfile, content: ContentDB) -> Array[String]:
+	var best := {}
+	for key: String in profile.inventory:
+		if not ItemRules.is_upgrade(profile, key, content):
+			continue
+		var slot := str(content.item(key).get("slot", ""))
+		var score := ItemRules.copy_score(profile, key, content)
+		if not best.has(slot) or score > float(best[slot]["score"]):
+			best[slot] = {"key": key, "score": score}
+	var worn: Array[String] = []
+	for slot: String in best:
+		var key := str(best[slot]["key"])
+		if profile.equip(key, content):
+			worn.append(key)
+	return worn

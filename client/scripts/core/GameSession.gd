@@ -38,9 +38,12 @@ var settings := {
 	"show_fps": false,
 	"screen_shake": true,
 	"sfx_volume": 0.8,
-	# Auto battle (AutoBattle): eat below this health share, farm in a loop
-	# (rest at home and ride back), and how much food to keep stocked.
+	# Auto battle (AutoBattle): eat below this health share, follow the story
+	# (StoryAuto), wear better gear found, farm in a loop (rest at home and
+	# ride back), and how much food to keep stocked.
 	"auto_heal_at": 0.5,
+	"auto_story": true,
+	"auto_gear": true,
 	"auto_loop": true,
 	"auto_food": 10.0,
 }
