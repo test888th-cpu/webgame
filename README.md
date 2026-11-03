@@ -49,7 +49,7 @@ You do not need any local tools. All building and testing happens in GitHub Acti
 | Talk / shop (near an NPC) | E or U | B / Circle | TALK |
 | Hotbar: attack, skills, food (slots 1–7) | 1–7 | RT + X/Y/A/B for skills, RT + RB for slot 7 | Tap the slot |
 | Eat (quick heal) | H or Q | RB / R1 | EAT |
-| Auto battle on/off (areas you have cleared; any input of yours takes over) | T | Back / Select | AUTO button |
+| Auto battle on/off (any fight, bosses included, and the story's quests; any input of yours takes over) | T | Back / Select | AUTO button |
 | Pause, inventory, quests, save | Esc or P | Start | II |
 | Switch menu tabs | Q / E | LB / RB | Tap the tab |
 
@@ -61,7 +61,7 @@ GitHub → **Actions** → **CI**. Each run has these jobs:
 |---|---|
 | Repository policy | Required docs exist; `.env.example` has placeholders only; no key files tracked |
 | GDScript lint and format | `gdlint` and `gdformat --check` (gdtoolkit 4.5.0) |
-| Godot project opens and tests pass | Headless import with no script errors; 526 unit/scene tests (combat, skills, heroes, AI, encounters, loot, quests, shop, saves, the city hub, game scenes, interface, effects, the UI audit's detectors); the UI audit of every screen at four landscape window sizes against `client/tests/ui/baseline.json` (report: **ui-audit** artifact; see `docs/UI_TESTING.md`) |
+| Godot project opens and tests pass | Headless import with no script errors; 530 unit/scene tests (combat, skills, heroes, AI, encounters, loot, quests, shop, saves, the city hub, game scenes, interface, effects, the UI audit's detectors); the UI audit of every screen at four landscape window sizes against `client/tests/ui/baseline.json` (report: **ui-audit** artifact; see `docs/UI_TESTING.md`) |
 | Web export and browser smoke test | Release web export; headless Chromium loads it, waits for boot, **plays it with real keys: title → new game → hero creation (pick a hero, type a name) → combo on the dummy → a skill from the hotbar → pick up a weapon → pause → next area → a real fight**; uploads the build, a manifest with SHA-256s and a screenshot UI screenshots at four landscape window sizes with input checks (**ui-shots** artifact). |
 | Backend typecheck, tests and migrations | `tsc`, API + migration tests against a real PostgreSQL, fresh-DB migration, API reaches `/readyz` |
 | Backend image build, container scan and SBOM | Docker image builds, runs as non-root on the pinned Node, Trivy scan, CycloneDX SBOM |

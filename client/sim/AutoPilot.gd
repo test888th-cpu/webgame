@@ -21,6 +21,8 @@ extends RefCounted
 ##      next fight. With nothing left, it reports "clear"; in a farming ground
 ##      it walks back west instead, where the fights come back for another
 ##      round (StreetMemory.refill), so it never leaves the ground itself.
+##      Following the story (`heading` east, set by AutoBattle from
+##      StoryAuto), it walks on through the east exit instead.
 
 const STATUS_FIGHT := "Fighting"
 const STATUS_EVADE := "Dodging"
@@ -31,6 +33,7 @@ const STATUS_CLEAR := "Area clear"
 const STATUS_ROUND := "Back for another round"
 const STATUS_DOWN := "Knocked out"
 const STATUS_HUNT := "Hunting"
+const STATUS_ONWARD := "On to the next area"
 
 ## Skills with a cooldown this long are the big finishers: saved for a crowd
 ## of three or a boss.
@@ -56,6 +59,9 @@ const CHASE_TICKS := 120
 
 ## Use a consumable once health is below this share of the maximum.
 var heal_below := 0.5
+## 1 to walk on east once the area is clear (the story's next area), 0 to
+## stay.
+var heading := 0
 ## What it is doing now, for the HUD (one of the STATUS_ strings).
 var status := ""
 ## The consumable to use this tick ("" for none); set by think().
@@ -498,11 +504,22 @@ func _between_fights(zone: ZoneSim, foes: Array[Fighter], input: FighterInput) -
 		input.move = _steer(zone, Vector2(back, hero.position.y))
 		return
 	if next == INF:
-		status = STATUS_CLEAR
+		_done_here(zone, input)
 		return
 	status = STATUS_ADVANCE
 	var goal := Vector2(minf(next + 24.0, zone.bounds.end.x - 30.0), zone.bounds.get_center().y)
 	input.move = _steer(zone, Vector2(goal.x, hero.position.y + (goal.y - hero.position.y) * 0.3))
+
+
+## Every fight here won: walk on through the east exit when heading east and
+## its gate is open, else report "clear".
+func _done_here(zone: ZoneSim, input: FighterInput) -> void:
+	var east: bool = zone.area.get("exits", {}).has("east")
+	if heading <= 0 or not east or not zone.exit_locked("east").is_empty():
+		status = STATUS_CLEAR
+		return
+	status = STATUS_ONWARD
+	input.move = _steer(zone, Vector2(zone.bounds.end.x + 8.0, zone.hero.position.y))
 
 
 ## In a living field (FarmSpawner) there is no next fight to walk to: go for

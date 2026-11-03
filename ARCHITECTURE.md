@@ -95,11 +95,17 @@ both places.
   the same buttons as a player (a `FighterInput`) and eats through `ZoneSim.use_item`.
   It never writes simulation state. A zone server therefore sees ordinary input and
   validates it like any other, and the client stays non-authoritative.
-- `client/sim/AutoRules.gd` decides where auto may run (areas already beaten by hand) and
-  when the farm loop rests. Both are pure and deterministic, like the rest of `sim/`.
+- `client/sim/AutoRules.gd` decides where auto may run and when the farm loop rests.
+  Auto may run wherever there is a fight, including story areas not cleared yet, their
+  bosses and world boss arenas, or a story step to take.
+- `client/sim/StoryAuto.gd` decides the story's next step from `MapRules.goal`: take or
+  hand in a quest at its giver, walk on east, fight on to the stage's boss, or ride to
+  where the quest goes next. All three are pure and deterministic, like the rest of
+  `sim/`.
 - `client/scenes/game/AutoBattle.gd` is presentation glue. It owns the switch and the
-  player's override (any input of their own wins that tick). It runs the farm loop
-  through the same actions a player has: recall home, the shop and the taxi fare.
+  player's override (any input of their own wins that tick). It runs the story and the
+  farm loop through the same actions a player has: the quest giver (`QuestRules`), recall
+  home, the shop and the taxi fare.
 
 ### D8. The world boss is a clock and a shared pool, decided in `sim/`
 - `client/sim/WorldBossRules.gd` numbers rounds from the Unix epoch, which keeps every
@@ -145,3 +151,4 @@ here first.
 | 2026-10-23 | D1–D6 recorded. Node 22 → Node 24.22.1 after checking the release schedule. |
 | 2026-10-27 | D7 recorded: auto battle produces player input only (`AutoPilot`, `AutoRules`). |
 | 2026-10-27 | D8 recorded: the world boss runs on the clock with a per-round pool (`WorldBossRules`). |
+| 2026-11-03 | D7 updated (owner's request): auto follows the story (`StoryAuto`) and fights any boss, world bosses included, with no first clear by hand. |

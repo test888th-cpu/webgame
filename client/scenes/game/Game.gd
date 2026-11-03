@@ -721,6 +721,17 @@ func _accept(npc: Dictionary, quest_id: String) -> void:
 
 
 func _turn_in(npc: Dictionary, quest_id: String) -> void:
+	var rewards := _hand_in(quest_id)
+	if rewards.get("epilogue", false):
+		return
+	var quest: Dictionary = content.quests[quest_id]
+	open_quests(npc, str(quest.get("dialogue", {}).get("done", "")) if rewards else "")
+
+
+## Hands in `quest_id` (the giver's menu, and auto battle following the
+## story): the rewards, a level up, a chapter's end and the epilogue. Returns
+## the rewards ({} if it was not complete), with "epilogue" once it opened.
+func _hand_in(quest_id: String) -> Dictionary:
 	var level := profile.level
 	var rewards := QuestRules.turn_in(profile, quest_id, content)
 	if profile.level > level:
@@ -728,23 +739,24 @@ func _turn_in(npc: Dictionary, quest_id: String) -> void:
 		for reached in range(level + 1, profile.level + 1):
 			unlocked.append_array(SkillRules.unlocked_at(content, profile.hero, reached))
 		_feedback.level_up(profile.level, unlocked)
-	var quest: Dictionary = content.quests[quest_id]
-	if rewards:
-		var found: Array[String] = []
-		for item_id: String in rewards["items"]:
-			if content.item(item_id).get("type") == "key":
-				found.append(str(content.item(item_id)["name"]))
-		var text := "+%d coins  +%d XP" % [rewards["money"], rewards["xp"]]
-		_hud.toast(text + ("  New evidence: " + ", ".join(found) if found else ""))
-		zone.refresh_hero()
-		SaveStore.save(profile)
-		var chapter: Dictionary = quest.get("ends_chapter", {})
-		if chapter:
-			_hud.chapter(str(chapter["title"]), str(chapter.get("subtitle", "")))
-		if chapter.has("epilogue"):
-			_show("epilogue", GameMenus.epilogue(self, chapter))
-			return
-	open_quests(npc, str(quest.get("dialogue", {}).get("done", "")) if rewards else "")
+	if rewards.is_empty():
+		return rewards
+	var found: Array[String] = []
+	for item_id: String in rewards["items"]:
+		if content.item(item_id).get("type") == "key":
+			found.append(str(content.item(item_id)["name"]))
+	var text := "+%d coins  +%d XP" % [rewards["money"], rewards["xp"]]
+	_hud.toast(text + ("  New evidence: " + ", ".join(found) if found else ""))
+	zone.refresh_hero()
+	view.update_npc_marks(profile)
+	SaveStore.save(profile)
+	var chapter: Dictionary = content.quests[quest_id].get("ends_chapter", {})
+	if chapter:
+		_hud.chapter(str(chapter["title"]), str(chapter.get("subtitle", "")))
+	if chapter.has("epilogue"):
+		_show("epilogue", GameMenus.epilogue(self, chapter))
+		rewards["epilogue"] = true
+	return rewards
 
 
 ## Back on your feet where you fell: at the west end of the same area, or just
