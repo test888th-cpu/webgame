@@ -4412,7 +4412,8 @@
       "placed": [],
       "spawning": {
         "cap": 4,
-        "respawn_ticks": 300,
+        "pack": 3,
+        "respawn_ticks": 700,
         "elite_chance": 0.05,
         "elite_drops": [
           {"item": "foreman_boots", "chance": 0.03}
@@ -4505,7 +4506,8 @@
       "placed": [],
       "spawning": {
         "cap": 4,
-        "respawn_ticks": 310,
+        "pack": 3,
+        "respawn_ticks": 650,
         "elite_chance": 0.05,
         "elite_drops": [
           {"item": "smelter_apron", "chance": 0.03},
@@ -4594,7 +4596,8 @@
       "placed": [],
       "spawning": {
         "cap": 4,
-        "respawn_ticks": 360,
+        "pack": 3,
+        "respawn_ticks": 720,
         "elite_chance": 0.05,
         "elite_drops": [
           {"item": "harbourmaster_cap", "chance": 0.03},
@@ -4682,7 +4685,8 @@
       "placed": [],
       "spawning": {
         "cap": 4,
-        "respawn_ticks": 500,
+        "pack": 3,
+        "respawn_ticks": 900,
         "elite_chance": 0.05,
         "elite_drops": [
           {"item": "chiefs_gloves", "chance": 0.03},
@@ -4768,7 +4772,8 @@
       "placed": [],
       "spawning": {
         "cap": 4,
-        "respawn_ticks": 500,
+        "pack": 3,
+        "respawn_ticks": 1070,
         "elite_chance": 0.05,
         "elite_drops": [
           {"item": "k7_plating", "chance": 0.03},
@@ -4855,7 +4860,8 @@
       "placed": [],
       "spawning": {
         "cap": 4,
-        "respawn_ticks": 580,
+        "pack": 3,
+        "respawn_ticks": 1100,
         "elite_chance": 0.05,
         "elite_drops": [
           {"item": "sak_loafers", "chance": 0.03},
@@ -4937,7 +4943,8 @@
       "placed": [],
       "spawning": {
         "cap": 4,
-        "respawn_ticks": 690,
+        "pack": 3,
+        "respawn_ticks": 1380,
         "elite_chance": 0.05,
         "elite_drops": [
           {"item": "director_coat", "chance": 0.03}

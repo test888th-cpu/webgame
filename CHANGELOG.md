@@ -4,6 +4,23 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed: farming fields send enemies in packs
+- **What changes:** after the first fill, a field no longer trickles in one enemy each
+  time one falls.
+  - With room for a whole pack (3 of the 4 standing), the next pack arrives after the
+    field's respawn time.
+  - Its members run in together from one side, off camera, 12 ticks apart
+    (`FarmSpawner`, `"pack"` in `areas.json`).
+  - The next pack is already on its way as the last enemy of the old one falls, so the
+    fighting comes in bursts instead of a slow drip.
+- **Same income:** the respawn times were re-tuned for packs, from 650 to 1380 ticks
+  depending on the field. Measured with the harness (Oren and Mika, 3 seeds, 10 minutes
+  per field):
+  - Coins and XP per minute are within ×0.97 to ×1.08 of the old loop.
+  - No knock-outs.
+- **Tests:** a field fills, then sends whole packs together from one side; a single loss
+  waits for room.
+
 ### Added: boss skill effects for every boss (pixelfx, MIT, credited)
 - **Wind-up glow:** a boss's heavy blow is telegraphed by a glow gathering on it through
   the wind-up, coloured by the boss's theme. The themes are brawl (gold), fire (red-orange),

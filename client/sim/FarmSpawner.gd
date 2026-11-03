@@ -3,10 +3,15 @@ extends RefCounted
 ## A farming ground's living field (areas.json "spawning"): enemies keep
 ## coming, so the hero fights on without walking back for another round.
 ##
-## The field fills up to `cap` enemies standing, one every FILL_TICKS, and
-## after that one more comes `respawn_ticks` after the field drops below the
-## cap. Each enters away from the hero (at least MIN_GAP, off camera when the
-## field allows) and never west of `from_x`, so the way out and the arrival
+## The field fills up to `cap` enemies standing, one every FILL_TICKS. After
+## that enemies come in packs, as in the field games it follows: once there is
+## room for a whole `pack` (cap less pack standing), the next pack arrives
+## `respawn_ticks` later, running in together from one side, PACK_STAGGER
+## ticks apart. So the fighting comes in bursts and the next pack is already
+## on its way as the last one falls; the respawn time sets the pace (and the
+## income, tuned with the harness). Each enters away from the hero (at least
+## MIN_GAP, off camera when the field allows) and never west of `from_x`, so
+## the way out and the arrival
 ## spot stay calm: enemies keep east of `from_x` less SAFE_MARGIN, so the
 ## west end (where the hero arrives and comes to) is a safe spot. Who comes
 ## is drawn from `pool` ({enemy: weight}); one in `elite_chance` is an
@@ -34,9 +39,18 @@ const ELITE_REWARD := 3.0
 const MAX_CAP := 8
 const MIN_RESPAWN := 30
 const MAX_ELITE_CHANCE := 0.25
+## Ticks between the members of a pack running in, and how far apart they
+## enter.
+const PACK_STAGGER := 12
+const PACK_SPREAD := 28.0
 
 var _timer := 0
 var _filled := false
+## Members of the arriving pack still to come in, where it enters and the
+## ticks to the next one.
+var _coming := 0
+var _pack_x := 0.0
+var _stagger := 0
 ## Elites standing, by id: each pays its extra loot rolls when it falls.
 var _elites := {}
 
@@ -54,7 +68,7 @@ static func active(content: ContentDB, area_id: String) -> bool:
 
 
 ## One step of the field: counts who is standing and, when it is time, sends
-## one more in. Does nothing in an area without "spawning".
+## the next one or the next pack in. Does nothing in an area without "spawning".
 func tick(zone: ZoneSim, events: Array[ZoneEvent]) -> void:
 	var data := spec(zone.content, zone.area_id)
 	if data.is_empty():
@@ -67,20 +81,51 @@ func tick(zone: ZoneSim, events: Array[ZoneEvent]) -> void:
 			standing += 1
 			enemy.position.x = maxf(enemy.position.x, west)
 	var cap := int(data["cap"])
+	if _coming > 0:
+		_stagger -= 1
+		if _stagger <= 0:
+			_coming -= 1
+			_stagger = PACK_STAGGER
+			var offset := zone.rng.randf_range(-PACK_SPREAD, PACK_SPREAD)
+			_spawn(zone, data, events, _pack_x + offset)
+		return
 	if standing >= cap:
 		_filled = true
 		_timer = 0
 		return
+	if not _filled:
+		_timer += 1
+		if _timer >= FILL_TICKS:
+			_timer = 0
+			_spawn(zone, data, events)
+		return
+	var pack := mini(pack_size(data), cap)
+	if cap - standing < pack:
+		_timer = 0
+		return
 	_timer += 1
-	if _timer < (int(data["respawn_ticks"]) if _filled else FILL_TICKS):
+	if _timer < int(data["respawn_ticks"]):
 		return
 	_timer = 0
-	_spawn(zone, data, events)
+	_coming = pack
+	_stagger = 0
+	_pack_x = entry_x(zone, float(data["from_x"]))
 
 
-func _spawn(zone: ZoneSim, data: Dictionary, events: Array[ZoneEvent]) -> void:
+## How many enemies come in together once the field has filled ("pack",
+## default 1).
+static func pack_size(data: Dictionary) -> int:
+	return maxi(1, int(data.get("pack", 1)))
+
+
+func _spawn(zone: ZoneSim, data: Dictionary, events: Array[ZoneEvent], at := -1.0) -> void:
 	var kind := _draw(data["pool"], zone.rng)
-	var x := entry_x(zone, float(data["from_x"]))
+	var west := maxf(float(data["from_x"]), zone.bounds.position.x + 12.0)
+	var x := (
+		entry_x(zone, float(data["from_x"]))
+		if at < 0.0
+		else clampf(at, west, zone.bounds.end.x - 12.0)
+	)
 	var lane := zone.bounds
 	var y := zone.rng.randf_range(lane.position.y + 10.0, lane.end.y - 10.0)
 	var enemy := zone.spawn_enemy(kind, Bodies.clear_spot(Vector2(x, y), zone.solids, lane))
@@ -179,6 +224,9 @@ static func problems(content: ContentDB) -> PackedStringArray:
 		var cap := int(data.get("cap", 0))
 		if cap < 1 or cap > MAX_CAP:
 			out.append("%s.cap: 1 to %d" % [where, MAX_CAP])
+		var pack := int(data.get("pack", 1))
+		if pack < 1 or pack > cap:
+			out.append("%s.pack: 1 to cap" % where)
 		if int(data.get("respawn_ticks", 0)) < MIN_RESPAWN:
 			out.append("%s.respawn_ticks: at least %d" % [where, MIN_RESPAWN])
 		var chance := float(data.get("elite_chance", 0.0))
