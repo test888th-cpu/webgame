@@ -41,11 +41,13 @@ static func _fell(zone: ZoneSim, enemy: Fighter) -> Array[ZoneEvent]:
 
 
 ## A copy of the content whose ground draws only `kind`, elite as often as
-## `chance`.
+## `chance`, paying full rewards.
 func _single(kind: String, chance: float) -> ContentDB:
 	var copy := ContentDB.load_all()
 	copy.areas[GROUND]["spawning"]["pool"] = {kind: 1}
 	copy.areas[GROUND]["spawning"]["elite_chance"] = chance
+	# The elite's own multiplier alone, against an enemy met on the street.
+	copy.areas[GROUND]["spawning"]["reward_scale"] = 1.0
 	return copy
 
 
@@ -278,6 +280,7 @@ func test_the_validator_checks_every_spawning_block() -> void:
 		".camps: 5000": func(s: Dictionary) -> void: s["camps"] = [5000],
 		".camp_size: 1 to": func(s: Dictionary) -> void: s["camp_size"] = 0,
 		".aggro: ": func(s: Dictionary) -> void: s["aggro"] = 10,
+		".reward_scale: above 0": func(s: Dictionary) -> void: s["reward_scale"] = 2.0,
 		".respawn_ticks: at least": func(s: Dictionary) -> void: s["respawn_ticks"] = 5,
 		".elite_chance: 0 to": func(s: Dictionary) -> void: s["elite_chance"] = 0.9,
 		".from_x: inside the area": func(s: Dictionary) -> void: s["from_x"] = 5000,
@@ -297,3 +300,25 @@ func test_the_validator_checks_every_spawning_block() -> void:
 	story.validate()
 	assert_true("only a farming ground has one" in "\n".join(story.errors), "not on the street")
 	assert_eq(_content().errors, PackedStringArray(), "the shipped data is clean")
+
+
+func test_a_field_enemy_pays_its_grounds_reward_scale() -> void:
+	var c := _single("facility_trooper", 0.0)
+	c.enemies["facility_trooper"]["loot"] = {
+		"money": [10, 10], "drops": [{"item": "scrap_metal", "chance": 0.5}]
+	}
+	var scale := 0.5
+	c.areas[GROUND]["spawning"]["reward_scale"] = scale
+	var plain := ZoneSim.new(c, _hero(30), GROUND, "west", 5)
+	var street := plain.spawn_enemy("facility_trooper", Vector2(900, 300))
+	var street_xp := int(plain._enemy_level[street.id]["stats"]["xp"])
+	var street_money := float(plain._enemy_level[street.id]["stats"]["money_scale"])
+	var zone := ZoneSim.new(c, _hero(30), GROUND, "west", 5)
+	zone.tick(FighterInput.new())
+	var enemy := zone.enemies()[0]
+	var stats: Dictionary = zone._enemy_level[enemy.id]["stats"]
+	assert_eq(int(stats["xp"]), roundi(street_xp * scale), "XP scaled")
+	assert_near(float(stats["money_scale"]), street_money * scale, "coins scaled", 0.0001)
+	assert_near(float(stats["loot"]["drops"][0]["chance"]), 0.25, "drop chance scaled", 0.0001)
+	var kept := float(c.enemy("facility_trooper")["loot"]["drops"][0]["chance"])
+	assert_near(kept, 0.5, "the enemy's own data untouched", 0.0001)

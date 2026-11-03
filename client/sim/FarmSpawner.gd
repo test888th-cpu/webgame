@@ -156,6 +156,7 @@ func _spawn(zone: ZoneSim, data: Dictionary, events: Array[ZoneEvent], camp: int
 	var lane := zone.bounds
 	var y := zone.rng.randf_range(lane.position.y + 10.0, lane.end.y - 10.0)
 	var enemy := zone.spawn_enemy(kind, Bodies.clear_spot(Vector2(x, y), zone.solids, lane))
+	_scale_rewards(zone, enemy, float(data.get("reward_scale", 1.0)))
 	var brain: EnemyBrain = zone.brains[enemy.id]
 	brain.camp(enemy.position, float(data["aggro"]), float(data["aggro"]) * LEASH)
 	_members[enemy.id] = camp
@@ -179,7 +180,8 @@ func _pay_elites(zone: ZoneSim) -> void:
 				_elites.erase(id)
 			continue
 		_elites.erase(id)
-		var loot: Dictionary = zone.content.enemy(enemy.kind).get("loot", {})
+		var stats: Dictionary = zone._enemy_level.get(id, {}).get("stats", {})
+		var loot: Dictionary = stats.get("loot", zone.content.enemy(enemy.kind).get("loot", {}))
 		var prizes := {"drops": spec(zone.content, zone.area_id).get("elite_drops", [])}
 		var dropped: Array[String] = LootRules.roll(prizes, zone.rng)["items"]
 		for roll in roundi(ELITE_REWARD) - 1:
@@ -199,6 +201,22 @@ static func _draw(pool: Dictionary, rng: RandomNumberGenerator) -> String:
 		if roll < 0.0:
 			return kind
 	return str(pool.keys().back())
+
+
+## Scales what `enemy` pays (XP, coins and its loot's drop chances) by
+## `scale`: a field's enemies come back in seconds, so each is worth less than
+## the same enemy met once on the street, and a minute's farming pays what the
+## ground is tuned for ("reward_scale", set with the harness).
+static func _scale_rewards(zone: ZoneSim, enemy: Fighter, scale: float) -> void:
+	if is_equal_approx(scale, 1.0):
+		return
+	var stats: Dictionary = zone._enemy_level[enemy.id]["stats"]
+	stats["xp"] = roundi(float(stats.get("xp", 0)) * scale)
+	stats["money_scale"] = float(stats.get("money_scale", 1.0)) * scale
+	var loot: Dictionary = zone.content.enemy(enemy.kind).get("loot", {}).duplicate(true)
+	for drop: Dictionary in loot.get("drops", []):
+		drop["chance"] = float(drop.get("chance", 0.0)) * scale
+	stats["loot"] = loot
 
 
 ## Makes `enemy` an elite: tougher and worth ELITE_REWARD times the XP and
@@ -250,6 +268,9 @@ static func problems(content: ContentDB) -> PackedStringArray:
 			out.append("%s.aggro: %d to %d" % [where, MIN_AGGRO, MAX_AGGRO])
 		if int(data.get("respawn_ticks", 0)) < MIN_RESPAWN:
 			out.append("%s.respawn_ticks: at least %d" % [where, MIN_RESPAWN])
+		var reward := float(data.get("reward_scale", 1.0))
+		if reward <= 0.0 or reward > 1.0:
+			out.append(where + ".reward_scale: above 0, at most 1")
 		var chance := float(data.get("elite_chance", 0.0))
 		if chance < 0.0 or chance > MAX_ELITE_CHANCE:
 			out.append("%s.elite_chance: 0 to %s" % [where, MAX_ELITE_CHANCE])

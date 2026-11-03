@@ -4,6 +4,37 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed: farming grounds are camps that wait for the hero; story auto stays put
+- **Camps, as in field-farming games** (`FarmSpawner`, `EnemyBrain.camp`):
+  - Each ground holds 4 camps of 3 (`"camps"`, `"camp_size"` in `areas.json`), all
+    standing when the hero arrives.
+  - A camp waits at its spot until the hero comes within its aggro radius (140 px) or
+    strikes one of it. Then the whole camp comes together; the other camps stay put.
+  - A member chased past its leash, or unable to reach the hero for 3 seconds (the hero
+    gone into the safe spot by the exit), walks home and heals there.
+  - Ready for several players in one ground (IL-7): each pulls the camps near them.
+- **Back in 3 to 5 seconds:** a fallen enemy returns to its camp 4 seconds (±1) after it
+  falls, once its camp's fight is over, on the camp's side away from the hero. Clearing
+  a camp earns a breather of a few seconds, then it stands again. Never quiet for long.
+- **Each field enemy pays less** (`"reward_scale"`, 0.46 to 0.73 by ground; XP, coins
+  and drop chances, `FarmSpawner._scale_rewards`):
+  - The field is much busier now, so without this a minute of farming would pay ×1.7
+    to ×2.8 the old rate.
+  - With it, a minute pays about ×1.25 the old rate: the extra comes from never
+    waiting, not from free money.
+- **Story auto does not drag the hero back** (`StoryAuto.HERE`):
+  - When the quest on the map points back to an area more than 8 levels easier (a quest
+    left behind while playing on by hand), auto keeps fighting where the hero is.
+  - It says once where that quest is.
+  - Before, finishing a level-48 area could send auto off to level-17 monsters.
+- **Tests:**
+  - The camps stand full and wait.
+  - Walking into a camp wakes only that camp, and a blow wakes the camp it lands on.
+  - A chase gives up and heals at home, and a cleared camp stands again a few seconds
+    later. A fallen one waits while its camp fights.
+  - The reward scale applies, and the validator checks the new fields.
+  - Story auto keeps fighting here for a quest left far behind.
+
 ### Changed: bosses, mini-bosses and elites are named clearly
 - **One symbol per rank, the same as on the map:**
   - Over a boss's head: the map's red skull and its name in red.

@@ -748,7 +748,7 @@ func _defeat(enemy: Fighter, events: Array[ZoneEvent]) -> void:
 	var xp := int(scaled.get("xp", data.get("xp", 0)))
 	xp = roundi(xp * LevelRules.xp_scale(enemy_level(enemy.id), profile.level))
 	var levels := profile.add_xp(xp, content)
-	var loot := LootRules.roll(data.get("loot", {}), rng, profile, enemy.kind)
+	var loot := LootRules.roll(scaled.get("loot", data.get("loot", {})), rng, profile, enemy.kind)
 	var money := roundi(loot["money"] * float(scaled.get("money_scale", 1.0)))
 	if money > 0:
 		_drop({"kind": "money", "amount": money}, enemy.position)
