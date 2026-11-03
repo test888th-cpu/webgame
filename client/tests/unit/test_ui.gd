@@ -92,7 +92,7 @@ func test_every_screen_has_its_own_window_and_fits() -> void:
 	var game := _game()
 	game.profile.add_item("steamed_bun", 3)
 	game.profile.add_item("taped_knuckles")
-	QuestRules.accept(game.profile, "clear_saltmarket", game.content)
+	QuestRules.accept(game.profile, "foreman", game.content)
 	for name: String in GameMenus.SCREENS:
 		game.open_screen(name)
 		await _settle()
@@ -216,7 +216,8 @@ func _texts(root: Node) -> String:
 func test_shop_fits_and_focuses_the_wares() -> void:
 	var game := _game()
 	game.profile.money = 5
-	game.zone.hero.position = Vector2(410, 262)
+	game.enter_area("main_city", "west")
+	game.zone.hero.position = Vector2(500, 262)
 	assert_true(game.try_interact(), "vendor in reach")
 	await _settle()
 	_check_layout(game.menu, "shop")
@@ -246,13 +247,14 @@ func test_conversation_and_knock_out_screens_fit() -> void:
 
 func test_talk_prompt_shows_only_near_an_npc() -> void:
 	var game := _game()
-	game.zone.hero.position = Vector2(140, 300)
+	game.enter_area("main_city", "west")
+	game.zone.hero.position = Vector2(1400, 300)
 	game.step(FighterInput.new())
 	var prompts := game.view.find_children("Prompt", "CenterContainer", true, false)
-	assert_eq(prompts.size(), 3, "one prompt per NPC")
+	assert_eq(prompts.size(), game.zone.area["npcs"].size(), "one prompt per NPC")
 	for prompt: Control in prompts:
 		assert_true(not prompt.visible, "hidden far away")
-	game.zone.hero.position = Vector2(410, 262)
+	game.zone.hero.position = Vector2(500, 262)
 	game.step(FighterInput.new())
 	var shown := 0
 	for prompt: Control in prompts:

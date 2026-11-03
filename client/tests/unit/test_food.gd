@@ -43,7 +43,7 @@ func test_the_farm_loop_restocks_with_the_right_food() -> void:
 	var profile := _carrying({})
 	profile.level = 30
 	profile.money = 1000
-	var bought := AutoRules.restock(profile, _content(), "depot_yard", 5, 10)
+	var bought := AutoRules.restock(profile, _content(), "main_city", 5, 10)
 	assert_eq(bought, 5, "five foods")
 	assert_eq(profile.count("rice_box"), 5, "all of them meals")
 	assert_eq(FoodRules.carried(profile, _content()), 5, "and no more than asked")

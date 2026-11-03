@@ -1177,6 +1177,183 @@
       },
       "icon": "brass_knuckles",
       "description": "Refined alloy, cast to fit a fist. Light, cold, hard."
+    },
+    "odos_old_gloves": {
+      "name": "Odo's Old Gloves",
+      "type": "equipment",
+      "slot": "hands",
+      "rarity": "rare",
+      "level": 3,
+      "price": 0,
+      "stats": {
+        "power": 0.04,
+        "defense": 1,
+        "crit": 0.02
+      },
+      "icon": "fingerless_gloves",
+      "description": "Chief Odo's gloves from his own street-fighting days. Still a good fit."
+    },
+    "night_market_jacket": {
+      "name": "Night Market Jacket",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "rare",
+      "level": 7,
+      "price": 0,
+      "stats": {
+        "defense": 3,
+        "max_hp": 25
+      },
+      "icon": "riveted_jacket",
+      "description": "Stitched by the Night Market tailors for whoever keeps their stalls safe."
+    },
+    "watchmans_cap": {
+      "name": "Watchman's Cap",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "rare",
+      "level": 10,
+      "price": 0,
+      "stats": {
+        "defense": 3,
+        "max_hp": 25
+      },
+      "icon": "hard_hat",
+      "description": "South Street's thanks, sewn into a cap. People nod when they see it."
+    },
+    "chais_deck_shoes": {
+      "name": "Chai's Deck Shoes",
+      "type": "equipment",
+      "slot": "feet",
+      "rarity": "rare",
+      "level": 15,
+      "price": 0,
+      "stats": {
+        "speed": 0.13,
+        "defense": 3
+      },
+      "icon": "deck_boots",
+      "description": "Uncle Chai's spare pair. Forty years of wet decks and never a slip."
+    },
+    "inspectors_gloves": {
+      "name": "Inspector's Gloves",
+      "type": "equipment",
+      "slot": "hands",
+      "rarity": "rare",
+      "level": 20,
+      "price": 0,
+      "stats": {
+        "power": 0.18,
+        "defense": 2,
+        "crit": 0.06
+      },
+      "icon": "insulated_gloves",
+      "description": "Dr. Pim's old field gloves, rated for anything the canal can throw."
+    },
+    "pims_field_vest": {
+      "name": "Pim's Field Vest",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "rare",
+      "level": 24,
+      "price": 0,
+      "stats": {
+        "defense": 7,
+        "max_hp": 55
+      },
+      "icon": "plant_vest",
+      "description": "Pockets full of sample jars. The padding stops more than splashes."
+    },
+    "kenjis_lucky_charm": {
+      "name": "Kenji's Lucky Charm",
+      "type": "equipment",
+      "slot": "charm",
+      "rarity": "rare",
+      "level": 26,
+      "price": 0,
+      "stats": {
+        "max_hp": 55,
+        "power": 0.11,
+        "crit": 0.07
+      },
+      "icon": "lucky_coin",
+      "description": "Kenji swears it got him out of every bad deal. Almost every one."
+    },
+    "runners_cap": {
+      "name": "Runner's Cap",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "rare",
+      "level": 30,
+      "price": 0,
+      "stats": {
+        "defense": 5,
+        "max_hp": 50,
+        "crit": 0.04
+      },
+      "icon": "watch_cap",
+      "description": "Taken off a Network runner who will not need it in prison."
+    },
+    "leks_lab_boots": {
+      "name": "Lek's Lab Boots",
+      "type": "equipment",
+      "slot": "feet",
+      "rarity": "rare",
+      "level": 34,
+      "price": 0,
+      "stats": {
+        "speed": 0.17,
+        "defense": 4,
+        "attack_speed": 0.08
+      },
+      "icon": "facility_boots",
+      "description": "Lek kept a spare pair of lab boots, and a spare key in the heel."
+    },
+    "night_shift_crowbar": {
+      "name": "Night Shift Crowbar",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "rare",
+      "level": 38,
+      "price": 0,
+      "stats": {
+        "power": 1.04,
+        "crit": 0.12
+      },
+      "icon": "rebar_pipe",
+      "description": "The night shift's crowbar, passed hand to hand until it reached you."
+    },
+    "heart_of_iron_city": {
+      "name": "Heart of Iron City",
+      "type": "equipment",
+      "slot": "charm",
+      "rarity": "legendary",
+      "level": 48,
+      "price": 0,
+      "stats": {
+        "max_hp": 140,
+        "power": 0.24,
+        "crit": 0.09,
+        "attack_speed": 0.09
+      },
+      "icon": "colossus_core",
+      "description": "Given once, to the one who shut down the Core. The whole city signed the back.",
+      "unique": true
+    },
+    "sentinel_gauntlets": {
+      "name": "Sentinel Gauntlets",
+      "type": "equipment",
+      "slot": "hands",
+      "rarity": "rare",
+      "level": 44,
+      "price": 0,
+      "stats": {
+        "power": 0.43,
+        "defense": 3,
+        "crit": 0.09
+      },
+      "icon": "insulated_gauntlets",
+      "description": "Pried off a Core Sentinel on the Reactor Walkway. They still hum when you clench."
     }
   }
 }

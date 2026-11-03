@@ -29,7 +29,7 @@ static func on_defeat(
 	var completed: Array[String] = []
 	for quest_id: String in profile.quests:
 		var entry: Dictionary = profile.quests[quest_id]
-		if entry["state"] != "active":
+		if entry["state"] != "active" or not content.quests.has(quest_id):
 			continue
 		var objective: Dictionary = content.quests[quest_id]["objective"]
 		if objective["enemy"] != "any" and objective["enemy"] != enemy_id:
@@ -52,6 +52,12 @@ static func turn_in(profile: PlayerProfile, quest_id: String, content: ContentDB
 	var levels := profile.add_xp(int(rewards.get("xp", 0)), content)
 	var items: Dictionary = rewards.get("items", {})
 	for item_id: String in items:
+		# Evidence and one-of-a-kind prizes are never handed over twice (a save
+		# from before the stage quests may already hold the evidence).
+		var once: bool = content.item(item_id).get("type") == "key"
+		once = once or content.item(item_id).get("unique", false)
+		if once and profile.owned(item_id) > 0:
+			continue
 		profile.add_item(item_id, int(items[item_id]))
 	return {
 		"money": int(rewards.get("money", 0)),

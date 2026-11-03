@@ -39,8 +39,15 @@ func _late(game: Game) -> void:
 	game.profile.money = 1000
 
 
+## Win's rank in the city, the only taxi (the story's areas have none); the
+## hero is taken there first.
 func _win(game: Game) -> Dictionary:
-	return game.content.area("depot_yard")["npcs"][2]
+	if game.zone.area_id != game.content.city_area:
+		game.enter_area(game.content.city_area, "west")
+	for npc: Dictionary in game.content.area(game.content.city_area)["npcs"]:
+		if npc.get("role") == "travel":
+			return npc
+	return {}
 
 
 func _tabs(menu: Control) -> Array[String]:
@@ -64,27 +71,19 @@ func test_late_in_the_story_the_rides_come_in_groups() -> void:
 	_late(game)
 	game._show("travel", GameMenus.travel(game, _win(game)))
 	await _settle()
-	var expected: Array[String] = ["City"]
+	var expected: Array[String] = []
 	for district in MapRules.districts(game.content):
 		expected.append(str(district["name"]).validate_node_name())
-	assert_eq(_tabs(game.menu), expected, "the city and the six districts: the story only")
-	var all := game.menu.find_children("Ride_*", "Button", true, false).size()
-	assert_eq(all, 1 + 30, "every story ride is there (all but Depot Yard itself)")
-	var south: Button = game.menu.find_child("Heading_South Street", true, false)
-	assert_true("South Street  10" in south.text, "each group says how many: " + south.text)
-	assert_eq(_shown(game.menu).size(), 10, "only one group's rides show at once")
-	assert_true("saltmarket" in _shown(game.menu), "it opens on the hero's own district")
-	var focused := game.get_viewport().gui_get_focus_owner()
-	assert_true(focused != null and focused.name == "Ride_saltmarket", "its first ride focused")
-	game.close_menu()
-	game.enter_area("main_city", "west")
-	var hub: Dictionary = game.content.area("main_city")["npcs"][0]
-	game._show("travel", GameMenus.travel(game, hub))
-	expected.remove_at(0)
 	expected.append_array(["Farming", "World Bosses"])
-	assert_eq(_tabs(game.menu), expected, "in the city: the districts, farming, world bosses")
-	all = game.menu.find_children("Ride_*", "Button", true, false).size()
+	assert_eq(_tabs(game.menu), expected, "the six districts, farming, world bosses")
+	var all := game.menu.find_children("Ride_*", "Button", true, false).size()
 	assert_eq(all, 31 + 7 + 3, "the whole street, every ground and every world boss")
+	var south: Button = game.menu.find_child("Heading_South Street", true, false)
+	assert_true("South Street  11" in south.text, "each group says how many: " + south.text)
+	assert_eq(_shown(game.menu).size(), 4, "only one group's rides show at once")
+	assert_true("core_chamber" in _shown(game.menu), "it opens where the story is furthest")
+	var focused := game.get_viewport().gui_get_focus_owner()
+	assert_true(focused != null and focused.name == "Ride_core_approach", "its first ride focused")
 	_done(game)
 
 
@@ -173,54 +172,46 @@ func test_without_the_fare_nothing_rides_and_the_group_keeps_the_focus() -> void
 		if not game.content.world_bosses.has(ride.name.trim_prefix("Ride_")):
 			assert_true(ride.disabled, ride.name + " needs the fare")
 	var focused := game.get_viewport().gui_get_focus_owner()
-	assert_true(focused != null and focused.name == "Heading_South Street", "on its group")
+	assert_true(focused != null and focused.name == "Heading_Main Control Centre", "on its group")
 	_done(game)
 
 
-func test_a_new_hero_sees_only_the_city() -> void:
+func test_a_new_hero_sees_only_the_yard() -> void:
 	var game := _game()
 	game._show("travel", GameMenus.travel(game, _win(game)))
 	await _settle()
-	assert_eq(_tabs(game.menu), ["City"] as Array[String], "one group")
-	assert_eq(_shown(game.menu), ["main_city"] as Array[String], "one ride")
+	assert_eq(_tabs(game.menu), ["South Street"] as Array[String], "one group")
+	assert_eq(_shown(game.menu), ["depot_yard"] as Array[String], "one ride: back to the story")
 	_done(game)
 
 
 func test_win_says_where_he_goes_and_every_ride_gets_there() -> void:
 	var game := _game()
 	_late(game)
-	var line := "Choose a destination you've unlocked. I'll take you there."
-	for stand in ["depot_yard", "night_market"]:
-		var win: Dictionary = {}
-		for npc: Dictionary in game.content.area(stand)["npcs"]:
-			if npc.get("role") == "travel":
-				win = npc
-		assert_eq(str(win["line"]), line, stand + ": the new line")
-		game.enter_area(stand, "west")
-		game._show("travel", GameMenus.travel(game, win))
-		var said := false
-		for label: Label in game.menu.find_children("*", "Label", true, false):
-			said = said or label.text == '"%s"' % line
-		assert_true(said, stand + ": shown as said")
-		game.close_menu()
-	var depot := _win(game)
-	game.enter_area("depot_yard", "west")
-	game._show("travel", GameMenus.travel(game, depot))
+	var win := _win(game)
+	var line := str(win["line"])
+	game._show("travel", GameMenus.travel(game, win))
+	var said := false
+	for label: Label in game.menu.find_children("*", "Label", true, false):
+		said = said or label.text == '"%s"' % line
+	assert_true(said, "Win's line, shown as said")
 	var targets: Array[String] = []
 	for ride: Button in game.menu.find_children("Ride_*", "Button", true, false):
 		var target := ride.name.trim_prefix("Ride_")
 		if not game.content.world_bosses.has(target):
 			targets.append(target)
 	game.close_menu()
-	var expected: Array[String] = [game.content.city_area]
-	expected.append_array(StreetMemory.destinations(game.profile, game.content, "depot_yard"))
+	var expected: Array[String] = StreetMemory.destinations(
+		game.profile, game.content, game.content.city_area
+	)
+	expected.append_array(AreaRules.open_farms(game.profile, game.content))
 	targets.sort()
 	expected.sort()
-	assert_eq(targets, expected, "the city and every story area reached")
+	assert_eq(targets, expected, "every story area reached and every open ground")
 	for target in targets:
-		game.enter_area("depot_yard", "west")
+		game.enter_area(game.content.city_area, "west")
 		game.profile.money = 100
-		game._show("travel", GameMenus.travel(game, depot))
+		game._show("travel", GameMenus.travel(game, win))
 		(game.menu.find_child("Ride_" + target, true, false) as Button).pressed.emit()
 		assert_eq(game.zone.area_id, target, "the ride to %s gets there" % target)
 		assert_eq(game.profile.money, 90, "%s: for the usual fare" % target)

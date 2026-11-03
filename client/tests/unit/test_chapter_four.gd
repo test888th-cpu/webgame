@@ -56,10 +56,10 @@ func test_the_network_follows_the_factory_drains() -> void:
 
 
 func test_kenji_follows_the_money_to_the_core_facility() -> void:
-	var first: Dictionary = _content().quests["follow_the_money"]
+	var first: Dictionary = _content().quests["the_ring"]
 	assert_eq(str(first["giver"]), "kenji_network", "Kenji gives the chapter")
 	assert_eq(str(first["requires"]), "unit_k7", "after Chapter 3")
-	var books: Dictionary = _content().quests["cooked_books"]
+	var books: Dictionary = _content().quests["big_sak"]
 	assert_true(int(books["rewards"]["items"].get("money_trail", 0)) == 1, "the money trail")
 	var trail := str(_content().item("money_trail")["description"])
 	assert_true(trail.contains("Director Wiroj"), "the slips name the Director")

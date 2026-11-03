@@ -56,7 +56,8 @@ func test_chen_ends_chapter_two_with_new_evidence() -> void:
 	var evidence := _content().item("altered_manifest")
 	assert_eq(str(evidence.get("type")), "key", "the manifest is evidence")
 	assert_true(int(quest["rewards"]["items"].get("altered_manifest", 0)) == 1, "handed over")
-	assert_eq(str(_content().quests["dock_shakedown"]["requires"]), "furnace_baron", "after ch. 1")
+	assert_eq(str(quest["giver"]), "uncle_chai", "Uncle Chai gives the chapter's stage")
+	assert_eq(str(quest["requires"]), "furnace_baron", "after ch. 1")
 
 
 func test_the_crane_warns_then_drops_on_the_spot() -> void:

@@ -28,7 +28,7 @@ func test_the_industrial_district_follows_the_port() -> void:
 
 
 func test_dr_pim_leads_to_the_core() -> void:
-	var first: Dictionary = _content().quests["factory_doors"]
+	var first: Dictionary = _content().quests["the_chief"]
 	assert_eq(str(first["giver"]), "dr_pim", "Dr. Pim gives the chapter")
 	assert_eq(str(first["requires"]), "harbourmaster", "after Chapter 2")
 	var last: Dictionary = _content().quests["unit_k7"]

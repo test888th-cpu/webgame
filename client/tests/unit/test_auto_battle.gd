@@ -173,10 +173,10 @@ func test_the_farm_loop_rules() -> void:
 	assert_true(AutoRules.wants_rest(zone, pilot), "hurt with nothing to eat: rest")
 	zone.profile.add_item("steamed_bun")
 	assert_true(not AutoRules.wants_rest(zone, pilot), "not while there is food")
-	assert_eq(AutoRules.fare(_content(), "depot_yard"), 10, "Win's fare home")
+	assert_eq(AutoRules.fare(_content(), "main_city"), 10, "Win's fare from the city")
 	var profile := PlayerProfile.new_game(_content())
 	profile.money = 45
-	var bought := AutoRules.restock(profile, _content(), "depot_yard", 10, 10)
+	var bought := AutoRules.restock(profile, _content(), "main_city", 10, 10)
 	assert_eq(bought, 3, "buns bought while the fare back stays in the purse")
 	assert_true(profile.money >= 10, "the fare is kept")
 

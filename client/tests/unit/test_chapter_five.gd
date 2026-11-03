@@ -64,7 +64,7 @@ func test_the_facility_follows_the_tower() -> void:
 
 
 func test_dr_pim_leads_to_the_core_source() -> void:
-	var first: Dictionary = _content().quests["facility_breach"]
+	var first: Dictionary = _content().quests["subject_twelve"]
 	assert_eq(str(first["giver"]), "pim_facility", "Dr. Pim gives the chapter")
 	assert_eq(str(first["requires"]), "big_sak", "after Chapter 4")
 	var last: Dictionary = _content().quests["commander_arthit"]

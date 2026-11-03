@@ -32,7 +32,10 @@
         "iron_helm",
         "scrap_metal",
         "refined_alloy"
-      ]
+      ],
+      "unlock": {
+        "reached": "night_market"
+      }
     },
     "port_canteen": {
       "name": "Noi's Canteen",
@@ -50,7 +53,10 @@
         "dock_hook",
         "scrap_metal",
         "refined_alloy"
-      ]
+      ],
+      "unlock": {
+        "reached": "port_road"
+      }
     },
     "jum_cart": {
       "name": "Aunt Jum's Cart",
@@ -71,7 +77,10 @@
         "shock_baton",
         "scrap_metal",
         "refined_alloy"
-      ]
+      ],
+      "unlock": {
+        "reached": "factory_gate"
+      }
     },
     "thong_stall": {
       "name": "Uncle Thong's Stall",
@@ -92,7 +101,10 @@
         "weighted_knuckles",
         "scrap_metal",
         "refined_alloy"
-      ]
+      ],
+      "unlock": {
+        "reached": "warehouse_row"
+      }
     },
     "lek_lab_cart": {
       "name": "Lek's Supply Cart",
@@ -113,7 +125,10 @@
         "riot_baton",
         "scrap_metal",
         "refined_alloy"
-      ]
+      ],
+      "unlock": {
+        "reached": "facility_gate"
+      }
     },
     "ama_supply": {
       "name": "Ama's Supply Run",
@@ -134,25 +149,10 @@
         "alloy_knuckles",
         "scrap_metal",
         "refined_alloy"
-      ]
-    },
-    "city_kiosk": {
-      "name": "Self-Service Kiosk",
-      "items": [
-        "steamed_bun",
-        "ginger_tea",
-        "rice_box",
-        "herbal_tonic",
-        "taped_knuckles",
-        "fingerless_gloves",
-        "dock_beanie",
-        "padded_vest",
-        "canvas_sneakers",
-        "work_jacket",
-        "hard_hat",
-        "steel_toe_boots",
-        "scrap_metal"
-      ]
+      ],
+      "unlock": {
+        "reached": "core_approach"
+      }
     }
   }
 }

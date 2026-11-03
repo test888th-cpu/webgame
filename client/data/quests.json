@@ -1,58 +1,9 @@
 {
   "quests": {
-    "clear_saltmarket": {
-      "name": "First Night",
-      "giver": "chief_odo",
-      "description": "Knock down 8 of the crew on Saltmarket Street.",
-      "objective": {
-        "type": "defeat",
-        "enemy": "any",
-        "count": 8,
-        "area": "saltmarket"
-      },
-      "rewards": {
-        "money": 40,
-        "xp": 100,
-        "items": {
-          "ginger_tea": 2,
-          "torn_label": 1
-        }
-      },
-      "chapter": "Prologue",
-      "dialogue": {
-        "offer": "Ama's stall got shaken down again tonight. The crew ran off down Saltmarket Street, and they left a crate behind. Knock some sense into them.",
-        "active": "Saltmarket Street is east of the yard. Knock down 8 of them.",
-        "done": "They came back for that crate before I could open it. All I kept was this label. A factory stamp on a crate street punks fight over? Doesn't add up."
-      }
-    },
-    "warden": {
-      "name": "The Canal Gate",
-      "giver": "chief_odo",
-      "requires": "clear_saltmarket",
-      "description": "Defeat the Smog Warden guarding the way to Canal Works.",
-      "objective": {
-        "type": "defeat",
-        "enemy": "smog_warden",
-        "count": 1,
-        "area": "saltmarket"
-      },
-      "rewards": {
-        "money": 60,
-        "xp": 100,
-        "items": {}
-      },
-      "chapter": "Chapter 1: South Street",
-      "dialogue": {
-        "offer": "Men in gas masks have shut the gate to Canal Works. They're not police, not city. Get past whoever's in charge of them.",
-        "active": "The masked warden holds the far end of Saltmarket Street.",
-        "done": "No badge, no name, just orders. Somebody is paying good money to keep people out of those canals."
-      }
-    },
     "foreman": {
       "name": "The Sludge Foreman",
       "giver": "chief_odo",
-      "requires": "warden",
-      "description": "Defeat the Sludge Foreman at the end of Canal Works.",
+      "description": "Fight through Saltmarket Street and Canal Works, then defeat the Sludge Foreman.",
       "objective": {
         "type": "defeat",
         "enemy": "sludge_foreman",
@@ -60,126 +11,29 @@
         "area": "canal_works"
       },
       "rewards": {
-        "money": 150,
-        "xp": 320,
+        "money": 250,
+        "xp": 520,
         "items": {
+          "torn_label": 1,
+          "forged_note": 1,
           "brass_whistle": 1,
-          "forged_note": 1
-        }
-      },
-      "chapter": "Chapter 1: South Street",
-      "dialogue": {
-        "offer": "The canal stinks worse every night, and the boar-masked brute who runs the pumps is the reason. Shut him down.",
-        "active": "He works the pumps at the far end of Canal Works.",
-        "done": "A delivery note, stamped and signed for a warehouse that burned down years ago. Forged. They're moving freight through South Street on paper that can't be real."
-      }
-    },
-    "glass_rain": {
-      "name": "Glass Rain",
-      "giver": "chief_odo",
-      "requires": "foreman",
-      "chapter": "Chapter 1: South Street",
-      "description": "Knock down 6 Bottle Throwers on the Rusted Corner.",
-      "objective": {
-        "type": "defeat",
-        "enemy": "street_thrower",
-        "count": 6,
-        "area": "rusted_corner"
-      },
-      "rewards": {
-        "money": 130,
-        "xp": 230,
-        "items": {
-          "ginger_tea": 2
-        }
-      },
-      "dialogue": {
-        "offer": "Since the Foreman went down, kids are lobbing bottles at anyone who walks the Rusted Corner. Somebody pays them to keep that road empty. Find out why.",
-        "active": "They keep their distance, so close it fast. Knock down 6 of them.",
-        "done": "One of them talked: paid per bottle, by a man who says he works for the refinery. Keep following the freight."
-      }
-    },
-    "night_shift": {
-      "name": "Night Shift",
-      "giver": "chief_odo",
-      "requires": "glass_rain",
-      "chapter": "Chapter 1: South Street",
-      "description": "Knock down 5 Pipe Brutes in the Parking Lot.",
-      "objective": {
-        "type": "defeat",
-        "enemy": "pipe_brute",
-        "count": 5,
-        "area": "parking_lot"
-      },
-      "rewards": {
-        "money": 140,
-        "xp": 300,
-        "items": {
-          "ginger_tea": 2
-        }
-      },
-      "dialogue": {
-        "offer": "The bottle kids said the refinery man parks his trucks in the car park past the Rusted Corner. Brutes with pipes guard the ramps. Knock down 5 and see what those trucks unload.",
-        "active": "The Parking Lot is past the Rusted Corner. Knock down 5 Pipe Brutes.",
-        "done": "They move the crates from the trucks onto freight wagons at night, straight to the rail yards. Same forged paper on every one."
-      }
-    },
-    "rail_rumble": {
-      "name": "Rail Yard Rumble",
-      "giver": "chief_odo",
-      "requires": "night_shift",
-      "description": "Knock down 8 Dock Thugs in the Rail Yards.",
-      "objective": {
-        "type": "defeat",
-        "enemy": "dock_thug",
-        "count": 8,
-        "area": "rail_yards"
-      },
-      "rewards": {
-        "money": 120,
-        "xp": 380,
-        "items": {
+          "odos_old_gloves": 1,
           "ginger_tea": 3
         }
       },
       "chapter": "Chapter 1: South Street",
       "dialogue": {
-        "offer": "That forged note names the rail yards. Dock thugs are stripping the freight cars there. Put 8 of them on the ground and see what they're guarding.",
-        "active": "The Rail Yards are past the Parking Lot. Knock down 8 Dock Thugs.",
-        "done": "Empty cars, fresh tracks, and thugs who knew exactly which wagons to guard. Somebody gave them a schedule."
-      }
-    },
-    "market_lights": {
-      "name": "Market Lights",
-      "giver": "chief_odo",
-      "requires": "rail_rumble",
-      "description": "Knock down 10 Night Market Punks.",
-      "objective": {
-        "type": "defeat",
-        "enemy": "market_punk",
-        "count": 10,
-        "area": "night_market"
-      },
-      "rewards": {
-        "money": 200,
-        "xp": 460,
-        "items": {
-          "street_runners": 1
-        }
-      },
-      "chapter": "Chapter 1: South Street",
-      "dialogue": {
-        "offer": "Punks run the Night Market after dark. Kenji at the noodle stall hears everything, but he won't talk while they're watching. Knock down 10 of them.",
-        "active": "The Night Market is past the Rail Yards. Knock down 10 punks.",
-        "done": "Kenji says the punks are paid by the Furnace Baron, up at the old refinery. He runs South Street now. Or thinks he does."
+        "offer": "Ama's stall got shaken down again tonight. The crew ran off down Saltmarket Street, and they left a crate behind. Knock some sense into them. The canal stinks worse every night, and the boar-masked brute who runs the pumps is the reason. Shut him down.",
+        "active": "He works the pumps at the far end of Canal Works.",
+        "done": "They came back for that crate before I could open it. All I kept was this label. A factory stamp on a crate street punks fight over? Doesn't add up. A delivery note, stamped and signed for a warehouse that burned down years ago. Forged. They're moving freight through South Street on paper that can't be real."
       }
     },
     "the_pit": {
       "name": "The Pit",
       "giver": "chief_odo",
-      "requires": "market_lights",
+      "requires": "foreman",
       "chapter": "Chapter 1: South Street",
-      "description": "Defeat the Pit Champion at the Fight Club.",
+      "description": "Fight from Rusted Corner past the Night Market, then defeat the Pit Champion at the Fight Club.",
       "objective": {
         "type": "defeat",
         "enemy": "pit_champion",
@@ -187,73 +41,25 @@
         "area": "fight_club"
       },
       "rewards": {
-        "money": 300,
-        "xp": 850,
+        "money": 890,
+        "xp": 2220,
         "items": {
-          "refined_alloy": 2
+          "night_market_jacket": 1,
+          "refined_alloy": 2,
+          "ginger_tea": 3
         }
       },
       "dialogue": {
-        "offer": "Kenji says anyone who wants work at the refinery has to fight the Baron's champion first, in a ring in the alley behind the Night Market. The back door to the Baron runs through him.",
+        "offer": "Since the Foreman went down, kids are lobbing bottles at anyone who walks the Rusted Corner. Somebody pays them to keep that road empty. Find out why. Kenji says anyone who wants work at the refinery has to fight the Baron's champion first, in a ring in the alley behind the Night Market. The back door to the Baron runs through him.",
         "active": "The Fight Club meets in the alley past the Night Market. Watch his wind-up; he hits like a truck.",
         "done": "He fought for the Baron to clear his mother's debts. He's done with that now. The back door to the Refinery is open."
-      }
-    },
-    "the_smelter": {
-      "name": "The Smelter",
-      "giver": "chief_odo",
-      "requires": "the_pit",
-      "chapter": "Chapter 1: South Street",
-      "description": "Knock down 5 Refinery Enforcers at the Smokestack Refinery.",
-      "objective": {
-        "type": "defeat",
-        "enemy": "refinery_enforcer",
-        "count": 5,
-        "area": "refinery"
-      },
-      "rewards": {
-        "money": 320,
-        "xp": 640,
-        "items": {
-          "ginger_tea": 3
-        }
-      },
-      "dialogue": {
-        "offer": "The Baron melts stolen scrap in that refinery, and his enforcers run it for him. Break their hold on the smelter.",
-        "active": "The Smokestack Refinery is past the Fight Club. Knock down 5 enforcers.",
-        "done": "The furnace was still hot, but the Baron was gone, down a hatch into the drains. The Tar Rats nest down there, and they owe him."
-      }
-    },
-    "rat_nest": {
-      "name": "Rat Nest",
-      "giver": "chief_odo",
-      "requires": "the_smelter",
-      "chapter": "Chapter 1: South Street",
-      "description": "Knock down 12 Tar Rats in the Rat Nest.",
-      "objective": {
-        "type": "defeat",
-        "enemy": "tar_hound",
-        "count": 12,
-        "area": "rat_nest"
-      },
-      "rewards": {
-        "money": 360,
-        "xp": 520,
-        "items": {
-          "ginger_tea": 3
-        }
-      },
-      "dialogue": {
-        "offer": "The Tar Rats are hiding the Baron in the tunnels under the refinery. Go down after him. Knock down 12 of them and follow the tunnels to wherever he runs.",
-        "active": "The Rat Nest is through the refinery drains. Knock down 12 Tar Rats.",
-        "done": "The tunnels come up under a fortified building at the edge of the yards. Barred windows, guards on the gate. That's where he runs it all from."
       }
     },
     "furnace_baron": {
       "name": "The Furnace Baron",
       "giver": "chief_odo",
-      "requires": "rat_nest",
-      "description": "Defeat the Furnace Baron at the Gang Headquarters.",
+      "requires": "the_pit",
+      "description": "Fight through the Refinery and the Rat Nest, then defeat the Furnace Baron at Gang HQ.",
       "objective": {
         "type": "defeat",
         "enemy": "furnace_baron",
@@ -261,16 +67,18 @@
         "area": "gang_hq"
       },
       "rewards": {
-        "money": 500,
-        "xp": 1490,
+        "money": 1180,
+        "xp": 2650,
         "items": {
+          "baron_ledger": 1,
           "jade_charm": 1,
-          "baron_ledger": 1
+          "watchmans_cap": 1,
+          "rice_box": 3
         }
       },
       "chapter": "Chapter 1: South Street",
       "dialogue": {
-        "offer": "Every collection on this street is counted in that building. The Baron is inside with what's left of his crew. End it.",
+        "offer": "The Baron melts stolen scrap in that refinery, and his enforcers run it for him. Break their hold on the smelter. Every collection on this street is counted in that building. The Baron is inside with what's left of his crew. End it.",
         "active": "The Gang Headquarters stand past the Rat Nest.",
         "done": "His ledger. The same payment every week, from an account at the port, marked 'for the route'. The Baron was only renting this street. Somebody bigger is paying."
       },
@@ -279,87 +87,12 @@
         "subtitle": "South Street is safer. The money trail leads to the Port District."
       }
     },
-    "dock_shakedown": {
-      "name": "Dock Shakedown",
-      "giver": "uncle_chai",
-      "requires": "furnace_baron",
-      "chapter": "Chapter 2: Port District",
-      "description": "Knock down 6 Stevedores on Port Road.",
-      "objective": {
-        "type": "defeat",
-        "enemy": "stevedore",
-        "count": 6,
-        "area": "port_road"
-      },
-      "rewards": {
-        "money": 380,
-        "xp": 960,
-        "items": {
-          "ginger_tea": 3
-        }
-      },
-      "dialogue": {
-        "offer": "The Baron's ledger brought you here? Then you've seen the same money I have. The stevedores who take it now lean on every stall on this road. Knock down 6 of them.",
-        "active": "They work the far end of Port Road. Knock down 6 Stevedores.",
-        "done": "They said the cargo goes through the Freight Market first, under port guard. Not customs. Guards in uniforms nobody here issued."
-      }
-    },
-    "market_watch": {
-      "name": "Market Watch",
-      "giver": "uncle_chai",
-      "requires": "dock_shakedown",
-      "chapter": "Chapter 2: Port District",
-      "description": "Knock down 6 Port Guards in the Freight Market.",
-      "objective": {
-        "type": "defeat",
-        "enemy": "port_guard",
-        "count": 6,
-        "area": "freight_market"
-      },
-      "rewards": {
-        "money": 420,
-        "xp": 1080,
-        "items": {
-          "ginger_tea": 3
-        }
-      },
-      "dialogue": {
-        "offer": "Those guards wave some crates through and search everyone else. Find out who they answer to. Knock down 6 of them.",
-        "active": "The Freight Market is past Port Road. Knock down 6 Port Guards.",
-        "done": "Every guard carried the same work order, signed by the harbourmaster himself. The crates go on to the container yard at night."
-      }
-    },
-    "hooks_and_wrenches": {
-      "name": "Hooks and Wrenches",
-      "giver": "uncle_chai",
-      "requires": "market_watch",
-      "chapter": "Chapter 2: Port District",
-      "description": "Knock down 6 Dock Slingers in the Container Yard.",
-      "objective": {
-        "type": "defeat",
-        "enemy": "dock_slinger",
-        "count": 6,
-        "area": "container_yard"
-      },
-      "rewards": {
-        "money": 460,
-        "xp": 1080,
-        "items": {
-          "refined_alloy": 1
-        }
-      },
-      "dialogue": {
-        "offer": "Slingers sit on top of the container stacks and throw wrenches at anyone who walks the yard. Clear them, and the way to the cranes is open. Knock down 6.",
-        "active": "They keep their distance on the stacks. Close in fast. Knock down 6 Dock Slingers.",
-        "done": "Past the yard there's only the crane yard, and Chen's office above it. He runs those cranes himself. Watch the sky."
-      }
-    },
     "harbourmaster": {
       "name": "The Harbourmaster",
       "giver": "uncle_chai",
-      "requires": "hooks_and_wrenches",
+      "requires": "furnace_baron",
       "chapter": "Chapter 2: Port District",
-      "description": "Defeat Harbourmaster Chen in the Crane Yard.",
+      "description": "Fight from Port Road through the Freight Market and the Container Yard, then defeat Harbourmaster Chen.",
       "objective": {
         "type": "defeat",
         "enemy": "harbourmaster_chen",
@@ -367,14 +100,17 @@
         "area": "crane_yard"
       },
       "rewards": {
-        "money": 700,
-        "xp": 2950,
+        "money": 1960,
+        "xp": 6070,
         "items": {
-          "altered_manifest": 1
+          "altered_manifest": 1,
+          "chais_deck_shoes": 1,
+          "refined_alloy": 2,
+          "rice_box": 3
         }
       },
       "dialogue": {
-        "offer": "Chen decides which crates leave this port and which papers go with them. Stop him. He'll drop a container on you if you stand still, so keep moving.",
+        "offer": "The Baron's ledger brought you here? Then you've seen the same money I have. The stevedores who take it now lean on every stall on this road. Knock down 6 of them. Chen decides which crates leave this port and which papers go with them. Stop him. He'll drop a container on you if you stand still, so keep moving.",
         "active": "The Crane Yard is past the Container Yard. When the red shadow grows under you, move.",
         "done": "His manifest. Someone scratched out the destination and wrote in a factory in the Industrial District, and stamped it with the same mark as that first crate. This goes deeper than the port."
       },
@@ -383,37 +119,12 @@
         "subtitle": "The port is quiet. The cargo leads on to the Industrial District."
       }
     },
-    "factory_doors": {
-      "name": "Factory Doors",
-      "giver": "dr_pim",
-      "requires": "harbourmaster",
-      "chapter": "Chapter 3: Industrial District",
-      "description": "Knock down 6 Plant Guards at the Factory Gate.",
-      "objective": {
-        "type": "defeat",
-        "enemy": "plant_guard",
-        "count": 6,
-        "area": "factory_gate"
-      },
-      "rewards": {
-        "money": 520,
-        "xp": 1920,
-        "items": {
-          "ginger_tea": 3
-        }
-      },
-      "dialogue": {
-        "offer": "You found the manifest? Then you know where the sludge comes from. I need samples from inside that factory to prove it, and the guards won't let a former inspector through. Knock down 6 of them.",
-        "active": "The guards hold the doors east of here. Knock down 6 Plant Guards.",
-        "done": "The doors are open. Inside is the production line, and Security Chief Nattapong. He's no thug. He just follows orders he doesn't understand."
-      }
-    },
     "the_chief": {
       "name": "The Chief",
       "giver": "dr_pim",
-      "requires": "factory_doors",
+      "requires": "harbourmaster",
       "chapter": "Chapter 3: Industrial District",
-      "description": "Defeat Security Chief Nattapong on the Production Line.",
+      "description": "Fight through the Factory Gate, then defeat the Security Chief on the Production Line.",
       "objective": {
         "type": "defeat",
         "enemy": "security_chief",
@@ -421,49 +132,26 @@
         "area": "production_line"
       },
       "rewards": {
-        "money": 600,
-        "xp": 4500,
+        "money": 1120,
+        "xp": 6420,
         "items": {
-          "refined_alloy": 2
+          "inspectors_gloves": 1,
+          "refined_alloy": 2,
+          "rice_box": 3
         }
       },
       "dialogue": {
-        "offer": "Nattapong guards the way to the waste pools. Beat him, but don't break him. He may be the only one in there who'd listen.",
+        "offer": "You found the manifest? Then you know where the sludge comes from. I need samples from inside that factory to prove it, and the guards won't let a former inspector through. Knock down 6 of them. Nattapong guards the way to the waste pools. Beat him, but don't break him. He may be the only one in there who'd listen.",
         "active": "He's at the end of the Production Line. Watch his rush once he's hurt.",
         "done": "He sat on a crate and said he never asked what the pools were for. Then he took his badge off and walked out the gate. One less guard. Maybe one more witness."
-      }
-    },
-    "sample_run": {
-      "name": "Sample Run",
-      "giver": "dr_pim",
-      "requires": "the_chief",
-      "chapter": "Chapter 3: Industrial District",
-      "description": "Knock down 6 Patrol Units at the Waste Pools.",
-      "objective": {
-        "type": "defeat",
-        "enemy": "patrol_unit",
-        "count": 6,
-        "area": "waste_pools"
-      },
-      "rewards": {
-        "money": 640,
-        "xp": 2600,
-        "items": {
-          "waste_sample": 1
-        }
-      },
-      "dialogue": {
-        "offer": "The pools are guarded by machines now, not people. Clear 6 of them and I'll fill my jars. This is the proof I've waited six years for.",
-        "active": "The Waste Pools are past the Production Line. Knock down 6 Patrol Units.",
-        "done": "Here, keep a jar. It's the same sludge as the canal. And it's warm. Something under this factory is running hot, day and night."
       }
     },
     "unit_k7": {
       "name": "Unit K-7",
       "giver": "dr_pim",
-      "requires": "sample_run",
+      "requires": "the_chief",
       "chapter": "Chapter 3: Industrial District",
-      "description": "Defeat Unit K-7 in the Factory Drains.",
+      "description": "Fight through the Waste Pools, then defeat Unit K-7 in the Factory Drains.",
       "objective": {
         "type": "defeat",
         "enemy": "unit_k7",
@@ -471,53 +159,31 @@
         "area": "factory_drains"
       },
       "rewards": {
-        "money": 900,
-        "xp": 5570,
+        "money": 1540,
+        "xp": 8170,
         "items": {
-          "experiment_log": 1
+          "waste_sample": 1,
+          "experiment_log": 1,
+          "pims_field_vest": 1,
+          "herbal_tonic": 2
         }
       },
       "dialogue": {
-        "offer": "The heat comes from the drains under the factory, and something big guards them. A machine they call K-7. Stop it and bring me whatever it's protecting. Mind the vents, they burst when it's near.",
+        "offer": "The pools are guarded by machines now, not people. Clear 6 of them and I'll fill my jars. This is the proof I've waited six years for. The heat comes from the drains under the factory, and something big guards them. A machine they call K-7. Stop it and bring me whatever it's protecting. Mind the vents, they burst when it's near.",
         "active": "The Factory Drains are past the Waste Pools. Step off a hissing vent before it bursts.",
-        "done": "Their log. Readings, failures, and one name underlined twice: The Core. Whatever it is, it's still running, and someone at the top wants it kept that way."
+        "done": "Here, keep a jar. It's the same sludge as the canal. And it's warm. Something under this factory is running hot, day and night. Their log. Readings, failures, and one name underlined twice: The Core. Whatever it is, it's still running, and someone at the top wants it kept that way."
       },
       "ends_chapter": {
         "title": "Chapter 3 complete",
         "subtitle": "The Core is real, and still running. Who protects it?"
       }
     },
-    "follow_the_money": {
-      "name": "Follow the Money",
-      "giver": "kenji_network",
-      "requires": "unit_k7",
-      "chapter": "Chapter 4: The Black Network",
-      "description": "Knock down 6 Network Runners on Warehouse Row.",
-      "objective": {
-        "type": "defeat",
-        "enemy": "network_runner",
-        "count": 6,
-        "area": "warehouse_row"
-      },
-      "rewards": {
-        "money": 700,
-        "xp": 3180,
-        "items": {
-          "ginger_tea": 3
-        }
-      },
-      "dialogue": {
-        "offer": "You found me. Yes, I carried their envelopes. I never opened one, and I should have. The runners bring the cash through these warehouses. Knock down 6 of them and I'll show you where it goes.",
-        "active": "The runners move cash between the warehouses east of here. Knock down 6 Network Runners.",
-        "done": "The cash goes underground, to the old ring below the Fight Club. Big Sak's people bet on the fights and wash the money through the takings."
-      }
-    },
     "the_ring": {
       "name": "The Ring",
       "giver": "kenji_network",
-      "requires": "follow_the_money",
+      "requires": "unit_k7",
       "chapter": "Chapter 4: The Black Network",
-      "description": "Defeat the Ringmaster in the Underground Ring.",
+      "description": "Fight down Warehouse Row, then defeat the Ringmaster in the Underground Ring.",
       "objective": {
         "type": "defeat",
         "enemy": "ringmaster",
@@ -525,49 +191,26 @@
         "area": "underground_ring"
       },
       "rewards": {
-        "money": 1000,
-        "xp": 6760,
+        "money": 1700,
+        "xp": 9940,
         "items": {
-          "refined_alloy": 2
+          "kenjis_lucky_charm": 1,
+          "refined_alloy": 2,
+          "herbal_tonic": 2
         }
       },
       "dialogue": {
-        "offer": "The Ringmaster runs the fights and keeps the takings. Beat him in his own ring and the books will have nobody to guard them.",
+        "offer": "You found me. Yes, I carried their envelopes. I never opened one, and I should have. The runners bring the cash through these warehouses. Knock down 6 of them and I'll show you where it goes. The Ringmaster runs the fights and keeps the takings. Beat him in his own ring and the books will have nobody to guard them.",
         "active": "The Underground Ring is past Warehouse Row. Watch his spinning kick: it reaches both sides.",
         "done": "He says the ring only ever lost money. The real books are kept upstairs, in the Counting House, by Big Sak's men."
-      }
-    },
-    "cooked_books": {
-      "name": "Cooked Books",
-      "giver": "kenji_network",
-      "requires": "the_ring",
-      "chapter": "Chapter 4: The Black Network",
-      "description": "Knock down 6 Network Enforcers in the Counting House.",
-      "objective": {
-        "type": "defeat",
-        "enemy": "network_enforcer",
-        "count": 6,
-        "area": "counting_house"
-      },
-      "rewards": {
-        "money": 900,
-        "xp": 3800,
-        "items": {
-          "money_trail": 1
-        }
-      },
-      "dialogue": {
-        "offer": "The Counting House is where the cash becomes clean. The enforcers guard the transfer slips. Knock down 6 of them and bring me the slips.",
-        "active": "The Counting House is past the ring. Knock down 6 Network Enforcers.",
-        "done": "Every slip carries the same signature: Director Wiroj, Kraisorn Heavy Industries. Big Sak never asked what he was paid for. He's in his tower. He'll ask now."
       }
     },
     "big_sak": {
       "name": "Big Sak",
       "giver": "kenji_network",
-      "requires": "cooked_books",
+      "requires": "the_ring",
       "chapter": "Chapter 4: The Black Network",
-      "description": "Defeat Big Sak at Rattanachai Tower.",
+      "description": "Fight through the Counting House, then defeat Big Sak in Rattanachai Tower.",
       "objective": {
         "type": "defeat",
         "enemy": "big_sak",
@@ -575,53 +218,31 @@
         "area": "sak_tower"
       },
       "rewards": {
-        "money": 1400,
-        "xp": 8500,
+        "money": 2300,
+        "xp": 12300,
         "items": {
-          "facility_pass": 1
+          "money_trail": 1,
+          "facility_pass": 1,
+          "runners_cap": 1,
+          "herbal_tonic": 3
         }
       },
       "dialogue": {
-        "offer": "Big Sak runs South Street and the port, and he never fights alone. He whistles and his runners come. Beat him and he might finally talk.",
+        "offer": "The Counting House is where the cash becomes clean. The enforcers guard the transfer slips. Knock down 6 of them and bring me the slips. Big Sak runs South Street and the port, and he never fights alone. He whistles and his runners come. Beat him and he might finally talk.",
         "active": "Rattanachai Tower is the end of the line. When he whistles, deal with his runners fast.",
-        "done": "He talked. He thought he was moving goods for a factory, not keeping a city quiet. His pass opens the Core Facility, and the final activation is in seven days."
+        "done": "Every slip carries the same signature: Director Wiroj, Kraisorn Heavy Industries. Big Sak never asked what he was paid for. He's in his tower. He'll ask now. He talked. He thought he was moving goods for a factory, not keeping a city quiet. His pass opens the Core Facility, and the final activation is in seven days."
       },
       "ends_chapter": {
         "title": "Chapter 4 complete",
         "subtitle": "The Core Facility goes live in seven days."
       }
     },
-    "facility_breach": {
-      "name": "Facility Breach",
-      "giver": "pim_facility",
-      "requires": "big_sak",
-      "chapter": "Chapter 5: The Core Facility",
-      "description": "Knock down 6 Facility Troopers at the Core Facility Gate.",
-      "objective": {
-        "type": "defeat",
-        "enemy": "facility_trooper",
-        "count": 6,
-        "area": "facility_gate"
-      },
-      "rewards": {
-        "money": 1100,
-        "xp": 7560,
-        "items": {
-          "rice_box": 4
-        }
-      },
-      "dialogue": {
-        "offer": "Big Sak's pass gets us to the gate, not through it. The troopers here answer to Commander Arthit, not the gangs. Knock down 6 and we're in.",
-        "active": "The troopers hold the gate east of here. Knock down 6 Facility Troopers.",
-        "done": "We're in. Past the gate are the Test Labs. Lek says the night shift who worked there never came home. Be ready for what you find."
-      }
-    },
     "subject_twelve": {
       "name": "Subject 12",
       "giver": "pim_facility",
-      "requires": "facility_breach",
+      "requires": "big_sak",
       "chapter": "Chapter 5: The Core Facility",
-      "description": "Stop Subject 12 in the Test Labs.",
+      "description": "Fight through the Core Facility Gate, then defeat Subject 12 in the Test Labs.",
       "objective": {
         "type": "defeat",
         "enemy": "subject_twelve",
@@ -629,49 +250,27 @@
         "area": "test_labs"
       },
       "rewards": {
-        "money": 1500,
-        "xp": 10440,
+        "money": 2600,
+        "xp": 26000,
         "items": {
-          "exposure_report": 1
-        }
-      },
-      "dialogue": {
-        "offer": "The green-skinned ones in the labs were workers. Months beside The Core, and it changed them. The biggest guards the way on. They call him Subject 12. Stop him, don't hate him.",
-        "active": "Subject 12 is at the far end of the Test Labs. His lunge carries him a long way: get out of its line.",
-        "done": "His band has a name on it, a canal dredger from South Street. The lab's own report says it reverses if the exposure stops. So we stop it."
-      }
-    },
-    "machine_hall": {
-      "name": "Machine Hall",
-      "giver": "pim_facility",
-      "requires": "subject_twelve",
-      "chapter": "Chapter 5: The Core Facility",
-      "description": "Knock down 6 Riot Troopers in the Machine Hall.",
-      "objective": {
-        "type": "defeat",
-        "enemy": "riot_trooper",
-        "count": 6,
-        "area": "machine_hall"
-      },
-      "rewards": {
-        "money": 1300,
-        "xp": 9180,
-        "items": {
+          "exposure_report": 1,
+          "leks_lab_boots": 1,
+          "refined_alloy": 3,
           "herbal_tonic": 3
         }
       },
       "dialogue": {
-        "offer": "The Machine Hall feeds The Core its power. Arthit's riot squad holds it. Knock down 6 and the Control Room door is ours.",
-        "active": "The riot squad holds the Machine Hall. Knock down 6 Riot Troopers. Their armour shrugs off light blows.",
-        "done": "The hall is quiet. One door left: the Control Room. Arthit is in there with the activation keys."
+        "offer": "Big Sak's pass gets us to the gate, not through it. The troopers here answer to Commander Arthit, not the gangs. Knock down 6 and we're in. The green-skinned ones in the labs were workers. Months beside The Core, and it changed them. The biggest guards the way on. They call him Subject 12. Stop him, don't hate him.",
+        "active": "Subject 12 is at the far end of the Test Labs. His lunge carries him a long way: get out of its line.",
+        "done": "His band has a name on it, a canal dredger from South Street. The lab's own report says it reverses if the exposure stops. So we stop it."
       }
     },
     "commander_arthit": {
       "name": "Commander Arthit",
       "giver": "pim_facility",
-      "requires": "machine_hall",
+      "requires": "subject_twelve",
       "chapter": "Chapter 5: The Core Facility",
-      "description": "Defeat Commander Arthit in the Control Room.",
+      "description": "Fight through the Machine Hall, then defeat Commander Arthit in the Control Room.",
       "objective": {
         "type": "defeat",
         "enemy": "commander_arthit",
@@ -679,14 +278,17 @@
         "area": "control_room"
       },
       "rewards": {
-        "money": 2000,
-        "xp": 12560,
+        "money": 3300,
+        "xp": 35740,
         "items": {
-          "core_source_data": 1
+          "core_source_data": 1,
+          "night_shift_crowbar": 1,
+          "refined_alloy": 3,
+          "herbal_tonic": 3
         }
       },
       "dialogue": {
-        "offer": "Arthit guards the Control Room. The floor there is laced with security lasers: when the red line crosses your lane, change lanes or roll through it. Bring me whatever runs The Core.",
+        "offer": "The Machine Hall feeds The Core its power. Arthit's riot squad holds it. Knock down 6 and the Control Room door is ours. Arthit guards the Control Room. The floor there is laced with security lasers: when the red line crosses your lane, change lanes or roll through it. Bring me whatever runs The Core.",
         "active": "The Control Room is past the Machine Hall. When the red line crosses your lane, step off it or roll.",
         "done": "The source data. The Core was built to clean the canal, and it worked, until they pushed it past its limits and hid every failure. The final activation will push it further. Wiroj is in the main control centre. It ends there."
       },
@@ -695,62 +297,12 @@
         "subtitle": "The final activation will spread the damage. Wiroj waits at the centre."
       }
     },
-    "the_last_door": {
-      "name": "The Last Door",
-      "giver": "pim_core",
-      "requires": "commander_arthit",
-      "chapter": "Final: The Iron Legacy",
-      "description": "Knock down 6 Facility Troopers on the Core Approach.",
-      "objective": {
-        "type": "defeat",
-        "enemy": "facility_trooper",
-        "count": 6,
-        "area": "core_approach"
-      },
-      "rewards": {
-        "money": 1600,
-        "xp": 10080,
-        "items": {
-          "herbal_tonic": 3
-        }
-      },
-      "dialogue": {
-        "offer": "This is it: the main control centre. Ama brought half of South Street's kitchen to feed us. The last of Arthit's troopers hold the approach. Knock down 6.",
-        "active": "The troopers hold the Core Approach. Knock down 6 Facility Troopers.",
-        "done": "The door's open. Below are the cooling tunnels, where the night shift is still working. They're not the enemy. Knock them down, don't break them."
-      }
-    },
-    "cooling_down": {
-      "name": "Cooling Down",
-      "giver": "pim_core",
-      "requires": "the_last_door",
-      "chapter": "Final: The Iron Legacy",
-      "description": "Knock down 6 Hybrid Brutes in the Cooling Tunnels.",
-      "objective": {
-        "type": "defeat",
-        "enemy": "hybrid_brute",
-        "count": 6,
-        "area": "cooling_tunnels"
-      },
-      "rewards": {
-        "money": 1700,
-        "xp": 10920,
-        "items": {
-          "herbal_tonic": 3
-        }
-      },
-      "dialogue": {
-        "offer": "The longest-exposed workers keep the cooling running. Every one you put down is one fewer near The Core, and the report says they come back. Knock down 6 Hybrid Brutes.",
-        "active": "The Cooling Tunnels are past the approach. Knock down 6 Hybrid Brutes.",
-        "done": "The pumps are slowing. The walkway to the reactor is next, guarded by the sentinels Wiroj had built for himself."
-      }
-    },
     "the_walkway": {
       "name": "The Walkway",
       "giver": "pim_core",
-      "requires": "cooling_down",
+      "requires": "commander_arthit",
       "chapter": "Final: The Iron Legacy",
-      "description": "Knock down 6 Core Sentinels on the Reactor Walkway.",
+      "description": "Fight from the Core Approach through the Cooling Tunnels, then defeat the Core Sentinels on the Reactor Walkway.",
       "objective": {
         "type": "defeat",
         "enemy": "core_sentinel",
@@ -758,14 +310,16 @@
         "area": "reactor_walkway"
       },
       "rewards": {
-        "money": 1800,
-        "xp": 11780,
+        "money": 5100,
+        "xp": 10780,
         "items": {
-          "herbal_tonic": 3
+          "sentinel_gauntlets": 1,
+          "refined_alloy": 3,
+          "herbal_tonic": 4
         }
       },
       "dialogue": {
-        "offer": "The sentinels answer only to the Director. Knock down 6 on the walkway and nothing stands between you and him.",
+        "offer": "This is it: the main control centre. Ama brought half of South Street's kitchen to feed us. The last of Arthit's troopers hold the approach. Knock down 6. The sentinels answer only to the Director. Knock down 6 on the walkway and nothing stands between you and him.",
         "active": "The Reactor Walkway is past the tunnels. Knock down 6 Core Sentinels.",
         "done": "He's in the Core Chamber. When the defences come up, he hides behind them. Survive the system, and hit him when it resets."
       }
@@ -785,7 +339,10 @@
       "rewards": {
         "money": 3000,
         "xp": 15850,
-        "items": {}
+        "items": {
+          "heart_of_iron_city": 1,
+          "refined_alloy": 5
+        }
       },
       "dialogue": {
         "offer": "Wiroj will fight in his protective suit, then behind the chamber's defences, then with nothing left to lose. Steam, the floor plates, the lasers: they come in a rhythm. Learn it. Then end this.",

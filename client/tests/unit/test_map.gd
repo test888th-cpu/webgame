@@ -57,7 +57,7 @@ func test_the_hero_knows_what_they_reached_and_the_way_on() -> void:
 	var profile := PlayerProfile.new_game(_content())
 	var here := MapRules.about(profile, _content(), "depot_yard", "depot_yard")
 	assert_eq(here["state"], MapRules.HERE, "standing in the yard")
-	assert_eq(here["services"], ["Shop", "Quests", "Taxi"], "the yard is a town")
+	assert_eq(here["services"], ["Quests"], "the yard is a rest point: quests only")
 	var next := MapRules.about(profile, _content(), "saltmarket", "depot_yard")
 	assert_eq(next["state"], MapRules.IN_SIGHT, "the next area is in sight")
 	assert_eq([next["name"], next["level"]], ["Saltmarket Street", 2], "named, with its level")
@@ -98,9 +98,9 @@ func test_the_goal_follows_the_quest_chain_to_the_end() -> void:
 	var goal := MapRules.goal(profile, _content())
 	assert_eq(goal["area"], "depot_yard", "the first quest's giver")
 	assert_eq(goal["text"], "New quest from Chief Odo", "who to see")
-	QuestRules.accept(profile, "clear_saltmarket", _content())
-	assert_eq(MapRules.goal(profile, _content())["area"], "saltmarket", "the quest's area")
-	profile.quests["clear_saltmarket"]["state"] = "complete"
+	QuestRules.accept(profile, "foreman", _content())
+	assert_eq(MapRules.goal(profile, _content())["area"], "canal_works", "the quest's area")
+	profile.quests["foreman"]["state"] = "complete"
 	goal = MapRules.goal(profile, _content())
 	assert_eq([goal["area"], goal["text"]], ["depot_yard", "Report to Chief Odo"], "hand in")
 	for quest_id: String in _content().quests:
@@ -122,12 +122,12 @@ func test_validator_checks_districts_and_quest_areas() -> void:
 	var broken := ContentDB.load_all()
 	broken.errors.clear()
 	broken.districts.append({"name": "", "from": "depot_yard"})
-	broken.quests["warden"]["objective"]["area"] = "port_road"
+	broken.quests["foreman"]["objective"]["area"] = "port_road"
 	broken.validate()
 	var all := "\n".join(broken.errors)
 	assert_true(all.contains("districts[6].name: required"), "unnamed district")
 	assert_true(all.contains("districts[6].from: an area further east"), "out of order")
-	assert_true(all.contains("quests.warden.objective.area: port_road"), "wrong quest area")
+	assert_true(all.contains("quests.foreman.objective.area: port_road"), "wrong quest area")
 
 
 func test_map_tab_opens_on_the_hero_and_fits() -> void:

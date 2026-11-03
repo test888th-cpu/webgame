@@ -34,7 +34,7 @@ func test_new_game_starts_in_the_depot_with_npcs_and_dummy() -> void:
 	var game := _game()
 	assert_eq(game.zone.area_id, GameSession.content.start_area, "start area")
 	assert_eq(game.zone.enemies().size(), 1, "training dummy placed")
-	assert_eq(game.zone.area["npcs"].size(), 3, "vendor, quest giver and taxi")
+	assert_eq(game.zone.area["npcs"].size(), 1, "a story rest point: the quest giver only")
 	assert_true(SaveStore.has_characters(), "entering an area autosaves")
 	_done(game)
 
@@ -42,7 +42,11 @@ func test_new_game_starts_in_the_depot_with_npcs_and_dummy() -> void:
 func test_shopping_at_the_vendor() -> void:
 	var game := _game()
 	game.profile.money = 50
-	game.zone.hero.position = Vector2(430, 262) + Vector2(-20, 0)
+	game.enter_area("main_city", "west")
+	game.zone.hero.position = Vector2(600, 262) + Vector2(-20, 0)
+	assert_true(game.try_interact(), "Kenji's stall")
+	assert_eq(game.menu, null, "closed until the Night Market is reached")
+	game.zone.hero.position = Vector2(520, 262) + Vector2(-20, 0)
 	assert_true(game.try_interact(), "talking to the vendor")
 	assert_eq(game.menu_name, "shop", "shop open")
 	game._buy(game.view.npc_near(game.zone.hero), "steamed_bun")
@@ -61,10 +65,8 @@ func test_quest_giver_offers_and_accepts_the_first_quest() -> void:
 	game.zone.hero.position = Vector2(640, 262) + Vector2(-20, 0)
 	assert_true(game.try_interact(), "talking to the chief")
 	assert_eq(game.menu_name, "quests_npc", "quest dialog open")
-	game._accept(game.view.npc_near(game.zone.hero), "clear_saltmarket")
-	assert_eq(
-		QuestRules.status(game.profile, "clear_saltmarket", game.content), "active", "accepted"
-	)
+	game._accept(game.view.npc_near(game.zone.hero), "foreman")
+	assert_eq(QuestRules.status(game.profile, "foreman", game.content), "active", "accepted")
 	_done(game)
 
 

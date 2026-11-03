@@ -255,6 +255,12 @@ func validate() -> void:
 	for id: String in shops:
 		for item_id in shops[id].get("items", []):
 			_check(items.has(item_id), "shops.%s: unknown item %s" % [id, item_id])
+		var rule: Variant = shops[id].get("unlock", {})
+		if rule is Dictionary and rule.has("reached"):
+			_check(
+				areas.has(str(rule["reached"])),
+				"shops.%s.unlock.reached: unknown area %s" % [id, rule["reached"]]
+			)
 	for id: String in quests:
 		_validate_quest(id, quests[id])
 	_check(areas.has(start_area), "areas.start_area: unknown area %s" % start_area)

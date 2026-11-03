@@ -76,10 +76,10 @@ static func hub(content: ContentDB) -> String:
 	return content.city_area if content.city_area != "" else content.start_area
 
 
-## The way home from `area_id` to rest: the hub for a farming ground, else
-## the start area (AutoBattle's rest, ProgressionHarness).
-static func rest_home(content: ContentDB, area_id: String) -> String:
-	return hub(content) if kind(content, area_id) == FARM else content.start_area
+## The way home from `area_id` to rest (AutoBattle's rest, ProgressionHarness):
+## the hub, where the merchants and the taxi are, from anywhere.
+static func rest_home(content: ContentDB, _area_id: String) -> String:
+	return hub(content)
 
 
 ## True when a taxi ride from `area_id` may go to the farming grounds and the
