@@ -48,11 +48,13 @@ func _single(kind: String, chance: float) -> ContentDB:
 	return copy
 
 
-func test_the_field_fills_to_its_cap_then_replaces_each_loss() -> void:
+func test_the_field_fills_then_sends_whole_packs() -> void:
 	var c := _content()
 	var data := FarmSpawner.spec(c, GROUND)
 	var zone := ZoneSim.new(c, _hero(), GROUND, "west", 7)
 	var cap := int(data["cap"])
+	var pack := FarmSpawner.pack_size(data)
+	assert_true(pack >= 2, "packs, not single enemies (%d)" % pack)
 	var idle := FighterInput.new()
 	for tick in FarmSpawner.FILL_TICKS * cap + 1:
 		zone.tick(idle)
@@ -60,12 +62,35 @@ func test_the_field_fills_to_its_cap_then_replaces_each_loss() -> void:
 	for tick in 600:
 		zone.tick(idle)
 	assert_true(_standing(zone) <= cap, "never more than the cap")
-	var ticks := 0
+	# One down: no single replacement trickles in.
 	_fell(zone, zone.enemies()[0])
-	while _standing(zone) < cap and ticks < 1000:
+	for tick in int(data["respawn_ticks"]) + 60:
 		zone.tick(idle)
+	assert_eq(_standing(zone), cap - 1, "one loss waits for room for a whole pack")
+	# Room for a pack: it comes in together after the respawn time.
+	for i in pack - 1:
+		var standing: Array[Fighter] = []
+		for enemy in zone.enemies():
+			if not enemy.is_ko():
+				standing.append(enemy)
+		_fell(zone, standing[0])
+	var arrived: Array[int] = []
+	var xs: Array[float] = []
+	var ticks := 0
+	while arrived.size() < pack and ticks < int(data["respawn_ticks"]) + pack * 20:
 		ticks += 1
-	assert_eq(ticks, int(data["respawn_ticks"]), "one more comes after the respawn time")
+		for event in zone.tick(idle):
+			if event.type == "spawn":
+				arrived.append(ticks)
+				xs.append(zone.fighter(int(event.data["id"])).position.x)
+	assert_eq(arrived.size(), pack, "a whole pack came")
+	assert_true(arrived[0] >= int(data["respawn_ticks"]), "after the respawn time")
+	var gap := arrived[-1] - arrived[0]
+	assert_true(gap <= (pack - 1) * FarmSpawner.PACK_STAGGER + 2, "together (%d ticks)" % gap)
+	xs.sort()
+	var spread := xs[-1] - xs[0]
+	assert_true(spread <= FarmSpawner.PACK_SPREAD * 2 + 1, "from one side (%s px)" % spread)
+	assert_eq(_standing(zone), cap, "back to the cap")
 
 
 func test_entrances_keep_away_from_the_hero_and_the_way_out() -> void:
