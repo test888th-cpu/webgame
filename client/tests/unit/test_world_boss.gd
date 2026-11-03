@@ -179,7 +179,13 @@ func test_an_attempt_from_the_taxi_to_the_results() -> void:
 		game.zone.hero.position.x = 200
 		game.step(FighterInput.new())
 	var mother: Node = game.view.view_of(game.zone.boss_id)
-	assert_true(not (mother.get_node("Name") as Label).visible, "named on the boss bar only")
+	var overhead := mother.get_node("Name") as Label
+	assert_true(overhead.visible and overhead.text == "The Tunnel Mother", "named overhead")
+	assert_true(mother.get_node("Rank") != null, "with the boss skull")
+	game.get_node("Hud")._process(0.016)
+	var boss_bar := game.get_node("Hud").find_child("Boss", true, false) as Control
+	assert_true(boss_bar.visible, "and on the boss bar")
+	assert_true(boss_bar.find_child("BossIcon", true, false) != null, "skull there too")
 	game.zone.hero.hp = 0
 	game.zone.hero.enter(Fighter.State.KO)
 	var events: Array[ZoneEvent] = [ZoneEvent.make("hero_down")]

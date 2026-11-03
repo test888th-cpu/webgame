@@ -4,6 +4,21 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed: bosses, mini-bosses and elites are named clearly
+- **One symbol per rank, the same as on the map:**
+  - Over a boss's head: the map's red skull and its name in red.
+  - Over a story mini-boss: the map's horned mini-boss mark and its name and level in
+    orange.
+  - Over a farming ground's elite: a gold star and "Elite <name>  Lv N" in gold.
+  - Ordinary enemies keep just their level, coloured by threat (`FighterView._rank`).
+- **The boss bar** at the top of the screen has the skull before the boss's name and level.
+- **Toasts name the boss:**
+  - "BOSS: Sludge Foreman" when it steps in (it used to say "A boss approaches!" before
+    anyone could see it).
+  - "<name> is enraged!" at its new phase, instead of "It's enraged!".
+- **Tests:** an elite is named with its star; a world boss is named overhead with the
+  skull and on the boss bar with it.
+
 ### Changed: skill effects and sounds, cleaned up
 - **No shield when guarding:** a blocked blow used to show a large blue lattice shield
   (pixelfx `impacts/shield-block`). It now gives a small steel-blue spark: the hit spark

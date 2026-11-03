@@ -28,11 +28,14 @@ func test_arrivals_phases_and_fallen_enemies_have_effects() -> void:
 	var game := _game()
 	game.profile.level = 40
 	game.content.areas["farm_facility_annex"]["spawning"]["elite_chance"] = 0.25
+	# Game seeds each area from the global generator: fixed here, so an elite
+	# comes in the same few seconds on every run.
+	seed(5)
 	game.enter_area("farm_facility_annex", "west")
 	var arrived := false
 	var elite := false
 	var faded_in := false
-	for i in 400:
+	for i in 3000:
 		for event in game.step(FighterInput.new()):
 			if event.type != "spawn":
 				continue
@@ -44,6 +47,7 @@ func test_arrivals_phases_and_fallen_enemies_have_effects() -> void:
 			break
 	game.content.areas["farm_facility_annex"]["spawning"]["elite_chance"] = 0.05
 	assert_true(arrived, "enemies came")
+	assert_true(elite, "an elite came")
 	assert_true(faded_in, "an arrival fades in, no pop-in")
 	var shown: Array[String] = []
 	for sprite: AnimatedSprite2D in game.view.effects.find_children(
@@ -51,6 +55,11 @@ func test_arrivals_phases_and_fallen_enemies_have_effects() -> void:
 	):
 		shown.append(str(sprite.animation))
 	assert_true("elite_flare" in shown, "an elite arrives in gold light")
+	for enemy in game.zone.enemies():
+		if enemy.elite:
+			var plate := game.view.view_of(enemy.id)
+			assert_true((plate.get_node("Name") as Label).text.begins_with("Elite "), "named")
+			assert_true(plate.get_node_or_null("Rank") != null, "with the elite star")
 	assert_true("poof" not in shown, "and nobody in a puff of smoke (%s)" % [shown])
 	var enemy: Fighter = game.zone.enemies()[0]
 	var enemy_view := game.view.view_of(enemy.id)

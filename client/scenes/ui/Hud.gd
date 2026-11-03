@@ -332,9 +332,18 @@ func _build_boss_bar(root: Control) -> void:
 	_boss.position = Vector2(190, 8)
 	_boss.custom_minimum_size = Vector2(260, 0)
 	root.add_child(_boss)
+	# The map's boss skull before the name: the same mark means a boss on the
+	# map, over its head and here.
+	var title := HBoxContainer.new()
+	title.name = "Title"
+	title.alignment = BoxContainer.ALIGNMENT_CENTER
+	title.add_theme_constant_override("separation", 4)
+	_boss.add_child(title)
+	var skull := UiKit.icon_rect(GameSession.content, "map_boss")
+	skull.name = "BossIcon"
+	title.add_child(skull)
 	_boss_name = UiKit.overlay_label("", UiTheme.SIZE_SMALL, Color("ffb0a0"))
-	_boss_name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_boss.add_child(_boss_name)
+	title.add_child(_boss_name)
 	_boss_bar = _bar(UiTheme.DANGER, Vector2(260, 8), false)
 	_boss.add_child(_boss_bar)
 
