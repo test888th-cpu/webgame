@@ -118,7 +118,7 @@ func _rest_and_return() -> void:
 	if not GameSession.settings.get("auto_loop", true):
 		stop("Area clear. Auto off." if cleared else "Out of food. Auto off.")
 		return
-	var home := content.start_area
+	var home := AreaRules.rest_home(content, farm_area)
 	var fare := maxi(0, AutoRules.fare(content, home))
 	_travelling = true
 	_game.enter_area(home, "")

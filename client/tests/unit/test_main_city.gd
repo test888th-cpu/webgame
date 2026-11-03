@@ -199,11 +199,15 @@ func test_the_city_is_its_own_area_off_the_street() -> void:
 	assert_eq(MapRules.districts(_content())[0]["areas"][0], "depot_yard", "districts unchanged")
 	assert_eq(MapRules.locate(_content(), CITY), {}, "in no district")
 	for area_id: String in _content().areas:
+		var hub_only := (
+			AreaRules.kind(_content(), area_id) in [AreaRules.FARM, AreaRules.WORLD_BOSS]
+		)
 		for side: String in _content().area(area_id).get("exits", {}):
-			assert_true(
-				str(_content().area(area_id)["exits"][side]["to"]) != CITY,
-				"no area walks into the city (%s)" % area_id
-			)
+			var to := str(_content().area(area_id)["exits"][side]["to"])
+			if hub_only:
+				assert_eq(to, CITY, "%s: walked out of, it leads back to the city" % area_id)
+			else:
+				assert_true(to != CITY, "no story area walks into the city (%s)" % area_id)
 	var auto := AutoRules.problem(PlayerProfile.new_game(_content()), _content(), CITY)
 	assert_true(auto != "", "no auto battle in the city")
 
@@ -264,9 +268,8 @@ func test_every_taxi_stand_rides_to_the_city_and_keeps_its_old_rides() -> void:
 			game._show("travel", GameMenus.travel(game, npc))
 			var expected: Array[String] = [CITY]
 			expected.append_array(StreetMemory.destinations(game.profile, game.content, area_id))
-			expected.append_array(AreaRules.open_farms(game.profile, game.content))
 			expected.sort()
-			assert_eq(_rides(game.menu), expected, "%s: the city and every old ride" % npc["id"])
+			assert_eq(_rides(game.menu), expected, "%s: the city and the story" % npc["id"])
 			assert_eq(int(npc["fare"]), 10, "%s's fare unchanged" % npc["id"])
 			game.close_menu()
 	var money: int = game.profile.money
@@ -336,7 +339,8 @@ func test_the_pause_menu_goes_to_the_city_with_recalls_checks() -> void:
 	assert_true(game.world_run != null, "an attempt under way")
 	assert_true(game.city_problem() != "", "not during a world boss attempt")
 	game._leave_world_boss()
-	assert_eq(game.zone.area_id, "depot_yard", "the world boss way home is still Depot Yard")
+	assert_eq(game.zone.area_id, CITY, "the world boss way home is the city")
+	game.enter_area("depot_yard", "west")
 	game._go_to_city()
 	assert_eq(game.zone.area_id, CITY, "to the city")
 	assert_eq(game.city_problem(), "You are already there.", "already there")
@@ -345,13 +349,13 @@ func test_the_pause_menu_goes_to_the_city_with_recalls_checks() -> void:
 
 ## The bug fixed: the pause menu's return went to the story's start (Depot
 ## Yard). It must reach Iron City Central from Story Area 1, from later story
-## areas, from Depot Yard and from a world boss arena, and arrive at the taxi
+## areas, from Depot Yard and from a farming ground, and arrive at the taxi
 ## rank, rested, for free, with the hero's progress untouched.
 func test_return_to_the_city_from_anywhere_lands_at_the_rank() -> void:
 	var game := _game()
 	var rank := float(_npc("taxi_win_city")["x"])
 	var from: Array[String] = ["saltmarket", "port_road", "core_chamber", "depot_yard"]
-	from.append(str(WorldBossRules.spec(game.content, "tunnel_mother")["area"]))
+	from.append("farm_facility_annex")
 	game.profile.money = 250
 	game.profile.add_item("steamed_bun", 4)
 	game.profile.level = 7
@@ -377,14 +381,16 @@ func test_return_to_the_city_from_anywhere_lands_at_the_rank() -> void:
 	_done(game)
 
 
-func test_home_flows_still_point_at_depot_yard() -> void:
-	assert_eq(_content().start_area, "depot_yard", "Recall, auto battle and world bosses go home")
-	assert_eq(AutoRules.fare(_content(), _content().start_area), 10, "auto battle's ride back")
-	for boss: String in _content().world_bosses:
-		var arena := str(WorldBossRules.spec(_content(), boss)["area"])
-		assert_eq(
-			str(_content().area(arena)["exits"]["west"]["to"]), "depot_yard", "%s exit" % arena
-		)
+func test_the_story_goes_home_to_depot_yard_and_the_hub_content_to_the_city() -> void:
+	var c := _content()
+	assert_eq(c.start_area, "depot_yard", "the story's home")
+	assert_eq(AreaRules.hub(c), CITY, "the farming grounds' and world bosses' home")
+	assert_eq(AreaRules.rest_home(c, "port_road"), "depot_yard", "auto rests on the street")
+	assert_eq(AreaRules.rest_home(c, "farm_facility_annex"), CITY, "and in the city from a ground")
+	assert_eq(AutoRules.fare(c, CITY), 10, "auto battle's ride back from the city")
+	for boss: String in c.world_bosses:
+		var arena := str(WorldBossRules.spec(c, boss)["area"])
+		assert_eq(str(c.area(arena)["exits"]["west"]["to"]), CITY, "%s exit" % arena)
 
 
 func test_the_map_shows_the_city_from_the_first_night() -> void:

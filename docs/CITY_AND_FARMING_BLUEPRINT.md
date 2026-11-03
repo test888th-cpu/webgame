@@ -12,6 +12,13 @@
 >   in CHANGELOG.md and STORY_BIBLE.md. Built since: repeat fights (§4.2's loop mode,
 >   as a refill at the ground's west end, `StreetMemory.refill`) and auto battle in
 >   an open ground. Open: final levels and line-ups.
+> - **Story and hub kept apart (owner decision, 2026-11-03):** the farming grounds and
+>   the world boss arenas are reached from Iron City Central only (Win's taxi there;
+>   the story's taxis offer the city and the story areas) and lead back to it: walking
+>   out west, a finished world boss attempt and auto battle's rest from a ground all
+>   end in the city (`AreaRules.hub`). The story's way home stays Depot Yard. The Map
+>   shows two sections, STORY and IRON CITY CENTRAL. This replaces §4's and §5's
+>   "west exit to `depot_yard`".
 >
 > Sections 1 to 11 are the Phase 1 plan as written, kept for the record. Where §3, §6, §7,
 > §10 or §11 talk about widening Depot Yard, §12 replaces them.

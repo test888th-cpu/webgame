@@ -4,6 +4,25 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed: the farming grounds and world bosses are reached from the city only
+- **Owner decision:** the story and the hub content are kept apart. Iron City Central
+  is the hub (`AreaRules.hub`): the only way into a farming ground or a world boss
+  arena is Win's taxi in the city, and every way out leads back to it.
+- **In:** the story's seven taxi stands (Depot Yard, Night Market, Port Road, ...)
+  offer the city and the story areas only; the city's Win offers the story, Farming
+  and World Bosses. The city ride reads "(rest, farming, bosses)".
+- **Out:** walking out of a ground or an arena west arrives at the city's taxi rank
+  ("< Iron City Central" at the west end); a finished world boss attempt goes "Back to
+  Iron City Central"; auto battle in a ground rests in the city (heal, the kiosk's food,
+  the same 10-coin fare). On the street, auto battle and a knock-out are unchanged.
+- **Map:** two sections, STORY (the six districts) and IRON CITY CENTRAL (the city,
+  Farming, World Bosses); a ground or arena says "Win's taxi in Iron City Central".
+- **Rules:** the validator requires a ground's and an arena's one way out to be west
+  to the hub, and still refuses any story area that leads into the city.
+- No save, balance, drop or fare change; saves made in a ground or an arena load as
+  before. Tests: 494 (new: the story's taxis never ride to a ground or a world boss;
+  the Map's two sections fit late in the game).
+
 ### Fixed: spare copies of a worn item were lost on load
 - Loading a save dropped every carried copy of an item that was also worn (for
   example Oren's spare padded vests), and the next save made the loss permanent.

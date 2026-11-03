@@ -121,7 +121,7 @@ func test_the_seven_grounds_exist_with_their_approved_unlocks() -> void:
 		assert_true(str(area.get("purpose", "")) != "", gid + ": a purpose")
 		assert_true(gid not in StreetMemory.street(c), gid + ": off the street")
 		assert_eq(
-			area["exits"], {"west": {"to": c.start_area, "entry": "east"}}, gid + ": one way west"
+			area["exits"], {"west": {"to": c.city_area, "entry": "west"}}, gid + ": out to the city"
 		)
 	assert_eq(StreetMemory.street(c).size(), 31, "the story street is unchanged")
 
@@ -174,13 +174,14 @@ func test_each_ground_opens_only_on_its_rule() -> void:
 
 func test_wins_taxi_rides_to_each_open_ground_for_the_usual_fare() -> void:
 	var game := _game()
-	var win: Dictionary = game.content.area("depot_yard")["npcs"][2]
+	var win: Dictionary = game.content.area("main_city")["npcs"][0]
+	game.enter_area("main_city", "west")
 	game._show("travel", GameMenus.travel(game, win))
 	assert_true(game.menu.find_child("Heading_Farming", true, false) == null, "none open yet")
 	game.close_menu()
 	_everything(game.profile)
 	for gid: String in GROUNDS:
-		game.enter_area("depot_yard", "west")
+		game.enter_area("main_city", "west")
 		game.profile.money = 100
 		game._show("travel", GameMenus.travel(game, win))
 		assert_true(game.menu.find_child("Heading_Farming", true, false) != null, "Farming")
@@ -200,7 +201,7 @@ func test_wins_taxi_rides_to_each_open_ground_for_the_usual_fare() -> void:
 	_done(game)
 
 
-func test_each_ground_is_left_west_to_depot_yard_or_back_to_the_city() -> void:
+func test_each_ground_is_left_west_or_by_the_pause_menu_to_the_city() -> void:
 	var game := _game()
 	_everything(game.profile)
 	for gid: String in GROUNDS:
@@ -212,7 +213,8 @@ func test_each_ground_is_left_west_to_depot_yard_or_back_to_the_city() -> void:
 			game.step(input)
 			if game.zone.area_id != gid:
 				break
-		assert_eq(game.zone.area_id, "depot_yard", gid + ": walked out west into Depot Yard")
+		assert_eq(game.zone.area_id, "main_city", gid + ": walked out west into the city")
+		assert_true(game.zone.hero.position.x < 200.0, gid + ": at the taxi rank")
 		game.enter_area(gid, "west")
 		game.open_pause()
 		var back: Button = game.menu.find_child("Recall", true, false)

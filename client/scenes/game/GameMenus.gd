@@ -425,7 +425,7 @@ static func _ride_groups(game: Game, npc: Dictionary, fare: int) -> Array[Dictio
 	var city := content.city_area
 	if city != "" and game.zone.area_id != city:
 		var hub := content.area(city)
-		var home := _choice("%s  (safe, rest)" % hub["name"], game._ride.bind(npc, city))
+		var home := _choice("%s  (rest, farming, bosses)" % hub["name"], game._ride.bind(npc, city))
 		home.name = "Ride_" + city
 		home.disabled = broke
 		out.append({"name": "City", "rides": [home], "columns": 1})
@@ -443,10 +443,20 @@ static func _ride_groups(game: Game, npc: Dictionary, fare: int) -> Array[Dictio
 			rides.append(ride)
 		if not rides.is_empty():
 			out.append({"name": str(district["name"]), "rides": rides, "columns": 2})
+	# The farming grounds and the world bosses are reached from the city only,
+	# never from the story's taxis (AreaRules.hub).
+	if AreaRules.rides_from_hub(content, game.zone.area_id):
+		out.append_array(_hub_rides(game, npc, fare))
+	return out
+
+
+## The hub's own rides: the open farming grounds and the world bosses.
+static func _hub_rides(game: Game, npc: Dictionary, fare: int) -> Array[Dictionary]:
+	var content := game.content
+	var out: Array[Dictionary] = []
+	var broke := game.profile.money < fare
 	var grounds: Array[Button] = []
 	for area_id in AreaRules.open_farms(game.profile, content):
-		if area_id == game.zone.area_id:
-			continue
 		var ground := content.area(area_id)
 		# A suggestion for the fights there; no level is needed to ride in.
 		var text := "%s  (suggested Lv %d)" % [ground["name"], int(ground.get("level", 1))]
@@ -755,7 +765,7 @@ static func world_boss_result(game: Game, run: WorldBossRun, paid: Dictionary) -
 		body.add_child(
 			UiKit.label("Rewards: " + ",  ".join(won), UiTheme.SIZE_BODY, UiTheme.GOLD, 470)
 		)
-	var home := str(content.area(content.start_area).get("name", "home"))
+	var home := str(content.area(AreaRules.hub(content)).get("name", "home"))
 	var back := _choice("Back to %s" % home, game._leave_world_boss)
 	back.name = "Leave"
 	body.add_child(back)

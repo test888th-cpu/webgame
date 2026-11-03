@@ -151,7 +151,12 @@ func test_win_rides_there_only_while_it_is_open() -> void:
 	var npc := {"name": "Win", "role": "travel", "fare": 10, "sprite": "npc_win"}
 	game._show("travel", GameMenus.travel(game, npc))
 	var ride := game.menu.find_child("Ride_" + MOTHER, true, false) as Button
-	assert_true(ride != null and not ride.disabled, "offered while open")
+	assert_true(ride == null, "never from the story's taxis")
+	game.close_menu()
+	game.enter_area(_content().city_area, "west")
+	game._show("travel", GameMenus.travel(game, npc))
+	ride = game.menu.find_child("Ride_" + MOTHER, true, false) as Button
+	assert_true(ride != null and not ride.disabled, "offered in the city while open")
 	game.close_menu()
 	game.now_override += int(_spec()["open_minutes"]) * 60
 	game._show("travel", GameMenus.travel(game, npc))
@@ -183,7 +188,7 @@ func test_an_attempt_from_the_taxi_to_the_results() -> void:
 	assert_eq(game.menu_name, "world_boss", "the results, not the game-over")
 	assert_eq(game.profile.money, money, "no coins lost")
 	game._leave_world_boss()
-	assert_eq(game.zone.area_id, _content().start_area, "home again")
+	assert_eq(game.zone.area_id, _content().city_area, "back in the city")
 	assert_eq(game.profile.hp, game.profile.stats(_content())["max_hp"], "rested")
 	_done(game)
 
@@ -191,7 +196,7 @@ func test_an_attempt_from_the_taxi_to_the_results() -> void:
 func test_the_arena_cannot_be_walked_or_loaded_into() -> void:
 	var game := _game()
 	game.enter_area("great_drain", "west")
-	assert_eq(game.zone.area_id, _content().start_area, "only through an attempt")
+	assert_eq(game.zone.area_id, _content().city_area, "only through an attempt")
 	_done(game)
 
 
