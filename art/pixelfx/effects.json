@@ -1,0 +1,30 @@
+{
+  "source": {
+    "name": "pixelfx",
+    "repository": "https://github.com/patch-gg/pixelfx",
+    "commit": "a84159688af3ca37a4be05a0d422b94451b2e24e",
+    "render": "node tools/render.mjs <source ids> --sheet --no-actor --out <dir>"
+  },
+  "license": "MIT",
+  "copyright": [
+    "Copyright (c) 2026 Patch",
+    "Copyright (c) 2026 Hugo Duprez"
+  ],
+  "attribution": "Effects from pixelfx by Patch (github.com/patch-gg/pixelfx), MIT licence; its particle simulation adapts Sprite Fusion's pixel art VFX by Hugo Duprez (MIT) and its acting adapts Hollow Crown by rehan-remade (MIT).",
+  "effects": {
+    "hit": {"source": "impacts/hit-spark"},
+    "hit_heavy": {"source": "impacts/blunt-hit"},
+    "crit": {"source": "impacts/crit-hit"},
+    "block": {"source": "impacts/shield-block"},
+    "parry": {"source": "impacts/parry"},
+    "slam": {"source": "impacts/ground-slam", "stride": 2},
+    "uppercut": {"source": "melee/uppercut"},
+    "whirlwind": {"source": "melee/spin-slash"},
+    "heal": {"source": "holy/heal", "stride": 2},
+    "levelup": {"source": "holy/holy-pillar", "stride": 2},
+    "poof": {"source": "spawn/poof", "stride": 2},
+    "elite_flare": {"source": "arcane/blink-in"},
+    "boss_land": {"source": "impacts/heavy-landing", "stride": 2},
+    "phase_burst": {"source": "explosions/implosion", "stride": 2}
+  }
+}

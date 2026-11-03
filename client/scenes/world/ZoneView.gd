@@ -106,7 +106,7 @@ func _fade_out(gone: FighterView) -> void:
 	if not is_inside_tree() or gone.fighter == null or gone.fighter.id == ZoneSim.HERO_ID:
 		gone.queue_free()
 		return
-	Fx.spawn(effects, content, "dust", gone.position)
+	Fx.spawn(effects, content, "poof", gone.position)
 	var tween := gone.create_tween()
 	tween.tween_property(gone, "modulate:a", 0.0, 0.3)
 	tween.tween_callback(gone.queue_free)

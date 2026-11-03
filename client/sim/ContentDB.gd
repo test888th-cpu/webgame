@@ -66,6 +66,9 @@ var ui: Dictionary = {}
 ## Generated effects ({"sheet", "effects": {id: frames}}) and sounds
 ## ({"sounds": {id: path}}). Presentation only.
 var fx: Dictionary = {}
+## Who made the imported effects and under what licence (manifest
+## "fx_pixelfx" without its effects): the in-game credits show it.
+var fx_credits: Dictionary = {}
 var audio: Dictionary = {}
 ## Bundled fonts: {"thai": {"file", "license", ...}}.
 var fonts: Dictionary = {}
@@ -108,6 +111,14 @@ static func load_all(dir := DATA_DIR) -> ContentDB:
 	db.kit = manifest.get("kit", {})
 	db.ui = manifest.get("ui", {})
 	db.fx = manifest.get("fx", {})
+	# Effects from pixelfx (tools/assets/import_pixelfx.py) play over the
+	# generated ones with the same id; each names its own sheet.
+	db.fx_credits = manifest.get("fx_pixelfx", {}).duplicate()
+	db.fx_credits.erase("effects")
+	var imported: Dictionary = manifest.get("fx_pixelfx", {}).get("effects", {})
+	if not imported.is_empty():
+		db.fx = db.fx.duplicate(true)
+		db.fx["effects"].merge(imported, true)
 	db.audio = manifest.get("audio", {})
 	db.fonts = manifest.get("fonts", {})
 	db.validate()

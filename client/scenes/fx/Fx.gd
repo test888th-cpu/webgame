@@ -1,7 +1,8 @@
 class_name Fx
 extends RefCounted
-## Spawns the generated effect animations (tools/assets/gen_fx.py): hit
-## sparks, dust, skill trails, level-up light. Each plays once and frees
+## Spawns the effect animations: the generated ones (tools/assets/gen_fx.py)
+## and those imported from pixelfx (tools/assets/import_pixelfx.py, MIT):
+## hit sparks, dust, skill trails, level-up light. Each plays once and frees
 ## itself. Glows use additive blending so they light up the scene.
 
 ## The SpriteFrames, origins and additive material are built once and kept on
@@ -47,18 +48,30 @@ static func _library(content: ContentDB) -> Dictionary:
 	var additive := CanvasItemMaterial.new()
 	additive.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
 	var origins := {}
-	var sheet: Texture2D = load(str(content.fx.get("sheet", "")))
+	var sheets := {}
 	var effects: Dictionary = content.fx.get("effects", {})
 	for id: String in effects:
 		var effect: Dictionary = effects[id]
+		# A generated effect is one row of the shared sheet; an imported one
+		# (pixelfx) has its own sheet, `columns` frames wide.
+		var path := str(effect.get("sheet", content.fx.get("sheet", "")))
+		if not sheets.has(path):
+			sheets[path] = load(path)
+		var columns := int(effect.get("columns", 0))
+		var top := float(effect.get("y", 0))
 		var size := Vector2(effect["size"][0], effect["size"][1])
 		frames.add_animation(id)
 		frames.set_animation_loop(id, false)
 		frames.set_animation_speed(id, float(effect["fps"]))
 		for frame in int(effect["frames"]):
 			var atlas := AtlasTexture.new()
-			atlas.atlas = sheet
-			atlas.region = Rect2(Vector2(frame * size.x, effect["y"]), size)
+			atlas.atlas = sheets[path]
+			var cell := (
+				Vector2(frame, 0)
+				if columns <= 0
+				else Vector2(frame % columns, floori(frame / float(columns)))
+			)
+			atlas.region = Rect2(Vector2(cell.x * size.x, top + cell.y * size.y), size)
 			frames.add_frame(id, atlas)
 		origins[id] = Vector2(effect["origin"][0], effect["origin"][1])
 	GameSession.fx_library = {"frames": frames, "origins": origins, "additive": additive}

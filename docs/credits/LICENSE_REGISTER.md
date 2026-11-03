@@ -14,6 +14,7 @@ is uncertain, the licence text decides.
 | CC BY | 3.0 | 5 | <https://creativecommons.org/licenses/by/3.0/legalcode> | 5 recorded sounds |
 | CC BY | 4.0 | 5 | <https://creativecommons.org/licenses/by/4.0/legalcode> | the LPC spiked hair (4 enemies), 1 recorded sound |
 | MIT | — | 5 | [LICENSE](../../LICENSE) | the project's own generators: environment, effects, UI icons, synthesised sounds, training dummy |
+| MIT (third party) | — | 14 | [pixelfx LICENSE](../../client/assets/fx/pixelfx/LICENSE.txt), <https://github.com/patch-gg/pixelfx/blob/a84159688af3ca37a4be05a0d422b94451b2e24e/LICENSE> | combat effects from pixelfx by Patch (with work adapted from Hugo Duprez and rehan-remade, see its NOTICE) |
 | SIL OFL | 1.1 | 1 | [NotoSansThai-OFL.txt](../../client/assets/fonts/NotoSansThai-OFL.txt), <https://openfontlicense.org> | Noto Sans Thai font |
 | Proprietary (project owner) | — | 5 | none (the owner's own work) | the street kit and four painted enemies |
 
@@ -39,6 +40,14 @@ recipients exercising the licensed rights, including technological measures
 CC BY items are the ones to look at before shipping on a platform that applies
 DRM. `tools/assets/validate.py` already flags every recorded sound (CC BY and
 CC0 alike) "REPLACE BEFORE PAID FEATURES".
+
+**MIT (pixelfx).** The same obligation for third-party code and art: the
+notice (Copyright (c) 2026 Patch, Copyright (c) 2026 Hugo Duprez) ships as
+`client/assets/fx/pixelfx/LICENSE.txt` beside the sheets, is stored in the
+manifest (`fx_pixelfx.notice`) and is printed in the game's Credits, with
+pixelfx's NOTICE (the parts it adapts from Sprite Fusion and Hollow Crown).
+Its gallery font is not MIT and is not used. Verified at the source: the
+licence was read in the repository's own LICENSE at the pinned commit.
 
 **MIT.** Keep the copyright and permission notice ([LICENSE](../../LICENSE)) with
 copies of the software and substantial portions of it.

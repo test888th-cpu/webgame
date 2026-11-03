@@ -115,12 +115,13 @@ func _arrival(data: Dictionary) -> void:
 	var fighter := view.zone.fighter(int(data["id"]))
 	if fighter == null:
 		return
-	Fx.spawn(view.effects, content, "dust", fighter.position)
 	if data.get("elite", false):
-		Fx.spawn(view.effects, content, "levelup", fighter.position)
+		Fx.spawn(view.effects, content, "elite_flare", fighter.position)
 		Sfx.play("level_up", -10.0, 0.0, 0.7)
 	elif data.get("boss", false):
-		Fx.spawn(view.effects, content, "slam", fighter.position)
+		Fx.spawn(view.effects, content, "boss_land", fighter.position)
+	else:
+		Fx.spawn(view.effects, content, "poof", fighter.position)
 
 
 ## A boss entering a new phase flares red and throws out a shockwave, so the
@@ -129,8 +130,7 @@ func _phase_burst(id: int) -> void:
 	var boss := view.zone.fighter(id)
 	if boss == null:
 		return
-	Fx.spawn(view.effects, content, "slam", boss.position)
-	Fx.spawn(view.effects, content, "hit_heavy", boss.position + CHEST)
+	Fx.spawn(view.effects, content, "phase_burst", boss.position + CHEST)
 	var boss_view := view.view_of(id)
 	if boss_view:
 		boss_view.impact(Color(1.0, 0.35, 0.25), 0.35, 0.12)
@@ -179,8 +179,7 @@ func _on_hit(hit: CombatEvent) -> void:
 	if hit.parried:
 		# A crisp, bright clang and a beat of freeze on both fighters, so the
 		# timing that earned it registers.
-		Fx.spawn(view.effects, content, "block", at, side < 0)
-		Fx.spawn(view.effects, content, "hit", at)
+		Fx.spawn(view.effects, content, "parry", at, side < 0)
 		Sfx.play("hit_block", 0.0, 0.02, 1.45)
 		if defender:
 			defender.impact(Color(0.6, 1.0, 1.0), 0.15, 0.1)
@@ -189,8 +188,10 @@ func _on_hit(hit: CombatEvent) -> void:
 		return
 	if hit.blocked:
 		Sfx.play("guard_break" if hit.guard_broken else "hit_block", -2.0)
+		Fx.spawn(view.effects, content, "block", at, side < 0)
 	else:
-		Fx.spawn(view.effects, content, "hit_heavy" if heavy else "hit", at)
+		var spark := "crit" if hit.critical else ("hit_heavy" if heavy else "hit")
+		Fx.spawn(view.effects, content, spark, at, side < 0)
 		_impact_sound(hit, heavy)
 	var freeze := 0.09 if heavy else 0.05
 	if defender:

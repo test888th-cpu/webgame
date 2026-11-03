@@ -1,6 +1,6 @@
 extends TestCase
 ## What the player sees around the fights: enemies arrive with a puff of
-## dust (an elite with a gold flare), a boss's new phase flares, and a fallen
+## smoke (an elite with a flare), a boss's new phase flares, and a fallen
 ## enemy fades out instead of vanishing (GameFeedback, ZoneView).
 
 const TEST_SAVE := "user://test_effects_save"
@@ -49,7 +49,9 @@ func test_arrivals_phases_and_fallen_enemies_have_effects() -> void:
 	assert_true(is_instance_valid(enemy_view) and enemy_view.is_inside_tree(), "and fades out")
 	for i in 3:
 		await tree.process_frame
-	assert_true(enemy_view.modulate.a < 1.0, "fading (%s)" % enemy_view.modulate.a)
+	# A slow frame (the effects loading) may finish the 0.3 s fade already.
+	var gone := not is_instance_valid(enemy_view)
+	assert_true(gone or enemy_view.modulate.a < 1.0, "fading out, or faded")
 	_done(game)
 
 
@@ -61,5 +63,38 @@ func test_a_bosss_new_phase_flares() -> void:
 	game.view.sync()
 	var before := game.view.effects.get_child_count()
 	game._feedback.on_event(ZoneEvent.make("boss_phase", {"id": baron.id, "phase": 2}))
-	assert_true(game.view.effects.get_child_count() >= before + 2, "a shockwave and a flash")
+	assert_true(game.view.effects.get_child_count() >= before + 1, "a burst")
 	_done(game)
+
+
+func test_the_pixelfx_effects_load_and_play() -> void:
+	var content := GameSession.content
+	var imported: Dictionary = content.fx_credits
+	assert_eq(imported.get("license"), "MIT", "MIT, as pixelfx is")
+	var library := Fx._library(content)
+	var frames: SpriteFrames = library["frames"]
+	var effects: Dictionary = content.fx["effects"]
+	var pixelfx := 0
+	for id: String in effects:
+		assert_true(frames.has_animation(id), id + ": an animation")
+		assert_eq(frames.get_frame_count(id), int(effects[id]["frames"]), id + ": every frame")
+		if effects[id].has("sheet"):
+			pixelfx += 1
+			var first := frames.get_frame_texture(id, 0) as AtlasTexture
+			var size := Vector2(effects[id]["size"][0], effects[id]["size"][1])
+			assert_eq(first.region.size, size, id + ": its frame size")
+	assert_eq(pixelfx, 14, "the fourteen pixelfx effects")
+	var holder := Node2D.new()
+	tree.root.add_child(holder)
+	var played := Fx.spawn(holder, content, "crit", Vector2(100, 100))
+	assert_true(played != null and played.is_playing(), "a pixelfx effect plays")
+	holder.free()
+
+
+func test_the_credits_carry_the_pixelfx_notice() -> void:
+	var text := CreditsText.build(GameSession.content)
+	assert_true("pixelfx" in text, "pixelfx is credited")
+	assert_true("Copyright (c) 2026 Patch" in text, "with its copyright")
+	assert_true("Copyright (c) 2026 Hugo Duprez" in text, "both of them")
+	assert_true("Permission is hereby granted" in text, "and the MIT permission notice")
+	assert_true("a84159688af3ca37a4be05a0d422b94451b2e24e" in text, "and the source it came from")

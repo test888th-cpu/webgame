@@ -39,7 +39,9 @@ REPORT = ROOT / "docs" / "monster_art" / "LICENSE_AUDIT_REPORT.md"
 
 # The licences selected for monster art (owner decision, 2026-11-03).
 APPROVED = {"CC0", "OGA-BY 3.0", "OGA-BY 3.0+"}
-STATUSES = {"VERIFIED_CC0", "VERIFIED_OGA_BY_3.0", "UNVERIFIED", "REJECTED"}
+# VERIFIED_MIT: the licence read in the source repository's own LICENSE at
+# the pinned commit (the pixelfx effects).
+STATUSES = {"VERIFIED_CC0", "VERIFIED_OGA_BY_3.0", "VERIFIED_MIT", "UNVERIFIED", "REJECTED"}
 COLUMNS = [
     "Asset ID", "Asset Name", "Creator", "License", "License Version", "Original URL",
     "Source Repository", "Used In", "Asset File", "Attribution Text", "Verification Status",
@@ -154,6 +156,16 @@ def other_rows(manifest: dict) -> list[dict]:
                 "Source Repository": "this repository", "Used In": section, "Asset File": f"assets/{section}/",
                 "Attribution Text": licence, "Verification Status": "UNVERIFIED",
             })
+    pixelfx = manifest.get("fx_pixelfx", {})
+    for effect_id, entry in sorted(pixelfx.get("effects", {}).items()):
+        rows.append({
+            "Asset ID": f"fx:{effect_id}", "Asset Name": f"effect {effect_id} (pixelfx {entry['source']})",
+            "Creator": "; ".join(entry.get("authors", [])), "License": pixelfx.get("license", ""),
+            "License Version": "", "Original URL": pixelfx.get("repository", ""),
+            "Source Repository": f"{pixelfx.get('repository', '')} @ {pixelfx.get('commit', '')}",
+            "Used In": "combat effects", "Asset File": entry["sheet"].removeprefix("res://"),
+            "Attribution Text": pixelfx.get("attribution", ""), "Verification Status": "VERIFIED_MIT",
+        })
     synth = manifest.get("audio", {}).get("license", "")
     if synth:
         rows.append({
