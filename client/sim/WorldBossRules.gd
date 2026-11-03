@@ -2,17 +2,20 @@ class_name WorldBossRules
 extends RefCounted
 ## World bosses (world_boss.json): bosses far bigger than one fight, open on
 ## a clock for everyone at once. Each has its own schedule: every
-## "period_minutes", starting "offset_minutes" past the epoch's period, a
-## round opens for "open_minutes". The boss has one health pool per round,
-## sized for "players" players ("pool" times its usual health each), worn
-## down attempt by attempt ("attempt_seconds" each).
+## "period_minutes", starting "offset_minutes" past the epoch's period, the
+## boss rises for "open_minutes" (an hour): that is the time to bring it down.
+## The boss has one health pool per round, sized for "players" players
+## ("pool" times its usual health each), worn down by every attempt in the
+## round; an attempt lasts until the hero leaves or falls or the round ends.
+## A round that ends with the boss standing is lost: the boss escapes, its
+## next round starts at full health, and nobody is paid.
 ##
-## Rewards come two ways:
+## Rewards are paid only when the boss falls within the round, as for a
+## field boss in an MMO, to everyone who fought it:
 ## * personal tiers: shares of one player's part of the pool (the pool over
-##   "players"), each paid once per round, so a player who pulls their weight
-##   earns them all whatever the rest do;
-## * the kill ("kill"): paid to everyone who fought, once the whole pool falls
-##   within the round. A boss built for one player can fall to one player; a
+##   "players") each fighter dealt, so one who pulled their weight earns them
+##   all whatever the rest did;
+## * the kill ("kill"). A boss built for one player can fall to one player; a
 ##   boss built for ten needs ten, and its rarest drops come with the kill.
 ## Like a field boss in an MMO, each fights at its own fixed "level" with a
 ## fixed pool, whoever comes: it never scales to the hero and no level is
@@ -98,9 +101,10 @@ static func progress(profile: PlayerProfile, boss: String, round: int) -> Dictio
 
 
 ## Banks `dealt` damage against `boss` in round `round` (a pool of `total`;
-## `slain` when the pool fell), and pays every personal tier newly reached
-## and the kill, once: {"tiers": [tier indices], "kill": bool, "money": int,
-## "items": {item id: count}}. Money grows with the boss's level like other
+## `slain` when the pool fell). Only the kill pays: then every personal tier
+## the round's damage reached and the kill reward, once: {"tiers": [tier
+## indices], "kill": bool, "money": int, "items": {item id: count}} (empty
+## while the boss stands). Money grows with the boss's level like other
 ## loot; rare drops are rolled with `rng` (seeded by the caller).
 static func award(
 	profile: PlayerProfile,
@@ -117,6 +121,9 @@ static func award(
 	var state := progress(profile, boss, round)
 	state["dealt"] = mini(total, int(state["dealt"]) + maxi(0, dealt))
 	var paid := {"tiers": [], "kill": false, "money": 0, "items": {}}
+	state.erase("attempt")
+	if not slain or state.get("killed", false):
+		return paid
 	var scale := 1.0 + LevelRules.MONEY_PER_LEVEL * (level - 1)
 	var mine := part(content, boss, total)
 	var tiers: Array = data["tiers"]
@@ -127,14 +134,13 @@ static func award(
 		paid["tiers"].append(int(state["tiers"]))
 		_pay(paid, tier, scale, rng)
 		state["tiers"] = int(state["tiers"]) + 1
-	if slain and not state.get("killed", false) and data.has("kill"):
-		state["killed"] = true
+	state["killed"] = true
+	if data.has("kill"):
 		paid["kill"] = true
 		_pay(paid, data["kill"], scale, rng)
 	profile.money += int(paid["money"])
 	for item_id: String in paid["items"]:
 		profile.add_item(item_id, int(paid["items"][item_id]))
-	state.erase("attempt")
 	return paid
 
 
@@ -148,7 +154,8 @@ static func note_attempt(
 
 
 ## Banks every attempt that never finished (the tab closed, the game
-## crashed) as if it had ended there. Returns {boss id: what it paid}.
+## crashed) as if it had ended there: its damage counts for the rest of its
+## round, nothing is paid. Returns {boss id: what it paid}.
 static func settle(
 	profile: PlayerProfile, content: ContentDB, rng: RandomNumberGenerator
 ) -> Dictionary:

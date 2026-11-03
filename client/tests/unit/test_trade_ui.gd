@@ -34,11 +34,24 @@ func _settle() -> void:
 func _check_layout(root: Node, what: String) -> void:
 	for node in root.find_children("*", "Control", true, false):
 		var control: Control = node
+		if _scrolls(control):
+			# Inside a scroll box: a long card scrolls rather than fits.
+			continue
 		if control.is_visible_in_tree() and (control is Button or control is Label):
 			var rect := control.get_global_rect()
 			assert_true(
 				SCREEN.grow(1).encloses(rect), "%s: %s fits (%s)" % [what, control.name, rect]
 			)
+
+
+## True when `control` sits inside a ScrollContainer.
+func _scrolls(control: Control) -> bool:
+	var up := control.get_parent()
+	while up:
+		if up is ScrollContainer:
+			return true
+		up = up.get_parent()
+	return false
 
 
 func test_the_deal_bar_is_on_screen_for_every_ware() -> void:
@@ -100,7 +113,7 @@ func test_rare_gear_asks_before_it_is_sold() -> void:
 	game.content.items["brass_knuckles"]["rarity"] = "rare"
 	game.profile.add_item("brass_knuckles")
 	game.menu_focus = "sell:brass_knuckles"
-	game.open_shop({"name": "Kenji", "shop": "night_stall", "role": "shop"})
+	game.open_shop({"name": "Ama", "shop": "city_market", "role": "shop"})
 	await _settle()
 	var tabs := game.menu.find_child("Tabs", true, false) as TabContainer
 	assert_eq(tabs.current_tab, 1, "opens on Sell")

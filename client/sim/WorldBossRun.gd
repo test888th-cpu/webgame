@@ -2,8 +2,8 @@ class_name WorldBossRun
 extends RefCounted
 ## One attempt at a world boss (WorldBossRules) in its arena zone: sets the
 ## arena to the boss's level for this hero, gives the boss the round's pool (what is
-## left of it), counts the damage the hero deals to it, and ends when time
-## runs out, the boss falls or the hero does. Pure: the zone is passed in on
+## left of it), counts the damage the hero deals to it, and ends when the
+## round's hour runs out, the boss falls, the hero does or leaves. Pure: the zone is passed in on
 ## every call, never kept.
 
 ## Why it ended ("" while running): "time", "slain", "down" or "left".
@@ -22,7 +22,12 @@ var _remaining := 0
 
 
 func _init(
-	zone: ZoneSim, profile: PlayerProfile, content: ContentDB, p_boss: String, p_round: int
+	zone: ZoneSim,
+	profile: PlayerProfile,
+	content: ContentDB,
+	p_boss: String,
+	p_round: int,
+	now: int
 ) -> void:
 	boss = p_boss
 	round = p_round
@@ -30,8 +35,9 @@ func _init(
 	total = WorldBossRules.pool(content, boss)
 	var state := WorldBossRules.progress(profile, boss, round)
 	_remaining = maxi(1, total - int(state["dealt"]))
-	var seconds := int(WorldBossRules.spec(content, boss)["attempt_seconds"])
-	ticks_left = seconds * CombatRules.TICK_RATE
+	# Until the round ends: the boss stays up for its hour, then escapes.
+	var seconds := int(WorldBossRules.window(content, boss, now)["closes_at"]) - now
+	ticks_left = maxi(1, seconds) * CombatRules.TICK_RATE
 	# The arena takes the boss's level, so its brood fights at its side.
 	zone.level = level - LevelRules.BOSS_BONUS
 

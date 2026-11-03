@@ -4218,8 +4218,9 @@
           "x": 200,
           "y": 262,
           "color": "#e07020",
-          "line": "Every route in the city starts here. Ten coins, anywhere you've been.",
-          "sprite": "npc_win"
+          "line": "Story routes only: anywhere on the street you've been. Ten coins. For the outskirts, ask Uncle Thong.",
+          "sprite": "npc_win",
+          "routes": "story"
         },
         {
           "id": "city_notice_board",
@@ -4239,88 +4240,34 @@
           "id": "vendor_ama",
           "name": "Ama",
           "role": "shop",
-          "shop": "depot_stall",
+          "shop": "city_market",
           "x": 520,
           "y": 262,
           "color": "#c0576b",
-          "line": "Buns, tea, gear. Coin first, questions later. I moved my stall up here where it's safe.",
+          "line": "Everything the street sells, under one roof.",
           "sprite": "npc_ama"
-        },
-        {
-          "id": "vendor_kenji",
-          "name": "Kenji",
-          "role": "shop",
-          "shop": "night_stall",
-          "x": 600,
-          "y": 262,
-          "color": "#d0a050",
-          "line": "Fresh gear for the long night. Better than what Ama sells, and priced like it.",
-          "sprite": "npc_kenji"
-        },
-        {
-          "id": "vendor_noi",
-          "name": "Noi",
-          "role": "shop",
-          "shop": "port_canteen",
-          "x": 680,
-          "y": 262,
-          "color": "#d07090",
-          "line": "Rice, tea and whatever the crews leave behind. Port prices.",
-          "sprite": "npc_noi"
-        },
-        {
-          "id": "vendor_jum",
-          "name": "Aunt Jum",
-          "role": "shop",
-          "shop": "jum_cart",
-          "x": 760,
-          "y": 262,
-          "color": "#60a060",
-          "line": "Night shift eats here. So do the guards. I don't ask.",
-          "sprite": "npc_jum"
-        },
-        {
-          "id": "vendor_thong",
-          "name": "Uncle Thong",
-          "role": "shop",
-          "shop": "thong_stall",
-          "x": 840,
-          "y": 262,
-          "color": "#5a6a8a",
-          "line": "Thirty years watching these doors. I sell what fell off the trucks.",
-          "sprite": "npc_thong"
-        },
-        {
-          "id": "vendor_lek",
-          "name": "Lek",
-          "role": "shop",
-          "shop": "lek_lab_cart",
-          "x": 920,
-          "y": 262,
-          "color": "#c0c8e0",
-          "line": "I washed their glassware for two years. They let me go. I kept the keys.",
-          "sprite": "npc_lek"
-        },
-        {
-          "id": "ama_supply_crates",
-          "name": "Ama's Supply Crates",
-          "role": "shop",
-          "shop": "ama_supply",
-          "piece": "crates",
-          "x": 1000,
-          "y": 262,
-          "color": "#c0576b",
-          "line": "Ama's crates for the last push: the best food and gear she could carry. Take what you need."
         },
         {
           "id": "city_workbench",
           "name": "Workbench",
           "role": "workbench",
           "piece": "crates",
-          "x": 1080,
+          "x": 700,
           "y": 262,
           "color": "#b08850",
           "line": "Scrap, alloy and coins in, a better piece out. Pick worn gear to upgrade it."
+        },
+        {
+          "id": "thong_truck_city",
+          "name": "Uncle Thong",
+          "role": "travel",
+          "routes": "field",
+          "fare": 10,
+          "x": 900,
+          "y": 262,
+          "color": "#5a6a8a",
+          "line": "My truck goes where the street doesn't: the farming grounds and whatever crawls out of the drains. Ten coins.",
+          "sprite": "npc_thong"
         }
       ],
       "placed": [

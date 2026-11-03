@@ -66,6 +66,14 @@ func _rides(menu: Control) -> Array[String]:
 	return out
 
 
+## Uncle Thong's truck in the city: the farming grounds' and world bosses' rides.
+func _truck(game: Game) -> Dictionary:
+	for npc: Dictionary in game.content.area("main_city")["npcs"]:
+		if npc.get("routes") == "field":
+			return npc
+	return {}
+
+
 func test_kinds_and_regions_come_from_the_existing_data() -> void:
 	var c := _content()
 	assert_eq(c.errors, PackedStringArray(), "the shipped data validates")
@@ -196,8 +204,8 @@ func test_the_validator_keeps_grounds_off_the_street_and_one_way() -> void:
 func test_wins_taxi_shows_farming_only_once_a_ground_is_open() -> void:
 	var game := _game()
 	game.profile.money = 100
-	var win: Dictionary = game.content.area("main_city")["npcs"][0]
-	assert_eq(str(win["role"]), "travel", "Win in the city")
+	var win := _truck(game)
+	assert_eq(str(win["role"]), "travel", "Uncle Thong's truck in the city")
 	game.enter_area("main_city", "west")
 	game._show("travel", GameMenus.travel(game, win))
 	assert_true(game.menu.find_child("Heading_Farming", true, false) == null, "no Farming yet")

@@ -26,7 +26,7 @@ func _gear() -> Dictionary:
 func _best_in_shops(slot: String, level: int) -> float:
 	var best := 0.0
 	for shop_id: String in _content().shops:
-		for item_id: Variant in _content().shops[shop_id].get("items", []):
+		for item_id: Variant in ShopRules.all_items(_content().shops[shop_id]):
 			var item := _content().item(str(item_id))
 			if item.get("slot") == slot and int(item.get("level", 1)) <= level:
 				best = maxf(best, ItemRules.score(item))
@@ -71,14 +71,14 @@ func test_grades_step_up_in_order() -> void:
 
 func test_shops_sell_only_common_and_uncommon() -> void:
 	for shop_id: String in _content().shops:
-		for item_id: Variant in _content().shops[shop_id].get("items", []):
+		for item_id: Variant in ShopRules.all_items(_content().shops[shop_id]):
 			var item := _content().item(str(item_id))
 			if item.get("type") == "equipment":
 				assert_true(
 					item.get("rarity") in ItemRules.SHOP_GRADES, "%s sells %s" % [shop_id, item_id]
 				)
 	var copy := ContentDB.load_all()
-	copy.shops["depot_stall"]["items"].append("harbour_hook")
+	copy.shops["city_market"]["items"].append("harbour_hook")
 	copy.errors.clear()
 	copy.validate()
 	assert_true("sells harbour_hook" in "\n".join(copy.errors), "a shop selling a boss prize")

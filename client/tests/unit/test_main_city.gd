@@ -16,6 +16,7 @@ const ROAD_Y := 300.0
 ## The city's services: npc id -> [role, the menu E opens].
 const SERVICES := {
 	"taxi_win_city": ["travel", "travel"],
+	"thong_truck_city": ["travel", "travel"],
 	"city_notice_board": ["board", "board"],
 	"vendor_ama": ["shop", "shop"],
 	"city_workbench": ["workbench", "bag"],
@@ -262,8 +263,9 @@ func test_only_the_city_has_merchants_and_a_taxi() -> void:
 	var roles := {}
 	for npc: Dictionary in _city()["npcs"]:
 		roles[npc["role"]] = int(roles.get(npc["role"], 0)) + 1
-	assert_eq(int(roles.get("travel", 0)), 1, "Win's rank")
-	assert_eq(int(roles.get("shop", 0)), _content().shops.size(), "every merchant has a stall")
+	assert_eq(int(roles.get("travel", 0)), 2, "Win's story rank and Uncle Thong's truck")
+	assert_eq(int(roles.get("shop", 0)), 1, "one merchant: Ama's Market")
+	assert_eq(_content().shops.keys(), ["city_market"], "selling every trader's wares")
 	var game := _game()
 	game.profile.money = 1000
 	for area_id in StreetMemory.street(game.content):
@@ -275,7 +277,7 @@ func test_only_the_city_has_merchants_and_a_taxi() -> void:
 	_done(game)
 
 
-func test_wins_city_rank_rides_everywhere_reached_and_fits_small_screens() -> void:
+func test_the_two_taxis_keep_to_their_own_routes_and_fit_small_screens() -> void:
 	var game := _game()
 	game._go_to_city()
 	for area_id in StreetMemory.street(game.content):
@@ -284,14 +286,23 @@ func test_wins_city_rank_rides_everywhere_reached_and_fits_small_screens() -> vo
 		game.profile.defeated[str(WorldBossRules.spec(game.content, boss)["unlock"])] = 1
 	game.profile.money = 100
 	game._show("travel", GameMenus.travel(game, _npc("taxi_win_city")))
-	var expected: Array[String] = StreetMemory.street(game.content)
-	expected.append_array(game.content.world_bosses.keys())
-	# Every boss is down too, so every farming ground is open.
-	expected.append_array(AreaRules.farms(game.content))
-	expected.sort()
-	assert_eq(_rides(game.menu), expected, "every area reached and every world boss")
+	var story: Array[String] = StreetMemory.street(game.content)
+	story.sort()
+	assert_eq(_rides(game.menu), story, "Win: every story area reached, nothing else")
 	for district in MapRules.districts(game.content):
 		var heading := "Heading_" + str(district["name"]).validate_node_name()
+		assert_true(game.menu.find_child(heading, true, false) != null, heading)
+	assert_true(game.menu.find_child("Heading_Farming", true, false) == null, "no farming")
+	await _settle()
+	_check_layout(game.menu, "story taxi at 640x360")
+	game.close_menu()
+	game._show("travel", GameMenus.travel(game, _npc("thong_truck_city")))
+	# Every boss is down too, so every farming ground is open.
+	var field: Array[String] = AreaRules.farms(game.content)
+	field.append_array(game.content.world_bosses.keys())
+	field.sort()
+	assert_eq(_rides(game.menu), field, "Uncle Thong: the grounds and the world bosses only")
+	for heading in ["Heading_Farming", "Heading_World Bosses"]:
 		assert_true(game.menu.find_child(heading, true, false) != null, heading)
 	await _settle()
 	_check_layout(game.menu, "taxi at 640x360")
@@ -429,22 +440,33 @@ func test_every_service_opens_what_it_says() -> void:
 	_done(game)
 
 
-func test_the_market_opens_each_merchant_with_their_chapter() -> void:
+func test_the_market_gets_each_traders_stock_with_their_chapter() -> void:
 	var game := _game()
 	game._go_to_city()
 	game.profile.money = 50
 	var price := int(game.content.item("steamed_bun")["price"])
 	game._buy(_npc("vendor_ama"), "steamed_bun")
-	assert_eq(game.profile.money, 50 - price, "Ama's stall is open from the start")
+	assert_eq(game.profile.money, 50 - price, "Ama's Market is open from the start")
 	assert_eq(game.profile.count("steamed_bun"), 4, "bought one (3 in the starter kit)")
-	for npc: Dictionary in _city()["npcs"]:
-		if npc["role"] != "shop" or npc["id"] == "vendor_ama":
+	var market: Dictionary = game.content.shops["city_market"]
+	var before := ShopRules.wares(game.profile, game.content, "city_market")
+	for stock: Dictionary in market["stock"]:
+		var fresh := ""
+		for item_id: String in stock["items"]:
+			if item_id not in ShopRules.wares(game.profile, game.content, "city_market"):
+				fresh = item_id
+		if fresh == "":
 			continue
-		var shop := str(npc["shop"])
-		assert_true(not ShopRules.is_open(game.profile, game.content, shop), shop + ": closed")
-		assert_eq(ShopRules.buy(game.profile, shop, "steamed_bun", game.content), "closed", shop)
-		StreetMemory.visit(game.profile, str(game.content.shops[shop]["unlock"]["reached"]))
-		assert_true(ShopRules.is_open(game.profile, game.content, shop), shop + ": opens")
+		game.profile.money = 100000
+		var text := ShopRules.next_stock(game.profile, game.content, "city_market")
+		assert_true(text.begins_with(str(stock["from"])), "the next stock is named: " + text)
+		var refused := ShopRules.buy(game.profile, "city_market", fresh, game.content)
+		assert_eq(refused, "not_sold", fresh + ": not before its chapter")
+		StreetMemory.visit(game.profile, str(stock["reached"]))
+		assert_eq(ShopRules.buy(game.profile, "city_market", fresh, game.content), "", fresh)
+	var after := ShopRules.wares(game.profile, game.content, "city_market")
+	assert_true(after.size() > before.size(), "the whole street's wares by the end")
+	assert_eq(ShopRules.next_stock(game.profile, game.content, "city_market"), "", "all in")
 	_done(game)
 
 

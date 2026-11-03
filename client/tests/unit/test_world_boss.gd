@@ -26,6 +26,11 @@ func _period(boss := MOTHER) -> int:
 	return int(_spec(boss)["period_minutes"]) * 60
 
 
+## A Unix time a minute into `boss`'s round `round`, while it is up.
+func _during(round: int, boss := MOTHER) -> int:
+	return round * _period(boss) + int(_spec(boss).get("offset_minutes", 0)) * 60 + 60
+
+
 func _hero(level := 30) -> PlayerProfile:
 	var profile := PlayerProfile.new_game(_content())
 	profile.level = level
@@ -87,38 +92,38 @@ func test_a_world_boss_is_the_same_for_everyone() -> void:
 		assert_eq(level, int(_spec(boss)["level"]), "%s at its own level" % boss)
 		var zone_low := ZoneSim.new(_content(), _hero(10), "depot_yard", "", 1)
 		var zone_high := ZoneSim.new(_content(), _hero(50), "depot_yard", "", 1)
-		var low := WorldBossRun.new(zone_low, _hero(10), _content(), boss, 1)
-		var high := WorldBossRun.new(zone_high, _hero(50), _content(), boss, 1)
+		var low := WorldBossRun.new(zone_low, _hero(10), _content(), boss, 1, _during(1, boss))
+		var high := WorldBossRun.new(zone_high, _hero(50), _content(), boss, 1, _during(1, boss))
 		assert_eq(low.level, high.level, "%s: the same level for a rookie and a veteran" % boss)
 		assert_eq(low.total, high.total, "%s: and the same pool" % boss)
 	assert_eq(WorldBossRules.level(_content(), MOTHER), 32, "the Mother is level 32")
 
 
-func test_tiers_pay_once_per_round_and_reset_next_round() -> void:
+func test_only_the_kill_pays_and_an_escape_pays_nothing() -> void:
 	var profile := _hero()
 	var total := 10000
 	var tiers: Array = _spec()["tiers"]
-	# Tiers are shares of one player's part of the pool.
-	var part := WorldBossRules.part(_content(), MOTHER, total)
-	var first := ceili(part * float(tiers[0]["share"]))
 	var money := profile.money
-	var paid := WorldBossRules.award(profile, _content(), MOTHER, 7, first - 1, total, 30, _rng())
-	assert_true(paid["tiers"].is_empty(), "short of the first tier: nothing")
-	paid = WorldBossRules.award(profile, _content(), MOTHER, 7, 1, total, 30, _rng())
-	assert_eq(paid["tiers"], [0], "the first tier, once reached")
-	assert_true(profile.money > money, "paid")
-	paid = WorldBossRules.award(profile, _content(), MOTHER, 7, 0, total, 30, _rng())
-	assert_true(paid["tiers"].is_empty(), "never twice in a round")
-	paid = WorldBossRules.award(profile, _content(), MOTHER, 8, total, total, 30, _rng())
-	assert_eq(paid["tiers"].size(), tiers.size(), "a new round, the whole pool: every tier")
-	assert_eq(int(profile.world_boss[MOTHER]["dealt"]), total, "never more than the pool")
+	var paid := WorldBossRules.award(profile, _content(), MOTHER, 7, total / 2, total, 30, _rng())
+	assert_true(paid["tiers"].is_empty() and not paid["kill"], "half the pool down: nothing yet")
+	assert_eq(profile.money, money, "no coins while it stands")
+	assert_eq(int(profile.world_boss[MOTHER]["dealt"]), total / 2, "but the damage counts")
+	paid = WorldBossRules.award(profile, _content(), MOTHER, 7, total / 2, total, 30, _rng(), true)
+	assert_eq(paid["tiers"].size(), tiers.size(), "it falls: every tier the round's damage reached")
+	assert_true(paid["kill"] and profile.money > money, "and the kill")
+	paid = WorldBossRules.award(profile, _content(), MOTHER, 7, 0, total, 30, _rng(), true)
+	assert_true(paid["tiers"].is_empty() and not paid["kill"], "never twice in a round")
+	paid = WorldBossRules.award(profile, _content(), MOTHER, 8, total - 1, total, 30, _rng())
+	assert_true(paid["tiers"].is_empty(), "next round, all but the last blow: nothing")
+	var fresh := WorldBossRules.progress(profile, MOTHER, 9)
+	assert_eq(int(fresh["dealt"]), 0, "it got away: the round after starts at full health")
 
 
 func test_an_attempt_fights_the_rounds_pool() -> void:
 	var profile := _hero()
 	var zone := ZoneSim.new(_content(), profile, "great_drain", "west", 3)
 	WorldBossRules.progress(profile, MOTHER, 5)["dealt"] = 1000
-	var run := WorldBossRun.new(zone, profile, _content(), MOTHER, 5)
+	var run := WorldBossRun.new(zone, profile, _content(), MOTHER, 5, _during(5))
 	assert_eq(zone.level + LevelRules.BOSS_BONUS, run.level, "the arena at the boss's level")
 	for tick in 120:
 		zone.hero.position.x = 200
@@ -129,29 +134,39 @@ func test_an_attempt_fights_the_rounds_pool() -> void:
 	assert_eq(mother.hp, run.total - 1000, "less what was dealt before")
 
 
-func test_the_attempt_ends_on_the_clock() -> void:
+func test_the_fight_lasts_until_the_hour_is_up() -> void:
 	var profile := _hero()
 	var zone := ZoneSim.new(_content(), profile, "great_drain", "west", 3)
-	var run := WorldBossRun.new(zone, profile, _content(), MOTHER, 5)
+	var closes := int(WorldBossRules.window(_content(), MOTHER, _during(5))["closes_at"])
+	var early := WorldBossRun.new(zone, profile, _content(), MOTHER, 5, _during(5))
+	var hour := int(_spec()["open_minutes"]) * 60
+	assert_eq(early.seconds_left(), hour - 60, "a minute in: the rest of the hour to fight")
+	var run := WorldBossRun.new(zone, profile, _content(), MOTHER, 5, closes - 5)
 	zone.hero.max_hp = 1000000
 	zone.hero.hp = 1000000
-	var limit := int(_spec()["attempt_seconds"]) * CombatRules.TICK_RATE
+	var limit := 5 * CombatRules.TICK_RATE
 	for tick in limit + 300:
 		zone.hero.position.x = 200
 		run.tick(zone, zone.tick(FighterInput.new()))
 		if run.ended:
 			break
-	assert_eq(run.ended, "time", "time's up")
+	assert_eq(run.ended, "time", "the hour is up: it gets away")
 
 
 func test_win_rides_there_only_while_it_is_open() -> void:
 	var game := _game()
 	game.profile.defeated[str(_spec()["unlock"])] = 1
 	game.profile.money = 100
-	var npc := {"name": "Win", "role": "travel", "fare": 10, "sprite": "npc_win"}
+	var npc := {"name": "Uncle Thong", "role": "travel", "routes": "field", "fare": 10}
 	game._show("travel", GameMenus.travel(game, npc))
 	var ride := game.menu.find_child("Ride_" + MOTHER, true, false) as Button
-	assert_true(ride == null, "never from the story's taxis")
+	assert_true(ride == null, "never out of the story")
+	game.close_menu()
+	var win := {"name": "Win", "role": "travel", "routes": "story", "fare": 10}
+	game.enter_area(_content().city_area, "west")
+	game._show("travel", GameMenus.travel(game, win))
+	ride = game.menu.find_child("Ride_" + MOTHER, true, false) as Button
+	assert_true(ride == null, "nor from Win's story rank")
 	game.close_menu()
 	game.enter_area(_content().city_area, "west")
 	game._show("travel", GameMenus.travel(game, npc))
@@ -255,7 +270,7 @@ func test_subject_zero_rises_once_a_day_in_the_evening() -> void:
 	assert_true(WorldBossRules.window(_content(), "subject_zero", opens + 60)["open"], "open")
 
 
-func test_a_group_boss_pays_tiers_by_ones_part_and_the_kill_once() -> void:
+func test_a_group_boss_pays_by_ones_part_when_it_falls_once() -> void:
 	var profile := _hero(50)
 	var boss := "iron_colossus"
 	var players := int(_spec(boss)["players"])
@@ -263,10 +278,10 @@ func test_a_group_boss_pays_tiers_by_ones_part_and_the_kill_once() -> void:
 	var part := WorldBossRules.part(_content(), boss, total)
 	assert_eq(part, total / players, "one player's part of the pool")
 	var paid := WorldBossRules.award(profile, _content(), boss, 3, part, total, 52, _rng())
-	assert_eq(paid["tiers"].size(), _spec(boss)["tiers"].size(), "a full part: every tier")
-	assert_true(not paid["kill"], "but the boss still stands")
+	assert_true(paid["tiers"].is_empty(), "a full part, the boss standing: nothing yet")
 	paid = WorldBossRules.award(profile, _content(), boss, 3, 0, total, 52, _rng(), true)
-	assert_true(paid["kill"], "the kill when the pool falls")
+	assert_eq(paid["tiers"].size(), _spec(boss)["tiers"].size(), "it falls: a full part's tiers")
+	assert_true(paid["kill"], "and the kill")
 	paid = WorldBossRules.award(profile, _content(), boss, 3, 0, total, 52, _rng(), true)
 	assert_true(not paid["kill"], "once a round")
 

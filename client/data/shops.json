@@ -1,7 +1,7 @@
 {
   "shops": {
-    "depot_stall": {
-      "name": "Ama's Stall",
+    "city_market": {
+      "name": "Ama's Market",
       "items": [
         "steamed_bun",
         "ginger_tea",
@@ -16,143 +16,133 @@
         "hard_hat",
         "steel_toe_boots",
         "scrap_metal"
+      ],
+      "stock": [
+        {
+          "reached": "night_market",
+          "from": "Kenji",
+          "items": [
+            "steamed_bun",
+            "ginger_tea",
+            "rice_box",
+            "hard_hat",
+            "steel_toe_boots",
+            "riveted_jacket",
+            "street_runners",
+            "brass_knuckles",
+            "iron_helm",
+            "scrap_metal",
+            "refined_alloy"
+          ]
+        },
+        {
+          "reached": "port_road",
+          "from": "Noi",
+          "items": [
+            "steamed_bun",
+            "ginger_tea",
+            "rice_box",
+            "iron_helm",
+            "riveted_jacket",
+            "street_runners",
+            "dockers_cap",
+            "port_jacket",
+            "cargo_gloves",
+            "deck_boots",
+            "dock_hook",
+            "scrap_metal",
+            "refined_alloy"
+          ]
+        },
+        {
+          "reached": "factory_gate",
+          "from": "Aunt Jum",
+          "items": [
+            "steamed_bun",
+            "ginger_tea",
+            "rice_box",
+            "herbal_tonic",
+            "dockers_cap",
+            "port_jacket",
+            "cargo_gloves",
+            "deck_boots",
+            "hazmat_hood",
+            "plant_vest",
+            "insulated_gloves",
+            "lab_boots",
+            "dock_hook",
+            "shock_baton",
+            "scrap_metal",
+            "refined_alloy"
+          ]
+        },
+        {
+          "reached": "warehouse_row",
+          "from": "Uncle Thong",
+          "items": [
+            "steamed_bun",
+            "ginger_tea",
+            "rice_box",
+            "herbal_tonic",
+            "hazmat_hood",
+            "plant_vest",
+            "insulated_gloves",
+            "lab_boots",
+            "watch_cap",
+            "kevlar_jacket",
+            "fight_gloves",
+            "runner_sneakers",
+            "shock_baton",
+            "weighted_knuckles",
+            "scrap_metal",
+            "refined_alloy"
+          ]
+        },
+        {
+          "reached": "facility_gate",
+          "from": "Lek",
+          "items": [
+            "steamed_bun",
+            "ginger_tea",
+            "rice_box",
+            "herbal_tonic",
+            "watch_cap",
+            "kevlar_jacket",
+            "fight_gloves",
+            "runner_sneakers",
+            "facility_helmet",
+            "trooper_vest",
+            "grip_gloves",
+            "facility_boots",
+            "weighted_knuckles",
+            "riot_baton",
+            "scrap_metal",
+            "refined_alloy"
+          ]
+        },
+        {
+          "reached": "core_approach",
+          "from": "Ama's supply run",
+          "items": [
+            "steamed_bun",
+            "ginger_tea",
+            "rice_box",
+            "herbal_tonic",
+            "facility_helmet",
+            "trooper_vest",
+            "grip_gloves",
+            "facility_boots",
+            "core_guard_helm",
+            "reactor_plate",
+            "insulated_gauntlets",
+            "walkway_boots",
+            "riot_baton",
+            "alloy_knuckles",
+            "scrap_metal",
+            "refined_alloy"
+          ]
+        }
       ]
-    },
-    "night_stall": {
-      "name": "Kenji's Night Stall",
-      "items": [
-        "steamed_bun",
-        "ginger_tea",
-        "rice_box",
-        "hard_hat",
-        "steel_toe_boots",
-        "riveted_jacket",
-        "street_runners",
-        "brass_knuckles",
-        "iron_helm",
-        "scrap_metal",
-        "refined_alloy"
-      ],
-      "unlock": {
-        "reached": "night_market"
-      }
-    },
-    "port_canteen": {
-      "name": "Noi's Canteen",
-      "items": [
-        "steamed_bun",
-        "ginger_tea",
-        "rice_box",
-        "iron_helm",
-        "riveted_jacket",
-        "street_runners",
-        "dockers_cap",
-        "port_jacket",
-        "cargo_gloves",
-        "deck_boots",
-        "dock_hook",
-        "scrap_metal",
-        "refined_alloy"
-      ],
-      "unlock": {
-        "reached": "port_road"
-      }
-    },
-    "jum_cart": {
-      "name": "Aunt Jum's Cart",
-      "items": [
-        "steamed_bun",
-        "ginger_tea",
-        "rice_box",
-        "herbal_tonic",
-        "dockers_cap",
-        "port_jacket",
-        "cargo_gloves",
-        "deck_boots",
-        "hazmat_hood",
-        "plant_vest",
-        "insulated_gloves",
-        "lab_boots",
-        "dock_hook",
-        "shock_baton",
-        "scrap_metal",
-        "refined_alloy"
-      ],
-      "unlock": {
-        "reached": "factory_gate"
-      }
-    },
-    "thong_stall": {
-      "name": "Uncle Thong's Stall",
-      "items": [
-        "steamed_bun",
-        "ginger_tea",
-        "rice_box",
-        "herbal_tonic",
-        "hazmat_hood",
-        "plant_vest",
-        "insulated_gloves",
-        "lab_boots",
-        "watch_cap",
-        "kevlar_jacket",
-        "fight_gloves",
-        "runner_sneakers",
-        "shock_baton",
-        "weighted_knuckles",
-        "scrap_metal",
-        "refined_alloy"
-      ],
-      "unlock": {
-        "reached": "warehouse_row"
-      }
-    },
-    "lek_lab_cart": {
-      "name": "Lek's Supply Cart",
-      "items": [
-        "steamed_bun",
-        "ginger_tea",
-        "rice_box",
-        "herbal_tonic",
-        "watch_cap",
-        "kevlar_jacket",
-        "fight_gloves",
-        "runner_sneakers",
-        "facility_helmet",
-        "trooper_vest",
-        "grip_gloves",
-        "facility_boots",
-        "weighted_knuckles",
-        "riot_baton",
-        "scrap_metal",
-        "refined_alloy"
-      ],
-      "unlock": {
-        "reached": "facility_gate"
-      }
-    },
-    "ama_supply": {
-      "name": "Ama's Supply Run",
-      "items": [
-        "steamed_bun",
-        "ginger_tea",
-        "rice_box",
-        "herbal_tonic",
-        "facility_helmet",
-        "trooper_vest",
-        "grip_gloves",
-        "facility_boots",
-        "core_guard_helm",
-        "reactor_plate",
-        "insulated_gauntlets",
-        "walkway_boots",
-        "riot_baton",
-        "alloy_knuckles",
-        "scrap_metal",
-        "refined_alloy"
-      ],
-      "unlock": {
-        "reached": "core_approach"
-      }
     }
   }
 }

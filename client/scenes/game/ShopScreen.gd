@@ -71,7 +71,7 @@ static func _page(game: Game, npc: Dictionary, mode: String, chosen: String) -> 
 	var page := HBoxContainer.new()
 	page.name = "Buy" if mode == "buy" else "Sell"
 	page.add_theme_constant_override("separation", UiTheme.PAD)
-	var ids: Array = content.shops[npc["shop"]]["items"] if mode == "buy" else []
+	var ids: Array = ShopRules.wares(profile, content, str(npc["shop"])) if mode == "buy" else []
 	if mode == "sell":
 		ids = sellable(content, profile)
 	if ids.is_empty():
@@ -107,13 +107,25 @@ static func _page(game: Game, npc: Dictionary, mode: String, chosen: String) -> 
 		list.set_item_custom_fg_color(i, UiTheme.TEXT_FAINT if dim else ItemText.rarity_color(item))
 		if ids[i] == chosen:
 			selected = i
-	var show := func(index: int) -> void: _deal(game, npc, detail, mode, ids[index])
+	var next := ShopRules.next_stock(profile, content, str(npc["shop"]))
+	if mode == "buy" and next:
+		# The next trader's stock, as the list's last, unselectable row.
+		var row := list.add_item(next, null, false)
+		list.set_item_custom_fg_color(row, UiTheme.TEAL)
+		list.set_item_tooltip(row, next)
+	var show := func(index: int) -> void:
+		if index < ids.size():
+			_deal(game, npc, detail, mode, ids[index])
 	list.item_selected.connect(
 		func(index: int) -> void:
 			Sfx.play("ui_move", -6.0)
 			show.call(index)
 	)
-	list.item_activated.connect(func(index: int) -> void: _trade(game, npc, mode, ids[index], 1))
+	list.item_activated.connect(
+		func(index: int) -> void:
+			if index < ids.size():
+				_trade(game, npc, mode, ids[index], 1)
+	)
 	list.gui_input.connect(
 		func(event: InputEvent) -> void:
 			for dir: String in ["ui_left", "ui_right"]:

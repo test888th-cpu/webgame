@@ -30,7 +30,7 @@ func test_it_eats_the_smallest_food_that_fills_the_gap() -> void:
 
 
 func test_it_shops_for_food_sized_to_the_hero() -> void:
-	var sold: Array = _content().shops["depot_stall"]["items"]
+	var sold: Array = _content().shops["city_market"]["items"]
 	var rookie: String = FoodRules.shopping_list(_content(), sold, 110)[0]
 	var veteran: String = FoodRules.shopping_list(_content(), sold, 420)[0]
 	assert_eq(rookie, "steamed_bun", "a new hero buys buns")

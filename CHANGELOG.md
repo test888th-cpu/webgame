@@ -4,6 +4,41 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed: one merchant, two taxis, a world boss hour, armed bosses
+- **One merchant in the city: Ama's Market** (`shops.json` `city_market`, `ShopRules`):
+  - Every stall's wares are sold in one list: food first, then gear by level
+    (`ShopRules.wares`).
+  - The other traders' stock still arrives with their chapter (`"stock"`:
+    `{"reached", "from", "items"}`). The list's last row says whose stock comes next and
+    where ("Kenji brings new stock once you reach Night Market.").
+  - Kenji's, Noi's, Aunt Jum's, Uncle Thong's and Lek's stalls and Ama's crates are gone
+    from the market. Validation of shops moved to `ShopRules.problems`.
+- **Two taxis, each with its own menu** (`"routes"` on a travel NPC):
+  - Win (`"story"`) rides only to the story's areas.
+  - Uncle Thong's truck (`"field"`, new in the city) rides only to the farming grounds
+    and the world bosses. The two never mix.
+  - The story bible records Uncle Thong's new job.
+- **The world boss hour** (`WorldBossRules`, `WorldBossRun`):
+  - The boss is up for its hour, and that is the time to bring it down. An attempt now
+    lasts until the hero leaves, falls or the hour ends (no 2.5-minute limit).
+  - The round's damage stays counted all hour.
+  - If the hour ends with the boss standing, it escapes: its next round starts at full
+    health, and nobody is paid.
+  - Rewards come only when it falls: every damage tier the round reached, plus the kill.
+  - The results screen says so.
+- **Bosses come armed** (`enemies.json` `"weapon"`, `LevelRules.armed_weapon`):
+  - Every boss that fights with its hands steps in holding its own weapon, with its moves
+    and its wear as a hero holding it would: the Foreman a wrench, the Baron a pipe, the
+    Pit Champion a chair, Chen a machete, the Security Chief and Big Sak a bat, the
+    Ringmaster a plank, Arthit a pipe, the Director a knife.
+  - Creatures and machines (K-7, Subject 12, the world bosses) keep their own attacks.
+- **Tests:**
+  - The market gets each trader's stock with their chapter.
+  - The two taxis keep to their routes.
+  - Only the kill pays, and the fight lasts until the hour is up.
+  - Every armed boss steps in holding its weapon.
+  - The other tests follow the new names. 539 in all.
+
 ### Changed: farming grounds are camps that wait for the hero; story auto stays put
 - **Camps, as in field-farming games** (`FarmSpawner`, `EnemyBrain.camp`):
   - Each ground holds 4 camps of 3 (`"camps"`, `"camp_size"` in `areas.json`), all

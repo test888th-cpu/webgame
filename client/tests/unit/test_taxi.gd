@@ -1,7 +1,9 @@
 extends TestCase
 ## Win's taxi (GameMenus.travel): a group on the left, its places on the
-## right. Late in the story it holds forty-odd rides; the picker keeps every
-## one a few presses away and the whole dialog on the 640x360 canvas.
+## right. Late in the story it holds the whole street's thirty-odd rides; the
+## picker keeps every one a few presses away and the whole dialog on the
+## 640x360 canvas. (The farming grounds and the world bosses are Uncle
+## Thong's truck's: test_main_city.)
 
 const TEST_SAVE := "user://test_taxi_save"
 const SCREEN := Rect2(0, 0, 640, 360)
@@ -39,13 +41,13 @@ func _late(game: Game) -> void:
 	game.profile.money = 1000
 
 
-## Win's rank in the city, the only taxi (the story's areas have none); the
-## hero is taken there first.
+## Win's rank in the city, the story's taxi (the story's areas have none);
+## the hero is taken there first.
 func _win(game: Game) -> Dictionary:
 	if game.zone.area_id != game.content.city_area:
 		game.enter_area(game.content.city_area, "west")
 	for npc: Dictionary in game.content.area(game.content.city_area)["npcs"]:
-		if npc.get("role") == "travel":
+		if npc.get("role") == "travel" and npc.get("routes") == "story":
 			return npc
 	return {}
 
@@ -74,10 +76,9 @@ func test_late_in_the_story_the_rides_come_in_groups() -> void:
 	var expected: Array[String] = []
 	for district in MapRules.districts(game.content):
 		expected.append(str(district["name"]).validate_node_name())
-	expected.append_array(["Farming", "World Bosses"])
-	assert_eq(_tabs(game.menu), expected, "the six districts, farming, world bosses")
+	assert_eq(_tabs(game.menu), expected, "the six districts, nothing else")
 	var all := game.menu.find_children("Ride_*", "Button", true, false).size()
-	assert_eq(all, 31 + 7 + 3, "the whole street, every ground and every world boss")
+	assert_eq(all, 31, "the whole street")
 	var south: Button = game.menu.find_child("Heading_South Street", true, false)
 	assert_true("South Street  11" in south.text, "each group says how many: " + south.text)
 	assert_eq(_shown(game.menu).size(), 4, "only one group's rides show at once")
@@ -151,11 +152,7 @@ func test_in_the_city_it_opens_on_the_furthest_district() -> void:
 	var game := _game()
 	_late(game)
 	game._go_to_city()
-	var win: Dictionary = {}
-	for npc: Dictionary in game.content.area(game.content.city_area)["npcs"]:
-		if npc.get("role") == "travel":
-			win = npc
-	game._show("travel", GameMenus.travel(game, win))
+	game._show("travel", GameMenus.travel(game, _win(game)))
 	await _settle()
 	assert_true("core_chamber" in _shown(game.menu), "the way back to where the story is")
 	assert_true(game.menu.find_child("Heading_City", true, false) == null, "no ride to here")
@@ -204,10 +201,9 @@ func test_win_says_where_he_goes_and_every_ride_gets_there() -> void:
 	var expected: Array[String] = StreetMemory.destinations(
 		game.profile, game.content, game.content.city_area
 	)
-	expected.append_array(AreaRules.open_farms(game.profile, game.content))
 	targets.sort()
 	expected.sort()
-	assert_eq(targets, expected, "every story area reached and every open ground")
+	assert_eq(targets, expected, "every story area reached")
 	for target in targets:
 		game.enter_area(game.content.city_area, "west")
 		game.profile.money = 100

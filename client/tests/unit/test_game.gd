@@ -43,9 +43,6 @@ func test_shopping_at_the_vendor() -> void:
 	var game := _game()
 	game.profile.money = 50
 	game.enter_area("main_city", "west")
-	game.zone.hero.position = Vector2(600, 262) + Vector2(-20, 0)
-	assert_true(game.try_interact(), "Kenji's stall")
-	assert_eq(game.menu, null, "closed until the Night Market is reached")
 	game.zone.hero.position = Vector2(520, 262) + Vector2(-20, 0)
 	assert_true(game.try_interact(), "talking to the vendor")
 	assert_eq(game.menu_name, "shop", "shop open")

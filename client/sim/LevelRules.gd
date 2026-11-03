@@ -119,11 +119,23 @@ static func _threat(enemy_level: int, hero_level: int) -> Dictionary:
 	return THREATS.back()
 
 
-## Chance that a wielding enemy spawns already holding a weapon.
+## Chance that a wielding enemy spawns already holding a weapon: always for
+## one with its own "weapon" (a boss comes armed, as the hero may be).
 static func armed_chance(data: Dictionary, level: int) -> float:
+	if data.has("weapon"):
+		return 1.0
 	if not data.get("wields", false):
 		return 0.0
 	return clampf(float(data.get("weapon_chance", 0.0)) + 0.015 * (level - 1), 0.0, 0.7)
+
+
+## The weapon an enemy spawns holding (armed_chance said it is armed): its
+## own "weapon" when it names one (a boss), else one rolled for its level.
+static func armed_weapon(
+	data: Dictionary, weapons: Dictionary, level: int, rng: RandomNumberGenerator
+) -> String:
+	var own := {str(data["weapon"]): 1} if data.has("weapon") else {}
+	return roll_weapon(weapons, level, rng, own)
 
 
 ## A weapon id picked by weight among those allowed at `level` ("" if none).

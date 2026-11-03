@@ -20,19 +20,19 @@ func _profile(money := 0) -> PlayerProfile:
 
 func test_food_and_materials_are_bought_by_the_stack_gear_one_at_a_time() -> void:
 	var profile := _profile(100)
-	assert_eq(ShopRules.buy(profile, "depot_stall", "steamed_bun", _content(), 5), "", "5 buns")
+	assert_eq(ShopRules.buy(profile, "city_market", "steamed_bun", _content(), 5), "", "5 buns")
 	assert_eq(profile.count("steamed_bun"), 5, "all five in the bag")
 	assert_eq(profile.money, 50, "paid 5 x 10")
 	assert_eq(
-		ShopRules.buy(profile, "depot_stall", "dock_beanie", _content(), 2),
+		ShopRules.buy(profile, "city_market", "dock_beanie", _content(), 2),
 		"bad_amount",
 		"gear: one"
 	)
 	assert_eq(
-		ShopRules.buy(profile, "depot_stall", "steamed_bun", _content(), 0), "bad_amount", "0"
+		ShopRules.buy(profile, "city_market", "steamed_bun", _content(), 0), "bad_amount", "0"
 	)
 	assert_eq(
-		ShopRules.buy(profile, "depot_stall", "steamed_bun", _content(), 6),
+		ShopRules.buy(profile, "city_market", "steamed_bun", _content(), 6),
 		"not_enough_money",
 		"60 coins of buns with 50"
 	)

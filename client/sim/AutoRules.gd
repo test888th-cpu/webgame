@@ -92,7 +92,7 @@ static func restock(
 		var shop_id := str(npc["shop"])
 		if not ShopRules.is_open(profile, content, shop_id):
 			continue
-		var sold: Array = content.shops.get(shop_id, {}).get("items", [])
+		var sold: Array = ShopRules.wares(profile, content, shop_id)
 		for food in FoodRules.shopping_list(content, sold, max_hp):
 			var price := int(content.item(food)["price"])
 			while FoodRules.carried(profile, content) < keep and profile.money - price >= reserve:

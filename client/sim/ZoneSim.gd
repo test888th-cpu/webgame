@@ -202,7 +202,7 @@ func spawn_enemy(kind: String, position: Vector2) -> Fighter:
 		ai["scavenge"] = ai["scavenge"] and data.get("wields", false)
 		brains[enemy.id] = EnemyBrain.new(ai, rng)
 	if rng.randf() < LevelRules.armed_chance(data, enemy_level):
-		var weapon_id := LevelRules.roll_weapon(content.weapons, enemy_level, rng)
+		var weapon_id := LevelRules.armed_weapon(data, content.weapons, enemy_level, rng)
 		if weapon_id:
 			equip_weapon(enemy, weapon_id, int(content.weapons[weapon_id]["durability"]))
 	if data.get("boss", false):

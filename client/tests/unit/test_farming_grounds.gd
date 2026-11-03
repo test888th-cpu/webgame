@@ -105,6 +105,14 @@ static func _kinds(area: Dictionary) -> Array[String]:
 	return out
 
 
+## Uncle Thong's truck in the city: the farming grounds' and world bosses' rides.
+func _truck(game: Game) -> Dictionary:
+	for npc: Dictionary in game.content.area("main_city")["npcs"]:
+		if npc.get("routes") == "field":
+			return npc
+	return {}
+
+
 func test_the_seven_grounds_exist_with_their_approved_unlocks() -> void:
 	var c := _content()
 	assert_eq(c.errors, PackedStringArray(), "the data validates")
@@ -173,7 +181,8 @@ func test_each_ground_opens_only_on_its_rule() -> void:
 
 func test_wins_taxi_rides_to_each_open_ground_for_the_usual_fare() -> void:
 	var game := _game()
-	var win: Dictionary = game.content.area("main_city")["npcs"][0]
+	var win := _truck(game)
+	assert_eq(str(win["role"]), "travel", "Uncle Thong's truck in the city")
 	game.enter_area("main_city", "west")
 	game._show("travel", GameMenus.travel(game, win))
 	assert_true(game.menu.find_child("Heading_Farming", true, false) == null, "none open yet")
