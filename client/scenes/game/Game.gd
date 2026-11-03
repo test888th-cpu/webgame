@@ -302,7 +302,12 @@ func _handle(event: ZoneEvent) -> void:
 				view.show_text(
 					"+" + str(item.get("name")), zone.hero.position, ItemText.rarity_color(item)
 				)
-				if item.get("type") == "equipment":
+				if item.get("rarity") == "legendary":
+					_hud.toast("LEGENDARY! %s" % item["name"])
+					Sfx.play("level_up", -2.0)
+				elif item.get("rarity") == "epic":
+					_hud.toast("Epic find: %s" % item["name"])
+				elif item.get("type") == "equipment":
 					_hud.toast("Found %s" % item["name"])
 		"encounter_clear":
 			# Only where the street goes on east (not at the end of the line).

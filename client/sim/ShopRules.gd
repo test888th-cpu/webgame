@@ -34,7 +34,8 @@ static func sell_price(content: ContentDB, item_id: String) -> int:
 	var item := content.item(item_id)
 	if item.is_empty() or item.get("type") == "key":
 		return 0
-	return floori(int(item.get("price", 0)) * float(content.progression.get("sell_rate", 0.0)))
+	# Gear no shop sells (boss and enemy drops) sells by its grade and level.
+	return floori(ItemRules.value(item) * float(content.progression.get("sell_rate", 0.0)))
 
 
 ## Sells `amount` carried (not worn) `item_id`. Returns "" on success,

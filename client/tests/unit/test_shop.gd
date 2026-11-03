@@ -44,8 +44,10 @@ func test_food_and_materials_are_bought_by_the_stack_gear_one_at_a_time() -> voi
 func test_selling_pays_the_sell_rate_and_never_a_profit() -> void:
 	var rate := float(_content().progression["sell_rate"])
 	assert_true(rate > 0.0 and rate < 1.0, "a shop pays less than it asks")
+	# The list price: a shop's asking price, or for gear no shop sells, what
+	# its grade and level make it worth (ItemRules.value).
 	for item_id: String in _content().items:
-		var price := int(_content().item(item_id).get("price", 0))
+		var price := ItemRules.value(_content().item(item_id))
 		assert_true(ShopRules.sell_price(_content(), item_id) <= price, "%s no profit" % item_id)
 	var profile := _profile()
 	profile.add_item("refined_alloy", 3)

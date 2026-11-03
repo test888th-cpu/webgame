@@ -246,6 +246,10 @@
             "chance": 0.3
           },
           {
+            "item": "foreman_boots",
+            "chance": 0.2
+          },
+          {
             "item": "scrap_metal",
             "chance": 1.0
           },
@@ -504,10 +508,15 @@
         "drops": [
           {
             "item": "baron_knuckledusters",
-            "chance": 0.12
+            "chance": 0.06,
+            "pity": true
           },
           {
             "item": "jade_charm",
+            "chance": 0.2
+          },
+          {
+            "item": "smelter_apron",
             "chance": 0.2
           },
           {
@@ -622,6 +631,10 @@
           {
             "item": "champion_wraps",
             "chance": 0.25
+          },
+          {
+            "item": "champion_headband",
+            "chance": 0.2
           },
           {
             "item": "scrap_metal",
@@ -868,7 +881,16 @@
         "drops": [
           {
             "item": "harbour_hook",
-            "chance": 0.12
+            "chance": 0.06,
+            "pity": true
+          },
+          {
+            "item": "harbourmaster_cap",
+            "chance": 0.2
+          },
+          {
+            "item": "dockmaster_boots",
+            "chance": 0.2
           },
           {
             "item": "refined_alloy",
@@ -1092,7 +1114,11 @@
         "drops": [
           {
             "item": "chiefs_baton",
-            "chance": 0.15
+            "chance": 0.2
+          },
+          {
+            "item": "chiefs_gloves",
+            "chance": 0.2
           },
           {
             "item": "refined_alloy",
@@ -1164,7 +1190,12 @@
         "drops": [
           {
             "item": "k7_core_plate",
-            "chance": 0.12
+            "chance": 0.06,
+            "pity": true
+          },
+          {
+            "item": "k7_plating",
+            "chance": 0.2
           },
           {
             "item": "refined_alloy",
@@ -1385,7 +1416,12 @@
         "drops": [
           {
             "item": "ringmaster_wraps",
-            "chance": 0.15
+            "chance": 0.2
+          },
+          {
+            "item": "ringmaster_topper",
+            "chance": 0.06,
+            "pity": true
           },
           {
             "item": "refined_alloy",
@@ -1457,7 +1493,12 @@
         "drops": [
           {
             "item": "sak_signet",
-            "chance": 0.12
+            "chance": 0.06,
+            "pity": true
+          },
+          {
+            "item": "sak_loafers",
+            "chance": 0.2
           },
           {
             "item": "refined_alloy",
@@ -1668,7 +1709,12 @@
         "drops": [
           {
             "item": "subject_band",
-            "chance": 0.15
+            "chance": 0.2
+          },
+          {
+            "item": "subject_grips",
+            "chance": 0.06,
+            "pity": true
           },
           {
             "item": "refined_alloy",
@@ -1751,7 +1797,12 @@
         "drops": [
           {
             "item": "arthit_baton",
-            "chance": 0.12
+            "chance": 0.06,
+            "pity": true
+          },
+          {
+            "item": "commander_greaves",
+            "chance": 0.2
           },
           {
             "item": "refined_alloy",
@@ -1972,7 +2023,17 @@
         "drops": [
           {
             "item": "director_signet",
-            "chance": 0.12
+            "chance": 0.06,
+            "pity": true
+          },
+          {
+            "item": "director_coat",
+            "chance": 0.2
+          },
+          {
+            "item": "director_crown",
+            "chance": 0.06,
+            "pity": true
           },
           {
             "item": "refined_alloy",

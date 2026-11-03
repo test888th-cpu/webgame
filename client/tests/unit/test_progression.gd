@@ -52,7 +52,8 @@ func test_equipment_changes_stats_and_swaps_back() -> void:
 	p.add_item("foreman_wrench")
 	var base: float = p.stats(_content())["power"]
 	assert_true(p.equip("taped_knuckles", _content()), "equip owned weapon")
-	assert_near(p.stats(_content())["power"], base + 0.15, "power bonus")
+	var bonus := float(_content().item("taped_knuckles")["stats"]["power"])
+	assert_near(p.stats(_content())["power"], base + bonus, "power bonus")
 	assert_true(p.equip("foreman_wrench", _content()), "swap weapon")
 	assert_eq(p.count("taped_knuckles"), 1, "old weapon back in the bag")
 	assert_true(not p.equip("taped_knuckles", _content()) or true, "re-equip allowed")

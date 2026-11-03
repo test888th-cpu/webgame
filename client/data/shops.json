@@ -47,6 +47,7 @@
         "port_jacket",
         "cargo_gloves",
         "deck_boots",
+        "dock_hook",
         "scrap_metal",
         "refined_alloy"
       ]
@@ -66,6 +67,8 @@
         "plant_vest",
         "insulated_gloves",
         "lab_boots",
+        "dock_hook",
+        "shock_baton",
         "scrap_metal",
         "refined_alloy"
       ]
@@ -85,6 +88,8 @@
         "kevlar_jacket",
         "fight_gloves",
         "runner_sneakers",
+        "shock_baton",
+        "weighted_knuckles",
         "scrap_metal",
         "refined_alloy"
       ]
@@ -104,6 +109,8 @@
         "trooper_vest",
         "grip_gloves",
         "facility_boots",
+        "weighted_knuckles",
+        "riot_baton",
         "scrap_metal",
         "refined_alloy"
       ]
@@ -123,6 +130,8 @@
         "reactor_plate",
         "insulated_gauntlets",
         "walkway_boots",
+        "riot_baton",
+        "alloy_knuckles",
         "scrap_metal",
         "refined_alloy"
       ]
