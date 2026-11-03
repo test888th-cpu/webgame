@@ -3,7 +3,7 @@
 
   python3 tools/assets/gen_sfx.py
 
-Retro-style effects built from oscillators, filtered noise and envelopes,
+Effects built from oscillators, filtered noise and envelopes,
 written as 16-bit mono WAV files to client/assets/audio/ and listed in the
 manifest's "audio" section. Noise comes from a seeded generator, so the
 output is reproducible; the validator compares it with a small tolerance
@@ -30,9 +30,12 @@ RATE = 22050
 class Sound:
     """A mono buffer that voices are mixed into."""
 
-    def __init__(self, seconds: float, seed: int) -> None:
+    def __init__(self, seconds: float, seed: int, level: float = 0.85) -> None:
         self.samples = [0.0] * int(seconds * RATE)
         self.rng = random.Random(seed)
+        # The peak it is normalised to: small sounds heard often (a coin, a
+        # pickup) sit well under the blows instead of matching them.
+        self.level = level
 
     def tone(self, start: float, length: float, f0: float, f1: float, shape: str = "sine",
              volume: float = 0.5, attack: float = 0.004, decay: float = 6.0, vibrato: float = 0.0) -> None:
@@ -84,7 +87,7 @@ class Sound:
 
     def to_wav(self) -> bytes:
         peak = max(1e-9, max(abs(s) for s in self.samples))
-        scale = min(1.0, 0.85 / peak)
+        scale = min(1.0, self.level / peak)
         frames = bytearray()
         for s in self.samples:
             v = math.tanh(s * scale * 1.2) / math.tanh(1.2)
@@ -189,19 +192,25 @@ def skill_slam(s: Sound) -> None:
 
 
 def level_up(s: Sound) -> None:
+    # A warm rising chime (bell partials), not a chiptune fanfare.
     for i, name in enumerate(("C5", "E5", "G5", "C6")):
-        s.tone(i * 0.08, 0.35 - i * 0.04, note(name), note(name), "square", 0.18, attack=0.003, decay=6)
-        s.tone(i * 0.08, 0.35 - i * 0.04, note(name) * 2, note(name) * 2, "triangle", 0.12, attack=0.003, decay=7)
-    s.tone(0.32, 0.5, note("C6"), note("C6"), "triangle", 0.25, attack=0.01, decay=4, vibrato=6)
+        s.tone(i * 0.09, 0.6 - i * 0.08, note(name), note(name), "sine", 0.3, attack=0.004, decay=5)
+        s.tone(i * 0.09, 0.3, note(name) * 2.76, note(name) * 2.76, "sine", 0.06, attack=0.002, decay=14)
+    s.tone(0.27, 0.55, note("C6") * 2, note("C6") * 2, "sine", 0.1, attack=0.01, decay=6, vibrato=5)
 
 
 def coin(s: Sound) -> None:
-    s.tone(0, 0.06, note("B5"), note("B5"), "square", 0.25, attack=0.001, decay=4)
-    s.tone(0.06, 0.18, note("E6"), note("E6"), "square", 0.25, attack=0.001, decay=10)
+    # A small, quiet metallic clink: two inharmonic partials that ring for a
+    # moment, the way coins sound in most action games, not an arcade jingle.
+    s.tone(0, 0.14, 2350, 2350, "sine", 0.4, attack=0.0008, decay=30)
+    s.tone(0, 0.1, 3720, 3720, "sine", 0.22, attack=0.0008, decay=42)
+    s.noise(0, 0.012, 0.12, low=0.9, high=0.8, attack=0.0005, decay=200)
 
 
 def pickup(s: Sound) -> None:
-    s.tone(0, 0.12, 600, 1000, "triangle", 0.5, attack=0.002, decay=14)
+    # A soft, short pop for an item into the bag.
+    s.tone(0, 0.09, 520, 760, "sine", 0.5, attack=0.002, decay=26)
+    s.noise(0, 0.02, 0.15, low=0.5, high=0.5, attack=0.001, decay=120)
 
 
 def heal(s: Sound) -> None:
@@ -210,9 +219,9 @@ def heal(s: Sound) -> None:
 
 
 def quest(s: Sound) -> None:
-    for i, (name, length) in enumerate((("C5", 0.1), ("G5", 0.1), ("E5", 0.1), ("C6", 0.45))):
+    for i, (name, length) in enumerate((("C5", 0.12), ("G5", 0.12), ("E5", 0.12), ("C6", 0.45))):
         s.tone(i * 0.11, length, note(name), note(name), "triangle", 0.4, attack=0.004, decay=3)
-        s.tone(i * 0.11, length, note(name) / 2, note(name) / 2, "square", 0.08, attack=0.004, decay=5)
+        s.tone(i * 0.11, length, note(name) / 2, note(name) / 2, "sine", 0.12, attack=0.004, decay=5)
 
 
 def ui_move(s: Sound) -> None:
@@ -272,7 +281,37 @@ def break_metal(s: Sound) -> None:
     s.noise(0, 0.05, 0.6, low=0.9, high=0.6, attack=0.0005, decay=60)
 
 
-# id -> (painter, seconds)
+def hazard_warn(s: Sound) -> None:
+    # Two quick rising alert tones: something is coming, get clear.
+    for start in (0.0, 0.13):
+        s.tone(start, 0.1, 620, 880, "triangle", 0.35, attack=0.004, decay=12)
+
+
+def steam_hiss(s: Sound) -> None:
+    s.noise(0, 0.55, 0.8, low=0.95, high=0.75, attack=0.01, decay=4)
+    s.noise(0, 0.2, 0.4, low=0.3, attack=0.002, decay=18)
+
+
+def zap(s: Sound) -> None:
+    s.noise(0, 0.4, 0.7, low=0.9, high=0.6, attack=0.001, decay=7, tremolo=45)
+    s.tone(0, 0.35, 120, 95, "saw", 0.25, attack=0.001, decay=8, vibrato=30)
+
+
+def laser_beam(s: Sound) -> None:
+    s.tone(0, 0.45, 1400, 300, "saw", 0.3, attack=0.002, decay=5)
+    s.tone(0, 0.45, 700, 150, "square", 0.12, attack=0.002, decay=6)
+    s.noise(0, 0.08, 0.4, low=0.9, high=0.7, attack=0.001, decay=40)
+
+
+def elite_arrive(s: Sound) -> None:
+    # A bright shimmer with a low swell under it: a tougher foe has come.
+    for i, f in enumerate((1320, 1760, 2200)):
+        s.tone(i * 0.05, 0.4, f, f * 1.02, "sine", 0.15, attack=0.01, decay=6, vibrato=11)
+    s.tone(0, 0.5, 110, 140, "triangle", 0.4, attack=0.06, decay=4)
+
+
+# id -> (painter, seconds[, level]): level is the peak each is normalised to
+# (0.85 when left out).
 SOUNDS = {
     "swing_light": (swing_light, 0.14),
     "swing_heavy": (swing_heavy, 0.26),
@@ -288,9 +327,9 @@ SOUNDS = {
     "skill_whirlwind": (skill_whirlwind, 0.48),
     "skill_rush": (skill_rush, 0.36),
     "skill_slam": (skill_slam, 0.8),
-    "level_up": (level_up, 0.85),
-    "coin": (coin, 0.25),
-    "pickup": (pickup, 0.14),
+    "level_up": (level_up, 0.85, 0.6),
+    "coin": (coin, 0.15, 0.35),
+    "pickup": (pickup, 0.1, 0.4),
     "heal": (heal, 0.5),
     "quest": (quest, 0.8),
     "ui_move": (ui_move, 0.04),
@@ -304,12 +343,17 @@ SOUNDS = {
     "break_glass": (break_glass, 0.4),
     "break_wood": (break_wood, 0.32),
     "break_metal": (break_metal, 0.5),
+    "hazard_warn": (hazard_warn, 0.25, 0.5),
+    "steam_hiss": (steam_hiss, 0.56, 0.6),
+    "zap": (zap, 0.42, 0.7),
+    "laser_beam": (laser_beam, 0.46, 0.7),
+    "elite_arrive": (elite_arrive, 0.52, 0.6),
 }
 
 
 def render(sound_id: str) -> bytes:
-    painter, seconds = SOUNDS[sound_id]
-    sound = Sound(seconds, seed=sum(map(ord, sound_id)))
+    painter, seconds, *level = SOUNDS[sound_id]
+    sound = Sound(seconds, seed=sum(map(ord, sound_id)), level=level[0] if level else 0.85)
     painter(sound)
     return sound.to_wav()
 

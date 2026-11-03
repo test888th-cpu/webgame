@@ -23,6 +23,9 @@ var content: ContentDB
 var camera: Camera2D
 ## Floating numbers and effects in world space.
 var effects: Node2D
+## Effects left on the street itself (a skill's crack in the ground): under
+## the fighters, and where they landed, not following anyone.
+var ground: Node2D
 
 var _entities: Node2D
 var _views := {}
@@ -41,6 +44,9 @@ func build(p_zone: ZoneSim, p_content: ContentDB) -> void:
 	zone = p_zone
 	content = p_content
 	_build_scenery()
+	ground = Node2D.new()
+	ground.name = "Ground"
+	add_child(ground)
 	_entities = Node2D.new()
 	_entities.name = "Entities"
 	_entities.y_sort_enabled = true

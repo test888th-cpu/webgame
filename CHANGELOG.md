@@ -4,6 +4,39 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed: skill effects and sounds, cleaned up
+- **No shield when guarding:** a blocked blow used to show a large blue lattice shield
+  (pixelfx `impacts/shield-block`). It now gives a small steel-blue spark: the hit spark
+  recoloured (`art/pixelfx/effects.json`), credited in the register like the other pixelfx
+  effects.
+- **Effects stay where they land** (`GameFeedback`):
+  - A slam's crack and dust are left on the street, on a new layer under the fighters
+    (`ZoneView.ground`), and no longer slide along with the hero.
+  - Strike bursts and the uppercut's arc stay where the blow landed.
+  - Only a charge's trail and a spin around the body travel with the fighter (`FOLLOWS`).
+- **Quieter, plainer sounds:**
+  - Each synthesised sound now has its own level (`gen_sfx.py`), so small sounds heard
+    often sit well under the blows.
+  - The coin is a short, quiet metallic clink instead of an arcade jingle, played at -8 dB.
+    A pickup is a soft pop.
+  - The level-up and quest sounds are warm chimes instead of square-wave fanfares.
+- **Hazards sound like themselves:**
+  - New original sounds: a two-tone warning (it used to be the menu's "denied" buzz),
+    steam hiss, an electric zap, a laser beam.
+  - An elite's arrival has its own shimmer instead of a pitched-down level-up.
+- **The final boss's hazards are finished** (`HazardView`; the Director cycles steam, shock
+  and laser):
+  - Steam and sludge: the vent is as wide as what it hits, and hissing wisps rise as it
+    comes. The column itself is the pixelfx burst, so the old drawn circles are gone.
+  - Shock: the plate's seams glow as it charges, with stray sparks. On landing it flashes,
+    and jagged arcs crackle across it, flickering and dying away.
+  - Laser: on landing, a soft glow, a bright band and a white core that narrow as the beam
+    fades. It ends in a spark where it hit, instead of a lightning bolt.
+- **Credits:** the new sounds are the project's own, generated in code (MIT). The changed
+  effect is pixelfx (MIT), already credited in game and in `docs/credits`.
+- **Tests:** a slam stays on the street while a charge's trail follows the hero; every
+  hazard draws, lands and sounds. 532 in all.
+
 ### Changed: auto battle plays the story and fights every boss
 - **No first clear by hand:** auto battle now runs wherever there is a fight
   (`AutoRules.problem`):

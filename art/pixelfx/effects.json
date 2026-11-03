@@ -22,7 +22,15 @@
       "source": "impacts/crit-hit"
     },
     "block": {
-      "source": "impacts/shield-block"
+      "source": "impacts/hit-spark",
+      "palette": [
+        "#123",
+        "#245",
+        "#47a",
+        "#8be",
+        "#def",
+        "#fff"
+      ]
     },
     "parry": {
       "source": "impacts/parry"

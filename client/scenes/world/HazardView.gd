@@ -5,8 +5,10 @@ extends Node2D
 ## shipping container as wide as that mark falling off a crane ("crane"), a burst of scalding
 ## steam from a floor vent ("steam"), a security laser sweeping the lane
 ## ("laser"), floor plates shocking ("shock") or a geyser of drain sludge
-## ("sludge"). Drawn with shapes until the art pass. Presentation only;
-## BossMechanics decides who it hits.
+## ("sludge"). The marks, vents, plates and beams are drawn to the exact size
+## of what they hit; the burst on landing is a pixelfx effect
+## (BossFxRules.hazard, spawned by GameFeedback), so nothing is drawn twice.
+## Presentation only; BossMechanics decides who it hits.
 
 const FALL_SECONDS := 0.25
 const DROP_HEIGHT := 260.0
@@ -20,6 +22,10 @@ const STEAM := Color(0.92, 0.95, 1.0, 0.85)
 const SLUDGE := Color(0.35, 0.6, 0.2, 0.9)
 const LASER := Color(1.0, 0.18, 0.25)
 const SPARK := Color(0.55, 0.85, 1.0)
+const GRATE := Color("2a2a30")
+const GRATE_BAR := Color("55555c")
+## Seconds a bolt pattern holds before the next, so the arcs flicker.
+const FLICKER := 0.05
 
 var kind := "crane"
 ## Half the footprint it hits (as ZoneSim measures it).
@@ -27,6 +33,8 @@ var half := Vector2(30, 10)
 var _left := 1.0
 var _total := 1.0
 var _landed := false
+var _since_landed := 0.0
+var _bolts := RandomNumberGenerator.new()
 
 
 ## `seconds` until it lands (or bursts) at this node's position (its feet line).
@@ -47,6 +55,8 @@ func land() -> void:
 
 func _process(delta: float) -> void:
 	_left = maxf(0.0, _left - delta)
+	if _landed:
+		_since_landed += delta
 	queue_redraw()
 
 
@@ -100,49 +110,77 @@ func _ellipse(radius: Vector2, color: Color) -> void:
 	draw_colored_polygon(points, color)
 
 
-## A floor grate that hisses as it comes, then a column of steam.
+## A floor vent as wide as what it hits, hissing wisps that thicken as it
+## comes; the column itself is the pixelfx burst on landing (steam_burst,
+## sludge_splash), after which only the vent stays, glowing as it cools.
 func _draw_steam(near: float) -> void:
-	draw_rect(Rect2(-14, -3, 28, 6), Color("2a2a30"))
-	for i in 5:
-		draw_line(Vector2(-12 + i * 6, -3), Vector2(-12 + i * 6, 3), Color("55555c"), 1.0)
-	if not _landed:
-		for i in 3:
-			var puff := Vector2(sin(near * 30.0 + i * 2.0) * 4.0, -6.0 - i * 5.0 * near)
-			draw_circle(puff, 2.0 + near * 2.0, Color(STEAM, 0.3 * near))
+	var vent := Rect2(-half.x * 0.6, -3, half.x * 1.2, 6)
+	draw_rect(vent, GRATE)
+	var bars := maxi(3, roundi(vent.size.x / 6.0))
+	for i in range(1, bars):
+		var x := vent.position.x + vent.size.x * i / bars
+		draw_line(Vector2(x, -3), Vector2(x, 3), GRATE_BAR, 1.0)
+	var tint := SLUDGE if kind == "sludge" else STEAM
+	if _landed:
+		draw_rect(vent, Color(tint, 0.5 * maxf(0.0, 1.0 - _since_landed)), false, 1.0)
 		return
-	for i in 8:
-		var y := -10.0 - i * 14.0
-		var puff := SLUDGE if kind == "sludge" else STEAM
-		draw_circle(Vector2(sin(i * 1.7) * 6.0, y), 10.0 + i * 1.5, Color(puff, 0.75 - i * 0.07))
+	for i in 4:
+		var rise := fmod(near * 3.0 + i * 0.25, 1.0)
+		var x := vent.position.x + vent.size.x * (i + 0.5) / 4.0 + sin(rise * 9.0 + i) * 2.0
+		draw_circle(
+			Vector2(x, -4.0 - rise * 14.0 * near), 1.5 + near * 2.0, Color(tint, 0.35 * near)
+		)
 
 
 ## A band across the lane, its full width: a thin aiming line that thickens
-## and flickers as it charges, then a bright beam with a white core.
+## and flickers as it charges, then the beam: a soft glow, a bright band and a
+## white core that narrow as it fades.
 func _draw_laser(near: float, pulse: float) -> void:
 	var band := Rect2(-half.x, -half.y, half.x * 2.0, half.y * 2.0)
 	if not _landed:
-		draw_rect(band, Color(LASER, 0.12 + 0.25 * near + 0.1 * pulse))
-		draw_line(Vector2(-half.x, 0), Vector2(half.x, 0), Color(LASER, 0.5 + 0.5 * pulse), 1.0)
+		draw_rect(band, Color(LASER, 0.08 + 0.2 * near + 0.08 * pulse))
+		var aim := Color(LASER, 0.5 + 0.5 * pulse)
+		draw_line(Vector2(-half.x, 0), Vector2(half.x, 0), aim, 1.0 + near)
 		return
-	draw_rect(band, Color(LASER, 0.7))
-	draw_line(Vector2(-half.x, 0), Vector2(half.x, 0), Color(1, 0.9, 0.9), 3.0)
+	var fade := clampf(1.0 - _since_landed / 0.35, 0.0, 1.0)
+	var glow := Rect2(-half.x, -half.y * 1.6, half.x * 2.0, half.y * 3.2)
+	draw_rect(glow, Color(LASER, 0.25 * fade))
+	var beam := half.y * (0.4 + 0.6 * fade)
+	draw_rect(Rect2(-half.x, -beam, half.x * 2.0, beam * 2.0), Color(LASER, 0.85))
+	draw_line(Vector2(-half.x, 0), Vector2(half.x, 0), Color(1, 0.92, 0.92), 1.0 + 2.0 * fade)
 
 
 ## A floor plate the size of what it hits: its seams glow brighter as it
-## charges, then it crackles with zigzag sparks.
+## charges, with a stray spark now and then; on landing the plate flashes and
+## arcs crackle across it, a new pattern every FLICKER seconds, dying away.
 func _draw_shock(near: float, pulse: float) -> void:
 	var plate := Rect2(-half.x, -half.y, half.x * 2.0, half.y * 2.0)
 	draw_rect(plate, Color(0.15, 0.17, 0.22, 0.6))
-	var glow := Color(SPARK, 0.2 + 0.5 * near + 0.2 * pulse if not _landed else 0.9)
+	var fade := clampf(1.0 - _since_landed / 0.6, 0.0, 1.0) if _landed else 1.0
+	var bright := (0.2 + 0.5 * near + 0.2 * pulse) if not _landed else 0.9 * fade
+	var glow := Color(SPARK, bright)
 	draw_rect(plate, glow, false, 1.5)
-	for i in range(1, 4):
-		var x := -half.x + half.x * 2.0 * i / 4.0
+	var seams := maxi(2, roundi(plate.size.x / 30.0))
+	for i in range(1, seams):
+		var x := plate.position.x + plate.size.x * i / seams
 		draw_line(Vector2(x, -half.y), Vector2(x, half.y), Color(glow, glow.a * 0.6), 1.0)
+	_bolts.seed = int((_total - _left + _since_landed) / FLICKER) * 7919 + get_instance_id()
 	if not _landed:
+		if near > 0.5 and _bolts.randf() < near:
+			_bolt(_bolts.randf_range(-half.x, half.x), 2, 4.0, Color(SPARK, 0.6))
 		return
-	for i in 4:
-		var x := -half.x + half.x * 2.0 * (i + 0.5) / 4.0
-		var bolt := PackedVector2Array()
-		for step in 5:
-			bolt.append(Vector2(x + (6.0 if step % 2 else -6.0), -step * 9.0))
-		draw_polyline(bolt, Color(1, 1, 1, 0.9), 2.0)
+	if fade <= 0.0:
+		return
+	draw_rect(plate, Color(SPARK, 0.35 * fade))
+	for i in seams + 1:
+		var x := plate.position.x + plate.size.x * (i + _bolts.randf()) / (seams + 1)
+		_bolt(x, 4, 5.0 + half.y * 0.6, Color(1, 1, 1, 0.9 * fade))
+
+
+## A jagged arc rising from (x, 0): `steps` kinks, each `rise` higher.
+func _bolt(x: float, steps: int, rise: float, color: Color) -> void:
+	var points := PackedVector2Array([Vector2(x, 0)])
+	for step in range(1, steps + 1):
+		points.append(Vector2(x + _bolts.randf_range(-6.0, 6.0), -step * rise))
+	draw_polyline(points, Color(SPARK, color.a * 0.5), 3.0)
+	draw_polyline(points, color, 1.0)

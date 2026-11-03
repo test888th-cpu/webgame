@@ -20478,7 +20478,9 @@
       "coin": "res://assets/audio/coin.wav",
       "denied": "res://assets/audio/denied.wav",
       "dodge": "res://assets/audio/dodge.wav",
+      "elite_arrive": "res://assets/audio/elite_arrive.wav",
       "guard_break": "res://assets/audio/guard_break.wav",
+      "hazard_warn": "res://assets/audio/hazard_warn.wav",
       "heal": "res://assets/audio/heal.wav",
       "hero_hurt": "res://assets/audio/hero_hurt.wav",
       "hit_block": "res://assets/audio/hit_block.wav",
@@ -20486,6 +20488,7 @@
       "hit_light": "res://assets/audio/hit_light.wav",
       "knockdown": "res://assets/audio/knockdown.wav",
       "ko": "res://assets/audio/ko.wav",
+      "laser_beam": "res://assets/audio/laser_beam.wav",
       "level_up": "res://assets/audio/level_up.wav",
       "pickup": "res://assets/audio/pickup.wav",
       "punch_hit": "res://assets/audio/punch_hit.wav",
@@ -20503,13 +20506,15 @@
       "skill_slam": "res://assets/audio/skill_slam.wav",
       "skill_uppercut": "res://assets/audio/skill_uppercut.wav",
       "skill_whirlwind": "res://assets/audio/skill_whirlwind.wav",
+      "steam_hiss": "res://assets/audio/steam_hiss.wav",
       "swing_heavy": "res://assets/audio/swing_heavy.wav",
       "swing_light": "res://assets/audio/swing_light.wav",
       "ui_back": "res://assets/audio/ui_back.wav",
       "ui_move": "res://assets/audio/ui_move.wav",
       "ui_select": "res://assets/audio/ui_select.wav",
       "weapon_drop": "res://assets/audio/weapon_drop.wav",
-      "weapon_grab": "res://assets/audio/weapon_grab.wav"
+      "weapon_grab": "res://assets/audio/weapon_grab.wav",
+      "zap": "res://assets/audio/zap.wav"
     }
   },
   "environment": {
@@ -28268,19 +28273,27 @@
           "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
         ],
         "blend": "mix",
-        "columns": 18,
+        "columns": 12,
         "fps": 30,
-        "frames": 30,
+        "frames": 12,
         "origin": [
-          20,
-          65
+          35,
+          57
+        ],
+        "palette": [
+          "#123",
+          "#245",
+          "#47a",
+          "#8be",
+          "#def",
+          "#fff"
         ],
         "sheet": "res://assets/fx/pixelfx/block.png",
         "size": [
-          113,
-          80
+          118,
+          73
         ],
-        "source": "impacts/shield-block"
+        "source": "impacts/hit-spark"
       },
       "boss_defeat": {
         "authors": [

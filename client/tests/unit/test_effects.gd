@@ -145,3 +145,42 @@ func test_a_bosss_heavy_blow_shield_and_fall_show() -> void:
 	game._feedback.on_event(ZoneEvent.make("defeat", fell))
 	assert_true(game.view.effects.get_child_count() > before, "a fallen boss goes up in a blast")
 	_done(game)
+
+
+func test_a_slam_stays_where_it_landed_and_a_charge_trail_follows() -> void:
+	var game := _game()
+	var hero := game.zone.hero
+	var hero_view := game.view.view_of(ZoneSim.HERO_ID)
+	for skill_id in ["furnace_slam", "shoulder_rush"]:
+		hero.move = game.content.moves.get_move(str(game.content.skills[skill_id]["move"]))
+		game._feedback.on_event(
+			ZoneEvent.make("swing", {"id": ZoneSim.HERO_ID, "move": "", "skill": skill_id})
+		)
+	var landed_at := hero_view.position
+	var trail := hero_view.find_children("*", "AnimatedSprite2D", false, false)
+	assert_true(trail.any(func(s: Node) -> bool: return s.animation == "rush"), "a trail follows")
+	await tree.create_timer(hero.move.startup * CombatRules.TICK_SECONDS + 0.4).timeout
+	var cracks := game.view.ground.find_children("*", "AnimatedSprite2D", false, false)
+	assert_eq(cracks.size(), 1, "the slam's crack is on the street")
+	assert_eq((cracks[0] as Node2D).position, landed_at, "where the hero stood when it landed")
+	for sprite: AnimatedSprite2D in hero_view.find_children("*", "AnimatedSprite2D", false, false):
+		assert_true(sprite.animation != "slam", "the crack does not ride along with the hero")
+	_done(game)
+
+
+func test_every_hazard_draws_lands_and_sounds() -> void:
+	var game := _game()
+	for kind: String in ["crane", "steam", "sludge", "shock", "laser"]:
+		var drop := HazardView.new()
+		drop.setup(0.2, kind, Vector2(60, 14))
+		game.view.effects.add_child(drop)
+		game._feedback._drops.append(drop)
+		await tree.process_frame
+		game._feedback.on_event(
+			ZoneEvent.make("hazard_hit", {"at": Vector2(400, 300), "kind": kind})
+		)
+		for i in 3:
+			await tree.process_frame
+		assert_true(drop._landed, kind + ": landed")
+	assert_true(game.content.audio["sounds"].has("hazard_warn"), "a warning of its own")
+	_done(game)
