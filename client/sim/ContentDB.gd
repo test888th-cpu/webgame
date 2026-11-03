@@ -192,7 +192,7 @@ func sources(key: String) -> Array[Dictionary]:
 	var found: Array[Dictionary] = []
 	found.append_array(drops)
 	for shop_id: String in shops:
-		if item_id in shops[shop_id].get("items", []):
+		if item_id in ShopRules.all_items(shops[shop_id]):
 			found.append(
 				{
 					"kind": "shop",
@@ -268,15 +268,7 @@ func validate() -> void:
 	errors.append_array(BossFxRules.problems(self))
 	for id: String in items:
 		_validate_item(id, items[id])
-	for id: String in shops:
-		for item_id in shops[id].get("items", []):
-			_check(items.has(item_id), "shops.%s: unknown item %s" % [id, item_id])
-		var rule: Variant = shops[id].get("unlock", {})
-		if rule is Dictionary and rule.has("reached"):
-			_check(
-				areas.has(str(rule["reached"])),
-				"shops.%s.unlock.reached: unknown area %s" % [id, rule["reached"]]
-			)
+	errors.append_array(ShopRules.problems(self))
 	for id: String in quests:
 		_validate_quest(id, quests[id])
 	_check(areas.has(start_area), "areas.start_area: unknown area %s" % start_area)
@@ -403,7 +395,7 @@ func _validate_world_boss() -> void:
 			area(str(wb.get("area"))).get("world_boss", false), where + ".area: needs world_boss"
 		)
 		_check(enemies.has(str(wb.get("unlock"))), where + ".unlock: unknown enemy")
-		for field in ["period_minutes", "open_minutes", "attempt_seconds", "pool"]:
+		for field in ["period_minutes", "open_minutes", "pool"]:
 			_number(wb, field, where, 1)
 		_number(wb, "level", where, 1)
 		for scaled in ["min_level", "level_above_hero", "min_hero_level"]:

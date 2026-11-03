@@ -140,7 +140,7 @@ static func boss_value(content: ContentDB, kind: String, area_level: int) -> Dic
 static func gear(content: ContentDB, level: int, kind := "shop") -> Array[String]:
 	var sold := {}
 	for shop: Dictionary in content.shops.values():
-		for item_id: String in shop.get("items", []):
+		for item_id: String in ShopRules.all_items(shop):
 			sold[item_id] = true
 	var rewarded := {}
 	for quest: Dictionary in content.quests.values():

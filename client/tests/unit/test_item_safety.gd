@@ -172,7 +172,7 @@ func test_loot_left_on_the_ground_is_banked_and_pickups_are_saved() -> void:
 	_end()
 
 
-func test_a_world_boss_fight_cut_short_is_still_paid() -> void:
+func test_a_world_boss_fight_cut_short_still_counts() -> void:
 	var profile := PlayerProfile.new_game(_content(), "mika")
 	profile.level = 30
 	var boss := "tunnel_mother"
@@ -184,7 +184,8 @@ func test_a_world_boss_fight_cut_short_is_still_paid() -> void:
 	rng.seed = 1
 	var settled := WorldBossRules.settle(reloaded, _content(), rng)
 	assert_true(settled.has(boss), "the cut-short attempt is banked")
-	assert_true(reloaded.money > money, "and paid")
+	assert_eq(int(reloaded.world_boss[boss]["dealt"]), total, "its damage counts for the round")
+	assert_eq(reloaded.money, money, "paid only when the boss falls")
 	assert_true(not reloaded.world_boss[boss].has("attempt"), "once")
 	assert_true(WorldBossRules.settle(reloaded, _content(), rng).is_empty(), "never twice")
 

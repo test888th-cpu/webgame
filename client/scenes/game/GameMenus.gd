@@ -418,12 +418,17 @@ static func travel(game: Game, npc: Dictionary) -> Control:
 	return parts["root"]
 
 
-## Win's rides in groups, in the order shown: [{"name", "rides": [Button],
-## "columns"}]. Story areas sit two to a row; the longer farming and world
-## boss rows one.
+## A taxi's rides in groups, in the order shown: [{"name", "rides": [Button],
+## "columns"}]. Each taxi keeps to its own routes ("routes" in areas.json):
+## Win's ("story") the street's districts, two to a row; Uncle Thong's truck
+## ("field") the farming grounds and the world bosses, one to a row.
 static func _ride_groups(game: Game, npc: Dictionary, fare: int) -> Array[Dictionary]:
 	var content := game.content
 	var out: Array[Dictionary] = []
+	if str(npc.get("routes", "story")) == "field":
+		# Only from the hub (AreaRules.hub): never out of the story.
+		var hub := AreaRules.rides_from_hub(content, game.zone.area_id)
+		return _hub_rides(game, npc, fare) if hub else out
 	var broke := game.profile.money < fare
 	var city := content.city_area
 	if city != "" and game.zone.area_id != city:
@@ -446,14 +451,11 @@ static func _ride_groups(game: Game, npc: Dictionary, fare: int) -> Array[Dictio
 			rides.append(ride)
 		if not rides.is_empty():
 			out.append({"name": str(district["name"]), "rides": rides, "columns": 2})
-	# The farming grounds and the world bosses are reached from the city only,
-	# never from the story's taxis (AreaRules.hub).
-	if AreaRules.rides_from_hub(content, game.zone.area_id):
-		out.append_array(_hub_rides(game, npc, fare))
 	return out
 
 
-## The hub's own rides: the open farming grounds and the world bosses.
+## The field truck's rides (from the hub only, AreaRules.hub): the open
+## farming grounds and the world bosses.
 static func _hub_rides(game: Game, npc: Dictionary, fare: int) -> Array[Dictionary]:
 	var content := game.content
 	var out: Array[Dictionary] = []
@@ -708,7 +710,7 @@ static func world_boss_result(game: Game, run: WorldBossRun, paid: Dictionary) -
 	var content := game.content
 	var data := WorldBossRules.spec(content, run.boss)
 	var boss_name := str(content.enemy(str(data["enemy"]))["name"])
-	var titles := {"slain": "%s FALLS!" % boss_name.to_upper(), "time": "TIME'S UP"}
+	var titles := {"slain": "%s FALLS!" % boss_name.to_upper(), "time": "IT GOT AWAY"}
 	titles["down"] = "KNOCKED DOWN"
 	var portrait := UiKit.portrait(
 		content, str(content.enemy(str(data["enemy"])).get("sprite", ""))
@@ -728,35 +730,36 @@ static func world_boss_result(game: Game, run: WorldBossRun, paid: Dictionary) -
 		)
 	)
 	var tiers: Array = data["tiers"]
+	var reached := 0
+	for tier: Dictionary in tiers:
+		reached += 1 if int(state["dealt"]) >= ceili(mine * float(tier["share"])) else 0
 	var own := "your part" if players > 1 else "the round"
 	body.add_child(
 		UiKit.label(
 			(
 				"This round: %d%% of %s dealt, reward tier %d of %d."
-				% [
-					roundi(100.0 * float(state["dealt"]) / mine),
-					own,
-					int(state["tiers"]),
-					tiers.size()
-				]
+				% [roundi(100.0 * float(state["dealt"]) / mine), own, reached, tiers.size()]
 			),
 			UiTheme.SIZE_BODY,
 			UiTheme.TEAL
 		)
 	)
-	if int(state["tiers"]) < tiers.size():
-		var next := float(tiers[int(state["tiers"])]["share"])
-		body.add_child(
-			UiKit.label(
-				"Next reward at %d%% of %s." % [roundi(next * 100), own],
-				UiTheme.SIZE_SMALL,
-				UiTheme.TEXT_DIM
+	if not state.get("killed", false):
+		# Only the kill pays, within the hour; an escape pays nothing.
+		var wait := WorldBossRules.wait_text(content, run.boss, game._now())
+		var text := (
+			"%s escaped: back at full strength next round. This round pays nothing." % boss_name
+			if run.ended == "time"
+			else (
+				"No rewards until %s falls. It stays wounded for %s more; then it escapes."
+				% [boss_name, wait]
 			)
 		)
+		body.add_child(UiKit.label(text, UiTheme.SIZE_SMALL, UiTheme.DANGER, 470))
 	if players > 1 and not state.get("killed", false):
 		body.add_child(
 			UiKit.label(
-				"Built for %d players: the kill and its rarest drops need them all." % players,
+				"Built for %d players: bring them to bring it down." % players,
 				UiTheme.SIZE_SMALL,
 				UiTheme.TEXT_DIM
 			)

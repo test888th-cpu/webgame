@@ -809,7 +809,7 @@ func _start_world_boss(boss: String) -> void:
 	_entering_world_boss = true
 	enter_area(str(data["area"]), "west")
 	_entering_world_boss = false
-	world_run = WorldBossRun.new(zone, profile, content, boss, round)
+	world_run = WorldBossRun.new(zone, profile, content, boss, round, _now())
 	_hud.attach(zone, profile, content)
 	auto.stop()
 	var name := str(content.enemy(str(data["enemy"]))["name"])

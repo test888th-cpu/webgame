@@ -26,7 +26,8 @@ func test_sources_list_drops_by_chance_then_shops() -> void:
 		texts.any(func(t: String) -> bool: return t.contains("Smogling (15%)")), "a street drop"
 	)
 	assert_true(
-		texts.any(func(t: String) -> bool: return t.contains("Ama's Stall, 30 coins")), "and a shop"
+		texts.any(func(t: String) -> bool: return t.contains("Ama's Market, 30 coins")),
+		"and a shop"
 	)
 
 

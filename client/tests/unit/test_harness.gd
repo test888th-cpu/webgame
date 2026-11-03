@@ -51,7 +51,7 @@ func test_a_run_repeats_exactly_with_the_same_seed() -> void:
 func test_shop_gear_comes_only_from_shops_and_quests() -> void:
 	var sold := {}
 	for shop: Dictionary in _content().shops.values():
-		for item_id: String in shop["items"]:
+		for item_id: String in ShopRules.all_items(shop):
 			sold[item_id] = true
 	for quest: Dictionary in _content().quests.values():
 		for item_id: String in quest["rewards"].get("items", {}):

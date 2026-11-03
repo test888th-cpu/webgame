@@ -127,7 +127,7 @@ static func problems(content: ContentDB) -> PackedStringArray:
 			)
 	out.append_array(_unique_problems(content))
 	for shop_id: String in content.shops:
-		for item_id: Variant in content.shops[shop_id].get("items", []):
+		for item_id: Variant in ShopRules.all_items(content.shops[shop_id]):
 			var item := content.item(str(item_id))
 			if item.get("type") == "equipment" and item.get("rarity") not in SHOP_GRADES:
 				out.append(
@@ -145,7 +145,7 @@ static func _unique_problems(content: ContentDB) -> PackedStringArray:
 	var out: PackedStringArray = []
 	var dropped := {}
 	for shop_id: String in content.shops:
-		for item_id: Variant in content.shops[shop_id].get("items", []):
+		for item_id: Variant in ShopRules.all_items(content.shops[shop_id]):
 			dropped[str(item_id)] = "shops.%s" % shop_id
 	for enemy_id: String in content.enemies:
 		for drop: Dictionary in content.enemies[enemy_id].get("loot", {}).get("drops", []):

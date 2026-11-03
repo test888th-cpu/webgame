@@ -4,6 +4,11 @@ extends RefCounted
 ## items.json; a shop buys anything with a price except evidence, at
 ## progression.json "sell_rate" of the price. Pure rules, so the server can
 ## run the same ones once the game is online.
+##
+## The city has one merchant (Ama's Market): its own "items" from the start,
+## and more "stock" ([{"reached": area, "from": who brings it, "items"}]) as
+## the story reaches each chapter, the wares of the street's other traders,
+## brought to her stall. The wares are shown in one list, food first.
 
 ## Most of one stackable item bought or sold in one go.
 const MAX_AMOUNT := 99
@@ -25,6 +30,72 @@ static func closed_text(profile: PlayerProfile, content: ContentDB, shop_id: Str
 	return "Opens once you have reached %s." % content.area(place).get("name", place)
 
 
+## Everything `shop` (its shops.json entry) ever sells, in data order, once.
+static func all_items(shop: Dictionary) -> Array[String]:
+	var out: Array[String] = []
+	var lists: Array = [shop.get("items", [])]
+	for stock: Dictionary in shop.get("stock", []):
+		lists.append(stock.get("items", []))
+	for list: Array in lists:
+		for item_id: Variant in list:
+			if str(item_id) not in out:
+				out.append(str(item_id))
+	return out
+
+
+## What `shop_id` sells the hero now: its own items and every stock whose
+## chapter is reached, once each; food and materials first (cheapest first),
+## then gear by level.
+static func wares(profile: PlayerProfile, content: ContentDB, shop_id: String) -> Array[String]:
+	var shop: Dictionary = content.shops.get(shop_id, {})
+	var open := shop.duplicate()
+	open["stock"] = shop.get("stock", []).filter(
+		func(stock: Dictionary) -> bool: return str(stock.get("reached", "")) in profile.visited
+	)
+	var out := all_items(open)
+	out.sort_custom(
+		func(a: String, b: String) -> bool:
+			var ka := _order(content.item(a))
+			var kb := _order(content.item(b))
+			return ka < kb if ka != kb else a < b
+	)
+	return out
+
+
+## What new stock `shop_id` gets next: "Kenji brings new stock once you reach
+## Night Market.", or "" when every stock is in.
+static func next_stock(profile: PlayerProfile, content: ContentDB, shop_id: String) -> String:
+	for stock: Dictionary in content.shops.get(shop_id, {}).get("stock", []):
+		var place := str(stock.get("reached", ""))
+		if place not in profile.visited:
+			var name := str(content.area(place).get("name", place))
+			return "%s brings new stock once you reach %s." % [stock.get("from", "More"), name]
+	return ""
+
+
+## What is wrong with shops.json, one message each: unknown items or areas.
+static func problems(content: ContentDB) -> PackedStringArray:
+	var out: PackedStringArray = []
+	for id: String in content.shops:
+		var shop: Dictionary = content.shops[id]
+		for item_id in all_items(shop):
+			if content.item(item_id).is_empty():
+				out.append("shops.%s: unknown item %s" % [id, item_id])
+		var places: Array = [shop.get("unlock", {}).get("reached", "")]
+		for stock: Dictionary in shop.get("stock", []):
+			places.append(stock.get("reached", "?"))
+		for place: Variant in places:
+			if str(place) != "" and content.area(str(place)).is_empty():
+				out.append("shops.%s: unknown area %s" % [id, place])
+	return out
+
+
+## Sorting key: food, then materials, then gear; by level, then price.
+static func _order(item: Dictionary) -> Array:
+	var rank: int = {"consumable": 0, "material": 1}.get(item.get("type"), 2)
+	return [rank, int(item.get("level", 0)), int(item.get("price", 0))]
+
+
 ## Returns "" on success, otherwise the reason: "unknown_shop", "closed",
 ## "not_sold", "bad_amount" or "not_enough_money".
 static func buy(
@@ -35,7 +106,7 @@ static func buy(
 		return "unknown_shop"
 	if not is_open(profile, content, shop_id):
 		return "closed"
-	if item_id not in shop.get("items", []):
+	if item_id not in wares(profile, content, shop_id):
 		return "not_sold"
 	if amount < 1 or amount > max_amount(content, item_id):
 		return "bad_amount"

@@ -263,6 +263,7 @@
       "scale": 1.5,
       "sprite": "sludge_foreman",
       "wields": true,
+      "weapon": "wrench",
       "weapon_chance": 0.0,
       "poise": 80
     },
@@ -532,6 +533,7 @@
       "color": "#b0502a",
       "sprite": "furnace_baron",
       "wields": false,
+      "weapon": "pipe",
       "poise": 80
     },
     "street_thrower": {
@@ -648,7 +650,8 @@
       },
       "color": "#8a5a3a",
       "sprite": "pit_champion",
-      "wields": false
+      "wields": false,
+      "weapon": "chair"
     },
     "stevedore": {
       "name": "Stevedore",
@@ -905,6 +908,7 @@
       "color": "#d0d0d0",
       "sprite": "harbourmaster_chen",
       "wields": false,
+      "weapon": "machete",
       "poise": 80
     },
     "plant_guard": {
@@ -1133,6 +1137,7 @@
       "color": "#202020",
       "sprite": "security_chief",
       "wields": true,
+      "weapon": "baseball_bat",
       "weapon_chance": 0.0,
       "poise": 70
     },
@@ -1435,7 +1440,8 @@
       },
       "color": "#a02a2a",
       "sprite": "ringmaster",
-      "wields": false
+      "wields": false,
+      "weapon": "plank"
     },
     "big_sak": {
       "name": "Big Sak",
@@ -1512,7 +1518,8 @@
       },
       "color": "#4a2a1a",
       "sprite": "big_sak",
-      "wields": false
+      "wields": false,
+      "weapon": "baseball_bat"
     },
     "facility_trooper": {
       "name": "Facility Trooper",
@@ -1816,7 +1823,8 @@
       },
       "color": "#2a3a2a",
       "sprite": "commander_arthit",
-      "wields": false
+      "wields": false,
+      "weapon": "pipe"
     },
     "core_sentinel": {
       "name": "Core Sentinel",
@@ -2047,7 +2055,8 @@
       },
       "color": "#e0e0e8",
       "sprite": "director_wiroj",
-      "wields": false
+      "wields": false,
+      "weapon": "knife"
     },
     "tunnel_mother": {
       "name": "The Tunnel Mother",

@@ -80,14 +80,14 @@ func test_consumables_heal_and_are_used_up() -> void:
 func test_shop_checks_stock_and_money() -> void:
 	var p := _profile()
 	assert_eq(
-		ShopRules.buy(p, "depot_stall", "steamed_bun", _content()), "not_enough_money", "broke"
+		ShopRules.buy(p, "city_market", "steamed_bun", _content()), "not_enough_money", "broke"
 	)
 	p.money = 100
-	assert_eq(ShopRules.buy(p, "depot_stall", "steamed_bun", _content()), "", "bought")
+	assert_eq(ShopRules.buy(p, "city_market", "steamed_bun", _content()), "", "bought")
 	assert_eq(p.money, 90, "paid")
 	assert_eq(p.count("steamed_bun"), 1, "received")
 	assert_eq(
-		ShopRules.buy(p, "depot_stall", "foreman_wrench", _content()), "not_sold", "boss drop"
+		ShopRules.buy(p, "city_market", "foreman_wrench", _content()), "not_sold", "boss drop"
 	)
 	assert_eq(ShopRules.buy(p, "nope", "steamed_bun", _content()), "unknown_shop", "no shop")
 
