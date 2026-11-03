@@ -83,7 +83,11 @@ func test_the_pixelfx_effects_load_and_play() -> void:
 			var first := frames.get_frame_texture(id, 0) as AtlasTexture
 			var size := Vector2(effects[id]["size"][0], effects[id]["size"][1])
 			assert_eq(first.region.size, size, id + ": its frame size")
-	assert_eq(pixelfx, 14, "the fourteen pixelfx effects")
+	var manifest: Dictionary = JSON.parse_string(
+		FileAccess.get_file_as_string("res://assets/manifest.json")
+	)
+	var expected: int = manifest["fx_pixelfx"]["effects"].size()
+	assert_eq(pixelfx, expected, "every imported pixelfx effect (%d)" % expected)
 	var holder := Node2D.new()
 	tree.root.add_child(holder)
 	var played := Fx.spawn(holder, content, "crit", Vector2(100, 100))
@@ -98,3 +102,46 @@ func test_the_credits_carry_the_pixelfx_notice() -> void:
 	assert_true("Copyright (c) 2026 Hugo Duprez" in text, "both of them")
 	assert_true("Permission is hereby granted" in text, "and the MIT permission notice")
 	assert_true("a84159688af3ca37a4be05a0d422b94451b2e24e" in text, "and the source it came from")
+
+
+func test_every_boss_skill_has_its_effect() -> void:
+	var content := GameSession.content
+	assert_eq(BossFxRules.problems(content), PackedStringArray(), "boss_fx.json is complete")
+	for id: String in content.enemies:
+		if content.enemy(id).get("boss", false):
+			assert_true(BossFxRules.windup(content, id) != "", id + ": a wind-up glow")
+	var broken := ContentDB.load_all()
+	broken.boss_fx["bosses"].erase("unit_k7")
+	broken.boss_fx["hazards"].erase("steam")
+	var said := "\n".join(BossFxRules.problems(broken))
+	assert_true("boss_fx.bosses.unit_k7" in said, "a boss without a theme")
+	assert_true("no effect for steam" in said, "a hazard without its effect")
+
+
+func test_a_bosss_heavy_blow_shield_and_fall_show() -> void:
+	var game := _game()
+	game.profile.level = 30
+	game.enter_area("control_room", "west")
+	var boss := game.zone.spawn_enemy("commander_arthit", Vector2(500, 300))
+	game.view.sync()
+	var boss_view := game.view.view_of(boss.id)
+	var heavy := str(game.content.enemy("commander_arthit")["moveset"]["heavy"])
+	game._feedback.on_event(ZoneEvent.make("swing", {"id": boss.id, "move": heavy, "skill": ""}))
+	var glows := boss_view.find_children("*", "AnimatedSprite2D", false, false)
+	assert_true(not glows.is_empty(), "its heavy blow is telegraphed on it")
+	game._feedback.on_event(ZoneEvent.make("boss_shield", {"id": boss.id, "up": true}))
+	var dome := boss_view.get_node_or_null("ShieldDome") as AnimatedSprite2D
+	assert_true(dome != null and dome.sprite_frames.get_animation_loop(dome.animation), "a dome")
+	var before := game.view.effects.get_child_count()
+	game._feedback.on_event(ZoneEvent.make("boss_shield", {"id": boss.id, "up": false}))
+	assert_true(game.view.effects.get_child_count() > before, "it breaks with a burst")
+	for kind in ["crane", "steam", "shock", "laser", "sludge"]:
+		before = game.view.effects.get_child_count()
+		var hit := {"at": Vector2(400, 300), "kind": kind}
+		game._feedback.on_event(ZoneEvent.make("hazard_hit", hit))
+		assert_true(game.view.effects.get_child_count() > before, kind + ": lands with its effect")
+	before = game.view.effects.get_child_count()
+	var fell := {"id": boss.id, "kind": "commander_arthit", "xp": 0, "boss": true}
+	game._feedback.on_event(ZoneEvent.make("defeat", fell))
+	assert_true(game.view.effects.get_child_count() > before, "a fallen boss goes up in a blast")
+	_done(game)

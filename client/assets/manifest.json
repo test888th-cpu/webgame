@@ -28282,6 +28282,46 @@
         ],
         "source": "impacts/shield-block"
       },
+      "boss_defeat": {
+        "authors": [
+          "Patch",
+          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
+        ],
+        "blend": "mix",
+        "columns": 6,
+        "fps": 10,
+        "frames": 20,
+        "origin": [
+          157,
+          209
+        ],
+        "sheet": "res://assets/fx/pixelfx/boss_defeat.png",
+        "size": [
+          305,
+          242
+        ],
+        "source": "explosions/big-explosion"
+      },
+      "boss_impact": {
+        "authors": [
+          "Patch",
+          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
+        ],
+        "blend": "mix",
+        "columns": 8,
+        "fps": 15,
+        "frames": 21,
+        "origin": [
+          128,
+          154
+        ],
+        "sheet": "res://assets/fx/pixelfx/boss_impact.png",
+        "size": [
+          254,
+          188
+        ],
+        "source": "explosions/dirt-explosion"
+      },
       "boss_land": {
         "authors": [
           "Patch",
@@ -28301,6 +28341,146 @@
           43
         ],
         "source": "impacts/heavy-landing"
+      },
+      "boss_windup_brawl": {
+        "authors": [
+          "Patch",
+          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
+        ],
+        "blend": "mix",
+        "columns": 20,
+        "fps": 30,
+        "frames": 21,
+        "origin": [
+          44,
+          77
+        ],
+        "palette": [
+          "#210",
+          "#530",
+          "#a70",
+          "#fb2",
+          "#fe8",
+          "#fff"
+        ],
+        "sheet": "res://assets/fx/pixelfx/boss_windup_brawl.png",
+        "size": [
+          102,
+          83
+        ],
+        "source": "arcane/spell-charge"
+      },
+      "boss_windup_fire": {
+        "authors": [
+          "Patch",
+          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
+        ],
+        "blend": "mix",
+        "columns": 20,
+        "fps": 30,
+        "frames": 21,
+        "origin": [
+          44,
+          77
+        ],
+        "palette": [
+          "#200",
+          "#500",
+          "#a10",
+          "#e30",
+          "#f72",
+          "#fdb"
+        ],
+        "sheet": "res://assets/fx/pixelfx/boss_windup_fire.png",
+        "size": [
+          102,
+          83
+        ],
+        "source": "arcane/spell-charge"
+      },
+      "boss_windup_shadow": {
+        "authors": [
+          "Patch",
+          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
+        ],
+        "blend": "mix",
+        "columns": 20,
+        "fps": 30,
+        "frames": 21,
+        "origin": [
+          44,
+          77
+        ],
+        "palette": [
+          "#102",
+          "#315",
+          "#62a",
+          "#a5f",
+          "#dbf",
+          "#fff"
+        ],
+        "sheet": "res://assets/fx/pixelfx/boss_windup_shadow.png",
+        "size": [
+          102,
+          83
+        ],
+        "source": "arcane/spell-charge"
+      },
+      "boss_windup_tech": {
+        "authors": [
+          "Patch",
+          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
+        ],
+        "blend": "mix",
+        "columns": 20,
+        "fps": 30,
+        "frames": 21,
+        "origin": [
+          44,
+          77
+        ],
+        "palette": [
+          "#012",
+          "#036",
+          "#07c",
+          "#3cf",
+          "#bff",
+          "#fff"
+        ],
+        "sheet": "res://assets/fx/pixelfx/boss_windup_tech.png",
+        "size": [
+          102,
+          83
+        ],
+        "source": "arcane/spell-charge"
+      },
+      "boss_windup_toxic": {
+        "authors": [
+          "Patch",
+          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
+        ],
+        "blend": "mix",
+        "columns": 20,
+        "fps": 30,
+        "frames": 21,
+        "origin": [
+          44,
+          77
+        ],
+        "palette": [
+          "#020",
+          "#140",
+          "#3a0",
+          "#8e2",
+          "#df6",
+          "#fff"
+        ],
+        "sheet": "res://assets/fx/pixelfx/boss_windup_toxic.png",
+        "size": [
+          102,
+          83
+        ],
+        "source": "arcane/spell-charge"
       },
       "crit": {
         "authors": [
@@ -28480,6 +28660,67 @@
         ],
         "source": "spawn/poof"
       },
+      "shield_break": {
+        "authors": [
+          "Patch",
+          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
+        ],
+        "blend": "mix",
+        "columns": 13,
+        "fps": 15,
+        "frames": 18,
+        "origin": [
+          76,
+          82
+        ],
+        "sheet": "res://assets/fx/pixelfx/shield_break.png",
+        "size": [
+          152,
+          114
+        ],
+        "source": "scifi/emp-blast"
+      },
+      "shield_dome": {
+        "authors": [
+          "Patch",
+          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
+        ],
+        "blend": "mix",
+        "columns": 12,
+        "fps": 15,
+        "frames": 36,
+        "loop": true,
+        "origin": [
+          62,
+          74
+        ],
+        "sheet": "res://assets/fx/pixelfx/shield_dome.png",
+        "size": [
+          170,
+          94
+        ],
+        "source": "scifi/force-field"
+      },
+      "shock_zap": {
+        "authors": [
+          "Patch",
+          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
+        ],
+        "blend": "mix",
+        "columns": 15,
+        "fps": 30,
+        "frames": 26,
+        "origin": [
+          76,
+          53
+        ],
+        "sheet": "res://assets/fx/pixelfx/shock_zap.png",
+        "size": [
+          131,
+          106
+        ],
+        "source": "lightning/zap-hit"
+      },
       "slam": {
         "authors": [
           "Patch",
@@ -28499,6 +28740,54 @@
           174
         ],
         "source": "impacts/ground-slam"
+      },
+      "sludge_splash": {
+        "authors": [
+          "Patch",
+          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
+        ],
+        "blend": "mix",
+        "columns": 17,
+        "fps": 15,
+        "frames": 26,
+        "origin": [
+          57,
+          61
+        ],
+        "sheet": "res://assets/fx/pixelfx/sludge_splash.png",
+        "size": [
+          115,
+          77
+        ],
+        "source": "nature/acid-splash"
+      },
+      "steam_burst": {
+        "authors": [
+          "Patch",
+          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
+        ],
+        "blend": "mix",
+        "columns": 12,
+        "fps": 15,
+        "frames": 24,
+        "origin": [
+          85,
+          135
+        ],
+        "palette": [
+          "#223",
+          "#556",
+          "#889",
+          "#bbc",
+          "#eef",
+          "#fff"
+        ],
+        "sheet": "res://assets/fx/pixelfx/steam_burst.png",
+        "size": [
+          159,
+          157
+        ],
+        "source": "water/geyser"
       },
       "uppercut": {
         "authors": [
