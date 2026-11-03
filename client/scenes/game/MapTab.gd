@@ -181,6 +181,9 @@ static func _show(panel: PanelContainer, info: Dictionary, goal: bool, via := ""
 		parts.append("A %s waits here" % kind)
 	if info["gate"]:
 		parts.append(str(info["gate"]))
+	# The Epic and Legendary gear to be won here.
+	if str(info.get("prize_text", "")):
+		parts.append(str(info["prize_text"]))
 	lines.text = "  ·  ".join(parts)
 
 

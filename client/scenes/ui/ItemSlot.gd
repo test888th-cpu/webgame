@@ -18,6 +18,8 @@ var placeholder: Texture2D
 var too_high_level := false
 ## The slot's upgrade level, drawn as a gold "+N" in the corner (worn slots).
 var upgrade := 0
+## A green arrow in the top right: better than what is worn (ItemRules).
+var better := false
 ## What this slot hands over when dragged ({} when it cannot be dragged).
 var drag_data: Dictionary = {}
 ## (data: Dictionary) -> bool: whether a dragged hand-over may land here.
@@ -142,6 +144,14 @@ func _draw() -> void:
 		var text := "+%d" % upgrade
 		draw_string_outline(font, at, text, HORIZONTAL_ALIGNMENT_LEFT, -1, 7, 3, Color.BLACK)
 		draw_string(font, at, text, HORIZONTAL_ALIGNMENT_LEFT, -1, 7, UiTheme.GOLD)
+	if better:
+		var tip := Vector2(rect.size.x - 5.0, 2.0)
+		var arrow := PackedVector2Array([tip, tip + Vector2(3.5, 5.0), tip + Vector2(-3.5, 5.0)])
+		draw_colored_polygon(arrow, Color.BLACK)
+		var inner_arrow := PackedVector2Array(
+			[tip + Vector2(0, 1.2), tip + Vector2(2.3, 4.3), tip + Vector2(-2.3, 4.3)]
+		)
+		draw_colored_polygon(inner_arrow, UiTheme.GOOD)
 	if _drop_lit:
 		# Where the dragged item can go.
 		draw_rect(inner, Color(UiTheme.ACCENT, 0.18))

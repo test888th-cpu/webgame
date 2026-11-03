@@ -78,6 +78,28 @@ static func value(item: Dictionary) -> int:
 	return roundi(budget(item) * VALUE_PER_POINT)
 
 
+## What the copy with key `key` is worth to `profile` now: its stats with
+## its upgrades (EnhanceRules), scored. 0 for "" or anything not gear.
+static func copy_score(profile: PlayerProfile, key: String, content: ContentDB) -> float:
+	var item := content.item(key)
+	if item.get("type") != "equipment":
+		return 0.0
+	var total := score(item)
+	var extra := {"stats": EnhanceRules.copy_bonus(profile, key, item, content)}
+	return total + score(extra)
+
+
+## True when the carried copy `key` would be an upgrade on what `profile`
+## wears in its slot right now and the hero may wear it (the bag's green
+## arrow): worth more, or the slot is empty.
+static func is_upgrade(profile: PlayerProfile, key: String, content: ContentDB) -> bool:
+	var item := content.item(key)
+	if item.get("type") != "equipment" or int(item.get("level", 1)) > profile.level:
+		return false
+	var worn := str(profile.equipment.get(str(item.get("slot", "")), ""))
+	return copy_score(profile, key, content) > copy_score(profile, worn, content) + 0.01
+
+
 ## What is wrong with the equipment's grades, one message each: a score
 ## outside its budget, or a shop selling Rare or better.
 static func problems(content: ContentDB) -> PackedStringArray:

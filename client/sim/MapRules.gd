@@ -108,6 +108,8 @@ static func about(
 		"beaten": false,
 		"gate": "",
 		"purpose": "",
+		"prizes": [],
+		"prize_text": "",
 	}
 	var boss := boss_of(content, area_id)
 	info["beaten"] = boss != "" and int(profile.defeated.get(boss, 0)) > 0
@@ -126,6 +128,16 @@ static func about(
 	if boss:
 		info["boss"] = str(content.enemy(boss).get("name", boss))
 	info["gate"] = _gate(profile, area)
+	info["prizes"] = prizes(content, area_id)
+	var groups: Array[String] = []
+	for grade: String in ["legendary", "epic"]:
+		var names: Array[String] = []
+		for item_id: String in info["prizes"]:
+			if content.item(item_id).get("rarity") == grade:
+				names.append(str(content.item(item_id).get("name", item_id)))
+		if not names.is_empty():
+			groups.append("%s: %s" % [grade.capitalize(), ", ".join(names)])
+	info["prize_text"] = "  ·  ".join(groups)
 	return info
 
 
@@ -228,6 +240,27 @@ static func boss_of(content: ContentDB, area_id: String) -> String:
 				if content.enemy(kind).get("boss", false):
 					return kind
 	return ""
+
+
+## The Epic and Legendary gear to be won in `area_id`, best first: its
+## boss's drops, a farming ground's elite prizes, a world boss's rolls.
+static func prizes(content: ContentDB, area_id: String) -> Array[String]:
+	var found: Array[String] = []
+	var boss := boss_of(content, area_id)
+	for drop: Dictionary in content.enemy(boss).get("loot", {}).get("drops", []) if boss else []:
+		found.append(str(drop["item"]))
+	for prize: Dictionary in FarmSpawner.spec(content, area_id).get("elite_drops", []):
+		found.append(str(prize["item"]))
+	for world_boss: String in content.world_bosses:
+		var data := WorldBossRules.spec(content, world_boss)
+		if str(data.get("area")) == area_id:
+			found.append_array(data.get("kill", {}).get("rolls", {}).keys())
+	var out: Array[String] = []
+	for grade: String in ["legendary", "epic"]:
+		for item_id in found:
+			if content.item(item_id).get("rarity") == grade and item_id not in out:
+				out.append(item_id)
+	return out
 
 
 ## Why `area`'s way east is still shut (its hint), or "" when it is open.
