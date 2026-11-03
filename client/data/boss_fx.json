@@ -31,7 +31,7 @@
     "crane": "boss_impact",
     "steam": "steam_burst",
     "shock": "shock_zap",
-    "laser": "shock_zap",
+    "laser": "hit",
     "sludge": "sludge_splash"
   }
 }

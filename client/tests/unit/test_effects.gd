@@ -1,6 +1,6 @@
 extends TestCase
-## What the player sees around the fights: enemies arrive with a puff of
-## smoke (an elite with a flare), a boss's new phase flares, and a fallen
+## What the player sees around the fights: enemies fade in (an elite with a
+## flare, no smoke), a boss's new phase flares, and a fallen
 ## enemy fades out instead of vanishing (GameFeedback, ZoneView).
 
 const TEST_SAVE := "user://test_effects_save"
@@ -31,16 +31,27 @@ func test_arrivals_phases_and_fallen_enemies_have_effects() -> void:
 	game.enter_area("farm_facility_annex", "west")
 	var arrived := false
 	var elite := false
+	var faded_in := false
 	for i in 400:
 		for event in game.step(FighterInput.new()):
-			arrived = arrived or event.type == "spawn"
-			elite = elite or (event.type == "spawn" and event.data.get("elite", false))
+			if event.type != "spawn":
+				continue
+			arrived = true
+			elite = elite or event.data.get("elite", false)
+			var fresh := game.view.view_of(int(event.data["id"]))
+			faded_in = faded_in or (fresh != null and fresh.modulate.a < 1.0)
 		if elite:
 			break
 	game.content.areas["farm_facility_annex"]["spawning"]["elite_chance"] = 0.05
 	assert_true(arrived, "enemies came")
-	var puffs := game.view.effects.find_children("*", "AnimatedSprite2D", false, false)
-	assert_true(puffs.size() > 0, "an arrival raises dust (%d)" % puffs.size())
+	assert_true(faded_in, "an arrival fades in, no pop-in")
+	var shown: Array[String] = []
+	for sprite: AnimatedSprite2D in game.view.effects.find_children(
+		"*", "AnimatedSprite2D", true, false
+	):
+		shown.append(str(sprite.animation))
+	assert_true("elite_flare" in shown, "an elite arrives in gold light")
+	assert_true("poof" not in shown, "and nobody in a puff of smoke (%s)" % [shown])
 	var enemy: Fighter = game.zone.enemies()[0]
 	var enemy_view := game.view.view_of(enemy.id)
 	game.zone.fighters.erase(enemy)
@@ -144,4 +155,43 @@ func test_a_bosss_heavy_blow_shield_and_fall_show() -> void:
 	var fell := {"id": boss.id, "kind": "commander_arthit", "xp": 0, "boss": true}
 	game._feedback.on_event(ZoneEvent.make("defeat", fell))
 	assert_true(game.view.effects.get_child_count() > before, "a fallen boss goes up in a blast")
+	_done(game)
+
+
+func test_a_slam_stays_where_it_landed_and_a_charge_trail_follows() -> void:
+	var game := _game()
+	var hero := game.zone.hero
+	var hero_view := game.view.view_of(ZoneSim.HERO_ID)
+	for skill_id in ["furnace_slam", "shoulder_rush"]:
+		hero.move = game.content.moves.get_move(str(game.content.skills[skill_id]["move"]))
+		game._feedback.on_event(
+			ZoneEvent.make("swing", {"id": ZoneSim.HERO_ID, "move": "", "skill": skill_id})
+		)
+	var landed_at := hero_view.position
+	var trail := hero_view.find_children("*", "AnimatedSprite2D", false, false)
+	assert_true(trail.any(func(s: Node) -> bool: return s.animation == "rush"), "a trail follows")
+	await tree.create_timer(hero.move.startup * CombatRules.TICK_SECONDS + 0.4).timeout
+	var cracks := game.view.ground.find_children("*", "AnimatedSprite2D", false, false)
+	assert_eq(cracks.size(), 1, "the slam's crack is on the street")
+	assert_eq((cracks[0] as Node2D).position, landed_at, "where the hero stood when it landed")
+	for sprite: AnimatedSprite2D in hero_view.find_children("*", "AnimatedSprite2D", false, false):
+		assert_true(sprite.animation != "slam", "the crack does not ride along with the hero")
+	_done(game)
+
+
+func test_every_hazard_draws_lands_and_sounds() -> void:
+	var game := _game()
+	for kind: String in ["crane", "steam", "sludge", "shock", "laser"]:
+		var drop := HazardView.new()
+		drop.setup(0.2, kind, Vector2(60, 14))
+		game.view.effects.add_child(drop)
+		game._feedback._drops.append(drop)
+		await tree.process_frame
+		game._feedback.on_event(
+			ZoneEvent.make("hazard_hit", {"at": Vector2(400, 300), "kind": kind})
+		)
+		for i in 3:
+			await tree.process_frame
+		assert_true(drop._landed, kind + ": landed")
+	assert_true(game.content.audio["sounds"].has("hazard_warn"), "a warning of its own")
 	_done(game)

@@ -23,6 +23,9 @@ var content: ContentDB
 var camera: Camera2D
 ## Floating numbers and effects in world space.
 var effects: Node2D
+## Effects left on the street itself (a skill's crack in the ground): under
+## the fighters, and where they landed, not following anyone.
+var ground: Node2D
 
 var _entities: Node2D
 var _views := {}
@@ -35,12 +38,17 @@ var _exit_signs := {}
 var _npc_marks := {}
 var _npc_prompts := {}
 var _shake := 0.0
+## Set after the first sync: enemies there from the start are simply there.
+var _shown := false
 
 
 func build(p_zone: ZoneSim, p_content: ContentDB) -> void:
 	zone = p_zone
 	content = p_content
 	_build_scenery()
+	ground = Node2D.new()
+	ground.name = "Ground"
+	add_child(ground)
 	_entities = Node2D.new()
 	_entities.name = "Entities"
 	_entities.y_sort_enabled = true
@@ -76,6 +84,8 @@ func sync() -> void:
 		alive[f.id] = true
 		if not _views.has(f.id):
 			_views[f.id] = _make_fighter_view(f)
+			if f.id != ZoneSim.HERO_ID and _shown:
+				_fade_in(_views[f.id])
 		if f.id == ZoneSim.HERO_ID:
 			_views[f.id].set_art(hero_art(), content.art)
 		else:
@@ -99,14 +109,21 @@ func sync() -> void:
 	_update_exit_signs()
 	_update_prompts()
 	_follow_hero()
+	_shown = true
 
 
-## A fallen enemy's body fades into a puff of dust instead of vanishing.
+## An enemy coming into the fight fades in over a moment instead of popping
+## in. No smoke: nobody in this game teleports.
+func _fade_in(fresh: FighterView) -> void:
+	fresh.modulate.a = 0.0
+	fresh.create_tween().tween_property(fresh, "modulate:a", 1.0, 0.25)
+
+
+## A fallen enemy's body fades away instead of vanishing (no smoke).
 func _fade_out(gone: FighterView) -> void:
 	if not is_inside_tree() or gone.fighter == null or gone.fighter.id == ZoneSim.HERO_ID:
 		gone.queue_free()
 		return
-	Fx.spawn(effects, content, "poof", gone.position)
 	var tween := gone.create_tween()
 	tween.tween_property(gone, "modulate:a", 0.0, 0.3)
 	tween.tween_callback(gone.queue_free)

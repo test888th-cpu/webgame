@@ -24,6 +24,13 @@ const PUNCHES: Array[String] = [
 	"punch_hit_10",
 ]
 
+## Skill effects that travel with the fighter (a charge's trail, a spin
+## around the body). Every other skill effect is left in the world where the
+## blow lands, and a ground effect (a slam's crack) on the street under the
+## fighters: it does not slide along after them.
+const FOLLOWS: Array[String] = ["rush", "whirlwind"]
+const GROUND: Array[String] = ["slam"]
+
 var content: ContentDB
 var view: ZoneView
 var hud: Node
@@ -46,7 +53,11 @@ func on_event(event: ZoneEvent) -> void:
 			_dust(event.data["id"])
 			Sfx.play("dodge", -4.0)
 		"pickup":
-			Sfx.play("coin" if event.data["kind"] == "money" else "pickup", -3.0)
+			# Quiet and short: coins are picked up all the time.
+			if event.data["kind"] == "money":
+				Sfx.play("coin", -8.0, 0.08)
+			else:
+				Sfx.play("pickup", -6.0)
 		"level_up":
 			level_up(event.data["level"], event.data.get("skills", []))
 		"quest_complete":
@@ -107,13 +118,15 @@ func on_event(event: ZoneEvent) -> void:
 			)
 			view.effects.add_child(drop)
 			_drops.append(drop)
-			Sfx.play("denied", -6.0)
+			Sfx.play("hazard_warn", -8.0)
 		"hazard_hit":
 			_drops = _drops.filter(func(d: HazardView) -> bool: return is_instance_valid(d))
 			if not _drops.is_empty():
 				_drops.pop_front().land()
-			var sound := {"steam": "dodge", "laser": "swing_heavy"}
-			Sfx.play(sound.get(event.data.get("kind"), "break_metal"), 0.0)
+			var sound := {
+				"steam": "steam_hiss", "sludge": "steam_hiss", "shock": "zap", "laser": "laser_beam"
+			}
+			Sfx.play(sound.get(event.data.get("kind"), "break_metal"), -2.0)
 			if event.data.get("kind", "crane") == "crane":
 				# A container hitting the street: the ground shakes.
 				view.shake(4.0)
@@ -133,19 +146,17 @@ func _boss_down(id: int) -> void:
 	Sfx.play("break_metal", 0.0, 0.0, 0.6)
 
 
-## An enemy steps in with a puff of dust where it stands (no pop-in); an
-## elite (FarmSpawner) arrives in a burst of gold light, a boss in a slam.
+## An elite (FarmSpawner) arrives in a burst of gold light, a boss in a
+## slam; anyone else just fades in (ZoneView), with no smoke.
 func _arrival(data: Dictionary) -> void:
 	var fighter := view.zone.fighter(int(data["id"]))
 	if fighter == null:
 		return
 	if data.get("elite", false):
 		Fx.spawn(view.effects, content, "elite_flare", fighter.position)
-		Sfx.play("level_up", -10.0, 0.0, 0.7)
+		Sfx.play("elite_arrive", -6.0)
 	elif data.get("boss", false):
 		Fx.spawn(view.effects, content, "boss_land", fighter.position)
-	else:
-		Fx.spawn(view.effects, content, "poof", fighter.position)
 
 
 ## A boss entering a new phase flares red and throws out a shockwave, so the
@@ -285,14 +296,20 @@ func _on_swing(data: Dictionary) -> void:
 	var delay := fighter.move.startup * CombatRules.TICK_SECONDS
 	var flip := fighter.facing < 0
 	var effect := str(skill["fx"])
-	match effect:
-		"rush":
-			# The trail follows the hero through the charge.
-			Fx.spawn(fighter_view, content, effect, Vector2(0, -10), flip)
-		"uppercut":
-			_later(delay, fighter_view, effect, Vector2(fighter.facing * 18.0, 0), flip)
-		_:
-			_later(delay, fighter_view, effect, Vector2.ZERO, flip)
+	if effect == "rush":
+		# The trail follows the hero through the charge.
+		Fx.spawn(fighter_view, content, effect, Vector2(0, -10), flip)
+	elif effect in FOLLOWS:
+		_later(delay, fighter_view, effect, Vector2.ZERO, flip)
+	else:
+		# Where the blow lands: an uppercut's arc rises just ahead, a strike's
+		# burst at chest height in front; a ground effect under the fighter.
+		var ahead := Vector2.ZERO
+		if effect == "uppercut":
+			ahead = Vector2(fighter.facing * 18.0, 0)
+		elif effect not in GROUND:
+			ahead = CHEST + Vector2(fighter.facing * 16.0, 0)
+		_landed(delay, int(data["id"]), effect, ahead, flip)
 	if effect == "slam":
 		view.get_tree().create_timer(delay).timeout.connect(view.shake.bind(7.0))
 		_dust(data["id"], delay)
@@ -306,6 +323,22 @@ func _later(seconds: float, parent: Node2D, effect: String, at: Vector2, flip: b
 			var target := instance_from_id(parent_id) as Node2D
 			if target and target.is_inside_tree():
 				Fx.spawn(target, content, effect, at, flip)
+	)
+
+
+## Plays `effect` after `seconds` where fighter `fighter_id` then stands
+## (plus `offset`), in the world: on the street for a GROUND effect, else
+## over it. It stays there.
+func _landed(seconds: float, fighter_id: int, effect: String, offset: Vector2, flip: bool) -> void:
+	var view_id := view.get_instance_id()
+	view.get_tree().create_timer(seconds).timeout.connect(
+		func() -> void:
+			var zone_view := instance_from_id(view_id) as ZoneView
+			var fighter_view := zone_view.view_of(fighter_id) if zone_view else null
+			if fighter_view == null:
+				return
+			var layer := zone_view.ground if effect in GROUND else zone_view.effects
+			Fx.spawn(layer, content, effect, fighter_view.position + offset, flip)
 	)
 
 

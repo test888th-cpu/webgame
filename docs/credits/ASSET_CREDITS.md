@@ -409,7 +409,6 @@ source.
 | fx:levelup | Patch | MIT | https://github.com/patch-gg/pixelfx | combat effects |
 | fx:parry | Patch; Hugo Duprez (adapted from Sprite Fusion's pixel art VFX) | MIT | https://github.com/patch-gg/pixelfx | combat effects |
 | fx:phase_burst | Patch; Hugo Duprez (adapted from Sprite Fusion's pixel art VFX) | MIT | https://github.com/patch-gg/pixelfx | combat effects |
-| fx:poof | Patch; Hugo Duprez (adapted from Sprite Fusion's pixel art VFX) | MIT | https://github.com/patch-gg/pixelfx | combat effects |
 | fx:shield_break | Patch; Hugo Duprez (adapted from Sprite Fusion's pixel art VFX) | MIT | https://github.com/patch-gg/pixelfx | combat effects |
 | fx:shield_dome | Patch; Hugo Duprez (adapted from Sprite Fusion's pixel art VFX) | MIT | https://github.com/patch-gg/pixelfx | combat effects |
 | fx:shock_zap | Patch; Hugo Duprez (adapted from Sprite Fusion's pixel art VFX) | MIT | https://github.com/patch-gg/pixelfx | combat effects |
