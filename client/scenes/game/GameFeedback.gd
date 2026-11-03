@@ -59,6 +59,9 @@ func on_event(event: ZoneEvent) -> void:
 		"boss_phase":
 			Sfx.play("boss_roar")
 			view.shake(4.0)
+			_phase_burst(int(event.data["id"]))
+		"spawn":
+			_arrival(event.data)
 		"boss_summon":
 			Sfx.play("arena_lock", -4.0)
 		"boss_shield":
@@ -104,6 +107,33 @@ func on_event(event: ZoneEvent) -> void:
 				view.shake(4.0)
 			Fx.spawn(view.effects, content, "dust", event.data["at"])
 			view.shake(6.0)
+
+
+## An enemy steps in with a puff of dust where it stands (no pop-in); an
+## elite (FarmSpawner) arrives in a burst of gold light, a boss in a slam.
+func _arrival(data: Dictionary) -> void:
+	var fighter := view.zone.fighter(int(data["id"]))
+	if fighter == null:
+		return
+	Fx.spawn(view.effects, content, "dust", fighter.position)
+	if data.get("elite", false):
+		Fx.spawn(view.effects, content, "levelup", fighter.position)
+		Sfx.play("level_up", -10.0, 0.0, 0.7)
+	elif data.get("boss", false):
+		Fx.spawn(view.effects, content, "slam", fighter.position)
+
+
+## A boss entering a new phase flares red and throws out a shockwave, so the
+## change in its pattern is seen as well as heard.
+func _phase_burst(id: int) -> void:
+	var boss := view.zone.fighter(id)
+	if boss == null:
+		return
+	Fx.spawn(view.effects, content, "slam", boss.position)
+	Fx.spawn(view.effects, content, "hit_heavy", boss.position + CHEST)
+	var boss_view := view.view_of(id)
+	if boss_view:
+		boss_view.impact(Color(1.0, 0.35, 0.25), 0.35, 0.12)
 
 
 ## Raises or drops the shield dome on fighter `id`'s view.
