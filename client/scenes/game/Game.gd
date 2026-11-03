@@ -285,7 +285,9 @@ func _handle(event: ZoneEvent) -> void:
 				_hud.toast("%s defeated!" % data.get("name", "Boss"))
 			SaveStore.save(profile)
 		"spawn":
-			if event.data.get("elite", false):
+			if event.data.get("boss", false):
+				_hud.toast("BOSS: %s" % _boss_name())
+			elif event.data.get("elite", false):
 				var name := str(content.enemy(event.data["kind"]).get("name", "enemy"))
 				_hud.toast("An elite %s joins the fight!" % name)
 		"quest_complete":
@@ -315,12 +317,10 @@ func _handle(event: ZoneEvent) -> void:
 				_hud.show_go()
 		"encounter_start":
 			_hud.show_go(false)
-			if event.data.get("boss", false):
-				_hud.toast("A boss approaches!")
 			if not zone.fight_locked():
 				_hud.toast("You've passed this area: fight, or walk on.")
 		"boss_phase":
-			_hud.toast("It's enraged!")
+			_hud.toast("%s is enraged!" % _boss_name())
 		"boss_shield":
 			var shielded := bool(event.data["up"])
 			_hud.toast("Defences up. Survive!" if shielded else "System reset. Strike now!")
@@ -347,6 +347,12 @@ func _handle(event: ZoneEvent) -> void:
 				view.show_text(
 					text, zone.hero.position, Color(1, 0.6, 0.4) if broke else UiTheme.GOLD
 				)
+
+
+## The name of the boss in this fight, for the toasts ("The boss" if none).
+func _boss_name() -> String:
+	var boss := zone.fighter(zone.boss_id) if zone.boss_id else null
+	return str(content.enemy(boss.kind).get("name", "The boss")) if boss else "The boss"
 
 
 ## Talks to the NPC in reach, if any. Returns true when something opened.

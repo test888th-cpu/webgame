@@ -54,6 +54,9 @@ var _held: Sprite2D
 var _fist: Sprite2D
 var _held_id := ""
 var _threat := ""
+## The rank icon left of the overhead name: the map's own symbols, so a skull
+## means a boss and horns a mini-boss everywhere; a star for a field elite.
+var _badge: TextureRect
 
 @onready var _body: Node2D = $Body
 @onready var _torso: Polygon2D = $Body/Torso
@@ -74,8 +77,9 @@ func _ready() -> void:
 ## `level` (shown over its head; 0 hides it).
 ## Colours the name by how this enemy compares with a hero at `hero_level`.
 func show_threat(hero_level: int) -> void:
-	# A farming ground's elite keeps its gold name (mark_elite).
-	if enemy_level <= 0 or fighter.elite:
+	# A farming ground's elite keeps its gold name (mark_elite), and a boss or
+	# mini-boss its rank colour.
+	if enemy_level <= 0 or fighter.elite or _badge:
 		return
 	var threat := LevelRules.threat(enemy_level, hero_level)
 	if threat != _threat:
@@ -93,11 +97,12 @@ func setup_enemy(data: Dictionary, art: Dictionary, level := 0) -> void:
 	enemy_level = level if not data.get("training", false) else 0
 	var tag := "Lv %d" % enemy_level if enemy_level > 0 else ""
 	if data.get("boss", false):
-		# The boss bar names a boss and its level; nothing over its head.
-		_name.visible = false
+		# The boss bar has its level; overhead, the skull and its name show
+		# which one it is in a crowd.
+		_rank(str(data.get("name", "")), "map_boss", UiTheme.DANGER)
 	elif data.get("elite", false):
-		_name.text = str(data.get("name", "")) + ("  " + tag if tag else "")
-		_name.visible = true
+		var named := str(data.get("name", "")) + ("  " + tag if tag else "")
+		_rank(named, "map_mini_boss", UiTheme.ACCENT)
 	elif tag:
 		_name.text = tag
 		_name.visible = true
@@ -108,9 +113,27 @@ func setup_enemy(data: Dictionary, art: Dictionary, level := 0) -> void:
 ## A farming ground's elite (FarmSpawner): its name and level overhead, in gold.
 func mark_elite(data: Dictionary) -> void:
 	var tag := "  Lv %d" % enemy_level if enemy_level > 0 else ""
-	_name.text = "Elite %s%s" % [data.get("name", ""), tag]
-	_name.add_theme_color_override("font_color", UiTheme.GOLD)
+	_rank("Elite %s%s" % [data.get("name", ""), tag], "star", UiTheme.GOLD)
+
+
+## Shows `text` overhead in `color`, with icon `icon_id` just left of it.
+func _rank(text: String, icon_id: String, color: Color) -> void:
+	_name.text = text
+	_name.add_theme_color_override("font_color", color)
 	_name.visible = true
+	if _badge == null:
+		_badge = TextureRect.new()
+		_badge.name = "Rank"
+		_badge.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		_badge.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		_badge.size = Vector2(8, 8)
+		add_child(_badge)
+	_badge.texture = UiKit.icon(GameSession.content, icon_id)
+	var font := _name.get_theme_font("font")
+	var size := _name.get_theme_font_size("font_size")
+	var width := font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, size).x
+	var middle := (_name.offset_left + _name.offset_right) / 2.0
+	_badge.position = Vector2(middle - width / 2.0 - 10.0, _name.offset_top + 1.0)
 
 
 ## Switches to an imported character asset (or back to polygons with "").

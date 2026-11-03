@@ -51,6 +51,11 @@ func test_arrivals_phases_and_fallen_enemies_have_effects() -> void:
 	):
 		shown.append(str(sprite.animation))
 	assert_true("elite_flare" in shown, "an elite arrives in gold light")
+	for enemy in game.zone.enemies():
+		if enemy.elite:
+			var plate := game.view.view_of(enemy.id)
+			assert_true((plate.get_node("Name") as Label).text.begins_with("Elite "), "named")
+			assert_true(plate.get_node_or_null("Rank") != null, "with the elite star")
 	assert_true("poof" not in shown, "and nobody in a puff of smoke (%s)" % [shown])
 	var enemy: Fighter = game.zone.enemies()[0]
 	var enemy_view := game.view.view_of(enemy.id)
