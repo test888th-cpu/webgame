@@ -2,12 +2,30 @@
   "start_area": "depot_yard",
   "city_area": "main_city",
   "districts": [
-    {"name": "South Street", "from": "depot_yard"},
-    {"name": "Port District", "from": "port_road"},
-    {"name": "Industrial District", "from": "factory_gate"},
-    {"name": "The Black Network", "from": "warehouse_row"},
-    {"name": "The Core Facility", "from": "facility_gate"},
-    {"name": "Main Control Centre", "from": "core_approach"}
+    {
+      "name": "South Street",
+      "from": "depot_yard"
+    },
+    {
+      "name": "Port District",
+      "from": "port_road"
+    },
+    {
+      "name": "Industrial District",
+      "from": "factory_gate"
+    },
+    {
+      "name": "The Black Network",
+      "from": "warehouse_row"
+    },
+    {
+      "name": "The Core Facility",
+      "from": "facility_gate"
+    },
+    {
+      "name": "Main Control Centre",
+      "from": "core_approach"
+    }
   ],
   "areas": {
     "depot_yard": {
@@ -4212,7 +4230,10 @@
           "y": 262,
           "color": "#c8c0a0",
           "line": "Notices from all over the city, pinned three deep.",
-          "planned_services": ["Trading Post", "Guild Hall"]
+          "planned_services": [
+            "Trading Post",
+            "Guild Hall"
+          ]
         },
         {
           "id": "vendor_ama",
@@ -4320,15 +4341,36 @@
           "knife": 1,
           "frying_pan": 1
         },
-        "span": [1150, 1340]
+        "span": [
+          1150,
+          1340
+        ]
       },
       "landmarks": [
-        {"x": 200, "text": "Taxi Rank"},
-        {"x": 700, "text": "Market"},
-        {"x": 1080, "text": "Workshop"},
-        {"x": 1240, "text": "Training Yard"},
-        {"x": 1400, "text": "Trading Post: not open yet"},
-        {"x": 1530, "text": "Guild Hall: not open yet"}
+        {
+          "x": 200,
+          "text": "Taxi Rank"
+        },
+        {
+          "x": 700,
+          "text": "Market"
+        },
+        {
+          "x": 1080,
+          "text": "Workshop"
+        },
+        {
+          "x": 1240,
+          "text": "Training Yard"
+        },
+        {
+          "x": 1400,
+          "text": "Trading Post: not open yet"
+        },
+        {
+          "x": 1530,
+          "text": "Guild Hall: not open yet"
+        }
       ],
       "obstacles": [
         {
@@ -4411,12 +4453,22 @@
       "npcs": [],
       "placed": [],
       "spawning": {
-        "cap": 4,
-        "pack": 3,
-        "respawn_ticks": 700,
+        "camps": [
+          470,
+          740,
+          1010,
+          1270
+        ],
+        "camp_size": 3,
+        "aggro": 140,
+        "respawn_ticks": 240,
+        "reward_scale": 0.4,
         "elite_chance": 0.05,
         "elite_drops": [
-          {"item": "foreman_boots", "chance": 0.03}
+          {
+            "item": "foreman_boots",
+            "chance": 0.03
+          }
         ],
         "from_x": 320,
         "pool": {
@@ -4505,13 +4557,26 @@
       "npcs": [],
       "placed": [],
       "spawning": {
-        "cap": 4,
-        "pack": 3,
-        "respawn_ticks": 650,
+        "camps": [
+          470,
+          740,
+          1010,
+          1270
+        ],
+        "camp_size": 3,
+        "aggro": 140,
+        "respawn_ticks": 240,
+        "reward_scale": 0.51,
         "elite_chance": 0.05,
         "elite_drops": [
-          {"item": "smelter_apron", "chance": 0.03},
-          {"item": "jade_charm", "chance": 0.03}
+          {
+            "item": "smelter_apron",
+            "chance": 0.03
+          },
+          {
+            "item": "jade_charm",
+            "chance": 0.03
+          }
         ],
         "from_x": 320,
         "pool": {
@@ -4595,13 +4660,26 @@
       "npcs": [],
       "placed": [],
       "spawning": {
-        "cap": 4,
-        "pack": 3,
-        "respawn_ticks": 720,
+        "camps": [
+          470,
+          740,
+          1010,
+          1270
+        ],
+        "camp_size": 3,
+        "aggro": 140,
+        "respawn_ticks": 240,
+        "reward_scale": 0.63,
         "elite_chance": 0.05,
         "elite_drops": [
-          {"item": "harbourmaster_cap", "chance": 0.03},
-          {"item": "dockmaster_boots", "chance": 0.03}
+          {
+            "item": "harbourmaster_cap",
+            "chance": 0.03
+          },
+          {
+            "item": "dockmaster_boots",
+            "chance": 0.03
+          }
         ],
         "from_x": 320,
         "pool": {
@@ -4684,13 +4762,26 @@
       "npcs": [],
       "placed": [],
       "spawning": {
-        "cap": 4,
-        "pack": 3,
-        "respawn_ticks": 900,
+        "camps": [
+          470,
+          740,
+          1010,
+          1270
+        ],
+        "camp_size": 3,
+        "aggro": 140,
+        "respawn_ticks": 240,
+        "reward_scale": 0.72,
         "elite_chance": 0.05,
         "elite_drops": [
-          {"item": "chiefs_gloves", "chance": 0.03},
-          {"item": "chiefs_baton", "chance": 0.03}
+          {
+            "item": "chiefs_gloves",
+            "chance": 0.03
+          },
+          {
+            "item": "chiefs_baton",
+            "chance": 0.03
+          }
         ],
         "from_x": 320,
         "pool": {
@@ -4771,13 +4862,26 @@
       "npcs": [],
       "placed": [],
       "spawning": {
-        "cap": 4,
-        "pack": 3,
-        "respawn_ticks": 1070,
+        "camps": [
+          470,
+          740,
+          1010,
+          1270
+        ],
+        "camp_size": 3,
+        "aggro": 140,
+        "respawn_ticks": 240,
+        "reward_scale": 0.48,
         "elite_chance": 0.05,
         "elite_drops": [
-          {"item": "k7_plating", "chance": 0.03},
-          {"item": "ringmaster_wraps", "chance": 0.03}
+          {
+            "item": "k7_plating",
+            "chance": 0.03
+          },
+          {
+            "item": "ringmaster_wraps",
+            "chance": 0.03
+          }
         ],
         "from_x": 320,
         "pool": {
@@ -4859,13 +4963,26 @@
       "npcs": [],
       "placed": [],
       "spawning": {
-        "cap": 4,
-        "pack": 3,
-        "respawn_ticks": 1100,
+        "camps": [
+          470,
+          740,
+          1010,
+          1270
+        ],
+        "camp_size": 3,
+        "aggro": 140,
+        "respawn_ticks": 240,
+        "reward_scale": 0.63,
         "elite_chance": 0.05,
         "elite_drops": [
-          {"item": "sak_loafers", "chance": 0.03},
-          {"item": "subject_band", "chance": 0.03}
+          {
+            "item": "sak_loafers",
+            "chance": 0.03
+          },
+          {
+            "item": "subject_band",
+            "chance": 0.03
+          }
         ],
         "from_x": 320,
         "pool": {
@@ -4942,12 +5059,22 @@
       "npcs": [],
       "placed": [],
       "spawning": {
-        "cap": 4,
-        "pack": 3,
-        "respawn_ticks": 1380,
+        "camps": [
+          470,
+          740,
+          1010,
+          1270
+        ],
+        "camp_size": 3,
+        "aggro": 140,
+        "respawn_ticks": 240,
+        "reward_scale": 0.57,
         "elite_chance": 0.05,
         "elite_drops": [
-          {"item": "director_coat", "chance": 0.03}
+          {
+            "item": "director_coat",
+            "chance": 0.03
+          }
         ],
         "from_x": 320,
         "pool": {

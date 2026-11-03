@@ -40,6 +40,8 @@ var _story_run := false
 ## Rides back to the same area with no one defeated in between: a second
 ## one means the story is stuck there, and auto stops instead of paying on.
 var _same_rides := 0
+## The left-behind quest last named in a toast (_story_note).
+var _noted := ""
 ## Gear came in (a drop, a quest's rewards): try it on once out of the fight.
 var _new_gear := false
 
@@ -169,10 +171,13 @@ func _story() -> bool:
 	var cleared := pilot.status == AutoPilot.STATUS_CLEAR
 	var plan := StoryAuto.step(_game.profile, _game.content, zone.area_id, cleared)
 	var step := str(plan["do"])
-	if step == StoryAuto.DONE:
-		if _story_run:
+	if step in [StoryAuto.HERE, StoryAuto.DONE]:
+		# HERE: fight on here and say where the quest is; DONE: the end.
+		if step == StoryAuto.HERE:
+			_story_note(plan)
+		elif _story_run:
 			stop("The story is complete. Auto off.")
-		return _story_run
+		return step == StoryAuto.DONE and _story_run
 	_story_run = true
 	if step in [StoryAuto.EAST, StoryAuto.STAY]:
 		pilot.heading = 1 if step == StoryAuto.EAST else 0
@@ -207,6 +212,16 @@ func _wear_upgrades() -> void:
 	for key in worn:
 		names.append(str(_game.content.item(key).get("name", key)))
 	_game.hud_toast("Equipped " + ", ".join(names))
+
+
+## Says once why auto stays here although the quest is elsewhere (StoryAuto
+## HERE), so the player knows where to take it up.
+func _story_note(plan: Dictionary) -> void:
+	if _noted == str(plan["quest"]):
+		return
+	_noted = str(plan["quest"])
+	var area := str(_game.content.area(str(plan["to"])).get("name", plan["to"]))
+	_game.hud_toast('Auto keeps fighting here. Quest "%s" is back at %s.' % [_noted, area])
 
 
 ## Takes or hands in `quest_id` at its giver, as the quest menu does.

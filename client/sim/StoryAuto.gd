@@ -15,6 +15,10 @@ extends RefCounted
 ##   elsewhere: home to the hub, then Win's taxi there. Also the goal area
 ##   itself when nothing is left to fight in it (its boss beaten before the
 ##   quest was taken): the rest at the hub brings its fights back;
+## * HERE: the quest would send the hero back to an area more than
+##   BACKTRACK_LEVELS easier than this one, with a fight here (a quest left
+##   behind while playing on by hand): auto keeps fighting here instead of
+##   dragging the hero back, and says where that quest is;
 ## * DONE: the story has nothing left to do.
 ## The steps only read the profile; AutoBattle carries them out through the
 ## same actions a player has (QuestRules, the taxi fare, walking), so nothing
@@ -26,6 +30,9 @@ const EAST := "east"
 const STAY := "stay"
 const RIDE := "ride"
 const DONE := "done"
+const HERE := "here"
+## How many levels easier an area may be before auto will not ride back to it.
+const BACKTRACK_LEVELS := 8
 
 
 ## The next step from `here`: {"do": one of the constants above, "quest"
@@ -43,6 +50,8 @@ static func step(
 		return {"do": DONE}
 	var goal_area := str(goal["area"])
 	var to := target(profile, content, goal_area)
+	if to != here and _backtrack(content, here, to):
+		return {"do": HERE, "to": to, "quest": str(goal.get("text", ""))}
 	if to != here:
 		return {"do": RIDE, "to": to}
 	if goal_area != here:
@@ -77,3 +86,13 @@ static func target(profile: PlayerProfile, content: ContentDB, goal_area: String
 		if street[i] in profile.visited:
 			return street[i]
 	return content.start_area
+
+
+## True when going to `to` would take the hero from a fight in `here` back to
+## an area more than BACKTRACK_LEVELS easier.
+static func _backtrack(content: ContentDB, here: String, to: String) -> bool:
+	var area := content.area(here)
+	if area.get("encounters", []).is_empty() and not FarmSpawner.active(content, here):
+		return false
+	var easier := int(area.get("level", 0)) - int(content.area(to).get("level", 0))
+	return easier > BACKTRACK_LEVELS

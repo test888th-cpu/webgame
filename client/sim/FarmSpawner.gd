@@ -1,56 +1,59 @@
 class_name FarmSpawner
 extends RefCounted
-## A farming ground's living field (areas.json "spawning"): enemies keep
-## coming, so the hero fights on without walking back for another round.
+## A farming ground's living field (areas.json "spawning"): enemies stand in
+## camps across the field, as in the field games it follows, and the hero picks
+## which to take on.
 ##
-## The field fills up to `cap` enemies standing, one every FILL_TICKS. After
-## that enemies come in packs, as in the field games it follows: once there is
-## room for a whole `pack` (cap less pack standing), the next pack arrives
-## `respawn_ticks` later, running in together from one side, PACK_STAGGER
-## ticks apart. So the fighting comes in bursts and the next pack is already
-## on its way as the last one falls; the respawn time sets the pace (and the
-## income, tuned with the harness). Each enters away from the hero (at least
-## MIN_GAP, off camera when the field allows) and never west of `from_x`, so
-## the way out and the arrival
-## spot stay calm: enemies keep east of `from_x` less SAFE_MARGIN, so the
-## west end (where the hero arrives and comes to) is a safe spot. Who comes
-## is drawn from `pool` ({enemy: weight}); one in `elite_chance` is an
-## elite: tougher, worth ELITE_REWARD times the XP, coins and loot rolls,
-## named in gold, with a chance at the ground's own prizes (`elite_drops`,
-## [{item, chance}]: the Epic gear of its district's bosses).
-## Nothing locks the hero in and nothing here is saved: leaving and coming
-## back starts a fresh field. Rewards are paid where every enemy's are
+## Each camp (`camps`: the x of each camp's centre) holds `camp_size` enemies,
+## there from the moment the hero arrives. They stand at their own spot
+## (EnemyBrain.camp) and come only when the hero walks within `aggro` of one of
+## them or strikes one; then the whole camp joins in together (social aggro),
+## the other camps stay where they are. One chased too far from home (LEASH
+## times `aggro`), or out of reach of the hero for a few seconds
+## (EnemyBrain.LOST_TICKS), gives up, walks back and is healed there. Each enemy
+## that falls comes back to its camp `respawn_ticks` later (give or take
+## RESPAWN_JITTER, so a camp does not pop back all at once), once its camp's
+## fight is over, on the side of the camp away from the hero: clearing a camp
+## earns a breather of a few seconds, then it stands again, so the fighting
+## never goes quiet for long. Several heroes in one field (IL-7) each pull the
+## camps near them; the rules here are already per camp. Enemies keep east of
+## `from_x` less SAFE_MARGIN, so the west end (where the hero arrives and the
+## way out) is a safe spot. Who comes is drawn from `pool` ({enemy: weight});
+## one in `elite_chance` is an elite: tougher, worth ELITE_REWARD times the XP,
+## coins and loot rolls, named in gold, with a chance at the ground's own prizes
+## (`elite_drops`, [{item, chance}]: the Epic gear of its district's bosses).
+## Nothing locks the hero in and nothing here is saved: leaving and coming back
+## starts a fresh field. Rewards are paid where every enemy's are
 ## (ZoneSim._defeat). Pure rules on ZoneSim's seeded rng, shared with the
 ## server.
 
-## Ticks between spawns while the field first fills (half a second).
-const FILL_TICKS := 30
 ## How far west of `from_x` an enemy may follow the hero (the safe spot is
 ## west of that line).
 const SAFE_MARGIN := 120.0
-## The nearest an enemy enters to the hero.
-const MIN_GAP := 180.0
-## Past this distance an entrance is off camera (half the 640 px canvas).
-const OFF_CAMERA := 340.0
+## How far from a camp's centre its members stand.
+const CAMP_SPREAD := 44.0
+## Room east of `from_x` a field needs (the validator's check).
+const SPAWN_CLEAR := 120.0
+## A returning enemy's time back varies by up to this, either way.
+const RESPAWN_JITTER := 60
+## How far from home (in aggro radii) a camp member chases before giving up.
+const LEASH := 2.5
 ## An elite's toughness and what it is worth, against its plain kind.
 const ELITE_HP := 3.0
 const ELITE_POWER := 1.25
 const ELITE_REWARD := 3.0
-const MAX_CAP := 8
+const MAX_CAMPS := 8
+const MAX_CAMP_SIZE := 6
 const MIN_RESPAWN := 30
+const MIN_AGGRO := 60.0
+const MAX_AGGRO := 400.0
 const MAX_ELITE_CHANCE := 0.25
-## Ticks between the members of a pack running in, and how far apart they
-## enter.
-const PACK_STAGGER := 12
-const PACK_SPREAD := 28.0
 
-var _timer := 0
-var _filled := false
-## Members of the arriving pack still to come in, where it enters and the
-## ticks to the next one.
-var _coming := 0
-var _pack_x := 0.0
-var _stagger := 0
+var _started := false
+## Camp members standing, by id -> camp index.
+var _members := {}
+## Enemies on their way back: [camp, tick due], in the order they fell.
+var _returning: Array = []
 ## Elites standing, by id: each pays its extra loot rolls when it falls.
 var _elites := {}
 
@@ -67,68 +70,96 @@ static func active(content: ContentDB, area_id: String) -> bool:
 	return not spec(content, area_id).is_empty()
 
 
-## One step of the field: counts who is standing and, when it is time, sends
-## the next one or the next pack in. Does nothing in an area without "spawning".
+## How many enemies the field holds when every camp is full.
+static func capacity(data: Dictionary) -> int:
+	return (data.get("camps", []) as Array).size() * int(data.get("camp_size", 0))
+
+
+## One step of the field: fills the camps on arrival, wakes a whole camp
+## when one of it is, heals one that walked home, and refills camps short of
+## enemies when it is time. Does nothing in an area without "spawning".
 func tick(zone: ZoneSim, events: Array[ZoneEvent]) -> void:
 	var data := spec(zone.content, zone.area_id)
 	if data.is_empty():
 		return
 	_pay_elites(zone)
-	var standing := 0
 	var west := float(data["from_x"]) - SAFE_MARGIN
 	for enemy in zone.enemies():
 		if not enemy.is_ko() and zone.brains.has(enemy.id):
-			standing += 1
 			enemy.position.x = maxf(enemy.position.x, west)
-	var cap := int(data["cap"])
-	if _coming > 0:
-		_stagger -= 1
-		if _stagger <= 0:
-			_coming -= 1
-			_stagger = PACK_STAGGER
-			var offset := zone.rng.randf_range(-PACK_SPREAD, PACK_SPREAD)
-			_spawn(zone, data, events, _pack_x + offset)
+	var camps: Array = data["camps"]
+	if not _started:
+		_started = true
+		for camp in camps.size():
+			for member in int(data["camp_size"]):
+				_spawn(zone, data, events, camp)
 		return
-	if standing >= cap:
-		_filled = true
-		_timer = 0
-		return
-	if not _filled:
-		_timer += 1
-		if _timer >= FILL_TICKS:
-			_timer = 0
-			_spawn(zone, data, events)
-		return
-	var pack := mini(pack_size(data), cap)
-	if cap - standing < pack:
-		_timer = 0
-		return
-	_timer += 1
-	if _timer < int(data["respawn_ticks"]):
-		return
-	_timer = 0
-	_coming = pack
-	_stagger = 0
-	_pack_x = entry_x(zone, float(data["from_x"]))
+	for camp: int in _fallen(zone):
+		var back := (
+			int(data["respawn_ticks"]) + zone.rng.randi_range(-RESPAWN_JITTER, RESPAWN_JITTER)
+		)
+		_returning.append([camp, zone.tick_count + maxi(MIN_RESPAWN, back)])
+		_returning.sort_custom(func(a: Array, b: Array) -> bool: return int(a[1]) < int(b[1]))
+	var fighting := _wake_and_heal(zone)
+	# One whose camp is still fighting waits for that fight to end: a cleared
+	# camp comes back together a few seconds later, not into the same fight.
+	var calling := {}
+	for back: Array in _returning:
+		if zone.tick_count >= int(back[1]) and not fighting.has(int(back[0])):
+			calling[int(back[0])] = true
+	# A calm camp's first one due brings back all it is waiting for, together.
+	for back: Array in _returning.duplicate():
+		if calling.has(int(back[0])):
+			_returning.erase(back)
+			_spawn(zone, data, events, int(back[0]))
 
 
-## How many enemies come in together once the field has filled ("pack",
-## default 1).
-static func pack_size(data: Dictionary) -> int:
-	return maxi(1, int(data.get("pack", 1)))
+## The camps of members that fell since the last tick (forgotten here).
+func _fallen(zone: ZoneSim) -> Array[int]:
+	var camps: Array[int] = []
+	for id: int in _members.keys():
+		var enemy := zone.fighter(id)
+		if enemy == null or enemy.is_ko() or not zone.brains.has(id):
+			camps.append(_members[id])
+			_members.erase(id)
+	return camps
 
 
-func _spawn(zone: ZoneSim, data: Dictionary, events: Array[ZoneEvent], at := -1.0) -> void:
+## Wakes a whole camp when one of it is awake, and heals one back home from a
+## chase. Returns the camps that are fighting.
+func _wake_and_heal(zone: ZoneSim) -> Dictionary:
+	var awake := {}
+	for id: int in _members:
+		var enemy := zone.fighter(id)
+		var brain: EnemyBrain = zone.brains[id]
+		if brain.engaged:
+			awake[_members[id]] = true
+		elif brain.returning and enemy.position.distance_to(brain.home) < CAMP_SPREAD:
+			# Back among its camp (its exact spot may be taken by a fellow).
+			enemy.hp = enemy.max_hp
+			brain.returning = false
+	for id: int in _members:
+		if awake.has(_members[id]):
+			(zone.brains[id] as EnemyBrain).engaged = true
+	return awake
+
+
+func _spawn(zone: ZoneSim, data: Dictionary, events: Array[ZoneEvent], camp: int) -> void:
 	var kind := _draw(data["pool"], zone.rng)
 	var west := maxf(float(data["from_x"]), zone.bounds.position.x + 12.0)
-	var x := (
-		entry_x(zone, float(data["from_x"]))
-		if at < 0.0
-		else clampf(at, west, zone.bounds.end.x - 12.0)
-	)
+	var centre := float(data["camps"][camp])
+	var offset := zone.rng.randf_range(-CAMP_SPREAD, CAMP_SPREAD)
+	if absf(zone.hero.position.x - centre) < float(data["aggro"]):
+		# The hero is at this camp: come back on its far side.
+		offset = signf(centre - zone.hero.position.x + 0.01) * CAMP_SPREAD
+	var x := clampf(centre + offset, west, zone.bounds.end.x - 12.0)
 	var lane := zone.bounds
 	var y := zone.rng.randf_range(lane.position.y + 10.0, lane.end.y - 10.0)
 	var enemy := zone.spawn_enemy(kind, Bodies.clear_spot(Vector2(x, y), zone.solids, lane))
+	_scale_rewards(zone, enemy, float(data.get("reward_scale", 1.0)))
+	var brain: EnemyBrain = zone.brains[enemy.id]
+	brain.camp(enemy.position, float(data["aggro"]), float(data["aggro"]) * LEASH)
+	_members[enemy.id] = camp
 	var elite := zone.rng.randf() < float(data.get("elite_chance", 0.0))
 	if elite:
 		_make_elite(zone, enemy)
@@ -136,26 +167,6 @@ func _spawn(zone: ZoneSim, data: Dictionary, events: Array[ZoneEvent], at := -1.
 	events.append(
 		ZoneEvent.make("spawn", {"id": enemy.id, "kind": kind, "boss": false, "elite": elite})
 	)
-
-
-## Where along the field the next enemy enters: a random spot east of
-## `from_x` at least MIN_GAP from the hero, off camera when one is, else the
-## spot furthest from the hero.
-static func entry_x(zone: ZoneSim, from_x: float) -> float:
-	var west := maxf(from_x, zone.bounds.position.x + 12.0)
-	var east := zone.bounds.end.x - 12.0
-	var hero_x := zone.hero.position.x
-	var best := west if absf(west - hero_x) > absf(east - hero_x) else east
-	var near := -INF
-	for i in 8:
-		var x := zone.rng.randf_range(west, east)
-		var gap := absf(x - hero_x)
-		if gap >= OFF_CAMERA:
-			return x
-		if gap >= MIN_GAP and gap > near:
-			near = gap
-			best = x
-	return best
 
 
 ## An elite that fell since the last tick drops ELITE_REWARD - 1 more rolls
@@ -169,7 +180,8 @@ func _pay_elites(zone: ZoneSim) -> void:
 				_elites.erase(id)
 			continue
 		_elites.erase(id)
-		var loot: Dictionary = zone.content.enemy(enemy.kind).get("loot", {})
+		var stats: Dictionary = zone._enemy_level.get(id, {}).get("stats", {})
+		var loot: Dictionary = stats.get("loot", zone.content.enemy(enemy.kind).get("loot", {}))
 		var prizes := {"drops": spec(zone.content, zone.area_id).get("elite_drops", [])}
 		var dropped: Array[String] = LootRules.roll(prizes, zone.rng)["items"]
 		for roll in roundi(ELITE_REWARD) - 1:
@@ -189,6 +201,22 @@ static func _draw(pool: Dictionary, rng: RandomNumberGenerator) -> String:
 		if roll < 0.0:
 			return kind
 	return str(pool.keys().back())
+
+
+## Scales what `enemy` pays (XP, coins and its loot's drop chances) by
+## `scale`: a field's enemies come back in seconds, so each is worth less than
+## the same enemy met once on the street, and a minute's farming pays what the
+## ground is tuned for ("reward_scale", set with the harness).
+static func _scale_rewards(zone: ZoneSim, enemy: Fighter, scale: float) -> void:
+	if is_equal_approx(scale, 1.0):
+		return
+	var stats: Dictionary = zone._enemy_level[enemy.id]["stats"]
+	stats["xp"] = roundi(float(stats.get("xp", 0)) * scale)
+	stats["money_scale"] = float(stats.get("money_scale", 1.0)) * scale
+	var loot: Dictionary = zone.content.enemy(enemy.kind).get("loot", {}).duplicate(true)
+	for drop: Dictionary in loot.get("drops", []):
+		drop["chance"] = float(drop.get("chance", 0.0)) * scale
+	stats["loot"] = loot
 
 
 ## Makes `enemy` an elite: tougher and worth ELITE_REWARD times the XP and
@@ -221,20 +249,31 @@ static func problems(content: ContentDB) -> PackedStringArray:
 		if not data is Dictionary:
 			out.append(where + ": expected an object")
 			continue
-		var cap := int(data.get("cap", 0))
-		if cap < 1 or cap > MAX_CAP:
-			out.append("%s.cap: 1 to %d" % [where, MAX_CAP])
-		var pack := int(data.get("pack", 1))
-		if pack < 1 or pack > cap:
-			out.append("%s.pack: 1 to cap" % where)
+		var from_x := float(data.get("from_x", -1.0))
+		var width := float(area.get("width", 960))
+		if from_x < 0.0 or from_x > width - SPAWN_CLEAR:
+			out.append(where + ".from_x: inside the area, with room east of it")
+		var camps: Variant = data.get("camps", [])
+		if not camps is Array or camps.is_empty() or camps.size() > MAX_CAMPS:
+			out.append("%s.camps: 1 to %d camp positions" % [where, MAX_CAMPS])
+		else:
+			for x: Variant in camps:
+				if float(x) < from_x or float(x) > width - 12.0:
+					out.append("%s.camps: %s is not between from_x and the east edge" % [where, x])
+		var size := int(data.get("camp_size", 0))
+		if size < 1 or size > MAX_CAMP_SIZE:
+			out.append("%s.camp_size: 1 to %d" % [where, MAX_CAMP_SIZE])
+		var aggro := float(data.get("aggro", 0.0))
+		if aggro < MIN_AGGRO or aggro > MAX_AGGRO:
+			out.append("%s.aggro: %d to %d" % [where, MIN_AGGRO, MAX_AGGRO])
 		if int(data.get("respawn_ticks", 0)) < MIN_RESPAWN:
 			out.append("%s.respawn_ticks: at least %d" % [where, MIN_RESPAWN])
+		var reward := float(data.get("reward_scale", 1.0))
+		if reward <= 0.0 or reward > 1.0:
+			out.append(where + ".reward_scale: above 0, at most 1")
 		var chance := float(data.get("elite_chance", 0.0))
 		if chance < 0.0 or chance > MAX_ELITE_CHANCE:
 			out.append("%s.elite_chance: 0 to %s" % [where, MAX_ELITE_CHANCE])
-		var from_x := float(data.get("from_x", -1.0))
-		if from_x < 0.0 or from_x > float(area.get("width", 960)) - MIN_GAP:
-			out.append(where + ".from_x: inside the area, with room east of it")
 		for prize: Variant in data.get("elite_drops", []):
 			var ok: bool = prize is Dictionary and float(prize.get("chance", 0.0)) > 0.0
 			var item := content.item(str(prize.get("item", ""))) if prize is Dictionary else {}

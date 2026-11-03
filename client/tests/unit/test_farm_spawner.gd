@@ -1,8 +1,9 @@
 extends TestCase
-## A farming ground's living field (FarmSpawner): it fills up to its cap,
-## sends whole packs in once there is room, keeps entrances away from the hero and
-## the way out, is the same for the same seed, makes the odd elite worth
-## more, and stays out of every other kind of area.
+## A farming ground's living field (FarmSpawner): its camps stand full and
+## wait, a camp comes as one when the hero walks in or strikes one, a chase
+## too far ends back home healed, a cleared camp refills away from the hero,
+## the way out stays safe, the same seed brings the same field, the odd elite
+## is worth more, and it stays out of every other kind of area.
 
 const GROUND := "farm_facility_annex"
 
@@ -40,87 +41,154 @@ static func _fell(zone: ZoneSim, enemy: Fighter) -> Array[ZoneEvent]:
 
 
 ## A copy of the content whose ground draws only `kind`, elite as often as
-## `chance`.
+## `chance`, paying full rewards.
 func _single(kind: String, chance: float) -> ContentDB:
 	var copy := ContentDB.load_all()
 	copy.areas[GROUND]["spawning"]["pool"] = {kind: 1}
 	copy.areas[GROUND]["spawning"]["elite_chance"] = chance
+	# The elite's own multiplier alone, against an enemy met on the street.
+	copy.areas[GROUND]["spawning"]["reward_scale"] = 1.0
 	return copy
 
 
-func test_the_field_fills_then_sends_whole_packs() -> void:
+## Camp `camp`'s members standing in `zone`.
+static func _camp(zone: ZoneSim, camp: int) -> Array[Fighter]:
+	var out: Array[Fighter] = []
+	for id: int in zone._farm._members:
+		var enemy := zone.fighter(id)
+		if zone._farm._members[id] == camp and enemy and not enemy.is_ko():
+			out.append(enemy)
+	return out
+
+
+static func _brain(zone: ZoneSim, enemy: Fighter) -> EnemyBrain:
+	return zone.brains[enemy.id]
+
+
+func test_the_camps_stand_full_and_wait_for_the_hero() -> void:
 	var c := _content()
 	var data := FarmSpawner.spec(c, GROUND)
 	var zone := ZoneSim.new(c, _hero(), GROUND, "west", 7)
-	var cap := int(data["cap"])
-	var pack := FarmSpawner.pack_size(data)
-	assert_true(pack >= 2, "packs, not single enemies (%d)" % pack)
-	var idle := FighterInput.new()
-	for tick in FarmSpawner.FILL_TICKS * cap + 1:
-		zone.tick(idle)
-	assert_eq(_standing(zone), cap, "full after one entrance every half second")
+	zone.tick(FighterInput.new())
+	assert_eq(_standing(zone), FarmSpawner.capacity(data), "every camp full on arrival")
+	assert_true(FarmSpawner.capacity(data) >= 9, "a field worth the walk")
+	var homes := {}
+	for enemy in zone.enemies():
+		homes[enemy.id] = enemy.position
 	for tick in 600:
-		zone.tick(idle)
-	assert_true(_standing(zone) <= cap, "never more than the cap")
-	# One down: no single replacement trickles in.
-	_fell(zone, zone.enemies()[0])
-	for tick in int(data["respawn_ticks"]) + 60:
-		zone.tick(idle)
-	assert_eq(_standing(zone), cap - 1, "one loss waits for room for a whole pack")
-	# Room for a pack: it comes in together after the respawn time.
-	for i in pack - 1:
-		var standing: Array[Fighter] = []
-		for enemy in zone.enemies():
-			if not enemy.is_ko():
-				standing.append(enemy)
-		_fell(zone, standing[0])
-	var arrived: Array[int] = []
-	var xs: Array[float] = []
-	var ticks := 0
-	while arrived.size() < pack and ticks < int(data["respawn_ticks"]) + pack * 20:
-		ticks += 1
-		for event in zone.tick(idle):
-			if event.type == "spawn":
-				arrived.append(ticks)
-				xs.append(zone.fighter(int(event.data["id"])).position.x)
-	assert_eq(arrived.size(), pack, "a whole pack came")
-	assert_true(arrived[0] >= int(data["respawn_ticks"]), "after the respawn time")
-	var gap := arrived[-1] - arrived[0]
-	assert_true(gap <= (pack - 1) * FarmSpawner.PACK_STAGGER + 2, "together (%d ticks)" % gap)
-	xs.sort()
-	var spread := xs[-1] - xs[0]
-	assert_true(spread <= FarmSpawner.PACK_SPREAD * 2 + 1, "from one side (%s px)" % spread)
-	assert_eq(_standing(zone), cap, "back to the cap")
+		zone.tick(FighterInput.new())
+	for enemy in zone.enemies():
+		assert_true(not _brain(zone, enemy).engaged, "nobody comes while the hero is away")
+		var moved := enemy.position.distance_to(homes[enemy.id])
+		assert_true(moved < 12.0, "each stands at its spot (%s px)" % moved)
 
 
-func test_entrances_keep_away_from_the_hero_and_the_way_out() -> void:
+func test_walking_into_a_camp_wakes_that_camp_only() -> void:
 	var c := _content()
-	var from_x := float(FarmSpawner.spec(c, GROUND)["from_x"])
-	for hero_x: float in [60.0, 400.0, 700.0, 1100.0, 1340.0]:
-		var zone := ZoneSim.new(c, _hero(), GROUND, "west", 11)
-		zone.hero.position.x = hero_x
-		for i in 40:
-			var x := FarmSpawner.entry_x(zone, from_x)
-			assert_true(x >= from_x, "never west of from_x (%s)" % x)
-			assert_true(x <= zone.bounds.end.x, "inside the field")
-			assert_true(
-				absf(x - hero_x) >= FarmSpawner.MIN_GAP, "not on top of the hero at %s" % hero_x
-			)
+	var data := FarmSpawner.spec(c, GROUND)
+	var zone := ZoneSim.new(c, _hero(), GROUND, "west", 7)
+	zone.tick(FighterInput.new())
+	var first := _camp(zone, 0)
+	zone.hero.position = first[0].position + Vector2(-float(data["aggro"]) + 20.0, 0)
+	for tick in 3:
+		zone.tick(FighterInput.new())
+	for enemy in _camp(zone, 0):
+		assert_true(_brain(zone, enemy).engaged, "the whole first camp comes")
+	for camp in range(1, (data["camps"] as Array).size()):
+		for enemy in _camp(zone, camp):
+			assert_true(not _brain(zone, enemy).engaged, "camp %d stays put" % camp)
+
+
+func test_a_blow_from_afar_wakes_the_camp_it_lands_on() -> void:
+	var c := _content()
+	var zone := ZoneSim.new(c, _hero(), GROUND, "west", 7)
+	zone.tick(FighterInput.new())
+	var last := _camp(zone, 2)
+	last[0].hp -= 1
+	for tick in 2:
+		zone.tick(FighterInput.new())
+	for enemy in _camp(zone, 2):
+		assert_true(_brain(zone, enemy).engaged, "struck: its camp comes")
+
+
+func test_a_chase_too_far_from_home_gives_up_and_heals() -> void:
+	var c := _content()
+	var zone := ZoneSim.new(c, _hero(), GROUND, "west", 7)
+	zone.tick(FighterInput.new())
+	var enemy := _camp(zone, 1)[0]
+	var brain := _brain(zone, enemy)
+	brain.engaged = true
+	enemy.hp = enemy.max_hp / 2
+	enemy.position.x = brain.home.x + brain.leash + 20.0
+	var back := false
+	for tick in 2400:
+		zone.tick(FighterInput.new())
+		if not brain.engaged and not brain.returning:
+			back = true
+			zone.tick(FighterInput.new())
+			break
+	assert_true(back, "walked home")
+	assert_eq(enemy.hp, enemy.max_hp, "and healed there")
+
+
+func test_a_cleared_camp_stands_again_a_few_seconds_later() -> void:
+	var c := _content()
+	var data := FarmSpawner.spec(c, GROUND)
+	var zone := ZoneSim.new(c, _hero(), GROUND, "west", 7)
+	zone.tick(FighterInput.new())
+	var centre := float(data["camps"][0])
+	zone.hero.position.x = centre - 30.0
+	var size := int(data["camp_size"])
+	for enemy in _camp(zone, 0):
+		_fell(zone, enemy)
+	var respawn := int(data["respawn_ticks"])
+	var back := -1
+	for tick in respawn + FarmSpawner.RESPAWN_JITTER + 5:
+		zone.tick(FighterInput.new())
+		zone.hero.position.x = centre - 30.0
+		if back < 0 and _camp(zone, 0).size() > 0:
+			back = tick
+	assert_true(back >= respawn - FarmSpawner.RESPAWN_JITTER - 1, "a breather first (%d)" % back)
+	assert_eq(_camp(zone, 0).size(), size, "then the whole camp stands again")
+	for enemy in _camp(zone, 0):
+		assert_true(enemy.position.x > centre, "on the far side from the hero")
+
+
+func test_a_fallen_one_waits_while_its_camp_still_fights() -> void:
+	var c := _content()
+	var data := FarmSpawner.spec(c, GROUND)
+	var zone := ZoneSim.new(c, _hero(), GROUND, "west", 7)
+	zone.tick(FighterInput.new())
+	var camp := _camp(zone, 0)
+	_fell(zone, camp[0])
+	var respawn := int(data["respawn_ticks"])
+	for tick in respawn + FarmSpawner.RESPAWN_JITTER + 30:
+		# The hero stays in the fight (and on their feet): the camp fights on.
+		zone.hero.position = camp[1].position + Vector2(-40, 0)
+		zone.hero.hp = zone.hero.max_hp
+		zone.tick(FighterInput.new())
+	assert_eq(_camp(zone, 0).size(), camp.size() - 1, "not back into the same fight")
 
 
 func test_the_west_end_is_a_safe_spot() -> void:
 	var c := _content()
 	var west := float(FarmSpawner.spec(c, GROUND)["from_x"]) - FarmSpawner.SAFE_MARGIN
 	var zone := ZoneSim.new(c, _hero(), GROUND, "west", 9)
+	zone.tick(FighterInput.new())
+	var arrived := zone.hero.position
+	assert_true(arrived.x < west, "where the hero arrived is inside it")
+	zone.hero.position = _camp(zone, 0)[0].position
+	zone.tick(FighterInput.new())
 	var furthest := INF
-	for tick in 3600:
+	for tick in 1200:
+		zone.hero.position = arrived
 		zone.tick(FighterInput.new())
 		for enemy in zone.enemies():
 			if not enemy.is_ko():
 				furthest = minf(furthest, enemy.position.x)
-	assert_true(furthest < INF, "enemies came for the hero")
-	assert_true(furthest >= west - 8.0, "none walked into the safe spot (%s)" % furthest)
-	assert_true(zone.hero.position.x < west, "where the hero arrived is inside it")
+	assert_true(furthest < west + 40.0, "the woken camp chased the hero west")
+	# The line holds them each tick; one tick's step at most may cross it.
+	assert_true(furthest >= west - 12.0, "none walked into the safe spot (%s)" % furthest)
 
 
 func test_the_same_seed_brings_the_same_field() -> void:
@@ -208,7 +276,11 @@ func test_no_other_area_has_a_living_field() -> void:
 
 func test_the_validator_checks_every_spawning_block() -> void:
 	var cases := {
-		".cap: 1 to": func(s: Dictionary) -> void: s["cap"] = 0,
+		".camps: 1 to": func(s: Dictionary) -> void: s["camps"] = [],
+		".camps: 5000": func(s: Dictionary) -> void: s["camps"] = [5000],
+		".camp_size: 1 to": func(s: Dictionary) -> void: s["camp_size"] = 0,
+		".aggro: ": func(s: Dictionary) -> void: s["aggro"] = 10,
+		".reward_scale: above 0": func(s: Dictionary) -> void: s["reward_scale"] = 2.0,
 		".respawn_ticks: at least": func(s: Dictionary) -> void: s["respawn_ticks"] = 5,
 		".elite_chance: 0 to": func(s: Dictionary) -> void: s["elite_chance"] = 0.9,
 		".from_x: inside the area": func(s: Dictionary) -> void: s["from_x"] = 5000,
@@ -228,3 +300,25 @@ func test_the_validator_checks_every_spawning_block() -> void:
 	story.validate()
 	assert_true("only a farming ground has one" in "\n".join(story.errors), "not on the street")
 	assert_eq(_content().errors, PackedStringArray(), "the shipped data is clean")
+
+
+func test_a_field_enemy_pays_its_grounds_reward_scale() -> void:
+	var c := _single("facility_trooper", 0.0)
+	c.enemies["facility_trooper"]["loot"] = {
+		"money": [10, 10], "drops": [{"item": "scrap_metal", "chance": 0.5}]
+	}
+	var scale := 0.5
+	c.areas[GROUND]["spawning"]["reward_scale"] = scale
+	var plain := ZoneSim.new(c, _hero(30), GROUND, "west", 5)
+	var street := plain.spawn_enemy("facility_trooper", Vector2(900, 300))
+	var street_xp := int(plain._enemy_level[street.id]["stats"]["xp"])
+	var street_money := float(plain._enemy_level[street.id]["stats"]["money_scale"])
+	var zone := ZoneSim.new(c, _hero(30), GROUND, "west", 5)
+	zone.tick(FighterInput.new())
+	var enemy := zone.enemies()[0]
+	var stats: Dictionary = zone._enemy_level[enemy.id]["stats"]
+	assert_eq(int(stats["xp"]), roundi(street_xp * scale), "XP scaled")
+	assert_near(float(stats["money_scale"]), street_money * scale, "coins scaled", 0.0001)
+	assert_near(float(stats["loot"]["drops"][0]["chance"]), 0.25, "drop chance scaled", 0.0001)
+	var kept := float(c.enemy("facility_trooper")["loot"]["drops"][0]["chance"])
+	assert_near(kept, 0.5, "the enemy's own data untouched", 0.0001)
