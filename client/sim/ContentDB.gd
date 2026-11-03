@@ -750,7 +750,9 @@ func _validate_station(npc: Dictionary, a: Dictionary, where: String) -> void:
 
 ## The city: a safe place to rest with nothing to fight, off the street (no
 ## story area leads into it, so the street and its districts stay as they
-## are), whose one way out is the gate east onto the street.
+## are), whose one way out is the gate east onto the street. Only a farming
+## ground or a world boss arena leads into it: walking out of one comes back
+## to the city (AreaRules.hub).
 func _validate_city() -> void:
 	if city_area == "":
 		return
@@ -767,6 +769,8 @@ func _validate_city() -> void:
 	var exits: Dictionary = city.get("exits", {})
 	_check(exits.keys() == ["east"], where + ": its one way out is the gate east")
 	for id: String in areas:
+		if AreaRules.kind(self, id) in [AreaRules.FARM, AreaRules.WORLD_BOSS]:
+			continue
 		for side: String in areas[id].get("exits", {}):
 			_check(
 				str(areas[id]["exits"][side].get("to")) != city_area,

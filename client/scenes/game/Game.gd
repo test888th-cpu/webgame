@@ -98,7 +98,7 @@ func _ready() -> void:
 func enter_area(area_id: String, entry: String, start_x := -1.0) -> void:
 	# The world boss arena is only ever entered for an attempt (Win's taxi).
 	if content.area(area_id).get("world_boss", false) and not _entering_world_boss:
-		area_id = content.start_area
+		area_id = AreaRules.hub(content)
 		entry = ""
 	if zone:
 		_street_weapons[zone.area_id] = zone.ground_weapons.duplicate(true)
@@ -807,12 +807,12 @@ func _finish_world_boss() -> void:
 	_show("world_boss", GameMenus.world_boss_result(self, run, paid))
 
 
-## From the results back home, rested.
+## From the results back to the hub (AreaRules.hub), rested.
 func _leave_world_boss() -> void:
 	world_run = null
 	profile.hp = profile.stats(content)["max_hp"]
 	close_menu()
-	enter_area(content.start_area, "")
+	enter_area(AreaRules.hub(content), "west")
 
 
 ## Straight to the start area, out of a fight only: the pause menu's return
@@ -846,8 +846,8 @@ func city_problem() -> String:
 ## To the city: the pause menu's "Return to Iron City Central", from any
 ## area outside a fight. Free, and like walking in it rests the hero (Iron
 ## City Central heals and fills the streets again, as Depot Yard does). Auto
-## battle's trip home, a knock-out and the world-boss way home still go to
-## Depot Yard, the start area.
+## battle's trip home from the street still goes to Depot Yard, the start
+## area; from a farming ground or a world boss arena it comes here.
 func _go_to_city() -> void:
 	var problem := city_problem()
 	if problem:

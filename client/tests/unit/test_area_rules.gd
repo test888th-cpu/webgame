@@ -141,7 +141,7 @@ func test_the_unlock_survives_a_save_and_load() -> void:
 
 func test_the_validator_keeps_grounds_off_the_street_and_one_way() -> void:
 	var cases := {
-		"its one way out is west to depot_yard": func(g: Dictionary) -> void: g["exits"] = {},
+		"its one way out is west to main_city": func(g: Dictionary) -> void: g["exits"] = {},
 		"not a safe area": func(g: Dictionary) -> void: g["safe"] = true,
 		"no rest in a farming ground": func(g: Dictionary) -> void: g["heal_on_enter"] = true,
 		".region: required": func(g: Dictionary) -> void: g.erase("region"),
@@ -169,6 +169,20 @@ func test_the_validator_keeps_grounds_off_the_street_and_one_way() -> void:
 	into.errors.clear()
 	into.validate()
 	assert_true("leads into it" in "\n".join(into.errors), "nothing leads into a ground")
+	var to_story := ContentDB.load_all()
+	to_story.areas[GROUND] = _ground(to_story, {"reached": "rusted_corner"})
+	to_story.areas[GROUND]["exits"]["west"]["to"] = "depot_yard"
+	to_story.areas["great_drain"]["exits"]["west"]["to"] = "depot_yard"
+	to_story.errors.clear()
+	to_story.validate()
+	var out := "\n".join(to_story.errors)
+	assert_true(GROUND + ": its one way out is west to main_city" in out, "no way out to the story")
+	assert_true("great_drain: its one way out is west to main_city" in out, "nor from an arena")
+	var walk_in := ContentDB.load_all()
+	walk_in.areas["saltmarket"]["exits"]["west"]["to"] = "main_city"
+	walk_in.errors.clear()
+	walk_in.validate()
+	assert_true("saltmarket leads into the city" in "\n".join(walk_in.errors), "story: taxi only")
 	var mislabelled := ContentDB.load_all()
 	mislabelled.areas["saltmarket"]["kind"] = "city"
 	mislabelled.areas["depot_yard"]["unlock"] = {"reached": "saltmarket"}
@@ -182,8 +196,9 @@ func test_the_validator_keeps_grounds_off_the_street_and_one_way() -> void:
 func test_wins_taxi_shows_farming_only_once_a_ground_is_open() -> void:
 	var game := _game()
 	game.profile.money = 100
-	var win: Dictionary = game.content.area("depot_yard")["npcs"][2]
-	assert_eq(str(win["role"]), "travel", "Win at Depot Yard")
+	var win: Dictionary = game.content.area("main_city")["npcs"][0]
+	assert_eq(str(win["role"]), "travel", "Win in the city")
+	game.enter_area("main_city", "west")
 	game._show("travel", GameMenus.travel(game, win))
 	assert_true(game.menu.find_child("Heading_Farming", true, false) == null, "no Farming yet")
 	assert_true(GROUND not in _rides(game.menu), "no ride to a closed ground")
@@ -200,7 +215,26 @@ func test_wins_taxi_shows_farming_only_once_a_ground_is_open() -> void:
 	_done(game)
 
 
-func test_a_ground_is_left_west_to_depot_yard_or_by_recall_or_the_pause_menu() -> void:
+func test_the_storys_taxis_never_ride_to_a_ground_or_a_world_boss() -> void:
+	var game := _game()
+	game.profile.money = 100
+	StreetMemory.visit(game.profile, "rusted_corner")
+	game.profile.level = 60
+	for area_id: String in game.content.areas:
+		for npc: Dictionary in game.content.area(area_id).get("npcs", []):
+			if npc.get("role") != "travel" or area_id == game.content.city_area:
+				continue
+			game.enter_area(area_id, "west")
+			game._show("travel", GameMenus.travel(game, npc))
+			var said := area_id + ": story taxi"
+			assert_true(game.menu.find_child("Heading_Farming", true, false) == null, said)
+			assert_true(game.menu.find_child("Heading_World Bosses", true, false) == null, said)
+			assert_true(game.menu.find_child("Ride_main_city", true, false) != null, said)
+			game.close_menu()
+	_done(game)
+
+
+func test_a_ground_is_left_west_to_the_city_or_by_recall_or_the_pause_menu() -> void:
 	var game := _game()
 	StreetMemory.visit(game.profile, "rusted_corner")
 	game.enter_area(GROUND, "west")
@@ -213,11 +247,9 @@ func test_a_ground_is_left_west_to_depot_yard_or_by_recall_or_the_pause_menu() -
 		game.step(input)
 		if game.zone.area_id != GROUND:
 			break
-	assert_eq(game.zone.area_id, "depot_yard", "walked out west into Depot Yard")
-	assert_true(
-		not game.content.area("depot_yard").get("exits", {}).has("west"),
-		"one way: Depot Yard still has no way west"
-	)
+	assert_eq(game.zone.area_id, "main_city", "walked out west into the city")
+	assert_true(game.zone.hero.position.x < 200.0, "at the taxi rank")
+	assert_eq(game.content.area("main_city")["exits"].keys(), ["east"], "one way: no way back")
 	game.enter_area(GROUND, "west")
 	game._recall()
 	assert_eq(game.zone.area_id, "depot_yard", "Recall goes home")

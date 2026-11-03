@@ -67,16 +67,24 @@ func test_late_in_the_story_the_rides_come_in_groups() -> void:
 	var expected: Array[String] = ["City"]
 	for district in MapRules.districts(game.content):
 		expected.append(str(district["name"]).validate_node_name())
-	expected.append_array(["Farming", "World Bosses"])
-	assert_eq(_tabs(game.menu), expected, "the city, the six districts, farming, world bosses")
+	assert_eq(_tabs(game.menu), expected, "the city and the six districts: the story only")
 	var all := game.menu.find_children("Ride_*", "Button", true, false).size()
-	assert_eq(all, 1 + 30 + 7 + 3, "every ride is there (all but Depot Yard itself)")
+	assert_eq(all, 1 + 30, "every story ride is there (all but Depot Yard itself)")
 	var south: Button = game.menu.find_child("Heading_South Street", true, false)
 	assert_true("South Street  10" in south.text, "each group says how many: " + south.text)
 	assert_eq(_shown(game.menu).size(), 10, "only one group's rides show at once")
 	assert_true("saltmarket" in _shown(game.menu), "it opens on the hero's own district")
 	var focused := game.get_viewport().gui_get_focus_owner()
 	assert_true(focused != null and focused.name == "Ride_saltmarket", "its first ride focused")
+	game.close_menu()
+	game.enter_area("main_city", "west")
+	var hub: Dictionary = game.content.area("main_city")["npcs"][0]
+	game._show("travel", GameMenus.travel(game, hub))
+	expected.remove_at(0)
+	expected.append_array(["Farming", "World Bosses"])
+	assert_eq(_tabs(game.menu), expected, "in the city: the districts, farming, world bosses")
+	all = game.menu.find_children("Ride_*", "Button", true, false).size()
+	assert_eq(all, 31 + 7 + 3, "the whole street, every ground and every world boss")
 	_done(game)
 
 
@@ -206,10 +214,9 @@ func test_win_says_where_he_goes_and_every_ride_gets_there() -> void:
 	game.close_menu()
 	var expected: Array[String] = [game.content.city_area]
 	expected.append_array(StreetMemory.destinations(game.profile, game.content, "depot_yard"))
-	expected.append_array(AreaRules.open_farms(game.profile, game.content))
 	targets.sort()
 	expected.sort()
-	assert_eq(targets, expected, "the city, every area reached and every open ground")
+	assert_eq(targets, expected, "the city and every story area reached")
 	for target in targets:
 		game.enter_area("depot_yard", "west")
 		game.profile.money = 100

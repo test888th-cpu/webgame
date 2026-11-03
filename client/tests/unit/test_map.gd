@@ -157,6 +157,46 @@ func test_map_tab_opens_on_the_hero_and_fits() -> void:
 	_done(game)
 
 
+func test_the_story_and_the_hub_are_two_sections_and_fit_late_in_the_game() -> void:
+	var game := _game()
+	for area_id in StreetMemory.street(game.content):
+		StreetMemory.visit(game.profile, area_id)
+	for enemy_id: String in game.content.enemies:
+		if game.content.enemy(enemy_id).get("boss", false):
+			game.profile.defeated[enemy_id] = 1
+	game.open_screen("map")
+	await _settle()
+	var map: Node = game.menu.find_child("Map", true, false)
+	var story: Label = map.find_child("Section_story", false, false)
+	var hub: Label = map.find_child("Section_hub", false, false)
+	assert_true(story != null and hub != null, "two sections")
+	assert_true("IRON CITY CENTRAL" in hub.text, "the hub is named: " + hub.text)
+	var order: Array[String] = []
+	for child in map.get_children():
+		var areas := child.find_children("Area_*", "MapNode", true, false)
+		if child == story or child == hub:
+			order.append(child.name)
+		elif not areas.is_empty():
+			order.append(areas[0].name)
+	var split := order.find("Section_hub")
+	assert_eq(order[0], "Section_story", "the story comes first")
+	assert_true(order.find("Area_depot_yard") < split, "the street is in the story")
+	for area_id: String in [game.content.city_area, "farm_saltmarket_backlots", "great_drain"]:
+		assert_true(order.find("Area_" + area_id) > split, area_id + ": in the hub's section")
+	for node in game.menu.find_children("*", "Control", true, false):
+		var control: Control = node
+		if control.is_visible_in_tree() and (control is Button or control is Label):
+			assert_true(
+				SCREEN.grow(1).encloses(control.get_global_rect()),
+				"%s %s fits on screen" % [control.get_class(), control.name]
+			)
+	var ground: Control = game.menu.find_child("Area_farm_facility_annex", true, false)
+	ground.grab_focus()
+	var heading: Label = game.menu.find_child("Heading", true, false)
+	assert_true("Win's taxi in Iron City Central" in heading.text, "how to get there")
+	_done(game)
+
+
 func test_the_route_marks_the_town_the_mini_bosses_and_the_boss() -> void:
 	var content := GameSession.content
 	var profile := PlayerProfile.new_game(content)

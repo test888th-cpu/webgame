@@ -67,6 +67,27 @@ static func unlocked(profile: PlayerProfile, content: ContentDB, area_id: String
 	return false
 
 
+## The hub: where the farming grounds and the world boss arenas are reached
+## from and left to. The city when the game has one (Win's taxi there is the
+## only way in; walking out west, a finished world boss attempt, auto
+## battle's rest and the pause menu's return all come back to it), else the
+## start area. The story's taxis never ride to them.
+static func hub(content: ContentDB) -> String:
+	return content.city_area if content.city_area != "" else content.start_area
+
+
+## The way home from `area_id` to rest: the hub for a farming ground, else
+## the start area (AutoBattle's rest, ProgressionHarness).
+static func rest_home(content: ContentDB, area_id: String) -> String:
+	return hub(content) if kind(content, area_id) == FARM else content.start_area
+
+
+## True when a taxi ride from `area_id` may go to the farming grounds and the
+## world boss arenas: only from the hub.
+static func rides_from_hub(content: ContentDB, area_id: String) -> bool:
+	return area_id == hub(content)
+
+
 ## The farming grounds open to the hero, in data order.
 static func open_farms(profile: PlayerProfile, content: ContentDB) -> Array[String]:
 	var out: Array[String] = []
@@ -94,8 +115,8 @@ static func unlock_text(content: ContentDB, area_id: String) -> String:
 ## errors. An explicit "kind" must agree with what the data already says, and
 ## a "region" is a district. A farming ground is off the street and reached
 ## by taxi only: nothing leads into it, its one way out on foot is west to
-## the start area (as from a world boss arena), it is no place to rest, and
-## it names its region, purpose and unlock rule.
+## the hub, it is no place to rest, and it names its region,
+## purpose and unlock rule.
 static func problems(content: ContentDB) -> PackedStringArray:
 	var out: PackedStringArray = []
 	var street := StreetMemory.street(content)
@@ -117,11 +138,21 @@ static func problems(content: ContentDB) -> PackedStringArray:
 				out.append(where + ".kind: street is the street")
 		if a.has("region") and str(a["region"]) not in regions:
 			out.append("%s.region: a district name" % where)
+		if kind(content, id) == WORLD_BOSS and not _west_to_hub(content, a):
+			out.append("%s: its one way out is west to %s" % [where, hub(content)])
 		if kind(content, id) == FARM:
 			out.append_array(_farm_problems(content, id, street))
 		elif a.has("unlock"):
 			out.append(where + ".unlock: only a farming ground has one")
 	return out
+
+
+## True when area data `a` has one way out, west to the hub, with no gate.
+static func _west_to_hub(content: ContentDB, a: Dictionary) -> bool:
+	var exits: Dictionary = a.get("exits", {})
+	var west: Dictionary = exits.get("west", {})
+	var to_hub := str(west.get("to")) == hub(content)
+	return exits.keys() == ["west"] and to_hub and not west.has("requires")
 
 
 static func _farm_problems(
@@ -136,11 +167,8 @@ static func _farm_problems(
 		out.append(where + ": a farming ground is not a safe area")
 	if a.get("heal_on_enter", false):
 		out.append(where + ": no rest in a farming ground")
-	var exits: Dictionary = a.get("exits", {})
-	var west: Dictionary = exits.get("west", {})
-	var start := content.start_area
-	if exits.keys() != ["west"] or str(west.get("to")) != start or west.has("requires"):
-		out.append("%s: its one way out is west to %s" % [where, start])
+	if not _west_to_hub(content, a):
+		out.append("%s: its one way out is west to %s" % [where, hub(content)])
 	for other: String in content.areas:
 		for side: String in content.areas[other].get("exits", {}):
 			if str(content.areas[other]["exits"][side].get("to")) == id:

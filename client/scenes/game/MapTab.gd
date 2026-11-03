@@ -1,15 +1,18 @@
 class_name MapTab
 extends RefCounted
 ## The Map tab of the pause window (MapRules): where the hero is and where
-## the goal is, then the city (Iron City Central, off the street), the
-## street district by district, west to east, one row each, the farming
-## grounds open to the hero (AreaRules) and the world boss arenas the hero
-## knows. Walking the boxes
+## the goal is, then two sections kept apart. STORY: the street district by
+## district, west to east, one row each. The hub (Iron City Central, off the
+## street): the city, the farming grounds open to the hero (AreaRules) and
+## the world boss arenas the hero knows, all reached by Win's taxi in the
+## city only (AreaRules.hub). Walking the boxes
 ## (keyboard, gamepad, mouse) shows what is known of each area underneath.
 ## Read-only: travel stays with Win's taxi.
 
 const NAME_WIDTH := 104.0
 const DETAIL_WIDTH := 540.0
+const STORY := "story"
+const HUB := "hub"
 
 
 static func build(game: Game) -> Control:
@@ -19,7 +22,9 @@ static func build(game: Game) -> Control:
 	var goal := MapRules.goal(profile, content)
 	var column := VBoxContainer.new()
 	column.name = "Map"
-	column.add_theme_constant_override("separation", 3)
+	# Tight rows: late in the game the two sections, ten rows, the detail and
+	# the legend all fit on the 640x360 canvas.
+	column.add_theme_constant_override("separation", 1)
 	column.add_child(_where(content, game.zone))
 	column.add_child(_goal_line(content, goal))
 	var detail := _detail()
@@ -27,19 +32,26 @@ static func build(game: Game) -> Control:
 	var icons := {}
 	for id: String in MiniMap.ICONS:
 		icons[id] = UiKit.icon(content, id)
+	var hub := str(content.area(AreaRules.hub(content)).get("name", ""))
+	# [section, row title, areas]: the story first, then the hub's own rows.
 	var rows: Array = []
-	if content.city_area != "":
-		rows.append(["City", [content.city_area]])
 	for district in MapRules.districts(content):
-		rows.append([district["name"], district["areas"]])
+		rows.append([STORY, district["name"], district["areas"]])
+	if content.city_area != "":
+		rows.append([HUB, "City", [content.city_area]])
 	# Farming grounds: only those open to the hero, once there is one.
 	var grounds := AreaRules.open_farms(profile, content)
 	if not grounds.is_empty():
-		rows.append(["Farming", grounds])
+		rows.append([HUB, "Farming", grounds])
 	var arenas := MapRules.arenas(profile, content)
 	if not arenas.is_empty():
-		rows.append(["World Bosses", arenas])
+		rows.append([HUB, "World Bosses", arenas])
+	var section := ""
 	for row: Array in rows:
+		if row[0] != section:
+			section = row[0]
+			column.add_child(_section(section, hub))
+		row = row.slice(1)
 		var line := HBoxContainer.new()
 		line.add_theme_constant_override("separation", 0)
 		column.add_child(line)
@@ -55,7 +67,8 @@ static func build(game: Game) -> Control:
 			node.setup(
 				info, goal.get("area") == area_id, profile.level, nodes.get_child_count() == 0
 			)
-			node.focus_entered.connect(_show.bind(detail, info, goal.get("area") == area_id))
+			var via := hub if row[0] in ["Farming", "World Bosses"] else ""
+			node.focus_entered.connect(_show.bind(detail, info, goal.get("area") == area_id, via))
 			node.mouse_entered.connect(node.grab_focus)
 			nodes.add_child(node)
 			if area_id == here:
@@ -73,6 +86,18 @@ static func build(game: Game) -> Control:
 		# Open on the hero's own box (UiKit.focus_first); it fills the detail.
 		focus.set_meta("start_focus", true)
 	return column
+
+
+## A section's heading: the story, or the hub and what it is for.
+static func _section(section: String, hub: String) -> Control:
+	var text := "STORY  ·  the street, west to east"
+	var colour := UiTheme.GOLD
+	if section == HUB:
+		text = "%s  ·  rest, farming, world bosses: Win's taxi there" % hub.to_upper()
+		colour = UiTheme.TEAL
+	var label := UiKit.label(text, UiTheme.SIZE_CAPTION, colour)
+	label.name = "Section_" + section
+	return label
 
 
 ## "Saltmarket Street  Lv 2" and, on the right, "South Street  2 / 11".
@@ -123,8 +148,9 @@ static func _detail() -> PanelContainer:
 	return panel
 
 
-## Fills the detail panel with what is known of one area.
-static func _show(panel: PanelContainer, info: Dictionary, goal: bool) -> void:
+## Fills the detail panel with what is known of one area; `via` names the hub
+## a farming ground or a world boss arena is reached from.
+static func _show(panel: PanelContainer, info: Dictionary, goal: bool, via := "") -> void:
 	var heading: Label = panel.find_child("Heading", true, false)
 	var lines: Label = panel.find_child("Lines", true, false)
 	var states := {
@@ -137,6 +163,8 @@ static func _show(panel: PanelContainer, info: Dictionary, goal: bool) -> void:
 	var farm := str(info.get("purpose", "")) != ""
 	if int(info["level"]) > 0:
 		heading.text += ("   Suggested Lv %d" if farm else "   Lv %d") % info["level"]
+	if via:
+		heading.text += "   ·   Win's taxi in %s" % via
 	var parts: Array[String] = [states[info["state"]]]
 	if farm:
 		# A farming ground's level is advice for the fights there, not a gate.

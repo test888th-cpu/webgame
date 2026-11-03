@@ -4184,8 +4184,8 @@
       },
       "exits": {
         "west": {
-          "to": "depot_yard",
-          "entry": "east"
+          "to": "main_city",
+          "entry": "west"
         }
       },
       "encounters": [
@@ -4237,8 +4237,8 @@
       },
       "exits": {
         "west": {
-          "to": "depot_yard",
-          "entry": "east"
+          "to": "main_city",
+          "entry": "west"
         }
       },
       "encounters": [
@@ -4290,8 +4290,8 @@
       },
       "exits": {
         "west": {
-          "to": "depot_yard",
-          "entry": "east"
+          "to": "main_city",
+          "entry": "west"
         }
       },
       "encounters": [
@@ -4493,8 +4493,8 @@
       },
       "exits": {
         "west": {
-          "to": "depot_yard",
-          "entry": "east"
+          "to": "main_city",
+          "entry": "west"
         }
       },
       "npcs": [],
@@ -4610,8 +4610,8 @@
       },
       "exits": {
         "west": {
-          "to": "depot_yard",
-          "entry": "east"
+          "to": "main_city",
+          "entry": "west"
         }
       },
       "npcs": [],
@@ -4723,8 +4723,8 @@
       },
       "exits": {
         "west": {
-          "to": "depot_yard",
-          "entry": "east"
+          "to": "main_city",
+          "entry": "west"
         }
       },
       "npcs": [],
@@ -4836,8 +4836,8 @@
       },
       "exits": {
         "west": {
-          "to": "depot_yard",
-          "entry": "east"
+          "to": "main_city",
+          "entry": "west"
         }
       },
       "npcs": [],
@@ -4947,8 +4947,8 @@
       },
       "exits": {
         "west": {
-          "to": "depot_yard",
-          "entry": "east"
+          "to": "main_city",
+          "entry": "west"
         }
       },
       "npcs": [],
@@ -5057,8 +5057,8 @@
       },
       "exits": {
         "west": {
-          "to": "depot_yard",
-          "entry": "east"
+          "to": "main_city",
+          "entry": "west"
         }
       },
       "npcs": [],
@@ -5163,8 +5163,8 @@
       },
       "exits": {
         "west": {
-          "to": "depot_yard",
-          "entry": "east"
+          "to": "main_city",
+          "entry": "west"
         }
       },
       "npcs": [],
