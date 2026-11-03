@@ -28,6 +28,17 @@
 >   stays near the old loop's (CHANGELOG). The refill mechanism
 >   (`StreetMemory.refill`) stays for any ground with fixed fights.
 >
+> - **Camps (2026-11-03, owner's request):** the field is now camps standing across
+>   the ground, as in field-farming games. Each ground has 4 camps of 3
+>   (`"camps"`, `"camp_size"`, `"aggro"` in `areas.json`).
+>   - A camp waits at its spot until the hero comes within its aggro radius or strikes
+>     one of it. Then the whole camp comes; the others stay put.
+>   - A chase too far from home ends with the enemy walking back and healing there.
+>   - A camp short of enemies gets one back each respawn time, only while the hero is
+>     away from it.
+>   - This replaces "up to 4 standing, one more after each loss" above. With several
+>     players in one ground (IL-7), each pulls the camps near them.
+>
 > Sections 1 to 11 are the Phase 1 plan as written, kept for the record. Where §3, §6, §7,
 > §10 or §11 talk about widening Depot Yard, §12 replaces them.
 >
