@@ -404,6 +404,7 @@ static func _load_gear(p: PlayerProfile, migrated: Dictionary, content: ContentD
 				bag[str(key)] = int(bag.get(str(key), 0)) + maxi(0, int(source[key]))
 	var worn: Variant = migrated.get("equipment", {})
 	if worn is Dictionary:
+		var misfits: Array[String] = []
 		for slot: String in SLOTS:
 			var key := str(worn.get(slot, ""))
 			if key == "":
@@ -414,9 +415,16 @@ static func _load_gear(p: PlayerProfile, migrated: Dictionary, content: ContentD
 				if key.contains("#"):
 					bag.erase(key)
 			else:
+				misfits.append(key)
+		# Gear that no longer fits goes to the bag, unless the same item is
+		# already worn: one item named in two slots is still one item.
+		for key: String in misfits:
+			if key not in p.equipment.values():
 				bag[key] = int(bag.get(key, 0)) + 1
 	for key: String in bag:
-		if bag[key] <= 0 or key in p.equipment.values():
+		# Spares of a worn item stay in the bag; only a copy of its own can
+		# be both worn and in the bag, and then it is worn.
+		if bag[key] <= 0 or (key.contains("#") and key in p.equipment.values()):
 			continue
 		# A copy of its own is one item, however the save got edited.
 		var amount: int = mini(bag[key], 1) if key.contains("#") else bag[key]

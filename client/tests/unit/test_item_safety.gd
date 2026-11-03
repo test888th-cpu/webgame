@@ -96,6 +96,27 @@ func test_items_this_build_does_not_know_are_parked_not_dropped() -> void:
 	assert_eq(back.count("steamed_bun"), loaded.count("steamed_bun") + 3, "known again: back")
 
 
+func test_spares_of_a_worn_item_survive_a_save() -> void:
+	var profile := PlayerProfile.new_game(_content(), "oren")
+	profile.level = 10
+	profile.add_item("padded_vest", 2)
+	assert_eq(profile.equipment["body"], "padded_vest", "one worn")
+	var loaded := PlayerProfile.from_dict(profile.to_dict(), _content())
+	assert_eq(loaded.equipment["body"], "padded_vest", "still worn")
+	assert_eq(loaded.count("padded_vest"), 2, "the spares are kept")
+	var again := PlayerProfile.from_dict(loaded.to_dict(), _content())
+	assert_eq(again.owned("padded_vest"), 3, "through every later save")
+	# However the save got edited, a copy of its own is still in one place
+	# and one item named in two slots is still one item.
+	var data := profile.to_dict()
+	data["equipment"]["body"] = "padded_vest#1"
+	data["equipment"]["head"] = "padded_vest#1"
+	data["inventory"]["padded_vest#1"] = 1
+	var edited := PlayerProfile.from_dict(data, _content())
+	assert_eq(edited.owned("padded_vest"), 3, "a copy of its own counted once")
+	assert_eq(edited.count("padded_vest"), 2, "the plain spares stay")
+
+
 func test_the_old_save_never_overwrites_a_newer_character() -> void:
 	_begin()
 	var old := PlayerProfile.new_game(_content(), "mika", "Old")

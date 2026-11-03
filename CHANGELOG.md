@@ -4,6 +4,14 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Fixed: spare copies of a worn item were lost on load
+- Loading a save dropped every carried copy of an item that was also worn (for
+  example Oren's spare padded vests), and the next save made the loss permanent.
+  Since 2026-10-28 (`_load_gear`). Spares now stay in the bag; a copy of its own
+  (`#n`) is still in one place, and one item named in two slots is still one item.
+  Save format unchanged (version 10). Items already lost are not given back.
+- Test: `test_item_safety.gd::test_spares_of_a_worn_item_survive_a_save` (492 tests).
+
 ### Added: monster art audit, credit register and licence check (documents and tools only)
 - **Audit (no game change):** `docs/monster_art/ENEMY_INVENTORY.md` (all 38 enemies:
   where they fight, art source, frames, scale, credits; classified KEEP 12, REWORK 17,
