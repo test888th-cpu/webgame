@@ -152,9 +152,37 @@ does. It has:
 - a training yard.
 
 The Trading Post and Guild Hall are planned and marked as such. You reach the city by
-taxi from any stand or from the pause menu, and a one-way gate leads east to Depot
-Yard. Recall still goes to Depot Yard. See
+taxi from any stand or with the pause menu's **Return to Iron City Central** (from
+any area, outside a fight), and a one-way gate leads east to Depot Yard. Auto battle's
+trip home, a knock-out and the return after a world boss still go to Depot Yard. See
 [docs/CITY_AND_FARMING_BLUEPRINT.md](docs/CITY_AND_FARMING_BLUEPRINT.md) §12.
+
+**[built] Area kinds (F0)**: every area is `street`, `city`, `world_boss` or `farm`
+(`client/sim/AreaRules.gd`). Existing areas carry no new fields: the city comes from
+`city_area`, a world boss arena from its `world_boss` flag, the rest is the street,
+and a street area's region is its district. A farming ground states `"kind": "farm"`,
+its `region`, its `purpose` and its `unlock` rule: `{"reached": a story area}` or
+`{"defeated": a boss}`, read from what the save already keeps. It is reached only by
+Win's taxi (a Farming heading, shown once a ground is open), for the usual fare; its
+one way out on foot is west to Depot Yard, and Recall and the pause menu's city ride
+work there.
+
+**[built] Farming grounds**: seven optional areas, one per chapter band, each with its
+district's enemies, one elite and no boss (levels and line-ups provisional):
+Saltmarket Backlots (4, after Rusted Corner), Rail Sidings (9, after the Refinery),
+Harbour Stacks (15, after Container Yard), Plant Outskirts (22, after Waste Pools),
+Network Backrooms (29, after the Counting House), Facility Annex (37, after Machine
+Hall) and Core Overflow (50, after Director Wiroj). The level is a **suggested** level
+for the fights there ("suggested Lv" on the taxi and map), never a requirement to
+enter: a ground opens on its unlock rule alone. Core Overflow is for endgame materials
+and coins; at the level cap (50) no XP is earned there, as anywhere.
+
+Fights repeat: once every fight in a ground is won, they all come back as soon as the
+hero is back at its west end (walking back, arriving by taxi or loading a save there),
+and a rest brings them back too. Auto battle farms an open ground round after round
+the same way, without leaving it. Each pays less per minute than the best story area
+of its district open at that point (measured with the harness at several hero levels).
+No Hybrids appear in them.
 
 **[built] The street so far**, east from the yard:
 
@@ -171,7 +199,9 @@ Yard. Recall still goes to Depot Yard. See
 
 **[built]** The way east is guarded: each exit opens once the hero has defeated the
 enemy that holds it (Smog Warden, Sludge Foreman, 8 Dock Thugs, 10 Night Market Punks),
-shown on the red exit sign with progress; the way back is always open.
+shown on the red exit sign with progress; the way back is always open. Resting brings every
+won fight back for farming, but in an area already passed those fights hold no one in:
+fight them, or walk on or back.
 
 Chief Odo's quest chain continues past the Foreman: Rail Yard Rumble, Market Lights,
 then The Furnace Baron. Better gear (rare to legendary, levels 5 to 8) drops and is sold

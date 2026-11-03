@@ -922,6 +922,47 @@
     }
   },
   "layouts": {
+    "farm_facility_annex": {
+      "_note": "The facility's secured storage wing: steel gates and guard booths from its district's plant kit, never the warehouse wall that marks Harbour Stacks.",
+      "front": [
+        {
+          "piece": "steel_gate",
+          "x": 52
+        },
+        {
+          "piece": "guard_booth",
+          "x": 170
+        },
+        {
+          "piece": "steel_gate",
+          "x": 288
+        },
+        {
+          "piece": "steel_gate",
+          "x": 433
+        },
+        {
+          "piece": "carpark_facade",
+          "x": 747
+        },
+        {
+          "piece": "steel_gate",
+          "x": 1061
+        },
+        {
+          "piece": "guard_booth",
+          "x": 1178
+        },
+        {
+          "piece": "steel_gate",
+          "x": 1296
+        },
+        {
+          "piece": "steel_gate",
+          "x": 1441
+        }
+      ]
+    },
     "main_city": {
       "front": [
         {

@@ -62,7 +62,7 @@
           "x": 850,
           "y": 262,
           "color": "#e07020",
-          "line": "Motorbike taxi. Anywhere you've been on South Street, ten coins. Hold on tight.",
+          "line": "Choose a destination you've unlocked. I'll take you there.",
           "sprite": "npc_win"
         }
       ],
@@ -1000,7 +1000,7 @@
           "x": 770,
           "y": 262,
           "color": "#e07020",
-          "line": "Motorbike taxi. Anywhere you've been on South Street, ten coins. Hold on tight.",
+          "line": "Choose a destination you've unlocked. I'll take you there.",
           "sprite": "npc_win"
         }
       ],
@@ -4463,6 +4463,781 @@
         {
           "kind": "oil_drums",
           "x": 1080,
+          "y": 258
+        }
+      ]
+    },
+    "farm_saltmarket_backlots": {
+      "name": "Saltmarket Backlots",
+      "level": 4,
+      "width": 1400,
+      "safe": false,
+      "theme": "market",
+      "kit_theme": "junkyard",
+      "palette": {
+        "sky": "#1a2420",
+        "buildings": [
+          "#26302a",
+          "#2e3830",
+          "#222a24"
+        ],
+        "windows": "#b0e0a0",
+        "sidewalk": "#4e544e",
+        "street": "#2a2e2a"
+      },
+      "kind": "farm",
+      "region": "South Street",
+      "purpose": "Learn the farming loop against the Saltmarket crews; Scrap Metal for early upgrades.",
+      "unlock": {
+        "reached": "rusted_corner"
+      },
+      "exits": {
+        "west": {
+          "to": "depot_yard",
+          "entry": "east"
+        }
+      },
+      "npcs": [],
+      "placed": [],
+      "encounters": [
+        {
+          "trigger_x": 380,
+          "arena": [
+            180,
+            860
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "smogling",
+              "tar_hound",
+              "smogling"
+            ],
+            [
+              "street_thrower",
+              "pipe_brute"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1040,
+          "arena": [
+            860,
+            1380
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "tar_hound",
+              "smogling",
+              "street_thrower"
+            ],
+            [
+              "smogling",
+              "smog_warden"
+            ]
+          ]
+        }
+      ],
+      "weapons": {
+        "count": [
+          2,
+          3
+        ],
+        "pool": {
+          "bottle": 3,
+          "plank": 3,
+          "pipe": 2,
+          "frying_pan": 1
+        }
+      },
+      "obstacles": [
+        {
+          "kind": "power_pole",
+          "x": 170,
+          "y": 240
+        },
+        {
+          "kind": "trash_bin",
+          "x": 420,
+          "y": 234
+        },
+        {
+          "kind": "crates",
+          "x": 610,
+          "y": 258
+        },
+        {
+          "kind": "street_lamp",
+          "x": 900,
+          "y": 240
+        },
+        {
+          "kind": "oil_drums",
+          "x": 1120,
+          "y": 258
+        },
+        {
+          "kind": "traffic_cone",
+          "x": 1290,
+          "y": 236
+        }
+      ]
+    },
+    "farm_rail_sidings": {
+      "name": "Rail Sidings",
+      "level": 9,
+      "width": 1400,
+      "safe": false,
+      "theme": "depot",
+      "kit_theme": "carpark",
+      "palette": {
+        "sky": "#2e1a20",
+        "buildings": [
+          "#3a2622",
+          "#442c24",
+          "#30221e"
+        ],
+        "windows": "#f0b060",
+        "sidewalk": "#56504a",
+        "street": "#2c2624"
+      },
+      "kind": "farm",
+      "region": "South Street",
+      "purpose": "The Baron's crews in the sidings behind the Refinery: coins for better gear, first Refined Alloy from the Enforcer.",
+      "unlock": {
+        "reached": "refinery"
+      },
+      "exits": {
+        "west": {
+          "to": "depot_yard",
+          "entry": "east"
+        }
+      },
+      "npcs": [],
+      "placed": [],
+      "encounters": [
+        {
+          "trigger_x": 380,
+          "arena": [
+            180,
+            860
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "dock_thug",
+              "market_punk",
+              "market_punk"
+            ],
+            [
+              "rail_bruiser",
+              "dock_thug"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1040,
+          "arena": [
+            860,
+            1380
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "market_punk",
+              "dock_thug",
+              "rail_bruiser"
+            ],
+            [
+              "rail_bruiser",
+              "refinery_enforcer"
+            ]
+          ]
+        }
+      ],
+      "weapons": {
+        "count": [
+          2,
+          3
+        ],
+        "pool": {
+          "pipe": 3,
+          "wrench": 2,
+          "chair": 2,
+          "baseball_bat": 2,
+          "machete": 1
+        }
+      },
+      "obstacles": [
+        {
+          "kind": "power_pole",
+          "x": 190,
+          "y": 240
+        },
+        {
+          "kind": "crates",
+          "x": 470,
+          "y": 258
+        },
+        {
+          "kind": "pickup_truck",
+          "x": 700,
+          "y": 262
+        },
+        {
+          "kind": "street_lamp",
+          "x": 960,
+          "y": 240
+        },
+        {
+          "kind": "oil_drums",
+          "x": 1180,
+          "y": 258
+        }
+      ]
+    },
+    "farm_harbour_stacks": {
+      "name": "Harbour Stacks",
+      "level": 15,
+      "width": 1400,
+      "safe": false,
+      "theme": "depot",
+      "kit_theme": "docks",
+      "palette": {
+        "sky": "#0e161e",
+        "buildings": [
+          "#1a2630",
+          "#22303a",
+          "#16202a"
+        ],
+        "windows": "#a0d8e0",
+        "sidewalk": "#42464c",
+        "street": "#1e2226"
+      },
+      "kind": "farm",
+      "region": "Port District",
+      "purpose": "Container lanes held by the dock crews: heavy hitters in front, wrench throwers behind; Scrap Metal.",
+      "unlock": {
+        "reached": "container_yard"
+      },
+      "exits": {
+        "west": {
+          "to": "depot_yard",
+          "entry": "east"
+        }
+      },
+      "npcs": [],
+      "placed": [],
+      "encounters": [
+        {
+          "trigger_x": 380,
+          "arena": [
+            180,
+            860
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "stevedore",
+              "dock_slinger",
+              "dock_thug"
+            ],
+            [
+              "dock_slinger",
+              "dock_slinger",
+              "stevedore"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1040,
+          "arena": [
+            860,
+            1380
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "stevedore",
+              "stevedore",
+              "dock_slinger"
+            ],
+            [
+              "dock_thug",
+              "port_guard"
+            ]
+          ]
+        }
+      ],
+      "weapons": {
+        "count": [
+          2,
+          3
+        ],
+        "pool": {
+          "pipe": 3,
+          "wrench": 3,
+          "machete": 1,
+          "baseball_bat": 2
+        }
+      },
+      "obstacles": [
+        {
+          "kind": "crates",
+          "x": 230,
+          "y": 258
+        },
+        {
+          "kind": "oil_drums",
+          "x": 520,
+          "y": 258
+        },
+        {
+          "kind": "street_lamp",
+          "x": 760,
+          "y": 240
+        },
+        {
+          "kind": "crates",
+          "x": 1010,
+          "y": 258
+        },
+        {
+          "kind": "pickup_truck",
+          "x": 1230,
+          "y": 262
+        }
+      ]
+    },
+    "farm_plant_outskirts": {
+      "name": "Plant Outskirts",
+      "level": 22,
+      "width": 1400,
+      "safe": false,
+      "theme": "canal",
+      "kit_theme": "waste",
+      "palette": {
+        "sky": "#1a140c",
+        "buildings": [
+          "#2a2016",
+          "#32261a",
+          "#221a12"
+        ],
+        "windows": "#f0b050",
+        "sidewalk": "#4c463e",
+        "street": "#241e16"
+      },
+      "kind": "farm",
+      "region": "Industrial District",
+      "purpose": "The plant's fenced perimeter: slow armoured Patrol Units and Hazmat Sprayers; Scrap Metal and Refined Alloy.",
+      "unlock": {
+        "reached": "waste_pools"
+      },
+      "exits": {
+        "west": {
+          "to": "depot_yard",
+          "entry": "east"
+        }
+      },
+      "npcs": [],
+      "placed": [],
+      "encounters": [
+        {
+          "trigger_x": 380,
+          "arena": [
+            180,
+            860
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "patrol_unit",
+              "hazmat_sprayer"
+            ],
+            [
+              "hazmat_sprayer",
+              "hazmat_sprayer",
+              "patrol_unit"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1040,
+          "arena": [
+            860,
+            1380
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "patrol_unit",
+              "patrol_unit",
+              "hazmat_sprayer"
+            ],
+            [
+              "hazmat_sprayer",
+              "plant_guard"
+            ]
+          ]
+        }
+      ],
+      "weapons": {
+        "count": [
+          2,
+          3
+        ],
+        "pool": {
+          "pipe": 3,
+          "wrench": 3,
+          "baseball_bat": 1
+        }
+      },
+      "obstacles": [
+        {
+          "kind": "street_lamp",
+          "x": 200,
+          "y": 240
+        },
+        {
+          "kind": "oil_drums",
+          "x": 480,
+          "y": 258
+        },
+        {
+          "kind": "traffic_cone",
+          "x": 690,
+          "y": 236
+        },
+        {
+          "kind": "crates",
+          "x": 940,
+          "y": 258
+        },
+        {
+          "kind": "oil_drums",
+          "x": 1210,
+          "y": 258
+        }
+      ]
+    },
+    "farm_network_backrooms": {
+      "name": "Network Backrooms",
+      "level": 29,
+      "width": 1400,
+      "safe": false,
+      "theme": "depot",
+      "kit_theme": "gang_hq",
+      "palette": {
+        "sky": "#140f1a",
+        "buildings": [
+          "#261e2c",
+          "#2e2434",
+          "#201a26"
+        ],
+        "windows": "#e0a0f0",
+        "sidewalk": "#46404a",
+        "street": "#221e26"
+      },
+      "kind": "farm",
+      "region": "The Black Network",
+      "purpose": "Cash rooms behind the Counting House: fast runners, heavy collectors and a ring fighter; coins.",
+      "unlock": {
+        "reached": "counting_house"
+      },
+      "exits": {
+        "west": {
+          "to": "depot_yard",
+          "entry": "east"
+        }
+      },
+      "npcs": [],
+      "placed": [],
+      "encounters": [
+        {
+          "trigger_x": 380,
+          "arena": [
+            180,
+            860
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "network_runner",
+              "network_runner"
+            ],
+            [
+              "network_enforcer",
+              "network_runner"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1040,
+          "arena": [
+            860,
+            1380
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "network_runner",
+              "network_enforcer"
+            ],
+            [
+              "network_runner",
+              "ring_fighter"
+            ]
+          ]
+        }
+      ],
+      "weapons": {
+        "count": [
+          2,
+          3
+        ],
+        "pool": {
+          "pipe": 3,
+          "chair": 2,
+          "baseball_bat": 2,
+          "machete": 1
+        }
+      },
+      "obstacles": [
+        {
+          "kind": "street_lamp",
+          "x": 240,
+          "y": 240
+        },
+        {
+          "kind": "crates",
+          "x": 500,
+          "y": 258
+        },
+        {
+          "kind": "car_wreck",
+          "x": 760,
+          "y": 262
+        },
+        {
+          "kind": "oil_drums",
+          "x": 1050,
+          "y": 258
+        },
+        {
+          "kind": "street_lamp",
+          "x": 1250,
+          "y": 240
+        }
+      ]
+    },
+    "farm_facility_annex": {
+      "name": "Facility Annex",
+      "level": 37,
+      "width": 1400,
+      "safe": false,
+      "theme": "canal",
+      "kit_theme": "plant",
+      "palette": {
+        "sky": "#0c1216",
+        "buildings": [
+          "#1a242a",
+          "#202c34",
+          "#161e24"
+        ],
+        "windows": "#90e8f0",
+        "sidewalk": "#42484e",
+        "street": "#1c2226"
+      },
+      "kind": "farm",
+      "region": "The Core Facility",
+      "purpose": "The facility's storage wing: trooper squads, hazmat teams and patrol machines; Refined Alloy.",
+      "unlock": {
+        "reached": "machine_hall"
+      },
+      "exits": {
+        "west": {
+          "to": "depot_yard",
+          "entry": "east"
+        }
+      },
+      "npcs": [],
+      "placed": [],
+      "encounters": [
+        {
+          "trigger_x": 380,
+          "arena": [
+            180,
+            860
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "facility_trooper",
+              "hazmat_sprayer",
+              "facility_trooper"
+            ],
+            [
+              "facility_trooper",
+              "facility_trooper"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1040,
+          "arena": [
+            860,
+            1380
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "facility_trooper",
+              "facility_trooper",
+              "hazmat_sprayer"
+            ],
+            [
+              "patrol_unit",
+              "riot_trooper"
+            ]
+          ]
+        }
+      ],
+      "weapons": {
+        "count": [
+          2,
+          3
+        ],
+        "pool": {
+          "pipe": 3,
+          "wrench": 3,
+          "machete": 1
+        }
+      },
+      "obstacles": [
+        {
+          "kind": "crates",
+          "x": 260,
+          "y": 258
+        },
+        {
+          "kind": "oil_drums",
+          "x": 560,
+          "y": 258
+        },
+        {
+          "kind": "street_lamp",
+          "x": 820,
+          "y": 240
+        },
+        {
+          "kind": "crates",
+          "x": 1100,
+          "y": 258
+        }
+      ]
+    },
+    "farm_core_overflow": {
+      "name": "Core Overflow",
+      "level": 50,
+      "width": 1400,
+      "safe": false,
+      "theme": "canal",
+      "kit_theme": "tunnels",
+      "palette": {
+        "sky": "#120a0a",
+        "buildings": [
+          "#281416",
+          "#30181a",
+          "#200f12"
+        ],
+        "windows": "#ff8060",
+        "sidewalk": "#463c3c",
+        "street": "#221818"
+      },
+      "kind": "farm",
+      "region": "Main Control Centre",
+      "purpose": "The Core's overflow halls after the story, run by its backup machines and holdout troopers: endgame Scrap Metal, Refined Alloy and coins. A hero at the level cap (50) earns no XP here, as anywhere.",
+      "unlock": {
+        "defeated": "director_wiroj"
+      },
+      "exits": {
+        "west": {
+          "to": "depot_yard",
+          "entry": "east"
+        }
+      },
+      "npcs": [],
+      "placed": [],
+      "encounters": [
+        {
+          "trigger_x": 380,
+          "arena": [
+            180,
+            860
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "facility_trooper",
+              "facility_trooper"
+            ],
+            [
+              "facility_trooper",
+              "patrol_unit",
+              "facility_trooper"
+            ]
+          ]
+        },
+        {
+          "trigger_x": 1040,
+          "arena": [
+            860,
+            1380
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "facility_trooper",
+              "facility_trooper",
+              "facility_trooper"
+            ],
+            [
+              "facility_trooper",
+              "core_sentinel"
+            ]
+          ]
+        }
+      ],
+      "weapons": {
+        "count": [
+          2,
+          3
+        ],
+        "pool": {
+          "pipe": 3,
+          "wrench": 3
+        }
+      },
+      "obstacles": [
+        {
+          "kind": "oil_drums",
+          "x": 300,
+          "y": 258
+        },
+        {
+          "kind": "crates",
+          "x": 640,
+          "y": 258
+        },
+        {
+          "kind": "oil_drums",
+          "x": 980,
+          "y": 258
+        },
+        {
+          "kind": "crates",
+          "x": 1240,
           "y": 258
         }
       ]

@@ -73,6 +73,8 @@ func _notification(what: int) -> void:
 
 
 func _ready() -> void:
+	# The street is on screen: portrait gets its own layout (ScreenLayout).
+	GameSession.show_street(true)
 	_upgrade_rng.randomize()
 	_world_rng.randomize()
 	content = GameSession.content
@@ -306,6 +308,8 @@ func _handle(event: ZoneEvent) -> void:
 			_hud.show_go(false)
 			if event.data.get("boss", false):
 				_hud.toast("A boss approaches!")
+			if not zone.fight_locked():
+				_hud.toast("You've passed this area: fight, or walk on.")
 		"boss_phase":
 			_hud.toast("It's enraged!")
 		"boss_shield":
@@ -319,6 +323,8 @@ func _handle(event: ZoneEvent) -> void:
 				open_game_over.call_deferred()
 		"exit":
 			_pending_exit = event.data
+		"fights_back":
+			_hud.toast("The fights are back. Another round!")
 		"exit_locked":
 			_hud.toast(
 				"%s  (%d/%d)" % [event.data["hint"], event.data["done"], event.data["count"]]
@@ -375,12 +381,17 @@ func quick_heal() -> bool:
 	return false
 
 
+func _exit_tree() -> void:
+	GameSession.show_street(false)
+
+
 func close_menu() -> void:
 	if menu:
 		menu.queue_free()
 		Sfx.play("ui_back", -4.0)
 	menu = null
 	menu_name = ""
+	GameSession.show_street(true)
 	menu_focus = ""
 	item_card = null
 	zone.refresh_hero()
@@ -388,6 +399,9 @@ func close_menu() -> void:
 
 
 func _show(name: String, screen: Control) -> void:
+	# Game screens keep the landscape layout until their portrait designs
+	# (U1-B): the canvas stays 640x360 while one is open.
+	GameSession.show_street(true, true)
 	if menu:
 		menu.queue_free()
 	menu = screen
@@ -801,9 +815,10 @@ func _leave_world_boss() -> void:
 	enter_area(content.start_area, "")
 
 
-## Straight home from the pause menu, out of a fight only. Arriving rests
-## the hero (healed, every street's fights back) like walking in would; Win's
-## taxi rides back out to any area reached.
+## Straight to the start area, out of a fight only: the pause menu's return
+## when the game has no city (with one, it returns to the city: _go_to_city).
+## Arriving rests the hero (healed, every street's fights back) like walking
+## in would; Win's taxi rides back out to any area reached.
 func _recall() -> void:
 	var problem := zone.recall_problem()
 	if problem:
@@ -828,9 +843,11 @@ func city_problem() -> String:
 	return zone.leave_problem()
 
 
-## To the city from the pause menu: free, like Recall, and like walking in
-## it rests the hero (Iron City Central heals and fills the streets again,
-## as Depot Yard does). Recall itself still goes to Depot Yard.
+## To the city: the pause menu's "Return to Iron City Central", from any
+## area outside a fight. Free, and like walking in it rests the hero (Iron
+## City Central heals and fills the streets again, as Depot Yard does). Auto
+## battle's trip home, a knock-out and the world-boss way home still go to
+## Depot Yard, the start area.
 func _go_to_city() -> void:
 	var problem := city_problem()
 	if problem:

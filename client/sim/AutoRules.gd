@@ -2,9 +2,11 @@ class_name AutoRules
 extends RefCounted
 ## Where auto battle is allowed: only in an area the hero has already beaten,
 ## so it farms streets the player has won by hand and never plays new ones
-## for them. An area counts as beaten once the hero has walked on to the next
-## area east (its gate opened and was passed), or, at the end of the street,
-## once every boss fighting there has been defeated. Derived from what the
+## for them; and in a farming ground once it is open (AreaRules.unlocked),
+## which holds only enemies its unlock rule has already taken the hero past.
+## An area counts as beaten once the hero has walked on to the next area east
+## (its gate opened and was passed), or, at the end of the street, once every
+## boss fighting there has been defeated. Derived from what the
 ## profile already keeps, so nothing new is saved. Pure rules, shared with the
 ## server.
 ##
@@ -22,6 +24,10 @@ static func problem(profile: PlayerProfile, content: ContentDB, area_id: String)
 		return "No one to fight here."
 	if area.get("world_boss", false):
 		return "The World Boss has to be fought by hand."
+	if AreaRules.kind(content, area_id) == AreaRules.FARM:
+		return (
+			"" if AreaRules.unlocked(profile, content, area_id) else "This ground is not open yet."
+		)
 	if not is_beaten(profile, content, area_id):
 		return "Clear this area yourself once, then auto can take over."
 	return ""

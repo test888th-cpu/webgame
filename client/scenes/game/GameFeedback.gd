@@ -52,7 +52,8 @@ func on_event(event: ZoneEvent) -> void:
 		"quest_complete":
 			Sfx.play("quest")
 		"encounter_start":
-			Sfx.play("arena_lock", -2.0)
+			if view.zone.fight_locked():
+				Sfx.play("arena_lock", -2.0)
 			if event.data.get("boss", false):
 				Sfx.play_later("boss_roar", 0.4)
 		"boss_phase":

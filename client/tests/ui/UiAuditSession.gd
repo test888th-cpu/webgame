@@ -11,8 +11,9 @@ const TEST_SAVE := "user://ui_audit_save"
 const SIZES := [
 	["1280x720", Vector2i(1280, 720), "mouse"],
 	["640x360", Vector2i(640, 360), "touch"],
-	["844x390", Vector2i(844, 390), "touch"],
-	["960x440", Vector2i(960, 440), "touch"],
+	["360x640", Vector2i(360, 640), "touch"],
+	["390x844", Vector2i(390, 844), "touch"],
+	["412x915", Vector2i(412, 915), "touch"],
 ]
 const VARIANTS := ["base", "text150", "strings140"]
 ## Reported for information, not compared with the baseline: they describe a
@@ -80,14 +81,15 @@ func _audit_scene(size: Array, variant: String, screen: String) -> void:
 ## One screen of a fresh game: the HUD in Depot Yard, or a menu over it.
 func _audit_game(size: Array, variant: String, screen: String) -> void:
 	SaveStore.delete_all()
+	# The input in use decides the layout (touch controls, key hints), as it
+	# does for a player.
+	InputSetup.set_device("touch" if size[2] == "touch" else "keyboard")
 	GameSession.start_new_game()
 	var game: Game = load("res://scenes/game/Game.tscn").instantiate()
 	root.add_child(game)
 	game.set_physics_process(false)
 	await _settle()
 	var hud: CanvasLayer = game.get("_hud")
-	var touch: Control = hud.get("_touch")
-	touch.visible = size[2] == "touch"
 	var target: Node = hud.get_node("Root") if screen == "hud" else _open(game, screen)
 	if target == null:
 		problems.append("could not open screen %s" % screen)
@@ -297,10 +299,7 @@ func _counts() -> Dictionary:
 func _markdown(added: Array[String], fixed: Array[String]) -> String:
 	var lines: Array[String] = ["# UI audit", ""]
 	lines.append(
-		(
-			"Sizes: 1280x720 mouse; 640x360, 844x390, 960x440 touch."
-			+ " Variants: base, text150, strings140."
-		)
+		"Sizes: 1280x720 mouse, 640x360 touch, 360x640 touch. Variants: base, text150, strings140."
 	)
 	lines.append("")
 	lines.append("| Check @ size | Findings |")

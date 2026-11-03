@@ -187,7 +187,9 @@ static func _better(a: Dictionary, b: Dictionary) -> bool:
 ## One simulated run of `area_id` by `hero_id` at `level` with gear `kind`,
 ## played by AutoPilot from the west edge until the area is clear, the hero
 ## is down, or `max_ticks` pass. `boss_only` pre-clears every encounter
-## without a boss (a stand-in for a boss rematch). `food` is carried.
+## without a boss (a stand-in for a boss rematch). `food` is carried. In a
+## farming ground, `rounds` (default 1) is how many times every fight there
+## is won, walking back west between rounds as auto battle does.
 ## Returns times in ticks and seconds and what was gained and spent.
 static func run_area(content: ContentDB, setup: Dictionary) -> Dictionary:
 	var area_id := str(setup["area"])
@@ -211,15 +213,26 @@ static func run_area(content: ContentDB, setup: Dictionary) -> Dictionary:
 	var taken := 0
 	var ticks := 0
 	var limit := int(setup.get("max_ticks", 36000))
+	# A farming ground never reports "clear" (its fights repeat): it is done
+	# once every fight in it has been won `rounds` times and the drops are
+	# picked up (the pilot turns back for another round), as a street run
+	# ends on "clear" after its last drops.
+	var fights: int = content.area(area_id).get("encounters", []).size()
+	var target := fights * int(setup.get("rounds", 1))
+	var won := 0
+	var farm := AreaRules.kind(content, area_id) == AreaRules.FARM
 	while ticks < limit:
 		ticks += 1
 		var input := pilot.think(zone)
 		if pilot.item:
 			zone.use_item(pilot.item)
-		zone.tick(input)
+		for event in zone.tick(input):
+			won += int(event.type == "encounter_clear")
 		taken += maxi(0, last_hp - zone.hero.hp)
 		last_hp = zone.hero.hp
 		if pilot.status == AutoPilot.STATUS_CLEAR or zone.hero.is_ko():
+			break
+		if farm and won >= target and pilot.status == AutoPilot.STATUS_ROUND:
 			break
 	var after := _wealth(content, profile, food)
 	return {
@@ -231,7 +244,8 @@ static func run_area(content: ContentDB, setup: Dictionary) -> Dictionary:
 		"boss_only": bool(setup.get("boss_only", false)),
 		"ticks": ticks,
 		"seconds": float(ticks) / CombatRules.TICK_RATE,
-		"clear": pilot.status == AutoPilot.STATUS_CLEAR,
+		"clear": pilot.status == AutoPilot.STATUS_CLEAR or (farm and won >= target),
+		"rounds": won / maxi(1, fights) if farm else int(pilot.status == AutoPilot.STATUS_CLEAR),
 		"ko": zone.hero.is_ko(),
 		"xp": int(after["xp"]) - int(before["xp"]),
 		"coins": int(after["coins"]) - int(before["coins"]),
@@ -240,6 +254,86 @@ static func run_area(content: ContentDB, setup: Dictionary) -> Dictionary:
 		"food_used": int(before["food"]) - int(after["food"]),
 		"damage_taken": taken,
 		"max_hp": zone.hero.max_hp,
+	}
+
+
+## A farming session as auto battle plays it (AutoBattle's farm loop), for
+## `ticks` (default ten minutes): ride out from the start area for the fare,
+## fight (in a farming ground, round after round), and whenever
+## AutoRules.wants_rest says so (a street cleared, or hurt with no food) wait
+## AutoBattle.REST_DELAY_TICKS, go home (healed, every fight back), restock
+## food (AutoRules.restock, keeping `keep`), pay the fare and ride back. The
+## hero has reached the whole street, as a farming hero has. A knock-out ends
+## the session (auto turns off). Returns what was won, the coins left after
+## fares and food (`net_coins`), the trips home and the ticks played.
+static func run_loop(content: ContentDB, setup: Dictionary) -> Dictionary:
+	var area_id := str(setup["area"])
+	var level := int(setup.get("level", content.area(area_id).get("level", 1)))
+	var profile := PlayerProfile.new_game(content, str(setup.get("hero", "")))
+	profile.level = level
+	for street_area in StreetMemory.street(content):
+		StreetMemory.visit(profile, street_area)
+	for item_id in gear(content, level, str(setup.get("gear", "shop"))):
+		profile.add_item(item_id)
+		profile.equip(item_id, content)
+	profile.money = int(setup.get("money", 500))
+	var keep := int(setup.get("keep", 10))
+	var home := content.start_area
+	var fare := maxi(0, AutoRules.fare(content, home))
+	var seed := int(setup.get("seed", 1))
+	var zone := ZoneSim.new(content, profile, home, "", seed)
+	AutoRules.restock(profile, content, home, keep, fare)
+	var spent_start := profile.money
+	var before := _wealth(content, profile, {})
+	var gained := {"coins": 0, "scrap": 0, "alloy": 0}
+	EconomyRules.charge(profile, fare)
+	zone = ZoneSim.new(content, profile, area_id, "west", seed)
+	zone.refresh_hero()
+	var pilot := AutoPilot.new(content)
+	var limit := int(setup.get("ticks", 36000))
+	var ticks := 0
+	var resting := 0
+	var trips := 0
+	while ticks < limit and not zone.hero.is_ko():
+		ticks += 1
+		var input := pilot.think(zone)
+		if pilot.item:
+			zone.use_item(pilot.item)
+		for event in zone.tick(input):
+			if event.type == "pickup":
+				var kind := str(event.data["kind"])
+				if kind == "money":
+					gained["coins"] += int(event.data["amount"])
+				elif str(event.data.get("item", "")) == SCRAP:
+					gained["scrap"] += int(event.data["amount"])
+				elif str(event.data.get("item", "")) == ALLOY:
+					gained["alloy"] += int(event.data["amount"])
+		resting = resting + 1 if AutoRules.wants_rest(zone, pilot) else 0
+		if resting < AutoBattle.REST_DELAY_TICKS:
+			continue
+		resting = 0
+		trips += 1
+		zone = ZoneSim.new(content, profile, home, "", seed + trips)
+		AutoRules.restock(profile, content, home, keep, fare)
+		if not EconomyRules.charge(profile, fare):
+			break
+		zone = ZoneSim.new(content, profile, area_id, "west", seed + trips)
+		zone.refresh_hero()
+		pilot = AutoPilot.new(content)
+	var after := _wealth(content, profile, {})
+	return {
+		"area": area_id,
+		"hero": profile.hero,
+		"level": level,
+		"seed": seed,
+		"ticks": ticks,
+		"trips": trips,
+		"ko": zone.hero.is_ko(),
+		"xp": int(after["xp"]) - int(before["xp"]),
+		"coins": int(gained["coins"]),
+		"net_coins": profile.money - spent_start,
+		"scrap": int(gained["scrap"]),
+		"alloy": int(gained["alloy"]),
 	}
 
 

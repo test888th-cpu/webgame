@@ -62,6 +62,25 @@ Iron City คือเมืองอุตสาหกรรมและเม�
 และ Bao (หลานที่เฝ้าตู้ให้ยาย) กระดานประกาศไม่เอ่ยชื่อบอสโลกหรือบอสที่ปลดล็อกมัน
 จนกว่าเนื้อเรื่องจะไปถึง (ตามกฎ §7)
 
+**ลานฟาร์ม (Farming Grounds)** (ทำแล้ว 2026-11-02, **ชื่อทั้งเจ็ดเป็นชื่อเสนอ รอเจ้าของอนุมัติ**):
+พื้นที่เสริมนอกถนนสายหลัก ไม่ใช่ด่านเนื้อเรื่อง ไม่มีบอส ไม่มีบทสนทนา ไม่มีหลักฐาน ไปได้ด้วยรถของ Win เท่านั้น
+(แถว Farming บนรถวินและบนแผนที่ ค่ารถเท่าเดิม) ออกได้ทางเดียวคือเดินไปทางตะวันตกถึง Depot Yard หรือกลับ
+Iron City Central จากเมนูหยุดเกม แต่ละลานเป็นของเขตเดียว ใช้ศัตรูของเขตนั้นเท่านั้น และมี Elite ตัวเดียว
+
+| ลาน | `id` | เขต | เปิดเมื่อ | ที่มาในเรื่อง |
+|---|---|---|---|---|
+| Saltmarket Backlots | `farm_saltmarket_backlots` | South Street | ไปถึง Rusted Corner | ลานหลังตลาดเกลือที่แก๊ง Tar Rat และพวกขว้างขวดใช้ซ่อนของ |
+| Rail Sidings | `farm_rail_sidings` | South Street | ไปถึง Smokestack Refinery | รางแยกหลังโรงหลอม ลูกน้องของ Furnace Baron คุมอยู่ |
+| Harbour Stacks | `farm_harbour_stacks` | Port District | ไปถึง Container Yard | กองตู้ริมท่าที่คนท่าเรือยังยึดไว้ |
+| Plant Outskirts | `farm_plant_outskirts` | Industrial District | ไปถึง Waste Pools | แนวรั้วรอบโรงงาน ยามและเครื่องจักรลาดตระเวน |
+| Network Backrooms | `farm_network_backrooms` | The Black Network | ไปถึง Counting House | ห้องเก็บเงินหลัง Counting House ของเครือข่าย |
+| Facility Annex | `farm_facility_annex` | The Core Facility | ไปถึง Machine Hall | ปีกคลังของศูนย์ ทหารรักษาการณ์และทีมฉีดสาร |
+| Core Overflow | `farm_core_overflow` | Main Control Centre | ชนะ Director Wiroj | โถงระบายของ The Core หลังจบเรื่อง เหลือแต่เครื่องจักรสำรองกับทหารที่ยังไม่ถอน |
+
+กฎ: **ไม่มี Hybrid ในลานฟาร์ม** Hybrid คือคนงานที่ป่วยจากการสัมผัส (เหยื่อ ไม่ใช่ศัตรูให้ล่าซ้ำ) ดังนั้น
+Facility Annex ไม่ใช้ Hybrid Worker และ Core Overflow เป็นลานของเครื่องจักร ชื่อ The Core ใช้ได้เพราะลานที่เอ่ยถึง
+เปิดหลังบทที่ 3 (ตามกฎ §7)
+
 ### 2.2 The Murk (ตีความใหม่)
 
 ในเกมปัจจุบัน The Murk คือ "หมอกควันมีชีวิต" จากอุโมงค์ใต้ดิน ข้อเสนอคือ:

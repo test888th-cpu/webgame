@@ -2,13 +2,38 @@ extends Node
 ## Game-wide state that outlives scene changes: the loaded content and the
 ## profile being played. Scenes read it; only Game.gd changes the profile.
 
+## The screen layout changed (window resized or turned, input switched, or a
+## screen opened or closed): the HUD, camera and touch controls re-read
+## `layout`.
+signal layout_changed(layout: ScreenLayout)
+
 const SETTINGS_PATH := "user://settings.json"
+## Reads the page's CSS safe-area insets (notches, rounded corners, system
+## bars) in CSS px, scaled to the canvas: "left,top,right,bottom".
+const SAFE_AREA_JS := """
+(() => {
+  const probe = document.createElement('div');
+  probe.style.cssText = 'position:fixed;visibility:hidden;'
+    + 'padding:env(safe-area-inset-top) env(safe-area-inset-right) '
+    + 'env(safe-area-inset-bottom) env(safe-area-inset-left)';
+  document.body.appendChild(probe);
+  const s = getComputedStyle(probe);
+  const canvas = document.querySelector('canvas');
+  const k = canvas && canvas.clientWidth ? canvas.width / canvas.clientWidth : 1;
+  const out = [s.paddingLeft, s.paddingTop, s.paddingRight, s.paddingBottom]
+    .map((v) => (parseFloat(v) || 0) * k).join(',');
+  probe.remove();
+  return out;
+})()
+"""
 
 var content: ContentDB
 var profile: PlayerProfile
 ## Player preferences (not progression): kept in their own small file.
 ## Effect animations, built on first use by Fx.
 var fx_library := {}
+## Where everything goes on screen now (ScreenLayout). Set by relayout().
+var layout: ScreenLayout
 var settings := {
 	"show_fps": false,
 	"screen_shake": true,
@@ -19,6 +44,12 @@ var settings := {
 	"auto_loop": true,
 	"auto_food": 10.0,
 }
+
+## The street is being played: portrait gets its own layout. Off for the
+## title and hero creation, and while a game screen (Bag, Map…) is open:
+## those keep the landscape layout until their portrait designs (U1-B).
+var _street_shown := false
+var _screen_open := false
 
 
 func _ready() -> void:
@@ -34,6 +65,53 @@ func _ready() -> void:
 		project_theme.merge_with(UiTheme.build())
 	_load_settings()
 	_add_font_fallbacks()
+	get_tree().root.size_changed.connect(relayout)
+	InputSetup.device_changed.connect(func(_device: String) -> void: relayout())
+	relayout()
+
+
+## The street is shown (Game) or not; a game screen is open over it or not.
+func show_street(shown: bool, screen_open := false) -> void:
+	if shown == _street_shown and screen_open == _screen_open:
+		return
+	_street_shown = shown
+	_screen_open = screen_open
+	relayout()
+
+
+## Works out the layout for the window as it is now and applies its logical
+## canvas size. Called on resize, turn, input switch and screen changes.
+func relayout() -> void:
+	var root := get_tree().root
+	var portrait_ok := _street_shown and not _screen_open
+	var next := ScreenLayout.compute(
+		Vector2(root.size), _safe_insets(), InputSetup.device, portrait_ok, _screen_open
+	)
+	if root.content_scale_size != next.base:
+		root.content_scale_size = next.base
+	layout = next
+	layout_changed.emit(layout)
+
+
+## Safe-area insets in window px (left, top, right, bottom): the page's CSS
+## env() insets on the web, the display's safe area on phones, else none.
+func _safe_insets() -> Vector4:
+	if OS.has_feature("web"):
+		var text := str(JavaScriptBridge.eval(SAFE_AREA_JS, true))
+		var parts := text.split(",")
+		if parts.size() == 4:
+			return Vector4(float(parts[0]), float(parts[1]), float(parts[2]), float(parts[3]))
+		return Vector4.ZERO
+	if OS.has_feature("android") or OS.has_feature("ios"):
+		var screen := Rect2(Vector2.ZERO, DisplayServer.screen_get_size())
+		var safe := Rect2(DisplayServer.get_display_safe_area())
+		return Vector4(
+			safe.position.x - screen.position.x,
+			safe.position.y - screen.position.y,
+			screen.end.x - safe.end.x,
+			screen.end.y - safe.end.y
+		)
+	return Vector4.ZERO
 
 
 ## The engine's default font has no Thai glyphs; Noto Sans Thai (OFL) is

@@ -39,15 +39,15 @@ func test_one_street_east_with_rising_levels() -> void:
 		)
 		seen.append(next)
 		here = next
-	# Off the street: the world boss arenas and the city (reached by taxi).
+	# Off the street: the world boss arenas, the city and the farming grounds
+	# (all reached by taxi).
 	var street_areas := _content().areas.keys().filter(
-		func(id: String) -> bool:
-			return not _content().area(id).get("world_boss", false) and id != _content().city_area
+		func(id: String) -> bool: return AreaRules.kind(_content(), id) == AreaRules.STREET
 	)
 	assert_eq(
 		seen.size(),
 		street_areas.size(),
-		"every area but the arenas' and the city's is on the street"
+		"every area but the arenas', the city's and the farming grounds' is on the street"
 	)
 
 

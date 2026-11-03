@@ -8,7 +8,8 @@ extends RefCounted
 ##   the way on is always shown;
 ## * everything past that is unknown, and a district with nothing known is
 ##   unnamed.
-## World boss arenas are known once their boss is unlocked (WorldBossRules).
+## World boss arenas are known once their boss is unlocked (WorldBossRules),
+## and farming grounds once their unlock rule is met (AreaRules).
 ## The map also says where the hero's goal is: the tracked quest's area
 ## (quests.json objective "area"), its giver once it is done, or the giver
 ## of the next quest. Derived from the profile, so nothing new is saved.
@@ -77,6 +78,8 @@ static func state(
 		return KNOWN
 	if content.area(area_id).get("world_boss", false):
 		return KNOWN if area_id in arenas(profile, content) else UNKNOWN
+	if AreaRules.kind(content, area_id) == AreaRules.FARM:
+		return KNOWN if AreaRules.unlocked(profile, content, area_id) else UNKNOWN
 	if area_id in profile.visited:
 		return KNOWN
 	var west := str(content.area(area_id).get("exits", {}).get("west", {}).get("to", ""))
@@ -87,8 +90,9 @@ static func state(
 ## unknown), "kind" (kind_of: shown for every area, so the hero can see
 ## where bosses wait), "services": [names], "boss": the boss's name or "",
 ## "beaten": its boss is down, "gate": why the way east is still shut or
-## ""}. Only a known area shows more than its name, level and kind; who a
-## boss is stays hidden until the hero gets there.
+## "", "purpose": what a farming ground is for, "" elsewhere}. Only a known
+## area shows more than its name, level and kind; who a boss is stays hidden
+## until the hero gets there.
 static func about(
 	profile: PlayerProfile, content: ContentDB, area_id: String, here: String
 ) -> Dictionary:
@@ -103,6 +107,7 @@ static func about(
 		"boss": "",
 		"beaten": false,
 		"gate": "",
+		"purpose": "",
 	}
 	var boss := boss_of(content, area_id)
 	info["beaten"] = boss != "" and int(profile.defeated.get(boss, 0)) > 0
@@ -110,6 +115,8 @@ static func about(
 		return info
 	info["name"] = str(area.get("name", area_id))
 	info["level"] = int(area.get("level", 1))
+	if AreaRules.kind(content, area_id) == AreaRules.FARM:
+		info["purpose"] = str(area.get("purpose", ""))
 	if seen == IN_SIGHT:
 		return info
 	for npc: Dictionary in area.get("npcs", []):

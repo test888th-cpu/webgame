@@ -42,18 +42,71 @@ static func pending(profile: PlayerProfile, content: ContentDB, area_id: String)
 	for i in encounters.size():
 		if not is_cleared(profile, area_id, i):
 			out.append(i)
-	var requires: Dictionary = content.area(area_id).get("exits", {}).get("east", {}).get(
-		"requires", {}
-	)
-	var open := (
-		requires.is_empty()
-		or int(profile.defeated.get(str(requires["defeat"]), 0)) >= int(requires["count"])
-	)
-	if out.is_empty() and not open:
+	if out.is_empty() and not gate(profile, content, area_id, "east").is_empty():
 		profile.cleared.erase(area_id)
 		for i in encounters.size():
 			out.append(i)
 	return out
+
+
+## Where a farming ground (AreaRules.FARM) refills: the west edge of its first
+## fight's ground, where the taxi sets the hero down. -INF anywhere else.
+static func refill_x(content: ContentDB, area_id: String) -> float:
+	if AreaRules.kind(content, area_id) != AreaRules.FARM:
+		return -INF
+	var west := INF
+	for encounter: Dictionary in content.area(area_id).get("encounters", []):
+		west = minf(west, float(encounter["arena"][0]))
+	return west if west != INF else -INF
+
+
+## A farming ground's fights repeat: once every one there is won, they all
+## come back as soon as the hero stands west of refill_x (arriving by taxi,
+## loading a save there, or walking back for another round). A rest brings
+## them back too, as everywhere. Returns true when it has just refilled.
+## Nothing new is saved: the won fights are forgotten, as a rest does.
+static func refill(
+	profile: PlayerProfile, content: ContentDB, area_id: String, hero_x: float
+) -> bool:
+	if hero_x >= refill_x(content, area_id) or not pending(profile, content, area_id).is_empty():
+		return false
+	profile.cleared.erase(area_id)
+	return true
+
+
+## What still keeps `area_id`'s exit on `side` shut: {"defeat", "count",
+## "hint", "done", "side"} (done: how many are down so far), or {} when it is
+## open. Exits open once the hero has defeated enough of the enemy that
+## guards them, so the street opens as the story moves on, whichever quest
+## is active.
+static func gate(
+	profile: PlayerProfile, content: ContentDB, area_id: String, side: String
+) -> Dictionary:
+	var requires: Dictionary = content.area(area_id).get("exits", {}).get(side, {}).get(
+		"requires", {}
+	)
+	if requires.is_empty():
+		return {}
+	var done := int(profile.defeated.get(str(requires["defeat"]), 0))
+	if done >= int(requires["count"]):
+		return {}
+	var out := requires.duplicate()
+	out["done"] = done
+	out["side"] = side
+	return out
+
+
+## True for a street area the hero has already passed (AutoRules.is_beaten:
+## the area east of it reached, or its boss beaten at the end of the line).
+## Its fights still come back after a rest, for farming, but they hold no one
+## in (ZoneSim.fight_locked): the hero may fight, walk on east or back west,
+## or leave by the pause menu, and a fight walked away from comes back on the
+## next visit. Farming grounds and world boss arenas are never "passed".
+static func passed(profile: PlayerProfile, content: ContentDB, area_id: String) -> bool:
+	return (
+		AreaRules.kind(content, area_id) == AreaRules.STREET
+		and AutoRules.is_beaten(profile, content, area_id)
+	)
 
 
 ## Areas the taxi can take the hero to from `here`: every area reached

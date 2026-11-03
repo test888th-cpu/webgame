@@ -262,6 +262,7 @@ func validate() -> void:
 	for id: String in areas:
 		_validate_area(id, areas[id])
 	_validate_city()
+	errors.append_array(AreaRules.problems(self))
 	_validate_progression()
 	_validate_weapons()
 	_validate_heroes()

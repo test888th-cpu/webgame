@@ -23,6 +23,10 @@ const SERVICES := {
 ## Depot Yard as it is on main (SHA-256 of its areas.json entry, its kit and
 ## generated scenery entries, sorted-key JSON, and of its four scenery images).
 ## The city must never change Story Area 1.
+const WIN_LINE := "Choose a destination you've unlocked. I'll take you there."
+const MAIN_WIN_LINE := (
+	"Motorbike taxi. Anywhere you've been on South Street, " + "ten coins. Hold on tight."
+)
 const DEPOT_AREA_SHA := "24dee5917418c9609470767f8509a7f8d93fa03f5e09eeca701d0b9d712ab642"
 const DEPOT_KIT_SHA := "d73d184ceaa63434c1309f90032f4c49fd6983276aa44d2fb52b23595e272e22"
 const DEPOT_ENV_SHA := "cfa32a60f4d172a6d40a25cfdc28c6ef727f3c335bed0f0add4080095d51fd2f"
@@ -154,7 +158,12 @@ func _rides(menu: Control) -> Array[String]:
 
 
 func test_depot_yard_is_exactly_as_on_main() -> void:
-	var depot := _content().area("depot_yard")
+	var depot := _content().area("depot_yard").duplicate(true)
+	# The one change the owner asked for since: Win's line (the taxi now goes
+	# beyond South Street). Everything else is byte for byte as on main.
+	var win: Dictionary = depot["npcs"][2]
+	assert_eq(str(win["line"]), WIN_LINE, "Win's line, as the owner asked")
+	win["line"] = MAIN_WIN_LINE
 	assert_eq(JSON.stringify(depot, "", true).sha256_text(), DEPOT_AREA_SHA, "Depot Yard's data")
 	assert_eq(
 		JSON.stringify(_content().kit["areas"]["depot_yard"], "", true).sha256_text(),
@@ -255,6 +264,7 @@ func test_every_taxi_stand_rides_to_the_city_and_keeps_its_old_rides() -> void:
 			game._show("travel", GameMenus.travel(game, npc))
 			var expected: Array[String] = [CITY]
 			expected.append_array(StreetMemory.destinations(game.profile, game.content, area_id))
+			expected.append_array(AreaRules.open_farms(game.profile, game.content))
 			expected.sort()
 			assert_eq(_rides(game.menu), expected, "%s: the city and every old ride" % npc["id"])
 			assert_eq(int(npc["fare"]), 10, "%s's fare unchanged" % npc["id"])
@@ -279,6 +289,8 @@ func test_wins_city_rank_rides_everywhere_reached_and_fits_small_screens() -> vo
 	game._show("travel", GameMenus.travel(game, _npc("taxi_win_city")))
 	var expected: Array[String] = StreetMemory.street(game.content)
 	expected.append_array(game.content.world_bosses.keys())
+	# Every boss is down too, so every farming ground is open.
+	expected.append_array(AreaRules.farms(game.content))
 	expected.sort()
 	assert_eq(_rides(game.menu), expected, "every area reached and every world boss")
 	for district in MapRules.districts(game.content):
@@ -296,9 +308,10 @@ func test_wins_city_rank_rides_everywhere_reached_and_fits_small_screens() -> vo
 func test_the_pause_menu_goes_to_the_city_with_recalls_checks() -> void:
 	var game := _game()
 	game.open_pause()
-	var go: Button = game.menu.find_child("GoToCity", true, false)
+	var go: Button = game.menu.find_child("Recall", true, false)
 	assert_true(go != null and not go.disabled, "offered from Depot Yard")
-	assert_true(game.menu.find_child("Recall", true, false) != null, "Recall is still there")
+	assert_eq(go.text.strip_edges(), "Return to Iron City Central", "one return: to the city")
+	assert_true(game.menu.find_child("GoToCity", true, false) == null, "no second city item")
 	await _settle()
 	_check_layout(game.menu, "pause menu")
 	game.close_menu()
@@ -327,8 +340,40 @@ func test_the_pause_menu_goes_to_the_city_with_recalls_checks() -> void:
 	game._go_to_city()
 	assert_eq(game.zone.area_id, CITY, "to the city")
 	assert_eq(game.city_problem(), "You are already there.", "already there")
-	game._recall()
-	assert_eq(game.zone.area_id, "depot_yard", "Recall still goes to Depot Yard")
+	_done(game)
+
+
+## The bug fixed: the pause menu's return went to the story's start (Depot
+## Yard). It must reach Iron City Central from Story Area 1, from later story
+## areas, from Depot Yard and from a world boss arena, and arrive at the taxi
+## rank, rested, for free, with the hero's progress untouched.
+func test_return_to_the_city_from_anywhere_lands_at_the_rank() -> void:
+	var game := _game()
+	var rank := float(_npc("taxi_win_city")["x"])
+	var from: Array[String] = ["saltmarket", "port_road", "core_chamber", "depot_yard"]
+	from.append(str(WorldBossRules.spec(game.content, "tunnel_mother")["area"]))
+	game.profile.money = 250
+	game.profile.add_item("steamed_bun", 4)
+	game.profile.level = 7
+	var buns := game.profile.count("steamed_bun")
+	for area_id in from:
+		game.enter_area(area_id, "west")
+		game.zone.hero.hp = 3
+		game.open_pause()
+		var back: Button = game.menu.find_child("Recall", true, false)
+		assert_true(back != null and not back.disabled, "%s: offered" % area_id)
+		back.pressed.emit()
+		assert_eq(game.zone.area_id, CITY, "%s: back in Iron City Central" % area_id)
+		assert_true(game.zone.area_id != game.content.start_area, "%s: not Depot Yard" % area_id)
+		var at := game.zone.hero.position
+		assert_true(game.zone.bounds.has_point(at), "%s: arrives inside the city" % area_id)
+		assert_true(at.x < rank, "%s: arrives at the taxi rank (%s)" % [area_id, at])
+		assert_eq(game.profile.area, CITY, "%s: the save remembers the city" % area_id)
+		assert_eq(game.zone.hero.hp, game.zone.hero.max_hp, "%s: rested" % area_id)
+		assert_eq(game.profile.money, 250, "%s: free" % area_id)
+	assert_eq(game.profile.count("steamed_bun"), buns, "the bag is untouched")
+	assert_eq(game.profile.level, 7, "and the level")
+	assert_eq(game.content.start_area, "depot_yard", "Depot Yard is still the start area")
 	_done(game)
 
 
@@ -504,6 +549,7 @@ func test_a_short_ride_list_is_shown_whole() -> void:
 	await _settle()
 	var scroll: ScrollContainer = game.menu.find_child("Scroll", true, false)
 	var box := scroll.get_global_rect()
-	for row: Control in scroll.get_child(0).get_children():
-		assert_true(box.grow(1).encloses(row.get_global_rect()), "%s is not cut off" % row.name)
+	for row: Button in game.menu.find_children("Ride_*", "Button", true, false):
+		if row.is_visible_in_tree():
+			assert_true(box.grow(1).encloses(row.get_global_rect()), "%s is not cut off" % row.name)
 	_done(game)

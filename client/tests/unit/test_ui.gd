@@ -130,7 +130,7 @@ func test_pause_menu_reaches_every_screen() -> void:
 func test_the_hud_menu_bar_opens_screens() -> void:
 	var game := _game()
 	await _settle()
-	var bar := game.find_child("MenuBar", true, false) as HBoxContainer
+	var bar := game.find_child("MenuBar", true, false) as Container
 	assert_true(bar != null, "a menu bar on the HUD")
 	assert_true(SCREEN.encloses(bar.get_global_rect()), "on screen")
 	for button: Button in bar.get_children():

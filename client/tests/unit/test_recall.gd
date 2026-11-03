@@ -1,6 +1,9 @@
 extends TestCase
-## "Return to Depot Yard" from the pause menu: straight home to upgrade and
-## rest, but never out of a fight. Arriving rests the hero like walking in.
+## Recall (Game._recall): straight to the start area to upgrade and rest,
+## but never out of a fight; arriving rests the hero like walking in. It is
+## the pause menu's return only when the game has no city: with Iron City
+## Central, the pause menu's "Recall" item returns to the city (below, and
+## test_main_city.gd).
 
 const TEST_SAVE := "user://test_recall_save"
 
@@ -46,14 +49,23 @@ func test_no_recall_in_the_middle_of_a_fight() -> void:
 	_done(game)
 
 
-func test_the_pause_menu_offers_it_only_when_allowed() -> void:
+func test_the_pause_menu_return_goes_to_the_city_only_when_allowed() -> void:
 	var game := _game()
+	var city: String = game.content.city_area
+	var name := str(game.content.area(city)["name"])
 	game.open_pause()
 	var button := game.menu.find_child("Recall", true, false) as Button
-	assert_true(button != null and button.disabled, "greyed out at home already")
+	assert_true(button != null and not button.disabled, "on offer at Depot Yard")
+	assert_eq(button.text.strip_edges(), "Return to %s" % name, "says where it goes")
 	game.close_menu()
 	game.enter_area("saltmarket", "west")
 	game.open_pause()
 	button = game.menu.find_child("Recall", true, false) as Button
 	assert_true(button != null and not button.disabled, "on offer out in the street")
+	button.pressed.emit()
+	assert_eq(game.zone.area_id, city, "pressed: back in the city")
+	game.open_pause()
+	button = game.menu.find_child("Recall", true, false) as Button
+	assert_true(button.disabled, "greyed out in the city already")
+	game.close_menu()
 	_done(game)

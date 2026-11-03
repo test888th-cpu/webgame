@@ -4,6 +4,138 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed: Win's line, and a full-loop farming measurement
+- **Win's line** at Depot Yard and Night Market (it said "Anywhere you've been on
+  South Street") is now "Choose a destination you've unlocked. I'll take you there."
+  The Depot Yard guard test still checks everything else there is as on `main`.
+- **Auto battle in a farming ground** works as soon as the ground opens on its story
+  rule: no fight there has to be won first, and nothing new is saved (still version
+  10). Tested for all seven grounds, straight after the unlock and after a reload.
+- **Harness:** `ProgressionHarness.run_loop`, a farming session as auto battle plays
+  it (rest delay, rest at home, food restocked, fares paid), for full-loop economy
+  comparisons. Measured (6 simulated minutes, 6 heroes x 5 seeds, Facility Annex and
+  its district x 10): no ground beats the richest story area of its district on XP,
+  net coins, Scrap or Alloy, as auto battle plays (closest: Facility Annex Scrap 0.90)
+  or with an assumed 10 s per trip home by hand (Facility Annex Scrap 0.99,
+  Saltmarket Backlots Scrap 0.98). No drop rate changed.
+
+### Fixed: Win's taxi no longer runs off the screen late in the story
+- **Bug (live site):** every ride was added straight into the dialog, so with
+  every area reached (40-odd rides) the list grew taller than the screen; the rows
+  above the top could not be reached.
+- **Now:** a group on the left (City, each district with a ride, Farming, World
+  Bosses, each with how many rides it holds), its places on the right (story
+  areas two to a row). It opens on the hero's own district with its first ride
+  focused (in the city or a ground, on the furthest district), so any ride is a few
+  presses away and no group needs scrolling at 640x360. Fare, rides and
+  destinations are unchanged (`GameMenus.travel`, `_ride_groups`, `_ride_picker`).
+- 6 tests in `test_taxi.gd`, including every ride reading in full at 640x360,
+  1280x720, 1920x1080 and 360x640; checked in a browser build with every ride open.
+
+### Added: repeat fights and auto battle in the farming grounds
+- **Repeat fights:** once every fight in a ground is won, they all come back as soon
+  as the hero is back at its west end (`StreetMemory.refill`, `refill_x`): walking
+  back for another round, arriving by taxi or loading a save there. A rest brings
+  them back too. Nothing new is saved (the won fights are forgotten, as a rest
+  does), so saves are unchanged (version 10). A toast says "The fights are back".
+- **Auto battle** may farm an open ground (`AutoRules.problem`): every enemy kind in
+  a ground already appears in the story before its unlock point (tested). The pilot
+  walks back west between rounds ("Back for another round") and never walks out;
+  each round counts as a run on the auto HUD. Rewards come only from defeats and
+  pickups, as by hand (tested in every ground).
+- **Suggested level:** a ground's level shows as "suggested Lv N" on the taxi and the
+  map, with "No level needed to enter"; the map also shows what the ground is for.
+  Core Overflow says that at the level cap (50) no XP is earned.
+- **Facility Annex looks its own:** a fixed kit layout (`art/kit/kit.json`
+  `layouts.farm_facility_annex`) of steel gates, guard booths and a storage block from
+  its district's kit, never the warehouse wall that marks Harbour Stacks.
+- **Harness:** `rounds` for farming grounds. Measured at four hero levels per ground
+  (2 under, suggested, 5 and 10 over; 6 heroes x 3 seeds, 3 rounds): every run clears,
+  no knock-outs, and no ground beats the richest story area of its district open at
+  that point on XP, coins, Scrap or Alloy (closest: Facility Annex Scrap, 0.96-0.99).
+- `ZoneSim._build_solids` written shorter (same solids) to stay under the 1000-line
+  limit. 8 tests (`test_farming_loop.gd`, one in `test_farming_grounds.gd`).
+
+### Fixed: fights in an area already passed no longer hold the hero in
+- **Bug:** resting (Iron City Central, Depot Yard) brings back every fight already won,
+  for farming. Walking back through a story area already passed then locked the hero
+  into its fights again, bosses included: no way on east, back west or home by the
+  pause menu until every wave was down, as if the area had never been beaten.
+- **Now:** in a street area the hero has passed (the next area east reached, or the
+  area's boss beaten at the end of the line; `StreetMemory.passed`), the fights still
+  come back after a rest but nothing locks: walk on, walk back, or leave by the pause
+  menu, or stay and fight (`ZoneSim.fight_locked`, `ZoneSim.walk`). Its enemies keep to
+  the fight's own stretch of street and no longer block the hero bodily (they still
+  hit), so the hero can walk through and on unhindered. A
+  fight walked away from comes back next visit; one won stays won. A toast says so when such a fight
+  starts, and the arena-lock sound and camera lock are left out.
+- **Unchanged:** areas not passed yet, farming grounds and world boss arenas still wall
+  the hero in; rewards, XP and drops; auto battle's farming loop.
+- The gate rule now lives once, in `StreetMemory.gate` (`ZoneSim.exit_locked` and
+  `StreetMemory.pending` use it).
+- 7 tests in `test_passed_areas.gd` (462 in all); 4 of them fail on the old code.
+
+### Added: the seven farming grounds
+- **Seven optional areas** in `areas.json` (`"kind": "farm"`), off the story street,
+  each with its district's enemies, one elite and no boss, two encounters of two waves,
+  and its own generated sky and kit layout. Line-ups below; levels, encounter counts
+  and line-ups are **provisional** until the owner approves them.
+
+  | Ground | Level | Region | Opens when | Enemies (elite last) |
+  |---|---|---|---|---|
+  | Saltmarket Backlots | 4 | South Street | Rusted Corner reached | Smogling, Tar Rat, Bottle Thrower, Pipe Brute, Smog Warden |
+  | Rail Sidings | 9 | South Street | Smokestack Refinery reached | Dock Thug, Market Punk, Rail Bruiser, Refinery Enforcer |
+  | Harbour Stacks | 15 | Port District | Container Yard reached | Stevedore, Dock Slinger, Dock Thug, Port Guard |
+  | Plant Outskirts | 22 | Industrial District | Waste Pools reached | Patrol Unit, Hazmat Sprayer, Plant Guard |
+  | Network Backrooms | 29 | The Black Network | Counting House reached | Network Runner, Network Enforcer, Ring Fighter |
+  | Facility Annex | 37 | The Core Facility | Machine Hall reached | Facility Trooper, Hazmat Sprayer, Patrol Unit, Riot Trooper |
+  | Core Overflow | 50 | Main Control Centre | Director Wiroj defeated | Facility Trooper, Patrol Unit, Core Sentinel |
+
+- **Travel:** Win's taxi lists the open grounds under Farming for the usual 10 coins,
+  and the map shows them in its Farming row (both from F0). The one way out on foot is
+  west to Depot Yard; the pause menu's Return to Iron City Central works there.
+- **No Hybrids** in any ground: Hybrids are sick workers, not enemies to hunt
+  (`docs/STORY_BIBLE.md`). Loot, XP and drop rates are the enemies' own; nothing in
+  `enemies.json` changed.
+- **Measured** with `ProgressionHarness.run_area` (6 heroes x 5 seeds, shop gear, at the
+  ground's level): every ground clears 30/30 with no knock-out, and pays less XP, coins,
+  Scrap Metal and Refined Alloy per minute than the richest story area of its district
+  open at that point. Four line-ups were thinned to get there.
+- Scenery: `gen_environment.py` and `kit_import.py` add `environment/farm_*` and
+  `kit.areas.farm_*`; no existing asset or manifest entry changed.
+- Story Bible: the seven names (proposed) and the no-Hybrid rule.
+- 9 tests in `test_farming_grounds.gd`; `test_area_rules.gd`, `test_south_street.gd`
+  and `test_main_city.gd` now allow for the grounds (455 in all).
+
+### Fixed: the pause menu's return now goes to Iron City Central
+- **Bug:** the pause menu's only return item, "Return to Depot Yard" (Recall), sent the
+  hero to the story's starting area; the city needed a separate "Go to Iron City
+  Central" item.
+- **Now:** one item, **Return to Iron City Central**, takes the hero to the city's taxi
+  rank from any area (story areas, Depot Yard, world-boss arenas outside an attempt),
+  free and rested, with the same checks (not in a fight, not while knocked down, not
+  during a world-boss attempt). It uses the existing city ride (`Game._go_to_city`).
+- **Unchanged:** Depot Yard is still the start area; auto battle's trip home, a
+  knock-out and the return after a world boss still go there; taxi rides and fares.
+- Regression test `test_return_to_the_city_from_anywhere_lands_at_the_rank`; updated
+  `test_recall.gd` and the city's pause-menu test (437 tests).
+
+### Added: area kinds and farming-ground unlocks (F0)
+- **`client/sim/AreaRules.gd`** (pure): an area's kind (`street`, `city`, `world_boss`,
+  `farm`) and region, the farming grounds, and whether one is open. Kinds and regions
+  of existing areas are derived from the data they already have (`city_area`, the
+  `world_boss` flag, the street's districts); no existing area entry changed.
+- **Farming-ground fields** in `areas.json`: `kind`, `region`, `purpose`, `unlock`
+  (`{"reached": a story area}` or `{"defeated": a boss}`). Unlocks read the saved
+  areas reached and enemies defeated, so the save format is unchanged (version 10).
+- **Validation** (`AreaRules.problems`, called by `ContentDB.validate`): a farming
+  ground is off the street, nothing leads into it, its one way out is west to Depot
+  Yard, it is no place to rest, and its region, purpose and unlock rule are valid.
+- **Win's taxi** lists open grounds under a Farming heading (only once one is open),
+  for the usual 10-coin fare; **the map** gets a Farming row the same way.
+- No farming ground is added yet: the game plays exactly as before.
+- 9 tests in `test_area_rules.gd` (446 in all).
+
 ### Added: UI test harness (phase U0)
 - **UI audit** (`client/tests/ui/UiAuditRun.gd`, `UiAuditSession.gd`, detectors in
   `UiAudit.gd`): every screen (title, hero creation, HUD, pause, Character, Bag,

@@ -47,9 +47,12 @@ var profile: PlayerProfile
 var area_id := ""
 var area: Dictionary
 var rng := RandomNumberGenerator.new()
-## The whole street, and the part currently walkable (locked during fights).
+## The street, the fight's ground, and where the hero may walk (see fight_locked).
 var bounds: Rect2
 var arena: Rect2
+var walk: Rect2
+## An area already passed: its fights hold no one in (StreetMemory.passed).
+var passed := false
 var hero: Fighter
 var fighters: Array[Fighter] = []
 var brains := {}
@@ -116,6 +119,8 @@ func _init(
 	var width := float(area.get("width", 960))
 	bounds = Rect2(EDGE_MARGIN, LANE_TOP, width - EDGE_MARGIN * 2.0, LANE_DEPTH)
 	arena = bounds
+	walk = bounds
+	passed = StreetMemory.passed(profile, content, area_id)
 	_build_solids()
 	var start := Vector2(120.0, 300.0)
 	if entry == "west":
@@ -224,9 +229,14 @@ func in_encounter() -> bool:
 	return _active >= 0
 
 
-## Why the hero cannot go straight home to the start area right now (the
-## pause menu's "Return to Depot Yard"), or "" when they can: never in the
-## middle of a fight, so it is no escape from one.
+## True while a fight walls the hero in and keeps exits and ways home shut.
+func fight_locked() -> bool:
+	return in_encounter() and not passed
+
+
+## Why the hero cannot go straight home to the start area right now
+## (Game._recall, the pause menu's return when the game has no city), or ""
+## when they can: never in the middle of a fight, so it is no escape from one.
 func recall_problem() -> String:
 	if area_id == content.start_area:
 		return "You are already there."
@@ -237,7 +247,7 @@ func recall_problem() -> String:
 ## pause menu's ride to the city), or "" when they can: the same checks for
 ## both, so neither is an escape from a fight or a knock-down.
 func leave_problem() -> String:
-	if in_encounter():
+	if fight_locked():
 		return "Finish this fight first."
 	if hero.is_ko() or hero.state == Fighter.State.DOWN:
 		return "Get back on your feet first."
@@ -273,7 +283,7 @@ func tick(hero_input: FighterInput) -> Array[ZoneEvent]:
 	for id: int in inputs:
 		if inputs[id].pick:
 			_pick_or_drop(fighter(id), events)
-	for hit in CombatRules.tick(fighters, inputs, content.moves, arena, _resolve_bodies, rng):
+	for hit in CombatRules.tick(fighters, inputs, content.moves, walk, _resolve_bodies, rng):
 		var event := ZoneEvent.make("hit")
 		event.hit = hit
 		events.append(event)
@@ -288,6 +298,9 @@ func tick(hero_input: FighterInput) -> Array[ZoneEvent]:
 	_report_actions(events)
 	_check_phases(events)
 	_separate_crowd()
+	if passed and in_encounter():  # Its enemies keep to the fight's ground.
+		for enemy in enemies():
+			enemy.position = LaneMovement.clamp_to(enemy.position, arena)
 	_update_downed(events)
 	_collect_pickups(events)
 	_check_exit(hero_input, events)
@@ -410,8 +423,8 @@ func _fly_thrown(events: Array[ZoneEvent]) -> void:
 			_after_hit(hit, target, events)
 			entry["uses"] -= 1
 			_land_thrown(entry, target.position - Vector2(entry["dir"] * 12.0, -4.0), events)
-		elif entry["ticks"] <= 0 or at.x <= arena.position.x or at.x >= arena.end.x:
-			_land_thrown(entry, LaneMovement.clamp_to(at, arena), events)
+		elif entry["ticks"] <= 0 or at.x <= walk.position.x or at.x >= walk.end.x:
+			_land_thrown(entry, LaneMovement.clamp_to(at, walk), events)
 
 
 func _thrown_target(entry: Dictionary) -> Fighter:
@@ -657,6 +670,10 @@ func _attack_tokens() -> Dictionary:
 
 func _update_encounter(events: Array[ZoneEvent]) -> void:
 	if _active < 0:
+		if StreetMemory.refill(profile, content, area_id, hero.position.x):
+			for entry in _encounters:
+				entry["state"] = "pending"
+			events.append(ZoneEvent.make("fights_back"))
 		for i in _encounters.size():
 			var entry := _encounters[i]
 			if entry["state"] == "pending" and hero.position.x >= float(entry["data"]["trigger_x"]):
@@ -684,6 +701,7 @@ func _update_encounter(events: Array[ZoneEvent]) -> void:
 			_active = -1
 			boss_id = 0
 			arena = bounds
+			walk = bounds
 			events.append(ZoneEvent.make("encounter_clear"))
 
 
@@ -694,6 +712,7 @@ func _start_encounter(index: int, events: Array[ZoneEvent]) -> void:
 	var left := maxf(bounds.position.x, float(data["arena"][0]))
 	var right := minf(bounds.end.x, float(data["arena"][1]))
 	arena = Rect2(left, LANE_TOP, right - left, LANE_DEPTH)
+	walk = bounds if passed else arena
 	_waves_left = data["waves"].duplicate(true)
 	_spawn_queue = _waves_left.pop_front()
 	_spawn_timer = 0
@@ -796,17 +815,10 @@ func _build_solids() -> void:
 	for obstacle: Dictionary in area.get("obstacles", []):
 		var kind: Dictionary = content.obstacles.get(str(obstacle["kind"]), {})
 		var half: Array = kind.get("half", [6, 3])
-		(
-			solids
-			. append(
-				{
-					"position": Vector2(obstacle["x"], obstacle["y"]),
-					"half": Vector2(half[0], half[1]),
-					"kind": str(obstacle["kind"]),
-					"box": bool(kind.get("box", false)),
-				}
-			)
-		)
+		var solid := {"kind": str(obstacle["kind"]), "box": bool(kind.get("box", false))}
+		solid["position"] = Vector2(obstacle["x"], obstacle["y"])
+		solid["half"] = Vector2(half[0], half[1])
+		solids.append(solid)
 	for npc: Dictionary in area.get("npcs", []):
 		solids.append(
 			{"position": Vector2(npc["x"], npc["y"]), "half": Bodies.PERSON, "kind": "npc"}
@@ -840,10 +852,11 @@ func _resolve_bodies() -> void:
 
 
 ## What `f` may not walk into: the street's solids and, unless it is reeling
-## or down, every fighter still on their feet.
+## or down (or the hero in an area already passed), every fighter standing.
 func _solids_for(f: Fighter) -> Array:
 	var others: Array = solids.duplicate()
-	if f.state == Fighter.State.HITSTUN or f.state == Fighter.State.DOWN:
+	var free := passed and f == hero
+	if free or f.state == Fighter.State.HITSTUN or f.state == Fighter.State.DOWN:
 		return others
 	for other in fighters:
 		if other != f and not other.is_ko() and other.state != Fighter.State.DOWN:
@@ -871,7 +884,7 @@ func _detour(f: Fighter, from: Vector2, to: Vector2, others: Array) -> Vector2:
 		side = 1.0 if hero.position.y >= from.y else -1.0
 	var step := LaneMovement.WALK_SPEED_Y * CombatRules.TICK_SECONDS * maxf(f.speed, 0.5)
 	for dir: float in [side, -side]:
-		var at := LaneMovement.clamp_to(from + Vector2(0, dir * step), arena)
+		var at := LaneMovement.clamp_to(from + Vector2(0, dir * step), walk)
 		if at != from and Bodies.can_step(from, at, Bodies.PERSON, others):
 			return at
 	return f.position
@@ -899,7 +912,7 @@ func _separate_crowd() -> void:
 
 ## Moves `f` to `to` unless that would push it into street furniture.
 func _shove(f: Fighter, to: Vector2) -> void:
-	to = LaneMovement.clamp_to(to, arena)
+	to = LaneMovement.clamp_to(to, walk)
 	if Bodies.can_step(f.position, to, Bodies.PERSON, solids):
 		f.position = to
 
@@ -956,25 +969,14 @@ func _collect_pickups(events: Array[ZoneEvent]) -> void:
 		events.append(ZoneEvent.make("pickup", pickup))
 
 
-## What still keeps the exit on `side` shut: {"defeat", "count", "hint",
-## "done"} (done: how many are down so far), or {} when it is open. Exits
-## open once the hero has defeated enough of the enemy that guards them, so
-## the street opens as the story moves on, whichever quest is active.
+## What still keeps the exit on `side` shut, or {} when it is open
+## (StreetMemory.gate).
 func exit_locked(side: String) -> Dictionary:
-	var requires: Dictionary = area.get("exits", {}).get(side, {}).get("requires", {})
-	if requires.is_empty():
-		return {}
-	var done := int(profile.defeated.get(str(requires["defeat"]), 0))
-	if done >= int(requires["count"]):
-		return {}
-	var gate := requires.duplicate()
-	gate["done"] = done
-	gate["side"] = side
-	return gate
+	return StreetMemory.gate(profile, content, area_id, side)
 
 
 func _check_exit(input: FighterInput, events: Array[ZoneEvent]) -> void:
-	if in_encounter() or hero.is_ko():
+	if fight_locked() or hero.is_ko():
 		return
 	var exits: Dictionary = area.get("exits", {})
 	var side := ""

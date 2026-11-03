@@ -5,8 +5,13 @@
 > - **Phase 2 is built: Iron City Central (`main_city`)**, a separate city map. See
 >   §12.
 > - The owner **rejected** §3's recommendation to grow Depot Yard into the hub.
->   Depot Yard (Story Area 1) stays exactly as it is on `main`.
-> - Phase 3 (farming grounds) has not started.
+>   Depot Yard (Story Area 1) stays exactly as it is on `main`, but for Win's line,
+>   which the owner replaced (the taxi goes beyond South Street now).
+> - **Phase 3 is built: the seven farming grounds** (`kind: "farm"` in `areas.json`).
+>   §4.2's table was the proposal; the built line-ups, unlocks and measured rewards are
+>   in CHANGELOG.md and STORY_BIBLE.md. Built since: repeat fights (§4.2's loop mode,
+>   as a refill at the ground's west end, `StreetMemory.refill`) and auto battle in
+>   an open ground. Open: final levels and line-ups.
 >
 > Sections 1 to 11 are the Phase 1 plan as written, kept for the record. Where §3, §6, §7,
 > §10 or §11 talk about widening Depot Yard, §12 replaces them.
@@ -116,7 +121,9 @@ Area list **[V]** (level, `→` gate to pass east):
   at the area's level (+1 for an elite, +2 for a boss; `LevelRules`). World bosses fight
   at the fixed level in `world_boss.json`.
 - **[V]** Fights already won stay won until the hero rests (`StreetMemory.cleared`).
-  If an east gate is still shut, all of that area's fights come back.
+  If an east gate is still shut, all of that area's fights come back. In an area
+  already passed, fights that came back after a rest hold no one in (fixed after
+  Phase 3; `StreetMemory.passed`).
 - **[V]** Only the training dummy respawns (`respawn_ticks`). No area has a looping or
   endless spawner.
 
@@ -549,7 +556,7 @@ Not touched: combat/AI/boss rules, `items.json`, `enemies.json` loot, `progressi
 | City | A **separate area**, `main_city`, named **Iron City Central**. It is not Story Area 1 and not a farming area. |
 | Walking link | **One-way gate east** from the city into Depot Yard's west end. **Depot Yard gets no west exit**, and its "no west exit" test stays. |
 | Rest | **Option A:** arriving heals and refills the streets exactly like Depot Yard, using the existing `heal_on_enter`. No new rest system. |
-| Home flows | **Unchanged:** Recall, auto battle's trip home and the return after a world boss all still go to Depot Yard. The city is a separate destination. |
+| Home flows | The pause menu's return goes to the city (**Return to Iron City Central**, changed 2026-11-02 at the owner's request; it replaced Return to Depot Yard). Auto battle's trip home, a knock-out and the return after a world boss still go to Depot Yard. |
 | Taxi | Every stand gets the grouped, scrollable list, with the same rides, fares and unlock rules, plus a ride to the city. |
 | Keeper | **A self-service kiosk.** No new character, sprite or dialogue in this phase. |
 | Save bug | **Approved fix:** a save made off the story street must not mark the whole street as reached. |
@@ -586,8 +593,10 @@ the owner's existing kit pieces (no new art). Signs over the shopfronts name eac
 
 How you get there:
 - Win's ride "Iron City Central" is first at **every** existing stand.
-- The pause menu has **Go to Iron City Central**. It is free, with Recall's checks (not
-  in a fight, not while knocked down) plus one more: not during a world-boss attempt.
+- The pause menu's return is **Return to Iron City Central** (one item; it replaced
+  "Return to Depot Yard" and "Go to Iron City Central"). It is free, with Recall's
+  checks (not in a fight, not while knocked down) plus one more: not during a
+  world-boss attempt.
 - The map has its own **City** row, known from the first night.
 
 The city is off the story street, like the world-boss arenas. The street is still Depot

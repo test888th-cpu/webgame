@@ -57,6 +57,17 @@ func build(p_zone: ZoneSim, p_content: ContentDB) -> void:
 	add_child(camera)
 	sync()
 	camera.reset_smoothing()
+	# A turned or resized screen re-frames the street at once, even while
+	# the game is paused under a menu.
+	GameSession.layout_changed.connect(_reframe)
+
+
+func _reframe(_layout: ScreenLayout) -> void:
+	# A view on its way out (the area just changed) is no longer on screen.
+	if zone == null or camera == null or not is_inside_tree():
+		return
+	_follow_hero()
+	camera.reset_smoothing()
 
 
 func sync() -> void:
@@ -181,18 +192,32 @@ func _make_pickup_view(pickup: Dictionary) -> Node2D:
 func _follow_hero() -> void:
 	var width := zone.bounds.end.x + ZoneSim.EDGE_MARGIN
 	var span := Vector2(0, width)
-	if zone.in_encounter():
+	if zone.fight_locked():
 		span = (
 			Vector2(zone.arena.position.x, zone.arena.end.x) + Vector2(-1, 1) * ZoneSim.EDGE_MARGIN
 		)
 	var limits := camera_limits(span, width, get_viewport_rect().size.x)
 	camera.limit_left = int(limits.x)
 	camera.limit_right = int(limits.y)
-	camera.limit_top = 0
-	camera.limit_bottom = int(VIEW_HEIGHT)
-	camera.position = Vector2(zone.hero.position.x, VIEW_HEIGHT / 2.0)
+	# Up and down the view is exactly as tall as its limits, so the street
+	# (y 0 to VIEW_HEIGHT) lands where the screen layout wants it: under the
+	# HUD band in portrait, filling the height in landscape (ScreenLayout).
+	var top := street_top()
+	var tall := get_viewport_rect().size.y
+	camera.limit_top = int(roundf(-top))
+	camera.limit_bottom = int(roundf(tall - top))
+	camera.position = Vector2(zone.hero.position.x, tall / 2.0 - top)
 	camera.offset = Vector2(randf_range(-1, 1), randf_range(-1, 1)) * _shake
 	_shake = maxf(0.0, _shake - SHAKE_FADE)
+
+
+## Where on screen the street's top edge goes (logical px), from the
+## screen layout; with none, centred in the view as before.
+func street_top() -> float:
+	var layout: ScreenLayout = GameSession.layout
+	if layout:
+		return layout.world.position.y
+	return (get_viewport_rect().size.y - VIEW_HEIGHT) / 2.0
 
 
 ## The camera's left and right limits for showing `span` (x from, x to: the

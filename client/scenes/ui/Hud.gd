@@ -9,7 +9,10 @@ extends CanvasLayer
 ##   bottom     hotbar (attack, skills, items), key hints
 ##   centre     notification banner, level-up banner
 ##   edges      red vignette when the hero is hurt
-## Touch buttons appear only on touch devices. The HUD only reads state and
+## Touch buttons appear only while touch is the input in use, and key hints
+## only for the keyboard. Where things go follows the screen layout
+## (GameSession.layout, ScreenLayout): in portrait a HUD band on top and a
+## control deck below the street hold them. The HUD only reads state and
 ## reports hotbar presses (slot_pressed).
 
 signal slot_pressed(index: int)
@@ -73,8 +76,15 @@ var _banner_left := 0.0
 var _auto_button: Button
 var _auto_spin: TextureRect
 var _auto_label: Label
-var _menu_bar: HBoxContainer
+var _menu_bar: GridContainer
 var _world_boss: Label
+## Portrait's HUD band and control deck backgrounds, behind everything.
+var _bands: Control
+var _hero_card: PanelContainer
+var _top_right: VBoxContainer
+var _hints: HBoxContainer
+var _hints_right: HBoxContainer
+var _auto_column: VBoxContainer
 
 
 func _ready() -> void:
@@ -83,6 +93,7 @@ func _ready() -> void:
 	root.set_anchors_preset(Control.PRESET_FULL_RECT)
 	root.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(root)
+	_build_bands(root)
 	_build_vignette(root)
 	_build_hero_card(root)
 	_build_top_right(root)
@@ -93,8 +104,10 @@ func _ready() -> void:
 	_build_hints(root)
 	_build_auto(root)
 	_touch = TouchControls.build()
-	_touch.visible = DisplayServer.is_touchscreen_available()
+	_touch.visible = false
 	root.add_child(_touch)
+	GameSession.layout_changed.connect(apply_layout)
+	apply_layout(GameSession.layout)
 
 
 func attach(p_zone: ZoneSim, p_profile: PlayerProfile, p_content: ContentDB) -> void:
@@ -122,6 +135,7 @@ func attach(p_zone: ZoneSim, p_profile: PlayerProfile, p_content: ContentDB) -> 
 	if _menu_bar == null:
 		_build_menu_bar(get_node("Root"))
 		_auto_spin.texture = UiKit.icon(content, "menu_auto")
+	apply_layout(GameSession.layout)
 
 
 ## Flashes hotbar slot `index`: used (accepted) or refused.
@@ -225,6 +239,7 @@ func _build_hero_card(root: Control) -> void:
 	var card := PanelContainer.new()
 	card.name = "HeroCard"
 	card.position = Vector2(6, 6)
+	_hero_card = card
 	card.add_theme_stylebox_override("panel", _compact_panel())
 	root.add_child(card)
 	var line := HBoxContainer.new()
@@ -260,6 +275,7 @@ func _build_hero_card(root: Control) -> void:
 func _build_top_right(root: Control) -> void:
 	var column := VBoxContainer.new()
 	column.name = "TopRight"
+	_top_right = column
 	column.alignment = BoxContainer.ALIGNMENT_BEGIN
 	column.add_theme_constant_override("separation", 3)
 	column.set_anchors_preset(Control.PRESET_TOP_RIGHT)
@@ -349,6 +365,7 @@ func _build_toast(root: Control) -> void:
 func _build_hints(root: Control) -> void:
 	var hints := HBoxContainer.new()
 	hints.name = "Hints"
+	_hints = hints
 	hints.add_theme_constant_override("separation", 8)
 	hints.position = Vector2(8, 346)
 	hints.add_child(UiKit.key_hint("Esc", "Menu"))
@@ -360,6 +377,7 @@ func _build_hints(root: Control) -> void:
 	# The rest go right of the hotbar, which sits between the two rows.
 	var more := HBoxContainer.new()
 	more.name = "HintsRight"
+	_hints_right = more
 	more.add_theme_constant_override("separation", 8)
 	more.alignment = BoxContainer.ALIGNMENT_END
 	more.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
@@ -375,14 +393,13 @@ func _build_hints(root: Control) -> void:
 ## The game's screens, one small icon button each, bottom right above the
 ## hints. The keys are in the tooltips, so the bar stays small.
 func _build_menu_bar(root: Control) -> void:
-	_menu_bar = HBoxContainer.new()
+	# A grid, so touch layouts can make it a row or a column (apply_layout).
+	_menu_bar = GridContainer.new()
 	_menu_bar.name = "MenuBar"
-	_menu_bar.add_theme_constant_override("separation", 2)
-	_menu_bar.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
-	_menu_bar.grow_horizontal = Control.GROW_DIRECTION_BEGIN
-	_menu_bar.grow_vertical = Control.GROW_DIRECTION_BEGIN
-	_menu_bar.offset_right = -6
-	_menu_bar.offset_bottom = -20
+	_menu_bar.columns = MENU_BAR.size()
+	_menu_bar.add_theme_constant_override("h_separation", 2)
+	_menu_bar.add_theme_constant_override("v_separation", 2)
+	_dock_menu_bar()
 	root.add_child(_menu_bar)
 	for entry: Array in MENU_BAR:
 		var button := Button.new()
@@ -402,6 +419,7 @@ func _build_menu_bar(root: Control) -> void:
 func _build_auto(root: Control) -> void:
 	var column := VBoxContainer.new()
 	column.name = "Auto"
+	_auto_column = column
 	column.position = Vector2(8, 88)
 	column.add_theme_constant_override("separation", 0)
 	root.add_child(column)
@@ -574,3 +592,133 @@ func _compact_panel() -> StyleBoxFlat:
 	style.set_content_margin_all(4)
 	style.shadow_size = 0
 	return style
+
+
+## The menu bar's own place: bottom right, above the hints.
+func _dock_menu_bar() -> void:
+	_menu_bar.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
+	_menu_bar.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	_menu_bar.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	_menu_bar.offset_right = -6
+	_menu_bar.offset_bottom = -20
+	_menu_bar.offset_left = 0
+	_menu_bar.offset_top = 0
+
+
+func _build_bands(root: Control) -> void:
+	_bands = Control.new()
+	_bands.name = "Bands"
+	_bands.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_bands.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_bands.visible = false
+	root.add_child(_bands)
+	for band in ["HudBand", "Deck"]:
+		var fill := ColorRect.new()
+		fill.name = band
+		fill.color = UiTheme.BG
+		fill.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_bands.add_child(fill)
+		var edge := ColorRect.new()
+		edge.name = "Edge"
+		edge.color = UiTheme.BORDER
+		edge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		fill.add_child(edge)
+
+
+## Puts everything where `layout` says: the portrait bands, the key hints
+## (keyboard only), the touch controls (touch only), and the hotbar, menu
+## buttons and AUTO switch at touch size where touch layouts place them.
+func apply_layout(layout: ScreenLayout) -> void:
+	if layout == null or _hero_card == null:
+		return
+	var inset := layout.insets
+	_hero_card.position = Vector2(6 + inset.x, 6 + inset.y)
+	_weapon.position = Vector2(6 + inset.x, 62 + inset.y)
+	_top_right.offset_top = 6 + inset.y
+	_top_right.offset_right = -6 - inset.z
+	_top_right.offset_left = -162 - inset.z
+	var portrait := layout.mode == ScreenLayout.PORTRAIT
+	_bands.visible = portrait
+	if portrait:
+		var band: ColorRect = _bands.get_node("HudBand")
+		band.position = layout.hud.position
+		band.size = layout.hud.size
+		var edge: ColorRect = band.get_node("Edge")
+		edge.position = Vector2(0, layout.hud.size.y - 1)
+		edge.size = Vector2(layout.hud.size.x, 1)
+		var deck: ColorRect = _bands.get_node("Deck")
+		deck.position = layout.deck.position
+		deck.size = layout.deck.size
+		var deck_edge: ColorRect = deck.get_node("Edge")
+		deck_edge.position = Vector2.ZERO
+		deck_edge.size = Vector2(layout.deck.size.x, 1)
+	var keys := layout.device == "keyboard"
+	_hints.visible = keys
+	_hints_right.visible = keys
+	_hints.position = Vector2(8 + inset.x, layout.size.y - 14 - inset.w)
+	_boss.position = layout.boss_at
+	_touch.visible = layout.controls
+	if layout.controls:
+		TouchControls.arrange(_touch, layout)
+	_place_auto(layout)
+	_place_menu_bar(layout)
+	_place_hotbar(layout)
+
+
+func _place_auto(layout: ScreenLayout) -> void:
+	var cell := layout.auto_cell
+	var side := 24.0 if cell.size == Vector2.ZERO else cell.size.x
+	_auto_column.position = Vector2(8, 88) if cell.size == Vector2.ZERO else cell.position
+	_auto_button.custom_minimum_size = Vector2(side, side)
+	_auto_spin.position = Vector2(side - 16.0, side - 16.0) / 2.0
+	# In portrait the switch sits in a grid of buttons: no caption under it.
+	_auto_label.visible = layout.mode != ScreenLayout.PORTRAIT
+
+
+func _place_menu_bar(layout: ScreenLayout) -> void:
+	if _menu_bar == null:
+		return
+	var custom := layout.menu.size != Vector2.ZERO
+	for button: Button in _menu_bar.get_children():
+		var screen := str(button.name).trim_prefix("Menu_")
+		button.visible = not custom or screen in layout.menu_items
+		var side := layout.touch_size if custom else MENU_BUTTON.x
+		button.custom_minimum_size = Vector2(side, side)
+	if not custom:
+		_menu_bar.columns = MENU_BAR.size()
+		_menu_bar.add_theme_constant_override("h_separation", 2)
+		_menu_bar.add_theme_constant_override("v_separation", 2)
+		_dock_menu_bar()
+		return
+	_menu_bar.columns = layout.menu_columns
+	_menu_bar.set_anchors_preset(Control.PRESET_TOP_LEFT)
+	# Grow right and down from its corner (docked, it grows left and up),
+	# shrink to its buttons, then place it.
+	_menu_bar.grow_horizontal = Control.GROW_DIRECTION_END
+	_menu_bar.grow_vertical = Control.GROW_DIRECTION_END
+	_menu_bar.size = Vector2.ZERO
+	_menu_bar.position = layout.menu.position
+	if layout.touch:
+		var gap := int(ScreenLayout.GAP)
+		_menu_bar.add_theme_constant_override("h_separation", gap)
+		_menu_bar.add_theme_constant_override("v_separation", gap)
+
+
+func _place_hotbar(layout: ScreenLayout) -> void:
+	if _hotbar == null:
+		return
+	if layout.hotbar.size == Vector2.ZERO:
+		_hotbar.scale = Vector2.ONE
+		_hotbar.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
+		_hotbar.grow_horizontal = Control.GROW_DIRECTION_BOTH
+		_hotbar.grow_vertical = Control.GROW_DIRECTION_BEGIN
+		_hotbar.offset_bottom = -4
+		_hotbar.offset_top = -4
+		_hotbar.offset_left = 0
+		_hotbar.offset_right = 0
+		return
+	_hotbar.set_anchors_preset(Control.PRESET_TOP_LEFT)
+	_hotbar.grow_horizontal = Control.GROW_DIRECTION_END
+	_hotbar.grow_vertical = Control.GROW_DIRECTION_END
+	_hotbar.scale = Vector2.ONE * layout.hotbar_scale()
+	_hotbar.position = layout.hotbar.position
