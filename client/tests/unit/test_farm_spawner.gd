@@ -119,9 +119,9 @@ func test_a_chase_too_far_from_home_gives_up_and_heals() -> void:
 	enemy.hp = enemy.max_hp / 2
 	enemy.position.x = brain.home.x + brain.leash + 20.0
 	var back := false
-	for tick in 900:
+	for tick in 2400:
 		zone.tick(FighterInput.new())
-		if not brain.engaged and enemy.position.distance_to(brain.home) < 8.0:
+		if not brain.engaged and not brain.returning:
 			back = true
 			zone.tick(FighterInput.new())
 			break
@@ -129,26 +129,43 @@ func test_a_chase_too_far_from_home_gives_up_and_heals() -> void:
 	assert_eq(enemy.hp, enemy.max_hp, "and healed there")
 
 
-func test_a_cleared_camp_refills_behind_the_hero_not_in_their_face() -> void:
+func test_a_cleared_camp_stands_again_a_few_seconds_later() -> void:
 	var c := _content()
 	var data := FarmSpawner.spec(c, GROUND)
 	var zone := ZoneSim.new(c, _hero(), GROUND, "west", 7)
 	zone.tick(FighterInput.new())
 	var centre := float(data["camps"][0])
-	zone.hero.position.x = centre
+	zone.hero.position.x = centre - 30.0
+	var size := int(data["camp_size"])
 	for enemy in _camp(zone, 0):
 		_fell(zone, enemy)
 	var respawn := int(data["respawn_ticks"])
-	for tick in respawn + 60:
+	var back := -1
+	for tick in respawn + FarmSpawner.RESPAWN_JITTER + 5:
 		zone.tick(FighterInput.new())
-		zone.hero.position.x = centre
-	assert_eq(_camp(zone, 0).size(), 0, "nothing comes back with the hero standing there")
-	zone.hero.position.x = 60.0
-	var size := int(data["camp_size"])
-	for tick in respawn * size + 60:
+		zone.hero.position.x = centre - 30.0
+		if back < 0 and _camp(zone, 0).size() > 0:
+			back = tick
+	assert_true(back >= respawn - FarmSpawner.RESPAWN_JITTER - 1, "a breather first (%d)" % back)
+	assert_eq(_camp(zone, 0).size(), size, "then the whole camp stands again")
+	for enemy in _camp(zone, 0):
+		assert_true(enemy.position.x > centre, "on the far side from the hero")
+
+
+func test_a_fallen_one_waits_while_its_camp_still_fights() -> void:
+	var c := _content()
+	var data := FarmSpawner.spec(c, GROUND)
+	var zone := ZoneSim.new(c, _hero(), GROUND, "west", 7)
+	zone.tick(FighterInput.new())
+	var camp := _camp(zone, 0)
+	_fell(zone, camp[0])
+	var respawn := int(data["respawn_ticks"])
+	for tick in respawn + FarmSpawner.RESPAWN_JITTER + 30:
+		# The hero stays in the fight (and on their feet): the camp fights on.
+		zone.hero.position = camp[1].position + Vector2(-40, 0)
+		zone.hero.hp = zone.hero.max_hp
 		zone.tick(FighterInput.new())
-		zone.hero.position.x = 60.0
-	assert_eq(_camp(zone, 0).size(), size, "away from it, the camp fills again")
+	assert_eq(_camp(zone, 0).size(), camp.size() - 1, "not back into the same fight")
 
 
 func test_the_west_end_is_a_safe_spot() -> void:
@@ -168,7 +185,8 @@ func test_the_west_end_is_a_safe_spot() -> void:
 			if not enemy.is_ko():
 				furthest = minf(furthest, enemy.position.x)
 	assert_true(furthest < west + 40.0, "the woken camp chased the hero west")
-	assert_true(furthest >= west - 8.0, "none walked into the safe spot (%s)" % furthest)
+	# The line holds them each tick; one tick's step at most may cross it.
+	assert_true(furthest >= west - 12.0, "none walked into the safe spot (%s)" % furthest)
 
 
 func test_the_same_seed_brings_the_same_field() -> void:

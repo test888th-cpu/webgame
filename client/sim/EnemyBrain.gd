@@ -24,6 +24,9 @@ const LOB_LANE := 8.0
 const DEFAULT_HEAVY_COOLDOWN := 270
 ## Ticks a boss keeps walking to a weapon before it gives up on it.
 const GRAB_PATIENCE := 150
+## A camp member that cannot reach the hero for this long (three seconds, the
+## hero gone off or into the safe spot) gives up and walks home.
+const LOST_TICKS := 180
 
 var spacing := 56.0
 var reaction_ticks := 12
@@ -62,12 +65,15 @@ var eyed := false
 
 ## A farming ground's camp member (FarmSpawner): it stands at `home` and comes
 ## only once the hero is within `aggro` or it is struck; `engaged` while it
-## fights. Chased further than `leash` from home with the hero out of reach,
-## it gives up and walks back. INF: not camped, always engaged.
+## fights. Chased further than `leash` from home, or without the hero in
+## reach for LOST_TICKS, it gives up and walks back. INF: not camped, always
+## engaged.
 var home := Vector2.INF
 var aggro := 0.0
 var leash := 0.0
 var engaged := true
+## Walking home after giving up a chase (FarmSpawner heals it there).
+var returning := false
 
 ## Ticks until this enemy may attack again.
 var cooldown := 0
@@ -81,6 +87,8 @@ var guarding := 0
 ## The target attack (by its start tick) already reacted to.
 var _read_attack := -1
 var _last_hp := -1
+## Ticks a camp member has gone without the hero in reach.
+var _lost := 0
 ## Ticks left before a boss gives up on the weapon it is walking to.
 var _fetch_left := 0
 
@@ -321,10 +329,14 @@ func _on_duty(me: Fighter, target: Fighter, input: FighterInput) -> bool:
 	_last_hp = me.hp
 	var up := target != null and not target.is_ko()
 	var near := up and me.position.distance_to(target.position) <= aggro
+	_lost = 0 if near or struck else _lost + 1
+	var gone := me.position.distance_to(home) > leash or _lost > LOST_TICKS
 	if not engaged and (near or struck):
 		engaged = true
-	elif engaged and (not up or (me.position.distance_to(home) > leash and not near)):
+		returning = false
+	elif engaged and (not up or gone):
 		engaged = false
+		returning = true
 	if engaged:
 		return true
 	if me.state == Fighter.State.IDLE and me.position.distance_to(home) > 6.0:

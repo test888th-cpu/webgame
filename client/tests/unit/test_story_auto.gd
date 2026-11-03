@@ -124,3 +124,15 @@ func test_in_a_world_boss_arena_auto_fights_to_the_end() -> void:
 		profile.inventory.clear()
 		zone.hero.hp = 1
 		assert_true(not AutoRules.wants_rest(zone, pilot), arena + ": never home halfway")
+
+
+func test_a_quest_left_far_behind_does_not_drag_the_hero_back() -> void:
+	var c := _content()
+	var profile := PlayerProfile.new_game(c)
+	for area_id in StreetMemory.street(c):
+		StreetMemory.visit(profile, area_id)
+	var step := StoryAuto.step(profile, c, "reactor_walkway", false)
+	assert_eq(step["do"], StoryAuto.HERE, "the first quest is far back: fight on here")
+	assert_eq(step["to"], "depot_yard", "and it says where the quest is")
+	var near := StoryAuto.step(profile, c, "saltmarket", false)
+	assert_eq(near["do"], StoryAuto.RIDE, "close by, auto still goes for it")

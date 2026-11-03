@@ -1,29 +1,29 @@
 class_name FarmSpawner
 extends RefCounted
 ## A farming ground's living field (areas.json "spawning"): enemies stand in
-## camps across the field, as in the field games it follows, and the hero
-## picks which to take on.
+## camps across the field, as in the field games it follows, and the hero picks
+## which to take on.
 ##
-## Each camp (`camps`: the x of each camp's centre) holds `camp_size`
-## enemies, there from the moment the hero arrives. They stand at their own
-## spot (EnemyBrain.camp) and come only when the hero walks within `aggro` of
-## one of them or strikes one; then the whole camp joins in together (social
-## aggro), the other camps stay where they are. One chased too far from home
-## (LEASH times `aggro`) with the hero out of reach gives up, walks back and
-## is healed there. A camp short of enemies gets one back every
-## `respawn_ticks`, never in the hero's face: only while the hero is more than
-## `aggro` + SPAWN_CLEAR away, so a cleared camp refills behind the hero while
-## the next one is fought. The respawn time sets the pace (and the income,
-## tuned with the harness). Several heroes in one field (IL-7) each pull the
-## camps near them; the rules here are already per camp.
-## Enemies keep east of `from_x` less SAFE_MARGIN, so the west end (where the
-## hero arrives and the way out) is a safe spot. Who comes is drawn from
-## `pool` ({enemy: weight}); one in `elite_chance` is an elite: tougher,
-## worth ELITE_REWARD times the XP, coins and loot rolls, named in gold, with
-## a chance at the ground's own prizes (`elite_drops`, [{item, chance}]: the
-## Epic gear of its district's bosses).
-## Nothing locks the hero in and nothing here is saved: leaving and coming
-## back starts a fresh field. Rewards are paid where every enemy's are
+## Each camp (`camps`: the x of each camp's centre) holds `camp_size` enemies,
+## there from the moment the hero arrives. They stand at their own spot
+## (EnemyBrain.camp) and come only when the hero walks within `aggro` of one of
+## them or strikes one; then the whole camp joins in together (social aggro),
+## the other camps stay where they are. One chased too far from home (LEASH
+## times `aggro`), or out of reach of the hero for a few seconds
+## (EnemyBrain.LOST_TICKS), gives up, walks back and is healed there. Each enemy
+## that falls comes back to its camp `respawn_ticks` later (give or take
+## RESPAWN_JITTER, so a camp does not pop back all at once), once its camp's
+## fight is over, on the side of the camp away from the hero: clearing a camp
+## earns a breather of a few seconds, then it stands again, so the fighting
+## never goes quiet for long. Several heroes in one field (IL-7) each pull the
+## camps near them; the rules here are already per camp. Enemies keep east of
+## `from_x` less SAFE_MARGIN, so the west end (where the hero arrives and the
+## way out) is a safe spot. Who comes is drawn from `pool` ({enemy: weight});
+## one in `elite_chance` is an elite: tougher, worth ELITE_REWARD times the XP,
+## coins and loot rolls, named in gold, with a chance at the ground's own prizes
+## (`elite_drops`, [{item, chance}]: the Epic gear of its district's bosses).
+## Nothing locks the hero in and nothing here is saved: leaving and coming back
+## starts a fresh field. Rewards are paid where every enemy's are
 ## (ZoneSim._defeat). Pure rules on ZoneSim's seeded rng, shared with the
 ## server.
 
@@ -32,8 +32,10 @@ extends RefCounted
 const SAFE_MARGIN := 120.0
 ## How far from a camp's centre its members stand.
 const CAMP_SPREAD := 44.0
-## A camp refills only with the hero further than its aggro plus this.
+## Room east of `from_x` a field needs (the validator's check).
 const SPAWN_CLEAR := 120.0
+## A returning enemy's time back varies by up to this, either way.
+const RESPAWN_JITTER := 60
 ## How far from home (in aggro radii) a camp member chases before giving up.
 const LEASH := 2.5
 ## An elite's toughness and what it is worth, against its plain kind.
@@ -50,8 +52,8 @@ const MAX_ELITE_CHANCE := 0.25
 var _started := false
 ## Camp members standing, by id -> camp index.
 var _members := {}
-## Ticks each camp has been short of an enemy.
-var _timers: Array[int] = []
+## Enemies on their way back: [camp, tick due], in the order they fell.
+var _returning: Array = []
 ## Elites standing, by id: each pays its extra loot rolls when it falls.
 var _elites := {}
 
@@ -88,54 +90,69 @@ func tick(zone: ZoneSim, events: Array[ZoneEvent]) -> void:
 	var camps: Array = data["camps"]
 	if not _started:
 		_started = true
-		_timers.resize(camps.size())
 		for camp in camps.size():
 			for member in int(data["camp_size"]):
 				_spawn(zone, data, events, camp)
 		return
-	var standing := _standing(zone, camps.size())
-	var aggro := float(data["aggro"])
-	for camp in camps.size():
-		if standing[camp] >= int(data["camp_size"]):
-			_timers[camp] = 0
-			continue
-		_timers[camp] += 1
-		var clear := absf(zone.hero.position.x - float(camps[camp])) > aggro + SPAWN_CLEAR
-		if _timers[camp] >= int(data["respawn_ticks"]) and clear:
-			_timers[camp] = 0
-			_spawn(zone, data, events, camp)
+	for camp: int in _fallen(zone):
+		var back := (
+			int(data["respawn_ticks"]) + zone.rng.randi_range(-RESPAWN_JITTER, RESPAWN_JITTER)
+		)
+		_returning.append([camp, zone.tick_count + maxi(MIN_RESPAWN, back)])
+		_returning.sort_custom(func(a: Array, b: Array) -> bool: return int(a[1]) < int(b[1]))
+	var fighting := _wake_and_heal(zone)
+	# One whose camp is still fighting waits for that fight to end: a cleared
+	# camp comes back together a few seconds later, not into the same fight.
+	var calling := {}
+	for back: Array in _returning:
+		if zone.tick_count >= int(back[1]) and not fighting.has(int(back[0])):
+			calling[int(back[0])] = true
+	# A calm camp's first one due brings back all it is waiting for, together.
+	for back: Array in _returning.duplicate():
+		if calling.has(int(back[0])):
+			_returning.erase(back)
+			_spawn(zone, data, events, int(back[0]))
 
 
-## Counts each camp's members standing, forgets the fallen, wakes a whole
-## camp when one of it is awake, and heals one back home from a chase.
-func _standing(zone: ZoneSim, count: int) -> Array[int]:
-	var standing: Array[int] = []
-	standing.resize(count)
-	var awake := {}
+## The camps of members that fell since the last tick (forgotten here).
+func _fallen(zone: ZoneSim) -> Array[int]:
+	var camps: Array[int] = []
 	for id: int in _members.keys():
 		var enemy := zone.fighter(id)
 		if enemy == null or enemy.is_ko() or not zone.brains.has(id):
+			camps.append(_members[id])
 			_members.erase(id)
-			continue
-		standing[_members[id]] += 1
+	return camps
+
+
+## Wakes a whole camp when one of it is awake, and heals one back home from a
+## chase. Returns the camps that are fighting.
+func _wake_and_heal(zone: ZoneSim) -> Dictionary:
+	var awake := {}
+	for id: int in _members:
+		var enemy := zone.fighter(id)
 		var brain: EnemyBrain = zone.brains[id]
 		if brain.engaged:
 			awake[_members[id]] = true
-		elif enemy.position.distance_to(brain.home) < 8.0 and enemy.hp < enemy.max_hp:
+		elif brain.returning and enemy.position.distance_to(brain.home) < CAMP_SPREAD:
+			# Back among its camp (its exact spot may be taken by a fellow).
 			enemy.hp = enemy.max_hp
+			brain.returning = false
 	for id: int in _members:
 		if awake.has(_members[id]):
 			(zone.brains[id] as EnemyBrain).engaged = true
-	return standing
+	return awake
 
 
 func _spawn(zone: ZoneSim, data: Dictionary, events: Array[ZoneEvent], camp: int) -> void:
 	var kind := _draw(data["pool"], zone.rng)
 	var west := maxf(float(data["from_x"]), zone.bounds.position.x + 12.0)
 	var centre := float(data["camps"][camp])
-	var x := clampf(
-		centre + zone.rng.randf_range(-CAMP_SPREAD, CAMP_SPREAD), west, zone.bounds.end.x - 12.0
-	)
+	var offset := zone.rng.randf_range(-CAMP_SPREAD, CAMP_SPREAD)
+	if absf(zone.hero.position.x - centre) < float(data["aggro"]):
+		# The hero is at this camp: come back on its far side.
+		offset = signf(centre - zone.hero.position.x + 0.01) * CAMP_SPREAD
+	var x := clampf(centre + offset, west, zone.bounds.end.x - 12.0)
 	var lane := zone.bounds
 	var y := zone.rng.randf_range(lane.position.y + 10.0, lane.end.y - 10.0)
 	var enemy := zone.spawn_enemy(kind, Bodies.clear_spot(Vector2(x, y), zone.solids, lane))

@@ -4461,7 +4461,7 @@
         ],
         "camp_size": 3,
         "aggro": 140,
-        "respawn_ticks": 900,
+        "respawn_ticks": 240,
         "elite_chance": 0.05,
         "elite_drops": [
           {
@@ -4564,7 +4564,7 @@
         ],
         "camp_size": 3,
         "aggro": 140,
-        "respawn_ticks": 900,
+        "respawn_ticks": 240,
         "elite_chance": 0.05,
         "elite_drops": [
           {
@@ -4666,7 +4666,7 @@
         ],
         "camp_size": 3,
         "aggro": 140,
-        "respawn_ticks": 900,
+        "respawn_ticks": 240,
         "elite_chance": 0.05,
         "elite_drops": [
           {
@@ -4767,7 +4767,7 @@
         ],
         "camp_size": 3,
         "aggro": 140,
-        "respawn_ticks": 900,
+        "respawn_ticks": 240,
         "elite_chance": 0.05,
         "elite_drops": [
           {
@@ -4866,7 +4866,7 @@
         ],
         "camp_size": 3,
         "aggro": 140,
-        "respawn_ticks": 900,
+        "respawn_ticks": 240,
         "elite_chance": 0.05,
         "elite_drops": [
           {
@@ -4966,7 +4966,7 @@
         ],
         "camp_size": 3,
         "aggro": 140,
-        "respawn_ticks": 900,
+        "respawn_ticks": 240,
         "elite_chance": 0.05,
         "elite_drops": [
           {
@@ -5061,7 +5061,7 @@
         ],
         "camp_size": 3,
         "aggro": 140,
-        "respawn_ticks": 900,
+        "respawn_ticks": 240,
         "elite_chance": 0.05,
         "elite_drops": [
           {
