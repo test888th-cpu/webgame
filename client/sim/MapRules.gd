@@ -207,13 +207,12 @@ static func goal(profile: PlayerProfile, content: ContentDB) -> Dictionary:
 			"active":
 				return {"area": str(quest["objective"]["area"]), "text": str(quest["name"])}
 			"complete":
-				var who := str(_npc(content, giver).get("name", giver))
-				return {"area": giver_area(content, giver), "text": "Report to %s" % who}
+				# Claimed from the quest card, wherever the hero is (QuestFlow).
+				return {"area": "", "text": "Claim your reward (F)"}
 	for quest_id: String in content.quests:
 		if QuestRules.status(profile, quest_id, content) == "available":
-			var giver := str(content.quests[quest_id]["giver"])
-			var who := str(_npc(content, giver).get("name", giver))
-			return {"area": giver_area(content, giver), "text": "New quest from %s" % who}
+			var quest: Dictionary = content.quests[quest_id]
+			return {"area": "", "text": "New quest: %s (F)" % quest["name"]}
 	return {}
 
 

@@ -89,6 +89,7 @@ func _ready() -> void:
 	_feedback = GameFeedback.new(content, _hud)
 	_hud.slot_pressed.connect(func(index: int) -> void: _clicked_slot = index)
 	_hud.auto_pressed.connect(func() -> void: auto.toggle())
+	_hud.quest_pressed.connect(QuestFlow.open_tracker.bind(self))
 	_hud.menu_pressed.connect(
 		func(name: String) -> void:
 			if not menu or menu_name == "pause" or GameMenus.SCREENS.has(menu_name):
@@ -96,7 +97,7 @@ func _ready() -> void:
 	)
 	_settle_world_boss()
 	enter_area(profile.area, "")
-	QuestFlow.run(self)  # the story's quests run themselves; a save catches up
+	QuestFlow.run(self)  # bosses beaten before their quest count
 	auto = AutoBattle.new(self)
 	print("%s %s" % [READY_MARKER, BuildInfo.summary()])
 

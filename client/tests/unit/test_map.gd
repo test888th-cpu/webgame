@@ -96,13 +96,14 @@ func test_world_boss_arenas_appear_once_unlocked() -> void:
 func test_the_goal_follows_the_quest_chain_to_the_end() -> void:
 	var profile := PlayerProfile.new_game(_content())
 	var goal := MapRules.goal(profile, _content())
-	assert_eq(goal["area"], "depot_yard", "the first quest's giver")
-	assert_eq(goal["text"], "New quest from Chief Odo", "who to see")
+	# Taken and claimed from the quest card, wherever the hero is (QuestFlow).
+	assert_eq(goal["area"], "", "no walk to a giver")
+	assert_eq(goal["text"], "New quest: The Sludge Foreman (F)", "accept it from the card")
 	QuestRules.accept(profile, "foreman", _content())
 	assert_eq(MapRules.goal(profile, _content())["area"], "canal_works", "the quest's area")
 	profile.quests["foreman"]["state"] = "complete"
 	goal = MapRules.goal(profile, _content())
-	assert_eq([goal["area"], goal["text"]], ["depot_yard", "Report to Chief Odo"], "hand in")
+	assert_eq([goal["area"], goal["text"]], ["", "Claim your reward (F)"], "claim it there")
 	for quest_id: String in _content().quests:
 		profile.quests[quest_id] = {"state": "turned_in", "progress": 0}
 	assert_eq(MapRules.goal(profile, _content()), {}, "nothing left")

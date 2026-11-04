@@ -34,9 +34,10 @@ func test_the_steps_of_the_first_stage() -> void:
 	var c := _content()
 	var profile := PlayerProfile.new_game(c)
 	StreetMemory.visit(profile, c.start_area)
-	var step := StoryAuto.step(profile, c, "depot_yard", true)
-	assert_eq(step, {"do": StoryAuto.QUEST, "quest": "foreman", "turn_in": false}, "take it")
-	assert_eq(StoryAuto.step(profile, c, "main_city", true)["to"], "depot_yard", "ride to Odo")
+	# Taken and handed in wherever the hero is, as the quest card lets a player.
+	for here in ["depot_yard", "main_city"]:
+		var step := StoryAuto.step(profile, c, here, true)
+		assert_eq(step, {"do": StoryAuto.QUEST, "quest": "foreman", "turn_in": false}, here)
 	QuestRules.accept(profile, "foreman", c)
 	assert_eq(StoryAuto.step(profile, c, "depot_yard", true)["do"], StoryAuto.EAST, "walk on")
 	StreetMemory.visit(profile, "saltmarket")
@@ -48,11 +49,10 @@ func test_the_steps_of_the_first_stage() -> void:
 	var again := StoryAuto.step(profile, c, "canal_works", true)
 	assert_eq(again, {"do": StoryAuto.RIDE, "to": "canal_works"}, "nothing left: rest, back")
 	QuestRules.on_defeat(profile, "sludge_foreman", c)
-	assert_eq(StoryAuto.step(profile, c, "canal_works", true)["to"], "depot_yard", "report")
-	var hand := StoryAuto.step(profile, c, "depot_yard", true)
-	assert_eq(hand, {"do": StoryAuto.QUEST, "quest": "foreman", "turn_in": true}, "hand in")
+	var hand := StoryAuto.step(profile, c, "canal_works", true)
+	assert_eq(hand, {"do": StoryAuto.QUEST, "quest": "foreman", "turn_in": true}, "claim there")
 	QuestRules.turn_in(profile, "foreman", c)
-	assert_eq(StoryAuto.step(profile, c, "depot_yard", true)["quest"], "the_pit", "the next")
+	assert_eq(StoryAuto.step(profile, c, "canal_works", true)["quest"], "the_pit", "the next")
 	for quest_id: String in c.quests:
 		profile.quests[quest_id] = {"state": "turned_in", "progress": 1}
 	assert_eq(StoryAuto.step(profile, c, "depot_yard", true)["do"], StoryAuto.DONE, "the end")
@@ -133,9 +133,10 @@ func test_a_quest_left_far_behind_does_not_drag_the_hero_back() -> void:
 	var profile := PlayerProfile.new_game(c)
 	for area_id in StreetMemory.street(c):
 		StreetMemory.visit(profile, area_id)
+	QuestRules.accept(profile, "foreman", c)
 	var step := StoryAuto.step(profile, c, "reactor_walkway", false)
 	assert_eq(step["do"], StoryAuto.HERE, "the first quest is far back: fight on here")
-	assert_eq(step["to"], "depot_yard", "and it says where the quest is")
+	assert_eq(step["to"], "canal_works", "and it says where the quest is")
 	var near := StoryAuto.step(profile, c, "saltmarket", false)
 	assert_eq(near["do"], StoryAuto.RIDE, "close by, auto still goes for it")
 
@@ -154,6 +155,7 @@ func test_with_the_quest_far_behind_auto_walks_on_instead_of_looping() -> void:
 		if area_id == "freight_market":
 			break
 	profile.defeated["port_guard"] = 6
+	QuestRules.accept(profile, "foreman", _content())
 	for i in _content().area("freight_market")["encounters"].size():
 		StreetMemory.mark_cleared(profile, "freight_market", i)
 	game.enter_area("freight_market", "west")
@@ -169,35 +171,36 @@ func test_with_the_quest_far_behind_auto_walks_on_instead_of_looping() -> void:
 	_done(game)
 
 
-func test_the_storys_quests_run_themselves_and_a_save_catches_up() -> void:
+func test_a_boss_beaten_before_its_quest_counts_when_taken() -> void:
 	var c := _content()
 	var profile := PlayerProfile.new_game(c)
-	assert_eq(QuestRules.auto_flow(profile, c), [], "nothing done yet")
-	assert_eq(QuestRules.status(profile, "foreman", c), "active", "the first quest is taken")
-	# A save that played on by hand past three bosses without a quest.
-	for boss in ["sludge_foreman", "pit_champion", "furnace_baron"]:
-		profile.defeated[boss] = 1
-	var handed: Array[String] = []
-	for i in 10:
-		var done := QuestRules.auto_flow(profile, c)
-		if done.is_empty():
-			break
-		for quest_id in done:
-			QuestRules.turn_in(profile, quest_id, c)
-			handed.append(quest_id)
-	assert_eq(handed, ["foreman", "the_pit", "furnace_baron"], "each paid, in order")
-	assert_eq(QuestRules.status(profile, "harbourmaster", c), "active", "and the next taken")
-	assert_true(profile.count("torn_label") > 0, "its evidence in the bag")
+	assert_eq(QuestFlow.current(profile, c), "foreman", "the first quest on the card")
+	assert_eq(QuestRules.status(profile, "foreman", c), "available", "to accept")
+	profile.defeated["sludge_foreman"] = 1
+	QuestRules.accept(profile, "foreman", c)
+	assert_eq(QuestRules.status(profile, "foreman", c), "complete", "its boss already down")
+	assert_eq(QuestFlow.current(profile, c), "foreman", "on the card, to claim")
 
 
-func test_a_finished_quest_is_paid_where_it_finishes() -> void:
+func test_the_quest_card_takes_and_claims_from_anywhere() -> void:
 	var game := _game()
-	var money: int = game.profile.money
-	game.profile.defeated["sludge_foreman"] = 1
+	TutorialRules.skip(game.profile, game.content)
+	game.enter_area("saltmarket", "west")
+	var hud: Node = game.get_node("Hud")
+	hud._process(0.016)
+	var action := hud.find_child("QuestAction", true, false) as Label
+	assert_true(action.text.begins_with("Accept"), "a new quest to accept: " + action.text)
+	hud.quest_pressed.emit()
+	assert_eq(game.menu_name, "quests_npc", "the giver's offer, far from the giver")
+	game._accept(game.content.area("depot_yard")["npcs"][0], "foreman")
+	game.close_menu()
+	hud._process(0.016)
+	assert_eq(action.text, "", "under way: nothing to press")
 	game.profile.quests["foreman"]["state"] = "complete"
-	QuestFlow.run(game)
-	assert_eq(QuestRules.status(game.profile, "foreman", game.content), "turned_in", "paid")
-	assert_true(game.profile.money > money, "its coins")
-	assert_eq(QuestRules.status(game.profile, "the_pit", game.content), "active", "next taken")
-	assert_eq(game.menu_name, "quests_npc", "the giver's closing words on screen")
+	hud._process(0.016)
+	assert_true(action.text.begins_with("Claim"), "done: " + action.text)
+	var money: int = game.profile.money
+	hud.quest_pressed.emit()
+	game._turn_in(game.content.area("depot_yard")["npcs"][0], "foreman")
+	assert_true(game.profile.money > money, "the reward claimed away from the giver")
 	_done(game)

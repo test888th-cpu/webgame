@@ -121,4 +121,4 @@ func test_a_save_from_before_the_stages_loads_its_stage_quests() -> void:
 	var loaded := PlayerProfile.from_dict(data, c)
 	assert_eq(loaded.quests.keys(), ["foreman"], "a retired quest is dropped")
 	assert_eq(QuestRules.status(loaded, "the_pit", c), "available", "the next stage is on offer")
-	assert_eq(MapRules.goal(loaded, c)["text"], "New quest from Chief Odo", "and the map says so")
+	assert_eq(MapRules.goal(loaded, c)["text"], "New quest: The Pit (F)", "and the map says so")

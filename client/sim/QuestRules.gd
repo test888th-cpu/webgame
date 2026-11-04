@@ -15,10 +15,13 @@ static func status(profile: PlayerProfile, quest_id: String, content: ContentDB)
 	return "available"
 
 
+## Takes `quest_id`; a quest whose boss is already down is done at once
+## (catch_up), ready to claim.
 static func accept(profile: PlayerProfile, quest_id: String, content: ContentDB) -> bool:
 	if status(profile, quest_id, content) != "available":
 		return false
 	profile.quests[quest_id] = {"state": "active", "progress": 0}
+	catch_up(profile, content)
 	return true
 
 
@@ -67,20 +70,13 @@ static func turn_in(profile: PlayerProfile, quest_id: String, content: ContentDB
 	}
 
 
-## The story's quests run themselves (owner's choice, 2026-11-04): each is
-## taken as soon as the one before it is handed in (the first from the
-## start), and done as soon as its foe is down; a boss beaten before its
-## quest came counts. Returns the quests now complete, for the caller to
-## hand in (Game._hand_in pays them, QuestFlow shows them). The quest givers
-## stay at their rest points to talk to. A save that played on without its
-## quests catches up the same way.
-static func auto_flow(profile: PlayerProfile, content: ContentDB) -> Array[String]:
+## A quest taken after its boss was already beaten (a player who went on
+## ahead) is done at once: its boss counts. Returns every quest now complete,
+## waiting for its reward to be claimed (QuestFlow).
+static func catch_up(profile: PlayerProfile, content: ContentDB) -> Array[String]:
 	var done: Array[String] = []
 	for quest_id: String in content.quests:
 		var state := status(profile, quest_id, content)
-		if state == "available":
-			accept(profile, quest_id, content)
-			state = "active"
 		var objective: Dictionary = content.quests[quest_id]["objective"]
 		var kind := str(objective["enemy"])
 		var boss: bool = content.enemy(kind).get("boss", false)
