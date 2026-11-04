@@ -4,6 +4,40 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Fixed: getting stuck in the story (auto looping, quests left behind, shut gates)
+- **Auto no longer loops in one area:**
+  - With the map's quest far behind (a quest never taken or handed in while playing on
+    by hand, `StoryAuto.HERE`), or with the story finished, auto used to fall back to
+    the farm loop. It cleared the area, rested in the city and rode back to the start
+    of the same area, forever.
+  - Reproduced in Freight Market: 32 Port Guards down and still there.
+  - Now it walks on east as soon as the area is won and its gate is open
+    (`AutoBattle._story`). With the "Story" auto setting off it still farms in place,
+    as chosen.
+- **A shut gate says why:**
+  - When every fight in an area is won but its east gate still needs more of its guard
+    knocked down, a message names it at once: "Port Guards watch the yard gate. Knock
+    down 6 to pass. (5/6)" (`GameFeedback._gate_progress`).
+  - Before, it only appeared on bumping the edge, while the area's fights came back.
+- **The story's quests run themselves** (owner's choice; `QuestRules.auto_flow`,
+  `QuestFlow`): a new player who never talks to a quest giver no longer misses the
+  story's rewards and falls behind.
+  - Each stage's quest is taken as soon as the one before it is handed in, the first
+    from the start.
+  - When its boss falls, its rewards are paid on the spot: coins, XP, gear, evidence,
+    a level up, a chapter's end and the epilogue. The next quest is taken at once.
+  - The giver's closing words open in their quest window when no other screen is
+    open. The street goes on behind it.
+  - A boss beaten before its quest came counts.
+  - A save that played on without its quests catches up on load, paid in order.
+  - The quest givers stay at their rest points to talk to.
+- **Tests:**
+  - With the quest far behind, auto walks on from Freight Market to Container Yard
+    instead of looping.
+  - The quests run themselves, and a save three bosses ahead is paid for each in
+    order.
+  - A finished quest is paid where it finishes. 549 in all.
+
 ### Changed: light and shadow on the street
 - **No gap at the bottom of the screen** (`Scenery._apron`):
   - The road picture ended 6 game pixels short of the 360-pixel view, so a dark strip

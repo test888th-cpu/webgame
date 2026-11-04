@@ -96,6 +96,7 @@ func _ready() -> void:
 	)
 	_settle_world_boss()
 	enter_area(profile.area, "")
+	QuestFlow.run(self)  # the story's quests run themselves; a save catches up
 	auto = AutoBattle.new(self)
 	print("%s %s" % [READY_MARKER, BuildInfo.summary()])
 
@@ -299,9 +300,7 @@ func _handle(event: ZoneEvent) -> void:
 				var name := str(content.enemy(event.data["kind"]).get("name", "enemy"))
 				_hud.toast("An elite %s joins the fight!" % name)
 		"quest_complete":
-			var quest: Dictionary = content.quests[event.data["quest"]]
-			_hud.toast("Quest complete: %s" % quest["name"])
-			view.update_npc_marks(profile)
+			QuestFlow.run(self)
 		"pickup":
 			if event.data["kind"] == "money":
 				view.show_text(
