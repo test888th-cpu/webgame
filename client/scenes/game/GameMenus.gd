@@ -82,7 +82,7 @@ static func screen(game: Game, name: String) -> Control:
 
 
 ## The game menu (Esc): back to the game, every screen, and the session
-## actions. The street does not stop behind it (Game.BLOCKING).
+## actions. The street does not stop behind it, nor behind any screen.
 static func pause_menu(game: Game) -> Control:
 	var tutorial := not TutorialRules.is_done(game.profile, game.content)
 	var tall := 232.0

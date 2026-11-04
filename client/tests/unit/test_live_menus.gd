@@ -1,8 +1,7 @@
 extends TestCase
-## The street does not stop behind a screen (Game.BLOCKING): with the bag, the
-## map or the game menu open, enemies, the clock and auto battle go on, as in
-## an online game. Only the screens that end a fight (game over, a world boss's
-## results, the epilogue) stop it.
+## The street never stops: with the bag, the map, the game menu or even the
+## game-over screen open, enemies, the clock and auto battle go on, as in an
+## online game.
 
 const TEST_SAVE := "user://test_live_menus_save"
 
@@ -58,13 +57,14 @@ func test_auto_fights_on_behind_the_bag() -> void:
 	_done(game)
 
 
-func test_the_screens_that_end_a_fight_stop_the_street() -> void:
+func test_not_even_the_screens_that_wait_for_a_choice_stop_the_street() -> void:
 	var game := _game()
 	game.enter_area("saltmarket", "west")
-	for name in Game.BLOCKING:
+	for name in Game.CHOICE_SCREENS:
 		game._show(name, Control.new())
 		var before := game.zone.tick_count
 		_run(game, 10)
-		assert_eq(game.zone.tick_count, before, name + ": the street waits")
+		assert_eq(game.zone.tick_count - before, 10, name + ": the street goes on")
+		assert_eq(game.menu_name, name, name + ": still waiting for the choice")
 		game.close_menu()
 	_done(game)

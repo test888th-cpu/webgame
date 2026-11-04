@@ -14,9 +14,10 @@ const AUTOSAVE_SECONDS := 20.0
 ## The screens with a key of their own (input action = screen id).
 const SCREEN_KEYS := ["character", "bag", "skills", "quests", "map"]
 
-## Screens that stop the street while open (the fight is over); every other
-## screen (bag, map, skills, shops, the pause menu...) lets it go on.
-const BLOCKING: Array[String] = ["game_over", "world_boss", "epilogue"]
+## Screens that wait for a choice (Esc does not close them). Like every other
+## screen, they never stop the street: it goes on whatever the player does,
+## as it will online.
+const CHOICE_SCREENS: Array[String] = ["game_over", "world_boss", "epilogue"]
 
 var content: ContentDB
 var profile: PlayerProfile
@@ -133,9 +134,9 @@ func enter_area(area_id: String, entry: String, start_x := -1.0) -> void:
 
 func _physics_process(_delta: float) -> void:
 	if menu:
-		if menu_name in BLOCKING:
-			return
-		if item_card and is_instance_valid(item_card):
+		if menu_name in CHOICE_SCREENS:
+			pass
+		elif item_card and is_instance_valid(item_card):
 			if Input.is_action_just_pressed("pause"):
 				close_item_card()
 		elif Input.is_action_just_pressed("pause"):
@@ -146,10 +147,9 @@ func _physics_process(_delta: float) -> void:
 					GameMenus.cycle_tab(menu, -1)
 				elif Input.is_action_just_pressed("menu_next"):
 					GameMenus.cycle_tab(menu, 1)
-		# The street goes on behind every other screen, as online: auto fights
-		# on, and the keys belong to the screen.
-		if menu and menu_name not in BLOCKING:
-			step(auto.input(FighterInput.new(), false) if auto.on else FighterInput.new())
+		# The street goes on behind every screen, as online: auto fights on, and
+		# the keys belong to the screen.
+		step(auto.input(FighterInput.new(), false) if auto.on else FighterInput.new())
 		return
 	if Input.is_action_just_pressed("pause"):
 		Sfx.play("ui_select", -4.0)

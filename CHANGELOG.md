@@ -5,14 +5,15 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 ## [Unreleased]
 
 ### Changed: the street goes on behind every screen; camps that amble and vary
-- **No pause behind a screen** (`Game.BLOCKING`):
+- **The street never stops** (`Game._physics_process`):
   - With the bag, the map, skills, quests, a shop, a taxi or the game menu open, the
     street goes on as in an online game: enemies, hazards and the world boss's clock
     carry on.
   - Auto battle keeps fighting, farming and following the story. The keys belong to
     the screen, so without auto the hero waits where they stand.
-  - Only the screens that end a fight stop it: game over, a world boss's results and
-    the epilogue.
+  - Not even the screens that wait for a choice stop it (`Game.CHOICE_SCREENS`: game
+    over, a world boss's results, the epilogue). Esc does not close those, and the
+    world goes on behind them too, as it will online with many players.
   - The Esc menu is now titled "Menu", and "Resume" reads "Back to the game".
 - **Camps that live** (`EnemyBrain._amble`): an idle camp member ambles about its spot
   (up to 36 px, at a slow pace, pausing 1 to 3 seconds between strolls), and never far
@@ -31,8 +32,8 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
   - Coins ×0.99 to ×1.13 and XP ×1.02 to ×1.11 of the old field's rate.
   - No knock-outs.
 - **Tests:**
-  - The street goes on behind the bag, the map and the menu, and auto fights on behind
-    the bag. Game over and the other fight-ending screens stop it.
+  - The street goes on behind the bag, the map, the menu and the screens that wait
+    for a choice, and auto fights on behind the bag.
   - Camps amble and roll sizes of 2, 3 and 4.
   - A cleared camp stands again at a new size, and the safe spot holds.
 
