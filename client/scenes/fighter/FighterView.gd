@@ -22,12 +22,18 @@ const DOWN_TICKS := 30
 ## What art without an animation plays instead (the rest fall back to idle).
 const FALLBACK := {"swing": "light"}
 const FLASH_SHADER := preload("res://scenes/fighter/flash.gdshader")
+## The shadow under a fighter, in game pixels (scaled with a big one).
+const SHADOW_WIDTH := 24.0
 ## Where a weapon sits without hand sockets (polygon figure), facing right.
 const FALLBACK_HAND := Vector2(10, -24)
 const FALLBACK_ANGLE := 35.0
 
 @export var body_color := Color(0.86, 0.42, 0.2)
 @export var show_health_bar := false
+
+## The area's light on this fighter (ZoneView, from the street kit's tint):
+## the sprite shader multiplies it in.
+var ambient := Color.WHITE
 
 var fighter: Fighter
 var art_id := ""
@@ -51,6 +57,7 @@ var _rows := {}
 var _contact := {}
 var _hand_sheet: Texture2D
 var _held: Sprite2D
+var _cast: AnimatedSprite2D
 var _fist: Sprite2D
 var _held_id := ""
 var _threat := ""
@@ -69,6 +76,13 @@ var _badge: TextureRect
 
 
 func _ready() -> void:
+	# A soft shadow on the street under the feet, first so all else is above.
+	# The contact shadow: the cast shadow (Shade.cast) follows with the art.
+	var shadow := Shade.make(SHADOW_WIDTH, 0.3, 0.6)
+	shadow.name = "Shadow"
+	shadow.position = Vector2(0, 1)
+	add_child(shadow)
+	move_child(shadow, 0)
 	_torso.color = body_color
 	_health.visible = show_health_bar
 
@@ -166,12 +180,14 @@ func set_art(id: String, art: Dictionary) -> void:
 		_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 		_sprite.material = ShaderMaterial.new()
 		_sprite.material.shader = FLASH_SHADER
+		_sprite.material.set_shader_parameter("ambient", ambient)
 		add_child(_sprite)
 		move_child(_sprite, 1)  # above the shadow, below labels
 	var sheet := str(entry["sheet"])
 	_sprite.sprite_frames = load(sheet.get_base_dir().path_join(id + ".tres"))
 	var origin: Array = entry.get("origin", [32, 62])
 	_sprite.offset = -Vector2(origin[0], origin[1])
+	_make_cast(Vector2(origin[0], origin[1]))
 	# The polygon figure stays only for the guard shield and the attack warning.
 	for part in _body.get_children():
 		part.visible = part == _shield
@@ -189,11 +205,41 @@ func impact(color: Color, seconds := 0.12, freeze := 0.0) -> void:
 func _process(delta: float) -> void:
 	_flash = maxf(0.0, _flash - delta)
 	_freeze = maxf(0.0, _freeze - delta)
+	if _cast and _sprite:
+		_cast.animation = _sprite.animation
+		_cast.frame = _sprite.frame
+		_cast.flip_h = _sprite.flip_h
+		_cast.visible = _sprite.visible
+		_cast.modulate.a = Shade.CAST_ALPHA * _sprite.modulate.a * modulate.a
 	if _sprite:
 		var material := _sprite.material as ShaderMaterial
 		material.set_shader_parameter("flash", clampf(_flash / 0.12, 0.0, 0.85))
 		material.set_shader_parameter("flash_color", _flash_color)
 		_sprite.position.x = randf_range(-1.5, 1.5) if _freeze > 0.0 else 0.0
+
+
+## The fighter's cast shadow (Shade): its own frames, flipped onto the street
+## at its feet (`origin`: the feet in a frame), squashed and slanted away from
+## the light; it follows the sprite's frame in _process.
+func _make_cast(origin: Vector2) -> void:
+	if _cast == null:
+		_cast = AnimatedSprite2D.new()
+		_cast.name = "Cast"
+		_cast.centered = false
+		_cast.flip_v = true
+		_cast.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		_cast.self_modulate = Color(0, 0, 0)
+		_cast.scale = Vector2(1, Shade.CAST_SQUASH)
+		_cast.skew = Shade.CAST_SKEW
+		add_child(_cast)
+		move_child(_cast, 1)  # over the contact shadow, under the sprite
+	_cast.sprite_frames = _sprite.sprite_frames
+	var anim := _sprite.animation
+	var tall := 64
+	if _cast.sprite_frames.has_animation(anim) and _cast.sprite_frames.get_frame_count(anim) > 0:
+		tall = _cast.sprite_frames.get_frame_texture(anim, 0).get_height()
+	# Flipped, the frame's feet row lands on y 0, its head furthest out.
+	_cast.offset = Vector2(-origin.x, origin.y + 1.0 - tall)
 
 
 func sync() -> void:

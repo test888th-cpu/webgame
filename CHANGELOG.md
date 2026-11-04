@@ -4,6 +4,36 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed: light and shadow on the street
+- **No gap at the bottom of the screen** (`Scenery._apron`):
+  - The road picture ended 6 game pixels short of the 360-pixel view, so a dark strip
+    showed at the bottom (more in wide windows and under screen shake).
+  - The road now runs 30 px further: its own bottom rows, mirrored, so it meets
+    without a seam.
+- **Shadows cast from the light, from each thing's own base** (`Shade`):
+  - Fighters, NPCs, street furniture (trucks, crates, drums, lamps) and the props on
+    the sidewalk cast their own silhouette onto the street. It is laid down from
+    their base line, squashed by the low angle and slanted away from the light (the
+    moon and lamps above, behind and a little to the left), so nothing looks like it
+    floats.
+  - A small, soft contact shadow darkens where each meets the ground.
+  - A fighter's cast shadow follows its animation frame by frame.
+- **Characters in the street's light** (`flash.gdshader`, `ZoneView.ambient_light`):
+  - Heroes, monsters and NPCs take half the colour of the area's light (the street
+    kit's tint).
+  - They are a little darker toward the feet and a touch brighter at the head.
+  - The hit flash is unchanged.
+- **The street lamp's yellow disc is gone** (`kit_import.py` `"dehalo"`):
+  - The painting's glow on the green backdrop had stayed behind as a flat yellow-green
+    disc beside the lantern.
+  - The importer now clears glow that reaches the outside, keeping the lantern's own
+    glass. The game's own glow is drawn at 70%.
+- **Tests:**
+  - The road reaches past the view.
+  - Props, furniture and lamps cast shadows from their base, slanted.
+  - Fighters cast a shadow over their contact shadow and take the area's light.
+  - The lamp carries no halo. 546 in all.
+
 ### Changed: the street goes on behind every screen; camps that amble and vary
 - **The street never stops** (`Game._physics_process`):
   - With the bag, the map, skills, quests, a shop, a taxi or the game menu open, the

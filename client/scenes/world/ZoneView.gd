@@ -204,12 +204,22 @@ func _make_fighter_view(f: Fighter) -> FighterView:
 	var view: FighterView = FIGHTER_SCENE.instantiate()
 	view.fighter = f
 	view.content = content
+	view.ambient = ambient_light(content, zone.area_id)
 	_entities.add_child(view)
 	if f.team == ZoneSim.ENEMY_TEAM:
 		view.setup_enemy(content.enemy(f.kind), content.art, zone.enemy_level(f.id))
 		if f.elite:
 			view.mark_elite(content.enemy(f.kind))
 	return view
+
+
+## The light fighters stand in, in `area_id`: half way from white to the
+## street kit's tint for the shopfronts behind them, so heroes and monsters
+## take the colour of the street's light instead of looking pasted on.
+static func ambient_light(content: ContentDB, area_id: String) -> Color:
+	var tint: Dictionary = content.kit.get("areas", {}).get(area_id, {}).get("tint", {})
+	var front := Color.from_string(str(tint.get("front", "#ffffff")), Color.WHITE)
+	return Color.WHITE.lerp(front, 0.5)
 
 
 func _make_pickup_view(pickup: Dictionary) -> Node2D:
@@ -481,6 +491,7 @@ func _npc_body(npc: Dictionary) -> Node2D:
 	var view: FighterView = FIGHTER_SCENE.instantiate()
 	view.fighter = stand_in
 	view.body_color = Color.from_string(str(npc.get("color", "#888888")), Color.GRAY)
+	view.ambient = ambient_light(content, zone.area_id)
 	_entities.add_child(view)
 	view.set_art(str(npc.get("sprite", "")), content.art)
 	view.sync()

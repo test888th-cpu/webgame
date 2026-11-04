@@ -87,6 +87,7 @@
       "despill": true,
       "haze": true,
       "hole_margin": 25,
+      "dehalo": true,
       "glow": [
         0.76,
         0.21
