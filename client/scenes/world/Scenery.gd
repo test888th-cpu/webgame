@@ -25,6 +25,15 @@ const FURNITURE_GROUP := "street_furniture"
 const FOREGROUND_Z := 1
 ## How far the road and sidewalk run past each end of the street.
 const GROUND_OVERRUN := 640.0
+## How far the road runs on below its picture, mirrored, so no window shape
+## or screen shake ever shows the bottom edge of the street.
+const ROAD_APRON := 30.0
+## Layers whose pieces stand on the street and cast a soft shadow on it.
+const SHADED_LAYERS := ["sidewalk", "street"]
+## A contact shadow is this share of its piece's width, and a light's glow
+## is drawn this strong.
+const CONTACT_WIDTH := 0.7
+const GLOW_STRENGTH := 0.7
 
 
 ## Builds the scenery of `area_id`; false when it has none to build. The
@@ -73,7 +82,9 @@ static func _build_kit(parent: Node2D, content: ContentDB, area: Dictionary) -> 
 	# position or window shape ever shows the end of the ground.
 	var from := -GROUND_OVERRUN
 	var length := width + GROUND_OVERRUN * 2.0
-	_tile(ground, pieces[area["ground"]["road"]], Vector2(from, ROAD_TOP), length)
+	var road: Dictionary = pieces[area["ground"]["road"]]
+	_tile(ground, road, Vector2(from, ROAD_TOP), length)
+	_apron(ground, road, Vector2(from, ROAD_TOP + _game_size(road).y), length)
 	_tile(ground, pieces[area["ground"]["sidewalk"]], Vector2(from, SIDEWALK_TOP), length)
 	if area.has("track"):
 		# The elevated track runs unbroken; trains stand on it.
@@ -95,6 +106,8 @@ static func _build_kit(parent: Node2D, content: ContentDB, area: Dictionary) -> 
 		var piece: Dictionary = pieces[placed["piece"]]
 		var layer: Node2D = layers[placed["layer"]]
 		var sprite := _piece(layer, piece, float(placed["x"]), float(placed["y"]))
+		if placed["layer"] in SHADED_LAYERS:
+			_shade(layer, sprite, Vector2(float(placed["x"]), float(placed["y"])))
 		if piece.has("glow"):
 			_glow(layer, content, sprite.position + _game_size(piece) * _vec(piece["glow"]))
 
@@ -120,6 +133,7 @@ static func piece_node(content: ContentDB, piece_id: String) -> Node2D:
 	var node := Node2D.new()
 	node.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 	var sprite := _piece(node, piece, 0.0, 0.0)
+	_shade(node, sprite, Vector2.ZERO)
 	if piece.has("glow"):
 		_glow(node, content, sprite.position + _game_size(piece) * _vec(piece["glow"]))
 	return node
@@ -170,6 +184,38 @@ static func _tile(layer: Node2D, piece: Dictionary, at: Vector2, width: float) -
 	layer.add_child(sprite)
 
 
+## The road's bottom rows, mirrored, below the road: plain asphalt that meets
+## the road without a seam.
+static func _apron(layer: Node2D, piece: Dictionary, at: Vector2, width: float) -> void:
+	var sprite := Sprite2D.new()
+	sprite.name = "RoadApron"
+	sprite.texture = load(piece["file"])
+	sprite.centered = false
+	sprite.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
+	sprite.region_enabled = true
+	var hd := float(piece["hd"])
+	var rows := ROAD_APRON * hd
+	sprite.region_rect = Rect2(0, float(piece["size"][1]) - rows, width * hd, rows)
+	sprite.flip_v = true
+	sprite.scale = Vector2.ONE / hd
+	sprite.position = at
+	layer.add_child(sprite)
+
+
+## The shadows of `piece`, drawn as `sprite` standing with its base on
+## `feet`: its cast shadow on the street and a small contact shadow at its
+## base (Shade). Both go before the sprite, so the sprite is drawn over them.
+static func _shade(layer: Node2D, sprite: Sprite2D, feet: Vector2) -> void:
+	var at := sprite.get_index()
+	var cast := Shade.cast(sprite, feet.y)
+	layer.add_child(cast)
+	layer.move_child(cast, at)
+	var contact := Shade.make(sprite.texture.get_width() * sprite.scale.x * CONTACT_WIDTH, 0.2)
+	contact.position = feet
+	layer.add_child(contact)
+	layer.move_child(contact, at + 1)
+
+
 static func _glow(layer: Node2D, content: ContentDB, at: Vector2) -> void:
 	var props: Dictionary = content.environment.get("props", {})
 	if not props.has("regions"):
@@ -178,6 +224,8 @@ static func _glow(layer: Node2D, content: ContentDB, at: Vector2) -> void:
 	glow.texture = _atlas(load(props["sheet"]), props["regions"]["glow"])
 	glow.position = at
 	glow.scale = Vector2(2.5, 2.5)
+	# A soft pool of light, not a yellow disc.
+	glow.modulate = Color(1, 1, 1, GLOW_STRENGTH)
 	var additive := CanvasItemMaterial.new()
 	additive.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
 	glow.material = additive

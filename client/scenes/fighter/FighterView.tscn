@@ -5,10 +5,6 @@
 [node name="FighterView" type="Node2D"]
 script = ExtResource("1_view")
 
-[node name="Shadow" type="Polygon2D" parent="."]
-color = Color(0, 0, 0, 0.35)
-polygon = PackedVector2Array(-12, -2, -6, -4, 6, -4, 12, -2, 6, 1, -6, 1)
-
 [node name="Body" type="Node2D" parent="."]
 
 [node name="Legs" type="Polygon2D" parent="Body"]

@@ -16,7 +16,8 @@ layer it belongs to. For every piece this script
     says "keep_green";
   * drops stray blobs (specks; with "haze", the warm glow some backdrops
     have in a corner, which pieces lit warm all over must not use);
-  * removes the green fringe at the edge, trims, and scales the piece to HD:
+  * removes the green fringe at the edge, trims, and scales the piece to HD
+    (with "dehalo", it also clears the glow a light painted on the backdrop):
     `hd` texture pixels per game pixel, drawn scaled down so it stays sharp
     at any window size;
 
@@ -221,6 +222,29 @@ def tile(source: Image.Image, piece: dict, hd: int) -> Image.Image:
     return seamless
 
 
+def dehalo(image: Image.Image) -> Image.Image:
+    """Clears the painted glow a light leaves on the green backdrop (yellow-green
+    once keyed), wherever it reaches the outside: the lamp's own glass, inside
+    its dark outline, stays. The game draws the light's glow itself."""
+    px = image.load()
+    w, h = image.size
+
+    def halo(p: tuple) -> bool:
+        r, g, b, a = p
+        return a > 0 and g >= 0.88 * r and g > 90 and b < 0.62 * g
+
+    queue = deque((x, y) for y in range(h) for x in range(w) if px[x, y][3] == 0)
+    seen = set(queue)
+    while queue:
+        x, y = queue.popleft()
+        for nx, ny in ((x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)):
+            if 0 <= nx < w and 0 <= ny < h and (nx, ny) not in seen and halo(px[nx, ny]):
+                seen.add((nx, ny))
+                px[nx, ny] = (0, 0, 0, 0)
+                queue.append((nx, ny))
+    return image
+
+
 def make_piece(piece_id: str, piece: dict, hd: int) -> Image.Image:
     with Image.open(KIT / "src" / piece["file"]) as opened:
         source = opened.copy()
@@ -228,6 +252,8 @@ def make_piece(piece_id: str, piece: dict, hd: int) -> Image.Image:
         return tile(source, piece, hd)
     cut = cut_out(source, piece)
     image = hd_resize(cut, piece["height"] * hd)
+    if piece.get("dehalo", False):
+        image = dehalo(image)
     if piece.get("mirror", False):
         mirrored = Image.new("RGBA", (image.width * 2, image.height))
         mirrored.paste(image, (0, 0))
