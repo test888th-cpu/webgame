@@ -29,8 +29,9 @@
 >   (`StreetMemory.refill`) stays for any ground with fixed fights.
 >
 > - **Camps (2026-11-03, owner's request):** the field is now camps standing across
->   the ground, as in field-farming games. Each ground has 4 camps of 3
->   (`"camps"`, `"camp_size"`, `"aggro"` in `areas.json`).
+>   the ground, as in field-farming games. Each ground has 3 camps 340 px apart,
+>   of 2 to 4 enemies each, rolled whenever a camp stands (`"camps"`, `"camp_size"`,
+>   `"aggro"` 100 px in `areas.json`). Idle members amble about their spot.
 >   - A camp waits at its spot until the hero comes within its aggro radius or strikes
 >     one of it. Then the whole camp comes; the others stay put.
 >   - A chase too far from home ends with the enemy walking back and healing there.
