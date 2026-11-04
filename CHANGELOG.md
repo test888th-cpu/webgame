@@ -4,6 +4,33 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed: quests taken and claimed from the quest card, as in mobile games
+- **The quest card does it all** (`Hud._update_quest`, `QuestFlow`), from wherever the
+  hero is, with no walk to a giver and no searching for one:
+  1. NEW QUEST: its name and goal. Press F, or tap the card, to read the giver's offer
+     and accept it.
+  2. QUEST: "Defeat The Sludge Foreman 0/1" and where.
+  3. QUEST COMPLETE!: a popup says so, and the card turns gold. Press F to hear the
+     giver and claim the reward.
+- The card opens the giver's own quest window, so the story's words and the rewards
+  (coins, XP, gear, evidence, chapter ends, the epilogue) are as before.
+- **Credit for earlier kills:** a boss beaten before its quest was taken counts. The
+  quest is done the moment it is accepted (`QuestRules.catch_up`). A save that played
+  on ahead clears its quests with a few presses.
+- Auto battle takes and claims quests wherever it is (`StoryAuto`).
+- The map's goal says "New quest: … (F)" or "Claim your reward (F)" instead of sending
+  the hero back to a giver.
+- The tutorial's last step is the first quest on the card ("press F to accept it"),
+  instead of "Talk to Chief Odo".
+- The quest givers stay at their rest points to talk to.
+- New key: F (gamepad: left stick), "quest_action".
+- This replaces the quests running themselves (below) with the player's own accept and
+  claim, as the owner asked.
+- **Tests:**
+  - The card takes and claims from anywhere.
+  - A boss beaten before its quest counts when it is taken.
+  - Auto's steps take and hand in anywhere. 549 in all.
+
 ### Fixed: getting stuck in the story (auto looping, quests left behind, shut gates)
 - **Auto no longer loops in one area:**
   - With the map's quest far behind (a quest never taken or handed in while playing on

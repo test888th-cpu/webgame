@@ -20,6 +20,9 @@ signal slot_pressed(index: int)
 signal auto_pressed
 ## The map strip was clicked or tapped.
 signal menu_pressed(name: String)
+## The quest card was pressed (or F): accept the new quest or claim a
+## finished one's reward (QuestFlow.open_tracker).
+signal quest_pressed
 
 ## How long "GO >>" blinks after a cleared fight.
 const GO_SECONDS := 4.0
@@ -58,6 +61,8 @@ var _go_left := 0.0
 var _quest_heading: Label
 var _quest_name: Label
 var _quest_progress: Label
+## What pressing the card does now: "Accept  (F)", "Claim reward  (F)" or "".
+var _quest_action: Label
 var _boss: VBoxContainer
 var _boss_name: Label
 var _boss_bar: StatBar
@@ -309,8 +314,20 @@ func _build_top_right(root: Control) -> void:
 	quest.add_child(_quest_heading)
 	_quest_name = UiKit.label("", UiTheme.SIZE_SMALL, UiTheme.TEXT, 140)
 	quest.add_child(_quest_name)
-	_quest_progress = UiKit.label("", UiTheme.SIZE_CAPTION, UiTheme.TEXT_DIM)
+	_quest_progress = UiKit.label("", UiTheme.SIZE_CAPTION, UiTheme.TEXT_DIM, 140)
 	quest.add_child(_quest_progress)
+	_quest_action = UiKit.label("", UiTheme.SIZE_SMALL, UiTheme.GOLD)
+	_quest_action.name = "QuestAction"
+	quest.add_child(_quest_action)
+	_quest_card.name = "QuestCard"
+	_quest_card.mouse_filter = Control.MOUSE_FILTER_STOP
+	_quest_card.gui_input.connect(
+		func(event: InputEvent) -> void:
+			var touch := event is InputEventScreenTouch and (event as InputEventScreenTouch).pressed
+			var click := event is InputEventMouseButton and (event as InputEventMouseButton).pressed
+			if (touch or click) and _quest_action.text != "":
+				quest_pressed.emit()
+	)
 	_fps = UiKit.overlay_label("", UiTheme.SIZE_CAPTION, UiTheme.TEXT_FAINT)
 	_fps.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	column.add_child(_fps)
@@ -563,28 +580,54 @@ func _update_quest() -> void:
 	# The tutorial takes the quest card's place until it is done: one thing
 	# to look at, in the same spot as every goal after it.
 	var step := TutorialRules.current(profile, content)
-	if step:
+	# Its last step is the first quest: the card shows it, to accept with F.
+	if step and step.get("id") != "talk":
 		_quest_card.visible = true
 		_quest_heading.text = "TUTORIAL  %d / %d" % [profile.tutorial + 1, content.tutorial.size()]
 		_quest_name.text = str(step["text"])
 		var count := int(step.get("count", 1))
 		_quest_progress.text = "%d / %d" % [profile.tutorial_progress, count] if count > 1 else ""
 		return
-	_quest_heading.text = "QUEST"
-	for quest_id: String in profile.quests:
-		var entry: Dictionary = profile.quests[quest_id]
-		var quest: Dictionary = content.quests[quest_id]
-		if entry["state"] == "active":
-			_quest_card.visible = true
-			_quest_name.text = str(quest["name"])
-			_quest_progress.text = "%d / %d" % [entry["progress"], quest["objective"]["count"]]
-			return
-		if entry["state"] == "complete":
-			_quest_card.visible = true
-			_quest_name.text = str(quest["name"])
-			_quest_progress.text = "Complete. Return to the giver."
-			return
+	# The story's quest, as in mobile games: a new one to accept, the one under
+	# way with its goal and progress, a finished one whose reward to claim;
+	# all from here, with no walk back to the giver (QuestFlow).
+	_quest_action.text = ""
 	_quest_card.visible = false
+	var quest_id := QuestFlow.current(profile, content)
+	if quest_id == "":
+		return
+	var quest: Dictionary = content.quests[quest_id]
+	var state := QuestRules.status(profile, quest_id, content)
+	_quest_card.visible = true
+	_quest_name.text = str(quest["name"])
+	match state:
+		"available":
+			_quest_heading.text = "NEW QUEST"
+			_quest_heading.add_theme_color_override("font_color", UiTheme.ACCENT)
+			_quest_progress.text = str(quest.get("description", ""))
+			_quest_action.text = "Accept  (F)"
+		"complete":
+			_quest_heading.text = "QUEST COMPLETE!"
+			_quest_heading.add_theme_color_override("font_color", UiTheme.GOLD)
+			_quest_progress.text = "Well done."
+			_quest_action.text = "Claim reward  (F)"
+		_:
+			_quest_heading.text = "QUEST"
+			_quest_heading.add_theme_color_override("font_color", UiTheme.ACCENT)
+			var objective: Dictionary = quest["objective"]
+			var foe := str(content.enemy(str(objective["enemy"])).get("name", "foe"))
+			var place := str(content.area(str(objective.get("area", ""))).get("name", ""))
+			var count := int(objective["count"])
+			var done := int(profile.quests[quest_id]["progress"])
+			_quest_progress.text = (
+				"Defeat %s  %d/%d" % [foe, done, count] + ("\n" + place if place else "")
+			)
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("quest_action") and _quest_action.text != "":
+		get_viewport().set_input_as_handled()
+		quest_pressed.emit()
 
 
 func _bar(color: Color, size: Vector2, text: bool) -> StatBar:

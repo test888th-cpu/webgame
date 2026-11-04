@@ -6,8 +6,9 @@ extends RefCounted
 ## Director with no area cleared by hand first.
 ##
 ## One step at a time, from where the hero stands:
-## * QUEST: a quest giver of this area has a quest to hand in, or one on
-##   offer: take it here (handing in first, so the next one is offered);
+## * QUEST: a quest to hand in, or one on offer: take it wherever the hero
+##   is, as the quest card lets a player (QuestFlow), handing in first so the
+##   next one is offered;
 ## * EAST: the goal lies east of the furthest area reached and this is that
 ##   area: clear its fights, then walk on through its east exit;
 ## * STAY: this is the goal area: fight on to its boss;
@@ -59,16 +60,14 @@ static func step(
 	return {"do": RIDE, "to": here} if cleared else {"do": STAY}
 
 
-## The first quest in state `state` ("complete" or "available") whose giver
-## stands in `area_id`, or "".
+## The first quest in state `state` ("complete" or "available"), or "".
+## Taken and handed in from anywhere (the quest card); `area_id` is kept for
+## the callers and no longer limits it.
 static func quest_here(
-	profile: PlayerProfile, content: ContentDB, area_id: String, state: String
+	profile: PlayerProfile, content: ContentDB, _area_id: String, state: String
 ) -> String:
 	for quest_id: String in content.quests:
-		var giver := str(content.quests[quest_id]["giver"])
-		if QuestRules.status(profile, quest_id, content) != state:
-			continue
-		if MapRules.giver_area(content, giver) == area_id:
+		if QuestRules.status(profile, quest_id, content) == state:
 			return quest_id
 	return ""
 

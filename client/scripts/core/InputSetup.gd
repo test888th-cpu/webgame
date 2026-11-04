@@ -33,6 +33,9 @@ const KEYS := {
 	"bag": [KEY_B],
 	"skills": [KEY_V],
 	"quests": [KEY_O],
+	# The quest card (HUD): accept the new quest, or claim a finished one's
+	# reward, from anywhere.
+	"quest_action": [KEY_F],
 	# Menu tabs. These share keys with interact and use_item, which do
 	# nothing while a menu is open.
 	"menu_prev": [KEY_Q],
@@ -53,6 +56,7 @@ const PAD_BUTTONS := {
 	"pause": JOY_BUTTON_START,
 	"auto_battle": JOY_BUTTON_BACK,
 	"map": JOY_BUTTON_RIGHT_STICK,
+	"quest_action": JOY_BUTTON_LEFT_STICK,
 	"menu_prev": JOY_BUTTON_LEFT_SHOULDER,
 	"menu_next": JOY_BUTTON_RIGHT_SHOULDER,
 }
