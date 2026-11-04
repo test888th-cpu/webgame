@@ -499,7 +499,8 @@ func test_the_board_reveals_no_more_than_the_story_has() -> void:
 		assert_true(game.menu.find_child("Boss_" + boss, true, false) != null, boss)
 		assert_true(str(game.content.enemy(str(data["enemy"]))["name"]) not in text, "unnamed")
 		assert_true(str(game.content.enemy(str(data["unlock"]))["name"]) not in text, "no hint")
-	assert_true("New quest from Chief Odo" in text, "the current job and where to report")
+	var goal := str(MapRules.goal(game.profile, game.content)["text"])
+	assert_true(goal in text, "the current job: " + goal)
 	var unlock := str(WorldBossRules.spec(game.content, "tunnel_mother")["unlock"])
 	game.profile.defeated[unlock] = 1
 	var period := int(WorldBossRules.spec(game.content, "tunnel_mother")["period_minutes"]) * 60

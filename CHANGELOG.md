@@ -4,7 +4,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
-### Fixed: auto looping in a story area; why a gate stays shut
+### Fixed: getting stuck in the story (auto looping, quests left behind, shut gates)
 - **Auto no longer loops in one area:**
   - With the map's quest far behind (a quest never taken or handed in while playing on
     by hand, `StoryAuto.HERE`), or with the story finished, auto used to fall back to
@@ -19,8 +19,24 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
     knocked down, a message names it at once: "Port Guards watch the yard gate. Knock
     down 6 to pass. (5/6)" (`GameFeedback._gate_progress`).
   - Before, it only appeared on bumping the edge, while the area's fights came back.
-- **Tests:** with the quest far behind, auto walks on from Freight Market to Container
-  Yard instead of looping. 547 in all.
+- **The story's quests run themselves** (owner's choice; `QuestRules.auto_flow`,
+  `QuestFlow`): a new player who never talks to a quest giver no longer misses the
+  story's rewards and falls behind.
+  - Each stage's quest is taken as soon as the one before it is handed in, the first
+    from the start.
+  - When its boss falls, its rewards are paid on the spot: coins, XP, gear, evidence,
+    a level up, a chapter's end and the epilogue. The next quest is taken at once.
+  - The giver's closing words open in their quest window when no other screen is
+    open. The street goes on behind it.
+  - A boss beaten before its quest came counts.
+  - A save that played on without its quests catches up on load, paid in order.
+  - The quest givers stay at their rest points to talk to.
+- **Tests:**
+  - With the quest far behind, auto walks on from Freight Market to Container Yard
+    instead of looping.
+  - The quests run themselves, and a save three bosses ahead is paid for each in
+    order.
+  - A finished quest is paid where it finishes. 549 in all.
 
 ### Changed: light and shadow on the street
 - **No gap at the bottom of the screen** (`Scenery._apron`):

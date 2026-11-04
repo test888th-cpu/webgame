@@ -36,6 +36,9 @@ func _talk_to_odo(game: Node2D) -> void:
 
 func test_the_offer_is_spoken_and_the_goal_spelled_out() -> void:
 	var game := _game()
+	# The story's quests run themselves (QuestFlow); the giver's menu still
+	# speaks a quest on offer, as it would before it is taken.
+	game.profile.quests.clear()
 	_talk_to_odo(game)
 	var quest: Dictionary = game.content.quests["foreman"]
 	var text := _texts(game.menu)

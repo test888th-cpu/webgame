@@ -64,6 +64,8 @@ func test_auto_plays_the_first_stage_from_a_new_game() -> void:
 	seed(11)
 	var game := _game()
 	var profile: PlayerProfile = game.profile
+	# A level's margin: this checks the quest flow, not the first boss's odds.
+	profile.level = 6
 	game.enter_area("depot_yard", "west")
 	game.auto.toggle()
 	assert_true(game.auto.on, "auto starts where the first quest is given")
@@ -164,4 +166,38 @@ func test_with_the_quest_far_behind_auto_walks_on_instead_of_looping() -> void:
 		game.step(game.auto.input(FighterInput.new(), false))
 	assert_eq(game.zone.area_id, "container_yard", "walked on east (%d ticks)" % ticks)
 	assert_true(game.auto.on, "and auto carries on there")
+	_done(game)
+
+
+func test_the_storys_quests_run_themselves_and_a_save_catches_up() -> void:
+	var c := _content()
+	var profile := PlayerProfile.new_game(c)
+	assert_eq(QuestRules.auto_flow(profile, c), [], "nothing done yet")
+	assert_eq(QuestRules.status(profile, "foreman", c), "active", "the first quest is taken")
+	# A save that played on by hand past three bosses without a quest.
+	for boss in ["sludge_foreman", "pit_champion", "furnace_baron"]:
+		profile.defeated[boss] = 1
+	var handed: Array[String] = []
+	for i in 10:
+		var done := QuestRules.auto_flow(profile, c)
+		if done.is_empty():
+			break
+		for quest_id in done:
+			QuestRules.turn_in(profile, quest_id, c)
+			handed.append(quest_id)
+	assert_eq(handed, ["foreman", "the_pit", "furnace_baron"], "each paid, in order")
+	assert_eq(QuestRules.status(profile, "harbourmaster", c), "active", "and the next taken")
+	assert_true(profile.count("torn_label") > 0, "its evidence in the bag")
+
+
+func test_a_finished_quest_is_paid_where_it_finishes() -> void:
+	var game := _game()
+	var money: int = game.profile.money
+	game.profile.defeated["sludge_foreman"] = 1
+	game.profile.quests["foreman"]["state"] = "complete"
+	QuestFlow.run(game)
+	assert_eq(QuestRules.status(game.profile, "foreman", game.content), "turned_in", "paid")
+	assert_true(game.profile.money > money, "its coins")
+	assert_eq(QuestRules.status(game.profile, "the_pit", game.content), "active", "next taken")
+	assert_eq(game.menu_name, "quests_npc", "the giver's closing words on screen")
 	_done(game)
