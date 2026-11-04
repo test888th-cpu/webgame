@@ -248,7 +248,8 @@ func test_auto_battle_hunts_every_grounds_field_at_its_level() -> void:
 		assert_true(not left, gid + ": auto never walks out of the ground")
 		assert_true(west_most > zone.bounds.position.x + 20.0, gid + ": stays clear of the exit")
 		# The camps hold a field's worth, and they refill as it hunts on.
-		var expected := FarmSpawner.capacity(FarmSpawner.spec(c, gid)) + 3
+		var field := FarmSpawner.spec(c, gid)
+		var expected := (field["camps"] as Array).size() * FarmSpawner.size_range(field).x + 3
 		assert_true(defeats >= expected, "%s: the field keeps coming (%d)" % [gid, defeats])
 		assert_eq(int(after["coins"]) - int(before["coins"]), coins_picked, gid + ": coins as won")
 		var capped := level >= int(c.progression["max_level"])

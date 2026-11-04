@@ -4,7 +4,8 @@ extends RefCounted
 ## camps across the field, as in the field games it follows, and the hero picks
 ## which to take on.
 ##
-## Each camp (`camps`: the x of each camp's centre) holds `camp_size` enemies,
+## Each camp (`camps`: the x of each camp's centre) holds `camp_size` enemies
+## (a [fewest, most] range rolled per camp, see size_range),
 ## there from the moment the hero arrives. They stand at their own spot
 ## (EnemyBrain.camp) and come only when the hero walks within `aggro` of one of
 ## them or strikes one; then the whole camp joins in together (social aggro),
@@ -70,9 +71,19 @@ static func active(content: ContentDB, area_id: String) -> bool:
 	return not spec(content, area_id).is_empty()
 
 
-## How many enemies the field holds when every camp is full.
+## The fewest and most a camp holds ("camp_size": [2, 4], or one number):
+## each camp rolls its size when it first stands and each time it stands
+## again after being cleared, so no two visits look the same.
+static func size_range(data: Dictionary) -> Vector2i:
+	var size: Variant = data.get("camp_size", 0)
+	if size is Array and (size as Array).size() == 2:
+		return Vector2i(int(size[0]), int(size[1]))
+	return Vector2i(int(size), int(size))
+
+
+## The most enemies the field holds, every camp at its largest.
 static func capacity(data: Dictionary) -> int:
-	return (data.get("camps", []) as Array).size() * int(data.get("camp_size", 0))
+	return (data.get("camps", []) as Array).size() * size_range(data).y
 
 
 ## One step of the field: fills the camps on arrival, wakes a whole camp
@@ -90,8 +101,9 @@ func tick(zone: ZoneSim, events: Array[ZoneEvent]) -> void:
 	var camps: Array = data["camps"]
 	if not _started:
 		_started = true
+		var sizes := size_range(data)
 		for camp in camps.size():
-			for member in int(data["camp_size"]):
+			for member in zone.rng.randi_range(sizes.x, sizes.y):
 				_spawn(zone, data, events, camp)
 		return
 	for camp: int in _fallen(zone):
@@ -107,11 +119,19 @@ func tick(zone: ZoneSim, events: Array[ZoneEvent]) -> void:
 	for back: Array in _returning:
 		if zone.tick_count >= int(back[1]) and not fighting.has(int(back[0])):
 			calling[int(back[0])] = true
-	# A calm camp's first one due brings back all it is waiting for, together.
-	for back: Array in _returning.duplicate():
-		if calling.has(int(back[0])):
-			_returning.erase(back)
-			_spawn(zone, data, events, int(back[0]))
+	# A calm camp's first one due brings back all it is waiting for, together;
+	# one cleared to the last stands again at a new size.
+	for camp: int in calling:
+		var count := 0
+		for back: Array in _returning.duplicate():
+			if int(back[0]) == camp:
+				_returning.erase(back)
+				count += 1
+		if not _members.values().has(camp):
+			var sizes := size_range(data)
+			count = zone.rng.randi_range(sizes.x, sizes.y)
+		for member in count:
+			_spawn(zone, data, events, camp)
 
 
 ## The camps of members that fell since the last tick (forgotten here).
@@ -260,8 +280,8 @@ static func problems(content: ContentDB) -> PackedStringArray:
 			for x: Variant in camps:
 				if float(x) < from_x or float(x) > width - 12.0:
 					out.append("%s.camps: %s is not between from_x and the east edge" % [where, x])
-		var size := int(data.get("camp_size", 0))
-		if size < 1 or size > MAX_CAMP_SIZE:
+		var sizes := size_range(data)
+		if sizes.x < 1 or sizes.y > MAX_CAMP_SIZE or sizes.x > sizes.y:
 			out.append("%s.camp_size: 1 to %d" % [where, MAX_CAMP_SIZE])
 		var aggro := float(data.get("aggro", 0.0))
 		if aggro < MIN_AGGRO or aggro > MAX_AGGRO:

@@ -149,10 +149,15 @@ func _pick_heal(zone: ZoneSim) -> String:
 ## Foes still standing.
 func _foes(zone: ZoneSim) -> Array[Fighter]:
 	var out: Array[Fighter] = []
+	var awake: Array[Fighter] = []
 	for enemy in zone.enemies():
 		if not enemy.is_ko() and zone.brains.has(enemy.id):
 			out.append(enemy)
-	return out
+			if (zone.brains[enemy.id] as EnemyBrain).engaged:
+				awake.append(enemy)
+	# In a field of camps (FarmSpawner), finish the fight in hand before
+	# pulling the next camp, as a player would; with none awake, go hunting.
+	return awake if not awake.is_empty() else out
 
 
 ## Out of a hazard's shadow, or out of the lane of something flying this way.

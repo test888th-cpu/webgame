@@ -70,17 +70,32 @@ func test_the_camps_stand_full_and_wait_for_the_hero() -> void:
 	var data := FarmSpawner.spec(c, GROUND)
 	var zone := ZoneSim.new(c, _hero(), GROUND, "west", 7)
 	zone.tick(FighterInput.new())
-	assert_eq(_standing(zone), FarmSpawner.capacity(data), "every camp full on arrival")
-	assert_true(FarmSpawner.capacity(data) >= 9, "a field worth the walk")
+	var sizes := FarmSpawner.size_range(data)
+	var camps := (data["camps"] as Array).size()
+	assert_eq(sizes, Vector2i(2, 4), "two to four a camp")
+	var standing := _standing(zone)
+	assert_true(standing >= camps * sizes.x, "every camp standing on arrival (%d)" % standing)
+	assert_true(standing <= FarmSpawner.capacity(data), "none past its size")
+	var seen := {}
+	for seed in 12:
+		var field := ZoneSim.new(c, _hero(), GROUND, "west", seed)
+		field.tick(FighterInput.new())
+		for camp in camps:
+			seen[_camp(field, camp).size()] = true
+	assert_eq(seen.size(), 3, "camps of two, three and four, by the roll")
 	var homes := {}
 	for enemy in zone.enemies():
 		homes[enemy.id] = enemy.position
 	for tick in 600:
 		zone.tick(FighterInput.new())
+	var strolled := false
 	for enemy in zone.enemies():
 		assert_true(not _brain(zone, enemy).engaged, "nobody comes while the hero is away")
 		var moved := enemy.position.distance_to(homes[enemy.id])
-		assert_true(moved < 12.0, "each stands at its spot (%s px)" % moved)
+		strolled = strolled or moved > 4.0
+		var most := EnemyBrain.WANDER * 1.5 + 8.0
+		assert_true(moved < most, "each keeps to its spot, ambling (%s px)" % moved)
+	assert_true(strolled, "they amble about, not stand still")
 
 
 func test_walking_into_a_camp_wakes_that_camp_only() -> void:
@@ -138,7 +153,7 @@ func test_a_cleared_camp_stands_again_a_few_seconds_later() -> void:
 	zone.tick(FighterInput.new())
 	var centre := float(data["camps"][0])
 	zone.hero.position.x = centre - 30.0
-	var size := int(data["camp_size"])
+	var sizes := FarmSpawner.size_range(data)
 	for enemy in _camp(zone, 0):
 		_fell(zone, enemy)
 	var respawn := int(data["respawn_ticks"])
@@ -149,7 +164,8 @@ func test_a_cleared_camp_stands_again_a_few_seconds_later() -> void:
 		if back < 0 and _camp(zone, 0).size() > 0:
 			back = tick
 	assert_true(back >= respawn - FarmSpawner.RESPAWN_JITTER - 1, "a breather first (%d)" % back)
-	assert_eq(_camp(zone, 0).size(), size, "then the whole camp stands again")
+	var again := _camp(zone, 0).size()
+	assert_true(again >= sizes.x and again <= sizes.y, "then it stands again, a new size")
 	for enemy in _camp(zone, 0):
 		assert_true(enemy.position.x > centre, "on the far side from the hero")
 
@@ -175,18 +191,26 @@ func test_the_west_end_is_a_safe_spot() -> void:
 	var west := float(FarmSpawner.spec(c, GROUND)["from_x"]) - FarmSpawner.SAFE_MARGIN
 	var zone := ZoneSim.new(c, _hero(), GROUND, "west", 9)
 	zone.tick(FighterInput.new())
-	var arrived := zone.hero.position
-	assert_true(arrived.x < west, "where the hero arrived is inside it")
-	zone.hero.position = _camp(zone, 0)[0].position
+	assert_true(zone.hero.position.x < west, "where the hero arrived is inside it")
+	# Woken where it stands, a camp chases the hero as far as the line: a camp
+	# moved to stand just east of it, so its chase reaches the line.
+	var camp := _camp(zone, 0)
+	for enemy in camp:
+		var brain := _brain(zone, enemy)
+		brain.home = Vector2(west + 60.0, brain.home.y)
+		enemy.position = brain.home
+	var hiding := Vector2(west - 80.0, zone.hero.position.y)
+	zone.hero.position = camp[0].position
 	zone.tick(FighterInput.new())
 	var furthest := INF
-	for tick in 1200:
-		zone.hero.position = arrived
+	for tick in 600:
+		zone.hero.position = hiding
+		zone.hero.hp = zone.hero.max_hp
 		zone.tick(FighterInput.new())
 		for enemy in zone.enemies():
 			if not enemy.is_ko():
 				furthest = minf(furthest, enemy.position.x)
-	assert_true(furthest < west + 40.0, "the woken camp chased the hero west")
+	assert_true(furthest < west + 30.0, "the woken camp chased the hero west (%s)" % furthest)
 	# The line holds them each tick; one tick's step at most may cross it.
 	assert_true(furthest >= west - 12.0, "none walked into the safe spot (%s)" % furthest)
 

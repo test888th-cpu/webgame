@@ -147,7 +147,7 @@ func test_each_ground_fights_only_its_districts_enemies() -> void:
 			if c.enemy(kind).get("elite", false):
 				elites[kind] = true
 		assert_eq(elites.keys(), [GROUNDS[gid][3]], gid + ": its one elite")
-		var camp := int(c.area(gid)["spawning"]["camp_size"])
+		var camp := FarmSpawner.size_range(c.area(gid)["spawning"]).y
 		assert_true(camp <= 4, gid + ": at most 4 come at once from one camp")
 
 
@@ -280,8 +280,11 @@ func test_each_ground_is_a_living_field_with_nothing_to_win_or_save() -> void:
 		var zone := ZoneSim.new(c, profile, gid, "west", 1)
 		for tick in 600:
 			zone.tick(FighterInput.new())
-		var full := FarmSpawner.capacity(FarmSpawner.spec(c, gid))
-		assert_eq(zone.enemies().size(), full, gid + ": every camp full")
+		var data := FarmSpawner.spec(c, gid)
+		var fewest := (data["camps"] as Array).size() * FarmSpawner.size_range(data).x
+		var standing := zone.enemies().size()
+		assert_true(standing >= fewest, gid + ": every camp standing")
+		assert_true(standing <= FarmSpawner.capacity(data), gid + ": none past its size")
 		assert_true(not zone.fight_locked(), gid + ": nothing walls the hero in")
 		assert_true(not profile.cleared.has(gid), gid + ": nothing saved about it")
 

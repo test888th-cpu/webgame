@@ -81,16 +81,15 @@ static func screen(game: Game, name: String) -> Control:
 	return parts["root"]
 
 
-## The pause menu: back to the game, every screen, and the session actions.
+## The game menu (Esc): back to the game, every screen, and the session
+## actions. The street does not stop behind it (Game.BLOCKING).
 static func pause_menu(game: Game) -> Control:
 	var tutorial := not TutorialRules.is_done(game.profile, game.content)
 	var tall := 232.0
-	var parts := UiKit.window(
-		"Paused", Vector2(PAUSE_WIDTH, tall + (18.0 if tutorial else 0.0)), ""
-	)
+	var parts := UiKit.window("Menu", Vector2(PAUSE_WIDTH, tall + (18.0 if tutorial else 0.0)), "")
 	var body: VBoxContainer = parts["body"]
 	body.add_theme_constant_override("separation", 2)
-	body.add_child(_menu_item("Resume", "Esc", game.close_menu))
+	body.add_child(_menu_item("Back to the game", "Esc", game.close_menu))
 	for name: String in SCREENS:
 		var spec: Array = SCREENS[name]
 		body.add_child(_menu_item(spec[0], spec[2], game.open_screen.bind(name)))

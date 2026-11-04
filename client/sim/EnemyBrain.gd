@@ -27,6 +27,14 @@ const GRAB_PATIENCE := 150
 ## A camp member that cannot reach the hero for this long (three seconds, the
 ## hero gone off or into the safe spot) gives up and walks home.
 const LOST_TICKS := 180
+## An idle camp member ambles about its spot: this far from it at most
+## (half that up and down the lane), at this share of its walking pace, with
+## a pause of WANDER_PAUSE ticks (one to three seconds) between strolls.
+const WANDER := 36.0
+const WANDER_PACE := 0.4
+const WANDER_PAUSE := Vector2i(60, 180)
+## Ticks a stroll may take before it is given up for the next.
+const STROLL_TICKS := 240
 
 var spacing := 56.0
 var reaction_ticks := 12
@@ -87,6 +95,11 @@ var guarding := 0
 ## The target attack (by its start tick) already reacted to.
 var _read_attack := -1
 var _last_hp := -1
+## Where an idle camp member strolls to next, and the ticks it waits first.
+var _stroll := Vector2.INF
+var _stroll_wait := 0
+## Ticks left to reach `_stroll` before giving it up (something in the way).
+var _stroll_left := 0
 ## Ticks a camp member has gone without the hero in reach.
 var _lost := 0
 ## Ticks left before a boss gives up on the weapon it is walking to.
@@ -136,7 +149,7 @@ func think(
 		guarding -= 1
 		input.guard = true
 		return input
-	var off_duty := home != Vector2.INF and not _on_duty(me, target, input)
+	var off_duty := home != Vector2.INF and not _on_duty(me, target, input, rng)
 	if off_duty or me.state != Fighter.State.IDLE or target == null or target.is_ko():
 		return input
 	var dx := target.position.x - me.position.x
@@ -324,24 +337,53 @@ func camp(at: Vector2, radius: float, max_chase: float) -> void:
 ## A camp member's watch: wakes when the hero comes near or a blow lands on
 ## it, gives up a chase too far from home with the hero out of reach.
 ## Returns true while it fights; otherwise sets `input` to stand or walk home.
-func _on_duty(me: Fighter, target: Fighter, input: FighterInput) -> bool:
+func _on_duty(
+	me: Fighter, target: Fighter, input: FighterInput, rng: RandomNumberGenerator
+) -> bool:
 	var struck := _last_hp >= 0 and me.hp < _last_hp
 	_last_hp = me.hp
 	var up := target != null and not target.is_ko()
 	var near := up and me.position.distance_to(target.position) <= aggro
 	_lost = 0 if near or struck else _lost + 1
 	var gone := me.position.distance_to(home) > leash or _lost > LOST_TICKS
-	if not engaged and (near or struck):
+	# Walking home from a chase it gave up, it heeds nobody until it is back
+	# (FarmSpawner heals it there and clears `returning`), as in the field
+	# games: no tugging it back and forth on its way through another fight.
+	if not engaged and not returning and (near or struck):
 		engaged = true
-		returning = false
 	elif engaged and (not up or gone):
 		engaged = false
 		returning = true
 	if engaged:
 		return true
-	if me.state == Fighter.State.IDLE and me.position.distance_to(home) > 6.0:
+	if me.state != Fighter.State.IDLE:
+		return false
+	if returning:
 		input.move = (home - me.position).normalized()
+	else:
+		_amble(me, input, rng)
 	return false
+
+
+## An idle camp member's stroll about its spot: pause, pick a spot within
+## WANDER of home, walk there slowly, pause again. Never strays further.
+func _amble(me: Fighter, input: FighterInput, rng: RandomNumberGenerator) -> void:
+	if _stroll_wait > 0:
+		_stroll_wait -= 1
+		return
+	_stroll_left -= 1
+	if me.position.distance_to(home) > WANDER * 1.25:
+		# Pushed off by a fellow in the crowd: back towards the spot first.
+		_stroll = home
+	var arrived := _stroll != Vector2.INF and me.position.distance_to(_stroll) < 4.0
+	if _stroll == Vector2.INF or arrived or _stroll_left <= 0:
+		var off := Vector2(rng.randf_range(-WANDER, WANDER), rng.randf_range(-WANDER, WANDER))
+		_stroll = home + Vector2(off.x, off.y * 0.5)
+		_stroll_wait = rng.randi_range(WANDER_PAUSE.x, WANDER_PAUSE.y)
+		_stroll_left = STROLL_TICKS
+		return
+	input.move = (_stroll - me.position).normalized() * WANDER_PACE
+	input.face = 1 if input.move.x >= 0.0 else -1
 
 
 func _press_attack(

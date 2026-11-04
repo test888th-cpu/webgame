@@ -51,7 +51,7 @@ func test_shopping_at_the_vendor() -> void:
 	assert_eq(game.profile.count("steamed_bun"), 1, "bun bought")
 	var ticks_before: int = game.zone.tick_count
 	game._physics_process(0.0)
-	assert_eq(game.zone.tick_count, ticks_before, "the world is paused while shopping")
+	assert_eq(game.zone.tick_count, ticks_before + 1, "the street goes on while shopping")
 	game.close_menu()
 	assert_eq(game.menu, null, "shop closed")
 	_done(game)

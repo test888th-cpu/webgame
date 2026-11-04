@@ -4,6 +4,38 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed: the street goes on behind every screen; camps that amble and vary
+- **No pause behind a screen** (`Game.BLOCKING`):
+  - With the bag, the map, skills, quests, a shop, a taxi or the game menu open, the
+    street goes on as in an online game: enemies, hazards and the world boss's clock
+    carry on.
+  - Auto battle keeps fighting, farming and following the story. The keys belong to
+    the screen, so without auto the hero waits where they stand.
+  - Only the screens that end a fight stop it: game over, a world boss's results and
+    the epilogue.
+  - The Esc menu is now titled "Menu", and "Resume" reads "Back to the game".
+- **Camps that live** (`EnemyBrain._amble`): an idle camp member ambles about its spot
+  (up to 36 px, at a slow pace, pausing 1 to 3 seconds between strolls), and never far
+  from it.
+- **Camps of 2 to 4** (`"camp_size": [2, 4]`, `FarmSpawner.size_range`):
+  - Each camp rolls its size when it first stands and again each time it stands back
+    up after being cleared.
+  - Each ground now has 3 camps, 340 px apart.
+- **One camp at a time:**
+  - The aggro radius is 100 px.
+  - A member walking home from a chase it gave up ignores everyone until it is back
+    and healed. Before, it was woken again on its way through the next fight, so 6 to
+    9 enemies could pile onto the hero.
+  - Auto finishes the fight in hand before it pulls the next camp.
+- **Measured** (harness, 3 seeds × Oren and Mika, 10 minutes per ground):
+  - Coins ×0.99 to ×1.13 and XP ×1.02 to ×1.11 of the old field's rate.
+  - No knock-outs.
+- **Tests:**
+  - The street goes on behind the bag, the map and the menu, and auto fights on behind
+    the bag. Game over and the other fight-ending screens stop it.
+  - Camps amble and roll sizes of 2, 3 and 4.
+  - A cleared camp stands again at a new size, and the safe spot holds.
+
 ### Changed: one merchant, two taxis, a world boss hour, armed bosses
 - **One merchant in the city: Ama's Market** (`shops.json` `city_market`, `ShopRules`):
   - Every stall's wares are sold in one list: food first, then gear by level
