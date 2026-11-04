@@ -4,6 +4,24 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Fixed: auto looping in a story area; why a gate stays shut
+- **Auto no longer loops in one area:**
+  - With the map's quest far behind (a quest never taken or handed in while playing on
+    by hand, `StoryAuto.HERE`), or with the story finished, auto used to fall back to
+    the farm loop. It cleared the area, rested in the city and rode back to the start
+    of the same area, forever.
+  - Reproduced in Freight Market: 32 Port Guards down and still there.
+  - Now it walks on east as soon as the area is won and its gate is open
+    (`AutoBattle._story`). With the "Story" auto setting off it still farms in place,
+    as chosen.
+- **A shut gate says why:**
+  - When every fight in an area is won but its east gate still needs more of its guard
+    knocked down, a message names it at once: "Port Guards watch the yard gate. Knock
+    down 6 to pass. (5/6)" (`GameFeedback._gate_progress`).
+  - Before, it only appeared on bumping the edge, while the area's fights came back.
+- **Tests:** with the quest far behind, auto walks on from Freight Market to Container
+  Yard instead of looping. 547 in all.
+
 ### Changed: light and shadow on the street
 - **No gap at the bottom of the screen** (`Scenery._apron`):
   - The road picture ended 6 game pixels short of the 360-pixel view, so a dark strip

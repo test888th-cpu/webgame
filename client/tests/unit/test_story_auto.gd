@@ -136,3 +136,32 @@ func test_a_quest_left_far_behind_does_not_drag_the_hero_back() -> void:
 	assert_eq(step["to"], "depot_yard", "and it says where the quest is")
 	var near := StoryAuto.step(profile, c, "saltmarket", false)
 	assert_eq(near["do"], StoryAuto.RIDE, "close by, auto still goes for it")
+
+
+func test_with_the_quest_far_behind_auto_walks_on_instead_of_looping() -> void:
+	# A save that played on by hand past its first quest: the quest is far
+	# back, so auto fights where it is, and once the area is won and its gate
+	# open it walks on east; it never rides back to the start of the same
+	# area for another round.
+	seed(3)
+	var game := _game()
+	var profile: PlayerProfile = game.profile
+	profile.level = 17
+	for area_id in StreetMemory.street(_content()):
+		StreetMemory.visit(profile, area_id)
+		if area_id == "freight_market":
+			break
+	profile.defeated["port_guard"] = 6
+	for i in _content().area("freight_market")["encounters"].size():
+		StreetMemory.mark_cleared(profile, "freight_market", i)
+	game.enter_area("freight_market", "west")
+	var step := StoryAuto.step(profile, _content(), "freight_market", true)
+	assert_eq(step["do"], StoryAuto.HERE, "the quest is far back")
+	game.auto.toggle()
+	var ticks := 0
+	while ticks < 3000 and game.zone.area_id == "freight_market":
+		ticks += 1
+		game.step(game.auto.input(FighterInput.new(), false))
+	assert_eq(game.zone.area_id, "container_yard", "walked on east (%d ticks)" % ticks)
+	assert_true(game.auto.on, "and auto carries on there")
+	_done(game)

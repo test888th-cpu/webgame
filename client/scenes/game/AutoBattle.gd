@@ -172,11 +172,14 @@ func _story() -> bool:
 	var plan := StoryAuto.step(_game.profile, _game.content, zone.area_id, cleared)
 	var step := str(plan["do"])
 	if step in [StoryAuto.HERE, StoryAuto.DONE]:
-		# HERE: fight on here and say where the quest is; DONE: the end.
+		# HERE: fight on here, say where the quest is, and walk on east where
+		# the street goes (never back to the start of the same area for
+		# another round); DONE: the end.
 		if step == StoryAuto.HERE:
 			_story_note(plan)
 		elif _story_run:
 			stop("The story is complete. Auto off.")
+		pilot.heading = 1
 		return step == StoryAuto.DONE and _story_run
 	_story_run = true
 	if step in [StoryAuto.EAST, StoryAuto.STAY]:

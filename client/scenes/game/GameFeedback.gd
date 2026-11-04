@@ -62,6 +62,8 @@ func on_event(event: ZoneEvent) -> void:
 			level_up(event.data["level"], event.data.get("skills", []))
 		"quest_complete":
 			Sfx.play("quest")
+		"encounter_clear":
+			_gate_progress()
 		"encounter_start":
 			if view.zone.fight_locked():
 				Sfx.play("arena_lock", -2.0)
@@ -134,6 +136,22 @@ func on_event(event: ZoneEvent) -> void:
 			var landing := BossFxRules.hazard(content, kind)
 			Fx.spawn(view.effects, content, landing if landing else "dust", event.data["at"])
 			view.shake(6.0)
+
+
+## Every fight here won but the way on still shut (StreetMemory.gate): say
+## what opens it and how far along it is, so the player knows why the street
+## fills up again instead of letting them through.
+func _gate_progress() -> void:
+	var zone := view.zone
+	if zone.in_encounter():
+		return
+	# Read only: StreetMemory.pending would refill the fights as it looks.
+	for i in zone.area.get("encounters", []).size():
+		if not StreetMemory.is_cleared(zone.profile, zone.area_id, i):
+			return
+	var gate := zone.exit_locked("east")
+	if not gate.is_empty():
+		hud.toast("%s  (%d/%d)" % [gate["hint"], int(gate["done"]), int(gate["count"])])
 
 
 ## A boss falls: the arena goes up in a blast and the screen shakes.
