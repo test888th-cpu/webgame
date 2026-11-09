@@ -19,6 +19,9 @@ var moveset := {}
 var power := 1.0
 var defense := 0
 var speed := 1.0
+## A boss's pace: its hazard and summon intervals are multiplied by this
+## (below 1 once enraged, BossEnrage).
+var rage := 1.0
 ## Chance (0..1) that a landed blow is a critical hit, and attack speed (1.0
 ## normal; higher cuts the recovery after each attack). Enemies keep 0 / 1.
 var crit_chance := 0.0

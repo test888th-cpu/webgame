@@ -12,6 +12,8 @@ extends RefCounted
 ##   side-step. A "cycle" of hazards is called in turn;
 ## * "summon": whistles in reinforcements every so often, one from each side
 ##   of the fight, while fewer than its "max" helpers stand.
+## * "enrage": a fight timer (BossEnrage) after which the boss hits harder and
+##   its hazards and summons come quicker, warned a few seconds before.
 ## A phase may quicken either ("hazard_every", "summon_every"), bring its own
 ## hazards ("hazard"; {} for none), and raise a "shield": for "up" ticks the
 ## boss is untouchable and stands back while the hazards run, then for "down"
@@ -29,6 +31,8 @@ var _hazard_turn := 0
 var _summon_timer := 0
 var _shield_timer := 0
 var _shield_up := false
+var _rage_id := 0
+var _rage_ticks := 0
 
 
 ## True while the boss's shield is up (see the class comment).
@@ -45,6 +49,7 @@ func tick(zone: ZoneSim, events: Array[ZoneEvent]) -> void:
 		_summon_timer = 0
 		_set_shield(zone, boss, false, events)
 		return
+	_tick_enrage(zone, boss, events)
 	var phase := _phase(zone, boss)
 	var running := true
 	var shield: Dictionary = phase.get("shield", {})
@@ -56,7 +61,7 @@ func tick(zone: ZoneSim, events: Array[ZoneEvent]) -> void:
 	var hazard: Dictionary = phase.get("hazard", data.get("hazard", {}))
 	if hazard and running:
 		_hazard_timer += 1
-		if _hazard_timer >= int(phase.get("hazard_every", hazard["every"])):
+		if _hazard_timer >= BossEnrage.paced(boss, int(phase.get("hazard_every", hazard["every"]))):
 			_hazard_timer = 0
 			var cycle: Array = hazard.get("cycle", [hazard])
 			_call_hazard(zone, boss, cycle[_hazard_turn % cycle.size()], events)
@@ -67,6 +72,24 @@ func tick(zone: ZoneSim, events: Array[ZoneEvent]) -> void:
 		if _summon_timer >= _every(zone, boss, summon, "summon_every"):
 			_summon_timer = 0
 			_summon(zone, boss, summon, events)
+
+
+## The fight timer of a boss with "enrage": a warning, then the enrage.
+func _tick_enrage(zone: ZoneSim, boss: Fighter, events: Array[ZoneEvent]) -> void:
+	var spec: Dictionary = zone.content.enemy(boss.kind).get("enrage", {})
+	if spec.is_empty():
+		return
+	if boss.id != _rage_id:
+		_rage_id = boss.id
+		_rage_ticks = 0
+	_rage_ticks += 1
+	var times := BossEnrage.fight_ticks(spec)
+	if _rage_ticks == int(times["warn"]) and times["warn"] < times["at"]:
+		var seconds := roundi(float(spec["warn_seconds"]))
+		events.append(ZoneEvent.make("boss_enrage_warn", {"id": boss.id, "seconds": seconds}))
+	if _rage_ticks == int(times["at"]):
+		BossEnrage.apply(boss, spec)
+		events.append(ZoneEvent.make("boss_enrage", {"id": boss.id}))
 
 
 ## The phase `boss` is in ({} before its first).
@@ -113,7 +136,7 @@ func _every(zone: ZoneSim, boss: Fighter, spec: Dictionary, phase_key: String) -
 	if done > 0:
 		var phases: Array = zone.content.enemy(boss.kind).get("phases", [])
 		every = int(phases[done - 1].get(phase_key, every))
-	return every
+	return BossEnrage.paced(boss, every)
 
 
 func _call_hazard(zone: ZoneSim, boss: Fighter, data: Dictionary, events: Array[ZoneEvent]) -> void:

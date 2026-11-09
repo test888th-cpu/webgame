@@ -921,16 +921,7 @@ func _settle_world_boss() -> void:
 ## toast once when a round opens.
 func _update_world_boss(delta: float) -> void:
 	if world_run:
-		_hud.show_world_boss(
-			(
-				"WORLD BOSS  %d:%02d  ·  %d%% left"
-				% [
-					world_run.seconds_left() / 60,
-					world_run.seconds_left() % 60,
-					roundi(world_run.remaining_share() * 100)
-				]
-			)
-		)
+		_hud.show_world_boss(world_run.hud_text())
 		return
 	_hud.show_world_boss("")
 	_clock_timer -= delta

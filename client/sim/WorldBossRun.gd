@@ -17,8 +17,13 @@ var total := 0
 var dealt := 0
 var ticks_left := 0
 
+## The round's enrage (world_boss.json "enrage", BossEnrage): "" before,
+## "warned", then "enraged" for the round's last seconds.
+var rage := ""
+
 var _boss_id := 0
 var _remaining := 0
+var _rage_spec := {}
 
 
 func _init(
@@ -38,6 +43,7 @@ func _init(
 	# Until the round ends: the boss stays up for its hour, then escapes.
 	var seconds := int(WorldBossRules.window(content, boss, now)["closes_at"]) - now
 	ticks_left = maxi(1, seconds) * CombatRules.TICK_RATE
+	_rage_spec = WorldBossRules.spec(content, boss).get("enrage", {})
 	# The arena takes the boss's level, so its brood fights at its side.
 	zone.level = level - LevelRules.BOSS_BONUS
 
@@ -62,8 +68,24 @@ func tick(zone: ZoneSim, events: Array[ZoneEvent]) -> void:
 			ended = "left"
 	if _boss_id != 0 and not ended:
 		ticks_left -= 1
+		_tick_rage(zone)
 		if ticks_left <= 0:
 			ended = "time"
+
+
+## The round's last seconds: warned, then enraged (applied once per attempt).
+func _tick_rage(zone: ZoneSim) -> void:
+	if _rage_spec.is_empty() or rage == "enraged":
+		return
+	var last := float(_rage_spec["last_seconds"]) * CombatRules.TICK_RATE
+	var warn := last + float(_rage_spec.get("warn_seconds", 0)) * CombatRules.TICK_RATE
+	if ticks_left <= last:
+		var giant := zone.fighter(_boss_id)
+		if giant:
+			BossEnrage.apply(giant, _rage_spec)
+		rage = "enraged"
+	elif ticks_left <= warn:
+		rage = "warned"
 
 
 ## Seconds left, for the HUD.
@@ -74,3 +96,16 @@ func seconds_left() -> int:
 ## Share of the pool still standing (before this attempt's damage is banked).
 func remaining_share() -> float:
 	return clampf(float(_remaining - dealt) / maxf(1.0, total), 0.0, 1.0)
+
+
+## The attempt's line on the HUD: the clock, the pool left and the enrage.
+func hud_text() -> String:
+	var text := (
+		"WORLD BOSS  %d:%02d  ·  %d%% left"
+		% [seconds_left() / 60, seconds_left() % 60, roundi(remaining_share() * 100)]
+	)
+	if rage == "warned":
+		return text + "  ·  enrage soon"
+	if rage == "enraged":
+		return text + "  ·  ENRAGED"
+	return text
