@@ -143,36 +143,42 @@ Material counts round half up, with a minimum of 1 per step.
 
 ## 10. Drop tables
 
+(Updated after the Phase 2 audit: three roles per ground, recalibrated XP and coins.)
+
 **Core Spillway** (`farm_core_spillway`, Lv 43, opens after `commander_arthit`). Field weights {'facility_trooper': 6, 'hazmat_sprayer': 2, 'core_sentinel': 1}; elite prize: spillway_epic_body 2%, spillway_epic_head 2%
-- Facility Trooper (`facility_trooper`): coins [20, 32]; rice_box 15%, facility_helmet 3%, refined_alloy 15%, scrap_metal 50%
-- Hazmat Sprayer (`hazmat_sprayer`): coins [12, 20]; steamed_bun 15%, insulated_gloves 3%, scrap_metal 40%
-- Core Sentinel (`core_sentinel`, elite): coins [28, 44]; rice_box 20%, core_guard_helm 3%, reactor_plate 3%, refined_alloy 30%, scrap_metal 90%
+- Facility Trooper (`facility_trooper`): 105 XP, coins [20, 32]; rice_box 15%, facility_helmet 3%, refined_alloy 15%, scrap_metal 50%
+- Hazmat Sprayer (`hazmat_sprayer`): 38 XP, coins [12, 20]; steamed_bun 15%, insulated_gloves 3%, scrap_metal 40%
+- Core Sentinel (`core_sentinel`, elite): 210 XP, coins [28, 44]; rice_box 20%, core_guard_helm 3%, reactor_plate 3%, refined_alloy 30%, scrap_metal 90%
 
-**Coolant Vaults** (`farm_coolant_vaults`, Lv 53, opens after `director_wiroj`). Field weights {'vault_trooper': 6, 'coolant_drone': 3, 'vault_warden': 1}; elite prize: coolant_epic_body 2%
-- Vault Trooper (`vault_trooper`): coins [31, 41]; rice_box 12%, herbal_tonic 5%, coolant_rare_weapon 2%, coolant_rare_body 2%, coolant_rare_head 2%, refined_alloy 22%, scrap_metal 80%
-- Coolant Drone (`coolant_drone`): coins [31, 41]; rice_box 12%, herbal_tonic 5%, coolant_rare_hands 2%, coolant_rare_feet 2%, coolant_rare_charm 2%, refined_alloy 22%, scrap_metal 80%
-- Vault Warden (`vault_warden`, elite): coins [73, 95]; herbal_tonic 25%, coolant_rare_weapon 4%, coolant_rare_body 4%, coolant_rare_head 4%, coolant_rare_hands 4%, coolant_rare_feet 4%, coolant_rare_charm 4%, coolant_epic_weapon 1%, coolant_epic_body 1%, refined_alloy 60%, scrap_metal 100%
+**Coolant Vaults** (`farm_coolant_vaults`, Lv 53, opens after `director_wiroj`). Field weights {'vault_trooper': 5, 'vault_runner': 3, 'coolant_drone': 2, 'vault_warden': 1}; elite prize: coolant_epic_body 2%
+- Vault Trooper (`vault_trooper`): 97 XP, coins [24, 32]; rice_box 12%, herbal_tonic 5%, coolant_rare_weapon 2%, coolant_rare_body 2%, refined_alloy 22%, scrap_metal 80%
+- Vault Runner (`vault_runner`): 40 XP, coins [24, 32]; rice_box 12%, herbal_tonic 5%, coolant_rare_head 2%, coolant_rare_hands 2%, refined_alloy 22%, scrap_metal 80%
+- Coolant Drone (`coolant_drone`): 55 XP, coins [24, 32]; rice_box 12%, herbal_tonic 5%, coolant_rare_feet 2%, coolant_rare_charm 2%, refined_alloy 22%, scrap_metal 80%
+- Vault Warden (`vault_warden`, elite): 193 XP, coins [57, 74]; herbal_tonic 25%, coolant_rare_weapon 4%, coolant_rare_body 4%, coolant_rare_head 4%, coolant_rare_hands 4%, coolant_rare_feet 4%, coolant_rare_charm 4%, coolant_epic_weapon 1%, coolant_epic_body 1%, refined_alloy 60%, scrap_metal 100%
 
-**Reactor Underworks** (`farm_reactor_underworks`, Lv 58, opens after `arthit_reinstated`). Field weights {'underworks_brute': 6, 'reactor_tech': 3, 'reactor_overseer': 1}; elite prize: underworks_epic_body 2%
-- Underworks Brute (`underworks_brute`): coins [34, 45]; rice_box 12%, herbal_tonic 5%, underworks_rare_weapon 2%, underworks_rare_body 2%, underworks_rare_head 2%, refined_alloy 25%, scrap_metal 80%
-- Reactor Tech (`reactor_tech`): coins [34, 45]; rice_box 12%, herbal_tonic 5%, underworks_rare_hands 2%, underworks_rare_feet 2%, underworks_rare_charm 2%, refined_alloy 25%, scrap_metal 80%
-- Reactor Overseer (`reactor_overseer`, elite): coins [80, 103]; herbal_tonic 25%, underworks_rare_weapon 4%, underworks_rare_body 4%, underworks_rare_head 4%, underworks_rare_hands 4%, underworks_rare_feet 4%, underworks_rare_charm 4%, underworks_epic_weapon 1%, underworks_epic_body 1%, refined_alloy 60%, scrap_metal 100%
+**Reactor Underworks** (`farm_reactor_underworks`, Lv 58, opens after `arthit_reinstated`). Field weights {'underworks_brute': 2, 'tank_crawler': 5, 'reactor_tech': 3, 'reactor_overseer': 1}; elite prize: underworks_epic_body 2%
+- Underworks Brute (`underworks_brute`): 153 XP, coins [16, 21]; rice_box 12%, herbal_tonic 5%, underworks_rare_weapon 2%, underworks_rare_body 2%, refined_alloy 25%, scrap_metal 80%
+- Tank Crawler (`tank_crawler`): 24 XP, coins [16, 21]; rice_box 12%, herbal_tonic 5%, underworks_rare_head 2%, underworks_rare_hands 2%, refined_alloy 25%, scrap_metal 80%
+- Reactor Tech (`reactor_tech`): 45 XP, coins [16, 21]; rice_box 12%, herbal_tonic 5%, underworks_rare_feet 2%, underworks_rare_charm 2%, refined_alloy 25%, scrap_metal 80%
+- Reactor Overseer (`reactor_overseer`, elite): 66 XP, coins [37, 48]; herbal_tonic 25%, underworks_rare_weapon 4%, underworks_rare_body 4%, underworks_rare_head 4%, underworks_rare_hands 4%, underworks_rare_feet 4%, underworks_rare_charm 4%, underworks_epic_weapon 1%, underworks_epic_body 1%, refined_alloy 60%, scrap_metal 100%
 
-**Foundry Depths** (`farm_foundry_depths`, Lv 63, opens after `twelve_relapsed`). Field weights {'foundry_hand': 6, 'slag_slinger': 3, 'foundry_boss': 1}; elite prize: foundry_epic_body 2%
-- Foundry Hand (`foundry_hand`): coins [29, 37]; rice_box 12%, herbal_tonic 5%, foundry_rare_weapon 2%, foundry_rare_body 2%, foundry_rare_head 2%, refined_alloy 28%, scrap_metal 80%
-- Slag Slinger (`slag_slinger`): coins [29, 37]; rice_box 12%, herbal_tonic 5%, foundry_rare_hands 2%, foundry_rare_feet 2%, foundry_rare_charm 2%, refined_alloy 28%, scrap_metal 80%
-- Foundry Boss (`foundry_boss`, elite): coins [67, 86]; herbal_tonic 25%, foundry_rare_weapon 4%, foundry_rare_body 4%, foundry_rare_head 4%, foundry_rare_hands 4%, foundry_rare_feet 4%, foundry_rare_charm 4%, foundry_epic_weapon 1%, foundry_epic_body 1%, refined_alloy 60%, scrap_metal 100%
+**Foundry Depths** (`farm_foundry_depths`, Lv 63, opens after `twelve_relapsed`). Field weights {'foundry_hand': 5, 'slag_slinger': 3, 'furnace_hauler': 2, 'foundry_boss': 1}; elite prize: foundry_epic_body 2%
+- Foundry Hand (`foundry_hand`): 107 XP, coins [28, 36]; rice_box 12%, herbal_tonic 5%, foundry_rare_weapon 2%, foundry_rare_body 2%, refined_alloy 28%, scrap_metal 80%
+- Slag Slinger (`slag_slinger`): 31 XP, coins [28, 36]; rice_box 12%, herbal_tonic 5%, foundry_rare_head 2%, foundry_rare_hands 2%, refined_alloy 28%, scrap_metal 80%
+- Furnace Hauler (`furnace_hauler`): 41 XP, coins [28, 36]; rice_box 12%, herbal_tonic 5%, foundry_rare_feet 2%, foundry_rare_charm 2%, refined_alloy 28%, scrap_metal 80%
+- Foundry Boss (`foundry_boss`, elite): 133 XP, coins [66, 84]; herbal_tonic 25%, foundry_rare_weapon 4%, foundry_rare_body 4%, foundry_rare_head 4%, foundry_rare_hands 4%, foundry_rare_feet 4%, foundry_rare_charm 4%, foundry_epic_weapon 1%, foundry_epic_body 1%, refined_alloy 60%, scrap_metal 100%
 
-**The Iron Heart** (`farm_iron_heart`, Lv 68, opens after `k7_overdriven`). Field weights {'heart_guard': 6, 'iron_sentry': 2, 'heart_keeper': 1}; elite prize: heart_epic_body 2%
-- Heart Guard (`heart_guard`): coins [56, 71]; rice_box 12%, herbal_tonic 5%, heart_rare_weapon 2%, heart_rare_body 2%, heart_rare_head 2%, refined_alloy 31%, scrap_metal 80%
-- Iron Sentry (`iron_sentry`): coins [56, 71]; rice_box 12%, herbal_tonic 5%, heart_rare_hands 2%, heart_rare_feet 2%, heart_rare_charm 2%, refined_alloy 31%, scrap_metal 80%
-- Heart Keeper (`heart_keeper`, elite): coins [129, 164]; herbal_tonic 25%, heart_rare_weapon 4%, heart_rare_body 4%, heart_rare_head 4%, heart_rare_hands 4%, heart_rare_feet 4%, heart_rare_charm 4%, heart_epic_weapon 1%, heart_epic_body 1%, refined_alloy 60%, scrap_metal 100%
+**The Iron Heart** (`farm_iron_heart`, Lv 68, opens after `k7_overdriven`). Field weights {'heart_guard': 5, 'rivet_thrower': 3, 'iron_sentry': 2, 'heart_keeper': 1}; elite prize: heart_epic_body 2%
+- Heart Guard (`heart_guard`): 92 XP, coins [35, 44]; rice_box 12%, herbal_tonic 5%, heart_rare_weapon 2%, heart_rare_body 2%, refined_alloy 31%, scrap_metal 80%
+- Rivet Thrower (`rivet_thrower`): 21 XP, coins [35, 44]; rice_box 12%, herbal_tonic 5%, heart_rare_head 2%, heart_rare_hands 2%, refined_alloy 31%, scrap_metal 80%
+- Iron Sentry (`iron_sentry`): 275 XP, coins [35, 44]; rice_box 12%, herbal_tonic 5%, heart_rare_feet 2%, heart_rare_charm 2%, refined_alloy 31%, scrap_metal 80%
+- Heart Keeper (`heart_keeper`, elite): 275 XP, coins [80, 102]; herbal_tonic 25%, heart_rare_weapon 4%, heart_rare_body 4%, heart_rare_head 4%, heart_rare_hands 4%, heart_rare_feet 4%, heart_rare_charm 4%, heart_epic_weapon 1%, heart_epic_body 1%, refined_alloy 60%, scrap_metal 100%
 
-- Lair **Coolant Control Room** (`coolant_control_room`, Lv 55): Commander Arthit, Reinstated, 1240 HP, coins [1960, 2260]; coolant_epic_weapon 15%, coolant_epic_body 15%, coolant_epic_head 15%, coolant_epic_hands 15%, coolant_epic_feet 15%, coolant_epic_charm 15%, refined_alloy 100%, herbal_tonic 50%; enrage after 75 s
-- Lair **Tank Hall** (`underworks_tank_hall`, Lv 60): Subject Twelve, Relapsed, 1280 HP, coins [2060, 2360]; underworks_epic_weapon 15%, underworks_epic_body 15%, underworks_epic_head 15%, underworks_epic_hands 15%, underworks_epic_feet 15%, underworks_epic_charm 15%, refined_alloy 100%, herbal_tonic 50%; enrage after 75 s
-- Lair **The Crucible** (`foundry_crucible`, Lv 65): Unit K-7, Overdriven, 1400 HP, coins [2160, 2460]; foundry_epic_weapon 15%, foundry_epic_body 15%, foundry_epic_head 15%, foundry_epic_hands 15%, foundry_epic_feet 15%, foundry_epic_charm 15%, refined_alloy 100%, herbal_tonic 50%; enrage after 75 s
-- Lair **Heart Core Chamber** (`heart_core_chamber`, Lv 70): The Wiroj Protocol, 1170 HP, coins [2260, 2560]; heart_epic_weapon 15%, heart_epic_body 15%, heart_epic_head 15%, heart_epic_hands 15%, heart_epic_feet 15%, heart_epic_charm 15%, refined_alloy 100%, herbal_tonic 50%; enrage after 75 s
-- Lair **Spillway Gatehouse** (`spillway_gatehouse`, Lv 45): Spillway Chief, 840 HP, coins [500, 700]; spillway_epic_body 20%, spillway_epic_head 20%, refined_alloy 100%, herbal_tonic 50%; enrage after 75 s
+- Lair **Coolant Control Room** (`coolant_control_room`, Lv 55): Commander Arthit, Reinstated, 1240 base HP, coins [1960, 2260]; coolant_epic_weapon 15%, coolant_epic_body 15%, coolant_epic_head 15%, coolant_epic_hands 15%, coolant_epic_feet 15%, coolant_epic_charm 15%, refined_alloy 100%, herbal_tonic 50%; enrage after 75 s
+- Lair **Tank Hall** (`underworks_tank_hall`, Lv 60): Subject Twelve, Relapsed, 1280 base HP, coins [2060, 2360]; underworks_epic_weapon 15%, underworks_epic_body 15%, underworks_epic_head 15%, underworks_epic_hands 15%, underworks_epic_feet 15%, underworks_epic_charm 15%, refined_alloy 100%, herbal_tonic 50%; enrage after 75 s
+- Lair **The Crucible** (`foundry_crucible`, Lv 65): Unit K-7, Overdriven, 1400 base HP, coins [2160, 2460]; foundry_epic_weapon 15%, foundry_epic_body 15%, foundry_epic_head 15%, foundry_epic_hands 15%, foundry_epic_feet 15%, foundry_epic_charm 15%, refined_alloy 100%, herbal_tonic 50%; enrage after 75 s
+- Lair **Heart Core Chamber** (`heart_core_chamber`, Lv 70): The Wiroj Protocol, 1170 base HP, coins [2260, 2560]; heart_epic_weapon 15%, heart_epic_body 15%, heart_epic_head 15%, heart_epic_hands 15%, heart_epic_feet 15%, heart_epic_charm 15%, refined_alloy 100%, herbal_tonic 50%; enrage after 75 s
+- Lair **Spillway Gatehouse** (`spillway_gatehouse`, Lv 45): Spillway Chief, 1050 base HP, coins [500, 700]; spillway_epic_body 20%, spillway_epic_head 20%, refined_alloy 100%, herbal_tonic 50%; enrage after 75 s
 - World boss **The Slag Titan** (Lv 60, 5 players, every 6 h, after `twelve_relapsed`): tiers 10%: 1500 coins, {'refined_alloy': 5}; 30%: 2500 coins, {'refined_alloy': 8, 'herbal_tonic': 3}; 60%: 3500 coins, {'refined_alloy': 10}; 100%: 5000 coins, {'refined_alloy': 14}, rolls {'titan_slagfist': 0.05, 'titan_grip': 0.05, 'titan_core': 0.05}; kill {'money': 7000, 'items': {'refined_alloy': 18}, 'rolls': {'titan_slagfist': 0.15, 'titan_grip': 0.15, 'titan_core': 0.15}}
 - World boss **The Iron Sovereign** (Lv 70, 10 players, every 24 h, after `wiroj_protocol`): tiers 10%: 1500 coins, {'refined_alloy': 5}; 30%: 2500 coins, {'refined_alloy': 8, 'herbal_tonic': 3}; 60%: 3500 coins, {'refined_alloy': 10}; 100%: 5000 coins, {'refined_alloy': 14}, rolls {'sovereign_fists': 0.03, 'sovereign_mantle': 0.03, 'sovereign_crown': 0.03, 'sovereign_grips': 0.03, 'sovereign_treads': 0.03, 'sovereign_seal': 0.03}; kill {'money': 7000, 'items': {'refined_alloy': 18}, 'rolls': {'sovereign_fists': 0.09, 'sovereign_mantle': 0.09, 'sovereign_crown': 0.09, 'sovereign_grips': 0.09, 'sovereign_treads': 0.09, 'sovereign_seal': 0.09}}
 

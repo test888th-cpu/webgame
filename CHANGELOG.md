@@ -4,6 +4,33 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed: Phase 2 audit of the level 50-70 farming endgame
+- **Rosters:** each 50-70 ground mixes three roles (common fighter, heavy, fast or ranged)
+  and one elite instead of two kinds; the Iron Heart no longer fields two heavies. Knock-outs
+  at the ground's level stay at or below 2 in 20 five-minute sessions (FarmCheck, 20 seeds).
+- **Tints:** `enemies.json` `tint` colours a monster's sprite in the shader, so 50-70
+  monsters, lair bosses and the new world bosses read as their own kinds; story enemies are
+  unchanged.
+- **Calibration:** per-tier XP and coin factors in the generator keep XP/h within 3% of the
+  rates that met the level-time targets and coins/h at 48k, 51k, 62k and 75k. The XP curve
+  is unchanged: 50-70 measures 89.4-89.6 h (target 90).
+- **Spillway Chief** health x2.5 (from x2.0): it was the only lair boss that a hero with no
+  gear always beat. The other lair bosses keep their values.
+- **Enrage 75 s kept**, now with evidence: it never fires for a hero at level with shop or
+  boss gear (slowest such kill 74 s), fires for 1-3 in 10 shop-geared heroes 5-10 levels
+  under on the longest fights, and for nearly every stalled fight (no gear, 83-135 s).
+- **Item sources:** the item card's "Where to get" now lists world boss prizes, farming-ground
+  elite prizes and where field and lair monsters fight (`ItemSources`, split out of
+  `ContentDB`, which drops to 932 lines).
+- **Harness:** FarmCheck reports damage, food, kills, gear drops and knock-out causes;
+  EnrageCompare takes enhancement levels and a no-gear kit; new WorldBossCheck.
+- **Tests:** test_item_sources.gd, test_endgame_monsters.gd; enhancement boundaries, preview
+  equals result, +10 save/load; auto battle never rides to a lair; tint reaches the shader.
+- **Known limit (owner decision):** in the single-player build a 10-player world boss cannot
+  be emptied by one hero within its hour (Iron Sovereign 97-149 min, the existing Subject
+  Zero 99-166 min), so its prizes, including the mythic set, cannot drop yet. See
+  `docs/PHASE2_AUDIT_REPORT.md`.
+
 ### Added: levels 50-70 content, boss lairs, mythic gear and boss enrage (Phase 2)
 - **Level cap 70** with a data-driven XP curve (`progression.json` `xp.levels`), see the entry below.
 - **Farming grounds:** Core Spillway (Lv 43, fills the 41-45 gap) and four grounds for 50-70:
