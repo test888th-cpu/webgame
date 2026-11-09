@@ -1,7 +1,7 @@
 extends TestCase
 ## The final chapter, The Iron Legacy: four areas past the Control Room and
 ## Director Wiroj in three distinct phases (story bible §4): his own blows;
-## then the chamber's defences, steam, shocking floor plates and lasers in
+## then the chamber's defences, steam, shocking floor plates and quakes in
 ## turn, while he hides behind a shield that drops when the system resets;
 ## then a desperate last stand. Beating him plays the epilogue.
 
@@ -64,7 +64,7 @@ func test_wiroj_has_three_distinct_phases() -> void:
 	var phases: Array = _content().enemy("director_wiroj")["phases"]
 	assert_eq(phases.size(), 2, "two changes: three phases")
 	assert_true(phases[0].has("shield"), "phase 2 hides behind the defences")
-	assert_eq(phases[0]["hazard"]["cycle"].size(), 3, "steam, shock and lasers")
+	assert_eq(phases[0]["hazard"]["cycle"].size(), 3, "steam, shock and the floor splitting")
 	assert_true((phases[1]["hazard"] as Dictionary).is_empty(), "phase 3: defences down")
 	assert_true(not phases[1].has("shield"), "and nothing to hide behind")
 
@@ -106,7 +106,7 @@ func test_the_defences_come_in_turn() -> void:
 		for event in zone.tick(FighterInput.new()):
 			if event.type == "hazard_warn":
 				kinds.append(str(event.data["kind"]))
-	assert_eq(kinds.slice(0, 3), ["steam", "shock", "laser"] as Array[String], "in turn")
+	assert_eq(kinds.slice(0, 3), ["steam", "shock", "quake"] as Array[String], "in turn")
 
 
 func test_his_last_stand_drops_the_defences() -> void:
