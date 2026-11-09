@@ -208,7 +208,11 @@ func test_wins_taxi_shows_farming_only_once_a_ground_is_open() -> void:
 	assert_eq(str(win["role"]), "travel", "Uncle Thong's truck in the city")
 	game.enter_area("main_city", "west")
 	game._show("travel", GameMenus.travel(game, win))
-	assert_true(game.menu.find_child("Heading_Farming", true, false) == null, "no Farming yet")
+	# Every ground is listed from the start, so what is coming is easy to find,
+	# but a closed one is greyed out with what opens it: no ride there yet.
+	var locked := game.menu.find_child("Locked_" + GROUND, true, false) as Button
+	assert_true(locked != null and locked.disabled, "listed, locked")
+	assert_true("Reach" in locked.text, "saying what opens it: " + locked.text)
 	assert_true(GROUND not in _rides(game.menu), "no ride to a closed ground")
 	game.close_menu()
 	StreetMemory.visit(game.profile, "rusted_corner")

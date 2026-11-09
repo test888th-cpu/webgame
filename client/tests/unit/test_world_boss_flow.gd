@@ -38,6 +38,24 @@ func _hero() -> PlayerProfile:
 	return profile
 
 
+## The game, a minute into round 1000 of the Tunnel Mother.
+func _game() -> Game:
+	SaveStore.root = TEST_SAVE
+	SaveStore.delete_all()
+	GameSession.start_new_game()
+	var game: Game = load("res://scenes/game/Game.tscn").instantiate()
+	tree.root.add_child(game)
+	game.set_physics_process(false)
+	game.now_override = _during(1000)
+	return game
+
+
+func _done(game: Game) -> void:
+	game.free()
+	SaveStore.delete_all()
+	SaveStore.root = SaveStore.DEFAULT_ROOT
+
+
 func _rng() -> RandomNumberGenerator:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 3
@@ -138,13 +156,7 @@ func test_the_round_runs_on_the_worlds_clock() -> void:
 
 
 func test_the_result_is_built_once_and_can_be_pressed() -> void:
-	SaveStore.root = TEST_SAVE
-	SaveStore.delete_all()
-	GameSession.start_new_game()
-	var game: Game = load("res://scenes/game/Game.tscn").instantiate()
-	tree.root.add_child(game)
-	game.set_physics_process(false)
-	game.now_override = _during(1000)
+	var game := _game()
 	game.profile.defeated[str(_spec()["unlock"])] = 1
 	game.profile.level = 30
 	game.profile.money = 100
@@ -168,9 +180,7 @@ func test_the_result_is_built_once_and_can_be_pressed() -> void:
 	leave.pressed.emit()
 	assert_eq(game.zone.area_id, AreaRules.hub(_content()), "pressing it takes the hero home")
 	assert_true(game.world_run == null, "the attempt is over")
-	game.free()
-	SaveStore.delete_all()
-	SaveStore.root = SaveStore.DEFAULT_ROOT
+	_done(game)
 
 
 func test_every_world_boss_fights_armed_with_a_tougher_weapon() -> void:
@@ -192,3 +202,36 @@ func test_every_world_boss_fights_armed_with_a_tougher_weapon() -> void:
 	var thug := zone.spawn_enemy("dock_thug", Vector2(500, 300))
 	zone.equip_weapon(thug, "pipe", 9)
 	assert_eq(thug.weapon_uses, 9, "anyone else's weapon lasts as before")
+
+
+func test_the_truck_lists_every_world_boss_in_order_of_level() -> void:
+	var game := _game()
+	game.profile.money = 100
+	game.profile.defeated[str(_spec()["unlock"])] = 1
+	game.enter_area(_content().city_area, "west")
+	var truck := {"name": "Uncle Thong", "role": "travel", "routes": "field", "fare": 10}
+	game._show("travel", GameMenus.travel(game, truck))
+	var levels: Array[int] = []
+	for boss: String in _content().world_bosses:
+		var ride := game.menu.find_child("Ride_" + boss, true, false) as Button
+		var locked := game.menu.find_child("Locked_" + boss, true, false) as Button
+		assert_true(ride != null or locked != null, boss + ": listed")
+		if locked:
+			assert_true(
+				locked.disabled and "locked: Defeat" in locked.text, boss + ": what opens it"
+			)
+	for row: Button in game.menu.find_children("*", "Button", true, false):
+		var id := row.name.trim_prefix("Ride_").trim_prefix("Locked_")
+		if _content().world_bosses.has(id):
+			levels.append(WorldBossRules.level(_content(), id))
+	var sorted := levels.duplicate()
+	sorted.sort()
+	assert_eq(levels, sorted, "in order of level")
+	game.close_menu()
+	var round := int(WorldBossRules.window(_content(), MOTHER, game._now())["round"])
+	var total := WorldBossRules.pool(_content(), MOTHER)
+	WorldBossRules.award(game.profile, _content(), MOTHER, round, total, total, 32, _rng(), true)
+	game._show("travel", GameMenus.travel(game, truck))
+	var mother := game.menu.find_child("Ride_" + MOTHER, true, false) as Button
+	assert_true(mother.disabled and "defeated, rises in" in mother.text, "down: " + mother.text)
+	_done(game)
