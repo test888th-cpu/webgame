@@ -1952,3 +1952,241 @@ Total: about 2,250 fights and 56 world-boss rounds.
    - **Heavy ×1.6:** multiplies the damage of telegraphed moves in the area's bosses' movesets, restored after each fight.
    - **World-boss rounds:** repeat `WorldBossRun` attempts and bank each with `WorldBossRules.award`.
 4. The benchmark (`_netbench.gd`) times `ZoneSim.tick` and `AutoPilot.think` with `Time.get_ticks_usec` over 3,600 ticks per run.
+
+
+---
+
+# PROGRESSION MODEL, LEVELS 1–70: PHASE 1
+
+**Measurement and proposals only.** No XP value, boss, enrage, gear or level cap in the game is changed.
+
+**Labels:**
+
+| Label | Meaning |
+|---|---|
+| [MEASURED] | Runs of the game's own rules |
+| [SYNTHETIC] | Past the real content (level 50+), using re-levelled grounds and generated gear |
+| [PROPOSED] | A design suggestion |
+| [ASSUMPTION] | An input chosen, not measured |
+
+## P1.0 Tool and setup
+
+**Simulator** [MEASURED]. Branch `claude/progression-sim`:
+
+| Commit | What it adds |
+|---|---|
+| `a634156` | `client/tests/harness/LevelingSim.gd` and `client/tests/unit/test_leveling_sim.gd` |
+| `ba02bac` | `client/tests/harness/LevelingRun.gd` and `LevelingSim.propose` |
+
+- **Base:** the branch stacks on `claude/restore-original-rules` (`b634166`), so it measures under the owner's original rules.
+- **Location:** pure test tooling under `client/tests/harness/`. It only calls the existing rules; `client/sim/` is untouched and the purity test is unaffected.
+- **Tests:** 8 unit tests: the curve matches `PlayerProfile.xp_to_next`; seeds replay exactly; XP is counted past the level cap; synthetic re-levels never leak into content.
+- **Checks:** the full suite passes (560 tests), as do gdformat, gdlint and `tools/ci/check-repo.sh`.
+
+**How it measures:**
+- **Farming XP per hour:**
+  - Auto battle on a farming ground with the game's rest trips and 10 foods restocked, the hero held at one level.
+  - XP is counted from the kill events, so it is correct past level 50, where `PlayerProfile.add_xp` pays nothing.
+  - 5 simulated minutes per run.
+- **Story clear time:** every story area once at its own level with shop gear (`ProgressionHarness.run_area`).
+- **Hours per level:** XP to next level ÷ the best measured rate for that level.
+
+**Runs** [MEASURED]: 872 jobs, 8 seeds each, Oren.
+- Story: 8 runs.
+- Every farming ground at hero levels from 6 below to 6 above it, for profiles B (shop +0) and C (boss weapon and charm, +5).
+- **SYNTHETIC:** Core Overflow re-levelled to 52–70 with generated gear, at the same level as the hero.
+
+**Reference player** [ASSUMPTION, the owner's decision]: 2 hours a day.
+
+**The simulation is not play:**
+- Auto battle plays without travel, menus, dialogue or hesitation.
+- Real hours will be longer by an unknown factor. A recorded play session would calibrate it [UNKNOWN].
+
+## P1.1 What the content has, and what it lacks
+
+[VERIFIED in `client/data`]
+
+| Item | Today |
+|---|---|
+| Level cap | 50 (`progression.json` `max_level`) |
+| XP curve | `100 + 100·(L−1) + 5·(L−1)²` per level; 312,620 XP from 1 to 50; 17,005 for 50 → 51 if extended |
+| XP per kill | Enemy XP × (1 + 0.15 per level step) × the level-gap scale (`LevelRules.THREATS`): deadly 1.4, tough 1.2, even 1.0, easy 0.6, trivial 0.1 (6+ levels below the hero) |
+| Quests | 12, worth 136,660 XP (44% of the XP to 50). One story pass reaches level 48 [MEASURED, `story_model`] |
+| Farming grounds | 7, at levels 4, 9, 15, 22, 29, 37 and 50. 3 camps of 2–4 enemies, respawn 240 ticks, elite chance 5%. Elite prizes: one or two district epics each |
+| Gear | 84 items, levels 1–50; grades common to legendary (`ItemRules`); one shop (`city_market`) selling common and uncommon |
+| Items per level band (common / uncommon / rare / epic / legendary) | 1–10: 5/9/5/6/1 · 11–20: 0/7/2/2/1 · 21–30: 0/8/3/4/4 · 31–40: 0/5/2/3/3 · 41–50: 0/5/1/1/7 |
+| Enhancement | +0 to +10, 10% of the item's stats a level, materials Scrap Metal and Refined Alloy (dropped by 34 and 26 enemy kinds) |
+
+**What scales past 50 already** [VERIFIED]: `LevelRules.enemy_stats`, `PlayerProfile.stats` and the `ItemRules` budget all accept any level.
+
+**What is missing for 50–70:**
+- areas, grounds and enemies placed at those levels;
+- items above level 50;
+- an enhancement table past +10;
+- story beats (STORY_BIBLE ends at the finale);
+- world bosses tuned for 60–70;
+- art for all of it.
+
+## P1.2 Time per band, measured, against the targets
+
+[MEASURED, profile B; profile C within 3%]
+
+| Band | Target (days) | Target hours at 2 h/day | Today's curve | Notes |
+|---|---|---|---|---|
+| 1–50 | 1–2 | 2–4 | **0.92 h** (story 0.73 h + farming the rest), about 0.5 day. Farming only, no story: 3.5 h | Faster than the target, in simulated time |
+| 50–60 | 10–15 | 20–30 | Not reachable: the cap is 50. With the formula extended and the real level-50 ground: no progress past about 53, because kills turn "trivial" at ×0.1. With SYNTHETIC grounds at the hero's level: **0.99 h** | Today's curve is far too short |
+| 60–65 | 10–15 | 20–30 | SYNTHETIC: **0.57 h** | |
+| 65–70 | 15–25 | 30–50 | SYNTHETIC: **0.67 h** | |
+| Total | 36–57 | 72–114 | 1–50 + 50–70 SYNTHETIC ≈ **3.2 h** | |
+
+**Rates measured** (XP per hour on each ground by hero level; profile B). Rates peak a few levels below a ground and collapse 6 levels above it (the trivial ×0.1).
+
+| Farming ground (level) | Hero level: XP per hour, profile B (shop +0) |
+|---|---|
+| farm_saltmarket_backlots | 1: 19k, 3: 20k, 5: 20k, 7: 15k, 9: 13k |
+| farm_rail_sidings | 3: 50k, 5: 42k, 7: 39k, 9: 41k, 11: 42k, 13: 26k, 15: 11k |
+| farm_harbour_stacks | 9: 57k, 11: 53k, 13: 46k, 15: 49k, 17: 52k, 19: 32k, 21: 10k |
+| farm_plant_outskirts | 16: 59k, 18: 58k, 20: 52k, 22: 57k, 24: 59k, 26: 38k, 28: 10k |
+| farm_network_backrooms | 23: 90k, 25: 76k, 27: 75k, 29: 84k, 31: 84k, 33: 55k, 35: 17k |
+| farm_facility_annex | 31: 152k, 33: 115k, 35: 124k, 37: 119k, 39: 120k, 41: 80k, 43: 26k |
+| farm_core_overflow | 44: 160k, 46: 177k, 48: 169k, 50: 204k |
+| SYNTHETIC: farm_core_overflow re-levelled to the hero, generated gear, profile B | 52: 190k, 54: 200k, 56: 197k, 58: 219k, 60: 202k, 62: 215k, 64: 232k, 66: 210k, 68: 208k, 70: 239k |
+| SYNTHETIC: farm_core_overflow re-levelled to the hero, generated gear, profile C | 52: 187k, 54: 187k, 56: 210k, 58: 206k, 60: 207k, 62: 200k, 64: 213k, 66: 221k, 68: 216k, 70: 228k |
+
+**Facts behind the curve** [MEASURED]:
+- **The real level-50 ground pays 204k XP/h at level 50.** Synthetic grounds at the hero's own level pay 190–240k XP/h from 52 to 70: kill XP grows 15% a level, and the hero kills about as fast because gear scales with the level.
+- **No ground was measured for heroes at levels 41–43.** Facility Annex (37) turns trivial there, and the level-50 ground was only sampled from 44. That is a real gap to measure.
+- **Farming knock-outs:** 1–3 sessions in 8 on the level-37 and level-50 grounds and most synthetic levels, even with food. These are bad pulls from camps, not boss fights. A knocked-out session counts only the time played.
+
+## P1.3 The level-50 cliff
+
+- **If 50–60 takes the target 25 hours** (12.5 days), level 50 → 51 alone takes about 1.9 h [PROPOSED curve, P1.4].
+- **Today a level before 50 takes:**
+  - about 1.1 minutes on the story path (0.92 h over 49 levels);
+  - 5.1–5.4 minutes when farming at levels 45–49 [MEASURED].
+- **The jump is therefore about 101× on the story path and 21–23× when farming.** The story path is how the reference player levels, so the cliff is **above the 25–75× band**. As instructed, the target is not changed here. The options:
+
+| Option | 1–50 time | Level 50 ÷ level 49 time | What changes |
+|---|---|---|---|
+| A. Keep 1–50 as today | 0.92 h (0.5 day) | about 101× | Nothing before 50; a hard wall at 50 |
+| B. Make 1–50 take 2–3 days evenly (4–6 h) | 4–6 h | 16–23× (vs 4.9–7.3 min a level) | Every level 1–49 slower by the same factor; the wall is smaller but stays |
+| C1. Slow down from level 38, so level 49 takes 0.5 h | about 3.3 h (1.6 days) | **3.8×** | Levels 1–37 unchanged; 38–49 ramp up geometrically. **Fits the 1–2 day target** |
+| C2. As C1, level 49 takes 0.75 h | about 4.1 h (2.1 days) | **2.5×** | Slightly over 2 days |
+
+**C1 as hours per level** [PROPOSED]:
+- 38: 0.07 h, growing about ×1.20 a level, to 49: 0.50 h; 2.7 h in total for 38–49.
+- The XP that gives depends on the farming rate at each level. Using the best measured rate (with levels 41–43 filled from the nearest measured ground, a gap to measure):
+  - 38: about 10,640 · 40: 15,220 · 42: 21,770 · 44: 32,700 · 46: 51,650 · 48: 73,860 · 49: 88,330.
+  - Today these levels cost 10,645–16,420.
+- With option C the last story levels need farming, which makes the farming grounds the bridge into level 50 rather than a wall after it.
+
+**Recommendation:** C1. It stays within the owner's 1–2 day target and removes the cliff. The decision is the owner's.
+
+## P1.4 Proposed XP curve, levels 50–70
+
+[PROPOSED]
+- **Hours:** spread over each band rising 6% a level: 50–60 = 25 h, 60–65 = 25 h, 65–70 = 40 h (target mid-points × 2 h/day).
+- **XP** = hours × the SYNTHETIC farming rate for profile B at that level.
+- **Status:** the XP numbers are tied to a synthetic rate and must be re-derived when real level 51–70 content exists. The hours are the real proposal.
+
+| Level | Current formula XP | Proposed XP (SYNTHETIC rate basis, profile B) | Proposed hours | Cumulative days at 2 h/day |
+|---|---|---|---|---|
+| 50 | 17,005 | 360,366 | 1.90 | 0.9 |
+| 51 | 17,600 | 381,988 | 2.01 | 2.0 |
+| 52 | 18,205 | 404,907 | 2.13 | 3.0 |
+| 53 | 18,820 | 440,142 | 2.26 | 4.1 |
+| 54 | 19,445 | 478,147 | 2.39 | 5.3 |
+| 55 | 20,080 | 502,861 | 2.54 | 6.6 |
+| 56 | 20,725 | 528,820 | 2.69 | 8.0 |
+| 57 | 21,380 | 592,834 | 2.85 | 9.4 |
+| 58 | 22,045 | 662,626 | 3.02 | 10.9 |
+| 59 | 22,720 | 674,237 | 3.20 | 12.5 |
+| 60 | 23,405 | 894,184 | 4.43 | 14.7 |
+| 61 | 24,100 | 979,526 | 4.70 | 17.1 |
+| 62 | 24,805 | 1,071,890 | 4.98 | 19.6 |
+| 63 | 25,520 | 1,182,053 | 5.28 | 22.2 |
+| 64 | 26,245 | 1,301,577 | 5.60 | 25.0 |
+| 65 | 26,980 | 1,568,483 | 7.10 | 28.5 |
+| 66 | 27,725 | 1,576,658 | 7.52 | 32.3 |
+| 67 | 28,480 | 1,662,875 | 7.97 | 36.3 |
+| 68 | 29,245 | 1,753,763 | 8.45 | 40.5 |
+| 69 | 30,020 | 2,002,146 | 8.96 | 45.0 |
+
+**Totals at 2 h/day:**
+
+| Band | Days | Share of 50–70 |
+|---|---|---|
+| 50–60 | 12.5 | 28% |
+| 60–65 | 12.5 | 28% |
+| 65–70 | 20 | 44% |
+
+- **Whole game:** 1–50 adds 0.5 day (option A) or about 1.6–2.1 days (option C), so about **45.5–47 days in total, inside 36–57**.
+- **Step at 60 and at 65:** 60 costs about 1.4× level 59 (3.2 → 4.4 h); 65 costs about 1.3× level 64 (5.6 → 7.1 h). Steps, not cliffs.
+- **Alternative to very large XP numbers** (360k at 50 rising to 2.0M at 69, against 17k–30k on today's formula): lower kill XP growth past 50 (`LevelRules.XP_PER_LEVEL` applies from level 1 today) and keep the XP per level smaller. Same hours, different numbers; a presentation choice.
+
+## P1.5 Something new at every level, 50–70
+
+[PROPOSED; every item is new content needing approval, art and data]
+
+| Level | Unlock |
+|---|---|
+| 50 | New farming ground tier I (51–55); new grade shown: "Iron" (above legendary, or a new set family, owner's choice); enhancement +11 unlocked; world-boss goal: the Iron Colossus at its real level 52 |
+| 51 | Tier I shop pieces (uncommon, levels 51–55) |
+| 52 | Tier I rare drops from tier I elites; first story-boss rematch at level 52 (with enrage) |
+| 53 | Enhancement material III (a new refined material) starts dropping |
+| 54 | Tier I epic boss drops (rematch bosses) |
+| 55 | Farming ground tier II (56–60); world-boss goal: Subject Zero (level 55) |
+| 56 | Enhancement +12 |
+| 57 | Tier II shop and rare pieces |
+| 58 | Second rematch boss tier |
+| 59 | Tier II epic drops |
+| 60 | Hard band begins: farming ground tier III (61–65); enhancement +13; new world boss (60–65 band) |
+| 61 | Tier III shop and rare pieces |
+| 62 | Elite camps with a "champion" variant (rare prize) |
+| 63 | Tier III epic drops; enhancement +14 |
+| 64 | Legendary crafting step (combine epics and material III) |
+| 65 | Very-hard band: farming ground tier IV (66–70); enhancement +15; final world boss (65–70) |
+| 66 | Tier IV shop and rare pieces |
+| 67 | Tier IV epic drops |
+| 68 | Legendary set bonus (two-piece) unlocked |
+| 69 | Endgame boss rematch at full enrage |
+| 70 | Cap: four-piece set bonus; mastery track (cosmetic, no power) |
+
+## P1.6 Gear tiers and enhancement still needed
+
+**Confirmed structure** [VERIFIED]:
+- 6 slots; 5 grades with budgets `(10 + 2·L) × slot weight × grade` (`ItemRules`).
+- Enhancement +0 to +10 at 10% a level, no item loss, 5% pity (`EnhanceRules`, `progression.json enhance`).
+- Two materials.
+
+The budget formula already prices items at any level, so new tiers need data, not code.
+
+**Draft list** [PROPOSED; counts are minimums]:
+
+| Band | Items (6 slots each) | Sources |
+|---|---|---|
+| 51–60 | 6 uncommon (shop), 6 rare (tier I–II elites), 6 epic (rematch bosses), 2–3 legendary (Colossus, Subject Zero) | 2 farming grounds, 2 rematch bosses |
+| 61–65 | 6 uncommon, 6 rare, 6 epic, 3 legendary | 1 ground, 1 new world boss |
+| 66–70 | 6 uncommon, 6 rare, 6 epic, 6 legendary (a set) | 1 ground, final world boss |
+| Enhancement | +11 to +15: costs and rates (proposal: 15% → 10% → 8% → 6% → 5% with pity); material III | Tier I–IV grounds |
+
+Total: about 75–80 new items, 4 grounds, 2–4 bosses, 2 world bosses and one material.
+
+**Data the design still lacks:**
+- the story or premise for levels 50–70 (STORY_BIBLE ends at the finale);
+- the new grade's name and look;
+- the enrage times per band. The owner's hypotheses (kill-time ÷ enrage-time ratios) are **untested in this phase**. Round 3's kill times are the input, and Phase 2 must simulate them;
+- art budgets;
+- real-time calibration from a recorded human session.
+
+## P1.7 Assumptions
+
+| Assumption | Kind |
+|---|---|
+| 2 h/day reference player | Owner input |
+| Auto battle's pace stands for the player's | Not calibrated |
+| Hero levels on the best ground available within 2 measured levels (`LevelingSim.best_rate`) | Model choice |
+| 5-minute farming samples; 8 seeds; one hero (Oren) | Model choice |
+| Story then farm as the route to 50 | Model choice |
+| Synthetic grounds = Core Overflow re-levelled, gear = level-50 items scaled by the budget | SYNTHETIC |
+| Enrage ratios per band | The owner's hypotheses, not tested here |
