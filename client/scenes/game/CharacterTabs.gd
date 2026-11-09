@@ -63,13 +63,6 @@ static func status(game: Game) -> Control:
 	var gear := profile.gear_stats(content)
 	for key: String in ItemText.STAT_NAMES:
 		attributes.add_child(_attribute_row(key, float(total[key]), float(gear[key])))
-	var score := UiKit.label(
-		"Gear score %d (bosses check it)" % GearCheck.score(profile, content),
-		UiTheme.SIZE_SMALL,
-		UiTheme.GOLD
-	)
-	score.name = "GearScore"
-	attributes.add_child(score)
 	attributes.add_child(
 		UiKit.label(
 			"Attributes come from your hero, level and equipment.",

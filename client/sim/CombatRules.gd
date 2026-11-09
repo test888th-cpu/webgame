@@ -226,11 +226,9 @@ static func starter(f: Fighter, library: MoveLibrary, input: String) -> String:
 
 
 ## Damage a move deals before guard: scaled by the attacker's power, reduced
-## by the defender's defense, never below 1. A boss's gear check (GearCheck)
-## scales its own blows and the share of the hero's it takes.
+## by the defender's defense, never below 1.
 static func damage_for(move: MoveData, attacker: Fighter, defender: Fighter) -> int:
-	var dealt := roundi(move.damage * attacker.power * attacker.hit_scale) - defender.defense
-	return maxi(1, roundi(dealt * defender.hurt_scale))
+	return maxi(1, roundi(move.damage * attacker.power) - defender.defense)
 
 
 ## Starts a skill if the fighter knows it, it is off cooldown and there is
@@ -315,7 +313,7 @@ static func thrown_hit(
 	var away := signf(defender.position.x - from_x)
 	var from_front := -away != -defender.facing
 	event.blocked = defender.state == Fighter.State.GUARD and from_front
-	var full := maxi(1, roundi((damage - defender.defense) * defender.hurt_scale))
+	var full := maxi(1, damage - defender.defense)
 	if event.blocked:
 		event.damage = maxi(1, roundi(full * GUARD_DAMAGE_FACTOR))
 		defender.energy = maxf(0.0, defender.energy - full * GUARD_ENERGY_PER_DAMAGE)

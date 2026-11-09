@@ -66,9 +66,6 @@ var _quest_action: Label
 var _boss: VBoxContainer
 var _boss_name: Label
 var _boss_bar: StatBar
-## Under the boss bar: the boss's gear check when the hero falls short of it.
-var _boss_gear: Label
-var _boss_gear_for := 0
 var _toast: PanelContainer
 var _toast_text: Label
 var _fps: Label
@@ -122,7 +119,6 @@ func attach(p_zone: ZoneSim, p_profile: PlayerProfile, p_content: ContentDB) -> 
 	zone = p_zone
 	profile = p_profile
 	content = p_content
-	_boss_gear_for = 0
 	_mini.attach(zone, profile, content)
 	_name.text = profile.name
 	var hero_data := content.hero(profile.hero)
@@ -242,23 +238,6 @@ func _process(delta: float) -> void:
 		var threat := LevelRules.threat(level, profile.level)
 		_boss_name.add_theme_color_override("font_color", UiTheme.THREAT[threat])
 		_boss_bar.set_values(boss.hp, boss.max_hp)
-		if _boss_gear_for != boss.id:
-			_boss_gear_for = boss.id
-			_boss_gear.text = gear_check_text(zone, boss)
-			_boss_gear.visible = _boss_gear.text != ""
-
-
-## "UNDER-GEARED  gear 320/540  -40% dmg  +80% hurt", or "" when the
-## hero's gear is ready for `boss` (GearCheck).
-static func gear_check_text(zone: ZoneSim, boss: Fighter) -> String:
-	if boss.hurt_scale >= 1.0:
-		return ""
-	var need := GearCheck.required(zone.content, boss.kind, zone.enemy_level(boss.id))
-	var have := GearCheck.score(zone.profile, zone.content)
-	return (
-		"UNDER-GEARED  gear %d/%d  -%d%% dmg  +%d%% hurt"
-		% [have, need, roundi((1.0 - boss.hurt_scale) * 100), roundi((boss.hit_scale - 1.0) * 100)]
-	)
 
 
 func _build_hero_card(root: Control) -> void:
@@ -384,11 +363,6 @@ func _build_boss_bar(root: Control) -> void:
 	title.add_child(_boss_name)
 	_boss_bar = _bar(UiTheme.DANGER, Vector2(260, 8), false)
 	_boss.add_child(_boss_bar)
-	_boss_gear = UiKit.overlay_label("", UiTheme.SIZE_CAPTION, UiTheme.DANGER)
-	_boss_gear.name = "GearCheck"
-	_boss_gear.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_boss_gear.visible = false
-	_boss.add_child(_boss_gear)
 
 
 func _build_toast(root: Control) -> void:

@@ -10,6 +10,10 @@ extends RefCounted
 ## A round that ends with the boss standing is lost: the boss escapes, its
 ## next round starts at full health, and nobody is paid.
 ##
+## A hero has "attempts" tries per round: a fall or a ride home spends one, so
+## a boss built for five cannot be worn down alone by falling and coming back
+## all hour, and gear decides how much each try deals.
+##
 ## Rewards are paid only when the boss falls within the round, as for a
 ## field boss in an MMO, to everyone who fought it:
 ## * personal tiers: shares of one player's part of the pool (the pool over
@@ -61,9 +65,26 @@ static func problem(profile: PlayerProfile, content: ContentDB, boss: String, no
 	if not unlocked(profile, content, boss):
 		var unlock := str(content.enemy(str(data["unlock"])).get("name", ""))
 		return "Not yet. Defeat %s first." % unlock
-	if not window(content, boss, now)["open"]:
+	var round := window(content, boss, now)
+	if not round["open"]:
 		return "Not out now. Back in %s." % wait_text(content, boss, now)
+	if attempts_left(profile, content, boss, int(round["round"])) == 0:
+		return "No tries left this round. Next one in %s." % wait_text(content, boss, now)
 	return ""
+
+
+## Tries `boss` has left for the hero in round `round` ("attempts" a round).
+static func attempts_left(
+	profile: PlayerProfile, content: ContentDB, boss: String, round: int
+) -> int:
+	var used := int(progress(profile, boss, round).get("attempts", 0))
+	return maxi(0, int(spec(content, boss).get("attempts", 1)) - used)
+
+
+## Spends one of the round's tries: an attempt has begun.
+static func begin_attempt(profile: PlayerProfile, boss: String, round: int) -> void:
+	var state := progress(profile, boss, round)
+	state["attempts"] = int(state.get("attempts", 0)) + 1
 
 
 ## "1h 12m" or "42m": until the next opening, or until closing while open.
@@ -95,7 +116,7 @@ static func part(content: ContentDB, boss: String, total: int) -> int:
 static func progress(profile: PlayerProfile, boss: String, round: int) -> Dictionary:
 	var state: Dictionary = profile.world_boss.get(boss, {})
 	if int(state.get("round", -1)) != round:
-		state = {"round": round, "dealt": 0, "tiers": 0, "killed": false}
+		state = {"round": round, "dealt": 0, "tiers": 0, "killed": false, "attempts": 0}
 		profile.world_boss[boss] = state
 	return state
 

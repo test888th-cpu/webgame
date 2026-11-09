@@ -77,10 +77,6 @@ var armor := 0
 ## does (CombatRules BREAK_*). break_meter is the damage piled on them
 ## lately, break_rest the ticks before it can fill again.
 var unshaken := false
-## Gear check (GearCheck): how hard a boss hits a hero short of its gear
-## score, and the share of each hit it takes from them. 1 for everyone else.
-var hit_scale := 1.0
-var hurt_scale := 1.0
 var break_meter := 0.0
 var break_rest := 0
 ## Skills cannot be interrupted once started (Pong the Soldier).

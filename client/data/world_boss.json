@@ -6,6 +6,7 @@
       "unlock": "unit_k7",
       "period_minutes": 180,
       "open_minutes": 60,
+      "attempts": 3,
       "level": 32,
       "pool": 14,
       "tiers": [
@@ -81,6 +82,7 @@
       "pool": 14,
       "period_minutes": 360,
       "open_minutes": 60,
+      "attempts": 3,
       "offset_minutes": 120,
       "tiers": [
         {
@@ -137,6 +139,7 @@
       "pool": 14,
       "period_minutes": 1440,
       "open_minutes": 60,
+      "attempts": 3,
       "offset_minutes": 780,
       "tiers": [
         {
