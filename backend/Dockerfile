@@ -6,12 +6,14 @@ COPY package.json package-lock.json ./
 RUN npm ci --omit=dev --no-audit --no-fund
 
 FROM node:24.22.1-bookworm-slim
-# npm, npx and corepack are build tools the service never runs. Removing them
-# also removes their bundled dependencies from the runtime attack surface
-# (Trivy flagged npm's bundled brace-expansion and undici).
+# npm, npx and corepack are build tools the service never runs, and neither is
+# apt (the image is rebuilt, never patched in place). Removing them also
+# removes their bundled dependencies from the runtime attack surface (Trivy
+# flagged npm's bundled brace-expansion and undici, and apt's CVE-2026-109518).
 RUN rm -rf /usr/local/lib/node_modules/npm /usr/local/lib/node_modules/corepack \
       /usr/local/bin/npm /usr/local/bin/npx /usr/local/bin/corepack \
-      /usr/local/bin/yarn /usr/local/bin/yarnpkg /opt/yarn-*
+      /usr/local/bin/yarn /usr/local/bin/yarnpkg /opt/yarn-* \
+    && dpkg --purge --force-remove-essential apt libapt-pkg6.0
 
 ENV NODE_ENV=production
 WORKDIR /app
