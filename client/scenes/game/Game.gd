@@ -253,7 +253,7 @@ func step(input: FighterInput) -> Array[ZoneEvent]:
 		_handle(event)
 		_feedback.on_event(event)
 	if world_run:
-		world_run.tick(zone, events)
+		world_run.tick(zone, events, _now())
 		WorldBossRules.note_attempt(
 			profile,
 			world_run.boss,
@@ -266,7 +266,7 @@ func step(input: FighterInput) -> Array[ZoneEvent]:
 		for action: String in TutorialRules.signals_for(events, zone.hero, input, content.moves):
 			tutorial_signal(action)
 	view.sync()
-	if world_run and world_run.ended:
+	if world_run and world_run.ended and not world_run.banked:
 		_finish_world_boss()
 	if _pending_exit:
 		var exit := _pending_exit
@@ -828,6 +828,7 @@ func _start_world_boss(boss: String) -> void:
 ## what it won.
 func _finish_world_boss() -> void:
 	var run := world_run
+	run.banked = true  # once: the street (and step) goes on behind the result
 	var paid := WorldBossRules.award(
 		profile,
 		content,

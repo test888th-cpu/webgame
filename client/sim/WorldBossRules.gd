@@ -61,9 +61,30 @@ static func problem(profile: PlayerProfile, content: ContentDB, boss: String, no
 	if not unlocked(profile, content, boss):
 		var unlock := str(content.enemy(str(data["unlock"])).get("name", ""))
 		return "Not yet. Defeat %s first." % unlock
-	if not window(content, boss, now)["open"]:
+	var round := window(content, boss, now)
+	if not round["open"]:
 		return "Not out now. Back in %s." % wait_text(content, boss, now)
+	if fallen(profile, boss, int(round["round"])):
+		# Down for the rest of its hour, as a fallen world boss is for everyone:
+		# no fight with an empty health bar. Not a limit on tries: it rises again
+		# next round, for any number of attempts.
+		return "Already defeated this round. It rises again in %s." % rise_text(content, boss, now)
 	return ""
+
+
+## True when `boss` has fallen in round `round` (its pool emptied).
+static func fallen(profile: PlayerProfile, boss: String, round: int) -> bool:
+	var state: Dictionary = profile.world_boss.get(boss, {})
+	return int(state.get("round", -1)) == round and bool(state.get("killed", false))
+
+
+## "1h 12m" or "42m" until `boss` next rises (the round after this one).
+static func rise_text(content: ContentDB, boss: String, now: int) -> String:
+	var round := window(content, boss, now)
+	var period := int(spec(content, boss)["period_minutes"]) * 60
+	var opens: int = round["opens_at"] + (period if round["open"] else 0)
+	var minutes := maxi(1, ceili((opens - now) / 60.0))
+	return "%dh %dm" % [minutes / 60, minutes % 60] if minutes >= 60 else "%dm" % minutes
 
 
 ## "1h 12m" or "42m": until the next opening, or until closing while open.
@@ -122,6 +143,9 @@ static func award(
 	state["dealt"] = mini(total, int(state["dealt"]) + maxi(0, dealt))
 	var paid := {"tiers": [], "kill": false, "money": 0, "items": {}}
 	state.erase("attempt")
+	# The whole pool dealt is a kill, however the attempt ended (a closed tab
+	# banked by settle() included): the boss never stands with an empty bar.
+	slain = slain or (total > 0 and int(state["dealt"]) >= total)
 	if not slain or state.get("killed", false):
 		return paid
 	var scale := 1.0 + LevelRules.MONEY_PER_LEVEL * (level - 1)
