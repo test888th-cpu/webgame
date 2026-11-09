@@ -44,6 +44,8 @@ const AUTO_SPIN := 180.0
 var zone: ZoneSim
 var profile: PlayerProfile
 var content: ContentDB
+## What was just picked up, small at the left (PickupFeed).
+var pickups := PickupFeed.new()
 
 var _toast_left := 0.0
 var _portrait: HeroPortrait
@@ -108,6 +110,7 @@ func _ready() -> void:
 	_build_go(root)
 	_build_hints(root)
 	_build_auto(root)
+	root.add_child(pickups)
 	_touch = TouchControls.build()
 	_touch.visible = false
 	root.add_child(_touch)

@@ -65,6 +65,7 @@ func on_event(event: ZoneEvent) -> void:
 				Sfx.play("coin", -8.0, 0.08)
 			else:
 				Sfx.play("pickup", -6.0)
+				hud.pickups.add(content, str(event.data["item"]), int(event.data.get("amount", 1)))
 		"level_up":
 			level_up(event.data["level"], event.data.get("skills", []))
 		"quest_complete":
