@@ -3843,7 +3843,7 @@
     },
     "spillway_chief": {
       "name": "Spillway Chief",
-      "max_hp": 840,
+      "max_hp": 1050,
       "speed": 0.85,
       "defense": 3,
       "power": 1.0,

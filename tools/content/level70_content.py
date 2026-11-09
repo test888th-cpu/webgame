@@ -132,6 +132,9 @@ GAP_GROUND = {
     # between Unit K-7 (23) / the Ringmaster (27) and the Director (48).
     "boss": ("spillway_chief", "Spillway Chief", "security_chief"),
     "lair": "spillway_gatehouse", "lair_name": "Spillway Gatehouse",
+    # The Spillway Chief comes from a level 21 mid-boss: at x2.0 it fell in 31 s with shop
+    # gear and even a hero with no gear won every fight (EnrageCompare, 10 seeds).
+    "boss_hp": 2.5,
     "gear_level": 42,
     "gear": [("spillway_epic_body", "Spillway Chief's Coat", "body"),
              ("spillway_epic_head", "Spillway Chief's Visor", "head")],
@@ -353,7 +356,7 @@ def gap_area(areas, enemies, items):
     boss = clone_enemy(enemies, boss_id, boss_name, boss_base, {"money": [500, 700], "drops": drops})
     boss["tint"] = "#cfdcff"
     boss["enrage"] = dict(REMATCH_ENRAGE)
-    boss["max_hp"] = int(round(int(enemies[boss_base]["max_hp"]) * LAIR_BOSS_HP))
+    boss["max_hp"] = int(round(int(enemies[boss_base]["max_hp"]) * g.get("boss_hp", LAIR_BOSS_HP)))
     areas[g["id"]] = base
     lair_area(areas, g["lair"], g["lair_name"], base, boss_id, "facility_trooper", g["unlock"],
               "The spillway's gatehouse, where the Spillway Chief keeps the sluice keys: a boss fight "
