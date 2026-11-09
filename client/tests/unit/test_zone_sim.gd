@@ -193,7 +193,10 @@ func test_exits_only_when_not_fighting() -> void:
 	assert_eq(exit.data["to"], "saltmarket", "leads to Saltmarket")
 	var west := _zone("depot_yard")
 	west.hero.position.x = west.bounds.position.x
-	assert_true("exit" not in _types(_run(west, 1, _walk(Vector2.LEFT))), "no west exit there")
+	# The owner's rule (November 2026): Depot Yard walks back into the city.
+	var back := _run(west, 1, _walk(Vector2.LEFT))
+	assert_true("exit" in _types(back), "a west exit there")
+	assert_eq(back[_types(back).find("exit")].data["to"], "main_city", "into the city")
 	var fight := _zone("saltmarket")
 	_stroll(fight, 200)
 	fight.hero.position.x = fight.arena.position.x

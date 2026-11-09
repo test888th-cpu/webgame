@@ -273,6 +273,8 @@ func test_a_ground_is_left_west_to_the_city_or_by_recall_or_the_pause_menu() -> 
 
 func test_the_map_lists_open_grounds_under_farming() -> void:
 	var game := _game()
+	# The whole map is shown in the city (MapTab.SHOWN).
+	game._go_to_city()
 	game.open_screen("map")
 	assert_true(game.menu.find_child("Area_" + GROUND, true, false) == null, "closed: no row")
 	game.close_menu()

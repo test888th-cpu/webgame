@@ -5327,7 +5327,7 @@
         ],
         "aggro": 100,
         "respawn_ticks": 240,
-        "reward_scale": 0.69,
+        "reward_scale": 0.66,
         "elite_chance": 0.05,
         "elite_drops": [
           {
@@ -5343,8 +5343,8 @@
           "vault_warden": 1
         },
         "toughness": {
-          "hp": 1.15,
-          "power": 1.05
+          "hp": 1.1,
+          "power": 1.0
         },
         "drops": [
           {

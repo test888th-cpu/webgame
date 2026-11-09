@@ -550,7 +550,7 @@ FARM_TUNING = {
     "farm_facility_annex": (1.0, 1.0, 0.63),
     "farm_core_spillway": (1.0, 1.0, 0.63),
     "farm_core_overflow": (1.0, 1.0, 0.57),
-    "farm_coolant_vaults": (1.15, 1.05, 0.69),
+    "farm_coolant_vaults": (1.1, 1.0, 0.66),
     "farm_reactor_underworks": (1.55, 1.15, 0.93),
     "farm_foundry_depths": (1.0, 1.0, 0.6),
     "farm_iron_heart": (1.0, 1.0, 0.6),

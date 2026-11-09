@@ -17,7 +17,7 @@ func test_every_material_can_be_found() -> void:
 			assert_true(not _content().sources(item_id).is_empty(), "%s has a source" % item_id)
 
 
-func test_sources_list_drops_by_chance_then_shops() -> void:
+func test_sources_list_drops_by_chance_and_no_shop() -> void:
 	var sources := _content().sources("scrap_metal")
 	assert_eq(sources[0]["kind"], "drop", "drops first")
 	assert_true(str(sources[0]["text"]).contains("100%"), "most likely first")
@@ -25,10 +25,8 @@ func test_sources_list_drops_by_chance_then_shops() -> void:
 	assert_true(
 		texts.any(func(t: String) -> bool: return t.contains("Smogling (15%)")), "a street drop"
 	)
-	assert_true(
-		texts.any(func(t: String) -> bool: return t.contains("Ama's Market, 30 coins")),
-		"and a shop"
-	)
+	# The owner's rule (November 2026): upgrade materials are never sold.
+	assert_true(sources.all(func(s: Dictionary) -> bool: return s["kind"] != "shop"), "and no shop")
 
 
 func test_quest_rewards_are_sources() -> void:
