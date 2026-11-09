@@ -183,6 +183,12 @@ func test_a_slam_stays_where_it_landed_and_a_charge_trail_follows() -> void:
 	var cracks := game.view.ground.find_children("*", "AnimatedSprite2D", false, false)
 	assert_eq(cracks.size(), 1, "the slam's crack is on the street")
 	assert_eq((cracks[0] as Node2D).position, landed_at, "where the hero stood when it landed")
+	# The owner's report: an effect as wide as the blow reaches, not twice it.
+	var slam := game.content.moves.get_move(str(game.content.skills["furnace_slam"]["move"]))
+	var art: Array = game.content.fx["effects"]["slam"]["size"]
+	var drawn := float(art[0]) * (cracks[0] as Node2D).scale.x
+	var reach := GameFeedback.hit_width(slam)
+	assert_near(drawn, reach, "the crack spans the slam's reach (%d px)" % drawn, 1.0)
 	for sprite: AnimatedSprite2D in hero_view.find_children("*", "AnimatedSprite2D", false, false):
 		assert_true(sprite.animation != "slam", "the crack does not ride along with the hero")
 	_done(game)
@@ -204,3 +210,20 @@ func test_every_hazard_draws_lands_and_sounds() -> void:
 		assert_true(drop._landed, kind + ": landed")
 	assert_true(game.content.audio["sounds"].has("hazard_warn"), "a warning of its own")
 	_done(game)
+
+
+func test_every_skill_effect_is_drawn_the_width_it_hits() -> void:
+	var c := GameSession.content
+	for skill_id: String in c.skills:
+		var skill: Dictionary = c.skills[skill_id]
+		var move := c.moves.get_move(str(skill["move"]))
+		var art: Array = c.fx["effects"][str(skill["fx"])]["size"]
+		var size := GameFeedback.fit(c, str(skill["fx"]), GameFeedback.hit_width(move))
+		var drawn := float(art[0]) * size
+		var reach := GameFeedback.hit_width(move)
+		var bounded := size in [GameFeedback.MIN_FIT, GameFeedback.MAX_FIT]
+		assert_true(
+			bounded or absf(drawn - reach) < 1.0,
+			"%s: %d px drawn for %d px of reach" % [skill_id, drawn, reach]
+		)
+		assert_true(drawn <= reach * 1.5 or bounded, skill_id + ": never balloons past its reach")
