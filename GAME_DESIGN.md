@@ -240,6 +240,14 @@ value is a first pass, tuned there and re-run):
   enemy still reads as its own kind.
 - The story ends at level 50: levels 50-70 are a farming endgame (grounds, lairs, world
   bosses, gear and upgrades), with no story quests by design.
+- **Raid world bosses** (one per band past the story, each stronger and built for more
+  players): The Floodgate Marshal (Lv 56, 15 players), The Crucible King (Lv 64, 20) and
+  The Founder's Engine (Lv 70, 30), with their own arenas, moves and the new "quake" and
+  "rain" skills. Every world boss fights armed (boss weapons last 2.5 times longer), pays
+  **Godforged** prizes (the top grade, world bosses only) and escapes at the end of its hour.
+  A boss defeated this round is down until its next round. See `docs/WORLD_BOSS_DESIGN.md`.
+- The field truck lists every ground, lair and world boss in order of level, the closed ones
+  greyed out with what opens them.
 - **World bosses**: The Slag Titan (Lv 60, 5 players, every 6 hours, after Twelve,
   Relapsed; legendary Slagfist, Grip and Ember Core) and The Iron Sovereign (Lv 70, 10
   players, daily, after the Wiroj Protocol; the mythic Sovereign set). Like every world
