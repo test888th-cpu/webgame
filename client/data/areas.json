@@ -4495,8 +4495,8 @@
       },
       "exits": {
         "west": {
-          "to": "main_city",
-          "entry": "west"
+          "to": "farm_saltmarket_backlots",
+          "entry": "east"
         }
       },
       "npcs": [],
@@ -4600,8 +4600,8 @@
       },
       "exits": {
         "west": {
-          "to": "main_city",
-          "entry": "west"
+          "to": "farm_rail_sidings",
+          "entry": "east"
         }
       },
       "npcs": [],
@@ -4704,8 +4704,8 @@
       },
       "exits": {
         "west": {
-          "to": "main_city",
-          "entry": "west"
+          "to": "farm_harbour_stacks",
+          "entry": "east"
         }
       },
       "npcs": [],
@@ -4806,8 +4806,8 @@
       },
       "exits": {
         "west": {
-          "to": "main_city",
-          "entry": "west"
+          "to": "farm_plant_outskirts",
+          "entry": "east"
         }
       },
       "npcs": [],
@@ -4909,8 +4909,8 @@
       },
       "exits": {
         "west": {
-          "to": "main_city",
-          "entry": "west"
+          "to": "farm_network_backrooms",
+          "entry": "east"
         }
       },
       "npcs": [],
@@ -5007,8 +5007,8 @@
       },
       "exits": {
         "west": {
-          "to": "main_city",
-          "entry": "west"
+          "to": "farm_core_spillway",
+          "entry": "east"
         }
       },
       "npcs": [],
@@ -5099,8 +5099,8 @@
       },
       "exits": {
         "west": {
-          "to": "main_city",
-          "entry": "west"
+          "to": "farm_core_overflow",
+          "entry": "east"
         }
       },
       "npcs": [],
@@ -5192,8 +5192,8 @@
       },
       "exits": {
         "west": {
-          "to": "main_city",
-          "entry": "west"
+          "to": "farm_coolant_vaults",
+          "entry": "east"
         }
       },
       "npcs": [],
@@ -5285,8 +5285,8 @@
       },
       "exits": {
         "west": {
-          "to": "main_city",
-          "entry": "west"
+          "to": "farm_reactor_underworks",
+          "entry": "east"
         }
       },
       "npcs": [],
@@ -5378,8 +5378,8 @@
       },
       "exits": {
         "west": {
-          "to": "main_city",
-          "entry": "west"
+          "to": "farm_foundry_depths",
+          "entry": "east"
         }
       },
       "npcs": [],
@@ -5471,8 +5471,8 @@
       },
       "exits": {
         "west": {
-          "to": "main_city",
-          "entry": "west"
+          "to": "farm_facility_annex",
+          "entry": "east"
         }
       },
       "npcs": [],

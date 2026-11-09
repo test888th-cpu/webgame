@@ -208,7 +208,11 @@ func test_the_city_is_its_own_area_off_the_street() -> void:
 		)
 		for side: String in _content().area(area_id).get("exits", {}):
 			var to := str(_content().area(area_id)["exits"][side]["to"])
-			if hub_only:
+			var farm_chain := (
+				AreaRules.kind(_content(), area_id) == AreaRules.FARM
+				and AreaRules.kind(_content(), to) == AreaRules.FARM
+			)
+			if hub_only and not farm_chain:
 				assert_eq(to, CITY, "%s: walked out of, it leads back to the city" % area_id)
 			elif area_id == "depot_yard" and side == "west":
 				assert_eq(to, CITY, "the street walks back west into the city through its gate")

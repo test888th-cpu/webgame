@@ -539,6 +539,18 @@ def lair_area(areas, lair_id, name, ground, boss_id, guard, unlock, purpose):
     areas[lair_id] = lair
 
 
+def chain_farm_exits(areas):
+    """Farming grounds are walked like a street: west out of a ground leads into the next lower
+    ground (arriving at its east end), and only the lowest leads back west to the city. Grounds
+    open in order of level (each opens later in the story than the one below), so the way west
+    is always open."""
+    farms = sorted((k for k, v in areas.items() if v.get("kind") == "farm"),
+                   key=lambda k: (int(areas[k].get("level", 1)), k))
+    for i, area_id in enumerate(farms):
+        west = {"to": "main_city", "entry": "west"} if i == 0 else {"to": farms[i - 1], "entry": "east"}
+        areas[area_id]["exits"] = {"west": west}
+
+
 def boss_moves(moves, wb):
     """A boss's own moves: each copies an existing move (its timing, its telegraph, so it reads
     fair) and multiplies the listed numbers (damage, reach, advance)."""
@@ -653,6 +665,7 @@ def main():
         tier_enemies(enemies, tier, gear[tier["key"]])
         ground_area(areas, tier)
     gap_area(areas, enemies, items)
+    chain_farm_exits(areas)
     moves_doc = load("moves.json")
     for wb in WORLD_BOSSES:
         world_boss(enemies, areas, specs, items, wb, moves_doc["moves"])

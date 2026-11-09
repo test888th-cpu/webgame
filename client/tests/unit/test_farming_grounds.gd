@@ -164,9 +164,10 @@ func test_the_twelve_grounds_exist_with_their_approved_unlocks() -> void:
 		assert_eq(area["unlock"], GROUNDS[gid][1], gid + ": the approved unlock rule")
 		assert_true(str(area.get("purpose", "")) != "", gid + ": a purpose")
 		assert_true(gid not in StreetMemory.street(c), gid + ": off the street")
-		assert_eq(
-			area["exits"], {"west": {"to": c.city_area, "entry": "west"}}, gid + ": out to the city"
-		)
+		var west: Dictionary = area["exits"]["west"]
+		assert_eq(area["exits"].keys(), ["west"], gid + ": one way out, west")
+		if str(west["to"]) != c.city_area:
+			assert_eq(AreaRules.kind(c, str(west["to"])), AreaRules.FARM, gid + ": to a ground")
 	assert_eq(StreetMemory.street(c).size(), 31, "the story street is unchanged")
 
 
@@ -253,9 +254,12 @@ func test_wins_taxi_rides_to_each_open_ground_for_the_usual_fare() -> void:
 
 
 func test_each_ground_is_left_west_or_by_the_pause_menu_to_the_city() -> void:
+	# The owner's rule: west out of a ground walks into the ground one level band
+	# below, and only the lowest ground opens onto the city.
 	var game := _game()
 	_everything(game.profile)
 	for gid: String in GROUNDS:
+		var to := str(game.content.area(gid)["exits"]["west"]["to"])
 		game.enter_area(gid, "west")
 		game.zone.hero.position = Vector2(game.zone.bounds.position.x + 2.0, ROAD_Y)
 		var input := FighterInput.new()
@@ -264,18 +268,18 @@ func test_each_ground_is_left_west_or_by_the_pause_menu_to_the_city() -> void:
 			game.step(input)
 			if game.zone.area_id != gid:
 				break
-		assert_eq(game.zone.area_id, "main_city", gid + ": walked out west into the city")
-		assert_true(game.zone.hero.position.x < 200.0, gid + ": at the taxi rank")
+		assert_eq(game.zone.area_id, to, gid + ": walked out west into " + to)
+		if to == "main_city":
+			assert_true(game.zone.hero.position.x < 200.0, gid + ": at the taxi rank")
+		else:
+			var end := game.zone.bounds.end.x
+			assert_true(game.zone.hero.position.x > end - 200.0, gid + ": at the east end")
 		game.enter_area(gid, "west")
 		game.open_pause()
 		var back: Button = game.menu.find_child("Recall", true, false)
 		assert_true(back != null and not back.disabled, gid + ": the return is on offer")
 		back.pressed.emit()
 		assert_eq(game.zone.area_id, game.content.city_area, gid + ": back in the city")
-	assert_true(
-		not game.content.area("depot_yard").get("exits", {}).has("west"),
-		"Depot Yard still has no way west"
-	)
 	_done(game)
 
 
@@ -343,3 +347,51 @@ func test_a_save_made_in_a_ground_loads_there() -> void:
 		assert_eq(loaded.area, gid, gid + ": loads in the ground")
 		assert_true(AreaRules.unlocked(loaded, c, gid), gid + ": still open")
 		assert_eq(loaded.visited.size(), profile.visited.size(), gid + ": progress kept")
+
+
+func test_the_grounds_walk_west_one_into_the_next_lower() -> void:
+	# The owner's rule: west out of a ground is the next lower ground (its
+	# east end), like a street; only the lowest ground leads to the city.
+	var c := _content()
+	var farms := AreaRules.farms(c)
+	farms.sort_custom(
+		func(a: String, b: String) -> bool: return c.area(a)["level"] < c.area(b)["level"]
+	)
+	for i in farms.size():
+		var west: Dictionary = c.area(farms[i])["exits"]["west"]
+		var expected := c.city_area if i == 0 else farms[i - 1]
+		assert_eq(str(west["to"]), expected, farms[i] + ": west to the next lower")
+		assert_eq(str(west["entry"]), "west" if i == 0 else "east", farms[i] + ": arriving there")
+	# Grounds open in order of level as the story and the lairs go on, so the
+	# way west is open whenever a ground is.
+	var profile := PlayerProfile.new_game(c)
+	var openers: Array[String] = StreetMemory.street(c)
+	for lair_id in AreaRules.lairs(c):
+		openers.append(str(c.area(lair_id)["encounters"][0]["waves"][0][0]))
+	for step: String in openers:
+		if c.areas.has(step):
+			StreetMemory.visit(profile, step)
+			for encounter: Dictionary in c.area(step).get("encounters", []):
+				for wave: Array in encounter["waves"]:
+					for kind: String in wave:
+						profile.defeated[kind] = 1
+		else:
+			profile.defeated[step] = 1
+		for i in range(1, farms.size()):
+			if AreaRules.unlocked(profile, c, farms[i]):
+				assert_true(AreaRules.unlocked(profile, c, farms[i - 1]), farms[i - 1] + " open")
+
+
+func test_walking_west_out_of_a_ground_enters_the_one_below() -> void:
+	var game := _game()
+	_everything(game.profile)
+	game.enter_area("farm_rail_sidings", "west")
+	var left := FighterInput.new()
+	left.move = Vector2(-1, 0)
+	for tick in 1200:
+		game.step(left)
+		if game.zone.area_id != "farm_rail_sidings":
+			break
+	assert_eq(game.zone.area_id, "farm_saltmarket_backlots", "into the ground below")
+	assert_true(game.zone.hero.position.x > game.zone.bounds.get_center().x, "at its east end")
+	_done(game)
