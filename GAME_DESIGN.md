@@ -221,10 +221,10 @@ value is a first pass, tuned there and re-run):
 | Ground (Lv) | Monsters (elite) | Lair (Lv): boss | Opens after |
 |---|---|---|---|
 | Core Spillway (43) | Facility Troopers, Hazmat Sprayers (Core Sentinel) | Spillway Gatehouse (45): Spillway Chief | Commander Arthit |
-| Coolant Vaults (53) | Vault Troopers, Coolant Drones (Vault Warden) | Coolant Control Room (55): Commander Arthit, Reinstated | Director Wiroj |
-| Reactor Underworks (58) | Underworks Brutes, Reactor Techs (Reactor Overseer) | Tank Hall (60): Subject Twelve, Relapsed | Arthit, Reinstated |
-| Foundry Depths (63) | Foundry Hands, Slag Slingers (Foundry Boss) | The Crucible (65): Unit K-7, Overdriven | Twelve, Relapsed |
-| The Iron Heart (68) | Heart Guards, Iron Sentries (Heart Keeper) | Heart Core Chamber (70): The Wiroj Protocol | K-7, Overdriven |
+| Coolant Vaults (53) | Vault Troopers, Vault Runners (fast), Coolant Drones (heavy) (Vault Warden) | Coolant Control Room (55): Commander Arthit, Reinstated | Director Wiroj |
+| Reactor Underworks (58) | Tank Crawlers (fast), Underworks Brutes (heavy), Reactor Techs (ranged) (Reactor Overseer) | Tank Hall (60): Subject Twelve, Relapsed | Arthit, Reinstated |
+| Foundry Depths (63) | Foundry Hands, Slag Slingers (ranged), Furnace Haulers (heavy) (Foundry Boss) | The Crucible (65): Unit K-7, Overdriven | Twelve, Relapsed |
+| The Iron Heart (68) | Heart Guards (fast), Rivet Throwers (ranged), Iron Sentries (heavy) (Heart Keeper) | Heart Core Chamber (70): The Wiroj Protocol | K-7, Overdriven |
 
 - A **boss lair** (`"kind": "lair"`) is a short arena off the street with one boss fight. It
   opens with its ground (the same unlock rule), is reached by Uncle Thong's truck
@@ -234,7 +234,12 @@ value is a first pass, tuned there and re-run):
 - Ground and lair open in a chain: each pair when the lair before falls. Levels stay
   suggestions; nothing is gated by level.
 - New monsters appear only in the grounds past the story; the story's grounds still hold
-  only enemies the story has already shown.
+  only enemies the story has already shown. Each 50-70 ground mixes three roles (a common
+  fighter, a heavy hitter and a fast or ranged one) and a champion elite, all tinted in
+  the tier's colour (enemies.json `tint`), so a monster that shares a sprite with a story
+  enemy still reads as its own kind.
+- The story ends at level 50: levels 50-70 are a farming endgame (grounds, lairs, world
+  bosses, gear and upgrades), with no story quests by design.
 - **World bosses**: The Slag Titan (Lv 60, 5 players, every 6 hours, after Twelve,
   Relapsed; legendary Slagfist, Grip and Ember Core) and The Iron Sovereign (Lv 70, 10
   players, daily, after the Wiroj Protocol; the mythic Sovereign set). Like every world

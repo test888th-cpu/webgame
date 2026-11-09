@@ -74,28 +74,28 @@ const GROUNDS := {
 	[
 		"Main Control Centre",
 		{"defeated": "director_wiroj"},
-		["vault_trooper", "coolant_drone", "vault_warden"],
+		["vault_trooper", "vault_runner", "coolant_drone", "vault_warden"],
 		"vault_warden",
 	],
 	"farm_reactor_underworks":
 	[
 		"Main Control Centre",
 		{"defeated": "arthit_reinstated"},
-		["underworks_brute", "reactor_tech", "reactor_overseer"],
+		["underworks_brute", "tank_crawler", "reactor_tech", "reactor_overseer"],
 		"reactor_overseer",
 	],
 	"farm_foundry_depths":
 	[
 		"Main Control Centre",
 		{"defeated": "twelve_relapsed"},
-		["foundry_hand", "slag_slinger", "foundry_boss"],
+		["foundry_hand", "slag_slinger", "furnace_hauler", "foundry_boss"],
 		"foundry_boss",
 	],
 	"farm_iron_heart":
 	[
 		"Main Control Centre",
 		{"defeated": "k7_overdriven"},
-		["heart_guard", "iron_sentry", "heart_keeper"],
+		["heart_guard", "rivet_thrower", "iron_sentry", "heart_keeper"],
 		"heart_keeper",
 	],
 }

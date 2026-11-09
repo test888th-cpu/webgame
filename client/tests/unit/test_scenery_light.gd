@@ -89,3 +89,22 @@ func test_the_street_lamp_carries_no_painted_halo() -> void:
 					break
 	# A few edge pixels sit on the threshold after import; the halo was hundreds.
 	assert_true(halo < 20, "no yellow-green glow left beside the lantern (%d)" % halo)
+
+
+func test_an_enemy_takes_its_own_tint_and_others_none() -> void:
+	# A 50-70 monster that shares a story enemy's sprite is coloured by its
+	# enemies.json "tint" in the sprite shader; story enemies stay white.
+	var game := _game()
+	game.enter_area("farm_coolant_vaults", "west")
+	var runner := game.zone.spawn_enemy("vault_runner", Vector2(500, 300))
+	var plain := game.zone.spawn_enemy("smogling", Vector2(600, 300))
+	game.view.sync()
+	var tinted := game.view.view_of(runner.id)
+	var untinted := game.view.view_of(plain.id)
+	var want := Color.from_string(str(game.content.enemy("vault_runner")["tint"]), Color.WHITE)
+	assert_eq(tinted.tint, want, "the tier's colour")
+	assert_eq(untinted.tint, Color.WHITE, "a story enemy as before")
+	var sprite := tinted.get_node_or_null("Sprite") as AnimatedSprite2D
+	if sprite:
+		assert_eq(sprite.material.get_shader_parameter("tint"), want, "in the sprite's shader")
+	_done(game)

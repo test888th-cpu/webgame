@@ -287,13 +287,13 @@ The Core ปิดแล้ว แต่ใต้ศูนย์ควบคุ�
 |---|---|---|---|
 | Core Spillway (`farm_core_spillway`) | 43 | Commander Arthit | ทางระบายน้ำของ Core Facility ทหาร Facility Trooper, Hazmat Sprayer, Core Sentinel ฟามช่วงเลเวล 41–45 ก่อนบทสุดท้าย |
 | Spillway Gatehouse (`spillway_gatehouse`) | 45 | Commander Arthit | ห้องประตูน้ำ **Spillway Chief** หัวหน้ากะของหน่วยรปภ. ถือกุญแจประตูระบาย (คนทำงานตามคำสั่ง แบบ Nattapong) |
-| Coolant Vaults (`farm_coolant_vaults`) | 53 | Director Wiroj | ห้องเก็บน้ำหล่อเย็นที่น้ำท่วม คนของ Kraisorn: Vault Trooper, Coolant Drone, Vault Warden |
+| Coolant Vaults (`farm_coolant_vaults`) | 53 | Director Wiroj | ห้องเก็บน้ำหล่อเย็นที่น้ำท่วม คนของ Kraisorn: Vault Trooper, Vault Runner (วิ่งเร็ว), Coolant Drone (หุ่นช้า หนัก), Vault Warden (elite) |
 | Coolant Control Room (`coolant_control_room`) | 55 | Director Wiroj | **Commander Arthit, Reinstated**: ทนายของ Kraisorn ประกันตัวเขาออกมา และจ้างให้คุมการขนของออกจากห้องเก็บ |
-| Reactor Underworks (`farm_reactor_underworks`) | 58 | Arthit, Reinstated | ใต้เตาปฏิกรณ์ที่ถังทดลองสุดท้ายแตก Underworks Brute, Reactor Tech, Reactor Overseer |
+| Reactor Underworks (`farm_reactor_underworks`) | 58 | Arthit, Reinstated | ใต้เตาปฏิกรณ์ที่ถังทดลองสุดท้ายแตก Underworks Brute (หนัก), Tank Crawler (เร็ว), Reactor Tech (พ่นสารจากระยะ), Reactor Overseer (elite รปภ. โรงงาน) |
 | Tank Hall (`underworks_tank_hall`) | 60 | Arthit, Reinstated | **Subject Twelve, Relapsed**: กลับลงไปช่วยเพื่อนคนงานที่ติดอยู่ สัมผัสสารซ้ำจนอาการกลับมา (ตาม §3.3: หยุดสัมผัสแล้วหายได้ จึงสู้เพื่อ "พาเขาออกมา" ไม่ใช่ฆ่า) |
-| Foundry Depths (`farm_foundry_depths`) | 63 | Twelve, Relapsed | โรงหล่อเก่าใต้ Iron City ที่ยังเดินเครื่องให้ใครก็ได้ที่จ่าย Foundry Hand, Slag Slinger, Foundry Boss |
+| Foundry Depths (`farm_foundry_depths`) | 63 | Twelve, Relapsed | โรงหล่อเก่าใต้ Iron City ที่ยังเดินเครื่องให้ใครก็ได้ที่จ่าย Foundry Hand, Slag Slinger (ขว้างตะกรันจากระยะ), Furnace Hauler (คนแบกหนัก), Foundry Boss (elite) |
 | The Crucible (`foundry_crucible`) | 65 | Twelve, Relapsed | **Unit K-7, Overdriven**: K-7 อีกตัวจากสายการผลิตเดียวกัน ถูกโอเวอร์ไดรฟ์ให้เฝ้าเตาหลอม |
-| The Iron Heart (`farm_iron_heart`) | 68 | K-7, Overdriven | หัวใจเครื่องจักรที่ Wiroj สร้างไว้ใต้เมือง Heart Guard, Iron Sentry, Heart Keeper |
+| The Iron Heart (`farm_iron_heart`) | 68 | K-7, Overdriven | หัวใจเครื่องจักรที่ Wiroj สร้างไว้ใต้เมือง Heart Guard (นักสู้เร็ว), Rivet Thrower (ขว้างหมุดจากระยะ), Iron Sentry (หุ่นหนัก), Heart Keeper (elite) |
 | Heart Core Chamber (`heart_core_chamber`) | 70 | K-7, Overdriven | **The Wiroj Protocol**: ระบบป้องกันของหัวใจเหล็กที่ใช้เสียงที่บันทึกไว้และท่าของ Wiroj (ตัวจริงยังถูกควบคุมตัว) |
 
 บอสโลกหลังเรื่อง (เข้าได้ไม่จำกัดครั้ง ไม่มีจำกัดต่อวัน ไม่ต้องรอระหว่างครั้ง เหมือนบอสโลกทุกตัว):

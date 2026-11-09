@@ -11,8 +11,10 @@ ContentDB on load; nothing here is read by the game at run time.
 What it builds (all values are first-pass, configurable starting points):
 * a farming ground at level 43 that fills the 41-43 gap before the finale, with a
   mini-boss whose body and head gear closes the boss-gear gap from 27 to 48;
-* four farming grounds at levels 53, 58, 63 and 68, each with two monster kinds
-  and a champion (an elite mini-boss), and beside each a boss lair (a short
+* four farming grounds at levels 53, 58, 63 and 68, each with three monster
+  roles (a standard or fast fighter, a heavy hitter and a fast or ranged one;
+  the first is the most common) and a champion (an elite mini-boss), tinted
+  in the tier's colour so a shared sprite still reads as its own kind, and beside each a boss lair (a short
   arena, AreaRules.LAIR) holding a rematch of a story boss; ground and lair
   open together, in a chain (each pair opens when the previous lair's boss
   falls);
@@ -50,7 +52,7 @@ LAIR_BOSS_HP = 2.0
 
 TIERS = [
     {
-        "key": "coolant", "coins": 0.55, "lair": "coolant_control_room", "lair_name": "Coolant Control Room",
+        "key": "coolant", "coins": 0.43, "xp": 0.92, "lair": "coolant_control_room", "lair_name": "Coolant Control Room",
         "level": 53, "ground": "farm_coolant_vaults", "ground_name": "Coolant Vaults",
         "unlock": "director_wiroj", "theme": "canal", "kit": "tunnels",
         "palette": {"sky": "#0a1218", "buildings": ["#14262e", "#183038", "#0f2026"], "windows": "#60d0ff",
@@ -58,55 +60,61 @@ TIERS = [
         "purpose": "The Core's flooded coolant vaults below the Main Control Centre, held by the Director's "
                    "loyal guard after the story: the first ground past level 50, Coolant gear and a rematch "
                    "with Commander Arthit, reinstated.",
-        "mobs": [("vault_trooper", "Vault Trooper", "facility_trooper"),
-                 ("coolant_drone", "Coolant Drone", "patrol_unit")],
+        "tint": ("#a8dcff", "#7fc4ff"),
+        "mobs": [("vault_trooper", "Vault Trooper", "facility_trooper", 5),
+                 ("vault_runner", "Vault Runner", "network_runner", 3),
+                 ("coolant_drone", "Coolant Drone", "patrol_unit", 2)],
         "champion": ("vault_warden", "Vault Warden", "core_sentinel"),
         "boss": ("arthit_reinstated", "Commander Arthit, Reinstated", "commander_arthit"),
         "shop_from": "Ama",
         "uncommon": "Coolant", "rare": "Vault Guard", "epic": "Reinstated",
     },
     {
-        "key": "underworks", "coins": 0.58, "lair": "underworks_tank_hall", "lair_name": "Tank Hall",
+        "key": "underworks", "coins": 0.27, "xp": 1.18, "lair": "underworks_tank_hall", "lair_name": "Tank Hall",
         "level": 58, "ground": "farm_reactor_underworks", "ground_name": "Reactor Underworks",
         "unlock": "arthit_reinstated", "theme": "canal", "kit": "tunnels",
         "palette": {"sky": "#160c06", "buildings": ["#2e1a0e", "#382012", "#26150b"], "windows": "#ffb050",
                     "sidewalk": "#4a3e34", "street": "#24180f"},
         "purpose": "The reactor's underworks, where the Subject programme's last tank broke open: "
                    "Underworks gear and a rematch with Subject Twelve, relapsed.",
-        "mobs": [("underworks_brute", "Underworks Brute", "riot_trooper"),
-                 ("reactor_tech", "Reactor Tech", "hazmat_sprayer")],
-        "champion": ("reactor_overseer", "Reactor Overseer", "core_sentinel"),
+        "tint": ("#c4ec9c", "#a6e07a"),
+        "mobs": [("underworks_brute", "Underworks Brute", "riot_trooper", 2),
+                 ("tank_crawler", "Tank Crawler", "market_punk", 5),
+                 ("reactor_tech", "Reactor Tech", "hazmat_sprayer", 3)],
+        "champion": ("reactor_overseer", "Reactor Overseer", "plant_guard"),
         "boss": ("twelve_relapsed", "Subject Twelve, Relapsed", "subject_twelve"),
         "shop_from": "Ama",
         "uncommon": "Underworks", "rare": "Reactor Crew", "epic": "Relapsed",
     },
     {
-        "key": "foundry", "coins": 0.47, "lair": "foundry_crucible", "lair_name": "The Crucible",
+        "key": "foundry", "coins": 0.46, "xp": 1.02, "lair": "foundry_crucible", "lair_name": "The Crucible",
         "level": 63, "ground": "farm_foundry_depths", "ground_name": "Foundry Depths",
         "unlock": "twelve_relapsed", "theme": "canal", "kit": "tunnels",
         "palette": {"sky": "#1a0806", "buildings": ["#34130c", "#3e1810", "#2a0f09"], "windows": "#ff7040",
                     "sidewalk": "#4c3a34", "street": "#28140f"},
         "purpose": "The old foundry under Iron City, still firing for whoever pays: "
                    "Foundry gear and a rematch with Unit K-7, overdriven.",
-        "mobs": [("foundry_hand", "Foundry Hand", "facility_trooper"),
-                 ("slag_slinger", "Slag Slinger", "dock_slinger")],
+        "tint": ("#ffc08a", "#ff9a5c"),
+        "mobs": [("foundry_hand", "Foundry Hand", "facility_trooper", 5),
+                 ("slag_slinger", "Slag Slinger", "dock_slinger", 3),
+                 ("furnace_hauler", "Furnace Hauler", "stevedore", 2)],
         "champion": ("foundry_boss", "Foundry Boss", "riot_trooper"),
         "boss": ("k7_overdriven", "Unit K-7, Overdriven", "unit_k7"),
         "shop_from": "Ama",
         "uncommon": "Foundry", "rare": "Slagworker", "epic": "Overdriven",
     },
     {
-        "key": "heart", "boss_hp": 1.3, "coins": 0.87, "lair": "heart_core_chamber", "lair_name": "Heart Core Chamber",
+        "key": "heart", "boss_hp": 1.3, "coins": 0.54, "xp": 1.31, "lair": "heart_core_chamber", "lair_name": "Heart Core Chamber",
         "level": 68, "ground": "farm_iron_heart", "ground_name": "The Iron Heart",
         "unlock": "k7_overdriven", "theme": "canal", "kit": "tunnels",
         "palette": {"sky": "#100808", "buildings": ["#261012", "#2e1416", "#1e0c0e"], "windows": "#ff5060",
                     "sidewalk": "#3e3436", "street": "#1e1214"},
         "purpose": "The machine heart the Director built under the city, the last ground before level 70: "
                    "Heartforged gear, and the Wiroj Protocol (the Heart's defences, in his voice) waits in its core.",
-        "mobs": [("heart_guard", "Heart Guard", "riot_trooper"),
-                 ("iron_sentry", "Iron Sentry", "core_sentinel")],
-        # The Iron Sentry is a Core Sentinel (an elite before): fewer of them.
-        "mob_b_weight": 2,
+        "tint": ("#ffb0b0", "#ff7a7a"),
+        "mobs": [("heart_guard", "Heart Guard", "ring_fighter", 5),
+                 ("rivet_thrower", "Rivet Thrower", "street_thrower", 3),
+                 ("iron_sentry", "Iron Sentry", "core_sentinel", 2)],
         "champion": ("heart_keeper", "Heart Keeper", "core_sentinel"),
         "boss": ("wiroj_protocol", "The Wiroj Protocol", "director_wiroj"),
         "shop_from": "Ama",
@@ -132,7 +140,7 @@ GAP_GROUND = {
 WORLD_BOSSES = [
     {
         "id": "slag_titan", "name": "The Slag Titan", "clone": "iron_colossus", "level": 60, "players": 5,
-        "arena": "slag_furnace", "arena_name": "Slag Furnace", "arena_clone": "old_scrapyard",
+        "tint": "#ffa070", "arena": "slag_furnace", "arena_name": "Slag Furnace", "arena_clone": "old_scrapyard",
         "unlock": "twelve_relapsed", "period_minutes": 360, "offset_minutes": 240,
         "prizes": [("titan_slagfist", "Titan's Slagfist", "weapon"), ("titan_grip", "Titan's Grip", "hands"),
                    ("titan_core", "Titan's Ember Core", "charm")],
@@ -140,7 +148,7 @@ WORLD_BOSSES = [
     },
     {
         "id": "iron_sovereign", "name": "The Iron Sovereign", "clone": "subject_zero", "level": 70, "players": 10,
-        "arena": "sovereign_vault", "arena_name": "Sovereign Vault", "arena_clone": "sunken_reservoir",
+        "tint": "#d8b8ff", "arena": "sovereign_vault", "arena_name": "Sovereign Vault", "arena_clone": "sunken_reservoir",
         "unlock": "wiroj_protocol", "period_minutes": 1440, "offset_minutes": 720,
         "prizes": [("sovereign_fists", "Sovereign Fists", "weapon"), ("sovereign_mantle", "Sovereign Mantle", "body"),
                    ("sovereign_crown", "Sovereign Crown", "head"), ("sovereign_grips", "Sovereign Grips", "hands"),
@@ -262,27 +270,40 @@ def clone_enemy(enemies, new_id, name, base_id, loot, elite=None):
 def coins(tier, low, high):
     """A field monster's coin range, scaled by the tier's "coins" factor: measured with
     FarmCheck so the coins per hour climb smoothly from Core Overflow's (about 35k/h at
-    level 50) to about 42k, 50k, 60k and 70k/h on the four grounds."""
+    level 50) to about 47k, 49k, 62k and 77k/h on the four grounds (20-seed runs)."""
     factor = float(tier.get("coins", 1.0))
     return [max(1, int(round(low * factor))), max(2, int(round(high * factor)))]
+
+
+def scaled_xp(tier, base):
+    """A field monster's XP, its base kind's times the tier's "xp" factor: the roles are
+    lighter or heavier than one another, so each tier's factor is measured with FarmCheck to
+    keep its XP per hour where the level curve's target hours need it."""
+    return max(1, int(round(int(base["xp"]) * float(tier.get("xp", 1.0)))))
 
 
 def tier_enemies(enemies, tier, gear):
     lvl = tier["level"]
     alloy = min(0.45, 0.2 + 0.03 * (lvl - 50) / 5)
-    for i, (mob_id, name, base) in enumerate(tier["mobs"]):
-        rares = gear["rare"][i * 3:(i + 1) * 3]
+    share = len(gear["rare"]) // len(tier["mobs"])
+    for i, (mob_id, name, base, _weight) in enumerate(tier["mobs"]):
+        rares = gear["rare"][i * share:(i + 1) * share]
         drops = [{"item": "rice_box", "chance": 0.12}, {"item": "herbal_tonic", "chance": 0.05}]
         drops += [{"item": r, "chance": 0.02} for r in rares]
         drops += [{"item": "refined_alloy", "chance": round(alloy, 2)}, {"item": "scrap_metal", "chance": 0.8}]
-        clone_enemy(enemies, mob_id, name, base, {"money": coins(tier, 30 + lvl // 2, 48 + lvl // 2), "drops": drops})
+        mob = clone_enemy(enemies, mob_id, name, base,
+                          {"money": coins(tier, 30 + lvl // 2, 48 + lvl // 2), "drops": drops})
+        mob["tint"] = tier["tint"][0]
+        mob["xp"] = scaled_xp(tier, enemies[base])
     champ_id, champ_name, champ_base = tier["champion"]
     drops = [{"item": "herbal_tonic", "chance": 0.25}]
     drops += [{"item": r, "chance": 0.04} for r in gear["rare"]]
     drops += [{"item": e, "chance": 0.01} for e in gear["epic"][:2]]
     drops += [{"item": "refined_alloy", "chance": 0.6}, {"item": "scrap_metal", "chance": 1.0}]
-    clone_enemy(enemies, champ_id, champ_name, champ_base,
-                {"money": coins(tier, 80 + lvl, 120 + lvl), "drops": drops}, elite=True)
+    champ = clone_enemy(enemies, champ_id, champ_name, champ_base,
+                        {"money": coins(tier, 80 + lvl, 120 + lvl), "drops": drops}, elite=True)
+    champ["tint"] = tier["tint"][1]
+    champ["xp"] = scaled_xp(tier, enemies[champ_base])
     boss_id, boss_name, boss_base = tier["boss"]
     drops = [{"item": e, "chance": 0.15} for e in gear["epic"]]
     drops += [{"item": "refined_alloy", "chance": 1.0}, {"item": "herbal_tonic", "chance": 0.5}]
@@ -290,6 +311,7 @@ def tier_enemies(enemies, tier, gear):
                        {"money": [900 + 20 * lvl, 1200 + 20 * lvl], "drops": drops})
     boss["enrage"] = dict(REMATCH_ENRAGE)
     boss["max_hp"] = int(round(int(enemies[boss_base]["max_hp"]) * tier.get("boss_hp", LAIR_BOSS_HP)))
+    boss["tint"] = tier["tint"][1]
 
 
 def ground_area(areas, tier):
@@ -299,9 +321,10 @@ def ground_area(areas, tier):
         "palette": tier["palette"], "region": "Main Control Centre", "purpose": tier["purpose"],
         "unlock": {"defeated": tier["unlock"]}, "width": 2000,
     })
-    mob_a, mob_b = tier["mobs"][0][0], tier["mobs"][1][0]
     base["spawning"] = dict(base["spawning"])
-    base["spawning"]["pool"] = {mob_a: 6, mob_b: tier.get("mob_b_weight", 3), tier["champion"][0]: 1}
+    pool = {mob[0]: mob[3] for mob in tier["mobs"]}
+    pool[tier["champion"][0]] = 1
+    base["spawning"]["pool"] = pool
     base["spawning"]["reward_scale"] = 0.6
     base["spawning"]["elite_drops"] = [{"item": "%s_epic_body" % tier["key"], "chance": 0.02}]
     base["obstacles"] = [{"kind": "oil_drums", "x": 300, "y": 258}, {"kind": "crates", "x": 640, "y": 258},
@@ -328,6 +351,7 @@ def gap_area(areas, enemies, items):
     drops = [{"item": i, "chance": 0.2} for i in gear]
     drops += [{"item": "refined_alloy", "chance": 1.0}, {"item": "herbal_tonic", "chance": 0.5}]
     boss = clone_enemy(enemies, boss_id, boss_name, boss_base, {"money": [500, 700], "drops": drops})
+    boss["tint"] = "#cfdcff"
     boss["enrage"] = dict(REMATCH_ENRAGE)
     boss["max_hp"] = int(round(int(enemies[boss_base]["max_hp"]) * LAIR_BOSS_HP))
     areas[g["id"]] = base
@@ -356,6 +380,7 @@ def lair_area(areas, lair_id, name, ground, boss_id, guard, unlock, purpose):
 def world_boss(enemies, areas, specs, items, wb):
     data = json.loads(json.dumps(enemies[wb["clone"]]))
     data["name"] = wb["name"]
+    data["tint"] = wb["tint"]
     # Rewards come from the world-boss tiers; the kill itself still guarantees
     # upgrade material, as every boss does.
     data["loot"] = {"money": [0, 0], "drops": [{"item": "refined_alloy", "chance": 1.0}]}

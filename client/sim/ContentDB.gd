@@ -236,6 +236,7 @@ func validate() -> void:
 
 func _validate_enemy(id: String, e: Dictionary) -> void:
 	var where := "enemies.%s" % id
+	_check(Color.html_is_valid(str(e.get("tint", "#ffffff"))), where + ".tint: a colour, #rrggbb")
 	_number(e, "max_hp", where, 1)
 	_number(e, "speed", where, 0)
 	_number(e, "xp", where, 0)

@@ -5131,8 +5131,9 @@
         ],
         "from_x": 320,
         "pool": {
-          "vault_trooper": 6,
-          "coolant_drone": 3,
+          "vault_trooper": 5,
+          "vault_runner": 3,
+          "coolant_drone": 2,
           "vault_warden": 1
         }
       },
@@ -5223,7 +5224,8 @@
         ],
         "from_x": 320,
         "pool": {
-          "underworks_brute": 6,
+          "underworks_brute": 2,
+          "tank_crawler": 5,
           "reactor_tech": 3,
           "reactor_overseer": 1
         }
@@ -5315,8 +5317,9 @@
         ],
         "from_x": 320,
         "pool": {
-          "foundry_hand": 6,
+          "foundry_hand": 5,
           "slag_slinger": 3,
+          "furnace_hauler": 2,
           "foundry_boss": 1
         }
       },
@@ -5407,7 +5410,8 @@
         ],
         "from_x": 320,
         "pool": {
-          "heart_guard": 6,
+          "heart_guard": 5,
+          "rivet_thrower": 3,
           "iron_sentry": 2,
           "heart_keeper": 1
         }
