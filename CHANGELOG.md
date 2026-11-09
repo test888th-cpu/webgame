@@ -16,6 +16,8 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 - **Shop:** tick many items and sell them at once.
 - **World bosses** are open to every hero from level 10
   (`progression.json` `world_boss_entry_level`); no story boss has to fall first.
+- **Bosses chase:** a boss whose hero runs more than 150 px off strides at 1.15 times the
+  hero's walk until it is close again, instead of standing off calling its skills.
 - **Mini-bosses** wear the map's mini-boss mark and "Mini-boss" overhead, on the boss bar
   and in their arrival toast, instead of the boss skull.
 
