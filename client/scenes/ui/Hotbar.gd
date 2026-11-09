@@ -80,7 +80,7 @@ func refresh(zone: ZoneSim, profile: PlayerProfile) -> void:
 				slot.set_state(
 					float(zone.item_cooldown) / total,
 					zone.item_cooldown * CombatRules.TICK_SECONDS,
-					false,
+					FoodRules.boss_food_left(zone) == 0,
 					profile.count(entry["id"])
 				)
 			_:

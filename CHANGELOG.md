@@ -4,6 +4,58 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed: gear and upgrades matter against bosses; food tops up, it does not carry the fight
+- **The problem, measured** (ProgressionHarness, a level 50 hero against Director Wiroj,
+  3 seeds each):
+  - With no food, starter clothes always lose (3/3 knocked out). Shop gear wins, boss gear
+    wins faster, and +10 gear takes a quarter of the damage.
+  - But with 10 herbal tonics, starter clothes won, eating 4 times their health in food
+    (one tonic every 2 seconds). About 900 coins of food did the work of all the gear,
+    enhancing and boss drops, so none of them were needed.
+- **The fix:** a boss fight allows 6 foods (progression.json `"boss_fight_food"`,
+  `FoodRules.boss_food_left`). Elsewhere food is unlimited, as before. Each boss spawned
+  (and each world boss attempt) starts a fresh allowance.
+  - When the allowance is spent, the food slot on the hotbar dims.
+  - The quick-heal key and the bag say "No more food in this boss fight".
+  - Auto battle stops trying to eat.
+- **After** (same harness):
+  - Starter clothes at level 50 now lose to the Director 3/3, even with tonics.
+  - Shop gear at each area's own level still clears every story stage sampled (from
+    Rusted Corner to the Core Chamber, Oren and Mika, 0 knock-outs). The 6 allowed keep
+    the Gang HQ boss as it was.
+  - An over-levelled hero can still beat early bosses in old gear, as in any RPG.
+- **Late bosses that hit too softly.** Without food, other bosses kill a hero in shop
+  gear at their level in 25 to 40 seconds. Subject Twelve and Director Wiroj took 80 to
+  120 seconds, and boss gear at +5 took almost nothing. So the end of the story was
+  easier than its middle.
+  - Subject Twelve now hits 1.5 times as hard and the Director 2.2 times, phases
+    included (`enemies.json` power).
+  - The finale now asks for upgrades. With the 6 foods allowed:
+    - Shop gear at +0 goes down about one fight in three.
+    - Shop gear at +5, or boss gear at any level, wins.
+    - Starter clothes lose every time.
+- **World bosses: 3 tries per round** (`world_boss.json` `"attempts"`,
+  `WorldBossRules.attempts_left`).
+  - Before, a hero could fall and ride back all hour, and the pool kept its damage.
+    That let anyone grind down a boss built for a group, whatever they wore.
+  - Now a fall or a ride home spends a try. Win's ride and the world boss list show the
+    tries left.
+  - Measured on an attempt at the Tunnel Mother (3 players), with food:
+    - Shop gear at level 32 needs 16 to 21 tries.
+    - Boss gear +5 at level 35 needs about 5.
+    - Boss gear +10 at level 40 needs 2.
+  - So a solo kill now takes real gear.
+- **Tests:**
+  - The allowance counts per boss fight and keeps the refused food.
+  - Auto battle stops eating when the allowance is spent.
+  - Starter clothes plus tonics lose to the final boss; shop gear wins.
+  - A world boss round allows its tries, then refuses until the next round.
+
+### Security: apt removed from the API image
+- Trivy flagged apt 2.6.1 (CVE-2026-109518, HIGH) in the Debian base. The service never
+  runs apt and the image is rebuilt rather than patched, so apt and libapt-pkg are
+  purged from the runtime stage, as npm already was.
+
 ### Changed: quests taken and claimed from the quest card, as in mobile games
 - **The quest card does it all** (`Hud._update_quest`, `QuestFlow`), from wherever the
   hero is, with no walk to a giver and no searching for one:

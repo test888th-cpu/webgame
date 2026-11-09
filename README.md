@@ -48,7 +48,7 @@ You do not need any local tools. All building and testing happens in GitHub Acti
 | Guard (hold; drains energy) | Shift or I | LB / L1 | Green button |
 | Talk / shop (near an NPC) | E or U | B / Circle | TALK |
 | Hotbar: attack, skills, food (slots 1–7) | 1–7 | RT + X/Y/A/B for skills, RT + RB for slot 7 | Tap the slot |
-| Eat (quick heal) | H or Q | RB / R1 | EAT |
+| Eat (quick heal; 6 per boss fight) | H or Q | RB / R1 | EAT |
 | Auto battle on/off (any fight, bosses included, and the story's quests; any input of yours takes over) | T | Back / Select | AUTO button |
 | Game menu (the street does not stop), inventory, quests, save | Esc or P | Start | II |
 | Switch menu tabs | Q / E | LB / RB | Tap the tab |

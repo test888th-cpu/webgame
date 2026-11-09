@@ -137,6 +137,7 @@ static func boss_value(content: ContentDB, kind: String, area_level: int) -> Dic
 ## "shop": per slot the highest-level item any shop sells (ties: higher
 ## price); the charm is the best quest-reward charm. "boss": the same armour,
 ## with the best boss-drop weapon and charm when one is not above `level`.
+## "starter": nothing more than the hero's starter kit.
 static func gear(content: ContentDB, level: int, kind := "shop") -> Array[String]:
 	var sold := {}
 	for shop: Dictionary in content.shops.values():
@@ -152,6 +153,8 @@ static func gear(content: ContentDB, level: int, kind := "shop") -> Array[String
 			for drop: Dictionary in data["loot"].get("drops", []):
 				dropped[str(drop["item"])] = true
 	var picked: Array[String] = []
+	if kind == "starter":
+		return picked
 	for slot: String in SLOTS:
 		var pool := sold
 		if slot == "charm":
