@@ -640,9 +640,11 @@ static func notice_board(game: Game, npc: Dictionary) -> Control:
 		var wait := WorldBossRules.wait_text(content, boss, game._now())
 		var state := "Rises again in %s." % wait
 		var color := UiTheme.TEXT_DIM
-		if WorldBossRules.window(content, boss, game._now())["open"]:
-			state = "OUT NOW, for %s. Ride with Win." % wait
-			color = UiTheme.GOOD
+		var round := WorldBossRules.window(content, boss, game._now())
+		var tries := WorldBossRules.attempts_left(profile, content, boss, int(round["round"]))
+		if round["open"]:
+			state = "OUT NOW, for %s. %d of %d tries left." % [wait, tries, int(data["attempts"])]
+			color = UiTheme.GOOD if tries > 0 else UiTheme.TEXT_DIM
 		entry.add_child(UiKit.label(text, UiTheme.SIZE_SMALL, UiTheme.TEXT))
 		entry.add_child(UiKit.label("    " + state, UiTheme.SIZE_CAPTION, color))
 	# Farming today: any cleared street, re-armed by resting (StreetMemory).
@@ -691,6 +693,9 @@ static func _world_boss_ride(game: Game, npc: Dictionary, fare: int, boss: Strin
 	var who := "Lv %d, " % WorldBossRules.level(content, boss)
 	var players := int(data.get("players", 1))
 	who += "%d players" % players if players > 1 else "solo"
+	if round["open"]:
+		var tries := WorldBossRules.attempts_left(game.profile, content, boss, int(round["round"]))
+		who += ", %d tries left" % tries
 	var text := (
 		"WORLD BOSS %s  (%s; closes in %s)" % [name, who, wait]
 		if round["open"]

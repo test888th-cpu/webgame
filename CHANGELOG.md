@@ -24,10 +24,37 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
     Rusted Corner to the Core Chamber, Oren and Mika, 0 knock-outs). The 6 allowed keep
     the Gang HQ boss as it was.
   - An over-levelled hero can still beat early bosses in old gear, as in any RPG.
+- **Late bosses that hit too softly.** Without food, other bosses kill a hero in shop
+  gear at their level in 25 to 40 seconds. Subject Twelve and Director Wiroj took 80 to
+  120 seconds, and boss gear at +5 took almost nothing. So the end of the story was
+  easier than its middle.
+  - Subject Twelve now hits 1.5 times as hard and the Director 2.2 times, phases
+    included (`enemies.json` power).
+  - The finale now asks for upgrades. With the 6 foods allowed:
+    - Shop gear at +0 goes down about one fight in three.
+    - Shop gear at +5, or boss gear at any level, wins.
+    - Starter clothes lose every time.
+- **World bosses: 3 tries per round** (`world_boss.json` `"attempts"`,
+  `WorldBossRules.attempts_left`).
+  - Before, a hero could fall and ride back all hour, and the pool kept its damage.
+    That let anyone grind down a boss built for a group, whatever they wore.
+  - Now a fall or a ride home spends a try. Win's ride and the world boss list show the
+    tries left.
+  - Measured on an attempt at the Tunnel Mother (3 players), with food:
+    - Shop gear at level 32 needs 16 to 21 tries.
+    - Boss gear +5 at level 35 needs about 5.
+    - Boss gear +10 at level 40 needs 2.
+  - So a solo kill now takes real gear.
 - **Tests:**
   - The allowance counts per boss fight and keeps the refused food.
   - Auto battle stops eating when the allowance is spent.
   - Starter clothes plus tonics lose to the final boss; shop gear wins.
+  - A world boss round allows its tries, then refuses until the next round.
+
+### Security: apt removed from the API image
+- Trivy flagged apt 2.6.1 (CVE-2026-109518, HIGH) in the Debian base. The service never
+  runs apt and the image is rebuilt rather than patched, so apt and libapt-pkg are
+  purged from the runtime stage, as npm already was.
 
 ### Changed: quests taken and claimed from the quest card, as in mobile games
 - **The quest card does it all** (`Hud._update_quest`, `QuestFlow`), from wherever the
