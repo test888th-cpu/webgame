@@ -1,5 +1,5 @@
 extends TestCase
-## The seven farming grounds (areas.json "kind": "farm", AreaRules): each is
+## The twelve farming grounds (areas.json "kind": "farm", AreaRules): each is
 ## off the story street, opens on its approved unlock rule, is reached by
 ## Win's taxi for the usual fare, is left on foot west to Depot Yard (or by
 ## the pause menu's return to Iron City Central), fights only its own
@@ -61,6 +61,43 @@ const GROUNDS := {
 		["facility_trooper", "patrol_unit", "core_sentinel"],
 		"core_sentinel",
 	],
+	# Levels 41-45 and 50-70 (tools/content/level70_content.py): each opens when
+	# the boss before it falls, so the chain follows the story and its rematches.
+	"farm_core_spillway":
+	[
+		"The Core Facility",
+		{"defeated": "commander_arthit"},
+		["facility_trooper", "hazmat_sprayer", "core_sentinel"],
+		"core_sentinel",
+	],
+	"farm_coolant_vaults":
+	[
+		"Main Control Centre",
+		{"defeated": "director_wiroj"},
+		["vault_trooper", "coolant_drone", "vault_warden"],
+		"vault_warden",
+	],
+	"farm_reactor_underworks":
+	[
+		"Main Control Centre",
+		{"defeated": "arthit_reinstated"},
+		["underworks_brute", "reactor_tech", "reactor_overseer"],
+		"reactor_overseer",
+	],
+	"farm_foundry_depths":
+	[
+		"Main Control Centre",
+		{"defeated": "twelve_relapsed"},
+		["foundry_hand", "slag_slinger", "foundry_boss"],
+		"foundry_boss",
+	],
+	"farm_iron_heart":
+	[
+		"Main Control Centre",
+		{"defeated": "k7_overdriven"},
+		["heart_guard", "iron_sentry", "heart_keeper"],
+		"heart_keeper",
+	],
 }
 
 var content: ContentDB
@@ -113,14 +150,14 @@ func _truck(game: Game) -> Dictionary:
 	return {}
 
 
-func test_the_seven_grounds_exist_with_their_approved_unlocks() -> void:
+func test_the_twelve_grounds_exist_with_their_approved_unlocks() -> void:
 	var c := _content()
 	assert_eq(c.errors, PackedStringArray(), "the data validates")
 	var ids: Array = GROUNDS.keys()
 	ids.sort()
 	var farms: Array = AreaRules.farms(c)
 	farms.sort()
-	assert_eq(farms, ids, "exactly the seven grounds")
+	assert_eq(farms, ids, "exactly the twelve grounds")
 	for gid: String in GROUNDS:
 		var area := c.area(gid)
 		assert_eq(AreaRules.region(c, gid), GROUNDS[gid][0], gid + ": region")

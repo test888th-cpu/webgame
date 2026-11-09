@@ -125,6 +125,18 @@
         },
         "rate": 0.2
       }
+    ],
+    "item_level_costs": [
+      {
+        "from_level": 51,
+        "coins": 2.0,
+        "items": 1.5
+      },
+      {
+        "from_level": 61,
+        "coins": 3.0,
+        "items": 2.0
+      }
     ]
   }
 }

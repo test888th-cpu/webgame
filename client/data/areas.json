@@ -5076,6 +5076,947 @@
           "y": 258
         }
       ]
+    },
+    "farm_coolant_vaults": {
+      "name": "Coolant Vaults",
+      "level": 53,
+      "width": 2000,
+      "safe": false,
+      "theme": "canal",
+      "kit_theme": "tunnels",
+      "palette": {
+        "sky": "#0a1218",
+        "buildings": [
+          "#14262e",
+          "#183038",
+          "#0f2026"
+        ],
+        "windows": "#60d0ff",
+        "sidewalk": "#3c4648",
+        "street": "#18222a"
+      },
+      "kind": "farm",
+      "region": "Main Control Centre",
+      "purpose": "The Core's flooded coolant vaults below the Main Control Centre, held by the Director's loyal guard after the story: the first ground past level 50, Coolant gear and a rematch with Commander Arthit, reinstated.",
+      "unlock": {
+        "defeated": "director_wiroj"
+      },
+      "exits": {
+        "west": {
+          "to": "main_city",
+          "entry": "west"
+        }
+      },
+      "npcs": [],
+      "placed": [],
+      "spawning": {
+        "camps": [
+          520,
+          860,
+          1200
+        ],
+        "camp_size": [
+          2,
+          4
+        ],
+        "aggro": 100,
+        "respawn_ticks": 240,
+        "reward_scale": 0.6,
+        "elite_chance": 0.05,
+        "elite_drops": [
+          {
+            "item": "coolant_epic_body",
+            "chance": 0.02
+          }
+        ],
+        "from_x": 320,
+        "pool": {
+          "vault_trooper": 6,
+          "coolant_drone": 3,
+          "vault_warden": 1
+        }
+      },
+      "weapons": {
+        "count": [
+          2,
+          3
+        ],
+        "pool": {
+          "pipe": 3,
+          "wrench": 3
+        }
+      },
+      "obstacles": [
+        {
+          "kind": "oil_drums",
+          "x": 300,
+          "y": 258
+        },
+        {
+          "kind": "crates",
+          "x": 640,
+          "y": 258
+        },
+        {
+          "kind": "oil_drums",
+          "x": 980,
+          "y": 258
+        },
+        {
+          "kind": "crates",
+          "x": 1320,
+          "y": 258
+        }
+      ]
+    },
+    "farm_reactor_underworks": {
+      "name": "Reactor Underworks",
+      "level": 58,
+      "width": 2000,
+      "safe": false,
+      "theme": "canal",
+      "kit_theme": "tunnels",
+      "palette": {
+        "sky": "#160c06",
+        "buildings": [
+          "#2e1a0e",
+          "#382012",
+          "#26150b"
+        ],
+        "windows": "#ffb050",
+        "sidewalk": "#4a3e34",
+        "street": "#24180f"
+      },
+      "kind": "farm",
+      "region": "Main Control Centre",
+      "purpose": "The reactor's underworks, where the Subject programme's last tank broke open: Underworks gear and a rematch with Subject Twelve, relapsed.",
+      "unlock": {
+        "defeated": "arthit_reinstated"
+      },
+      "exits": {
+        "west": {
+          "to": "main_city",
+          "entry": "west"
+        }
+      },
+      "npcs": [],
+      "placed": [],
+      "spawning": {
+        "camps": [
+          520,
+          860,
+          1200
+        ],
+        "camp_size": [
+          2,
+          4
+        ],
+        "aggro": 100,
+        "respawn_ticks": 240,
+        "reward_scale": 0.6,
+        "elite_chance": 0.05,
+        "elite_drops": [
+          {
+            "item": "underworks_epic_body",
+            "chance": 0.02
+          }
+        ],
+        "from_x": 320,
+        "pool": {
+          "underworks_brute": 6,
+          "reactor_tech": 3,
+          "reactor_overseer": 1
+        }
+      },
+      "weapons": {
+        "count": [
+          2,
+          3
+        ],
+        "pool": {
+          "pipe": 3,
+          "wrench": 3
+        }
+      },
+      "obstacles": [
+        {
+          "kind": "oil_drums",
+          "x": 300,
+          "y": 258
+        },
+        {
+          "kind": "crates",
+          "x": 640,
+          "y": 258
+        },
+        {
+          "kind": "oil_drums",
+          "x": 980,
+          "y": 258
+        },
+        {
+          "kind": "crates",
+          "x": 1320,
+          "y": 258
+        }
+      ]
+    },
+    "farm_foundry_depths": {
+      "name": "Foundry Depths",
+      "level": 63,
+      "width": 2000,
+      "safe": false,
+      "theme": "canal",
+      "kit_theme": "tunnels",
+      "palette": {
+        "sky": "#1a0806",
+        "buildings": [
+          "#34130c",
+          "#3e1810",
+          "#2a0f09"
+        ],
+        "windows": "#ff7040",
+        "sidewalk": "#4c3a34",
+        "street": "#28140f"
+      },
+      "kind": "farm",
+      "region": "Main Control Centre",
+      "purpose": "The old foundry under Iron City, still firing for whoever pays: Foundry gear and a rematch with Unit K-7, overdriven.",
+      "unlock": {
+        "defeated": "twelve_relapsed"
+      },
+      "exits": {
+        "west": {
+          "to": "main_city",
+          "entry": "west"
+        }
+      },
+      "npcs": [],
+      "placed": [],
+      "spawning": {
+        "camps": [
+          520,
+          860,
+          1200
+        ],
+        "camp_size": [
+          2,
+          4
+        ],
+        "aggro": 100,
+        "respawn_ticks": 240,
+        "reward_scale": 0.6,
+        "elite_chance": 0.05,
+        "elite_drops": [
+          {
+            "item": "foundry_epic_body",
+            "chance": 0.02
+          }
+        ],
+        "from_x": 320,
+        "pool": {
+          "foundry_hand": 6,
+          "slag_slinger": 3,
+          "foundry_boss": 1
+        }
+      },
+      "weapons": {
+        "count": [
+          2,
+          3
+        ],
+        "pool": {
+          "pipe": 3,
+          "wrench": 3
+        }
+      },
+      "obstacles": [
+        {
+          "kind": "oil_drums",
+          "x": 300,
+          "y": 258
+        },
+        {
+          "kind": "crates",
+          "x": 640,
+          "y": 258
+        },
+        {
+          "kind": "oil_drums",
+          "x": 980,
+          "y": 258
+        },
+        {
+          "kind": "crates",
+          "x": 1320,
+          "y": 258
+        }
+      ]
+    },
+    "farm_iron_heart": {
+      "name": "The Iron Heart",
+      "level": 68,
+      "width": 2000,
+      "safe": false,
+      "theme": "canal",
+      "kit_theme": "tunnels",
+      "palette": {
+        "sky": "#100808",
+        "buildings": [
+          "#261012",
+          "#2e1416",
+          "#1e0c0e"
+        ],
+        "windows": "#ff5060",
+        "sidewalk": "#3e3436",
+        "street": "#1e1214"
+      },
+      "kind": "farm",
+      "region": "Main Control Centre",
+      "purpose": "The machine heart the Director built under the city, the last ground before level 70: Heartforged gear and the Director's last stand.",
+      "unlock": {
+        "defeated": "k7_overdriven"
+      },
+      "exits": {
+        "west": {
+          "to": "main_city",
+          "entry": "west"
+        }
+      },
+      "npcs": [],
+      "placed": [],
+      "spawning": {
+        "camps": [
+          520,
+          860,
+          1200
+        ],
+        "camp_size": [
+          2,
+          4
+        ],
+        "aggro": 100,
+        "respawn_ticks": 240,
+        "reward_scale": 0.6,
+        "elite_chance": 0.05,
+        "elite_drops": [
+          {
+            "item": "heart_epic_body",
+            "chance": 0.02
+          }
+        ],
+        "from_x": 320,
+        "pool": {
+          "heart_guard": 6,
+          "iron_sentry": 3,
+          "heart_keeper": 1
+        }
+      },
+      "weapons": {
+        "count": [
+          2,
+          3
+        ],
+        "pool": {
+          "pipe": 3,
+          "wrench": 3
+        }
+      },
+      "obstacles": [
+        {
+          "kind": "oil_drums",
+          "x": 300,
+          "y": 258
+        },
+        {
+          "kind": "crates",
+          "x": 640,
+          "y": 258
+        },
+        {
+          "kind": "oil_drums",
+          "x": 980,
+          "y": 258
+        },
+        {
+          "kind": "crates",
+          "x": 1320,
+          "y": 258
+        }
+      ]
+    },
+    "farm_core_spillway": {
+      "name": "Core Spillway",
+      "level": 43,
+      "width": 1400,
+      "safe": false,
+      "theme": "canal",
+      "kit_theme": "plant",
+      "palette": {
+        "sky": "#0c1216",
+        "buildings": [
+          "#1a242a",
+          "#202c34",
+          "#161e24"
+        ],
+        "windows": "#90e8f0",
+        "sidewalk": "#42484e",
+        "street": "#1c2226"
+      },
+      "kind": "farm",
+      "region": "The Core Facility",
+      "purpose": "The facility's spillway after the Control Room falls: the ground for levels 41-45 before the final chapter, with facility Refined Alloy and coins.",
+      "unlock": {
+        "defeated": "commander_arthit"
+      },
+      "exits": {
+        "west": {
+          "to": "main_city",
+          "entry": "west"
+        }
+      },
+      "npcs": [],
+      "placed": [],
+      "spawning": {
+        "camps": [
+          520,
+          860,
+          1200
+        ],
+        "camp_size": [
+          2,
+          4
+        ],
+        "aggro": 100,
+        "respawn_ticks": 240,
+        "reward_scale": 0.63,
+        "elite_chance": 0.05,
+        "elite_drops": [
+          {
+            "item": "spillway_epic_body",
+            "chance": 0.02
+          },
+          {
+            "item": "spillway_epic_head",
+            "chance": 0.02
+          }
+        ],
+        "from_x": 320,
+        "pool": {
+          "facility_trooper": 6,
+          "hazmat_sprayer": 2,
+          "core_sentinel": 1
+        }
+      },
+      "weapons": {
+        "count": [
+          2,
+          3
+        ],
+        "pool": {
+          "pipe": 3,
+          "wrench": 3,
+          "machete": 1
+        }
+      },
+      "obstacles": [
+        {
+          "kind": "crates",
+          "x": 260,
+          "y": 258
+        },
+        {
+          "kind": "oil_drums",
+          "x": 560,
+          "y": 258
+        },
+        {
+          "kind": "street_lamp",
+          "x": 820,
+          "y": 240
+        },
+        {
+          "kind": "crates",
+          "x": 1100,
+          "y": 258
+        }
+      ]
+    },
+    "slag_furnace": {
+      "name": "Slag Furnace",
+      "level": 58,
+      "width": 1300,
+      "safe": false,
+      "world_boss": true,
+      "theme": "canal",
+      "kit_theme": "junkyard",
+      "palette": {
+        "sky": "#120e0a",
+        "buildings": [
+          "#2a2018",
+          "#32261c",
+          "#221a14"
+        ],
+        "windows": "#ffb050",
+        "sidewalk": "#48403a",
+        "street": "#241e1a"
+      },
+      "exits": {
+        "west": {
+          "to": "main_city",
+          "entry": "west"
+        }
+      },
+      "encounters": [
+        {
+          "trigger_x": 120,
+          "arena": [
+            60,
+            1280
+          ],
+          "max_alive": 4,
+          "waves": [
+            [
+              "slag_titan"
+            ]
+          ]
+        }
+      ],
+      "obstacles": [
+        {
+          "kind": "car_wreck",
+          "x": 360,
+          "y": 262
+        },
+        {
+          "kind": "oil_drums",
+          "x": 1040,
+          "y": 258
+        }
+      ]
+    },
+    "sovereign_vault": {
+      "name": "Sovereign Vault",
+      "level": 68,
+      "width": 1300,
+      "safe": false,
+      "world_boss": true,
+      "theme": "canal",
+      "kit_theme": "tunnels",
+      "palette": {
+        "sky": "#060c0a",
+        "buildings": [
+          "#10201a",
+          "#142820",
+          "#0c1814"
+        ],
+        "windows": "#60f0a0",
+        "sidewalk": "#34403a",
+        "street": "#101a16"
+      },
+      "exits": {
+        "west": {
+          "to": "main_city",
+          "entry": "west"
+        }
+      },
+      "encounters": [
+        {
+          "trigger_x": 120,
+          "arena": [
+            60,
+            1280
+          ],
+          "max_alive": 4,
+          "waves": [
+            [
+              "iron_sovereign"
+            ]
+          ]
+        }
+      ],
+      "obstacles": [
+        {
+          "kind": "crates",
+          "x": 340,
+          "y": 258
+        },
+        {
+          "kind": "oil_drums",
+          "x": 1000,
+          "y": 258
+        }
+      ]
+    },
+    "coolant_control_room": {
+      "theme": "canal",
+      "kit_theme": "tunnels",
+      "palette": {
+        "sky": "#0a1218",
+        "buildings": [
+          "#14262e",
+          "#183038",
+          "#0f2026"
+        ],
+        "windows": "#60d0ff",
+        "sidewalk": "#3c4648",
+        "street": "#18222a"
+      },
+      "region": "Main Control Centre",
+      "name": "Coolant Control Room",
+      "level": 55,
+      "width": 1300,
+      "safe": false,
+      "kind": "lair",
+      "purpose": "Commander Arthit, Reinstated's stand at the end of the Coolant Vaults: a boss fight that comes back after every rest, with Reinstated gear.",
+      "unlock": {
+        "defeated": "director_wiroj"
+      },
+      "exits": {
+        "west": {
+          "to": "main_city",
+          "entry": "west"
+        }
+      },
+      "npcs": [],
+      "placed": [],
+      "weapons": {
+        "count": [
+          1,
+          2
+        ],
+        "pool": {
+          "pipe": 2,
+          "wrench": 2
+        }
+      },
+      "obstacles": [
+        {
+          "kind": "oil_drums",
+          "x": 260,
+          "y": 258
+        },
+        {
+          "kind": "crates",
+          "x": 1180,
+          "y": 258
+        }
+      ],
+      "encounters": [
+        {
+          "trigger_x": 420,
+          "arena": [
+            300,
+            1280
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "arthit_reinstated"
+            ],
+            [
+              "vault_trooper",
+              "vault_trooper"
+            ]
+          ]
+        }
+      ]
+    },
+    "underworks_tank_hall": {
+      "theme": "canal",
+      "kit_theme": "tunnels",
+      "palette": {
+        "sky": "#160c06",
+        "buildings": [
+          "#2e1a0e",
+          "#382012",
+          "#26150b"
+        ],
+        "windows": "#ffb050",
+        "sidewalk": "#4a3e34",
+        "street": "#24180f"
+      },
+      "region": "Main Control Centre",
+      "name": "Tank Hall",
+      "level": 60,
+      "width": 1300,
+      "safe": false,
+      "kind": "lair",
+      "purpose": "Subject Twelve, Relapsed's stand at the end of the Reactor Underworks: a boss fight that comes back after every rest, with Relapsed gear.",
+      "unlock": {
+        "defeated": "arthit_reinstated"
+      },
+      "exits": {
+        "west": {
+          "to": "main_city",
+          "entry": "west"
+        }
+      },
+      "npcs": [],
+      "placed": [],
+      "weapons": {
+        "count": [
+          1,
+          2
+        ],
+        "pool": {
+          "pipe": 2,
+          "wrench": 2
+        }
+      },
+      "obstacles": [
+        {
+          "kind": "oil_drums",
+          "x": 260,
+          "y": 258
+        },
+        {
+          "kind": "crates",
+          "x": 1180,
+          "y": 258
+        }
+      ],
+      "encounters": [
+        {
+          "trigger_x": 420,
+          "arena": [
+            300,
+            1280
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "twelve_relapsed"
+            ],
+            [
+              "underworks_brute",
+              "underworks_brute"
+            ]
+          ]
+        }
+      ]
+    },
+    "foundry_crucible": {
+      "theme": "canal",
+      "kit_theme": "tunnels",
+      "palette": {
+        "sky": "#1a0806",
+        "buildings": [
+          "#34130c",
+          "#3e1810",
+          "#2a0f09"
+        ],
+        "windows": "#ff7040",
+        "sidewalk": "#4c3a34",
+        "street": "#28140f"
+      },
+      "region": "Main Control Centre",
+      "name": "The Crucible",
+      "level": 65,
+      "width": 1300,
+      "safe": false,
+      "kind": "lair",
+      "purpose": "Unit K-7, Overdriven's stand at the end of the Foundry Depths: a boss fight that comes back after every rest, with Overdriven gear.",
+      "unlock": {
+        "defeated": "twelve_relapsed"
+      },
+      "exits": {
+        "west": {
+          "to": "main_city",
+          "entry": "west"
+        }
+      },
+      "npcs": [],
+      "placed": [],
+      "weapons": {
+        "count": [
+          1,
+          2
+        ],
+        "pool": {
+          "pipe": 2,
+          "wrench": 2
+        }
+      },
+      "obstacles": [
+        {
+          "kind": "oil_drums",
+          "x": 260,
+          "y": 258
+        },
+        {
+          "kind": "crates",
+          "x": 1180,
+          "y": 258
+        }
+      ],
+      "encounters": [
+        {
+          "trigger_x": 420,
+          "arena": [
+            300,
+            1280
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "k7_overdriven"
+            ],
+            [
+              "foundry_hand",
+              "foundry_hand"
+            ]
+          ]
+        }
+      ]
+    },
+    "heart_core_chamber": {
+      "theme": "canal",
+      "kit_theme": "tunnels",
+      "palette": {
+        "sky": "#100808",
+        "buildings": [
+          "#261012",
+          "#2e1416",
+          "#1e0c0e"
+        ],
+        "windows": "#ff5060",
+        "sidewalk": "#3e3436",
+        "street": "#1e1214"
+      },
+      "region": "Main Control Centre",
+      "name": "Heart Core Chamber",
+      "level": 70,
+      "width": 1300,
+      "safe": false,
+      "kind": "lair",
+      "purpose": "Director Wiroj, Last Stand's stand at the end of the The Iron Heart: a boss fight that comes back after every rest, with Last Stand gear.",
+      "unlock": {
+        "defeated": "k7_overdriven"
+      },
+      "exits": {
+        "west": {
+          "to": "main_city",
+          "entry": "west"
+        }
+      },
+      "npcs": [],
+      "placed": [],
+      "weapons": {
+        "count": [
+          1,
+          2
+        ],
+        "pool": {
+          "pipe": 2,
+          "wrench": 2
+        }
+      },
+      "obstacles": [
+        {
+          "kind": "oil_drums",
+          "x": 260,
+          "y": 258
+        },
+        {
+          "kind": "crates",
+          "x": 1180,
+          "y": 258
+        }
+      ],
+      "encounters": [
+        {
+          "trigger_x": 420,
+          "arena": [
+            300,
+            1280
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "wiroj_last_stand"
+            ],
+            [
+              "heart_guard",
+              "heart_guard"
+            ]
+          ]
+        }
+      ]
+    },
+    "spillway_gatehouse": {
+      "theme": "canal",
+      "kit_theme": "plant",
+      "palette": {
+        "sky": "#0c1216",
+        "buildings": [
+          "#1a242a",
+          "#202c34",
+          "#161e24"
+        ],
+        "windows": "#90e8f0",
+        "sidewalk": "#42484e",
+        "street": "#1c2226"
+      },
+      "region": "The Core Facility",
+      "name": "Spillway Gatehouse",
+      "level": 45,
+      "width": 1300,
+      "safe": false,
+      "kind": "lair",
+      "purpose": "The spillway's gatehouse, where the Spillway Chief keeps the sluice keys: a boss fight that comes back after every rest, with Spillway Chief gear.",
+      "unlock": {
+        "defeated": "commander_arthit"
+      },
+      "exits": {
+        "west": {
+          "to": "main_city",
+          "entry": "west"
+        }
+      },
+      "npcs": [],
+      "placed": [],
+      "weapons": {
+        "count": [
+          1,
+          2
+        ],
+        "pool": {
+          "pipe": 2,
+          "wrench": 2
+        }
+      },
+      "obstacles": [
+        {
+          "kind": "oil_drums",
+          "x": 260,
+          "y": 258
+        },
+        {
+          "kind": "crates",
+          "x": 1180,
+          "y": 258
+        }
+      ],
+      "encounters": [
+        {
+          "trigger_x": 420,
+          "arena": [
+            300,
+            1280
+          ],
+          "max_alive": 3,
+          "waves": [
+            [
+              "spillway_chief"
+            ],
+            [
+              "facility_trooper",
+              "facility_trooper"
+            ]
+          ]
+        }
+      ]
     }
   }
 }

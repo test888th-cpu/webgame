@@ -92,7 +92,7 @@ func test_kinds_and_regions_come_from_the_existing_data() -> void:
 func test_only_farming_grounds_carry_the_new_fields() -> void:
 	var c := _content()
 	for area_id: String in c.areas:
-		if AreaRules.kind(c, area_id) == AreaRules.FARM:
+		if AreaRules.kind(c, area_id) in AreaRules.GATED:
 			continue
 		var area := c.area(area_id)
 		for field in ["kind", "region", "unlock", "purpose"]:

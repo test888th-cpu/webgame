@@ -21095,6 +21095,158 @@
         ],
         "theme": "canal"
       },
+      "coolant_control_room": {
+        "layers": {
+          "buildings": {
+            "file": "res://assets/environment/coolant_control_room/buildings.png",
+            "size": [
+              1300,
+              230
+            ]
+          },
+          "far": {
+            "file": "res://assets/environment/coolant_control_room/far.png",
+            "size": [
+              640,
+              230
+            ]
+          },
+          "ground": {
+            "file": "res://assets/environment/coolant_control_room/ground.png",
+            "size": [
+              1300,
+              130
+            ]
+          },
+          "sky": {
+            "file": "res://assets/environment/coolant_control_room/sky.png",
+            "size": [
+              640,
+              230
+            ]
+          }
+        },
+        "props": [
+          {
+            "prop": "barrel",
+            "x": 106,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 166,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 228,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 299,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 414,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 485,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 542,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 629,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 807,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 895,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 957,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1056,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1155,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1227,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1330,
+            "y": 244
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 95,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 266,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 446,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 638,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 809,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 989,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1161,
+            "y": 246
+          }
+        ],
+        "theme": "canal"
+      },
       "cooling_tunnels": {
         "layers": {
           "buildings": {
@@ -22707,6 +22859,212 @@
         ],
         "theme": "canal"
       },
+      "farm_coolant_vaults": {
+        "layers": {
+          "buildings": {
+            "file": "res://assets/environment/farm_coolant_vaults/buildings.png",
+            "size": [
+              2000,
+              230
+            ]
+          },
+          "far": {
+            "file": "res://assets/environment/farm_coolant_vaults/far.png",
+            "size": [
+              640,
+              230
+            ]
+          },
+          "ground": {
+            "file": "res://assets/environment/farm_coolant_vaults/ground.png",
+            "size": [
+              2000,
+              130
+            ]
+          },
+          "sky": {
+            "file": "res://assets/environment/farm_coolant_vaults/sky.png",
+            "size": [
+              640,
+              230
+            ]
+          }
+        },
+        "props": [
+          {
+            "prop": "barrel",
+            "x": 110,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 173,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 320,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 387,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 476,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 528,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 584,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 671,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 747,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 834,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 995,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1113,
+            "y": 244
+          },
+          {
+            "prop": "bin",
+            "x": 1163,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1224,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1325,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1488,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 1603,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1705,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1779,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1852,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1952,
+            "y": 244
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 96,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 260,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 445,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 632,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 802,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 995,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1164,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1357,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1534,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1716,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1881,
+            "y": 246
+          }
+        ],
+        "theme": "canal"
+      },
       "farm_core_overflow": {
         "layers": {
           "buildings": {
@@ -22844,6 +23202,164 @@
             "glow": true,
             "prop": "lamp",
             "x": 1178,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1349,
+            "y": 246
+          }
+        ],
+        "theme": "canal"
+      },
+      "farm_core_spillway": {
+        "layers": {
+          "buildings": {
+            "file": "res://assets/environment/farm_core_spillway/buildings.png",
+            "size": [
+              1400,
+              230
+            ]
+          },
+          "far": {
+            "file": "res://assets/environment/farm_core_spillway/far.png",
+            "size": [
+              640,
+              230
+            ]
+          },
+          "ground": {
+            "file": "res://assets/environment/farm_core_spillway/ground.png",
+            "size": [
+              1400,
+              130
+            ]
+          },
+          "sky": {
+            "file": "res://assets/environment/farm_core_spillway/sky.png",
+            "size": [
+              640,
+              230
+            ]
+          }
+        },
+        "props": [
+          {
+            "prop": "pipe_valve",
+            "x": 152,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 268,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 350,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 461,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 564,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 636,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 698,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 781,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 869,
+            "y": 244
+          },
+          {
+            "prop": "bin",
+            "x": 941,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1002,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1099,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1186,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1273,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1386,
+            "y": 244
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 91,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 277,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 456,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 626,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 815,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 985,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1168,
             "y": 246
           },
           {
@@ -23008,6 +23524,212 @@
         ],
         "theme": "canal"
       },
+      "farm_foundry_depths": {
+        "layers": {
+          "buildings": {
+            "file": "res://assets/environment/farm_foundry_depths/buildings.png",
+            "size": [
+              2000,
+              230
+            ]
+          },
+          "far": {
+            "file": "res://assets/environment/farm_foundry_depths/far.png",
+            "size": [
+              640,
+              230
+            ]
+          },
+          "ground": {
+            "file": "res://assets/environment/farm_foundry_depths/ground.png",
+            "size": [
+              2000,
+              130
+            ]
+          },
+          "sky": {
+            "file": "res://assets/environment/farm_foundry_depths/sky.png",
+            "size": [
+              640,
+              230
+            ]
+          }
+        },
+        "props": [
+          {
+            "prop": "cones",
+            "x": 111,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 320,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 388,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 465,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 570,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 734,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 794,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 888,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 946,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1042,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 1129,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1304,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 1360,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1444,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1495,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1584,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1681,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1735,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1805,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1899,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1972,
+            "y": 244
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 84,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 271,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 450,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 637,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 815,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 982,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1160,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1351,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1523,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1711,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1881,
+            "y": 246
+          }
+        ],
+        "theme": "canal"
+      },
       "farm_harbour_stacks": {
         "layers": {
           "buildings": {
@@ -23165,6 +23887,182 @@
           }
         ],
         "theme": "depot"
+      },
+      "farm_iron_heart": {
+        "layers": {
+          "buildings": {
+            "file": "res://assets/environment/farm_iron_heart/buildings.png",
+            "size": [
+              2000,
+              230
+            ]
+          },
+          "far": {
+            "file": "res://assets/environment/farm_iron_heart/far.png",
+            "size": [
+              640,
+              230
+            ]
+          },
+          "ground": {
+            "file": "res://assets/environment/farm_iron_heart/ground.png",
+            "size": [
+              2000,
+              130
+            ]
+          },
+          "sky": {
+            "file": "res://assets/environment/farm_iron_heart/sky.png",
+            "size": [
+              640,
+              230
+            ]
+          }
+        },
+        "props": [
+          {
+            "prop": "pipe_valve",
+            "x": 225,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 301,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 388,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 573,
+            "y": 244
+          },
+          {
+            "prop": "bin",
+            "x": 672,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 906,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 985,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1056,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1173,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1324,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1573,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1677,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 1781,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1867,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1967,
+            "y": 244
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 94,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 279,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 444,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 632,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 814,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 992,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1164,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1341,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1529,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1715,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1884,
+            "y": 246
+          }
+        ],
+        "theme": "canal"
       },
       "farm_network_backrooms": {
         "layers": {
@@ -23630,6 +24528,197 @@
         ],
         "theme": "depot"
       },
+      "farm_reactor_underworks": {
+        "layers": {
+          "buildings": {
+            "file": "res://assets/environment/farm_reactor_underworks/buildings.png",
+            "size": [
+              2000,
+              230
+            ]
+          },
+          "far": {
+            "file": "res://assets/environment/farm_reactor_underworks/far.png",
+            "size": [
+              640,
+              230
+            ]
+          },
+          "ground": {
+            "file": "res://assets/environment/farm_reactor_underworks/ground.png",
+            "size": [
+              2000,
+              130
+            ]
+          },
+          "sky": {
+            "file": "res://assets/environment/farm_reactor_underworks/sky.png",
+            "size": [
+              640,
+              230
+            ]
+          }
+        },
+        "props": [
+          {
+            "prop": "pipe_valve",
+            "x": 150,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 254,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 314,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 387,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 571,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 686,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 846,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 922,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1200,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1318,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1395,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 1449,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1568,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1676,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1765,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1851,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1919,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1988,
+            "y": 244
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 88,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 279,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 444,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 635,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 810,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 990,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1165,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1359,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1532,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1714,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1889,
+            "y": 246
+          }
+        ],
+        "theme": "canal"
+      },
       "farm_saltmarket_backlots": {
         "layers": {
           "buildings": {
@@ -23936,6 +25025,143 @@
             "glow": true,
             "prop": "lamp",
             "x": 1354,
+            "y": 246
+          }
+        ],
+        "theme": "canal"
+      },
+      "foundry_crucible": {
+        "layers": {
+          "buildings": {
+            "file": "res://assets/environment/foundry_crucible/buildings.png",
+            "size": [
+              1300,
+              230
+            ]
+          },
+          "far": {
+            "file": "res://assets/environment/foundry_crucible/far.png",
+            "size": [
+              640,
+              230
+            ]
+          },
+          "ground": {
+            "file": "res://assets/environment/foundry_crucible/ground.png",
+            "size": [
+              1300,
+              130
+            ]
+          },
+          "sky": {
+            "file": "res://assets/environment/foundry_crucible/sky.png",
+            "size": [
+              640,
+              230
+            ]
+          }
+        },
+        "props": [
+          {
+            "prop": "barrel",
+            "x": 133,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 248,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 310,
+            "y": 244
+          },
+          {
+            "prop": "bin",
+            "x": 446,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 538,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 627,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 745,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 934,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 987,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1047,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1137,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1253,
+            "y": 244
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 92,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 264,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 457,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 620,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 814,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 996,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1179,
             "y": 246
           }
         ],
@@ -24448,6 +25674,128 @@
             "glow": true,
             "prop": "lamp",
             "x": 997,
+            "y": 246
+          }
+        ],
+        "theme": "canal"
+      },
+      "heart_core_chamber": {
+        "layers": {
+          "buildings": {
+            "file": "res://assets/environment/heart_core_chamber/buildings.png",
+            "size": [
+              1300,
+              230
+            ]
+          },
+          "far": {
+            "file": "res://assets/environment/heart_core_chamber/far.png",
+            "size": [
+              640,
+              230
+            ]
+          },
+          "ground": {
+            "file": "res://assets/environment/heart_core_chamber/ground.png",
+            "size": [
+              1300,
+              130
+            ]
+          },
+          "sky": {
+            "file": "res://assets/environment/heart_core_chamber/sky.png",
+            "size": [
+              640,
+              230
+            ]
+          }
+        },
+        "props": [
+          {
+            "prop": "pipe_valve",
+            "x": 156,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 241,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 440,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 499,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 582,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 907,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1067,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1178,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1256,
+            "y": 244
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 88,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 260,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 444,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 630,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 800,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 990,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1160,
             "y": 246
           }
         ],
@@ -27170,6 +28518,432 @@
         ],
         "theme": "market"
       },
+      "slag_furnace": {
+        "layers": {
+          "buildings": {
+            "file": "res://assets/environment/slag_furnace/buildings.png",
+            "size": [
+              1300,
+              230
+            ]
+          },
+          "far": {
+            "file": "res://assets/environment/slag_furnace/far.png",
+            "size": [
+              640,
+              230
+            ]
+          },
+          "ground": {
+            "file": "res://assets/environment/slag_furnace/ground.png",
+            "size": [
+              1300,
+              130
+            ]
+          },
+          "sky": {
+            "file": "res://assets/environment/slag_furnace/sky.png",
+            "size": [
+              640,
+              230
+            ]
+          }
+        },
+        "props": [
+          {
+            "prop": "pipe_valve",
+            "x": 112,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 196,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 254,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 320,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 417,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 473,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 538,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 606,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 689,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 769,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 930,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1001,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 1203,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1275,
+            "y": 244
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 99,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 263,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 450,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 636,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 801,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 986,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1167,
+            "y": 246
+          }
+        ],
+        "theme": "canal"
+      },
+      "sovereign_vault": {
+        "layers": {
+          "buildings": {
+            "file": "res://assets/environment/sovereign_vault/buildings.png",
+            "size": [
+              1300,
+              230
+            ]
+          },
+          "far": {
+            "file": "res://assets/environment/sovereign_vault/far.png",
+            "size": [
+              640,
+              230
+            ]
+          },
+          "ground": {
+            "file": "res://assets/environment/sovereign_vault/ground.png",
+            "size": [
+              1300,
+              130
+            ]
+          },
+          "sky": {
+            "file": "res://assets/environment/sovereign_vault/sky.png",
+            "size": [
+              640,
+              230
+            ]
+          }
+        },
+        "props": [
+          {
+            "prop": "pipe_valve",
+            "x": 131,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 203,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 291,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 365,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 422,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 534,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 597,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 651,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 767,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 887,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 957,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1013,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1093,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1341,
+            "y": 244
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 84,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 262,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 449,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 631,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 817,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 982,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1172,
+            "y": 246
+          }
+        ],
+        "theme": "canal"
+      },
+      "spillway_gatehouse": {
+        "layers": {
+          "buildings": {
+            "file": "res://assets/environment/spillway_gatehouse/buildings.png",
+            "size": [
+              1300,
+              230
+            ]
+          },
+          "far": {
+            "file": "res://assets/environment/spillway_gatehouse/far.png",
+            "size": [
+              640,
+              230
+            ]
+          },
+          "ground": {
+            "file": "res://assets/environment/spillway_gatehouse/ground.png",
+            "size": [
+              1300,
+              130
+            ]
+          },
+          "sky": {
+            "file": "res://assets/environment/spillway_gatehouse/sky.png",
+            "size": [
+              640,
+              230
+            ]
+          }
+        },
+        "props": [
+          {
+            "prop": "bin",
+            "x": 107,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 208,
+            "y": 244
+          },
+          {
+            "prop": "bin",
+            "x": 304,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 512,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 570,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 873,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 988,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1062,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1128,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1230,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1302,
+            "y": 244
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 86,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 264,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 450,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 625,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 812,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 992,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1172,
+            "y": 246
+          }
+        ],
+        "theme": "canal"
+      },
       "sunken_reservoir": {
         "layers": {
           "buildings": {
@@ -27625,6 +29399,143 @@
             "glow": true,
             "prop": "lamp",
             "x": 1528,
+            "y": 246
+          }
+        ],
+        "theme": "canal"
+      },
+      "underworks_tank_hall": {
+        "layers": {
+          "buildings": {
+            "file": "res://assets/environment/underworks_tank_hall/buildings.png",
+            "size": [
+              1300,
+              230
+            ]
+          },
+          "far": {
+            "file": "res://assets/environment/underworks_tank_hall/far.png",
+            "size": [
+              640,
+              230
+            ]
+          },
+          "ground": {
+            "file": "res://assets/environment/underworks_tank_hall/ground.png",
+            "size": [
+              1300,
+              130
+            ]
+          },
+          "sky": {
+            "file": "res://assets/environment/underworks_tank_hall/sky.png",
+            "size": [
+              640,
+              230
+            ]
+          }
+        },
+        "props": [
+          {
+            "prop": "pipe_valve",
+            "x": 115,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 193,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 308,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 535,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 609,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 690,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 757,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 853,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 940,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1023,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1125,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1243,
+            "y": 244
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 97,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 268,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 450,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 628,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 808,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 998,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1177,
             "y": 246
           }
         ],
@@ -29496,6 +31407,151 @@
         },
         "width": 1700
       },
+      "coolant_control_room": {
+        "far": "skyline_far",
+        "ground": {
+          "road": "tunnel_floor_tile",
+          "sidewalk": "sidewalk_tile"
+        },
+        "placed": [
+          {
+            "layer": "back",
+            "piece": "tunnel_wall",
+            "x": 198,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "tunnel_wall",
+            "x": 671,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "tunnel_wall",
+            "x": 1151,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 238,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 724,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 1199,
+            "y": 226
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 680,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "scrap_pile",
+            "x": 777,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 114,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 1015,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 922,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 496,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 609,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 1248,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 319,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 394,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 863,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 1104,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 242,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 1188,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 1294,
+            "y": 238
+          }
+        ],
+        "theme": "tunnels",
+        "tint": {
+          "back": "#3e463c",
+          "far": "#4a5048",
+          "fg": "#20261e",
+          "front": "#c8d0c0",
+          "ground": "#b8c0b0",
+          "sidewalk": "#c0c8b8"
+        },
+        "width": 1300
+      },
       "cooling_tunnels": {
         "far": "skyline_far",
         "ground": {
@@ -31328,6 +33384,205 @@
         },
         "width": 2000
       },
+      "farm_coolant_vaults": {
+        "far": "skyline_far",
+        "ground": {
+          "road": "tunnel_floor_tile",
+          "sidewalk": "sidewalk_tile"
+        },
+        "placed": [
+          {
+            "layer": "back",
+            "piece": "tunnel_wall",
+            "x": 198,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "tunnel_wall",
+            "x": 683,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "tunnel_wall",
+            "x": 1169,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 262,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 732,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 1198,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 1677,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 2157,
+            "y": 226
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 1814,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 1379,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 2043,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 272,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 1179,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 177,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 753,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 910,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "scrap_pile",
+            "x": 418,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "scrap_pile",
+            "x": 532,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 682,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 1045,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 1654,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 1724,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 107,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 1279,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 1454,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 1554,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 833,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 1110,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 1878,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 1948,
+            "y": 238
+          }
+        ],
+        "theme": "tunnels",
+        "tint": {
+          "back": "#3e463c",
+          "far": "#4a5048",
+          "fg": "#20261e",
+          "front": "#c8d0c0",
+          "ground": "#b8c0b0",
+          "sidewalk": "#c0c8b8"
+        },
+        "width": 2000
+      },
       "farm_core_overflow": {
         "far": "skyline_far",
         "ground": {
@@ -31482,6 +33737,197 @@
           "front": "#c8d0c0",
           "ground": "#b8c0b0",
           "sidewalk": "#c0c8b8"
+        },
+        "width": 1400
+      },
+      "farm_core_spillway": {
+        "far": "skyline_far",
+        "ground": {
+          "road": "road_tile",
+          "sidewalk": "sidewalk_tile"
+        },
+        "placed": [
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": -45,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 167,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 438,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 662,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 987,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "warehouse_wall",
+            "x": 218,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "steel_gate",
+            "x": 540,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "guard_booth",
+            "x": 663,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "warehouse_wall",
+            "x": 956,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "guard_booth",
+            "x": 1249,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "warehouse_wall",
+            "x": 1542,
+            "y": 226
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 332,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 625,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 1169,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 1349,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 424,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 260,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 984,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 692,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "scrap_pile",
+            "x": 129,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 210,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 1070,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 874,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 1276,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 524,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 784,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 1449,
+            "y": 238
+          },
+          {
+            "layer": "fg",
+            "piece": "fg_leaves",
+            "x": 319,
+            "y": 374
+          },
+          {
+            "layer": "fg",
+            "piece": "fg_leaves",
+            "x": 1419,
+            "y": 374
+          }
+        ],
+        "theme": "plant",
+        "tint": {
+          "back": "#6a7060",
+          "far": "#5a6050",
+          "fg": "#2a3020",
+          "front": "#d8d8c8"
         },
         "width": 1400
       },
@@ -31670,6 +34116,199 @@
         },
         "width": 1400
       },
+      "farm_foundry_depths": {
+        "far": "skyline_far",
+        "ground": {
+          "road": "tunnel_floor_tile",
+          "sidewalk": "sidewalk_tile"
+        },
+        "placed": [
+          {
+            "layer": "back",
+            "piece": "tunnel_wall",
+            "x": 198,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "tunnel_wall",
+            "x": 683,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "tunnel_wall",
+            "x": 1151,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 268,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 740,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 1218,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 1693,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 2176,
+            "y": 226
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 1267,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "scrap_pile",
+            "x": 81,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 656,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 1203,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 1969,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 1558,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 468,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 558,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 766,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 311,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 400,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "scrap_pile",
+            "x": 858,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 1387,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 1758,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 1487,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 1693,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 1855,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "scrap_pile",
+            "x": 234,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 949,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 1041,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 1106,
+            "y": 238
+          }
+        ],
+        "theme": "tunnels",
+        "tint": {
+          "back": "#3e463c",
+          "far": "#4a5048",
+          "fg": "#20261e",
+          "front": "#c8d0c0",
+          "ground": "#b8c0b0",
+          "sidewalk": "#c0c8b8"
+        },
+        "width": 2000
+      },
       "farm_harbour_stacks": {
         "far": "skyline_far",
         "ground": {
@@ -31854,6 +34493,193 @@
           "front": "#d0d8e0"
         },
         "width": 1400
+      },
+      "farm_iron_heart": {
+        "far": "skyline_far",
+        "ground": {
+          "road": "tunnel_floor_tile",
+          "sidewalk": "sidewalk_tile"
+        },
+        "placed": [
+          {
+            "layer": "back",
+            "piece": "tunnel_wall",
+            "x": 198,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "tunnel_wall",
+            "x": 673,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "tunnel_wall",
+            "x": 1151,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 260,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 735,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 1215,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 1689,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 2167,
+            "y": 226
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "scrap_pile",
+            "x": 379,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 1819,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 285,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 586,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 858,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 1255,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "scrap_pile",
+            "x": 1416,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 89,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "scrap_pile",
+            "x": 957,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "scrap_pile",
+            "x": 731,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 1659,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 474,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 1096,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 1724,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 1916,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 169,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 1196,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 1532,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 1600,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 1990,
+            "y": 238
+          }
+        ],
+        "theme": "tunnels",
+        "tint": {
+          "back": "#3e463c",
+          "far": "#4a5048",
+          "fg": "#20261e",
+          "front": "#c8d0c0",
+          "ground": "#b8c0b0",
+          "sidewalk": "#c0c8b8"
+        },
+        "width": 2000
       },
       "farm_network_backrooms": {
         "far": "skyline_far",
@@ -32411,6 +35237,211 @@
         },
         "width": 1400
       },
+      "farm_reactor_underworks": {
+        "far": "skyline_far",
+        "ground": {
+          "road": "tunnel_floor_tile",
+          "sidewalk": "sidewalk_tile"
+        },
+        "placed": [
+          {
+            "layer": "back",
+            "piece": "tunnel_wall",
+            "x": 198,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "tunnel_wall",
+            "x": 675,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "tunnel_wall",
+            "x": 1144,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 249,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 723,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 1201,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 1688,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 2158,
+            "y": 226
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 310,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 722,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 971,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 1077,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 490,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 883,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 1355,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 73,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 135,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 578,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 436,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 665,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 792,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 1592,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 1848,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 1501,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "scrap_pile",
+            "x": 1964,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "scrap_pile",
+            "x": 218,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 361,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 1168,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 1249,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 1676,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 1749,
+            "y": 238
+          }
+        ],
+        "theme": "tunnels",
+        "tint": {
+          "back": "#3e463c",
+          "far": "#4a5048",
+          "fg": "#20261e",
+          "front": "#c8d0c0",
+          "ground": "#b8c0b0",
+          "sidewalk": "#c0c8b8"
+        },
+        "width": 2000
+      },
       "farm_saltmarket_backlots": {
         "far": "skyline_far",
         "ground": {
@@ -32787,6 +35818,151 @@
           "front": "#d8ccd0"
         },
         "width": 1500
+      },
+      "foundry_crucible": {
+        "far": "skyline_far",
+        "ground": {
+          "road": "tunnel_floor_tile",
+          "sidewalk": "sidewalk_tile"
+        },
+        "placed": [
+          {
+            "layer": "back",
+            "piece": "tunnel_wall",
+            "x": 198,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "tunnel_wall",
+            "x": 677,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "tunnel_wall",
+            "x": 1154,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 241,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 725,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 1194,
+            "y": 226
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 410,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "scrap_pile",
+            "x": 811,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 1103,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 488,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 230,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 584,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 723,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 1202,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 1254,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 324,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 919,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "scrap_pile",
+            "x": 1003,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "scrap_pile",
+            "x": 1335,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "scrap_pile",
+            "x": 122,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 637,
+            "y": 238
+          }
+        ],
+        "theme": "tunnels",
+        "tint": {
+          "back": "#3e463c",
+          "far": "#4a5048",
+          "fg": "#20261e",
+          "front": "#c8d0c0",
+          "ground": "#b8c0b0",
+          "sidewalk": "#c0c8b8"
+        },
+        "width": 1300
       },
       "freight_market": {
         "far": "skyline_far",
@@ -33452,6 +36628,145 @@
           "sidewalk": "#c0c8b8"
         },
         "width": 1200
+      },
+      "heart_core_chamber": {
+        "far": "skyline_far",
+        "ground": {
+          "road": "tunnel_floor_tile",
+          "sidewalk": "sidewalk_tile"
+        },
+        "placed": [
+          {
+            "layer": "back",
+            "piece": "tunnel_wall",
+            "x": 198,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "tunnel_wall",
+            "x": 666,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "tunnel_wall",
+            "x": 1138,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 238,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 721,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 1194,
+            "y": 226
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 536,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 722,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 363,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 441,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 922,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 251,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 594,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 796,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 857,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 983,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "scrap_pile",
+            "x": 1068,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 96,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 151,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "scrap_pile",
+            "x": 1204,
+            "y": 237
+          }
+        ],
+        "theme": "tunnels",
+        "tint": {
+          "back": "#3e463c",
+          "far": "#4a5048",
+          "fg": "#20261e",
+          "front": "#c8d0c0",
+          "ground": "#b8c0b0",
+          "sidewalk": "#c0c8b8"
+        },
+        "width": 1300
       },
       "machine_hall": {
         "far": "skyline_far",
@@ -36771,6 +40086,498 @@
         },
         "width": 2400
       },
+      "slag_furnace": {
+        "far": "skyline_far",
+        "ground": {
+          "road": "road_tile",
+          "sidewalk": "sidewalk_tile"
+        },
+        "placed": [
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": -45,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 206,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 406,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 575,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 752,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 924,
+            "y": 226
+          },
+          {
+            "layer": "track",
+            "piece": "skytrain_train",
+            "x": 238,
+            "y": 101
+          },
+          {
+            "layer": "track",
+            "piece": "skytrain_train",
+            "x": 1192,
+            "y": 101
+          },
+          {
+            "layer": "front",
+            "piece": "rusted_fence",
+            "x": 97,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "closed_shop",
+            "x": 333,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "junk_shop",
+            "x": 536,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "shophouse_b",
+            "x": 756,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "junk_shop",
+            "x": 966,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "rusted_fence",
+            "x": 1190,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "closed_shop",
+            "x": 1423,
+            "y": 226
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 90,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "dog_sleeping",
+            "x": 1343,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "dog_sleeping",
+            "x": 926,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 1012,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 1242,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "dog_sleeping",
+            "x": 529,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 618,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "dog_sleeping",
+            "x": 787,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "scrap_pile",
+            "x": 250,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 437,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 174,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 1082,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 1183,
+            "y": 238
+          },
+          {
+            "layer": "fg",
+            "piece": "fg_leaves",
+            "x": 211,
+            "y": 374
+          },
+          {
+            "layer": "fg",
+            "piece": "fg_leaves",
+            "x": 1128,
+            "y": 374
+          }
+        ],
+        "theme": "junkyard",
+        "tint": {
+          "back": "#8e90b0",
+          "far": "#7a7898",
+          "fg": "#3a3448",
+          "front": "#e8dcd0",
+          "track": "#b0b0c8"
+        },
+        "track": {
+          "from": -120,
+          "piece": "skytrain_track",
+          "to": 1095,
+          "top": 100
+        },
+        "width": 1300
+      },
+      "sovereign_vault": {
+        "far": "skyline_far",
+        "ground": {
+          "road": "tunnel_floor_tile",
+          "sidewalk": "sidewalk_tile"
+        },
+        "placed": [
+          {
+            "layer": "back",
+            "piece": "tunnel_wall",
+            "x": 198,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "tunnel_wall",
+            "x": 667,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "tunnel_wall",
+            "x": 1142,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 261,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 738,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 1212,
+            "y": 226
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 277,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 184,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 425,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 1092,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 1353,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 516,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 573,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "scrap_pile",
+            "x": 666,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 968,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "scrap_pile",
+            "x": 109,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "scrap_pile",
+            "x": 1187,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 883,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 358,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "scrap_pile",
+            "x": 784,
+            "y": 238
+          }
+        ],
+        "theme": "tunnels",
+        "tint": {
+          "back": "#3e463c",
+          "far": "#4a5048",
+          "fg": "#20261e",
+          "front": "#c8d0c0",
+          "ground": "#b8c0b0",
+          "sidewalk": "#c0c8b8"
+        },
+        "width": 1300
+      },
+      "spillway_gatehouse": {
+        "far": "skyline_far",
+        "ground": {
+          "road": "road_tile",
+          "sidewalk": "sidewalk_tile"
+        },
+        "placed": [
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": -45,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 232,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 481,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 777,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "carpark_facade",
+            "x": 208,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "steel_gate",
+            "x": 527,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "warehouse_wall",
+            "x": 846,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "rusted_fence",
+            "x": 1221,
+            "y": 226
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 286,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 570,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 828,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "scrap_pile",
+            "x": 1036,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 387,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 481,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 139,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "scrap_pile",
+            "x": 1209,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 662,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 216,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 734,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 932,
+            "y": 238
+          },
+          {
+            "layer": "fg",
+            "piece": "fg_leaves",
+            "x": 279,
+            "y": 374
+          },
+          {
+            "layer": "fg",
+            "piece": "fg_leaves",
+            "x": 1317,
+            "y": 374
+          }
+        ],
+        "theme": "plant",
+        "tint": {
+          "back": "#6a7060",
+          "far": "#5a6050",
+          "fg": "#2a3020",
+          "front": "#d8d8c8"
+        },
+        "width": 1300
+      },
       "sunken_reservoir": {
         "far": "skyline_far",
         "ground": {
@@ -37238,6 +41045,145 @@
           "front": "#d8ccd0"
         },
         "width": 1600
+      },
+      "underworks_tank_hall": {
+        "far": "skyline_far",
+        "ground": {
+          "road": "tunnel_floor_tile",
+          "sidewalk": "sidewalk_tile"
+        },
+        "placed": [
+          {
+            "layer": "back",
+            "piece": "tunnel_wall",
+            "x": 198,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "tunnel_wall",
+            "x": 678,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "tunnel_wall",
+            "x": 1160,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 262,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 738,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 1214,
+            "y": 226
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 317,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 652,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 1112,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 219,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 371,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 454,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 741,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 826,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 1201,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 1275,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 111,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 538,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 939,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 1069,
+            "y": 238
+          }
+        ],
+        "theme": "tunnels",
+        "tint": {
+          "back": "#3e463c",
+          "far": "#4a5048",
+          "fg": "#20261e",
+          "front": "#c8d0c0",
+          "ground": "#b8c0b0",
+          "sidewalk": "#c0c8b8"
+        },
+        "width": 1300
       },
       "warehouse_row": {
         "far": "skyline_far",
