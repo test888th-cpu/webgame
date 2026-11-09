@@ -24,9 +24,7 @@ func test_food_and_materials_are_bought_by_the_stack_gear_one_at_a_time() -> voi
 	assert_eq(profile.count("steamed_bun"), 5, "all five in the bag")
 	assert_eq(profile.money, 50, "paid 5 x 10")
 	assert_eq(
-		ShopRules.buy(profile, "city_market", "dock_beanie", _content(), 2),
-		"bad_amount",
-		"gear: one"
+		ShopRules.buy(profile, "city_gear", "dock_beanie", _content(), 2), "bad_amount", "gear: one"
 	)
 	assert_eq(
 		ShopRules.buy(profile, "city_market", "steamed_bun", _content(), 0), "bad_amount", "0"
@@ -81,3 +79,30 @@ func test_upgrades_leave_with_the_last_copy() -> void:
 	assert_true(not profile.enhance_pity.has("brass_knuckles"), "and its pity too")
 	profile.add_item("brass_knuckles")
 	assert_eq(EnhanceRules.item_level(profile, "brass_knuckles"), 0, "one bought back is +0")
+
+
+func test_food_at_amas_every_grade_gear_at_kenjis_common_only_no_materials() -> void:
+	# The owner's rules (November 2026).
+	var c := _content()
+	var food := ShopRules.all_items(c.shops["city_market"])
+	var grades := {}
+	var last := 0.0
+	for item_id in food:
+		var item := c.item(item_id)
+		grades[item["rarity"]] = true
+		var per_hp := float(item["price"]) / float(item["heal"])
+		assert_true(per_hp >= last, item_id + ": a better grade costs a little more per HP")
+		last = per_hp
+	assert_eq(grades.size(), 3, "every grade of food: common, uncommon, rare")
+	for item_id: String in c.items:
+		if c.item(item_id).get("heal", 0) > 0:
+			assert_true(item_id in food, item_id + ": sold by Ama")
+	for shop_id: String in c.shops:
+		for item_id in ShopRules.all_items(c.shops[shop_id]):
+			assert_true(c.item(item_id)["type"] != "material", item_id + ": materials drop only")
+	var broken := ContentDB.load_all()
+	broken.shops["city_gear"]["items"].append("hard_hat")
+	broken.shops["city_market"]["items"].append("scrap_metal")
+	var said := "\n".join(ItemRules.problems(broken))
+	assert_true("hard_hat, a uncommon item" in said, "no Uncommon gear: " + said)
+	assert_true("scrap_metal, an upgrade material" in said, "no materials")

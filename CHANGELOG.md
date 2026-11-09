@@ -16,6 +16,21 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 - **Shop:** tick many items and sell them at once.
 - **World bosses** are open to every hero from level 10
   (`progression.json` `world_boss_entry_level`); no story boss has to fall first.
+- **Two shops:** Ama's Kitchen sells food and tonics, every grade, priced by grade; Kenji's
+  Gear Stall sells Common gear only ("Used ..." copies, about 85% of the old price). Uncommon
+  and better gear only drops, and no shop sells upgrade materials (both checked on load).
+- **Farming grounds** rise in step with their level: each ground has a `toughness` (HP and
+  power multipliers on its enemies) and a pay to match, set with FarmCheck (shop gear +0,
+  hero at the ground's level, 4 seeds). Kills per hour, before and after: Lv 4 1812 to 732,
+  Lv 9 1269 to 540, Lv 15 753 to 396, Lv 29 639 to 320, Lv 58 618 to 306; every ground
+  from Lv 22 to 68 now sits at 306-360.
+- **Ground prizes:** every enemy on a ground may drop the Uncommon and Rare gear of its
+  band (`spawning.drops`, shown under "Where to get"), the gear no shop sells.
+- **Map (M)** shows only the story on the street, only the farming grounds in a ground or
+  lair and only the arenas in a world boss arena; in the city everything, with each
+  category's row in its own colour.
+- **Skill effects** are drawn as wide as the blow reaches (a slam's crack, a heavy hit, a
+  boss's heavy impact, hazard landings), not at the art's full size.
 - **Bosses chase:** a boss whose hero runs more than 150 px off strides at 1.15 times the
   hero's walk until it is close again, instead of standing off calling its skills.
 - **Mini-bosses** wear the map's mini-boss mark and "Mini-boss" overhead, on the boss bar

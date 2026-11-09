@@ -19,6 +19,7 @@ const SERVICES := {
 	"thong_truck_city": ["travel", "travel"],
 	"city_notice_board": ["board", "board"],
 	"vendor_ama": ["shop", "shop"],
+	"vendor_kenji_city": ["shop", "shop"],
 	"city_workbench": ["workbench", "bag"],
 }
 ## Depot Yard as it is on main (SHA-256 of its areas.json entry, its kit and
@@ -275,8 +276,15 @@ func test_only_the_city_has_merchants_and_a_taxi() -> void:
 	for npc: Dictionary in _city()["npcs"]:
 		roles[npc["role"]] = int(roles.get(npc["role"], 0)) + 1
 	assert_eq(int(roles.get("travel", 0)), 2, "Win's story rank and Uncle Thong's truck")
-	assert_eq(int(roles.get("shop", 0)), 1, "one merchant: Ama's Market")
-	assert_eq(_content().shops.keys(), ["city_market"], "selling every trader's wares")
+	# The owner's rule (November 2026): food at Ama's, Common gear at Kenji's.
+	assert_eq(int(roles.get("shop", 0)), 2, "two merchants: Ama and Kenji")
+	assert_eq(_content().shops.keys(), ["city_market", "city_gear"], "food and gear")
+	for item_id in ShopRules.all_items(_content().shops["city_market"]):
+		assert_eq(_content().item(item_id)["type"], "consumable", item_id + ": Ama sells food")
+	for item_id in ShopRules.all_items(_content().shops["city_gear"]):
+		var item := _content().item(item_id)
+		assert_eq(item["type"], "equipment", item_id + ": Kenji sells gear")
+		assert_eq(item["rarity"], "common", item_id + ": Common only")
 	var game := _game()
 	game.profile.money = 1000
 	for area_id in StreetMemory.street(game.content):
@@ -464,28 +472,28 @@ func test_the_market_gets_each_traders_stock_with_their_chapter() -> void:
 	game._buy(_npc("vendor_ama"), "steamed_bun")
 	assert_eq(game.profile.money, 50 - price, "Ama's Market is open from the start")
 	assert_eq(game.profile.count("steamed_bun"), 4, "bought one (3 in the starter kit)")
-	var market: Dictionary = game.content.shops["city_market"]
-	var before := ShopRules.wares(game.profile, game.content, "city_market")
+	var market: Dictionary = game.content.shops["city_gear"]
+	var before := ShopRules.wares(game.profile, game.content, "city_gear")
 	for stock: Dictionary in market["stock"]:
 		var fresh := ""
 		for item_id: String in stock["items"]:
-			if item_id not in ShopRules.wares(game.profile, game.content, "city_market"):
+			if item_id not in ShopRules.wares(game.profile, game.content, "city_gear"):
 				fresh = item_id
 		if fresh == "":
 			continue
 		game.profile.money = 100000
-		var text := ShopRules.next_stock(game.profile, game.content, "city_market")
+		var text := ShopRules.next_stock(game.profile, game.content, "city_gear")
 		assert_true(text.begins_with(str(stock["from"])), "the next stock is named: " + text)
-		var refused := ShopRules.buy(game.profile, "city_market", fresh, game.content)
+		var refused := ShopRules.buy(game.profile, "city_gear", fresh, game.content)
 		assert_eq(refused, "not_sold", fresh + ": not before its chapter")
 		if stock.has("defeated"):
 			game.profile.defeated[str(stock["defeated"])] = 1
 		else:
 			StreetMemory.visit(game.profile, str(stock["reached"]))
-		assert_eq(ShopRules.buy(game.profile, "city_market", fresh, game.content), "", fresh)
-	var after := ShopRules.wares(game.profile, game.content, "city_market")
+		assert_eq(ShopRules.buy(game.profile, "city_gear", fresh, game.content), "", fresh)
+	var after := ShopRules.wares(game.profile, game.content, "city_gear")
 	assert_true(after.size() > before.size(), "the whole street's wares by the end")
-	assert_eq(ShopRules.next_stock(game.profile, game.content, "city_market"), "", "all in")
+	assert_eq(ShopRules.next_stock(game.profile, game.content, "city_gear"), "", "all in")
 	_done(game)
 
 

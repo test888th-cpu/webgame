@@ -49,6 +49,8 @@ const MIN_RESPAWN := 30
 const MIN_AGGRO := 60.0
 const MAX_AGGRO := 400.0
 const MAX_ELITE_CHANCE := 0.25
+## Most a ground may toughen its enemies ("toughness").
+const MAX_TOUGHNESS := 4.0
 
 var _started := false
 ## Camp members standing, by id -> camp index.
@@ -176,7 +178,9 @@ func _spawn(zone: ZoneSim, data: Dictionary, events: Array[ZoneEvent], camp: int
 	var lane := zone.bounds
 	var y := zone.rng.randf_range(lane.position.y + 10.0, lane.end.y - 10.0)
 	var enemy := zone.spawn_enemy(kind, Bodies.clear_spot(Vector2(x, y), zone.solids, lane))
+	_toughen(enemy, data.get("toughness", {}))
 	_scale_rewards(zone, enemy, float(data.get("reward_scale", 1.0)))
+	_add_ground_drops(zone, enemy, data.get("drops", []))
 	var brain: EnemyBrain = zone.brains[enemy.id]
 	brain.camp(enemy.position, float(data["aggro"]), float(data["aggro"]) * LEASH)
 	_members[enemy.id] = camp
@@ -239,6 +243,32 @@ static func _scale_rewards(zone: ZoneSim, enemy: Fighter, scale: float) -> void:
 	stats["loot"] = loot
 
 
+## Adds the ground's own prizes (`drops`, [{item, chance}]: the Uncommon and
+## Rare gear of its level band, which no shop sells) to what `enemy` may drop,
+## at full chance whatever the reward scale: the reason to farm (the owner's
+## request, November 2026).
+static func _add_ground_drops(zone: ZoneSim, enemy: Fighter, drops: Array) -> void:
+	if drops.is_empty():
+		return
+	var stats: Dictionary = zone._enemy_level[enemy.id]["stats"]
+	if not stats.has("loot"):
+		stats["loot"] = zone.content.enemy(enemy.kind).get("loot", {}).duplicate(true)
+	var loot: Dictionary = stats["loot"]
+	var list: Array = loot.get("drops", []).duplicate()
+	list.append_array(drops.duplicate(true))
+	loot["drops"] = list
+
+
+## Makes `enemy` as tough as its ground asks ("toughness": {"hp", "power"},
+## multipliers on its kind at the ground's level): the level curve alone left
+## some grounds far softer than the ones either side of them, so each ground
+## is set with the harness to rise in step with its level (FarmCheck).
+static func _toughen(enemy: Fighter, toughness: Dictionary) -> void:
+	enemy.max_hp = roundi(enemy.max_hp * float(toughness.get("hp", 1.0)))
+	enemy.hp = enemy.max_hp
+	enemy.power *= float(toughness.get("power", 1.0))
+
+
 ## Makes `enemy` an elite: tougher and worth ELITE_REWARD times the XP and
 ## coins its kind gives at its level (ZoneSim._defeat reads the scaled stats).
 static func _make_elite(zone: ZoneSim, enemy: Fighter) -> void:
@@ -291,14 +321,21 @@ static func problems(content: ContentDB) -> PackedStringArray:
 		var reward := float(data.get("reward_scale", 1.0))
 		if reward <= 0.0 or reward > 1.0:
 			out.append(where + ".reward_scale: above 0, at most 1")
+		var toughness: Variant = data.get("toughness", {})
+		if not toughness is Dictionary:
+			toughness = {"hp": 0.0}
+		for key: String in ["hp", "power"]:
+			var value := float((toughness as Dictionary).get(key, 1.0))
+			if value < 1.0 or value > MAX_TOUGHNESS:
+				out.append("%s.toughness.%s: 1 to %s" % [where, key, MAX_TOUGHNESS])
 		var chance := float(data.get("elite_chance", 0.0))
 		if chance < 0.0 or chance > MAX_ELITE_CHANCE:
 			out.append("%s.elite_chance: 0 to %s" % [where, MAX_ELITE_CHANCE])
-		for prize: Variant in data.get("elite_drops", []):
+		for prize: Variant in data.get("drops", []) + data.get("elite_drops", []):
 			var ok: bool = prize is Dictionary and float(prize.get("chance", 0.0)) > 0.0
 			var item := content.item(str(prize.get("item", ""))) if prize is Dictionary else {}
 			if not ok or item.get("type") != "equipment":
-				out.append(where + ".elite_drops: [{item: gear, chance > 0}]")
+				out.append(where + ".drops and elite_drops: [{item: gear, chance > 0}]")
 		var pool: Variant = data.get("pool", {})
 		if not pool is Dictionary or (pool as Dictionary).is_empty():
 			out.append(where + ".pool: {enemy: weight}, at least one")

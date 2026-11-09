@@ -7,8 +7,8 @@ extends RefCounted
 ##   budget = (BASE + PER_LEVEL * level) * SLOT_WEIGHTS[slot] * GRADES[rarity]
 ##
 ## and its score must stay within TOLERANCE of it. So a grade always means the
-## same step up, whatever the slot or level: shop gear is Common or Uncommon
-## (the steady baseline), Rare comes from enemies, Epic and Legendary from
+## same step up, whatever the slot or level: shop gear is Common (the steady
+## baseline), Uncommon and Rare come from enemies, Epic and Legendary from
 ## bosses (a story boss's signature piece, a world boss's prize), and an Epic
 ## or Legendary beats what the shop sells at its level by a clear margin
 ## without leaping a whole chapter ahead. Content checks this on load, so a
@@ -46,8 +46,9 @@ const GRADES := {
 	"godforged": 2.2,
 }
 const TOLERANCE := 0.15
-## Who may sell each grade: the shop never sells Rare or better.
-const SHOP_GRADES := ["common", "uncommon"]
+## Who may sell each grade: the owner's rule (November 2026), the gear stall
+## sells Common only; Uncommon and better come from enemies.
+const SHOP_GRADES := ["common"]
 ## Coins per point of budget: what gear the shops do not sell (boss and
 ## enemy drops) is worth when sold, so a spare boss piece is never dead
 ## weight. About what the shops ask for gear of the same worth.
@@ -103,7 +104,7 @@ static func is_upgrade(profile: PlayerProfile, key: String, content: ContentDB) 
 
 
 ## What is wrong with the equipment's grades, one message each: a score
-## outside its budget, or a shop selling Rare or better.
+## outside its budget, a shop selling gear above Common or any material.
 static func problems(content: ContentDB) -> PackedStringArray:
 	var out: PackedStringArray = []
 	for id: String in content.items:
@@ -131,6 +132,9 @@ static func problems(content: ContentDB) -> PackedStringArray:
 	for shop_id: String in content.shops:
 		for item_id: Variant in ShopRules.all_items(content.shops[shop_id]):
 			var item := content.item(str(item_id))
+			if item.get("type") == "material":
+				# The owner's rule: upgrade materials come only from the field.
+				out.append("shops.%s: sells %s, an upgrade material" % [shop_id, item_id])
 			if item.get("type") == "equipment" and item.get("rarity") not in SHOP_GRADES:
 				out.append(
 					(
@@ -153,7 +157,8 @@ static func _unique_problems(content: ContentDB) -> PackedStringArray:
 		for drop: Dictionary in content.enemies[enemy_id].get("loot", {}).get("drops", []):
 			dropped[str(drop["item"])] = "enemies.%s" % enemy_id
 	for area_id: String in content.areas:
-		for prize: Variant in FarmSpawner.spec(content, area_id).get("elite_drops", []):
+		var spawning := FarmSpawner.spec(content, area_id)
+		for prize: Variant in spawning.get("drops", []) + spawning.get("elite_drops", []):
 			if prize is Dictionary:
 				dropped[str(prize.get("item", ""))] = "areas.%s" % area_id
 	for boss: String in content.world_bosses:

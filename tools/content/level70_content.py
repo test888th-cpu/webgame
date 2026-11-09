@@ -66,7 +66,6 @@ TIERS = [
                  ("coolant_drone", "Coolant Drone", "patrol_unit", 2)],
         "champion": ("vault_warden", "Vault Warden", "core_sentinel"),
         "boss": ("arthit_reinstated", "Commander Arthit, Reinstated", "commander_arthit"),
-        "shop_from": "Ama",
         "uncommon": "Coolant", "rare": "Vault Guard", "epic": "Reinstated",
     },
     {
@@ -83,7 +82,6 @@ TIERS = [
                  ("reactor_tech", "Reactor Tech", "hazmat_sprayer", 3)],
         "champion": ("reactor_overseer", "Reactor Overseer", "plant_guard"),
         "boss": ("twelve_relapsed", "Subject Twelve, Relapsed", "subject_twelve"),
-        "shop_from": "Ama",
         "uncommon": "Underworks", "rare": "Reactor Crew", "epic": "Relapsed",
     },
     {
@@ -100,7 +98,6 @@ TIERS = [
                  ("furnace_hauler", "Furnace Hauler", "stevedore", 2)],
         "champion": ("foundry_boss", "Foundry Boss", "riot_trooper"),
         "boss": ("k7_overdriven", "Unit K-7, Overdriven", "unit_k7"),
-        "shop_from": "Ama",
         "uncommon": "Foundry", "rare": "Slagworker", "epic": "Overdriven",
     },
     {
@@ -117,7 +114,6 @@ TIERS = [
                  ("iron_sentry", "Iron Sentry", "core_sentinel", 2)],
         "champion": ("heart_keeper", "Heart Keeper", "core_sentinel"),
         "boss": ("wiroj_protocol", "The Wiroj Protocol", "director_wiroj"),
-        "shop_from": "Ama",
         "uncommon": "Heartforged", "rare": "Heart Sentry", "epic": "Protocol",
     },
 ]
@@ -539,6 +535,60 @@ def lair_area(areas, lair_id, name, ground, boss_id, guard, unlock, purpose):
     areas[lair_id] = lair
 
 
+# Farm grounds' enemy toughness and pay (the owner's request, November 2026:
+# some grounds died far too easily to unenhanced gear). Measured with
+# FarmCheck (shop gear +0, hero at the ground's level, 4 seeds) so the time to
+# clear an enemy and the damage taken rise in step with the level, and the pay
+# rises with the toughness, so a harder ground is not a worse one.
+# {ground: (hp, power, reward_scale)}
+FARM_TUNING = {
+    "farm_saltmarket_backlots": (3.0, 1.3, 1.0),
+    "farm_rail_sidings": (2.3, 1.2, 1.0),
+    "farm_harbour_stacks": (1.45, 1.1, 0.91),
+    "farm_plant_outskirts": (1.0, 1.0, 0.72),
+    "farm_network_backrooms": (1.55, 1.1, 0.74),
+    "farm_facility_annex": (1.0, 1.0, 0.63),
+    "farm_core_spillway": (1.0, 1.0, 0.63),
+    "farm_core_overflow": (1.0, 1.0, 0.57),
+    "farm_coolant_vaults": (1.15, 1.05, 0.69),
+    "farm_reactor_underworks": (1.55, 1.15, 0.93),
+    "farm_foundry_depths": (1.0, 1.0, 0.6),
+    "farm_iron_heart": (1.0, 1.0, 0.6),
+}
+
+
+def tune_farms(areas):
+    for area_id, (hp, power, reward) in FARM_TUNING.items():
+        spawning = areas[area_id]["spawning"]
+        spawning["toughness"] = {"hp": hp, "power": power}
+        spawning["reward_scale"] = reward
+
+
+# Each ground's own prizes, on any enemy there (the owner's request: a reason
+# to leave the story and farm). The Uncommon and Rare gear of the ground's
+# band, no shop sells it: a share of FARM_DROP_TOTAL per grade, split evenly.
+FARM_DROP_WINDOW = (7, 1)
+FARM_DROP_TOTAL = {"uncommon": 0.02, "rare": 0.006}
+
+
+def farm_drops(areas, items, quests):
+    rewards = set()
+    for quest in quests.values():
+        rewards |= set(quest.get("rewards", {}).get("items", {}))
+    for area_id, area in areas.items():
+        if area.get("kind") != "farm":
+            continue
+        level = int(area["level"])
+        drops = []
+        for grade, total in FARM_DROP_TOTAL.items():
+            ids = sorted(k for k, v in items.items()
+                         if v.get("type") == "equipment" and v.get("rarity") == grade
+                         and level - FARM_DROP_WINDOW[0] <= int(v["level"]) <= level + FARM_DROP_WINDOW[1]
+                         and not v.get("unique") and k not in rewards)
+            drops += [{"item": k, "chance": round(total / len(ids), 4)} for k in ids]
+        area["spawning"]["drops"] = drops
+
+
 def chain_farm_exits(areas):
     """Farming grounds are walked like a street: west out of a ground leads into the next lower
     ground (arriving at its east end), and only the lowest leads back west to the city. Grounds
@@ -624,14 +674,71 @@ def godforge_world_boss_prizes(items, specs):
                     PENDING.append(item_id)
 
 
-def shop_stock(shops, tiers, gear):
-    market = shops["city_market"]
-    stock = [s for s in market.get("stock", []) if "defeated" not in s]
+# The owner's rule (November 2026): two shops in the city. Ama sells food,
+# every grade, and nothing else; Kenji's stall sells gear, Common only. Every
+# better grade comes from enemies, and upgrade materials are never sold. Each
+# piece the market used to sell keeps its grade as a drop; the stall sells a
+# Common copy ("Used ..."), opened by the same chapter as before.
+GEAR_STALL = [
+    ({}, ["taped_knuckles", "fingerless_gloves", "dock_beanie", "padded_vest", "canvas_sneakers",
+          "work_jacket", "hard_hat", "steel_toe_boots"]),
+    ({"reached": "night_market", "from": "Kenji"},
+     ["riveted_jacket", "street_runners", "brass_knuckles", "iron_helm"]),
+    ({"reached": "port_road", "from": "Noi"},
+     ["dockers_cap", "port_jacket", "cargo_gloves", "deck_boots", "dock_hook"]),
+    ({"reached": "factory_gate", "from": "Aunt Jum"},
+     ["hazmat_hood", "plant_vest", "insulated_gloves", "lab_boots", "shock_baton"]),
+    ({"reached": "warehouse_row", "from": "Uncle Thong"},
+     ["watch_cap", "kevlar_jacket", "fight_gloves", "runner_sneakers", "weighted_knuckles"]),
+    ({"reached": "facility_gate", "from": "Lek"},
+     ["facility_helmet", "trooper_vest", "grip_gloves", "facility_boots", "riot_baton"]),
+    ({"reached": "core_approach", "from": "Ama's supply run"},
+     ["core_guard_helm", "reactor_plate", "insulated_gauntlets", "walkway_boots", "alloy_knuckles"]),
+]
+USED = []
+FOOD_PRICES = {"steamed_bun": 10, "ginger_tea": 22, "rice_box": 55, "herbal_tonic": 110}
+
+
+def used_copy(items, item_id):
+    """A Common copy of `item_id` for the gear stall: same look and stat mix, a Common budget."""
+    if items[item_id]["rarity"] == "common":
+        return item_id
+    copy_id = "used_" + item_id
+    original = items[item_id]
+    items[copy_id] = {
+        "name": "Used " + original["name"], "type": "equipment", "slot": original["slot"],
+        "rarity": "common", "level": original["level"], "price": 1,
+        "stats": dict(original["stats"]), "icon": original.get("icon", ""),
+        "description": "Second-hand, from Kenji's stall. The real thing drops on the street.",
+    }
+    PENDING.append(copy_id)
+    USED.append(copy_id)
+    return copy_id
+
+
+def price_used(items):
+    """A used copy costs what its original did, less the Common grade's share (0.85)."""
+    for copy_id in USED:
+        original = items[copy_id[len("used_"):]]
+        items[copy_id]["price"] = max(10, int(round(original["price"] * 0.85, -1)))
+
+
+def split_shops(shops, items, tiers):
+    shops["city_market"] = {"name": "Ama's Kitchen", "items": list(FOOD_PRICES), "stock": []}
+    for food, price in FOOD_PRICES.items():
+        items[food]["price"] = price
+    stock = []
+    for rule, ids in GEAR_STALL:
+        copies = [used_copy(items, i) for i in ids]
+        if rule:
+            stock.append(dict(rule, items=copies))
+        else:
+            first = copies
     for tier in tiers:
-        stock.append({"defeated": tier["unlock"], "from": tier["shop_from"],
-                      "items": ["rice_box", "herbal_tonic"] + gear[tier["key"]]["uncommon"]
-                      + ["scrap_metal", "refined_alloy"]})
-    market["stock"] = stock
+        ids = ["%s_uncommon_%s" % (tier["key"], slot) for slot in SLOTS]
+        stock.append({"defeated": tier["unlock"], "from": "Ama's supply run",
+                      "items": [used_copy(items, i) for i in ids]})
+    shops["city_gear"] = {"name": "Kenji's Gear Stall", "items": first, "stock": stock}
 
 
 def boss_fx(path, themes):
@@ -667,12 +774,15 @@ def main():
         ground_area(areas, tier)
     gap_area(areas, enemies, items)
     chain_farm_exits(areas)
+    tune_farms(areas)
     moves_doc = load("moves.json")
     for wb in WORLD_BOSSES:
         world_boss(enemies, areas, specs, items, wb, moves_doc["moves"])
     godforge_world_boss_prizes(items, specs)
+    split_shops(shops_doc.get("shops", shops_doc), items, TIERS)
     price_pending(items)
-    shop_stock(shops_doc.get("shops", shops_doc), TIERS, gear)
+    price_used(items)
+    farm_drops(areas, items, load("quests.json")["quests"])
     themes = {t["boss"][0]: fx["bosses"][t["boss"][2]] for t in TIERS}
     themes[GAP_GROUND["boss"][0]] = fx["bosses"][GAP_GROUND["boss"][2]]
     themes.update({wb["id"]: fx["bosses"][wb["clone"]] for wb in WORLD_BOSSES})

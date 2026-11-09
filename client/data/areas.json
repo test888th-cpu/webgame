@@ -4249,16 +4249,28 @@
           "x": 520,
           "y": 262,
           "color": "#c0576b",
-          "line": "Everything the street sells, under one roof.",
+          "line": "Food and tonics for the road, every grade. Gear is Kenji's business.",
           "sprite": "npc_ama",
-          "service": "Market"
+          "service": "Medicine"
+        },
+        {
+          "id": "vendor_kenji_city",
+          "name": "Kenji",
+          "role": "shop",
+          "shop": "city_gear",
+          "x": 640,
+          "y": 262,
+          "color": "#4a7a9a",
+          "line": "Plain gear, second-hand, fair prices. The good stuff? Take it off the gangs.",
+          "sprite": "npc_kenji",
+          "service": "Gear"
         },
         {
           "id": "city_workbench",
           "name": "Workbench",
           "role": "workbench",
           "piece": "crates",
-          "x": 700,
+          "x": 760,
           "y": 262,
           "color": "#b08850",
           "line": "Scrap, alloy and coins in, a better piece out. Pick worn gear to upgrade it.",
@@ -4407,7 +4419,7 @@
         ],
         "aggro": 100,
         "respawn_ticks": 240,
-        "reward_scale": 0.4,
+        "reward_scale": 1.0,
         "elite_chance": 0.05,
         "elite_drops": [
           {
@@ -4422,7 +4434,37 @@
           "street_thrower": 2,
           "pipe_brute": 1,
           "smog_warden": 1
-        }
+        },
+        "toughness": {
+          "hp": 3.0,
+          "power": 1.3
+        },
+        "drops": [
+          {
+            "item": "hard_hat",
+            "chance": 0.004
+          },
+          {
+            "item": "lucky_coin",
+            "chance": 0.004
+          },
+          {
+            "item": "rebar_pipe",
+            "chance": 0.004
+          },
+          {
+            "item": "steel_toe_boots",
+            "chance": 0.004
+          },
+          {
+            "item": "work_jacket",
+            "chance": 0.004
+          },
+          {
+            "item": "iron_wraps",
+            "chance": 0.006
+          }
+        ]
       },
       "weapons": {
         "count": [
@@ -4513,7 +4555,7 @@
         ],
         "aggro": 100,
         "respawn_ticks": 240,
-        "reward_scale": 0.51,
+        "reward_scale": 1.0,
         "elite_chance": 0.05,
         "elite_drops": [
           {
@@ -4531,7 +4573,53 @@
           "market_punk": 3,
           "rail_bruiser": 3,
           "refinery_enforcer": 1
-        }
+        },
+        "toughness": {
+          "hp": 2.3,
+          "power": 1.2
+        },
+        "drops": [
+          {
+            "item": "brass_knuckles",
+            "chance": 0.0022
+          },
+          {
+            "item": "hard_hat",
+            "chance": 0.0022
+          },
+          {
+            "item": "iron_helm",
+            "chance": 0.0022
+          },
+          {
+            "item": "lucky_coin",
+            "chance": 0.0022
+          },
+          {
+            "item": "rebar_pipe",
+            "chance": 0.0022
+          },
+          {
+            "item": "riveted_jacket",
+            "chance": 0.0022
+          },
+          {
+            "item": "steel_toe_boots",
+            "chance": 0.0022
+          },
+          {
+            "item": "street_runners",
+            "chance": 0.0022
+          },
+          {
+            "item": "work_jacket",
+            "chance": 0.0022
+          },
+          {
+            "item": "iron_wraps",
+            "chance": 0.006
+          }
+        ]
       },
       "weapons": {
         "count": [
@@ -4618,7 +4706,7 @@
         ],
         "aggro": 100,
         "respawn_ticks": 240,
-        "reward_scale": 0.63,
+        "reward_scale": 0.91,
         "elite_chance": 0.05,
         "elite_drops": [
           {
@@ -4636,7 +4724,33 @@
           "dock_slinger": 4,
           "dock_thug": 2,
           "port_guard": 1
-        }
+        },
+        "toughness": {
+          "hp": 1.45,
+          "power": 1.1
+        },
+        "drops": [
+          {
+            "item": "cargo_gloves",
+            "chance": 0.004
+          },
+          {
+            "item": "deck_boots",
+            "chance": 0.004
+          },
+          {
+            "item": "dock_hook",
+            "chance": 0.004
+          },
+          {
+            "item": "dockers_cap",
+            "chance": 0.004
+          },
+          {
+            "item": "port_jacket",
+            "chance": 0.004
+          }
+        ]
       },
       "weapons": {
         "count": [
@@ -4739,7 +4853,33 @@
           "patrol_unit": 4,
           "hazmat_sprayer": 5,
           "plant_guard": 1
-        }
+        },
+        "toughness": {
+          "hp": 1.0,
+          "power": 1.0
+        },
+        "drops": [
+          {
+            "item": "hazmat_hood",
+            "chance": 0.004
+          },
+          {
+            "item": "insulated_gloves",
+            "chance": 0.004
+          },
+          {
+            "item": "lab_boots",
+            "chance": 0.004
+          },
+          {
+            "item": "plant_vest",
+            "chance": 0.004
+          },
+          {
+            "item": "shock_baton",
+            "chance": 0.004
+          }
+        ]
       },
       "weapons": {
         "count": [
@@ -4824,7 +4964,7 @@
         ],
         "aggro": 100,
         "respawn_ticks": 240,
-        "reward_scale": 0.48,
+        "reward_scale": 0.74,
         "elite_chance": 0.05,
         "elite_drops": [
           {
@@ -4841,7 +4981,33 @@
           "network_runner": 5,
           "network_enforcer": 2,
           "ring_fighter": 1
-        }
+        },
+        "toughness": {
+          "hp": 1.55,
+          "power": 1.1
+        },
+        "drops": [
+          {
+            "item": "fight_gloves",
+            "chance": 0.004
+          },
+          {
+            "item": "kevlar_jacket",
+            "chance": 0.004
+          },
+          {
+            "item": "runner_sneakers",
+            "chance": 0.004
+          },
+          {
+            "item": "watch_cap",
+            "chance": 0.004
+          },
+          {
+            "item": "weighted_knuckles",
+            "chance": 0.004
+          }
+        ]
       },
       "weapons": {
         "count": [
@@ -4945,7 +5111,33 @@
           "hazmat_sprayer": 2,
           "patrol_unit": 1,
           "riot_trooper": 1
-        }
+        },
+        "toughness": {
+          "hp": 1.0,
+          "power": 1.0
+        },
+        "drops": [
+          {
+            "item": "facility_boots",
+            "chance": 0.004
+          },
+          {
+            "item": "facility_helmet",
+            "chance": 0.004
+          },
+          {
+            "item": "grip_gloves",
+            "chance": 0.004
+          },
+          {
+            "item": "riot_baton",
+            "chance": 0.004
+          },
+          {
+            "item": "trooper_vest",
+            "chance": 0.004
+          }
+        ]
       },
       "weapons": {
         "count": [
@@ -5038,7 +5230,25 @@
           "facility_trooper": 8,
           "patrol_unit": 1,
           "core_sentinel": 1
-        }
+        },
+        "toughness": {
+          "hp": 1.0,
+          "power": 1.0
+        },
+        "drops": [
+          {
+            "item": "alloy_knuckles",
+            "chance": 0.0067
+          },
+          {
+            "item": "insulated_gauntlets",
+            "chance": 0.0067
+          },
+          {
+            "item": "walkway_boots",
+            "chance": 0.0067
+          }
+        ]
       },
       "weapons": {
         "count": [
@@ -5117,7 +5327,7 @@
         ],
         "aggro": 100,
         "respawn_ticks": 240,
-        "reward_scale": 0.6,
+        "reward_scale": 0.69,
         "elite_chance": 0.05,
         "elite_drops": [
           {
@@ -5131,7 +5341,61 @@
           "vault_runner": 3,
           "coolant_drone": 2,
           "vault_warden": 1
-        }
+        },
+        "toughness": {
+          "hp": 1.15,
+          "power": 1.05
+        },
+        "drops": [
+          {
+            "item": "coolant_uncommon_body",
+            "chance": 0.0033
+          },
+          {
+            "item": "coolant_uncommon_charm",
+            "chance": 0.0033
+          },
+          {
+            "item": "coolant_uncommon_feet",
+            "chance": 0.0033
+          },
+          {
+            "item": "coolant_uncommon_hands",
+            "chance": 0.0033
+          },
+          {
+            "item": "coolant_uncommon_head",
+            "chance": 0.0033
+          },
+          {
+            "item": "coolant_uncommon_weapon",
+            "chance": 0.0033
+          },
+          {
+            "item": "coolant_rare_body",
+            "chance": 0.001
+          },
+          {
+            "item": "coolant_rare_charm",
+            "chance": 0.001
+          },
+          {
+            "item": "coolant_rare_feet",
+            "chance": 0.001
+          },
+          {
+            "item": "coolant_rare_hands",
+            "chance": 0.001
+          },
+          {
+            "item": "coolant_rare_head",
+            "chance": 0.001
+          },
+          {
+            "item": "coolant_rare_weapon",
+            "chance": 0.001
+          }
+        ]
       },
       "weapons": {
         "count": [
@@ -5210,7 +5474,7 @@
         ],
         "aggro": 100,
         "respawn_ticks": 240,
-        "reward_scale": 0.6,
+        "reward_scale": 0.93,
         "elite_chance": 0.05,
         "elite_drops": [
           {
@@ -5224,7 +5488,109 @@
           "tank_crawler": 5,
           "reactor_tech": 3,
           "reactor_overseer": 1
-        }
+        },
+        "toughness": {
+          "hp": 1.55,
+          "power": 1.15
+        },
+        "drops": [
+          {
+            "item": "coolant_uncommon_body",
+            "chance": 0.0017
+          },
+          {
+            "item": "coolant_uncommon_charm",
+            "chance": 0.0017
+          },
+          {
+            "item": "coolant_uncommon_feet",
+            "chance": 0.0017
+          },
+          {
+            "item": "coolant_uncommon_hands",
+            "chance": 0.0017
+          },
+          {
+            "item": "coolant_uncommon_head",
+            "chance": 0.0017
+          },
+          {
+            "item": "coolant_uncommon_weapon",
+            "chance": 0.0017
+          },
+          {
+            "item": "underworks_uncommon_body",
+            "chance": 0.0017
+          },
+          {
+            "item": "underworks_uncommon_charm",
+            "chance": 0.0017
+          },
+          {
+            "item": "underworks_uncommon_feet",
+            "chance": 0.0017
+          },
+          {
+            "item": "underworks_uncommon_hands",
+            "chance": 0.0017
+          },
+          {
+            "item": "underworks_uncommon_head",
+            "chance": 0.0017
+          },
+          {
+            "item": "underworks_uncommon_weapon",
+            "chance": 0.0017
+          },
+          {
+            "item": "coolant_rare_body",
+            "chance": 0.0005
+          },
+          {
+            "item": "coolant_rare_charm",
+            "chance": 0.0005
+          },
+          {
+            "item": "coolant_rare_feet",
+            "chance": 0.0005
+          },
+          {
+            "item": "coolant_rare_hands",
+            "chance": 0.0005
+          },
+          {
+            "item": "coolant_rare_head",
+            "chance": 0.0005
+          },
+          {
+            "item": "coolant_rare_weapon",
+            "chance": 0.0005
+          },
+          {
+            "item": "underworks_rare_body",
+            "chance": 0.0005
+          },
+          {
+            "item": "underworks_rare_charm",
+            "chance": 0.0005
+          },
+          {
+            "item": "underworks_rare_feet",
+            "chance": 0.0005
+          },
+          {
+            "item": "underworks_rare_hands",
+            "chance": 0.0005
+          },
+          {
+            "item": "underworks_rare_head",
+            "chance": 0.0005
+          },
+          {
+            "item": "underworks_rare_weapon",
+            "chance": 0.0005
+          }
+        ]
       },
       "weapons": {
         "count": [
@@ -5317,7 +5683,109 @@
           "slag_slinger": 3,
           "furnace_hauler": 2,
           "foundry_boss": 1
-        }
+        },
+        "toughness": {
+          "hp": 1.0,
+          "power": 1.0
+        },
+        "drops": [
+          {
+            "item": "foundry_uncommon_body",
+            "chance": 0.0017
+          },
+          {
+            "item": "foundry_uncommon_charm",
+            "chance": 0.0017
+          },
+          {
+            "item": "foundry_uncommon_feet",
+            "chance": 0.0017
+          },
+          {
+            "item": "foundry_uncommon_hands",
+            "chance": 0.0017
+          },
+          {
+            "item": "foundry_uncommon_head",
+            "chance": 0.0017
+          },
+          {
+            "item": "foundry_uncommon_weapon",
+            "chance": 0.0017
+          },
+          {
+            "item": "underworks_uncommon_body",
+            "chance": 0.0017
+          },
+          {
+            "item": "underworks_uncommon_charm",
+            "chance": 0.0017
+          },
+          {
+            "item": "underworks_uncommon_feet",
+            "chance": 0.0017
+          },
+          {
+            "item": "underworks_uncommon_hands",
+            "chance": 0.0017
+          },
+          {
+            "item": "underworks_uncommon_head",
+            "chance": 0.0017
+          },
+          {
+            "item": "underworks_uncommon_weapon",
+            "chance": 0.0017
+          },
+          {
+            "item": "foundry_rare_body",
+            "chance": 0.0005
+          },
+          {
+            "item": "foundry_rare_charm",
+            "chance": 0.0005
+          },
+          {
+            "item": "foundry_rare_feet",
+            "chance": 0.0005
+          },
+          {
+            "item": "foundry_rare_hands",
+            "chance": 0.0005
+          },
+          {
+            "item": "foundry_rare_head",
+            "chance": 0.0005
+          },
+          {
+            "item": "foundry_rare_weapon",
+            "chance": 0.0005
+          },
+          {
+            "item": "underworks_rare_body",
+            "chance": 0.0005
+          },
+          {
+            "item": "underworks_rare_charm",
+            "chance": 0.0005
+          },
+          {
+            "item": "underworks_rare_feet",
+            "chance": 0.0005
+          },
+          {
+            "item": "underworks_rare_hands",
+            "chance": 0.0005
+          },
+          {
+            "item": "underworks_rare_head",
+            "chance": 0.0005
+          },
+          {
+            "item": "underworks_rare_weapon",
+            "chance": 0.0005
+          }
+        ]
       },
       "weapons": {
         "count": [
@@ -5410,7 +5878,109 @@
           "rivet_thrower": 3,
           "iron_sentry": 2,
           "heart_keeper": 1
-        }
+        },
+        "toughness": {
+          "hp": 1.0,
+          "power": 1.0
+        },
+        "drops": [
+          {
+            "item": "foundry_uncommon_body",
+            "chance": 0.0017
+          },
+          {
+            "item": "foundry_uncommon_charm",
+            "chance": 0.0017
+          },
+          {
+            "item": "foundry_uncommon_feet",
+            "chance": 0.0017
+          },
+          {
+            "item": "foundry_uncommon_hands",
+            "chance": 0.0017
+          },
+          {
+            "item": "foundry_uncommon_head",
+            "chance": 0.0017
+          },
+          {
+            "item": "foundry_uncommon_weapon",
+            "chance": 0.0017
+          },
+          {
+            "item": "heart_uncommon_body",
+            "chance": 0.0017
+          },
+          {
+            "item": "heart_uncommon_charm",
+            "chance": 0.0017
+          },
+          {
+            "item": "heart_uncommon_feet",
+            "chance": 0.0017
+          },
+          {
+            "item": "heart_uncommon_hands",
+            "chance": 0.0017
+          },
+          {
+            "item": "heart_uncommon_head",
+            "chance": 0.0017
+          },
+          {
+            "item": "heart_uncommon_weapon",
+            "chance": 0.0017
+          },
+          {
+            "item": "foundry_rare_body",
+            "chance": 0.0005
+          },
+          {
+            "item": "foundry_rare_charm",
+            "chance": 0.0005
+          },
+          {
+            "item": "foundry_rare_feet",
+            "chance": 0.0005
+          },
+          {
+            "item": "foundry_rare_hands",
+            "chance": 0.0005
+          },
+          {
+            "item": "foundry_rare_head",
+            "chance": 0.0005
+          },
+          {
+            "item": "foundry_rare_weapon",
+            "chance": 0.0005
+          },
+          {
+            "item": "heart_rare_body",
+            "chance": 0.0005
+          },
+          {
+            "item": "heart_rare_charm",
+            "chance": 0.0005
+          },
+          {
+            "item": "heart_rare_feet",
+            "chance": 0.0005
+          },
+          {
+            "item": "heart_rare_hands",
+            "chance": 0.0005
+          },
+          {
+            "item": "heart_rare_head",
+            "chance": 0.0005
+          },
+          {
+            "item": "heart_rare_weapon",
+            "chance": 0.0005
+          }
+        ]
       },
       "weapons": {
         "count": [
@@ -5506,7 +6076,33 @@
           "facility_trooper": 6,
           "hazmat_sprayer": 2,
           "core_sentinel": 1
-        }
+        },
+        "toughness": {
+          "hp": 1.0,
+          "power": 1.0
+        },
+        "drops": [
+          {
+            "item": "alloy_knuckles",
+            "chance": 0.004
+          },
+          {
+            "item": "core_guard_helm",
+            "chance": 0.004
+          },
+          {
+            "item": "insulated_gauntlets",
+            "chance": 0.004
+          },
+          {
+            "item": "reactor_plate",
+            "chance": 0.004
+          },
+          {
+            "item": "walkway_boots",
+            "chance": 0.004
+          }
+        ]
       },
       "weapons": {
         "count": [
