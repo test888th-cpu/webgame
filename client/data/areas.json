@@ -4220,7 +4220,8 @@
           "color": "#e07020",
           "line": "Story routes only: anywhere on the street you've been. Ten coins. For the outskirts, ask Uncle Thong.",
           "sprite": "npc_win",
-          "routes": "story"
+          "routes": "story",
+          "service": "Taxi Rank"
         },
         {
           "id": "city_notice_board",
@@ -4245,7 +4246,8 @@
           "y": 262,
           "color": "#c0576b",
           "line": "Everything the street sells, under one roof.",
-          "sprite": "npc_ama"
+          "sprite": "npc_ama",
+          "service": "Market"
         },
         {
           "id": "city_workbench",
@@ -4255,7 +4257,8 @@
           "x": 700,
           "y": 262,
           "color": "#b08850",
-          "line": "Scrap, alloy and coins in, a better piece out. Pick worn gear to upgrade it."
+          "line": "Scrap, alloy and coins in, a better piece out. Pick worn gear to upgrade it.",
+          "service": "Workshop"
         },
         {
           "id": "thong_truck_city",
@@ -4267,7 +4270,8 @@
           "y": 262,
           "color": "#5a6a8a",
           "line": "My truck goes where the street doesn't: the farming grounds and whatever crawls out of the drains. Ten coins.",
-          "sprite": "npc_thong"
+          "sprite": "npc_thong",
+          "service": "Field Truck"
         }
       ],
       "placed": [
@@ -4294,18 +4298,6 @@
         ]
       },
       "landmarks": [
-        {
-          "x": 200,
-          "text": "Taxi Rank"
-        },
-        {
-          "x": 700,
-          "text": "Market"
-        },
-        {
-          "x": 1080,
-          "text": "Workshop"
-        },
         {
           "x": 1240,
           "text": "Training Yard"
