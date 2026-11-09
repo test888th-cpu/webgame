@@ -153,7 +153,8 @@ does. It has:
 
 The Trading Post and Guild Hall are planned and marked as such. You reach the city by
 taxi from any stand or with the pause menu's **Return to Iron City Central** (from
-any area, outside a fight), and a one-way gate leads east to Depot Yard. Auto battle's
+any area, outside a fight), and a gate leads east to Depot Yard, the street's first area, which walks back west
+into the city the same way, so the street is walked both ways from the city. Auto battle's
 trip home, a knock-out and the return after a world boss still go to Depot Yard. See
 [docs/CITY_AND_FARMING_BLUEPRINT.md](docs/CITY_AND_FARMING_BLUEPRINT.md) §12.
 

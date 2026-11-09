@@ -163,6 +163,10 @@ func test_depot_yard_is_exactly_as_on_main() -> void:
 	var npcs: Array = depot["npcs"]
 	assert_eq(npcs.map(func(n: Dictionary) -> String: return n["id"]), ["chief_odo"], "Odo stays")
 	depot.erase("npcs")
+	# The owner's later rule: the street walks back west into the city, so
+	# Depot Yard has a west exit through the city's gate; the rest is as was.
+	assert_eq(depot["exits"].get("west", {}).get("to"), CITY, "west, back into the city")
+	depot["exits"].erase("west")
 	assert_eq(JSON.stringify(depot, "", true).sha256_text(), DEPOT_AREA_SHA, "Depot Yard's data")
 	assert_eq(
 		JSON.stringify(_content().kit["areas"]["depot_yard"], "", true).sha256_text(),
@@ -178,7 +182,7 @@ func test_depot_yard_is_exactly_as_on_main() -> void:
 		var path := "res://assets/environment/depot_yard/%s.png" % layer
 		assert_eq(FileAccess.get_sha256(path), DEPOT_PNG_SHA[layer], "Depot Yard's %s" % layer)
 	assert_eq(_content().start_area, "depot_yard", "new characters still start there")
-	assert_true(not depot["exits"].has("west"), "Depot Yard gains no west exit")
+	assert_eq(depot["exits"].keys(), ["east"], "and on east, as before")
 
 
 # --- A separate area off the street ---------------------------------------
@@ -206,6 +210,8 @@ func test_the_city_is_its_own_area_off_the_street() -> void:
 			var to := str(_content().area(area_id)["exits"][side]["to"])
 			if hub_only:
 				assert_eq(to, CITY, "%s: walked out of, it leads back to the city" % area_id)
+			elif area_id == "depot_yard" and side == "west":
+				assert_eq(to, CITY, "the street walks back west into the city through its gate")
 			else:
 				assert_true(to != CITY, "no story area walks into the city (%s)" % area_id)
 	var fresh := PlayerProfile.new_game(_content())
@@ -588,4 +594,21 @@ func test_a_short_ride_list_is_shown_whole() -> void:
 	for row: Button in game.menu.find_children("Ride_*", "Button", true, false):
 		if row.is_visible_in_tree():
 			assert_true(box.grow(1).encloses(row.get_global_rect()), "%s is not cut off" % row.name)
+	_done(game)
+
+
+func test_the_street_walks_back_west_into_the_city() -> void:
+	# The owner's rule: once past, the street is walked both ways, the city
+	# included: from Saltmarket back through Depot Yard and in at the gate.
+	var game := _game()
+	game.enter_area("saltmarket", "west")
+	var left := FighterInput.new()
+	left.move = Vector2(-1, 0)
+	for area_id in ["depot_yard", CITY]:
+		for tick in 2400:
+			game.step(left)
+			if game.zone.area_id == area_id:
+				break
+		assert_eq(game.zone.area_id, area_id, "walked west into " + area_id)
+	assert_true(game.zone.hero.position.x > game.zone.bounds.get_center().x, "in at the east gate")
 	_done(game)

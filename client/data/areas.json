@@ -48,6 +48,10 @@
         "east": {
           "to": "saltmarket",
           "entry": "west"
+        },
+        "west": {
+          "to": "main_city",
+          "entry": "east"
         }
       },
       "npcs": [

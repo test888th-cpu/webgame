@@ -733,10 +733,14 @@ func _validate_city() -> void:
 	_check(not city.get("world_boss", false), where + ": not a world boss arena")
 	var exits: Dictionary = city.get("exits", {})
 	_check(exits.keys() == ["east"], where + ": its one way out is the gate east")
+	# The street's first area walks back west through the same gate.
+	var gate := str(exits.get("east", {}).get("to", ""))
 	for id: String in areas:
 		if AreaRules.kind(self, id) in [AreaRules.FARM, AreaRules.LAIR, AreaRules.WORLD_BOSS]:
 			continue
 		for side: String in areas[id].get("exits", {}):
+			if id == gate and side == "west":
+				continue
 			_check(
 				str(areas[id]["exits"][side].get("to")) != city_area,
 				"%s: %s leads into the city; it is reached by taxi only" % [where, id]
