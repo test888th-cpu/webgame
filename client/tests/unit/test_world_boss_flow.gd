@@ -166,3 +166,24 @@ func test_the_result_is_built_once_and_can_be_pressed() -> void:
 	game.free()
 	SaveStore.delete_all()
 	SaveStore.root = SaveStore.DEFAULT_ROOT
+
+
+func test_every_world_boss_fights_armed_with_a_tougher_weapon() -> void:
+	var c := _content()
+	var factor := float(c.progression["boss_weapon_durability"])
+	assert_true(factor >= 2.0 and factor <= 3.0, "two to three times as hard to break")
+	for boss: String in c.world_bosses:
+		var spec: Dictionary = c.world_bosses[boss]
+		var enemy_id := str(spec["enemy"])
+		var weapon := str(c.enemy(enemy_id).get("weapon", ""))
+		assert_true(c.weapons.has(weapon), boss + ": holds a weapon")
+		var profile := _hero()
+		var zone := ZoneSim.new(c, profile, str(spec["area"]), "west", 2)
+		var giant := zone.spawn_enemy(enemy_id, Vector2(600, 300))
+		assert_eq(giant.weapon, weapon, boss + ": spawns with it")
+		var base := int(c.weapons[weapon]["durability"])
+		assert_eq(giant.weapon_uses, roundi(base * factor), boss + ": for %d hits" % base)
+	var zone := ZoneSim.new(c, _hero(), "saltmarket", "west", 2)
+	var thug := zone.spawn_enemy("dock_thug", Vector2(500, 300))
+	zone.equip_weapon(thug, "pipe", 9)
+	assert_eq(thug.weapon_uses, 9, "anyone else's weapon lasts as before")

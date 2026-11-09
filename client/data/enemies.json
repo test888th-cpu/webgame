@@ -2148,7 +2148,8 @@
       },
       "color": "#4a6a2a",
       "sprite": "tunnel_mother",
-      "wields": false
+      "wields": false,
+      "weapon": "pipe"
     },
     "iron_colossus": {
       "name": "The Iron Colossus",
@@ -2305,7 +2306,8 @@
       },
       "color": "#30343c",
       "sprite": "iron_colossus",
-      "wields": false
+      "wields": false,
+      "weapon": "wrench"
     },
     "subject_zero": {
       "name": "Subject Zero",
@@ -2453,7 +2455,8 @@
       },
       "color": "#3a7a3a",
       "sprite": "subject_zero",
-      "wields": false
+      "wields": false,
+      "weapon": "machete"
     },
     "vault_trooper": {
       "name": "Vault Trooper",
@@ -3694,6 +3697,7 @@
       "color": "#30343c",
       "sprite": "iron_colossus",
       "wields": false,
+      "weapon": "baseball_bat",
       "tint": "#ffa070"
     },
     "iron_sovereign": {
@@ -3839,6 +3843,7 @@
       "color": "#3a7a3a",
       "sprite": "subject_zero",
       "wields": false,
+      "weapon": "machete",
       "tint": "#d8b8ff"
     },
     "spillway_chief": {

@@ -143,7 +143,7 @@ GAP_GROUND = {
 WORLD_BOSSES = [
     {
         "id": "slag_titan", "name": "The Slag Titan", "clone": "iron_colossus", "level": 60, "players": 5,
-        "tint": "#ffa070", "arena": "slag_furnace", "arena_name": "Slag Furnace", "arena_clone": "old_scrapyard",
+        "tint": "#ffa070", "weapon": "baseball_bat", "arena": "slag_furnace", "arena_name": "Slag Furnace", "arena_clone": "old_scrapyard",
         "unlock": "twelve_relapsed", "period_minutes": 360, "offset_minutes": 240,
         "prizes": [("titan_slagfist", "Titan's Slagfist", "weapon"), ("titan_grip", "Titan's Grip", "hands"),
                    ("titan_core", "Titan's Ember Core", "charm")],
@@ -151,7 +151,7 @@ WORLD_BOSSES = [
     },
     {
         "id": "iron_sovereign", "name": "The Iron Sovereign", "clone": "subject_zero", "level": 70, "players": 10,
-        "tint": "#d8b8ff", "arena": "sovereign_vault", "arena_name": "Sovereign Vault", "arena_clone": "sunken_reservoir",
+        "tint": "#d8b8ff", "weapon": "machete", "arena": "sovereign_vault", "arena_name": "Sovereign Vault", "arena_clone": "sunken_reservoir",
         "unlock": "wiroj_protocol", "period_minutes": 1440, "offset_minutes": 720,
         "prizes": [("sovereign_fists", "Sovereign Fists", "weapon"), ("sovereign_mantle", "Sovereign Mantle", "body"),
                    ("sovereign_crown", "Sovereign Crown", "head"), ("sovereign_grips", "Sovereign Grips", "hands"),
@@ -384,6 +384,7 @@ def world_boss(enemies, areas, specs, items, wb):
     data = json.loads(json.dumps(enemies[wb["clone"]]))
     data["name"] = wb["name"]
     data["tint"] = wb["tint"]
+    data["weapon"] = wb["weapon"]  # world bosses fight armed (held weapons last longer: LevelRules)
     # Rewards come from the world-boss tiers; the kill itself still guarantees
     # upgrade material, as every boss does.
     data["loot"] = {"money": [0, 0], "drops": [{"item": "refined_alloy", "chance": 1.0}]}

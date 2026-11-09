@@ -460,7 +460,7 @@ func _land_thrown(entry: Dictionary, at: Vector2, events: Array[ZoneEvent]) -> v
 func equip_weapon(f: Fighter, weapon_id: String, uses: int) -> void:
 	var weapon: Dictionary = content.weapons[weapon_id]
 	f.weapon = weapon_id
-	f.weapon_uses = uses
+	f.weapon_uses = LevelRules.held_uses(content, f.kind, uses)
 	f.weapon_moveset = weapon["moveset"].duplicate()
 	f.weapon_speed = float(weapon.get("speed", 1.0))
 	# A boss swings the weapon but keeps its own heavy, its signature blow.
