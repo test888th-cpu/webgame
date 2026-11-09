@@ -101,6 +101,25 @@ static func plan(curve: Dictionary, from: int, to: int, rate_at: Callable) -> Di
 	return {"levels": levels, "hours": total}
 
 
+## A proposed curve from target hours: `bands` [{"from", "to", "hours"}]
+## spread each band's hours over its levels, rising by `growth` per level
+## (1.0 = even), and turns hours into XP with `rate_at` (Callable(level) ->
+## XP per hour). Returns {"levels": {"N": xp}} for xp_to_next. A proposal
+## only: it is never written to game data.
+static func propose(bands: Array, rate_at: Callable, growth := 1.0) -> Dictionary:
+	var levels := {}
+	for band: Dictionary in bands:
+		var from := int(band["from"])
+		var to := int(band["to"])
+		var weights := 0.0
+		for i in to - from:
+			weights += pow(growth, i)
+		for i in to - from:
+			var hours := float(band["hours"]) * pow(growth, i) / weights
+			levels[str(from + i)] = roundi(hours * float(rate_at.call(from + i)))
+	return {"base": 0, "growth": 0, "square": 0, "levels": levels}
+
+
 ## The best measured rate for `level` among `rates` ({area: {level: xp per
 ## hour}}), using each ground's nearest measured hero level at or below
 ## `level` (a hero does not lose a ground by levelling).

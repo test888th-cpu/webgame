@@ -71,3 +71,15 @@ func test_synthetic_relevels_do_not_leak() -> void:
 	assert_eq(int(_content().area(area)["level"]), before, "the ground's level is restored")
 	var fresh := ContentDB.load_all()
 	assert_true(not fresh.items.has("syn_alloy_knuckles_60"), "nothing synthetic reaches the data")
+
+
+func test_a_proposal_spends_each_band_s_hours() -> void:
+	var bands := [{"from": 1, "to": 3, "hours": 4.0}, {"from": 3, "to": 4, "hours": 10.0}]
+	var rate := func(_l: int) -> float: return 1000.0
+	var curve := LevelingSim.propose(bands, rate)
+	assert_eq(LevelingSim.xp_to_next(curve, 1), 2000, "two hours each in the first band")
+	assert_eq(LevelingSim.xp_to_next(curve, 3), 10000, "the whole second band")
+	var hours := LevelingSim.plan(curve, 1, 4, rate)
+	assert_eq(hours["hours"], 14.0, "the plan spends exactly the target hours")
+	var rising := LevelingSim.propose([{"from": 1, "to": 3, "hours": 3.0}], rate, 2.0)
+	assert_eq(LevelingSim.xp_to_next(rising, 2), 2 * LevelingSim.xp_to_next(rising, 1), "rises")
