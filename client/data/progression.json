@@ -10,7 +10,6 @@
     "power": 0.05
   },
   "defeat_money_loss": 0.1,
-  "boss_fight_food": 6,
   "sell_rate": 0.3,
   "max_characters": 4,
   "enhance": {

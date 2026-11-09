@@ -68,44 +68,31 @@ func test_the_quick_heal_key_picks_the_fitting_food() -> void:
 	SaveStore.root = SaveStore.DEFAULT_ROOT
 
 
-func test_a_boss_fight_allows_only_a_few_foods() -> void:
-	var profile := _carrying({"steamed_bun": 20})
+func test_food_is_never_limited_in_a_boss_fight() -> void:
+	# The owner's rule: food heals as it always has, with no cap per fight.
+	# Only the short shared cooldown (skills.json item_cooldown) spaces bites.
+	var profile := _carrying({"steamed_bun": 30})
 	var zone := ZoneSim.new(_content(), profile, "saltmarket", "", 1)
-	var limit := int(_content().progression["boss_fight_food"])
-	assert_eq(FoodRules.boss_food_left(zone), -1, "no boss up: no limit")
-	for i in limit + 2:
-		zone.hero.hp = 1
-		zone.item_cooldown = 0
-		assert_true(zone.use_item("steamed_bun"), "eaten freely between bosses")
 	var boss := zone.spawn_enemy("sludge_foreman", Vector2(600, 300))
-	assert_eq(zone.boss_id, boss.id, "a boss is up")
-	assert_eq(FoodRules.boss_food_left(zone), limit, "a fresh boss fight: the full allowance")
-	for i in limit:
+	assert_eq(zone.boss_id, boss.id, "a boss fight is on")
+	for i in 25:
 		zone.hero.hp = 1
 		zone.item_cooldown = 0
-		assert_true(zone.use_item("steamed_bun"), "food %d of %d" % [i + 1, limit])
-	zone.hero.hp = 1
-	zone.item_cooldown = 0
-	assert_true(not zone.use_item("steamed_bun"), "the allowance is spent")
-	assert_eq(profile.count("steamed_bun"), 20 - 2 * limit - 2, "the refused food is kept")
-	assert_eq(FoodRules.why_not(zone, "steamed_bun"), "No more food in this boss fight", "said")
-	assert_eq(FoodRules.why_not(zone, ""), "Nothing to eat", "nothing carried")
-	var pilot := AutoPilot.new(_content())
-	pilot.think(zone)
-	assert_eq(pilot.item, "", "auto battle does not try to eat either")
+		assert_true(zone.use_item("steamed_bun"), "food %d is eaten" % (i + 1))
+	assert_eq(profile.count("steamed_bun"), 5, "every bite came from the bag")
+	assert_true(not _content().progression.has("boss_fight_food"), "no per-fight food limit")
 
 
-func test_food_cannot_stand_in_for_gear_against_the_final_boss() -> void:
-	# A level 50 hero in starter clothes with a bag of tonics loses to the
-	# Director; the same hero in shop gear wins (the harness that tuned it).
-	var weak := _final_boss_fight("starter")
-	var geared := _final_boss_fight("shop")
-	assert_true(weak["ko"], "starter gear and food alone fall short")
-	assert_true(not geared["ko"] and geared["clear"], "proper gear wins")
-
-
-func _final_boss_fight(gear: String) -> Dictionary:
-	var setup := {"area": "core_chamber", "hero": "oren", "level": 50, "boss_only": true}
-	setup["gear"] = gear
-	setup["food"] = {"herbal_tonic": 10}
-	return ProgressionHarness.run_area(_content(), setup)
+func test_healing_keeps_its_approved_values() -> void:
+	# Guards against indirect nerfs: the heal amounts and the shared cooldown
+	# stay as approved, and eating restores the full heal.
+	var heals := {"steamed_bun": 25, "ginger_tea": 50, "rice_box": 120, "herbal_tonic": 220}
+	for item_id: String in heals:
+		assert_eq(int(_content().item(item_id)["heal"]), heals[item_id], item_id)
+	assert_eq(_content().item_cooldown, 120, "two seconds between bites")
+	var profile := _carrying({"rice_box": 1})
+	var zone := ZoneSim.new(_content(), profile, "saltmarket", "", 1)
+	zone.hero.hp = 10
+	assert_true(zone.use_item("rice_box"), "eaten")
+	assert_eq(zone.hero.hp, mini(zone.hero.max_hp, 130), "the whole heal lands")
+	assert_eq(zone.item_cooldown, 120, "the usual short cooldown, nothing longer")

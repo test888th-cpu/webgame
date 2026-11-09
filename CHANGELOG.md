@@ -4,6 +4,21 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Fixed: the original food and world boss rules are back
+- **Food:** unlimited again, as before PR #73.
+  - The 6-foods-per-boss-fight cap is removed (progression.json `boss_fight_food`, `FoodRules.boss_food_left`, the hotbar dimming and the "No more food" message).
+  - Healing is exactly as approved: the same heal amounts and the 2-second shared cooldown.
+- **World bosses:** unlimited entries again.
+  - The 3-tries-per-round limit is removed (world_boss.json `attempts`, `WorldBossRules.attempts_left` and `begin_attempt`, the "tries left" texts).
+  - No daily limit and no wait between attempts.
+  - Saves that carry the old attempt count still load; the field is ignored.
+- **Bosses:** Director Wiroj's ×2.2 and Subject Twelve's ×1.5 power (phases included) are reverted to their earlier values.
+  - They raised danger for every hero alike, the best-geared most (audit §12).
+  - No replacement multiplier is added.
+- **Tests:**
+  - The three tests that encoded the caps are removed.
+  - New guards: food is never limited in a boss fight; heal amounts and the cooldown keep their approved values; world-boss entries stay open after any number of attempts.
+
 ### Changed: gear and upgrades matter against bosses; food tops up, it does not carry the fight
 - **The problem, measured** (ProgressionHarness, a level 50 hero against Director Wiroj,
   3 seeds each):

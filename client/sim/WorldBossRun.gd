@@ -33,7 +33,6 @@ func _init(
 	round = p_round
 	level = WorldBossRules.level(content, boss)
 	total = WorldBossRules.pool(content, boss)
-	WorldBossRules.begin_attempt(profile, boss, round)
 	var state := WorldBossRules.progress(profile, boss, round)
 	_remaining = maxi(1, total - int(state["dealt"]))
 	# Until the round ends: the boss stays up for its hour, then escapes.
