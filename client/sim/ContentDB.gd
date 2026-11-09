@@ -15,7 +15,7 @@ const ITEM_TYPES := ["consumable", "equipment", "material", "key"]
 ## hand-in (quests.json "dialogue").
 const DIALOGUE_LINES := ["offer", "active", "done"]
 ## From most common to rarest; the UI colours names by rarity.
-const RARITIES := ["common", "uncommon", "rare", "epic", "legendary", "mythic"]
+const RARITIES := ["common", "uncommon", "rare", "epic", "legendary", "godforged"]
 const EXIT_SIDES := ["west", "east"]
 ## NPC roles: people (shop, quests, travel) and things to use (a workbench
 ## that opens the upgrade screen, a notice board to read). A thing names the

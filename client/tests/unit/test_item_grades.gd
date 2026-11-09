@@ -235,5 +235,5 @@ func test_the_map_names_the_prizes_to_be_won() -> void:
 	profile.defeated[str(WorldBossRules.spec(c, "tunnel_mother")["unlock"])] = 1
 	StreetMemory.visit(profile, "great_drain")
 	var drain := MapRules.about(profile, c, "great_drain", "depot_yard")
-	assert_true("Legendary:" in drain["prize_text"], "a world boss's prizes")
+	assert_true("Godforged:" in drain["prize_text"], "a world boss's prizes, its own grade")
 	assert_eq(MapRules.about(profile, c, "saltmarket", "depot_yard")["prize_text"], "", "none")

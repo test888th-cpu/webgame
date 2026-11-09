@@ -130,7 +130,7 @@ static func about(
 	info["gate"] = _gate(profile, area)
 	info["prizes"] = prizes(content, area_id)
 	var groups: Array[String] = []
-	for grade: String in ["mythic", "legendary", "epic"]:
+	for grade: String in ["godforged", "legendary", "epic"]:
 		var names: Array[String] = []
 		for item_id: String in info["prizes"]:
 			if content.item(item_id).get("rarity") == grade:
@@ -257,7 +257,7 @@ static func prizes(content: ContentDB, area_id: String) -> Array[String]:
 		if str(data.get("area")) == area_id:
 			found.append_array(data.get("kill", {}).get("rolls", {}).keys())
 	var out: Array[String] = []
-	for grade: String in ["mythic", "legendary", "epic"]:
+	for grade: String in ["godforged", "legendary", "epic"]:
 		for item_id in found:
 			if content.item(item_id).get("rarity") == grade and item_id not in out:
 				out.append(item_id)

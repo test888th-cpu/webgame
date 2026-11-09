@@ -1,7 +1,7 @@
 extends TestCase
 ## Gear for levels 50-70: every tier has every slot in three grades with a
 ## source, upgrades stay +0 to +10 but cost more for high-level items, the
-## workbench previews the next level, the mythic grade is priced by the
+## workbench previews the next level, the Godforged grade is priced by the
 ## same budget, and the market's 50-70 stock opens with the lair bosses.
 
 const TIERS := ["coolant", "underworks", "foundry", "heart"]
@@ -65,24 +65,61 @@ func test_every_new_piece_has_a_source() -> void:
 		for boss: String in c.world_bosses:
 			var spec: Dictionary = c.world_bosses[boss]
 			prizes.append_array(spec.get("kill", {}).get("rolls", {}).keys())
-		var mythic := ""
+		var top := ""
 		for item_id: String in c.items:
-			if c.item(item_id).get("rarity") == "mythic" and c.item(item_id)["slot"] == slot:
-				mythic = item_id
-		assert_true(mythic in prizes, slot + ": a mythic piece from a world boss")
+			var item := c.item(item_id)
+			if item.get("rarity") == "godforged" and item["slot"] == slot and item["level"] == 70:
+				top = item_id
+		assert_true(top in prizes, slot + ": a level 70 Godforged piece from a world boss")
 
 
-func test_mythic_is_priced_by_the_budget() -> void:
-	var item := {"slot": "body", "rarity": "mythic", "level": 70, "stats": {}}
+func test_godforged_is_priced_by_the_budget() -> void:
+	var item := {"slot": "body", "rarity": "godforged", "level": 70, "stats": {}}
 	var legendary := item.duplicate()
 	legendary["rarity"] = "legendary"
 	assert_near(
 		ItemRules.budget(item) / ItemRules.budget(legendary),
-		ItemRules.GRADES["mythic"] / ItemRules.GRADES["legendary"],
-		"a mythic is worth its grade over a legendary",
+		ItemRules.GRADES["godforged"] / ItemRules.GRADES["legendary"],
+		"Godforged is worth its grade over a legendary",
 		0.0001
 	)
-	assert_true(ItemRules.GRADES["mythic"] > ItemRules.GRADES["legendary"], "the top grade")
+	for grade: String in ItemRules.GRADES:
+		assert_true(ItemRules.GRADES["godforged"] >= ItemRules.GRADES[grade], "the top grade")
+
+
+func test_world_bosses_pay_godforged_gear_above_anything_else_of_its_level() -> void:
+	# World boss prizes are their own grade: worth well above the best story,
+	# lair or field piece of the same level and slot.
+	var c := _content()
+	var prizes := {}
+	for boss: String in c.world_bosses:
+		var spec: Dictionary = c.world_bosses[boss]
+		var rewards: Array = (spec["tiers"] as Array).duplicate()
+		rewards.append(spec.get("kill", {}))
+		for reward: Dictionary in rewards:
+			for item_id: String in reward.get("rolls", {}):
+				prizes[item_id] = true
+	assert_true(prizes.size() >= 15, "every world boss pays its own pieces")
+	for item_id: String in c.items:
+		var item := c.item(item_id)
+		if item.get("type") != "equipment":
+			continue
+		assert_eq(
+			item["rarity"] == "godforged",
+			prizes.has(item_id),
+			item_id + ": Godforged exactly when a world boss pays it"
+		)
+	for item_id: String in prizes:
+		var prize := c.item(item_id)
+		for other_id: String in c.items:
+			var other := c.item(other_id)
+			if prizes.has(other_id) or other.get("type") != "equipment":
+				continue
+			if other["slot"] == prize["slot"] and other["level"] == prize["level"]:
+				assert_true(
+					ItemRules.score(prize) >= ItemRules.score(other) * 1.3,
+					"%s beats %s by 30%% or more" % [item_id, other_id]
+				)
 
 
 func test_upgrades_stay_at_ten_and_cost_more_for_high_level_items() -> void:

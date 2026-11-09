@@ -20,7 +20,7 @@ What it builds (all values are first-pass, configurable starting points):
   falls);
 * gear for every slot in four tiers (53, 58, 63, 68): uncommon (the market),
   rare (the ground's monsters), epic (the rematch boss and champion);
-  legendary pieces from a level 60 world boss and a mythic set from a level 70
+  Godforged pieces (the world bosses' own grade) from a level 60 world boss and a set from a level 70
   world boss, with stats priced by the ItemRules budget;
 * market stock for each tier, opened by the previous rematch boss;
 * two world bosses (unlimited entries, as every world boss), with a round
@@ -147,7 +147,7 @@ WORLD_BOSSES = [
         "unlock": "twelve_relapsed", "period_minutes": 360, "offset_minutes": 240,
         "prizes": [("titan_slagfist", "Titan's Slagfist", "weapon"), ("titan_grip", "Titan's Grip", "hands"),
                    ("titan_core", "Titan's Ember Core", "charm")],
-        "grade": "legendary", "item_level": 60,
+        "grade": "godforged", "item_level": 60,
     },
     {
         "id": "iron_sovereign", "name": "The Iron Sovereign", "clone": "subject_zero", "level": 70, "players": 10,
@@ -156,7 +156,7 @@ WORLD_BOSSES = [
         "prizes": [("sovereign_fists", "Sovereign Fists", "weapon"), ("sovereign_mantle", "Sovereign Mantle", "body"),
                    ("sovereign_crown", "Sovereign Crown", "head"), ("sovereign_grips", "Sovereign Grips", "hands"),
                    ("sovereign_treads", "Sovereign Treads", "feet"), ("sovereign_seal", "Sovereign Seal", "charm")],
-        "grade": "mythic", "item_level": 70,
+        "grade": "godforged", "item_level": 70,
     },
 ]
 
@@ -217,7 +217,7 @@ def is_generated(item_id):
 
 def make_item(items, item_id, name, slot, grade, level, description, price=0):
     """Adds an item with its template's stat mix; price_pending() scales the stats to the budget."""
-    _, base = template(items, slot, "legendary" if grade == "mythic" else grade)
+    _, base = template(items, slot, "legendary" if grade == "godforged" else grade)
     item = {"name": name, "type": "equipment", "slot": slot, "rarity": grade, "level": level,
             "price": price, "stats": dict(base["stats"]), "icon": base.get("icon", ""),
             "description": description}
@@ -399,7 +399,7 @@ def world_boss(enemies, areas, specs, items, wb):
         make_item(items, item_id, name, slot, wb["grade"], wb["item_level"], "A prize of %s." % wb["name"])
         prize_ids.append(item_id)
     base = json.loads(json.dumps(specs[wb["clone"]]))
-    rare_roll = 0.03 if wb["grade"] == "mythic" else 0.05
+    rare_roll = 0.03 if wb["players"] >= 10 else 0.05
     rolls = {p: rare_roll for p in prize_ids}
     base.update({
         "enemy": wb["id"], "area": wb["arena"], "unlock": wb["unlock"], "level": wb["level"],
@@ -414,6 +414,21 @@ def world_boss(enemies, areas, specs, items, wb):
     ]
     base["kill"] = {"money": 7000, "items": {"refined_alloy": 18}, "rolls": {p: round(rare_roll * 3, 3) for p in prize_ids}}
     specs[wb["id"]] = base
+
+
+def godforge_world_boss_prizes(items, specs):
+    """Every world boss prize is Godforged (ItemRules: the top grade, world bosses only), its
+    stats re-priced to that budget, so a world boss pays gear well above anything else of its
+    level. Covers the bosses written by hand (the Tunnel Mother, the Iron Colossus, Subject
+    Zero) as well as the ones this script writes; re-running re-prices from the budget, so the
+    stats never compound."""
+    for spec in specs.values():
+        rewards = list(spec.get("tiers", [])) + [spec.get("kill", {})]
+        for reward in rewards:
+            for item_id in reward.get("rolls", {}):
+                if item_id in items and item_id not in PENDING:
+                    items[item_id]["rarity"] = "godforged"
+                    PENDING.append(item_id)
 
 
 def shop_stock(shops, tiers, gear):
@@ -460,6 +475,7 @@ def main():
     gap_area(areas, enemies, items)
     for wb in WORLD_BOSSES:
         world_boss(enemies, areas, specs, items, wb)
+    godforge_world_boss_prizes(items, specs)
     price_pending(items)
     shop_stock(shops_doc.get("shops", shops_doc), TIERS, gear)
     themes = {t["boss"][0]: fx["bosses"][t["boss"][2]] for t in TIERS}
