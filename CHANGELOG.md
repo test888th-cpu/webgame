@@ -4,6 +4,31 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed: gear and upgrades matter against bosses; food tops up, it does not carry the fight
+- **The problem, measured** (ProgressionHarness, a level 50 hero against Director Wiroj,
+  3 seeds each):
+  - With no food, starter clothes always lose (3/3 knocked out). Shop gear wins, boss gear
+    wins faster, and +10 gear takes a quarter of the damage.
+  - But with 10 herbal tonics, starter clothes won, eating 4 times their health in food
+    (one tonic every 2 seconds). About 900 coins of food did the work of all the gear,
+    enhancing and boss drops, so none of them were needed.
+- **The fix:** a boss fight allows 6 foods (progression.json `"boss_fight_food"`,
+  `FoodRules.boss_food_left`). Elsewhere food is unlimited, as before. Each boss spawned
+  (and each world boss attempt) starts a fresh allowance.
+  - When the allowance is spent, the food slot on the hotbar dims.
+  - The quick-heal key and the bag say "No more food in this boss fight".
+  - Auto battle stops trying to eat.
+- **After** (same harness):
+  - Starter clothes at level 50 now lose to the Director 3/3, even with tonics.
+  - Shop gear at each area's own level still clears every story stage sampled (from
+    Rusted Corner to the Core Chamber, Oren and Mika, 0 knock-outs). The 6 allowed keep
+    the Gang HQ boss as it was.
+  - An over-levelled hero can still beat early bosses in old gear, as in any RPG.
+- **Tests:**
+  - The allowance counts per boss fight and keeps the refused food.
+  - Auto battle stops eating when the allowance is spent.
+  - Starter clothes plus tonics lose to the final boss; shop gear wins.
+
 ### Changed: quests taken and claimed from the quest card, as in mobile games
 - **The quest card does it all** (`Hud._update_quest`, `QuestFlow`), from wherever the
   hero is, with no walk to a giver and no searching for one:

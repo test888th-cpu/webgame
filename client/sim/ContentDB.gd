@@ -863,6 +863,7 @@ func _validate_heroes() -> void:
 func _validate_progression() -> void:
 	_number(progression, "max_level", "progression", 1)
 	_number(progression, "sell_rate", "progression", 0)
+	_number(progression, "boss_fight_food", "progression", 1)
 	_number(progression, "max_characters", "progression", 1)
 	_check(float(progression.get("sell_rate", 0)) < 1.0, "progression.sell_rate: below 1")
 	var xp: Variant = progression.get("xp")

@@ -403,8 +403,8 @@ func quick_heal() -> bool:
 	if item_id and zone.use_item(item_id):
 		healed_by(item_id)
 		return true
-	if zone.item_cooldown == 0 and item_id == "":
-		_hud.toast("Nothing to eat")
+	if zone.item_cooldown == 0 and FoodRules.why_not(zone, item_id) != "":
+		_hud.toast(FoodRules.why_not(zone, item_id))
 	Sfx.play("denied", -4.0)
 	return false
 
@@ -571,7 +571,7 @@ func _use(item_id: String) -> void:
 	elif zone.item_cooldown > 0:
 		_hud.toast("Wait a moment before using another item")
 	else:
-		_hud.toast("No effect right now")
+		_hud.toast(FoodRules.why_not(zone, item_id, "No effect right now"))
 	_reopen_bag("bag:" + item_id)
 
 
