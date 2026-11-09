@@ -42,7 +42,8 @@ const GRADES := {
 	"rare": 1.15,
 	"epic": 1.35,
 	"legendary": 1.6,
-	"mythic": 1.85,
+	# World boss prizes only: well above anything else of their level.
+	"godforged": 2.2,
 }
 const TOLERANCE := 0.15
 ## Who may sell each grade: the shop never sells Rare or better.

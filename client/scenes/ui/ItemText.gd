@@ -10,7 +10,7 @@ const RARITY_COLORS := {
 	"rare": Color("5fa8f0"),
 	"epic": Color("c08af5"),
 	"legendary": Color("f2a54a"),
-	"mythic": Color("ff6f6f"),
+	"godforged": Color("7ef0ff"),
 }
 const SLOT_NAMES := {
 	"head": "Head",

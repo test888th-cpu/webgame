@@ -144,6 +144,15 @@ static func armed_chance(data: Dictionary, level: int) -> float:
 	return clampf(float(data.get("weapon_chance", 0.0)) + 0.015 * (level - 1), 0.0, 0.7)
 
 
+## How many hits a weapon held by fighter kind `kind` lasts, from its `uses`:
+## a boss's weapon lasts progression.json "boss_weapon_durability" times longer
+## (a boss's grip is harder to break), anyone else's as it is.
+static func held_uses(content: ContentDB, kind: String, uses: int) -> int:
+	if not content.enemy(kind).get("boss", false):
+		return uses
+	return maxi(uses, roundi(uses * float(content.progression.get("boss_weapon_durability", 1.0))))
+
+
 ## The weapon an enemy spawns holding (armed_chance said it is armed): its
 ## own "weapon" when it names one (a boss), else one rolled for its level.
 static func armed_weapon(

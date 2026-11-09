@@ -5,6 +5,19 @@ extends RefCounted
 ## left of it), counts the damage the hero deals to it, and ends when the
 ## round's hour runs out, the boss falls, the hero does or leaves. Pure: the zone is passed in on
 ## every call, never kept.
+##
+## The round runs on the world's clock, not on how many ticks the hero's game
+## has run: tick() takes the time `now` (the server's, once online), so a
+## browser tab that sleeps in the background never stops the round. When the
+## hour is up the boss escapes: it can no longer be hit, its mechanics stop,
+## it walks off the arena and is gone, and only then does the attempt end
+## ("time"), leaving the hero alone in the arena.
+
+## How fast (px per tick) and for how long at most the boss escapes, and how
+## far past the arena's edge it is gone.
+const ESCAPE_SPEED := 4.0
+const ESCAPE_TICKS := 180
+const ESCAPE_MARGIN := 120.0
 
 ## Why it ended ("" while running): "time", "slain", "down" or "left".
 var ended := ""
@@ -16,6 +29,13 @@ var level := 1
 var total := 0
 var dealt := 0
 var ticks_left := 0
+## When the round's hour ends (unix seconds).
+var closes_at := 0
+## True while the boss is escaping at the end of the hour.
+var escaping := false
+## Set by whoever shows the result once it is shown, so it is shown (and the
+## damage banked) once: the street goes on behind the result screen.
+var banked := false
 
 ## The round's enrage (world_boss.json "enrage", BossEnrage): "" before,
 ## "warned", then "enraged" for the round's last seconds.
@@ -24,6 +44,8 @@ var rage := ""
 var _boss_id := 0
 var _remaining := 0
 var _rage_spec := {}
+var _escape_ticks := 0
+var _escape_x := 0.0
 
 
 func _init(
@@ -41,16 +63,20 @@ func _init(
 	var state := WorldBossRules.progress(profile, boss, round)
 	_remaining = maxi(1, total - int(state["dealt"]))
 	# Until the round ends: the boss stays up for its hour, then escapes.
-	var seconds := int(WorldBossRules.window(content, boss, now)["closes_at"]) - now
-	ticks_left = maxi(1, seconds) * CombatRules.TICK_RATE
+	closes_at = int(WorldBossRules.window(content, boss, now)["closes_at"])
+	ticks_left = maxi(1, closes_at - now) * CombatRules.TICK_RATE
 	_rage_spec = WorldBossRules.spec(content, boss).get("enrage", {})
 	# The arena takes the boss's level, so its brood fights at its side.
 	zone.level = level - LevelRules.BOSS_BONUS
 
 
-## Advances the attempt by the tick that produced `events`.
-func tick(zone: ZoneSim, events: Array[ZoneEvent]) -> void:
+## Advances the attempt by the tick that produced `events`, at time `now`
+## (unix seconds; -1 counts ticks only, for tests that run the clock by ticks).
+func tick(zone: ZoneSim, events: Array[ZoneEvent], now := -1) -> void:
 	if ended:
+		return
+	if escaping:
+		_tick_escape(zone)
 		return
 	if _boss_id == 0 and zone.boss_id != 0:
 		_boss_id = zone.boss_id
@@ -68,9 +94,46 @@ func tick(zone: ZoneSim, events: Array[ZoneEvent]) -> void:
 			ended = "left"
 	if _boss_id != 0 and not ended:
 		ticks_left -= 1
+		if now >= 0:
+			# The world's clock wins: a tab asleep in the background loses no time.
+			ticks_left = mini(ticks_left, (closes_at - now) * CombatRules.TICK_RATE)
 		_tick_rage(zone)
 		if ticks_left <= 0:
-			ended = "time"
+			_start_escape(zone)
+
+
+## The hour is up: the boss stops fighting and makes for the east edge.
+func _start_escape(zone: ZoneSim) -> void:
+	escaping = true
+	ticks_left = 0
+	var boss := zone.fighter(_boss_id)
+	if zone.boss_id == _boss_id:
+		zone.boss_id = 0  # its hazards and summons stop (BossMechanics)
+	if boss == null or boss.is_ko():
+		ended = "time"
+		return
+	_escape_x = boss.position.x
+
+
+## One step of the escape: untouchable and not attacking, it walks east past
+## the arena's edge (or for ESCAPE_TICKS at most) and is gone.
+func _tick_escape(zone: ZoneSim) -> void:
+	var boss := zone.fighter(_boss_id)
+	_escape_ticks += 1
+	if boss == null:
+		ended = "time"
+		return
+	boss.grace = maxi(boss.grace, 2)
+	var brain: EnemyBrain = zone.brains.get(boss.id)
+	if brain:
+		brain.cooldown = maxi(brain.cooldown, 30)
+	_escape_x += ESCAPE_SPEED
+	boss.position.x = _escape_x
+	boss.facing = 1
+	if _escape_x > zone.bounds.end.x + ESCAPE_MARGIN or _escape_ticks >= ESCAPE_TICKS:
+		zone.fighters.erase(boss)
+		zone.brains.erase(boss.id)
+		ended = "time"
 
 
 ## The round's last seconds: warned, then enraged (applied once per attempt).
@@ -104,6 +167,8 @@ func hud_text() -> String:
 		"WORLD BOSS  %d:%02d  ·  %d%% left"
 		% [seconds_left() / 60, seconds_left() % 60, roundi(remaining_share() * 100)]
 	)
+	if escaping:
+		return text + "  ·  IT ESCAPES"
 	if rage == "warned":
 		return text + "  ·  enrage soon"
 	if rage == "enraged":

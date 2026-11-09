@@ -15,7 +15,7 @@ const ITEM_TYPES := ["consumable", "equipment", "material", "key"]
 ## hand-in (quests.json "dialogue").
 const DIALOGUE_LINES := ["offer", "active", "done"]
 ## From most common to rarest; the UI colours names by rarity.
-const RARITIES := ["common", "uncommon", "rare", "epic", "legendary", "mythic"]
+const RARITIES := ["common", "uncommon", "rare", "epic", "legendary", "godforged"]
 const EXIT_SIDES := ["west", "east"]
 ## NPC roles: people (shop, quests, travel) and things to use (a workbench
 ## that opens the upgrade screen, a notice board to read). A thing names the
@@ -813,6 +813,8 @@ func _validate_progression() -> void:
 	_number(progression, "max_level", "progression", 1)
 	_number(progression, "sell_rate", "progression", 0)
 	_number(progression, "max_characters", "progression", 1)
+	if progression.has("boss_weapon_durability"):
+		_number(progression, "boss_weapon_durability", "progression", 1)
 	_check(float(progression.get("sell_rate", 0)) < 1.0, "progression.sell_rate: below 1")
 	var xp: Variant = progression.get("xp")
 	_check(xp is Dictionary, "progression.xp: expected an object")

@@ -4,10 +4,12 @@ extends Node2D
 ## the size of what it will hit, darkening and pulsing as it comes, then a
 ## shipping container as wide as that mark falling off a crane ("crane"), a burst of scalding
 ## steam from a floor vent ("steam"), a security laser sweeping the lane
-## ("laser"), floor plates shocking ("shock") or a geyser of drain sludge
-## ("sludge"). The marks, vents, plates and beams are drawn to the exact size
-## of what they hit; the burst on landing is a pixelfx effect
-## (BossFxRules.hazard, spawned by GameFeedback), so nothing is drawn twice.
+## ("laser"), floor plates shocking ("shock"), a geyser of drain sludge
+## ("sludge"), the street splitting across its whole depth ("quake") or a
+## rain of molten slag, rivets or debris, one drop per mark ("rain"). The
+## marks, vents, plates and beams are drawn to the exact size of what they hit;
+## the burst on landing is a pixelfx effect (BossFxRules.hazard, spawned by
+## GameFeedback), so nothing is drawn twice.
 ## Presentation only; BossMechanics decides who it hits.
 
 const FALL_SECONDS := 0.25
@@ -22,6 +24,10 @@ const STEAM := Color(0.92, 0.95, 1.0, 0.85)
 const SLUDGE := Color(0.35, 0.6, 0.2, 0.9)
 const LASER := Color(1.0, 0.18, 0.25)
 const SPARK := Color(0.55, 0.85, 1.0)
+const CRACK := Color(1.0, 0.55, 0.15)
+const EMBER := Color(1.0, 0.62, 0.2)
+## How high a rain drop starts above its mark, in pixels.
+const RAIN_HEIGHT := 200.0
 const GRATE := Color("2a2a30")
 const GRATE_BAR := Color("55555c")
 ## Seconds a bolt pattern holds before the next, so the arcs flicker.
@@ -68,6 +74,12 @@ func _draw() -> void:
 		return
 	if kind == "shock":
 		_draw_shock(near, pulse)
+		return
+	if kind == "quake":
+		_draw_quake(near, pulse)
+		return
+	if kind == "rain":
+		_draw_rain(near, pulse)
 		return
 	if not _landed:
 		var shade := Color(0.9, 0.1, 0.05, 0.25 + 0.35 * near + 0.15 * pulse)
@@ -184,3 +196,50 @@ func _bolt(x: float, steps: int, rise: float, color: Color) -> void:
 		points.append(Vector2(x + _bolts.randf_range(-6.0, 6.0), -step * rise))
 	draw_polyline(points, Color(SPARK, color.a * 0.5), 3.0)
 	draw_polyline(points, color, 1.0)
+
+
+## A seam splitting the street across its whole depth at the mark: a dark
+## crack that zig-zags from the far kerb to the near one, glowing hotter as it
+## comes; on landing it bursts open (the slam effect is spawned on top) and
+## chunks of road jump and fall back.
+func _draw_quake(near: float, pulse: float) -> void:
+	_bolts.seed = get_instance_id()
+	var points := PackedVector2Array()
+	var steps := 8
+	for i in steps + 1:
+		var y := -half.y + half.y * 2.0 * i / steps
+		points.append(Vector2(_bolts.randf_range(-half.x * 0.5, half.x * 0.5), y))
+	var zone := Rect2(-half.x, -half.y, half.x * 2.0, half.y * 2.0)
+	if not _landed:
+		draw_rect(zone, Color(CRACK, 0.06 + 0.14 * near + 0.06 * pulse))
+		draw_polyline(points, Color(0.1, 0.05, 0.03, 0.4 + 0.5 * near), 2.0 + 2.0 * near)
+		draw_polyline(points, Color(CRACK, 0.3 + 0.6 * near * pulse), 1.0)
+		return
+	var fade := clampf(1.0 - _since_landed / 0.7, 0.0, 1.0)
+	draw_rect(zone, Color(CRACK, 0.3 * fade))
+	draw_polyline(points, Color(0.08, 0.04, 0.02, 0.9 * fade), 5.0)
+	draw_polyline(points, Color(1, 0.85, 0.5, fade), 2.0)
+	for i in 6:
+		var jump := sin(clampf(_since_landed / 0.5, 0.0, 1.0) * PI) * (10.0 + i * 3.0)
+		var at := points[i + 1] + Vector2((i % 2) * 8.0 - 4.0, -jump)
+		draw_rect(Rect2(at - Vector2(2, 2), Vector2(4, 4)), Color(0.35, 0.3, 0.28, fade))
+
+
+## One drop of a rain volley: a glowing mark on the ground that tightens as
+## the drop comes, the drop itself falling with a short trail, and a splash of
+## embers where it lands (the hit effect is spawned on top).
+func _draw_rain(near: float, pulse: float) -> void:
+	if not _landed:
+		_ellipse(half * (1.4 - 0.5 * near), Color(EMBER, 0.15 + 0.3 * near + 0.1 * pulse))
+		_ellipse_outline(half, Color(EMBER, 0.5 + 0.4 * pulse))
+		if _left <= FALL_SECONDS * 2.0:
+			var fall := clampf(_left / (FALL_SECONDS * 2.0), 0.0, 1.0) * RAIN_HEIGHT
+			draw_line(Vector2(0, -fall - 14.0), Vector2(0, -fall), Color(EMBER, 0.5), 2.0)
+			draw_circle(Vector2(0, -fall), 3.0, Color(1, 0.85, 0.5))
+		return
+	var fade := clampf(1.0 - _since_landed / 0.45, 0.0, 1.0)
+	_ellipse(half * (1.0 + _since_landed), Color(EMBER, 0.45 * fade))
+	for i in 5:
+		var angle := -PI * (0.15 + 0.7 * i / 4.0)
+		var reach := 6.0 + 18.0 * clampf(_since_landed / 0.3, 0.0, 1.0)
+		draw_circle(Vector2(cos(angle), sin(angle)) * reach, 1.5, Color(1, 0.8, 0.4, fade))

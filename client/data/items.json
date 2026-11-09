@@ -832,12 +832,12 @@
       "name": "Mother's Fang",
       "type": "equipment",
       "slot": "weapon",
-      "rarity": "legendary",
+      "rarity": "godforged",
       "level": 30,
       "price": 0,
       "stats": {
-        "power": 1.12,
-        "crit": 0.17
+        "power": 1.54,
+        "crit": 0.23
       },
       "icon": "mothers_fang",
       "description": "A tooth the size of a fist, set in tar-black tape. The drains remember who took it."
@@ -846,13 +846,13 @@
       "name": "Mother's Heart",
       "type": "equipment",
       "slot": "charm",
-      "rarity": "legendary",
+      "rarity": "godforged",
       "level": 30,
       "price": 0,
       "stats": {
-        "max_hp": 105,
-        "power": 0.15,
-        "attack_speed": 0.11
+        "max_hp": 144,
+        "power": 0.21,
+        "attack_speed": 0.15
       },
       "icon": "mothers_heart",
       "description": "A green stone from the heart of the Great Drain. It beats, slowly, when you fight."
@@ -861,13 +861,13 @@
       "name": "Colossus Core",
       "type": "equipment",
       "slot": "charm",
-      "rarity": "legendary",
+      "rarity": "godforged",
       "level": 45,
       "price": 0,
       "stats": {
-        "max_hp": 150,
-        "power": 0.22,
-        "attack_speed": 0.15
+        "max_hp": 207,
+        "power": 0.3,
+        "attack_speed": 0.21
       },
       "icon": "colossus_core",
       "description": "The Colossus's power cell, still warm. It hums in time with your heart."
@@ -876,13 +876,13 @@
       "name": "Piston Gauntlets",
       "type": "equipment",
       "slot": "hands",
-      "rarity": "legendary",
+      "rarity": "godforged",
       "level": 45,
       "price": 0,
       "stats": {
-        "power": 0.62,
-        "defense": 4,
-        "crit": 0.12
+        "power": 0.88,
+        "defense": 5,
+        "crit": 0.16
       },
       "icon": "piston_gauntlets",
       "description": "Hydraulic fists from the Colossus's arms. Every punch lands like a press."
@@ -891,12 +891,12 @@
       "name": "Zero's Mantle",
       "type": "equipment",
       "slot": "body",
-      "rarity": "legendary",
+      "rarity": "godforged",
       "level": 50,
       "price": 0,
       "stats": {
-        "defense": 16,
-        "max_hp": 165
+        "defense": 22,
+        "max_hp": 226
       },
       "icon": "zeros_mantle",
       "description": "The first worker's lab coat, hardened by years in the sludge. It turns blades."
@@ -905,13 +905,13 @@
       "name": "The Iron Legacy",
       "type": "equipment",
       "slot": "weapon",
-      "rarity": "legendary",
+      "rarity": "godforged",
       "level": 50,
       "price": 0,
       "stats": {
-        "power": 1.68,
-        "crit": 0.2,
-        "attack_speed": 0.14
+        "power": 2.32,
+        "crit": 0.27,
+        "attack_speed": 0.19
       },
       "icon": "iron_legacy",
       "description": "Knuckles forged from the Core Chamber's last door. South Street's story, worn on your fists."
@@ -2415,44 +2415,45 @@
       "name": "Titan's Slagfist",
       "type": "equipment",
       "slot": "weapon",
-      "rarity": "legendary",
+      "rarity": "godforged",
       "level": 60,
       "price": 0,
       "stats": {
-        "power": 1.98,
-        "crit": 0.24,
-        "attack_speed": 0.17
+        "power": 2.74,
+        "crit": 0.3,
+        "attack_speed": 0.24
       },
-      "icon": "iron_legacy",
+      "icon": "arthit_baton",
       "description": "A prize of The Slag Titan."
     },
     "titan_grip": {
       "name": "Titan's Grip",
       "type": "equipment",
       "slot": "hands",
-      "rarity": "legendary",
+      "rarity": "godforged",
       "level": 60,
       "price": 0,
       "stats": {
-        "power": 0.8,
-        "defense": 5,
-        "crit": 0.16
+        "power": 0.83,
+        "defense": 7,
+        "crit": 0.25,
+        "attack_speed": 0.16
       },
-      "icon": "piston_gauntlets",
+      "icon": "grip_gloves",
       "description": "A prize of The Slag Titan."
     },
     "titan_core": {
       "name": "Titan's Ember Core",
       "type": "equipment",
       "slot": "charm",
-      "rarity": "legendary",
+      "rarity": "godforged",
       "level": 60,
       "price": 0,
       "stats": {
-        "max_hp": 174,
-        "power": 0.3,
-        "crit": 0.11,
-        "attack_speed": 0.11
+        "max_hp": 239,
+        "power": 0.41,
+        "crit": 0.15,
+        "attack_speed": 0.15
       },
       "icon": "colossus_core",
       "description": "A prize of The Slag Titan."
@@ -2461,27 +2462,27 @@
       "name": "Sovereign Fists",
       "type": "equipment",
       "slot": "weapon",
-      "rarity": "mythic",
+      "rarity": "godforged",
       "level": 70,
       "price": 0,
       "stats": {
-        "power": 2.65,
-        "crit": 0.32,
-        "attack_speed": 0.22
+        "power": 3.16,
+        "crit": 0.35,
+        "attack_speed": 0.28
       },
-      "icon": "iron_legacy",
+      "icon": "arthit_baton",
       "description": "A prize of The Iron Sovereign."
     },
     "sovereign_mantle": {
       "name": "Sovereign Mantle",
       "type": "equipment",
       "slot": "body",
-      "rarity": "mythic",
+      "rarity": "godforged",
       "level": 70,
       "price": 0,
       "stats": {
-        "defense": 25,
-        "max_hp": 259
+        "defense": 30,
+        "max_hp": 308
       },
       "icon": "zeros_mantle",
       "description": "A prize of The Iron Sovereign."
@@ -2490,13 +2491,13 @@
       "name": "Sovereign Crown",
       "type": "equipment",
       "slot": "head",
-      "rarity": "mythic",
+      "rarity": "godforged",
       "level": 70,
       "price": 0,
       "stats": {
-        "defense": 15,
-        "max_hp": 187,
-        "crit": 0.18
+        "defense": 17,
+        "max_hp": 223,
+        "crit": 0.21
       },
       "icon": "core_guard_helm",
       "description": "A prize of The Iron Sovereign."
@@ -2505,28 +2506,29 @@
       "name": "Sovereign Grips",
       "type": "equipment",
       "slot": "hands",
-      "rarity": "mythic",
+      "rarity": "godforged",
       "level": 70,
       "price": 0,
       "stats": {
-        "power": 1.07,
-        "defense": 7,
-        "crit": 0.21
+        "power": 0.95,
+        "defense": 8,
+        "crit": 0.28,
+        "attack_speed": 0.18
       },
-      "icon": "piston_gauntlets",
+      "icon": "grip_gloves",
       "description": "A prize of The Iron Sovereign."
     },
     "sovereign_treads": {
       "name": "Sovereign Treads",
       "type": "equipment",
       "slot": "feet",
-      "rarity": "mythic",
+      "rarity": "godforged",
       "level": 70,
       "price": 0,
       "stats": {
-        "speed": 0.54,
-        "defense": 11,
-        "attack_speed": 0.28
+        "speed": 0.64,
+        "defense": 13,
+        "attack_speed": 0.34
       },
       "icon": "walkway_boots",
       "description": "A prize of The Iron Sovereign."
@@ -2535,14 +2537,14 @@
       "name": "Sovereign Seal",
       "type": "equipment",
       "slot": "charm",
-      "rarity": "mythic",
+      "rarity": "godforged",
       "level": 70,
       "price": 0,
       "stats": {
-        "max_hp": 232,
-        "power": 0.4,
-        "crit": 0.15,
-        "attack_speed": 0.15
+        "max_hp": 276,
+        "power": 0.47,
+        "crit": 0.18,
+        "attack_speed": 0.18
       },
       "icon": "colossus_core",
       "description": "A prize of The Iron Sovereign."
@@ -2575,6 +2577,157 @@
       },
       "icon": "dockers_cap",
       "description": "Taken from the Spillway Chief."
+    },
+    "marshal_greatcoat": {
+      "name": "Marshal's Greatcoat",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "godforged",
+      "level": 56,
+      "price": 0,
+      "stats": {
+        "defense": 24,
+        "max_hp": 250
+      },
+      "icon": "zeros_mantle",
+      "description": "A prize of The Floodgate Marshal."
+    },
+    "marshal_visor": {
+      "name": "Marshal's Floodlight Visor",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "godforged",
+      "level": 56,
+      "price": 0,
+      "stats": {
+        "defense": 14,
+        "max_hp": 181,
+        "crit": 0.17
+      },
+      "icon": "core_guard_helm",
+      "description": "A prize of The Floodgate Marshal."
+    },
+    "marshal_sabatons": {
+      "name": "Marshal's Sabatons",
+      "type": "equipment",
+      "slot": "feet",
+      "rarity": "godforged",
+      "level": 56,
+      "price": 0,
+      "stats": {
+        "speed": 0.52,
+        "defense": 11,
+        "attack_speed": 0.27
+      },
+      "icon": "walkway_boots",
+      "description": "A prize of The Floodgate Marshal."
+    },
+    "crucible_maul": {
+      "name": "Crucible King's Maul",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "godforged",
+      "level": 64,
+      "price": 0,
+      "stats": {
+        "power": 2.91,
+        "crit": 0.32,
+        "attack_speed": 0.26
+      },
+      "icon": "arthit_baton",
+      "description": "A prize of The Crucible King."
+    },
+    "crucible_gauntlets": {
+      "name": "Crucible Gauntlets",
+      "type": "equipment",
+      "slot": "hands",
+      "rarity": "godforged",
+      "level": 64,
+      "price": 0,
+      "stats": {
+        "power": 0.88,
+        "defense": 7,
+        "crit": 0.26,
+        "attack_speed": 0.17
+      },
+      "icon": "grip_gloves",
+      "description": "A prize of The Crucible King."
+    },
+    "crucible_heart": {
+      "name": "Heart of the Crucible",
+      "type": "equipment",
+      "slot": "charm",
+      "rarity": "godforged",
+      "level": 64,
+      "price": 0,
+      "stats": {
+        "max_hp": 254,
+        "power": 0.44,
+        "crit": 0.16,
+        "attack_speed": 0.16
+      },
+      "icon": "colossus_core",
+      "description": "A prize of The Crucible King."
+    },
+    "founders_edge": {
+      "name": "The Founder's Edge",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "godforged",
+      "level": 70,
+      "price": 0,
+      "stats": {
+        "power": 3.16,
+        "crit": 0.35,
+        "attack_speed": 0.28
+      },
+      "icon": "arthit_baton",
+      "description": "A prize of The Founder's Engine."
+    },
+    "founders_plate": {
+      "name": "Founder's Plate",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "godforged",
+      "level": 70,
+      "price": 0,
+      "stats": {
+        "defense": 30,
+        "max_hp": 308
+      },
+      "icon": "zeros_mantle",
+      "description": "A prize of The Founder's Engine."
+    },
+    "founders_halo": {
+      "name": "Founder's Halo",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "godforged",
+      "level": 70,
+      "price": 0,
+      "stats": {
+        "defense": 17,
+        "max_hp": 223,
+        "crit": 0.21
+      },
+      "icon": "core_guard_helm",
+      "description": "A prize of The Founder's Engine."
+    },
+    "founders_engine_core": {
+      "name": "Engine Heart",
+      "type": "equipment",
+      "slot": "charm",
+      "rarity": "godforged",
+      "level": 70,
+      "price": 0,
+      "stats": {
+        "max_hp": 276,
+        "power": 0.47,
+        "crit": 0.18,
+        "attack_speed": 0.18
+      },
+      "icon": "colossus_core",
+      "description": "A prize of The Founder's Engine."
     }
   }
 }

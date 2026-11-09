@@ -22163,6 +22163,128 @@
         ],
         "theme": "depot"
       },
+      "crucible_pit": {
+        "layers": {
+          "buildings": {
+            "file": "res://assets/environment/crucible_pit/buildings.png",
+            "size": [
+              1300,
+              230
+            ]
+          },
+          "far": {
+            "file": "res://assets/environment/crucible_pit/far.png",
+            "size": [
+              640,
+              230
+            ]
+          },
+          "ground": {
+            "file": "res://assets/environment/crucible_pit/ground.png",
+            "size": [
+              1300,
+              130
+            ]
+          },
+          "sky": {
+            "file": "res://assets/environment/crucible_pit/sky.png",
+            "size": [
+              640,
+              230
+            ]
+          }
+        },
+        "props": [
+          {
+            "prop": "barrel",
+            "x": 273,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 369,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 464,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 524,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 596,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 712,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 778,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 982,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1285,
+            "y": 244
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 85,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 269,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 458,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 627,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 811,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 985,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1163,
+            "y": 246
+          }
+        ],
+        "theme": "canal"
+      },
       "depot_yard": {
         "layers": {
           "buildings": {
@@ -25025,6 +25147,260 @@
             "glow": true,
             "prop": "lamp",
             "x": 1354,
+            "y": 246
+          }
+        ],
+        "theme": "canal"
+      },
+      "floodgate_barracks": {
+        "layers": {
+          "buildings": {
+            "file": "res://assets/environment/floodgate_barracks/buildings.png",
+            "size": [
+              1300,
+              230
+            ]
+          },
+          "far": {
+            "file": "res://assets/environment/floodgate_barracks/far.png",
+            "size": [
+              640,
+              230
+            ]
+          },
+          "ground": {
+            "file": "res://assets/environment/floodgate_barracks/ground.png",
+            "size": [
+              1300,
+              130
+            ]
+          },
+          "sky": {
+            "file": "res://assets/environment/floodgate_barracks/sky.png",
+            "size": [
+              640,
+              230
+            ]
+          }
+        },
+        "props": [
+          {
+            "prop": "barrel",
+            "x": 199,
+            "y": 244
+          },
+          {
+            "prop": "bin",
+            "x": 310,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 609,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 705,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 806,
+            "y": 244
+          },
+          {
+            "prop": "cones",
+            "x": 915,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1055,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1150,
+            "y": 244
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 99,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 263,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 443,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 630,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 803,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 980,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1171,
+            "y": 246
+          }
+        ],
+        "theme": "canal"
+      },
+      "founders_floor": {
+        "layers": {
+          "buildings": {
+            "file": "res://assets/environment/founders_floor/buildings.png",
+            "size": [
+              1300,
+              230
+            ]
+          },
+          "far": {
+            "file": "res://assets/environment/founders_floor/far.png",
+            "size": [
+              640,
+              230
+            ]
+          },
+          "ground": {
+            "file": "res://assets/environment/founders_floor/ground.png",
+            "size": [
+              1300,
+              130
+            ]
+          },
+          "sky": {
+            "file": "res://assets/environment/founders_floor/sky.png",
+            "size": [
+              640,
+              230
+            ]
+          }
+        },
+        "props": [
+          {
+            "prop": "pipe_valve",
+            "x": 103,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 172,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 345,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 464,
+            "y": 244
+          },
+          {
+            "prop": "bin",
+            "x": 535,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 629,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 694,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 808,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 889,
+            "y": 244
+          },
+          {
+            "prop": "barrel",
+            "x": 1082,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1150,
+            "y": 244
+          },
+          {
+            "prop": "pipe_valve",
+            "x": 1251,
+            "y": 244
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 98,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 265,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 441,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 639,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 802,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 987,
+            "y": 246
+          },
+          {
+            "glow": true,
+            "prop": "lamp",
+            "x": 1163,
             "y": 246
           }
         ],
@@ -32653,6 +33029,210 @@
         },
         "width": 1600
       },
+      "crucible_pit": {
+        "far": "skyline_far",
+        "ground": {
+          "road": "road_tile",
+          "sidewalk": "sidewalk_tile"
+        },
+        "placed": [
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": -45,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 215,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 415,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 680,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "condo_tower",
+            "x": 833,
+            "y": 226
+          },
+          {
+            "layer": "track",
+            "piece": "skytrain_train",
+            "x": 185,
+            "y": 101
+          },
+          {
+            "layer": "track",
+            "piece": "skytrain_train",
+            "x": 1071,
+            "y": 101
+          },
+          {
+            "layer": "front",
+            "piece": "rusted_fence",
+            "x": 98,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "junk_shop",
+            "x": 325,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "rusted_fence",
+            "x": 563,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "closed_shop",
+            "x": 803,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "rusted_fence",
+            "x": 1043,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "junk_shop",
+            "x": 1278,
+            "y": 226
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 115,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "cat",
+            "x": 702,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 792,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "scrap_pile",
+            "x": 1238,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "scrap_pile",
+            "x": 375,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 1012,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 914,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 205,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 285,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 615,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 864,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 1156,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 553,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "trash_bin",
+            "x": 452,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 1083,
+            "y": 238
+          },
+          {
+            "layer": "fg",
+            "piece": "fg_leaves",
+            "x": 252,
+            "y": 374
+          },
+          {
+            "layer": "fg",
+            "piece": "fg_leaves",
+            "x": 1104,
+            "y": 374
+          }
+        ],
+        "theme": "junkyard",
+        "tint": {
+          "back": "#8e90b0",
+          "far": "#7a7898",
+          "fg": "#3a3448",
+          "front": "#e8dcd0",
+          "track": "#b0b0c8"
+        },
+        "track": {
+          "from": -120,
+          "piece": "skytrain_track",
+          "to": 1095,
+          "top": 100
+        },
+        "width": 1300
+      },
       "depot_yard": {
         "far": "skyline_far",
         "ground": {
@@ -35818,6 +36398,284 @@
           "front": "#d8ccd0"
         },
         "width": 1500
+      },
+      "floodgate_barracks": {
+        "far": "skyline_far",
+        "ground": {
+          "road": "tunnel_floor_tile",
+          "sidewalk": "sidewalk_tile"
+        },
+        "placed": [
+          {
+            "layer": "back",
+            "piece": "tunnel_wall",
+            "x": 198,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "tunnel_wall",
+            "x": 679,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "tunnel_wall",
+            "x": 1155,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 240,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 723,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 1200,
+            "y": 226
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 1098,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 338,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 423,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 1175,
+            "y": 233
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 586,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 1256,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 656,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 754,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 809,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 1344,
+            "y": 236
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 954,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "scrap_pile",
+            "x": 73,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 164,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 258,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 501,
+            "y": 238
+          }
+        ],
+        "theme": "tunnels",
+        "tint": {
+          "back": "#3e463c",
+          "far": "#4a5048",
+          "fg": "#20261e",
+          "front": "#c8d0c0",
+          "ground": "#b8c0b0",
+          "sidewalk": "#c0c8b8"
+        },
+        "width": 1300
+      },
+      "founders_floor": {
+        "far": "skyline_far",
+        "ground": {
+          "road": "tunnel_floor_tile",
+          "sidewalk": "sidewalk_tile"
+        },
+        "placed": [
+          {
+            "layer": "back",
+            "piece": "tunnel_wall",
+            "x": 198,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "tunnel_wall",
+            "x": 665,
+            "y": 226
+          },
+          {
+            "layer": "back",
+            "piece": "tunnel_wall",
+            "x": 1136,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 239,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 723,
+            "y": 226
+          },
+          {
+            "layer": "front",
+            "piece": "tunnel_wall",
+            "x": 1201,
+            "y": 226
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 398,
+            "y": 232
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 257,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 819,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "oil_drums",
+            "x": 1072,
+            "y": 234
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 309,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "crates",
+            "x": 528,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 909,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "drain_grate",
+            "x": 1006,
+            "y": 235
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "tyre_stack",
+            "x": 88,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "scrap_pile",
+            "x": 170,
+            "y": 237
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "scrap_pile",
+            "x": 618,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "scrap_pile",
+            "x": 737,
+            "y": 238
+          },
+          {
+            "layer": "sidewalk",
+            "piece": "sewer_pipe",
+            "x": 1232,
+            "y": 238
+          }
+        ],
+        "theme": "tunnels",
+        "tint": {
+          "back": "#3e463c",
+          "far": "#4a5048",
+          "fg": "#20261e",
+          "front": "#c8d0c0",
+          "ground": "#b8c0b0",
+          "sidewalk": "#c0c8b8"
+        },
+        "width": 1300
       },
       "foundry_crucible": {
         "far": "skyline_far",

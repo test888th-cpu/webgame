@@ -1,5 +1,6 @@
 {
   "max_level": 70,
+  "boss_weapon_durability": 2.5,
   "xp": {
     "base": 100,
     "growth": 100,

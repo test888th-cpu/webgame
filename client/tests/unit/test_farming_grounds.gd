@@ -222,7 +222,13 @@ func test_wins_taxi_rides_to_each_open_ground_for_the_usual_fare() -> void:
 	assert_eq(str(win["role"]), "travel", "Uncle Thong's truck in the city")
 	game.enter_area("main_city", "west")
 	game._show("travel", GameMenus.travel(game, win))
-	assert_true(game.menu.find_child("Heading_Farming", true, false) == null, "none open yet")
+	for gid: String in GROUNDS:
+		assert_true(
+			game.menu.find_child("Ride_" + gid, true, false) == null, gid + ": not open yet"
+		)
+		assert_true(
+			game.menu.find_child("Locked_" + gid, true, false) != null, gid + ": but listed"
+		)
 	game.close_menu()
 	_everything(game.profile)
 	for gid: String in GROUNDS:

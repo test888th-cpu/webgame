@@ -2148,7 +2148,8 @@
       },
       "color": "#4a6a2a",
       "sprite": "tunnel_mother",
-      "wields": false
+      "wields": false,
+      "weapon": "pipe"
     },
     "iron_colossus": {
       "name": "The Iron Colossus",
@@ -2305,7 +2306,8 @@
       },
       "color": "#30343c",
       "sprite": "iron_colossus",
-      "wields": false
+      "wields": false,
+      "weapon": "wrench"
     },
     "subject_zero": {
       "name": "Subject Zero",
@@ -2453,7 +2455,8 @@
       },
       "color": "#3a7a3a",
       "sprite": "subject_zero",
-      "wields": false
+      "wields": false,
+      "weapon": "machete"
     },
     "vault_trooper": {
       "name": "Vault Trooper",
@@ -3694,6 +3697,7 @@
       "color": "#30343c",
       "sprite": "iron_colossus",
       "wields": false,
+      "weapon": "baseball_bat",
       "tint": "#ffa070"
     },
     "iron_sovereign": {
@@ -3839,6 +3843,7 @@
       "color": "#3a7a3a",
       "sprite": "subject_zero",
       "wields": false,
+      "weapon": "machete",
       "tint": "#d8b8ff"
     },
     "spillway_chief": {
@@ -4294,6 +4299,593 @@
       "sprite": "street_thrower",
       "wields": false,
       "tint": "#ffb0b0"
+    },
+    "floodgate_marshal": {
+      "name": "The Floodgate Marshal",
+      "max_hp": 1250,
+      "speed": 0.75,
+      "defense": 6,
+      "power": 1.25,
+      "scale": 2.2,
+      "boss": true,
+      "poise": 160,
+      "xp": 5200,
+      "loot": {
+        "money": [
+          0,
+          0
+        ],
+        "drops": [
+          {
+            "item": "refined_alloy",
+            "chance": 1.0
+          }
+        ]
+      },
+      "color": "#2a3a2a",
+      "sprite": "commander_arthit",
+      "wields": false,
+      "weapon": "pipe",
+      "moveset": {
+        "light": "marshal_baton",
+        "heavy": "marshal_charge"
+      },
+      "ai": {
+        "spacing": 70,
+        "reaction": 10,
+        "cooldown": 38,
+        "cooldown_jitter": 20,
+        "heavy_chance": 0.3,
+        "heavy_cooldown": 320
+      },
+      "hazard": {
+        "every": 200,
+        "cycle": [
+          {
+            "kind": "laser",
+            "warn": 60,
+            "damage": 26,
+            "half": [
+              900,
+              9
+            ]
+          },
+          {
+            "kind": "quake",
+            "warn": 60,
+            "damage": 28,
+            "half": [
+              24,
+              90
+            ]
+          }
+        ]
+      },
+      "summon": {
+        "enemy": "vault_trooper",
+        "every": 560,
+        "count": 2,
+        "max": 3
+      },
+      "phases": [
+        {
+          "below": 0.6,
+          "speed": 0.82,
+          "power": 1.3,
+          "cooldown": 32,
+          "heavy_chance": 0.38,
+          "heavy_cooldown": 300,
+          "moveset": {
+            "light": "marshal_baton",
+            "heavy": "marshal_floodslam"
+          },
+          "hazard": {
+            "every": 150,
+            "cycle": [
+              {
+                "kind": "quake",
+                "warn": 55,
+                "damage": 30,
+                "half": [
+                  24,
+                  90
+                ]
+              },
+              {
+                "kind": "laser",
+                "warn": 55,
+                "damage": 28,
+                "half": [
+                  900,
+                  9
+                ]
+              },
+              {
+                "kind": "shock",
+                "warn": 55,
+                "damage": 26,
+                "half": [
+                  60,
+                  14
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "below": 0.3,
+          "speed": 0.9,
+          "power": 1.35,
+          "cooldown": 28,
+          "heavy_chance": 0.45,
+          "heavy_cooldown": 280,
+          "shield": {
+            "up": 280,
+            "down": 360
+          },
+          "summon_every": 420,
+          "moveset": {
+            "light": "marshal_baton",
+            "heavy": "marshal_tidebreaker"
+          },
+          "hazard": {
+            "every": 110,
+            "cycle": [
+              {
+                "kind": "quake",
+                "warn": 50,
+                "damage": 32,
+                "half": [
+                  24,
+                  90
+                ],
+                "count": 2,
+                "spread": [
+                  220,
+                  0
+                ],
+                "stagger": 14
+              },
+              {
+                "kind": "laser",
+                "warn": 50,
+                "damage": 30,
+                "half": [
+                  900,
+                  9
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "tint": "#8fc8ff"
+    },
+    "crucible_king": {
+      "name": "The Crucible King",
+      "max_hp": 1350,
+      "speed": 0.8,
+      "defense": 6,
+      "power": 1.3,
+      "scale": 2.4,
+      "boss": true,
+      "xp": 6400,
+      "loot": {
+        "money": [
+          0,
+          0
+        ],
+        "drops": [
+          {
+            "item": "refined_alloy",
+            "chance": 1.0
+          }
+        ]
+      },
+      "color": "#b0502a",
+      "sprite": "furnace_baron",
+      "wields": false,
+      "weapon": "wrench",
+      "poise": 170,
+      "moveset": {
+        "light": "crucible_haymaker",
+        "heavy": "crucible_rush"
+      },
+      "ai": {
+        "spacing": 74,
+        "reaction": 9,
+        "cooldown": 36,
+        "cooldown_jitter": 18,
+        "heavy_chance": 0.32,
+        "heavy_cooldown": 300
+      },
+      "hazard": {
+        "every": 190,
+        "cycle": [
+          {
+            "kind": "rain",
+            "warn": 55,
+            "damage": 22,
+            "half": [
+              14,
+              8
+            ],
+            "count": 6,
+            "spread": [
+              240,
+              40
+            ],
+            "stagger": 6
+          },
+          {
+            "kind": "steam",
+            "warn": 55,
+            "damage": 28,
+            "half": [
+              26,
+              10
+            ]
+          }
+        ]
+      },
+      "summon": {
+        "enemy": "furnace_hauler",
+        "every": 540,
+        "count": 2,
+        "max": 3
+      },
+      "phases": [
+        {
+          "below": 0.66,
+          "speed": 0.86,
+          "power": 1.35,
+          "cooldown": 30,
+          "heavy_chance": 0.4,
+          "heavy_cooldown": 280,
+          "moveset": {
+            "light": "crucible_haymaker",
+            "heavy": "crucible_eruption"
+          },
+          "hazard": {
+            "every": 140,
+            "cycle": [
+              {
+                "kind": "rain",
+                "warn": 50,
+                "damage": 24,
+                "half": [
+                  14,
+                  8
+                ],
+                "count": 8,
+                "spread": [
+                  280,
+                  44
+                ],
+                "stagger": 5
+              },
+              {
+                "kind": "quake",
+                "warn": 55,
+                "damage": 30,
+                "half": [
+                  24,
+                  90
+                ]
+              },
+              {
+                "kind": "steam",
+                "warn": 50,
+                "damage": 30,
+                "half": [
+                  26,
+                  10
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "below": 0.33,
+          "speed": 0.92,
+          "power": 1.42,
+          "cooldown": 26,
+          "heavy_chance": 0.5,
+          "heavy_cooldown": 260,
+          "shield": {
+            "up": 300,
+            "down": 340
+          },
+          "summon_every": 400,
+          "moveset": {
+            "light": "crucible_haymaker",
+            "heavy": "crucible_meltdown"
+          },
+          "hazard": {
+            "every": 100,
+            "cycle": [
+              {
+                "kind": "rain",
+                "warn": 45,
+                "damage": 26,
+                "half": [
+                  14,
+                  8
+                ],
+                "count": 10,
+                "spread": [
+                  320,
+                  46
+                ],
+                "stagger": 4
+              },
+              {
+                "kind": "quake",
+                "warn": 50,
+                "damage": 32,
+                "half": [
+                  24,
+                  90
+                ],
+                "count": 2,
+                "spread": [
+                  200,
+                  0
+                ],
+                "stagger": 12
+              }
+            ]
+          }
+        }
+      ],
+      "tint": "#ffb070"
+    },
+    "founders_engine": {
+      "name": "The Founder's Engine",
+      "max_hp": 1500,
+      "speed": 0.8,
+      "defense": 7,
+      "power": 1.35,
+      "scale": 2.6,
+      "boss": true,
+      "xp": 8000,
+      "loot": {
+        "money": [
+          0,
+          0
+        ],
+        "drops": [
+          {
+            "item": "refined_alloy",
+            "chance": 1.0
+          }
+        ]
+      },
+      "color": "#30343c",
+      "sprite": "unit_k7",
+      "wields": false,
+      "poise": 190,
+      "moveset": {
+        "light": "founder_piston",
+        "heavy": "founder_press"
+      },
+      "ai": {
+        "spacing": 80,
+        "reaction": 9,
+        "cooldown": 34,
+        "cooldown_jitter": 16,
+        "heavy_chance": 0.34,
+        "heavy_cooldown": 310
+      },
+      "hazard": {
+        "every": 180,
+        "cycle": [
+          {
+            "kind": "laser",
+            "warn": 58,
+            "damage": 28,
+            "half": [
+              900,
+              9
+            ]
+          },
+          {
+            "kind": "shock",
+            "warn": 55,
+            "damage": 26,
+            "half": [
+              60,
+              14
+            ]
+          },
+          {
+            "kind": "quake",
+            "warn": 58,
+            "damage": 30,
+            "half": [
+              24,
+              90
+            ]
+          }
+        ]
+      },
+      "summon": {
+        "enemy": "iron_sentry",
+        "every": 520,
+        "count": 2,
+        "max": 3
+      },
+      "phases": [
+        {
+          "below": 0.7,
+          "speed": 0.86,
+          "power": 1.4,
+          "cooldown": 30,
+          "heavy_chance": 0.4,
+          "heavy_cooldown": 290,
+          "moveset": {
+            "light": "founder_piston",
+            "heavy": "founder_overdrive"
+          },
+          "hazard": {
+            "every": 130,
+            "cycle": [
+              {
+                "kind": "rain",
+                "warn": 50,
+                "damage": 24,
+                "half": [
+                  14,
+                  8
+                ],
+                "count": 8,
+                "spread": [
+                  300,
+                  44
+                ],
+                "stagger": 5
+              },
+              {
+                "kind": "laser",
+                "warn": 52,
+                "damage": 30,
+                "half": [
+                  900,
+                  9
+                ]
+              },
+              {
+                "kind": "crane",
+                "warn": 60,
+                "damage": 30,
+                "half": [
+                  30,
+                  10
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "below": 0.4,
+          "speed": 0.92,
+          "power": 1.45,
+          "cooldown": 26,
+          "heavy_chance": 0.48,
+          "heavy_cooldown": 275,
+          "shield": {
+            "up": 300,
+            "down": 330
+          },
+          "summon_every": 380,
+          "moveset": {
+            "light": "founder_piston",
+            "heavy": "founder_cataclysm"
+          },
+          "hazard": {
+            "every": 100,
+            "cycle": [
+              {
+                "kind": "quake",
+                "warn": 48,
+                "damage": 32,
+                "half": [
+                  24,
+                  90
+                ],
+                "count": 3,
+                "spread": [
+                  260,
+                  0
+                ],
+                "stagger": 10
+              },
+              {
+                "kind": "shock",
+                "warn": 48,
+                "damage": 30,
+                "half": [
+                  60,
+                  14
+                ]
+              },
+              {
+                "kind": "rain",
+                "warn": 45,
+                "damage": 26,
+                "half": [
+                  14,
+                  8
+                ],
+                "count": 10,
+                "spread": [
+                  320,
+                  46
+                ],
+                "stagger": 4
+              }
+            ]
+          }
+        },
+        {
+          "below": 0.15,
+          "speed": 1.0,
+          "power": 1.5,
+          "cooldown": 22,
+          "heavy_chance": 0.55,
+          "heavy_cooldown": 262,
+          "moveset": {
+            "light": "founder_piston",
+            "heavy": "founder_last_light"
+          },
+          "hazard": {
+            "every": 85,
+            "cycle": [
+              {
+                "kind": "laser",
+                "warn": 46,
+                "damage": 32,
+                "half": [
+                  900,
+                  9
+                ]
+              },
+              {
+                "kind": "quake",
+                "warn": 46,
+                "damage": 34,
+                "half": [
+                  24,
+                  90
+                ],
+                "count": 3,
+                "spread": [
+                  260,
+                  0
+                ],
+                "stagger": 8
+              },
+              {
+                "kind": "rain",
+                "warn": 42,
+                "damage": 28,
+                "half": [
+                  14,
+                  8
+                ],
+                "count": 12,
+                "spread": [
+                  340,
+                  46
+                ],
+                "stagger": 3
+              }
+            ]
+          }
+        }
+      ],
+      "tint": "#ffe08a",
+      "weapon": "machete"
     }
   }
 }

@@ -3,7 +3,10 @@ extends RefCounted
 ## What a boss does beyond its own blows, read from its enemies.json entry:
 ## * "hazard": calls something down on the hero's spot every so often (a
 ##   container off a crane, a steam vent bursting, a laser sweeping the whole
-##   lane at the hero's depth, the floor plates shocking). It warns first,
+##   lane at the hero's depth, the floor plates shocking, a "quake" splitting
+##   the street across its whole depth at the hero's spot, so the answer is a
+##   step along the street, not across it, or a "rain" of slag, rivets or
+##   debris: many small drops scattered around the hero). It warns first,
 ##   then hits every fighter in its footprint ("half": half its width and
 ##   depth) but the boss, the boss's own crew included. A volley ("count",
 ##   default 1) drops the first on the hero and the rest at random spots
@@ -22,7 +25,7 @@ extends RefCounted
 ## The zone is passed in on every call rather than kept, so the two never
 ## hold each other. Pure rules, shared with the server.
 
-const KINDS: Array[String] = ["crane", "steam", "laser", "shock", "sludge"]
+const KINDS: Array[String] = ["crane", "steam", "laser", "shock", "sludge", "quake", "rain"]
 ## Random spots a volley tries for each extra drop before giving it up.
 const VOLLEY_TRIES := 12
 

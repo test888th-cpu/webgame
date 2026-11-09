@@ -4,6 +4,26 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added: three raid world bosses, Godforged prizes, armed world bosses
+- **The Floodgate Marshal** (Lv 56, 15 players), **The Crucible King** (Lv 64, 20) and **The
+  Founder's Engine** (Lv 70, 30): each stronger than the last, with its own arena, weapon,
+  moves (a new heavy every phase), colour and summons, and two new hazard kinds: "quake",
+  a split across the street's whole depth, and "rain", a volley of drops.
+- **Godforged** grade (budget ×2.2) for every world boss prize, replacing Mythic: about 38%
+  above a Legendary of the same level.
+- **Armed world bosses**: every world boss holds a weapon; a boss's weapon lasts
+  `boss_weapon_durability` (2.5) times its hits.
+- **Field truck** lists every ground, lair and world boss by level; closed ones say what
+  opens them; a defeated world boss shows when it rises.
+- `docs/WORLD_BOSS_DESIGN.md`: the roster, the server architecture for shared world bosses,
+  the effects plan and the owner's decisions.
+
+### Fixed: world boss endings
+- The result screen (kill, time-out, knock-out) can be pressed: it was rebuilt every tick.
+- At the end of the hour the boss escapes off the arena instead of staying to be beaten.
+- A boss defeated this round cannot be fought again at 0 HP; it rises next round.
+- The round runs on the world's clock: switching to another window no longer stops it.
+
 ### Changed: Phase 2 audit of the level 50-70 farming endgame
 - **Rosters:** each 50-70 ground mixes three roles (common fighter, heavy, fast or ranged)
   and one elite instead of two kinds; the Iron Heart no longer fields two heavies. Knock-outs

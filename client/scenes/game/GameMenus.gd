@@ -454,40 +454,67 @@ static func _ride_groups(game: Game, npc: Dictionary, fare: int) -> Array[Dictio
 	return out
 
 
-## The field truck's rides (from the hub only, AreaRules.hub): the open
-## farming grounds, the open boss lairs and the world bosses.
+## The field truck's rides (from the hub only, AreaRules.hub): every farming
+## ground, boss lair and world boss, in order of level, so what is coming is as
+## easy to find as what is open. An open one is a ride ("Ride_<id>"); one not
+## open yet is shown greyed out with what opens it ("Locked_<id>").
 static func _hub_rides(game: Game, npc: Dictionary, fare: int) -> Array[Dictionary]:
 	var content := game.content
 	var out: Array[Dictionary] = []
 	var broke := game.profile.money < fare
-	var grounds: Array[Button] = []
-	for area_id in AreaRules.open_farms(game.profile, content):
-		var ground := content.area(area_id)
-		# A suggestion for the fights there; no level is needed to ride in.
-		var text := "%s  (suggested Lv %d)" % [ground["name"], int(ground.get("level", 1))]
-		var ride := _choice(text, game._ride.bind(npc, area_id))
-		ride.name = "Ride_" + area_id
-		ride.disabled = broke
-		grounds.append(ride)
-	if not grounds.is_empty():
-		out.append({"name": "Farming", "rides": grounds, "columns": 1})
-	var lairs: Array[Button] = []
-	for area_id in AreaRules.open_lairs(game.profile, content):
-		var lair := content.area(area_id)
-		var text := "%s  (suggested Lv %d)" % [lair["name"], int(lair.get("level", 1))]
-		var ride := _choice(text, game._ride.bind(npc, area_id))
-		ride.name = "Ride_" + area_id
-		ride.disabled = broke
-		lairs.append(ride)
-	if not lairs.is_empty():
-		out.append({"name": "Rematches", "rides": lairs, "columns": 1})
+	for group: Array in [
+		["Farming", AreaRules.farms(content)], ["Rematches", AreaRules.lairs(content)]
+	]:
+		var rides: Array[Button] = []
+		for area_id: String in _by_level(content, group[1]):
+			var area := content.area(area_id)
+			# A suggestion for the fights there; no level is needed to ride in.
+			var text := "%s  (suggested Lv %d)" % [area["name"], int(area.get("level", 1))]
+			if AreaRules.unlocked(game.profile, content, area_id):
+				var ride := _choice(text, game._ride.bind(npc, area_id))
+				ride.name = "Ride_" + area_id
+				ride.disabled = broke
+				rides.append(ride)
+			else:
+				rides.append(_locked(area_id, text, AreaRules.unlock_text(content, area_id)))
+		if not rides.is_empty():
+			out.append({"name": group[0], "rides": rides, "columns": 1})
 	var bosses: Array[Button] = []
-	for boss: String in content.world_bosses:
+	var order: Array = content.world_bosses.keys()
+	order.sort_custom(
+		func(a: String, b: String) -> bool:
+			return WorldBossRules.level(content, a) < WorldBossRules.level(content, b)
+	)
+	for boss: String in order:
 		if WorldBossRules.unlocked(game.profile, content, boss):
 			bosses.append(_world_boss_ride(game, npc, fare, boss))
+		else:
+			var data := WorldBossRules.spec(content, boss)
+			var name := str(content.enemy(str(data["enemy"]))["name"])
+			var text := "World Boss %s  (Lv %d)" % [name, WorldBossRules.level(content, boss)]
+			var opener := str(content.enemy(str(data["unlock"])).get("name", ""))
+			bosses.append(_locked(boss, text, "Defeat %s" % opener))
 	if not bosses.is_empty():
 		out.append({"name": "World Bosses", "rides": bosses, "columns": 1})
 	return out
+
+
+## `ids` (areas) in order of their level.
+static func _by_level(content: ContentDB, ids: Array[String]) -> Array[String]:
+	var out := ids.duplicate()
+	out.sort_custom(
+		func(a: String, b: String) -> bool:
+			return int(content.area(a).get("level", 1)) < int(content.area(b).get("level", 1))
+	)
+	return out
+
+
+## A destination not open yet: greyed out, saying what opens it.
+static func _locked(id: String, text: String, opens: String) -> Button:
+	var row := _choice("%s  -  locked: %s" % [text, opens], func() -> void: pass)
+	row.name = "Locked_" + id
+	row.disabled = true
+	return row
 
 
 ## Which group the taxi opens on: the hero's own district, else (in the city,
@@ -707,6 +734,9 @@ static func _world_boss_ride(game: Game, npc: Dictionary, fare: int, boss: Strin
 		if round["open"]
 		else "World Boss %s  (%s; back in %s)" % [name, who, wait]
 	)
+	if round["open"] and WorldBossRules.fallen(game.profile, boss, int(round["round"])):
+		var rise := WorldBossRules.rise_text(content, boss, game._now())
+		text = "World Boss %s  (%s; defeated, rises in %s)" % [name, who, rise]
 	var ride := _choice(text, game._ride_world_boss.bind(npc, boss))
 	ride.name = "Ride_" + boss
 	var able := WorldBossRules.problem(game.profile, content, boss, game._now()) == ""

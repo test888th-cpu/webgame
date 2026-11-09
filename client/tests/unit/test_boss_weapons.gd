@@ -1,8 +1,10 @@
 extends TestCase
 ## Bosses that fight with their hands come armed (enemies.json "weapon"): they
-## step in already holding their own weapon, with its moves and its wear, as a
-## hero holding it would. Creatures and machines (Unit K-7, Subject 12 and the
-## world bosses) keep their own attacks.
+## step in already holding their own weapon, with its moves. A boss's grip is
+## harder to break: its weapon lasts progression.json "boss_weapon_durability"
+## times a hero's (2.5; the owner asked for two to three times, and for the
+## world bosses to fight armed too). Unit K-7 and Subject 12 keep their own
+## attacks.
 
 var content: ContentDB
 
@@ -32,7 +34,14 @@ func test_every_armed_boss_steps_in_holding_its_weapon() -> void:
 				boss.weapon, weapon, "%s comes holding its %s (seed %d)" % [kind, weapon, seed]
 			)
 			var uses := int(c.weapons[weapon]["durability"])
-			assert_eq(boss.weapon_uses, uses, kind + ": with its full wear, like the hero's")
+			var factor := float(c.progression["boss_weapon_durability"])
+			if c.enemies[kind].get("boss", false):
+				assert_eq(boss.weapon_uses, roundi(uses * factor), kind + ": a tougher grip")
+			else:
+				assert_eq(boss.weapon_uses, uses, kind + ": with its full wear, like the hero's")
 	assert_true(armed >= 9, "every boss that fights with its hands (%d)" % armed)
-	for kind in ["unit_k7", "subject_twelve", "tunnel_mother", "iron_colossus", "subject_zero"]:
+	for kind in ["unit_k7", "subject_twelve"]:
 		assert_true(not c.enemies[kind].has("weapon"), kind + ": keeps its own attacks")
+	for boss: String in c.world_bosses:
+		var enemy_id := str(c.world_bosses[boss]["enemy"])
+		assert_true(c.enemies[enemy_id].has("weapon"), enemy_id + ": a world boss fights armed")
