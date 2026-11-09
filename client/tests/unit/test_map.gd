@@ -85,9 +85,11 @@ func test_world_boss_arenas_appear_once_unlocked() -> void:
 		MapRules.UNKNOWN,
 		"the arena next to the yard stays hidden"
 	)
-	var spec := WorldBossRules.spec(_content(), "tunnel_mother")
-	profile.defeated[str(spec["unlock"])] = 1
-	assert_eq(MapRules.arenas(profile, _content()), ["great_drain"] as Array[String], "unlocked")
+	profile.level = 10
+	var all: Array[String] = []
+	for boss: String in _content().world_bosses:
+		all.append(str(WorldBossRules.spec(_content(), boss)["area"]))
+	assert_eq(MapRules.arenas(profile, _content()), all, "every arena from level 10")
 	assert_eq(
 		MapRules.state(profile, _content(), "great_drain", "depot_yard"), MapRules.KNOWN, "known"
 	)
@@ -165,6 +167,7 @@ func test_the_story_and_the_hub_are_two_sections_and_fit_late_in_the_game() -> v
 	for enemy_id: String in game.content.enemies:
 		if game.content.enemy(enemy_id).get("boss", false):
 			game.profile.defeated[enemy_id] = 1
+	game.profile.level = 70
 	game.open_screen("map")
 	await _settle()
 	var map: Node = game.menu.find_child("Map", true, false)

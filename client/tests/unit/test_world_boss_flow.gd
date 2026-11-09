@@ -34,7 +34,6 @@ func _during(round: int) -> int:
 func _hero() -> PlayerProfile:
 	var profile := PlayerProfile.new_game(_content())
 	profile.level = 40
-	profile.defeated[str(_spec()["unlock"])] = 1
 	return profile
 
 
@@ -157,7 +156,7 @@ func test_the_round_runs_on_the_worlds_clock() -> void:
 
 func test_the_result_is_built_once_and_can_be_pressed() -> void:
 	var game := _game()
-	game.profile.defeated[str(_spec()["unlock"])] = 1
+	game.profile.level = maxi(game.profile.level, 10)
 	game.profile.level = 30
 	game.profile.money = 100
 	game._ride_world_boss({"fare": 10}, MOTHER)
@@ -207,19 +206,20 @@ func test_every_world_boss_fights_armed_with_a_tougher_weapon() -> void:
 func test_the_truck_lists_every_world_boss_in_order_of_level() -> void:
 	var game := _game()
 	game.profile.money = 100
-	game.profile.defeated[str(_spec()["unlock"])] = 1
+	game.profile.level = 9
 	game.enter_area(_content().city_area, "west")
 	var truck := {"name": "Uncle Thong", "role": "travel", "routes": "field", "fare": 10}
+	game._show("travel", GameMenus.travel(game, truck))
+	for boss: String in _content().world_bosses:
+		var locked := game.menu.find_child("Locked_" + boss, true, false) as Button
+		assert_true(locked != null and locked.disabled, boss + ": shut below level 10")
+		assert_true("From Lv 10" in locked.text, boss + ": says what opens it")
+	game.profile.level = 10
 	game._show("travel", GameMenus.travel(game, truck))
 	var levels: Array[int] = []
 	for boss: String in _content().world_bosses:
 		var ride := game.menu.find_child("Ride_" + boss, true, false) as Button
-		var locked := game.menu.find_child("Locked_" + boss, true, false) as Button
-		assert_true(ride != null or locked != null, boss + ": listed")
-		if locked:
-			assert_true(
-				locked.disabled and "locked: Defeat" in locked.text, boss + ": what opens it"
-			)
+		assert_true(ride != null, boss + ": every one rides from level 10")
 	for row: Button in game.menu.find_children("*", "Button", true, false):
 		var id := row.name.trim_prefix("Ride_").trim_prefix("Locked_")
 		if _content().world_bosses.has(id):

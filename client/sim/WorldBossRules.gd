@@ -51,16 +51,20 @@ static func window(content: ContentDB, boss: String, now: int) -> Dictionary:
 	}
 
 
+## The level from which every hero may face every world boss (the owner's rule:
+## whether they survive is up to them). No story boss has to fall first.
+static func entry_level(content: ContentDB) -> int:
+	return int(content.progression.get("world_boss_entry_level", 10))
+
+
 static func unlocked(profile: PlayerProfile, content: ContentDB, boss: String) -> bool:
-	return int(profile.defeated.get(str(spec(content, boss)["unlock"]), 0)) > 0
+	return content.world_bosses.has(boss) and profile.level >= entry_level(content)
 
 
 ## Why the hero cannot face `boss` at `now`, or "" when they can.
 static func problem(profile: PlayerProfile, content: ContentDB, boss: String, now: int) -> String:
-	var data := spec(content, boss)
 	if not unlocked(profile, content, boss):
-		var unlock := str(content.enemy(str(data["unlock"])).get("name", ""))
-		return "Not yet. Defeat %s first." % unlock
+		return "Not yet. Open to heroes from level %d." % entry_level(content)
 	var round := window(content, boss, now)
 	if not round["open"]:
 		return "Not out now. Back in %s." % wait_text(content, boss, now)

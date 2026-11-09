@@ -591,10 +591,11 @@ def world_boss(enemies, areas, specs, items, wb, moves):
         make_item(items, item_id, name, slot, wb["grade"], wb["item_level"], "A prize of %s." % wb["name"])
         prize_ids.append(item_id)
     base = json.loads(json.dumps(specs[wb.get("spec_clone", wb["clone"])]))
+    base.pop("unlock", None)  # the owner's rule: open to every hero from one entry level
     rare_roll = 0.03 if wb["players"] >= 10 else 0.05
     rolls = {p: rare_roll for p in prize_ids}
     base.update({
-        "enemy": wb["id"], "area": wb["arena"], "unlock": wb["unlock"], "level": wb["level"],
+        "enemy": wb["id"], "area": wb["arena"], "level": wb["level"],
         "players": wb["players"], "period_minutes": wb["period_minutes"], "offset_minutes": wb["offset_minutes"],
         "open_minutes": 60, "enrage": dict(WORLD_BOSS_ENRAGE),
     })

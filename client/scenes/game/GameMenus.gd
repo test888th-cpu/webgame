@@ -492,8 +492,8 @@ static func _hub_rides(game: Game, npc: Dictionary, fare: int) -> Array[Dictiona
 			var data := WorldBossRules.spec(content, boss)
 			var name := str(content.enemy(str(data["enemy"]))["name"])
 			var text := "World Boss %s  (Lv %d)" % [name, WorldBossRules.level(content, boss)]
-			var opener := str(content.enemy(str(data["unlock"])).get("name", ""))
-			bosses.append(_locked(boss, text, "Defeat %s" % opener))
+			var gate := "From Lv %d" % WorldBossRules.entry_level(content)
+			bosses.append(_locked(boss, text, gate))
 	if not bosses.is_empty():
 		out.append({"name": "World Bosses", "rides": bosses, "columns": 1})
 	return out
@@ -659,7 +659,7 @@ static func notice_board(game: Game, npc: Dictionary) -> Control:
 		entry.name = "Boss_" + boss
 		entry.add_theme_constant_override("separation", 0)
 		list.add_child(entry)
-		# Like the map: a world boss is named only once the story unlocks it.
+		# Like the map: a world boss is named only from the entry level (level 10).
 		if not WorldBossRules.unlocked(profile, content, boss):
 			entry.add_child(UiKit.label("???", UiTheme.SIZE_SMALL, UiTheme.TEXT_FAINT))
 			entry.add_child(

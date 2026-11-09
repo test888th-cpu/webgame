@@ -343,7 +343,7 @@ func _validate_world_boss() -> void:
 		_check(
 			area(str(wb.get("area"))).get("world_boss", false), where + ".area: needs world_boss"
 		)
-		_check(enemies.has(str(wb.get("unlock"))), where + ".unlock: unknown enemy")
+		_check(not wb.has("unlock"), where + ".unlock: open to all from the entry level")
 		for field in ["period_minutes", "open_minutes", "pool"]:
 			_number(wb, field, where, 1)
 		_number(wb, "level", where, 1)

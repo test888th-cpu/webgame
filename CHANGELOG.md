@@ -4,6 +4,19 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed: quality-of-life pass (owner's list, November 2026)
+- **Pickup feed:** items picked up are listed at the screen's left with their icon and their
+  name in the rarity's colour.
+- **Enhancement:** no more rising odds after a failure (no pity); upgrading only at the
+  workbench NPC in the city.
+- **Walking:** Depot Yard walks west back into the city. Farming grounds chain west into
+  the ground one band lower; only the lowest opens onto the city.
+- **City labels** sit on their NPC (MARKET / $ Ama, TAXI RANK / >> Win, ...).
+- **Equipment screen** shows when auto-equip is on and can switch it off.
+- **Shop:** tick many items and sell them at once.
+- **World bosses** are open to every hero from level 10
+  (`progression.json` `world_boss_entry_level`); no story boss has to fall first.
+
 ### Added: three raid world bosses, Godforged prizes, armed world bosses
 - **The Floodgate Marshal** (Lv 56, 15 players), **The Crucible King** (Lv 64, 20) and **The
   Founder's Engine** (Lv 70, 30): each stronger than the last, with its own arena, weapon,

@@ -232,7 +232,7 @@ func test_the_map_names_the_prizes_to_be_won() -> void:
 	assert_true("Epic: Harbourmaster's Cap" in crane["prize_text"], "and the Epics")
 	var ground := MapRules.about(profile, c, "farm_harbour_stacks", "depot_yard")
 	assert_true("Epic:" in ground["prize_text"], "a ground's elite prizes")
-	profile.defeated[str(WorldBossRules.spec(c, "tunnel_mother")["unlock"])] = 1
+	profile.level = maxi(profile.level, 10)
 	StreetMemory.visit(profile, "great_drain")
 	var drain := MapRules.about(profile, c, "great_drain", "depot_yard")
 	assert_true("Godforged:" in drain["prize_text"], "a world boss's prizes, its own grade")

@@ -293,8 +293,7 @@ func test_the_two_taxis_keep_to_their_own_routes_and_fit_small_screens() -> void
 	game._go_to_city()
 	for area_id in StreetMemory.street(game.content):
 		StreetMemory.visit(game.profile, area_id)
-	for boss: String in game.content.world_bosses:
-		game.profile.defeated[str(WorldBossRules.spec(game.content, boss)["unlock"])] = 1
+	game.profile.level = maxi(game.profile.level, 10)
 	# The grounds past the story open as their rematch bosses fall.
 	for gid in AreaRules.farms(game.content):
 		var rule: Dictionary = game.content.area(gid)["unlock"]
@@ -355,7 +354,7 @@ func test_the_pause_menu_goes_to_the_city_with_recalls_checks() -> void:
 	assert_true(game.city_problem() != "", "not while down")
 	# During a world boss attempt: no.
 	var boss := "tunnel_mother"
-	game.profile.defeated[str(WorldBossRules.spec(game.content, boss)["unlock"])] = 1
+	game.profile.level = maxi(game.profile.level, 10)
 	game.now_override = int(WorldBossRules.spec(game.content, boss)["period_minutes"]) * 60000 + 60
 	game._start_world_boss(boss)
 	assert_true(game.world_run != null, "an attempt under way")
@@ -518,11 +517,9 @@ func test_the_board_reveals_no_more_than_the_story_has() -> void:
 		var data := WorldBossRules.spec(game.content, boss)
 		assert_true(game.menu.find_child("Boss_" + boss, true, false) != null, boss)
 		assert_true(str(game.content.enemy(str(data["enemy"]))["name"]) not in text, "unnamed")
-		assert_true(str(game.content.enemy(str(data["unlock"]))["name"]) not in text, "no hint")
 	var goal := str(MapRules.goal(game.profile, game.content)["text"])
 	assert_true(goal in text, "the current job: " + goal)
-	var unlock := str(WorldBossRules.spec(game.content, "tunnel_mother")["unlock"])
-	game.profile.defeated[unlock] = 1
+	game.profile.level = WorldBossRules.entry_level(game.content)
 	var period := int(WorldBossRules.spec(game.content, "tunnel_mother")["period_minutes"]) * 60
 	game.now_override = period * 1000 + 60
 	game._show("board", GameMenus.notice_board(game, board))

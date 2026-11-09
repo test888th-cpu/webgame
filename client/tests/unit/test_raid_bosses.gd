@@ -112,7 +112,6 @@ func test_a_raid_boss_throws_its_new_skills_in_a_fight() -> void:
 		var spec: Dictionary = c.world_bosses[boss]
 		var profile := PlayerProfile.new_game(c)
 		profile.level = int(spec["level"])
-		profile.defeated[str(spec["unlock"])] = 1
 		var period := int(spec["period_minutes"]) * 60
 		var now := 3 * period + int(spec.get("offset_minutes", 0)) * 60 + 30
 		var zone := ZoneSim.new(c, profile, str(spec["area"]), "west", 4)
