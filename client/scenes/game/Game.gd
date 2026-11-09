@@ -403,8 +403,8 @@ func quick_heal() -> bool:
 	if item_id and zone.use_item(item_id):
 		healed_by(item_id)
 		return true
-	if zone.item_cooldown == 0 and FoodRules.why_not(zone, item_id) != "":
-		_hud.toast(FoodRules.why_not(zone, item_id))
+	if zone.item_cooldown == 0 and item_id == "":
+		_hud.toast("Nothing to eat")
 	Sfx.play("denied", -4.0)
 	return false
 
@@ -571,7 +571,7 @@ func _use(item_id: String) -> void:
 	elif zone.item_cooldown > 0:
 		_hud.toast("Wait a moment before using another item")
 	else:
-		_hud.toast(FoodRules.why_not(zone, item_id, "No effect right now"))
+		_hud.toast("No effect right now")
 	_reopen_bag("bag:" + item_id)
 
 
@@ -921,16 +921,7 @@ func _settle_world_boss() -> void:
 ## toast once when a round opens.
 func _update_world_boss(delta: float) -> void:
 	if world_run:
-		_hud.show_world_boss(
-			(
-				"WORLD BOSS  %d:%02d  ·  %d%% left"
-				% [
-					world_run.seconds_left() / 60,
-					world_run.seconds_left() % 60,
-					roundi(world_run.remaining_share() * 100)
-				]
-			)
-		)
+		_hud.show_world_boss(world_run.hud_text())
 		return
 	_hud.show_world_boss("")
 	_clock_timer -= delta

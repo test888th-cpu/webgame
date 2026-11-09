@@ -420,7 +420,8 @@ static func travel(game: Game, npc: Dictionary) -> Control:
 ## A taxi's rides in groups, in the order shown: [{"name", "rides": [Button],
 ## "columns"}]. Each taxi keeps to its own routes ("routes" in areas.json):
 ## Win's ("story") the street's districts, two to a row; Uncle Thong's truck
-## ("field") the farming grounds and the world bosses, one to a row.
+## ("field") the farming grounds, the boss lairs and the world bosses, one to
+## a row.
 static func _ride_groups(game: Game, npc: Dictionary, fare: int) -> Array[Dictionary]:
 	var content := game.content
 	var out: Array[Dictionary] = []
@@ -454,7 +455,7 @@ static func _ride_groups(game: Game, npc: Dictionary, fare: int) -> Array[Dictio
 
 
 ## The field truck's rides (from the hub only, AreaRules.hub): the open
-## farming grounds and the world bosses.
+## farming grounds, the open boss lairs and the world bosses.
 static func _hub_rides(game: Game, npc: Dictionary, fare: int) -> Array[Dictionary]:
 	var content := game.content
 	var out: Array[Dictionary] = []
@@ -470,6 +471,16 @@ static func _hub_rides(game: Game, npc: Dictionary, fare: int) -> Array[Dictiona
 		grounds.append(ride)
 	if not grounds.is_empty():
 		out.append({"name": "Farming", "rides": grounds, "columns": 1})
+	var lairs: Array[Button] = []
+	for area_id in AreaRules.open_lairs(game.profile, content):
+		var lair := content.area(area_id)
+		var text := "%s  (suggested Lv %d)" % [lair["name"], int(lair.get("level", 1))]
+		var ride := _choice(text, game._ride.bind(npc, area_id))
+		ride.name = "Ride_" + area_id
+		ride.disabled = broke
+		lairs.append(ride)
+	if not lairs.is_empty():
+		out.append({"name": "Rematches", "rides": lairs, "columns": 1})
 	var bosses: Array[Button] = []
 	for boss: String in content.world_bosses:
 		if WorldBossRules.unlocked(game.profile, content, boss):
@@ -487,7 +498,7 @@ static func _first_group(game: Game, groups: Array[Dictionary]) -> int:
 	for i in groups.size():
 		if groups[i]["name"] == here:
 			return i
-		if groups[i]["name"] not in ["City", "Farming", "World Bosses"]:
+		if groups[i]["name"] not in ["City", "Farming", "Rematches", "World Bosses"]:
 			last = i
 	return last
 
@@ -640,11 +651,9 @@ static func notice_board(game: Game, npc: Dictionary) -> Control:
 		var wait := WorldBossRules.wait_text(content, boss, game._now())
 		var state := "Rises again in %s." % wait
 		var color := UiTheme.TEXT_DIM
-		var round := WorldBossRules.window(content, boss, game._now())
-		var tries := WorldBossRules.attempts_left(profile, content, boss, int(round["round"]))
-		if round["open"]:
-			state = "OUT NOW, for %s. %d of %d tries left." % [wait, tries, int(data["attempts"])]
-			color = UiTheme.GOOD if tries > 0 else UiTheme.TEXT_DIM
+		if WorldBossRules.window(content, boss, game._now())["open"]:
+			state = "OUT NOW, for %s. Ride with Win." % wait
+			color = UiTheme.GOOD
 		entry.add_child(UiKit.label(text, UiTheme.SIZE_SMALL, UiTheme.TEXT))
 		entry.add_child(UiKit.label("    " + state, UiTheme.SIZE_CAPTION, color))
 	# Farming today: any cleared street, re-armed by resting (StreetMemory).
@@ -693,9 +702,6 @@ static func _world_boss_ride(game: Game, npc: Dictionary, fare: int, boss: Strin
 	var who := "Lv %d, " % WorldBossRules.level(content, boss)
 	var players := int(data.get("players", 1))
 	who += "%d players" % players if players > 1 else "solo"
-	if round["open"]:
-		var tries := WorldBossRules.attempts_left(game.profile, content, boss, int(round["round"]))
-		who += ", %d tries left" % tries
 	var text := (
 		"WORLD BOSS %s  (%s; closes in %s)" % [name, who, wait]
 		if round["open"]

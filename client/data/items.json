@@ -1354,6 +1354,1227 @@
       },
       "icon": "insulated_gauntlets",
       "description": "Pried off a Core Sentinel on the Reactor Walkway. They still hum when you clench."
+    },
+    "coolant_uncommon_weapon": {
+      "name": "Coolant Knuckles",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "uncommon",
+      "level": 53,
+      "price": 2260,
+      "stats": {
+        "power": 1.25,
+        "crit": 0.13
+      },
+      "icon": "brass_knuckles",
+      "description": "Ama's Market stocks it once the way down is open."
+    },
+    "coolant_uncommon_body": {
+      "name": "Coolant Plate",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "uncommon",
+      "level": 53,
+      "price": 1600,
+      "stats": {
+        "defense": 11,
+        "max_hp": 104
+      },
+      "icon": "reactor_plate",
+      "description": "Ama's Market stocks it once the way down is open."
+    },
+    "coolant_uncommon_head": {
+      "name": "Coolant Helm",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "uncommon",
+      "level": 53,
+      "price": 1270,
+      "stats": {
+        "defense": 8,
+        "max_hp": 94
+      },
+      "icon": "core_guard_helm",
+      "description": "Ama's Market stocks it once the way down is open."
+    },
+    "coolant_uncommon_hands": {
+      "name": "Coolant Gloves",
+      "type": "equipment",
+      "slot": "hands",
+      "rarity": "uncommon",
+      "level": 53,
+      "price": 1150,
+      "stats": {
+        "power": 0.46,
+        "defense": 2,
+        "crit": 0.09
+      },
+      "icon": "insulated_gauntlets",
+      "description": "Ama's Market stocks it once the way down is open."
+    },
+    "coolant_uncommon_feet": {
+      "name": "Coolant Boots",
+      "type": "equipment",
+      "slot": "feet",
+      "rarity": "uncommon",
+      "level": 53,
+      "price": 960,
+      "stats": {
+        "speed": 0.22,
+        "defense": 5,
+        "attack_speed": 0.12
+      },
+      "icon": "walkway_boots",
+      "description": "Ama's Market stocks it once the way down is open."
+    },
+    "coolant_uncommon_charm": {
+      "name": "Coolant Charm",
+      "type": "equipment",
+      "slot": "charm",
+      "rarity": "uncommon",
+      "level": 53,
+      "price": 1300,
+      "stats": {
+        "max_hp": 91,
+        "power": 0.18,
+        "crit": 0.12
+      },
+      "icon": "lucky_coin",
+      "description": "Ama's Market stocks it once the way down is open."
+    },
+    "coolant_rare_weapon": {
+      "name": "Vault Guard Knuckles",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "rare",
+      "level": 53,
+      "price": 0,
+      "stats": {
+        "power": 1.41,
+        "crit": 0.16
+      },
+      "icon": "rebar_pipe",
+      "description": "Carried by the Coolant Vaults's guards."
+    },
+    "coolant_rare_body": {
+      "name": "Vault Guard Plate",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "rare",
+      "level": 53,
+      "price": 0,
+      "stats": {
+        "defense": 14,
+        "max_hp": 108
+      },
+      "icon": "plant_vest",
+      "description": "Carried by the Coolant Vaults's guards."
+    },
+    "coolant_rare_head": {
+      "name": "Vault Guard Helm",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "rare",
+      "level": 53,
+      "price": 0,
+      "stats": {
+        "defense": 8,
+        "max_hp": 84,
+        "crit": 0.07
+      },
+      "icon": "watch_cap",
+      "description": "Carried by the Coolant Vaults's guards."
+    },
+    "coolant_rare_hands": {
+      "name": "Vault Guard Gloves",
+      "type": "equipment",
+      "slot": "hands",
+      "rarity": "rare",
+      "level": 53,
+      "price": 0,
+      "stats": {
+        "power": 0.5,
+        "defense": 3,
+        "crit": 0.1
+      },
+      "icon": "insulated_gauntlets",
+      "description": "Carried by the Coolant Vaults's guards."
+    },
+    "coolant_rare_feet": {
+      "name": "Vault Guard Boots",
+      "type": "equipment",
+      "slot": "feet",
+      "rarity": "rare",
+      "level": 53,
+      "price": 0,
+      "stats": {
+        "speed": 0.25,
+        "defense": 6,
+        "attack_speed": 0.12
+      },
+      "icon": "facility_boots",
+      "description": "Carried by the Coolant Vaults's guards."
+    },
+    "coolant_rare_charm": {
+      "name": "Vault Guard Charm",
+      "type": "equipment",
+      "slot": "charm",
+      "rarity": "rare",
+      "level": 53,
+      "price": 0,
+      "stats": {
+        "max_hp": 105,
+        "power": 0.21,
+        "crit": 0.13
+      },
+      "icon": "lucky_coin",
+      "description": "Carried by the Coolant Vaults's guards."
+    },
+    "coolant_epic_weapon": {
+      "name": "Reinstated Knuckles",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "epic",
+      "level": 53,
+      "price": 0,
+      "stats": {
+        "power": 1.55,
+        "defense": 2,
+        "crit": 0.2
+      },
+      "icon": "ringmaster_wraps",
+      "description": "Taken from Commander Arthit, Reinstated."
+    },
+    "coolant_epic_body": {
+      "name": "Reinstated Plate",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "epic",
+      "level": 53,
+      "price": 0,
+      "stats": {
+        "defense": 15,
+        "max_hp": 136
+      },
+      "icon": "reactor_plate",
+      "description": "Taken from Commander Arthit, Reinstated."
+    },
+    "coolant_epic_head": {
+      "name": "Reinstated Helm",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "epic",
+      "level": 53,
+      "price": 0,
+      "stats": {
+        "defense": 9,
+        "max_hp": 117,
+        "crit": 0.06
+      },
+      "icon": "dockers_cap",
+      "description": "Taken from Commander Arthit, Reinstated."
+    },
+    "coolant_epic_hands": {
+      "name": "Reinstated Gloves",
+      "type": "equipment",
+      "slot": "hands",
+      "rarity": "epic",
+      "level": 53,
+      "price": 0,
+      "stats": {
+        "power": 0.49,
+        "defense": 4,
+        "crit": 0.16
+      },
+      "icon": "insulated_gloves",
+      "description": "Taken from Commander Arthit, Reinstated."
+    },
+    "coolant_epic_feet": {
+      "name": "Reinstated Boots",
+      "type": "equipment",
+      "slot": "feet",
+      "rarity": "epic",
+      "level": 53,
+      "price": 0,
+      "stats": {
+        "speed": 0.32,
+        "defense": 7,
+        "attack_speed": 0.14
+      },
+      "icon": "facility_boots",
+      "description": "Taken from Commander Arthit, Reinstated."
+    },
+    "coolant_epic_charm": {
+      "name": "Reinstated Charm",
+      "type": "equipment",
+      "slot": "charm",
+      "rarity": "epic",
+      "level": 53,
+      "price": 0,
+      "stats": {
+        "max_hp": 145,
+        "defense": 4,
+        "crit": 0.12
+      },
+      "icon": "subject_band",
+      "description": "Taken from Commander Arthit, Reinstated."
+    },
+    "underworks_uncommon_weapon": {
+      "name": "Underworks Knuckles",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "uncommon",
+      "level": 58,
+      "price": 2460,
+      "stats": {
+        "power": 1.36,
+        "crit": 0.14
+      },
+      "icon": "brass_knuckles",
+      "description": "Ama's Market stocks it once the way down is open."
+    },
+    "underworks_uncommon_body": {
+      "name": "Underworks Plate",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "uncommon",
+      "level": 58,
+      "price": 1740,
+      "stats": {
+        "defense": 12,
+        "max_hp": 113
+      },
+      "icon": "reactor_plate",
+      "description": "Ama's Market stocks it once the way down is open."
+    },
+    "underworks_uncommon_head": {
+      "name": "Underworks Helm",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "uncommon",
+      "level": 58,
+      "price": 1380,
+      "stats": {
+        "defense": 8,
+        "max_hp": 102
+      },
+      "icon": "core_guard_helm",
+      "description": "Ama's Market stocks it once the way down is open."
+    },
+    "underworks_uncommon_hands": {
+      "name": "Underworks Gloves",
+      "type": "equipment",
+      "slot": "hands",
+      "rarity": "uncommon",
+      "level": 58,
+      "price": 1250,
+      "stats": {
+        "power": 0.5,
+        "defense": 3,
+        "crit": 0.1
+      },
+      "icon": "insulated_gauntlets",
+      "description": "Ama's Market stocks it once the way down is open."
+    },
+    "underworks_uncommon_feet": {
+      "name": "Underworks Boots",
+      "type": "equipment",
+      "slot": "feet",
+      "rarity": "uncommon",
+      "level": 58,
+      "price": 1040,
+      "stats": {
+        "speed": 0.24,
+        "defense": 5,
+        "attack_speed": 0.13
+      },
+      "icon": "walkway_boots",
+      "description": "Ama's Market stocks it once the way down is open."
+    },
+    "underworks_uncommon_charm": {
+      "name": "Underworks Charm",
+      "type": "equipment",
+      "slot": "charm",
+      "rarity": "uncommon",
+      "level": 58,
+      "price": 1420,
+      "stats": {
+        "max_hp": 99,
+        "power": 0.2,
+        "crit": 0.13
+      },
+      "icon": "lucky_coin",
+      "description": "Ama's Market stocks it once the way down is open."
+    },
+    "underworks_rare_weapon": {
+      "name": "Reactor Crew Knuckles",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "rare",
+      "level": 58,
+      "price": 0,
+      "stats": {
+        "power": 1.53,
+        "crit": 0.18
+      },
+      "icon": "rebar_pipe",
+      "description": "Carried by the Reactor Underworks's guards."
+    },
+    "underworks_rare_body": {
+      "name": "Reactor Crew Plate",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "rare",
+      "level": 58,
+      "price": 0,
+      "stats": {
+        "defense": 15,
+        "max_hp": 117
+      },
+      "icon": "plant_vest",
+      "description": "Carried by the Reactor Underworks's guards."
+    },
+    "underworks_rare_head": {
+      "name": "Reactor Crew Helm",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "rare",
+      "level": 58,
+      "price": 0,
+      "stats": {
+        "defense": 9,
+        "max_hp": 91,
+        "crit": 0.07
+      },
+      "icon": "watch_cap",
+      "description": "Carried by the Reactor Underworks's guards."
+    },
+    "underworks_rare_hands": {
+      "name": "Reactor Crew Gloves",
+      "type": "equipment",
+      "slot": "hands",
+      "rarity": "rare",
+      "level": 58,
+      "price": 0,
+      "stats": {
+        "power": 0.54,
+        "defense": 4,
+        "crit": 0.11
+      },
+      "icon": "insulated_gauntlets",
+      "description": "Carried by the Reactor Underworks's guards."
+    },
+    "underworks_rare_feet": {
+      "name": "Reactor Crew Boots",
+      "type": "equipment",
+      "slot": "feet",
+      "rarity": "rare",
+      "level": 58,
+      "price": 0,
+      "stats": {
+        "speed": 0.28,
+        "defense": 7,
+        "attack_speed": 0.13
+      },
+      "icon": "facility_boots",
+      "description": "Carried by the Reactor Underworks's guards."
+    },
+    "underworks_rare_charm": {
+      "name": "Reactor Crew Charm",
+      "type": "equipment",
+      "slot": "charm",
+      "rarity": "rare",
+      "level": 58,
+      "price": 0,
+      "stats": {
+        "max_hp": 114,
+        "power": 0.23,
+        "crit": 0.14
+      },
+      "icon": "lucky_coin",
+      "description": "Carried by the Reactor Underworks's guards."
+    },
+    "underworks_epic_weapon": {
+      "name": "Relapsed Knuckles",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "epic",
+      "level": 58,
+      "price": 0,
+      "stats": {
+        "power": 1.68,
+        "defense": 2,
+        "crit": 0.22
+      },
+      "icon": "ringmaster_wraps",
+      "description": "Taken from Subject Twelve, Relapsed."
+    },
+    "underworks_epic_body": {
+      "name": "Relapsed Plate",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "epic",
+      "level": 58,
+      "price": 0,
+      "stats": {
+        "defense": 17,
+        "max_hp": 148
+      },
+      "icon": "reactor_plate",
+      "description": "Taken from Subject Twelve, Relapsed."
+    },
+    "underworks_epic_head": {
+      "name": "Relapsed Helm",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "epic",
+      "level": 58,
+      "price": 0,
+      "stats": {
+        "defense": 10,
+        "max_hp": 127,
+        "crit": 0.06
+      },
+      "icon": "dockers_cap",
+      "description": "Taken from Subject Twelve, Relapsed."
+    },
+    "underworks_epic_hands": {
+      "name": "Relapsed Gloves",
+      "type": "equipment",
+      "slot": "hands",
+      "rarity": "epic",
+      "level": 58,
+      "price": 0,
+      "stats": {
+        "power": 0.54,
+        "defense": 5,
+        "crit": 0.17
+      },
+      "icon": "insulated_gloves",
+      "description": "Taken from Subject Twelve, Relapsed."
+    },
+    "underworks_epic_feet": {
+      "name": "Relapsed Boots",
+      "type": "equipment",
+      "slot": "feet",
+      "rarity": "epic",
+      "level": 58,
+      "price": 0,
+      "stats": {
+        "speed": 0.34,
+        "defense": 7,
+        "attack_speed": 0.16
+      },
+      "icon": "facility_boots",
+      "description": "Taken from Subject Twelve, Relapsed."
+    },
+    "underworks_epic_charm": {
+      "name": "Relapsed Charm",
+      "type": "equipment",
+      "slot": "charm",
+      "rarity": "epic",
+      "level": 58,
+      "price": 0,
+      "stats": {
+        "max_hp": 158,
+        "defense": 5,
+        "crit": 0.13
+      },
+      "icon": "subject_band",
+      "description": "Taken from Subject Twelve, Relapsed."
+    },
+    "foundry_uncommon_weapon": {
+      "name": "Foundry Knuckles",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "uncommon",
+      "level": 63,
+      "price": 2650,
+      "stats": {
+        "power": 1.46,
+        "crit": 0.15
+      },
+      "icon": "brass_knuckles",
+      "description": "Ama's Market stocks it once the way down is open."
+    },
+    "foundry_uncommon_body": {
+      "name": "Foundry Plate",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "uncommon",
+      "level": 63,
+      "price": 1880,
+      "stats": {
+        "defense": 13,
+        "max_hp": 122
+      },
+      "icon": "reactor_plate",
+      "description": "Ama's Market stocks it once the way down is open."
+    },
+    "foundry_uncommon_head": {
+      "name": "Foundry Helm",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "uncommon",
+      "level": 63,
+      "price": 1490,
+      "stats": {
+        "defense": 9,
+        "max_hp": 110
+      },
+      "icon": "core_guard_helm",
+      "description": "Ama's Market stocks it once the way down is open."
+    },
+    "foundry_uncommon_hands": {
+      "name": "Foundry Gloves",
+      "type": "equipment",
+      "slot": "hands",
+      "rarity": "uncommon",
+      "level": 63,
+      "price": 1350,
+      "stats": {
+        "power": 0.54,
+        "defense": 3,
+        "crit": 0.11
+      },
+      "icon": "insulated_gauntlets",
+      "description": "Ama's Market stocks it once the way down is open."
+    },
+    "foundry_uncommon_feet": {
+      "name": "Foundry Boots",
+      "type": "equipment",
+      "slot": "feet",
+      "rarity": "uncommon",
+      "level": 63,
+      "price": 1120,
+      "stats": {
+        "speed": 0.26,
+        "defense": 6,
+        "attack_speed": 0.14
+      },
+      "icon": "walkway_boots",
+      "description": "Ama's Market stocks it once the way down is open."
+    },
+    "foundry_uncommon_charm": {
+      "name": "Foundry Charm",
+      "type": "equipment",
+      "slot": "charm",
+      "rarity": "uncommon",
+      "level": 63,
+      "price": 1530,
+      "stats": {
+        "max_hp": 107,
+        "power": 0.21,
+        "crit": 0.14
+      },
+      "icon": "lucky_coin",
+      "description": "Ama's Market stocks it once the way down is open."
+    },
+    "foundry_rare_weapon": {
+      "name": "Slagworker Knuckles",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "rare",
+      "level": 63,
+      "price": 0,
+      "stats": {
+        "power": 1.65,
+        "crit": 0.19
+      },
+      "icon": "rebar_pipe",
+      "description": "Carried by the Foundry Depths's guards."
+    },
+    "foundry_rare_body": {
+      "name": "Slagworker Plate",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "rare",
+      "level": 63,
+      "price": 0,
+      "stats": {
+        "defense": 16,
+        "max_hp": 127
+      },
+      "icon": "plant_vest",
+      "description": "Carried by the Foundry Depths's guards."
+    },
+    "foundry_rare_head": {
+      "name": "Slagworker Helm",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "rare",
+      "level": 63,
+      "price": 0,
+      "stats": {
+        "defense": 10,
+        "max_hp": 98,
+        "crit": 0.08
+      },
+      "icon": "watch_cap",
+      "description": "Carried by the Foundry Depths's guards."
+    },
+    "foundry_rare_hands": {
+      "name": "Slagworker Gloves",
+      "type": "equipment",
+      "slot": "hands",
+      "rarity": "rare",
+      "level": 63,
+      "price": 0,
+      "stats": {
+        "power": 0.58,
+        "defense": 4,
+        "crit": 0.12
+      },
+      "icon": "insulated_gauntlets",
+      "description": "Carried by the Foundry Depths's guards."
+    },
+    "foundry_rare_feet": {
+      "name": "Slagworker Boots",
+      "type": "equipment",
+      "slot": "feet",
+      "rarity": "rare",
+      "level": 63,
+      "price": 0,
+      "stats": {
+        "speed": 0.3,
+        "defense": 7,
+        "attack_speed": 0.14
+      },
+      "icon": "facility_boots",
+      "description": "Carried by the Foundry Depths's guards."
+    },
+    "foundry_rare_charm": {
+      "name": "Slagworker Charm",
+      "type": "equipment",
+      "slot": "charm",
+      "rarity": "rare",
+      "level": 63,
+      "price": 0,
+      "stats": {
+        "max_hp": 123,
+        "power": 0.25,
+        "crit": 0.16
+      },
+      "icon": "lucky_coin",
+      "description": "Carried by the Foundry Depths's guards."
+    },
+    "foundry_epic_weapon": {
+      "name": "Overdriven Knuckles",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "epic",
+      "level": 63,
+      "price": 0,
+      "stats": {
+        "power": 1.81,
+        "defense": 2,
+        "crit": 0.23
+      },
+      "icon": "ringmaster_wraps",
+      "description": "Taken from Unit K-7, Overdriven."
+    },
+    "foundry_epic_body": {
+      "name": "Overdriven Plate",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "epic",
+      "level": 63,
+      "price": 0,
+      "stats": {
+        "defense": 18,
+        "max_hp": 159
+      },
+      "icon": "reactor_plate",
+      "description": "Taken from Unit K-7, Overdriven."
+    },
+    "foundry_epic_head": {
+      "name": "Overdriven Helm",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "epic",
+      "level": 63,
+      "price": 0,
+      "stats": {
+        "defense": 10,
+        "max_hp": 137,
+        "crit": 0.07
+      },
+      "icon": "dockers_cap",
+      "description": "Taken from Unit K-7, Overdriven."
+    },
+    "foundry_epic_hands": {
+      "name": "Overdriven Gloves",
+      "type": "equipment",
+      "slot": "hands",
+      "rarity": "epic",
+      "level": 63,
+      "price": 0,
+      "stats": {
+        "power": 0.58,
+        "defense": 5,
+        "crit": 0.18
+      },
+      "icon": "insulated_gloves",
+      "description": "Taken from Unit K-7, Overdriven."
+    },
+    "foundry_epic_feet": {
+      "name": "Overdriven Boots",
+      "type": "equipment",
+      "slot": "feet",
+      "rarity": "epic",
+      "level": 63,
+      "price": 0,
+      "stats": {
+        "speed": 0.37,
+        "defense": 8,
+        "attack_speed": 0.17
+      },
+      "icon": "facility_boots",
+      "description": "Taken from Unit K-7, Overdriven."
+    },
+    "foundry_epic_charm": {
+      "name": "Overdriven Charm",
+      "type": "equipment",
+      "slot": "charm",
+      "rarity": "epic",
+      "level": 63,
+      "price": 0,
+      "stats": {
+        "max_hp": 170,
+        "defense": 5,
+        "crit": 0.14
+      },
+      "icon": "subject_band",
+      "description": "Taken from Unit K-7, Overdriven."
+    },
+    "heart_uncommon_weapon": {
+      "name": "Heartforged Knuckles",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "uncommon",
+      "level": 68,
+      "price": 2850,
+      "stats": {
+        "power": 1.57,
+        "crit": 0.16
+      },
+      "icon": "brass_knuckles",
+      "description": "Ama's Market stocks it once the way down is open."
+    },
+    "heart_uncommon_body": {
+      "name": "Heartforged Plate",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "uncommon",
+      "level": 68,
+      "price": 2010,
+      "stats": {
+        "defense": 14,
+        "max_hp": 130
+      },
+      "icon": "reactor_plate",
+      "description": "Ama's Market stocks it once the way down is open."
+    },
+    "heart_uncommon_head": {
+      "name": "Heartforged Helm",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "uncommon",
+      "level": 68,
+      "price": 1600,
+      "stats": {
+        "defense": 9,
+        "max_hp": 118
+      },
+      "icon": "core_guard_helm",
+      "description": "Ama's Market stocks it once the way down is open."
+    },
+    "heart_uncommon_hands": {
+      "name": "Heartforged Gloves",
+      "type": "equipment",
+      "slot": "hands",
+      "rarity": "uncommon",
+      "level": 68,
+      "price": 1450,
+      "stats": {
+        "power": 0.58,
+        "defense": 3,
+        "crit": 0.12
+      },
+      "icon": "insulated_gauntlets",
+      "description": "Ama's Market stocks it once the way down is open."
+    },
+    "heart_uncommon_feet": {
+      "name": "Heartforged Boots",
+      "type": "equipment",
+      "slot": "feet",
+      "rarity": "uncommon",
+      "level": 68,
+      "price": 1200,
+      "stats": {
+        "speed": 0.28,
+        "defense": 6,
+        "attack_speed": 0.15
+      },
+      "icon": "walkway_boots",
+      "description": "Ama's Market stocks it once the way down is open."
+    },
+    "heart_uncommon_charm": {
+      "name": "Heartforged Charm",
+      "type": "equipment",
+      "slot": "charm",
+      "rarity": "uncommon",
+      "level": 68,
+      "price": 1640,
+      "stats": {
+        "max_hp": 115,
+        "power": 0.23,
+        "crit": 0.15
+      },
+      "icon": "lucky_coin",
+      "description": "Ama's Market stocks it once the way down is open."
+    },
+    "heart_rare_weapon": {
+      "name": "Heart Sentry Knuckles",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "rare",
+      "level": 68,
+      "price": 0,
+      "stats": {
+        "power": 1.77,
+        "crit": 0.2
+      },
+      "icon": "rebar_pipe",
+      "description": "Carried by the The Iron Heart's guards."
+    },
+    "heart_rare_body": {
+      "name": "Heart Sentry Plate",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "rare",
+      "level": 68,
+      "price": 0,
+      "stats": {
+        "defense": 17,
+        "max_hp": 136
+      },
+      "icon": "plant_vest",
+      "description": "Carried by the The Iron Heart's guards."
+    },
+    "heart_rare_head": {
+      "name": "Heart Sentry Helm",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "rare",
+      "level": 68,
+      "price": 0,
+      "stats": {
+        "defense": 11,
+        "max_hp": 106,
+        "crit": 0.08
+      },
+      "icon": "watch_cap",
+      "description": "Carried by the The Iron Heart's guards."
+    },
+    "heart_rare_hands": {
+      "name": "Heart Sentry Gloves",
+      "type": "equipment",
+      "slot": "hands",
+      "rarity": "rare",
+      "level": 68,
+      "price": 0,
+      "stats": {
+        "power": 0.63,
+        "defense": 4,
+        "crit": 0.13
+      },
+      "icon": "insulated_gauntlets",
+      "description": "Carried by the The Iron Heart's guards."
+    },
+    "heart_rare_feet": {
+      "name": "Heart Sentry Boots",
+      "type": "equipment",
+      "slot": "feet",
+      "rarity": "rare",
+      "level": 68,
+      "price": 0,
+      "stats": {
+        "speed": 0.32,
+        "defense": 8,
+        "attack_speed": 0.15
+      },
+      "icon": "facility_boots",
+      "description": "Carried by the The Iron Heart's guards."
+    },
+    "heart_rare_charm": {
+      "name": "Heart Sentry Charm",
+      "type": "equipment",
+      "slot": "charm",
+      "rarity": "rare",
+      "level": 68,
+      "price": 0,
+      "stats": {
+        "max_hp": 132,
+        "power": 0.26,
+        "crit": 0.17
+      },
+      "icon": "lucky_coin",
+      "description": "Carried by the The Iron Heart's guards."
+    },
+    "heart_epic_weapon": {
+      "name": "Protocol Knuckles",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "epic",
+      "level": 68,
+      "price": 0,
+      "stats": {
+        "power": 1.94,
+        "defense": 2,
+        "crit": 0.25
+      },
+      "icon": "ringmaster_wraps",
+      "description": "Taken from The Wiroj Protocol."
+    },
+    "heart_epic_body": {
+      "name": "Protocol Plate",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "epic",
+      "level": 68,
+      "price": 0,
+      "stats": {
+        "defense": 19,
+        "max_hp": 171
+      },
+      "icon": "reactor_plate",
+      "description": "Taken from The Wiroj Protocol."
+    },
+    "heart_epic_head": {
+      "name": "Protocol Helm",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "epic",
+      "level": 68,
+      "price": 0,
+      "stats": {
+        "defense": 11,
+        "max_hp": 148,
+        "crit": 0.07
+      },
+      "icon": "dockers_cap",
+      "description": "Taken from The Wiroj Protocol."
+    },
+    "heart_epic_hands": {
+      "name": "Protocol Gloves",
+      "type": "equipment",
+      "slot": "hands",
+      "rarity": "epic",
+      "level": 68,
+      "price": 0,
+      "stats": {
+        "power": 0.62,
+        "defense": 6,
+        "crit": 0.2
+      },
+      "icon": "insulated_gloves",
+      "description": "Taken from The Wiroj Protocol."
+    },
+    "heart_epic_feet": {
+      "name": "Protocol Boots",
+      "type": "equipment",
+      "slot": "feet",
+      "rarity": "epic",
+      "level": 68,
+      "price": 0,
+      "stats": {
+        "speed": 0.4,
+        "defense": 8,
+        "attack_speed": 0.18
+      },
+      "icon": "facility_boots",
+      "description": "Taken from The Wiroj Protocol."
+    },
+    "heart_epic_charm": {
+      "name": "Protocol Charm",
+      "type": "equipment",
+      "slot": "charm",
+      "rarity": "epic",
+      "level": 68,
+      "price": 0,
+      "stats": {
+        "max_hp": 182,
+        "defense": 5,
+        "crit": 0.15
+      },
+      "icon": "subject_band",
+      "description": "Taken from The Wiroj Protocol."
+    },
+    "titan_slagfist": {
+      "name": "Titan's Slagfist",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "legendary",
+      "level": 60,
+      "price": 0,
+      "stats": {
+        "power": 1.98,
+        "crit": 0.24,
+        "attack_speed": 0.17
+      },
+      "icon": "iron_legacy",
+      "description": "A prize of The Slag Titan."
+    },
+    "titan_grip": {
+      "name": "Titan's Grip",
+      "type": "equipment",
+      "slot": "hands",
+      "rarity": "legendary",
+      "level": 60,
+      "price": 0,
+      "stats": {
+        "power": 0.8,
+        "defense": 5,
+        "crit": 0.16
+      },
+      "icon": "piston_gauntlets",
+      "description": "A prize of The Slag Titan."
+    },
+    "titan_core": {
+      "name": "Titan's Ember Core",
+      "type": "equipment",
+      "slot": "charm",
+      "rarity": "legendary",
+      "level": 60,
+      "price": 0,
+      "stats": {
+        "max_hp": 174,
+        "power": 0.3,
+        "crit": 0.11,
+        "attack_speed": 0.11
+      },
+      "icon": "colossus_core",
+      "description": "A prize of The Slag Titan."
+    },
+    "sovereign_fists": {
+      "name": "Sovereign Fists",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "mythic",
+      "level": 70,
+      "price": 0,
+      "stats": {
+        "power": 2.65,
+        "crit": 0.32,
+        "attack_speed": 0.22
+      },
+      "icon": "iron_legacy",
+      "description": "A prize of The Iron Sovereign."
+    },
+    "sovereign_mantle": {
+      "name": "Sovereign Mantle",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "mythic",
+      "level": 70,
+      "price": 0,
+      "stats": {
+        "defense": 25,
+        "max_hp": 259
+      },
+      "icon": "zeros_mantle",
+      "description": "A prize of The Iron Sovereign."
+    },
+    "sovereign_crown": {
+      "name": "Sovereign Crown",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "mythic",
+      "level": 70,
+      "price": 0,
+      "stats": {
+        "defense": 15,
+        "max_hp": 187,
+        "crit": 0.18
+      },
+      "icon": "core_guard_helm",
+      "description": "A prize of The Iron Sovereign."
+    },
+    "sovereign_grips": {
+      "name": "Sovereign Grips",
+      "type": "equipment",
+      "slot": "hands",
+      "rarity": "mythic",
+      "level": 70,
+      "price": 0,
+      "stats": {
+        "power": 1.07,
+        "defense": 7,
+        "crit": 0.21
+      },
+      "icon": "piston_gauntlets",
+      "description": "A prize of The Iron Sovereign."
+    },
+    "sovereign_treads": {
+      "name": "Sovereign Treads",
+      "type": "equipment",
+      "slot": "feet",
+      "rarity": "mythic",
+      "level": 70,
+      "price": 0,
+      "stats": {
+        "speed": 0.54,
+        "defense": 11,
+        "attack_speed": 0.28
+      },
+      "icon": "walkway_boots",
+      "description": "A prize of The Iron Sovereign."
+    },
+    "sovereign_seal": {
+      "name": "Sovereign Seal",
+      "type": "equipment",
+      "slot": "charm",
+      "rarity": "mythic",
+      "level": 70,
+      "price": 0,
+      "stats": {
+        "max_hp": 232,
+        "power": 0.4,
+        "crit": 0.15,
+        "attack_speed": 0.15
+      },
+      "icon": "colossus_core",
+      "description": "A prize of The Iron Sovereign."
+    },
+    "spillway_epic_body": {
+      "name": "Spillway Chief's Coat",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "epic",
+      "level": 42,
+      "price": 0,
+      "stats": {
+        "defense": 12,
+        "max_hp": 110
+      },
+      "icon": "reactor_plate",
+      "description": "Taken from the Spillway Chief."
+    },
+    "spillway_epic_head": {
+      "name": "Spillway Chief's Visor",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "epic",
+      "level": 42,
+      "price": 0,
+      "stats": {
+        "defense": 7,
+        "max_hp": 95,
+        "crit": 0.05
+      },
+      "icon": "dockers_cap",
+      "description": "Taken from the Spillway Chief."
     }
   }
 }

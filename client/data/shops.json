@@ -141,6 +141,70 @@
             "scrap_metal",
             "refined_alloy"
           ]
+        },
+        {
+          "defeated": "director_wiroj",
+          "from": "Ama",
+          "items": [
+            "rice_box",
+            "herbal_tonic",
+            "coolant_uncommon_weapon",
+            "coolant_uncommon_body",
+            "coolant_uncommon_head",
+            "coolant_uncommon_hands",
+            "coolant_uncommon_feet",
+            "coolant_uncommon_charm",
+            "scrap_metal",
+            "refined_alloy"
+          ]
+        },
+        {
+          "defeated": "arthit_reinstated",
+          "from": "Ama",
+          "items": [
+            "rice_box",
+            "herbal_tonic",
+            "underworks_uncommon_weapon",
+            "underworks_uncommon_body",
+            "underworks_uncommon_head",
+            "underworks_uncommon_hands",
+            "underworks_uncommon_feet",
+            "underworks_uncommon_charm",
+            "scrap_metal",
+            "refined_alloy"
+          ]
+        },
+        {
+          "defeated": "twelve_relapsed",
+          "from": "Ama",
+          "items": [
+            "rice_box",
+            "herbal_tonic",
+            "foundry_uncommon_weapon",
+            "foundry_uncommon_body",
+            "foundry_uncommon_head",
+            "foundry_uncommon_hands",
+            "foundry_uncommon_feet",
+            "foundry_uncommon_charm",
+            "scrap_metal",
+            "refined_alloy"
+          ]
+        },
+        {
+          "defeated": "k7_overdriven",
+          "from": "Ama",
+          "items": [
+            "rice_box",
+            "herbal_tonic",
+            "heart_uncommon_weapon",
+            "heart_uncommon_body",
+            "heart_uncommon_head",
+            "heart_uncommon_hands",
+            "heart_uncommon_feet",
+            "heart_uncommon_charm",
+            "scrap_metal",
+            "refined_alloy"
+          ]
         }
       ]
     }

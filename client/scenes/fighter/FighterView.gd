@@ -34,6 +34,8 @@ const FALLBACK_ANGLE := 35.0
 ## The area's light on this fighter (ZoneView, from the street kit's tint):
 ## the sprite shader multiplies it in.
 var ambient := Color.WHITE
+## The enemy's own colour over its sprite (enemies.json "tint"; white: none).
+var tint := Color.WHITE
 
 var fighter: Fighter
 var art_id := ""
@@ -103,6 +105,9 @@ func show_threat(hero_level: int) -> void:
 
 func setup_enemy(data: Dictionary, art: Dictionary, level := 0) -> void:
 	body_color = Color.from_string(str(data.get("color", "#777777")), Color.GRAY)
+	tint = Color.from_string(str(data.get("tint", "#ffffff")), Color.WHITE)
+	if _sprite:
+		_sprite.material.set_shader_parameter("tint", tint)
 	_torso.color = body_color
 	scale = Vector2.ONE * float(data.get("scale", 1.0))
 	# Bosses get the big HUD bar instead of a small one overhead.
@@ -181,6 +186,7 @@ func set_art(id: String, art: Dictionary) -> void:
 		_sprite.material = ShaderMaterial.new()
 		_sprite.material.shader = FLASH_SHADER
 		_sprite.material.set_shader_parameter("ambient", ambient)
+		_sprite.material.set_shader_parameter("tint", tint)
 		add_child(_sprite)
 		move_child(_sprite, 1)  # above the shadow, below labels
 	var sheet := str(entry["sheet"])

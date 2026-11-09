@@ -4,6 +4,102 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed: Phase 2 audit of the level 50-70 farming endgame
+- **Rosters:** each 50-70 ground mixes three roles (common fighter, heavy, fast or ranged)
+  and one elite instead of two kinds; the Iron Heart no longer fields two heavies. Knock-outs
+  at the ground's level stay at or below 2 in 20 five-minute sessions (FarmCheck, 20 seeds).
+- **Tints:** `enemies.json` `tint` colours a monster's sprite in the shader, so 50-70
+  monsters, lair bosses and the new world bosses read as their own kinds; story enemies are
+  unchanged.
+- **Calibration:** per-tier XP and coin factors in the generator keep XP/h within 3% of the
+  rates that met the level-time targets and coins/h at 48k, 51k, 62k and 75k. The XP curve
+  is unchanged: 50-70 measures 89.4-89.6 h (target 90).
+- **Spillway Chief** health x2.5 (from x2.0): it was the only lair boss that a hero with no
+  gear always beat. The other lair bosses keep their values.
+- **Enrage 75 s kept**, now with evidence: it never fires for a hero at level with shop or
+  boss gear (slowest such kill 74 s), fires for 1-3 in 10 shop-geared heroes 5-10 levels
+  under on the longest fights, and for nearly every stalled fight (no gear, 83-135 s).
+- **Item sources:** the item card's "Where to get" now lists world boss prizes, farming-ground
+  elite prizes and where field and lair monsters fight (`ItemSources`, split out of
+  `ContentDB`, which drops to 932 lines).
+- **Harness:** FarmCheck reports damage, food, kills, gear drops and knock-out causes;
+  EnrageCompare takes enhancement levels and a no-gear kit; new WorldBossCheck.
+- **Tests:** test_item_sources.gd, test_endgame_monsters.gd; enhancement boundaries, preview
+  equals result, +10 save/load; auto battle never rides to a lair; tint reaches the shader.
+- **Known limit (owner decision):** in the single-player build a 10-player world boss cannot
+  be emptied by one hero within its hour (Iron Sovereign 97-149 min, the existing Subject
+  Zero 99-166 min), so its prizes, including the mythic set, cannot drop yet. See
+  `docs/PHASE2_AUDIT_REPORT.md`.
+
+### Added: levels 50-70 content, boss lairs, mythic gear and boss enrage (Phase 2)
+- **Level cap 70** with a data-driven XP curve (`progression.json` `xp.levels`), see the entry below.
+- **Farming grounds:** Core Spillway (Lv 43, fills the 41-45 gap) and four grounds for 50-70:
+  Coolant Vaults (53), Reactor Underworks (58), Foundry Depths (63) and The Iron Heart (68),
+  each with two new monster kinds and a champion elite. Existing grounds and unlocks are unchanged.
+- **Boss lairs** (`"kind": "lair"`, `AreaRules.LAIR`): a short arena beside each new ground
+  with one boss fight that comes back after every rest; reached by Uncle Thong's truck
+  ("Rematches"), opened with its ground. Bosses: Spillway Chief, Commander Arthit
+  (Reinstated), Subject Twelve (Relapsed), Unit K-7 (Overdriven), The Wiroj Protocol.
+  Ground and lair pairs open in a chain, never by level.
+- **World bosses:** The Slag Titan (Lv 60, 5 players) and The Iron Sovereign (Lv 70, 10
+  players). Unlimited entries and attempts, no daily limit, no wait, shared round pool,
+  as for every world boss.
+- **Gear:** 83 new items: uncommon, rare and epic in every slot for each tier (53, 58,
+  63, 68), Spillway Chief's level 42 epic body and head (closing the boss-gear gap from
+  27 to 48), three legendary Slag Titan prizes and a six-piece mythic Sovereign set.
+  New grade **mythic** (budget x1.85). Every piece is priced to the `ItemRules` budget.
+- **Enhancement:** still +0 to +10 with the same rates, pity and no-loss failures; no new
+  material. `enhance.item_level_costs` scales coins x2 / materials x1.5 from item level
+  51 and x3 / x2 from 61. The workbench card previews what the next level adds.
+- **Market:** Ama's 50-70 stock opens with each lair boss (`"defeated"` stock entries).
+- **Enrage** (`BossEnrage`, data-driven): lair bosses enrage after 75 s, warned 10 s ahead
+  (x1.5 damage, hazards and summons 30% quicker); the 50-70 world bosses for the last 20
+  minutes of the round (x1.3, 20% quicker), shown on the HUD. It never ends a fight or
+  limits entries or food.
+  - Compared with `tests/harness/EnrageCompare.gd` (5 lairs, shop and boss gear, 8 seeds,
+    heroes at the lair level and 5 and 10 below): no knock-outs at any setting; median
+    kills 16-60 s, slowest 62 s at the suggested level (Wiroj Protocol, shop gear) and
+    70 s ten levels below. 60 s enraged that fight for on-level heroes (1 in 8 runs) and
+    for 2-3 in 8 at ten levels below; 75 s and 90 s never fired. 75 s kept.
+- **Balance pass** (measured with `FarmCheck.gd`, `EnrageCompare.gd`, `LevelingRun.gd`):
+  - Lair bosses get ×2.0 the health of the story boss they come from (the Wiroj Protocol ×1.3,
+    whose shield phases already make the fight long). On-level kills now take 33-65 s with no
+    knock-out. The 75 s enrage fires in 1 of 8 on-level runs and 2-3 of 8 ten levels under;
+    60 s fired in 4-6 of 8 on-level Wiroj Protocol runs, and 90 s never fired.
+  - Field coins per tier scaled so coins per hour climb 35k (Core Overflow) → 44k → 50k → 61k →
+    79-87k, instead of 76k-129k with Foundry above Iron Heart.
+  - Iron Heart's Iron Sentry (a former elite) comes less often: knock-outs 3/8 → 1/8 at Lv 66.
+  - Uncommon 50-70 charms take Kenji's Lucky Charm stat mix: crit 0.12-0.15 instead of 0.23-0.29.
+  - Levelling after the pass: 50-60 23-25 h, 60-65 27 h, 65-70 40-45 h (targets 25/25/40).
+- **Tools:** `tools/content/level70_content.py` generates all of the above (idempotent);
+  `tests/harness/ItemBudgetQuery.gd`, `EnrageCompare.gd`, `FarmCheck.gd` (coins and materials per
+  hour too); `LevelingRun` now measures the
+  real grounds up to the cap. Scenery for the twelve new areas from the asset pipeline.
+- **Tests:** `test_lairs.gd`, `test_boss_enrage.gd`, `test_level70_gear.gd`; the ground,
+  taxi, market and boss-gear tests follow the new content.
+
+### Added: the client/sim purity test and local architecture guides
+- `client/tests/unit/test_sim_purity.gd` checks every `client/sim/*.gd` file.
+  - **Forbidden:** scene types, the `Input` singleton, the scene tree, host services (`OS`, `Engine`, `Time`, ...), `res://scenes` paths, autoloads, global or unseeded random numbers, and file or network access.
+  - **Exceptions:** only the two data loaders, which read the content JSON.
+  - **Self-checks:** each rule is proven to fire on a forbidden sample and to spare comments, `FighterInput` and seeded RNGs.
+- Local `CLAUDE.md` guides for `client/sim/`, `client/scenes/`, `client/data/`, `client/tests/`, `backend/` and `tools/`; the root `CLAUDE.md` points to them.
+- No gameplay change.
+### Fixed: the original food and world boss rules are back
+- **Food:** unlimited again, as before PR #73.
+  - The 6-foods-per-boss-fight cap is removed (progression.json `boss_fight_food`, `FoodRules.boss_food_left`, the hotbar dimming and the "No more food" message).
+  - Healing is exactly as approved: the same heal amounts and the 2-second shared cooldown.
+- **World bosses:** unlimited entries again.
+  - The 3-tries-per-round limit is removed (world_boss.json `attempts`, `WorldBossRules.attempts_left` and `begin_attempt`, the "tries left" texts).
+  - No daily limit and no wait between attempts.
+  - Saves that carry the old attempt count still load; the field is ignored.
+- **Bosses:** Director Wiroj's ×2.2 and Subject Twelve's ×1.5 power (phases included) are reverted to their earlier values.
+  - They raised danger for every hero alike, the best-geared most (audit §12).
+  - No replacement multiplier is added.
+- **Tests:**
+  - The three tests that encoded the caps are removed.
+  - New guards: food is never limited in a boss fight; heal amounts and the cooldown keep their approved values; world-boss entries stay open after any number of attempts.
+
 ### Changed: gear and upgrades matter against bosses; food tops up, it does not carry the fight
 - **The problem, measured** (ProgressionHarness, a level 50 hero against Director Wiroj,
   3 seeds each):

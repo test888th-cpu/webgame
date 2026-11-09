@@ -199,7 +199,8 @@ func test_the_city_is_its_own_area_off_the_street() -> void:
 	assert_eq(MapRules.locate(_content(), CITY), {}, "in no district")
 	for area_id: String in _content().areas:
 		var hub_only := (
-			AreaRules.kind(_content(), area_id) in [AreaRules.FARM, AreaRules.WORLD_BOSS]
+			AreaRules.kind(_content(), area_id)
+			in [AreaRules.FARM, AreaRules.LAIR, AreaRules.WORLD_BOSS]
 		)
 		for side: String in _content().area(area_id).get("exits", {}):
 			var to := str(_content().area(area_id)["exits"][side]["to"])
@@ -284,6 +285,11 @@ func test_the_two_taxis_keep_to_their_own_routes_and_fit_small_screens() -> void
 		StreetMemory.visit(game.profile, area_id)
 	for boss: String in game.content.world_bosses:
 		game.profile.defeated[str(WorldBossRules.spec(game.content, boss)["unlock"])] = 1
+	# The grounds past the story open as their rematch bosses fall.
+	for gid in AreaRules.farms(game.content):
+		var rule: Dictionary = game.content.area(gid)["unlock"]
+		if rule.has("defeated"):
+			game.profile.defeated[str(rule["defeated"])] = 1
 	game.profile.money = 100
 	game._show("travel", GameMenus.travel(game, _npc("taxi_win_city")))
 	var story: Array[String] = StreetMemory.street(game.content)
@@ -299,10 +305,11 @@ func test_the_two_taxis_keep_to_their_own_routes_and_fit_small_screens() -> void
 	game._show("travel", GameMenus.travel(game, _npc("thong_truck_city")))
 	# Every boss is down too, so every farming ground is open.
 	var field: Array[String] = AreaRules.farms(game.content)
+	field.append_array(AreaRules.lairs(game.content))
 	field.append_array(game.content.world_bosses.keys())
 	field.sort()
-	assert_eq(_rides(game.menu), field, "Uncle Thong: the grounds and the world bosses only")
-	for heading in ["Heading_Farming", "Heading_World Bosses"]:
+	assert_eq(_rides(game.menu), field, "Uncle Thong: the grounds, lairs and world bosses only")
+	for heading in ["Heading_Farming", "Heading_Rematches", "Heading_World Bosses"]:
 		assert_true(game.menu.find_child(heading, true, false) != null, heading)
 	await _settle()
 	_check_layout(game.menu, "taxi at 640x360")
@@ -462,7 +469,10 @@ func test_the_market_gets_each_traders_stock_with_their_chapter() -> void:
 		assert_true(text.begins_with(str(stock["from"])), "the next stock is named: " + text)
 		var refused := ShopRules.buy(game.profile, "city_market", fresh, game.content)
 		assert_eq(refused, "not_sold", fresh + ": not before its chapter")
-		StreetMemory.visit(game.profile, str(stock["reached"]))
+		if stock.has("defeated"):
+			game.profile.defeated[str(stock["defeated"])] = 1
+		else:
+			StreetMemory.visit(game.profile, str(stock["reached"]))
 		assert_eq(ShopRules.buy(game.profile, "city_market", fresh, game.content), "", fresh)
 	var after := ShopRules.wares(game.profile, game.content, "city_market")
 	assert_true(after.size() > before.size(), "the whole street's wares by the end")

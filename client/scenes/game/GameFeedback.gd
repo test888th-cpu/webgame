@@ -91,6 +91,8 @@ func on_event(event: ZoneEvent) -> void:
 				_boss_down(int(event.data["id"]))
 		"boss_shield":
 			_show_shield(int(event.data["id"]), bool(event.data["up"]))
+		"boss_enrage_warn", "boss_enrage":
+			_enrage(event)
 		"hero_down":
 			Sfx.play("ko")
 		"weapon_eyed":
@@ -388,3 +390,19 @@ func _boss_armed(event: ZoneEvent) -> void:
 		return
 	var weapon: Dictionary = content.weapons.get(str(event.data["weapon"]), {})
 	view.show_text(str(weapon.get("name", "")) + "!", boss.position, UiTheme.DANGER)
+
+
+## A boss's fight timer (BossEnrage): a warning a few seconds ahead, then the
+## enrage itself, said on the HUD so the player knows why it hits harder.
+func _enrage(event: ZoneEvent) -> void:
+	var boss := view.zone.fighter(int(event.data["id"]))
+	var boss_name := str(content.enemy(boss.kind)["name"]) if boss else "The boss"
+	if event.type == "boss_enrage_warn":
+		hud.toast("%s will enrage in %d seconds!" % [boss_name, int(event.data["seconds"])])
+		Sfx.play("ui_select", -4.0, 0.0, 0.7)
+		return
+	hud.toast("%s is enraged: harder blows, faster hazards!" % boss_name)
+	Sfx.play("boss_roar")
+	view.shake(5.0)
+	if boss:
+		view.show_text("ENRAGED", boss.position + Vector2(0, -40), UiTheme.GOLD)

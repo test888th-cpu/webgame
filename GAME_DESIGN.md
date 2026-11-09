@@ -157,8 +157,8 @@ any area, outside a fight), and a one-way gate leads east to Depot Yard. Auto ba
 trip home, a knock-out and the return after a world boss still go to Depot Yard. See
 [docs/CITY_AND_FARMING_BLUEPRINT.md](docs/CITY_AND_FARMING_BLUEPRINT.md) §12.
 
-**[built] Area kinds (F0)**: every area is `street`, `city`, `world_boss` or `farm`
-(`client/sim/AreaRules.gd`). Existing areas carry no new fields: the city comes from
+**[built] Area kinds (F0)**: every area is `street`, `city`, `world_boss`, `farm` or
+`lair` (`client/sim/AreaRules.gd`). Existing areas carry no new fields: the city comes from
 `city_area`, a world boss arena from its `world_boss` flag, the rest is the street,
 and a street area's region is its district. A farming ground states `"kind": "farm"`,
 its `region`, its `purpose` and its `unlock` rule: `{"reached": a story area}` or
@@ -167,7 +167,7 @@ Win's taxi (a Farming heading, shown once a ground is open), for the usual fare;
 one way out on foot is west to Depot Yard, and Recall and the pause menu's city ride
 work there.
 
-**[built] Farming grounds**: seven optional areas, one per chapter band, each with its
+**[built] Farming grounds**: twelve optional areas; the first seven are one per chapter band, each with its
 district's enemies, one elite and no boss (levels and line-ups provisional):
 Saltmarket Backlots (4, after Rusted Corner), Rail Sidings (9, after the Refinery),
 Harbour Stacks (15, after Container Yard), Plant Outskirts (22, after Waste Pools),
@@ -175,7 +175,9 @@ Network Backrooms (29, after the Counting House), Facility Annex (37, after Mach
 Hall) and Core Overflow (50, after Director Wiroj). The level is a **suggested** level
 for the fights there ("suggested Lv" on the taxi and map), never a requirement to
 enter: a ground opens on its unlock rule alone. Core Overflow is for endgame materials
-and coins; at the level cap (50) no XP is earned there, as anywhere.
+and coins and is the bridge from the story into levels 50 and beyond (the cap is 70; see
+"Levels 50-70"). Core Spillway (43, after Commander Arthit) fills the levels 41-45 gap
+before the final chapter, and four more grounds carry the hero from 50 to 70.
 
 Fights repeat: once every fight in a ground is won, they all come back as soon as the
 hero is back at its west end (walking back, arriving by taxi or loading a save there),
@@ -213,6 +215,43 @@ City hub (social, no combat) · harbour depot (personal housing) · open distric
 combat, gathering) · Murk farms (repeatable spawns) · elite hunting grounds (scheduled
 elites) · boss arenas (instanced, multi-phase) · tunnel dungeons (party) · raids (later).
 
+**[built] Levels 50-70** (`tools/content/level70_content.py` generates the data; every
+value is a first pass, tuned there and re-run):
+
+| Ground (Lv) | Monsters (elite) | Lair (Lv): boss | Opens after |
+|---|---|---|---|
+| Core Spillway (43) | Facility Troopers, Hazmat Sprayers (Core Sentinel) | Spillway Gatehouse (45): Spillway Chief | Commander Arthit |
+| Coolant Vaults (53) | Vault Troopers, Vault Runners (fast), Coolant Drones (heavy) (Vault Warden) | Coolant Control Room (55): Commander Arthit, Reinstated | Director Wiroj |
+| Reactor Underworks (58) | Tank Crawlers (fast), Underworks Brutes (heavy), Reactor Techs (ranged) (Reactor Overseer) | Tank Hall (60): Subject Twelve, Relapsed | Arthit, Reinstated |
+| Foundry Depths (63) | Foundry Hands, Slag Slingers (ranged), Furnace Haulers (heavy) (Foundry Boss) | The Crucible (65): Unit K-7, Overdriven | Twelve, Relapsed |
+| The Iron Heart (68) | Heart Guards (fast), Rivet Throwers (ranged), Iron Sentries (heavy) (Heart Keeper) | Heart Core Chamber (70): The Wiroj Protocol | K-7, Overdriven |
+
+- A **boss lair** (`"kind": "lair"`) is a short arena off the street with one boss fight. It
+  opens with its ground (the same unlock rule), is reached by Uncle Thong's truck
+  ("Rematches"), is left west to the city, walls the hero in like any boss fight, and
+  comes back after every rest, so its boss can be farmed. Farming grounds stay living
+  fields with no fixed fight.
+- Ground and lair open in a chain: each pair when the lair before falls. Levels stay
+  suggestions; nothing is gated by level.
+- New monsters appear only in the grounds past the story; the story's grounds still hold
+  only enemies the story has already shown. Each 50-70 ground mixes three roles (a common
+  fighter, a heavy hitter and a fast or ranged one) and a champion elite, all tinted in
+  the tier's colour (enemies.json `tint`), so a monster that shares a sprite with a story
+  enemy still reads as its own kind.
+- The story ends at level 50: levels 50-70 are a farming endgame (grounds, lairs, world
+  bosses, gear and upgrades), with no story quests by design.
+- **World bosses**: The Slag Titan (Lv 60, 5 players, every 6 hours, after Twelve,
+  Relapsed; legendary Slagfist, Grip and Ember Core) and The Iron Sovereign (Lv 70, 10
+  players, daily, after the Wiroj Protocol; the mythic Sovereign set). Like every world
+  boss: unlimited entries and attempts, no daily limit, no wait, a shared pool per round.
+- **Enrage** (`BossEnrage`, configurable in data): a lair boss enrages after 75 seconds,
+  warned 10 seconds before (x1.5 damage, hazards and summons 30% quicker); a 50-70 world
+  boss enrages for the last 20 minutes of its hour (x1.3, 20% quicker). Enrage only raises
+  the pressure: it never ends a fight, takes an entry or limits food. 75 seconds was
+  chosen over 60 and 90 with `tests/harness/EnrageCompare.gd` (see CHANGELOG). Lair bosses
+  have twice the health of the story boss they come from (the Wiroj Protocol 1.3 times), so
+  an on-level fight takes about 30-65 seconds and the enrage only catches slow fights.
+
 ## Progression
 
 **[built]** Attributes (Max HP, Attack, Defense, Speed) are read-only: they come from
@@ -223,10 +262,17 @@ legendary), a required level, stat bonuses (penalties allowed, e.g. a heavy pipe
 you) and a description; 15 items so far, sold by Ama or dropped by enemies, and each hero
 starts with a small kit. Equipment changes stats at once and saves.
 
+**[built] Grades up to mythic**: common, uncommon, rare, epic, legendary and mythic
+(budget x1.85, only the Iron Sovereign's set). From level 53 each 50-70 tier has an
+uncommon piece for every slot (the market, opened by the previous lair boss), rares (the
+ground's monsters) and epics (the lair boss; the ground's elites rarely).
+
 **[built] Upgrades**: each equipment slot goes from +0 to +10 at the Depot workbench
 (10% more of the worn item's stats per level, kept by the slot when gear changes);
 coins and Scrap Metal/Refined Alloy per attempt, 100% down to 20% success, failures
-keep the level and add 5% to the next try. **[built] Materials** drop from enemies
+keep the level and add 5% to the next try. The cost grows with the item's level
+(`enhance.item_level_costs`: x2 coins and x1.5 materials from item level 51, x3 and x2
+from 61), the success rates do not, and the workbench card shows what the next level adds. **[built] Materials** drop from enemies
 (bosses always) and item cards say where every item comes from. **[built] Crit**
 (5% base, Riku 8%) and **attack speed** (recovery only) come from gear.
 

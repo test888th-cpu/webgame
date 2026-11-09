@@ -30,6 +30,14 @@ in GitHub Actions, and instructions for the owner must be browser-dashboard step
 | Persistence/economy | `backend/` | The only writer of durable player state. |
 | Content | `client/data/` | Data-driven definitions (JSON, validated on load, e.g. `moves.json` via `MoveLibrary`); adding a move, monster or item must not need code changes. |
 
+## Local guides
+
+Read the guide for an area before changing it. Each covers only its own folder:
+`client/sim/CLAUDE.md` (rules and purity), `client/scenes/CLAUDE.md` (presentation),
+`client/data/CLAUDE.md` (content), `client/tests/CLAUDE.md` (tests and harness),
+`backend/CLAUDE.md` (API and persistence) and `tools/CLAUDE.md` (tooling).
+`client/tests/unit/test_sim_purity.gd` enforces the `client/sim/` boundary.
+
 ## Coding rules
 
 - GDScript: static typing everywhere; `gdformat` and `gdlint` must pass (line length 100).

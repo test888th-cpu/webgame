@@ -197,12 +197,29 @@ func test_every_ground_holds_only_enemies_its_unlock_has_taken_the_hero_past() -
 				for kind: String in wave:
 					if not first_seen.has(kind):
 						first_seen[kind] = i
+	# Grounds past the story (opened by its last boss, or by a lair's boss,
+	# which the street never shows) bring their own monsters: none of those
+	# may turn up anywhere earlier, so the rule holds for every other ground.
+	var post_story := {}
+	for gid in AreaRules.farms(c):
+		var rule: Dictionary = c.area(gid)["unlock"]
+		var boss := str(rule.get("defeated", ""))
+		if boss != "" and int(first_seen.get(boss, street.size() - 1)) == street.size() - 1:
+			post_story[gid] = true
 	for gid in AreaRules.farms(c):
 		var rule: Dictionary = c.area(gid)["unlock"]
 		var by := street.size() - 1
 		if rule.has("reached"):
 			by = street.find(str(rule["reached"]))
 		for kind: String in FarmSpawner.spec(c, gid)["pool"]:
+			if post_story.has(gid) and not first_seen.has(kind):
+				for other in AreaRules.farms(c):
+					if not post_story.has(other):
+						assert_true(
+							not FarmSpawner.spec(c, other)["pool"].has(kind),
+							"%s: %s stays past the story" % [other, kind]
+						)
+				continue
 			assert_true(int(first_seen.get(kind, 999)) <= by, "%s: %s met first" % [gid, kind])
 
 

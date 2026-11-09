@@ -9,21 +9,27 @@ extends RefCounted
 ## "world_boss", everything else is the street), and a street area's region
 ## is its district. A farming ground ("kind": "farm") always states its
 ## region, its purpose and its unlock rule: {"reached": a story area} or
-## {"defeated": a boss}. Unlocks read what the profile already keeps (areas
-## reached, enemies defeated), so nothing new is saved. Pure rules, shared
-## with the server.
+## {"defeated": a boss}. A boss lair ("kind": "lair") is a farming ground's
+## counterpart for one boss: a small arena holding a single boss fight that
+## comes back after every rest, reached the same way (by the field truck from
+## the hub, west back to it) and opened by the same unlock rules. Unlocks read
+## what the profile already keeps (areas reached, enemies defeated), so
+## nothing new is saved. Pure rules, shared with the server.
 
 const STREET := "street"
 const CITY := "city"
 const WORLD_BOSS := "world_boss"
 const FARM := "farm"
-const KINDS := [STREET, CITY, WORLD_BOSS, FARM]
+const LAIR := "lair"
+const KINDS := [STREET, CITY, WORLD_BOSS, FARM, LAIR]
+## The kinds opened by an unlock rule and reached by the field truck.
+const GATED := [FARM, LAIR]
 ## The two unlock rules a farming ground may use.
 const REACHED := "reached"
 const DEFEATED := "defeated"
 
 
-## STREET, CITY, WORLD_BOSS or FARM for `area_id`.
+## STREET, CITY, WORLD_BOSS, FARM or LAIR for `area_id`.
 static func kind(content: ContentDB, area_id: String) -> String:
 	var area := content.area(area_id)
 	if area.has("kind"):
@@ -46,18 +52,27 @@ static func region(content: ContentDB, area_id: String) -> String:
 
 ## Every farming ground, in data order.
 static func farms(content: ContentDB) -> Array[String]:
+	return _of_kind(content, FARM)
+
+
+## Every boss lair, in data order.
+static func lairs(content: ContentDB) -> Array[String]:
+	return _of_kind(content, LAIR)
+
+
+static func _of_kind(content: ContentDB, wanted: String) -> Array[String]:
 	var out: Array[String] = []
 	for area_id: String in content.areas:
-		if kind(content, area_id) == FARM:
+		if kind(content, area_id) == wanted:
 			out.append(area_id)
 	return out
 
 
-## True when the hero may go to `area_id`: a farming ground once its unlock
-## rule is met; any other area is not gated here (the street has its own
-## gates and the world boss arenas WorldBossRules).
+## True when the hero may go to `area_id`: a farming ground or a lair once its
+## unlock rule is met; any other area is not gated here (the street has its
+## own gates and the world boss arenas WorldBossRules).
 static func unlocked(profile: PlayerProfile, content: ContentDB, area_id: String) -> bool:
-	if kind(content, area_id) != FARM:
+	if kind(content, area_id) not in GATED:
 		return true
 	var rule: Dictionary = content.area(area_id).get("unlock", {})
 	if rule.has(REACHED):
@@ -90,8 +105,17 @@ static func rides_from_hub(content: ContentDB, area_id: String) -> bool:
 
 ## The farming grounds open to the hero, in data order.
 static func open_farms(profile: PlayerProfile, content: ContentDB) -> Array[String]:
+	return _open(profile, content, farms(content))
+
+
+## The boss lairs open to the hero, in data order.
+static func open_lairs(profile: PlayerProfile, content: ContentDB) -> Array[String]:
+	return _open(profile, content, lairs(content))
+
+
+static func _open(profile: PlayerProfile, content: ContentDB, ids: Array[String]) -> Array[String]:
 	var out: Array[String] = []
-	for area_id in farms(content):
+	for area_id in ids:
 		if unlocked(profile, content, area_id):
 			out.append(area_id)
 	return out
@@ -142,8 +166,10 @@ static func problems(content: ContentDB) -> PackedStringArray:
 			out.append("%s: its one way out is west to %s" % [where, hub(content)])
 		if kind(content, id) == FARM:
 			out.append_array(_farm_problems(content, id, street))
+		elif kind(content, id) == LAIR:
+			out.append_array(_lair_problems(content, id, street))
 		elif a.has("unlock"):
-			out.append(where + ".unlock: only a farming ground has one")
+			out.append(where + ".unlock: only a farming ground has one (or a lair)")
 	return out
 
 
@@ -158,15 +184,43 @@ static func _west_to_hub(content: ContentDB, a: Dictionary) -> bool:
 static func _farm_problems(
 	content: ContentDB, id: String, street: Array[String]
 ) -> PackedStringArray:
+	return _gated_problems(content, id, street, "a farming ground")
+
+
+## A lair: a farming ground's rules, plus exactly one fight, with a boss in
+## it, and no living field.
+static func _lair_problems(
+	content: ContentDB, id: String, street: Array[String]
+) -> PackedStringArray:
+	var out := _gated_problems(content, id, street, "a lair")
+	var a := content.area(id)
+	var where := "areas.%s" % id
+	if a.has("spawning"):
+		out.append(where + ": a lair holds one boss fight, not a living field")
+	var encounters: Array = a.get("encounters", [])
+	var bosses := 0
+	if encounters.size() == 1:
+		for wave: Array in encounters[0].get("waves", []):
+			for foe: Variant in wave:
+				if content.enemies.get(str(foe), {}).get("boss", false):
+					bosses += 1
+	if encounters.size() != 1 or bosses != 1:
+		out.append(where + ".encounters: one fight, with one boss in it")
+	return out
+
+
+static func _gated_problems(
+	content: ContentDB, id: String, street: Array[String], what: String
+) -> PackedStringArray:
 	var out: PackedStringArray = []
 	var a := content.area(id)
 	var where := "areas.%s" % id
 	if id in street:
-		out.append(where + ": a farming ground is off the street")
+		out.append("%s: %s is off the street" % [where, what])
 	if a.get("safe", false):
-		out.append(where + ": a farming ground is not a safe area")
+		out.append("%s: %s is not a safe area" % [where, what])
 	if a.get("heal_on_enter", false):
-		out.append(where + ": no rest in a farming ground")
+		out.append("%s: no rest in %s" % [where, what])
 	if not _west_to_hub(content, a):
 		out.append("%s: its one way out is west to %s" % [where, hub(content)])
 	for other: String in content.areas:

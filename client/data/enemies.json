@@ -1677,7 +1677,7 @@
       "max_hp": 640,
       "speed": 0.9,
       "defense": 3,
-      "power": 1.5,
+      "power": 1.0,
       "scale": 1.4,
       "boss": true,
       "poise": 80,
@@ -1697,7 +1697,7 @@
         {
           "below": 0.5,
           "speed": 1.05,
-          "power": 1.65,
+          "power": 1.1,
           "cooldown": 24,
           "heavy_chance": 0.45,
           "heavy_cooldown": 270,
@@ -1938,7 +1938,7 @@
       "max_hp": 900,
       "speed": 0.8,
       "defense": 5,
-      "power": 2.2,
+      "power": 1.0,
       "scale": 1.3,
       "boss": true,
       "poise": 90,
@@ -1963,7 +1963,7 @@
         {
           "below": 0.7,
           "speed": 0.85,
-          "power": 2.31,
+          "power": 1.05,
           "cooldown": 30,
           "heavy_chance": 0.35,
           "heavy_cooldown": 300,
@@ -2011,7 +2011,7 @@
         {
           "below": 0.3,
           "speed": 1.0,
-          "power": 2.53,
+          "power": 1.15,
           "cooldown": 22,
           "heavy_chance": 0.6,
           "heavy_cooldown": 270,
@@ -2454,6 +2454,1846 @@
       "color": "#3a7a3a",
       "sprite": "subject_zero",
       "wields": false
+    },
+    "vault_trooper": {
+      "name": "Vault Trooper",
+      "max_hp": 175,
+      "speed": 0.95,
+      "defense": 4,
+      "power": 1.1,
+      "moveset": {
+        "light": "warden_rake",
+        "heavy": "thug_kick"
+      },
+      "ai": {
+        "spacing": 54,
+        "reaction": 10,
+        "cooldown": 50,
+        "cooldown_jitter": 26,
+        "heavy_chance": 0.3,
+        "heavy_cooldown": 300
+      },
+      "xp": 97,
+      "loot": {
+        "money": [
+          24,
+          32
+        ],
+        "drops": [
+          {
+            "item": "rice_box",
+            "chance": 0.12
+          },
+          {
+            "item": "herbal_tonic",
+            "chance": 0.05
+          },
+          {
+            "item": "coolant_rare_weapon",
+            "chance": 0.02
+          },
+          {
+            "item": "coolant_rare_body",
+            "chance": 0.02
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 0.22
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.8
+          }
+        ]
+      },
+      "color": "#5a6070",
+      "sprite": "facility_trooper",
+      "wields": true,
+      "weapon_chance": 0.25,
+      "tint": "#a8dcff"
+    },
+    "coolant_drone": {
+      "name": "Coolant Drone",
+      "max_hp": 200,
+      "speed": 0.55,
+      "defense": 4,
+      "power": 1.2,
+      "scale": 1.2,
+      "moveset": {
+        "light": "k7_piston",
+        "heavy": "brute_slam"
+      },
+      "ai": {
+        "spacing": 60,
+        "reaction": 18,
+        "cooldown": 66,
+        "cooldown_jitter": 30,
+        "heavy_chance": 0.4,
+        "heavy_cooldown": 300
+      },
+      "xp": 55,
+      "loot": {
+        "money": [
+          24,
+          32
+        ],
+        "drops": [
+          {
+            "item": "rice_box",
+            "chance": 0.12
+          },
+          {
+            "item": "herbal_tonic",
+            "chance": 0.05
+          },
+          {
+            "item": "coolant_rare_feet",
+            "chance": 0.02
+          },
+          {
+            "item": "coolant_rare_charm",
+            "chance": 0.02
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 0.22
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.8
+          }
+        ]
+      },
+      "color": "#30343c",
+      "sprite": "patrol_unit",
+      "wields": false,
+      "poise": 70,
+      "tint": "#a8dcff"
+    },
+    "vault_warden": {
+      "name": "Vault Warden",
+      "max_hp": 250,
+      "speed": 0.6,
+      "defense": 6,
+      "power": 1.2,
+      "scale": 1.25,
+      "elite": true,
+      "poise": 90,
+      "moveset": {
+        "light": "k7_piston",
+        "heavy": "k7_press"
+      },
+      "ai": {
+        "spacing": 62,
+        "reaction": 16,
+        "cooldown": 64,
+        "cooldown_jitter": 30,
+        "heavy_chance": 0.35,
+        "heavy_cooldown": 330
+      },
+      "xp": 193,
+      "loot": {
+        "money": [
+          57,
+          74
+        ],
+        "drops": [
+          {
+            "item": "herbal_tonic",
+            "chance": 0.25
+          },
+          {
+            "item": "coolant_rare_weapon",
+            "chance": 0.04
+          },
+          {
+            "item": "coolant_rare_body",
+            "chance": 0.04
+          },
+          {
+            "item": "coolant_rare_head",
+            "chance": 0.04
+          },
+          {
+            "item": "coolant_rare_hands",
+            "chance": 0.04
+          },
+          {
+            "item": "coolant_rare_feet",
+            "chance": 0.04
+          },
+          {
+            "item": "coolant_rare_charm",
+            "chance": 0.04
+          },
+          {
+            "item": "coolant_epic_weapon",
+            "chance": 0.01
+          },
+          {
+            "item": "coolant_epic_body",
+            "chance": 0.01
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 0.6
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 1.0
+          }
+        ]
+      },
+      "color": "#202430",
+      "sprite": "core_sentinel",
+      "wields": false,
+      "tint": "#7fc4ff"
+    },
+    "arthit_reinstated": {
+      "name": "Commander Arthit, Reinstated",
+      "max_hp": 1240,
+      "speed": 0.85,
+      "defense": 4,
+      "power": 1.0,
+      "scale": 1.35,
+      "boss": true,
+      "poise": 90,
+      "moveset": {
+        "light": "arthit_baton",
+        "heavy": "arthit_strike"
+      },
+      "ai": {
+        "spacing": 58,
+        "reaction": 10,
+        "cooldown": 38,
+        "cooldown_jitter": 20,
+        "heavy_chance": 0.3,
+        "heavy_cooldown": 330,
+        "grab": {
+          "chance": 0.25,
+          "every": 360,
+          "range": 140
+        }
+      },
+      "hazard": {
+        "kind": "laser",
+        "every": 360,
+        "warn": 60,
+        "damage": 26,
+        "half": [
+          900,
+          9
+        ]
+      },
+      "summon": {
+        "enemy": "facility_trooper",
+        "every": 720,
+        "count": 1,
+        "max": 1
+      },
+      "phases": [
+        {
+          "below": 0.5,
+          "speed": 0.95,
+          "power": 1.1,
+          "cooldown": 28,
+          "heavy_chance": 0.45,
+          "heavy_cooldown": 300,
+          "hazard_every": 260,
+          "summon_every": 540,
+          "moveset": {
+            "light": "arthit_baton",
+            "heavy": "arthit_sweep"
+          }
+        }
+      ],
+      "xp": 1100,
+      "loot": {
+        "money": [
+          1960,
+          2260
+        ],
+        "drops": [
+          {
+            "item": "coolant_epic_weapon",
+            "chance": 0.15
+          },
+          {
+            "item": "coolant_epic_body",
+            "chance": 0.15
+          },
+          {
+            "item": "coolant_epic_head",
+            "chance": 0.15
+          },
+          {
+            "item": "coolant_epic_hands",
+            "chance": 0.15
+          },
+          {
+            "item": "coolant_epic_feet",
+            "chance": 0.15
+          },
+          {
+            "item": "coolant_epic_charm",
+            "chance": 0.15
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 1.0
+          },
+          {
+            "item": "herbal_tonic",
+            "chance": 0.5
+          }
+        ]
+      },
+      "color": "#2a3a2a",
+      "sprite": "commander_arthit",
+      "wields": false,
+      "weapon": "pipe",
+      "enrage": {
+        "after_seconds": 75,
+        "warn_seconds": 10,
+        "damage": 1.5,
+        "cooldown": 0.7
+      },
+      "tint": "#7fc4ff"
+    },
+    "underworks_brute": {
+      "name": "Underworks Brute",
+      "max_hp": 210,
+      "speed": 0.7,
+      "defense": 7,
+      "power": 1.15,
+      "scale": 1.15,
+      "poise": 60,
+      "moveset": {
+        "light": "brute_jab",
+        "heavy": "warden_crush"
+      },
+      "ai": {
+        "spacing": 58,
+        "reaction": 12,
+        "cooldown": 56,
+        "cooldown_jitter": 28,
+        "heavy_chance": 0.35,
+        "heavy_cooldown": 300
+      },
+      "xp": 153,
+      "loot": {
+        "money": [
+          16,
+          21
+        ],
+        "drops": [
+          {
+            "item": "rice_box",
+            "chance": 0.12
+          },
+          {
+            "item": "herbal_tonic",
+            "chance": 0.05
+          },
+          {
+            "item": "underworks_rare_weapon",
+            "chance": 0.02
+          },
+          {
+            "item": "underworks_rare_body",
+            "chance": 0.02
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 0.25
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.8
+          }
+        ]
+      },
+      "color": "#2a2e38",
+      "sprite": "riot_trooper",
+      "wields": false,
+      "tint": "#c4ec9c"
+    },
+    "reactor_tech": {
+      "name": "Reactor Tech",
+      "max_hp": 80,
+      "speed": 0.9,
+      "defense": 2,
+      "moveset": {
+        "light": "thug_jab",
+        "heavy": "bottle_lob"
+      },
+      "ai": {
+        "spacing": 110,
+        "reaction": 12,
+        "cooldown": 60,
+        "cooldown_jitter": 30,
+        "heavy_chance": 1.0,
+        "heavy_cooldown": 120,
+        "ranged": {
+          "min": 80,
+          "max": 150
+        }
+      },
+      "ranged": {
+        "move": "bottle_lob",
+        "projectile": "bottle",
+        "damage": 11
+      },
+      "xp": 45,
+      "loot": {
+        "money": [
+          16,
+          21
+        ],
+        "drops": [
+          {
+            "item": "rice_box",
+            "chance": 0.12
+          },
+          {
+            "item": "herbal_tonic",
+            "chance": 0.05
+          },
+          {
+            "item": "underworks_rare_feet",
+            "chance": 0.02
+          },
+          {
+            "item": "underworks_rare_charm",
+            "chance": 0.02
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 0.25
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.8
+          }
+        ]
+      },
+      "color": "#c0b030",
+      "sprite": "hazmat_sprayer",
+      "wields": false,
+      "tint": "#c4ec9c"
+    },
+    "reactor_overseer": {
+      "name": "Reactor Overseer",
+      "max_hp": 150,
+      "speed": 0.9,
+      "defense": 3,
+      "power": 1.1,
+      "scale": 1.1,
+      "elite": true,
+      "moveset": {
+        "light": "warden_rake",
+        "heavy": "brute_slam"
+      },
+      "ai": {
+        "spacing": 56,
+        "reaction": 10,
+        "cooldown": 46,
+        "cooldown_jitter": 24,
+        "heavy_chance": 0.3,
+        "heavy_cooldown": 300
+      },
+      "xp": 66,
+      "loot": {
+        "money": [
+          37,
+          48
+        ],
+        "drops": [
+          {
+            "item": "herbal_tonic",
+            "chance": 0.25
+          },
+          {
+            "item": "underworks_rare_weapon",
+            "chance": 0.04
+          },
+          {
+            "item": "underworks_rare_body",
+            "chance": 0.04
+          },
+          {
+            "item": "underworks_rare_head",
+            "chance": 0.04
+          },
+          {
+            "item": "underworks_rare_hands",
+            "chance": 0.04
+          },
+          {
+            "item": "underworks_rare_feet",
+            "chance": 0.04
+          },
+          {
+            "item": "underworks_rare_charm",
+            "chance": 0.04
+          },
+          {
+            "item": "underworks_epic_weapon",
+            "chance": 0.01
+          },
+          {
+            "item": "underworks_epic_body",
+            "chance": 0.01
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 0.6
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 1.0
+          }
+        ]
+      },
+      "color": "#4a5468",
+      "sprite": "plant_guard",
+      "wields": true,
+      "weapon_chance": 0.5,
+      "poise": 40,
+      "tint": "#a6e07a"
+    },
+    "twelve_relapsed": {
+      "name": "Subject Twelve, Relapsed",
+      "max_hp": 1280,
+      "speed": 0.9,
+      "defense": 3,
+      "power": 1.0,
+      "scale": 1.4,
+      "boss": true,
+      "poise": 80,
+      "moveset": {
+        "light": "hybrid_maul",
+        "heavy": "subject_lunge"
+      },
+      "ai": {
+        "spacing": 56,
+        "reaction": 10,
+        "cooldown": 32,
+        "cooldown_jitter": 18,
+        "heavy_chance": 0.3,
+        "heavy_cooldown": 300
+      },
+      "phases": [
+        {
+          "below": 0.5,
+          "speed": 1.05,
+          "power": 1.1,
+          "cooldown": 24,
+          "heavy_chance": 0.45,
+          "heavy_cooldown": 270,
+          "moveset": {
+            "light": "hybrid_maul",
+            "heavy": "subject_frenzy"
+          }
+        }
+      ],
+      "xp": 760,
+      "loot": {
+        "money": [
+          2060,
+          2360
+        ],
+        "drops": [
+          {
+            "item": "underworks_epic_weapon",
+            "chance": 0.15
+          },
+          {
+            "item": "underworks_epic_body",
+            "chance": 0.15
+          },
+          {
+            "item": "underworks_epic_head",
+            "chance": 0.15
+          },
+          {
+            "item": "underworks_epic_hands",
+            "chance": 0.15
+          },
+          {
+            "item": "underworks_epic_feet",
+            "chance": 0.15
+          },
+          {
+            "item": "underworks_epic_charm",
+            "chance": 0.15
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 1.0
+          },
+          {
+            "item": "herbal_tonic",
+            "chance": 0.5
+          }
+        ]
+      },
+      "color": "#5a9a4a",
+      "sprite": "subject_twelve",
+      "wields": false,
+      "enrage": {
+        "after_seconds": 75,
+        "warn_seconds": 10,
+        "damage": 1.5,
+        "cooldown": 0.7
+      },
+      "tint": "#a6e07a"
+    },
+    "foundry_hand": {
+      "name": "Foundry Hand",
+      "max_hp": 175,
+      "speed": 0.95,
+      "defense": 4,
+      "power": 1.1,
+      "moveset": {
+        "light": "warden_rake",
+        "heavy": "thug_kick"
+      },
+      "ai": {
+        "spacing": 54,
+        "reaction": 10,
+        "cooldown": 50,
+        "cooldown_jitter": 26,
+        "heavy_chance": 0.3,
+        "heavy_cooldown": 300
+      },
+      "xp": 107,
+      "loot": {
+        "money": [
+          28,
+          36
+        ],
+        "drops": [
+          {
+            "item": "rice_box",
+            "chance": 0.12
+          },
+          {
+            "item": "herbal_tonic",
+            "chance": 0.05
+          },
+          {
+            "item": "foundry_rare_weapon",
+            "chance": 0.02
+          },
+          {
+            "item": "foundry_rare_body",
+            "chance": 0.02
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 0.28
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.8
+          }
+        ]
+      },
+      "color": "#5a6070",
+      "sprite": "facility_trooper",
+      "wields": true,
+      "weapon_chance": 0.25,
+      "tint": "#ffc08a"
+    },
+    "slag_slinger": {
+      "name": "Slag Slinger",
+      "max_hp": 60,
+      "speed": 0.95,
+      "defense": 1,
+      "moveset": {
+        "light": "thug_jab",
+        "heavy": "bottle_lob"
+      },
+      "ai": {
+        "spacing": 110,
+        "reaction": 12,
+        "cooldown": 64,
+        "cooldown_jitter": 30,
+        "heavy_chance": 1.0,
+        "heavy_cooldown": 120,
+        "ranged": {
+          "min": 80,
+          "max": 150
+        }
+      },
+      "ranged": {
+        "move": "bottle_lob",
+        "projectile": "wrench",
+        "damage": 9
+      },
+      "xp": 31,
+      "loot": {
+        "money": [
+          28,
+          36
+        ],
+        "drops": [
+          {
+            "item": "rice_box",
+            "chance": 0.12
+          },
+          {
+            "item": "herbal_tonic",
+            "chance": 0.05
+          },
+          {
+            "item": "foundry_rare_head",
+            "chance": 0.02
+          },
+          {
+            "item": "foundry_rare_hands",
+            "chance": 0.02
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 0.28
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.8
+          }
+        ]
+      },
+      "color": "#2a8a8a",
+      "sprite": "dock_slinger",
+      "wields": false,
+      "tint": "#ffc08a"
+    },
+    "foundry_boss": {
+      "name": "Foundry Boss",
+      "max_hp": 210,
+      "speed": 0.7,
+      "defense": 7,
+      "power": 1.15,
+      "scale": 1.15,
+      "elite": true,
+      "poise": 60,
+      "moveset": {
+        "light": "brute_jab",
+        "heavy": "warden_crush"
+      },
+      "ai": {
+        "spacing": 58,
+        "reaction": 12,
+        "cooldown": 56,
+        "cooldown_jitter": 28,
+        "heavy_chance": 0.35,
+        "heavy_cooldown": 300
+      },
+      "xp": 133,
+      "loot": {
+        "money": [
+          66,
+          84
+        ],
+        "drops": [
+          {
+            "item": "herbal_tonic",
+            "chance": 0.25
+          },
+          {
+            "item": "foundry_rare_weapon",
+            "chance": 0.04
+          },
+          {
+            "item": "foundry_rare_body",
+            "chance": 0.04
+          },
+          {
+            "item": "foundry_rare_head",
+            "chance": 0.04
+          },
+          {
+            "item": "foundry_rare_hands",
+            "chance": 0.04
+          },
+          {
+            "item": "foundry_rare_feet",
+            "chance": 0.04
+          },
+          {
+            "item": "foundry_rare_charm",
+            "chance": 0.04
+          },
+          {
+            "item": "foundry_epic_weapon",
+            "chance": 0.01
+          },
+          {
+            "item": "foundry_epic_body",
+            "chance": 0.01
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 0.6
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 1.0
+          }
+        ]
+      },
+      "color": "#2a2e38",
+      "sprite": "riot_trooper",
+      "wields": false,
+      "tint": "#ff9a5c"
+    },
+    "k7_overdriven": {
+      "name": "Unit K-7, Overdriven",
+      "max_hp": 1400,
+      "speed": 0.65,
+      "defense": 4,
+      "power": 1.0,
+      "scale": 1.45,
+      "boss": true,
+      "moveset": {
+        "light": "k7_piston",
+        "heavy": "k7_press"
+      },
+      "ai": {
+        "spacing": 62,
+        "reaction": 14,
+        "cooldown": 38,
+        "cooldown_jitter": 20,
+        "heavy_chance": 0.3,
+        "heavy_cooldown": 330
+      },
+      "hazard": {
+        "kind": "steam",
+        "every": 260,
+        "warn": 70,
+        "damage": 22,
+        "half": [
+          26,
+          10
+        ]
+      },
+      "phases": [
+        {
+          "below": 0.5,
+          "speed": 0.85,
+          "power": 1.1,
+          "cooldown": 26,
+          "heavy_chance": 0.45,
+          "heavy_cooldown": 300,
+          "hazard_every": 170,
+          "moveset": {
+            "light": "k7_piston",
+            "heavy": "k7_overdrive"
+          }
+        }
+      ],
+      "xp": 760,
+      "loot": {
+        "money": [
+          2160,
+          2460
+        ],
+        "drops": [
+          {
+            "item": "foundry_epic_weapon",
+            "chance": 0.15
+          },
+          {
+            "item": "foundry_epic_body",
+            "chance": 0.15
+          },
+          {
+            "item": "foundry_epic_head",
+            "chance": 0.15
+          },
+          {
+            "item": "foundry_epic_hands",
+            "chance": 0.15
+          },
+          {
+            "item": "foundry_epic_feet",
+            "chance": 0.15
+          },
+          {
+            "item": "foundry_epic_charm",
+            "chance": 0.15
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 1.0
+          },
+          {
+            "item": "herbal_tonic",
+            "chance": 0.5
+          }
+        ]
+      },
+      "color": "#30343c",
+      "sprite": "unit_k7",
+      "wields": false,
+      "poise": 90,
+      "enrage": {
+        "after_seconds": 75,
+        "warn_seconds": 10,
+        "damage": 1.5,
+        "cooldown": 0.7
+      },
+      "tint": "#ff9a5c"
+    },
+    "heart_guard": {
+      "name": "Heart Guard",
+      "max_hp": 150,
+      "speed": 1.05,
+      "defense": 3,
+      "power": 1.05,
+      "scale": 1.1,
+      "moveset": {
+        "light": "champ_jab",
+        "heavy": "champ_overhand"
+      },
+      "ai": {
+        "spacing": 50,
+        "reaction": 10,
+        "cooldown": 44,
+        "cooldown_jitter": 24,
+        "heavy_chance": 0.3,
+        "heavy_cooldown": 300
+      },
+      "xp": 92,
+      "loot": {
+        "money": [
+          35,
+          44
+        ],
+        "drops": [
+          {
+            "item": "rice_box",
+            "chance": 0.12
+          },
+          {
+            "item": "herbal_tonic",
+            "chance": 0.05
+          },
+          {
+            "item": "heart_rare_weapon",
+            "chance": 0.02
+          },
+          {
+            "item": "heart_rare_body",
+            "chance": 0.02
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 0.31
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.8
+          }
+        ]
+      },
+      "color": "#8a2a2a",
+      "sprite": "ring_fighter",
+      "wields": false,
+      "poise": 40,
+      "tint": "#ffb0b0"
+    },
+    "iron_sentry": {
+      "name": "Iron Sentry",
+      "max_hp": 250,
+      "speed": 0.6,
+      "defense": 6,
+      "power": 1.2,
+      "scale": 1.25,
+      "poise": 90,
+      "moveset": {
+        "light": "k7_piston",
+        "heavy": "k7_press"
+      },
+      "ai": {
+        "spacing": 62,
+        "reaction": 16,
+        "cooldown": 64,
+        "cooldown_jitter": 30,
+        "heavy_chance": 0.35,
+        "heavy_cooldown": 330
+      },
+      "xp": 275,
+      "loot": {
+        "money": [
+          35,
+          44
+        ],
+        "drops": [
+          {
+            "item": "rice_box",
+            "chance": 0.12
+          },
+          {
+            "item": "herbal_tonic",
+            "chance": 0.05
+          },
+          {
+            "item": "heart_rare_feet",
+            "chance": 0.02
+          },
+          {
+            "item": "heart_rare_charm",
+            "chance": 0.02
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 0.31
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.8
+          }
+        ]
+      },
+      "color": "#202430",
+      "sprite": "core_sentinel",
+      "wields": false,
+      "tint": "#ffb0b0"
+    },
+    "heart_keeper": {
+      "name": "Heart Keeper",
+      "max_hp": 250,
+      "speed": 0.6,
+      "defense": 6,
+      "power": 1.2,
+      "scale": 1.25,
+      "elite": true,
+      "poise": 90,
+      "moveset": {
+        "light": "k7_piston",
+        "heavy": "k7_press"
+      },
+      "ai": {
+        "spacing": 62,
+        "reaction": 16,
+        "cooldown": 64,
+        "cooldown_jitter": 30,
+        "heavy_chance": 0.35,
+        "heavy_cooldown": 330
+      },
+      "xp": 275,
+      "loot": {
+        "money": [
+          80,
+          102
+        ],
+        "drops": [
+          {
+            "item": "herbal_tonic",
+            "chance": 0.25
+          },
+          {
+            "item": "heart_rare_weapon",
+            "chance": 0.04
+          },
+          {
+            "item": "heart_rare_body",
+            "chance": 0.04
+          },
+          {
+            "item": "heart_rare_head",
+            "chance": 0.04
+          },
+          {
+            "item": "heart_rare_hands",
+            "chance": 0.04
+          },
+          {
+            "item": "heart_rare_feet",
+            "chance": 0.04
+          },
+          {
+            "item": "heart_rare_charm",
+            "chance": 0.04
+          },
+          {
+            "item": "heart_epic_weapon",
+            "chance": 0.01
+          },
+          {
+            "item": "heart_epic_body",
+            "chance": 0.01
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 0.6
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 1.0
+          }
+        ]
+      },
+      "color": "#202430",
+      "sprite": "core_sentinel",
+      "wields": false,
+      "tint": "#ff7a7a"
+    },
+    "slag_titan": {
+      "name": "The Slag Titan",
+      "max_hp": 1000,
+      "speed": 0.5,
+      "defense": 6,
+      "power": 1.1,
+      "scale": 2.2,
+      "boss": true,
+      "poise": 150,
+      "moveset": {
+        "light": "colossus_piston",
+        "heavy": "colossus_stomp"
+      },
+      "ai": {
+        "spacing": 80,
+        "reaction": 14,
+        "cooldown": 46,
+        "cooldown_jitter": 24,
+        "heavy_chance": 0.3,
+        "heavy_cooldown": 330
+      },
+      "hazard": {
+        "every": 240,
+        "cycle": [
+          {
+            "kind": "laser",
+            "warn": 60,
+            "damage": 24,
+            "half": [
+              900,
+              9
+            ]
+          },
+          {
+            "kind": "shock",
+            "warn": 55,
+            "damage": 22,
+            "half": [
+              60,
+              14
+            ]
+          }
+        ]
+      },
+      "summon": {
+        "enemy": "core_sentinel",
+        "every": 720,
+        "count": 1,
+        "max": 2
+      },
+      "phases": [
+        {
+          "below": 0.66,
+          "speed": 0.55,
+          "power": 1.15,
+          "cooldown": 38,
+          "heavy_chance": 0.35,
+          "heavy_cooldown": 300,
+          "shield": {
+            "up": 360,
+            "down": 300
+          },
+          "hazard": {
+            "every": 120,
+            "cycle": [
+              {
+                "kind": "crane",
+                "warn": 65,
+                "damage": 26,
+                "half": [
+                  30,
+                  10
+                ]
+              },
+              {
+                "kind": "shock",
+                "warn": 55,
+                "damage": 22,
+                "half": [
+                  60,
+                  14
+                ]
+              },
+              {
+                "kind": "laser",
+                "warn": 60,
+                "damage": 24,
+                "half": [
+                  900,
+                  9
+                ]
+              }
+            ]
+          },
+          "moveset": {
+            "light": "colossus_piston",
+            "heavy": "colossus_charge"
+          }
+        },
+        {
+          "below": 0.33,
+          "speed": 0.65,
+          "power": 1.2,
+          "cooldown": 32,
+          "heavy_chance": 0.45,
+          "heavy_cooldown": 300,
+          "hazard": {
+            "every": 160,
+            "cycle": [
+              {
+                "kind": "crane",
+                "warn": 60,
+                "damage": 28,
+                "half": [
+                  30,
+                  10
+                ]
+              },
+              {
+                "kind": "laser",
+                "warn": 55,
+                "damage": 26,
+                "half": [
+                  900,
+                  9
+                ]
+              }
+            ]
+          },
+          "summon_every": 540,
+          "moveset": {
+            "light": "colossus_piston",
+            "heavy": "colossus_overload"
+          }
+        }
+      ],
+      "xp": 3000,
+      "loot": {
+        "money": [
+          0,
+          0
+        ],
+        "drops": [
+          {
+            "item": "refined_alloy",
+            "chance": 1.0
+          }
+        ]
+      },
+      "color": "#30343c",
+      "sprite": "iron_colossus",
+      "wields": false,
+      "tint": "#ffa070"
+    },
+    "iron_sovereign": {
+      "name": "The Iron Sovereign",
+      "max_hp": 1100,
+      "speed": 0.7,
+      "defense": 5,
+      "power": 1.2,
+      "scale": 2.3,
+      "boss": true,
+      "poise": 150,
+      "moveset": {
+        "light": "zero_claw",
+        "heavy": "zero_slam"
+      },
+      "ai": {
+        "spacing": 76,
+        "reaction": 10,
+        "cooldown": 40,
+        "cooldown_jitter": 22,
+        "heavy_chance": 0.3,
+        "heavy_cooldown": 330
+      },
+      "hazard": {
+        "every": 220,
+        "cycle": [
+          {
+            "kind": "sludge",
+            "warn": 60,
+            "damage": 26,
+            "half": [
+              30,
+              12
+            ]
+          }
+        ]
+      },
+      "summon": {
+        "enemy": "hybrid_brute",
+        "every": 600,
+        "count": 2,
+        "max": 3
+      },
+      "phases": [
+        {
+          "below": 0.66,
+          "speed": 0.8,
+          "power": 1.25,
+          "cooldown": 34,
+          "heavy_chance": 0.35,
+          "heavy_cooldown": 300,
+          "hazard": {
+            "every": 150,
+            "cycle": [
+              {
+                "kind": "sludge",
+                "warn": 55,
+                "damage": 26,
+                "half": [
+                  30,
+                  12
+                ]
+              },
+              {
+                "kind": "steam",
+                "warn": 55,
+                "damage": 26,
+                "half": [
+                  26,
+                  10
+                ]
+              }
+            ]
+          },
+          "moveset": {
+            "light": "zero_claw",
+            "heavy": "zero_lunge"
+          }
+        },
+        {
+          "below": 0.33,
+          "speed": 0.85,
+          "power": 1.3,
+          "cooldown": 28,
+          "heavy_chance": 0.45,
+          "heavy_cooldown": 300,
+          "shield": {
+            "up": 300,
+            "down": 360
+          },
+          "hazard": {
+            "every": 100,
+            "cycle": [
+              {
+                "kind": "sludge",
+                "warn": 50,
+                "damage": 28,
+                "half": [
+                  30,
+                  12
+                ]
+              },
+              {
+                "kind": "steam",
+                "warn": 50,
+                "damage": 28,
+                "half": [
+                  26,
+                  10
+                ]
+              },
+              {
+                "kind": "laser",
+                "warn": 60,
+                "damage": 28,
+                "half": [
+                  900,
+                  9
+                ]
+              }
+            ]
+          },
+          "summon_every": 480,
+          "moveset": {
+            "light": "zero_claw",
+            "heavy": "zero_frenzy"
+          }
+        }
+      ],
+      "xp": 4000,
+      "loot": {
+        "money": [
+          0,
+          0
+        ],
+        "drops": [
+          {
+            "item": "refined_alloy",
+            "chance": 1.0
+          }
+        ]
+      },
+      "color": "#3a7a3a",
+      "sprite": "subject_zero",
+      "wields": false,
+      "tint": "#d8b8ff"
+    },
+    "spillway_chief": {
+      "name": "Spillway Chief",
+      "max_hp": 1050,
+      "speed": 0.85,
+      "defense": 3,
+      "power": 1.0,
+      "scale": 1.2,
+      "boss": true,
+      "moveset": {
+        "light": "warden_rake",
+        "heavy": "brute_slam"
+      },
+      "ai": {
+        "spacing": 56,
+        "reaction": 10,
+        "cooldown": 34,
+        "cooldown_jitter": 18,
+        "heavy_chance": 0.3,
+        "heavy_cooldown": 300,
+        "grab": {
+          "chance": 0.35,
+          "every": 300,
+          "range": 150
+        }
+      },
+      "phases": [
+        {
+          "below": 0.5,
+          "speed": 1.0,
+          "power": 1.1,
+          "cooldown": 26,
+          "heavy_chance": 0.45,
+          "heavy_cooldown": 300,
+          "moveset": {
+            "light": "warden_rake",
+            "heavy": "champ_rush"
+          }
+        }
+      ],
+      "xp": 420,
+      "loot": {
+        "money": [
+          500,
+          700
+        ],
+        "drops": [
+          {
+            "item": "spillway_epic_body",
+            "chance": 0.2
+          },
+          {
+            "item": "spillway_epic_head",
+            "chance": 0.2
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 1.0
+          },
+          {
+            "item": "herbal_tonic",
+            "chance": 0.5
+          }
+        ]
+      },
+      "color": "#202020",
+      "sprite": "security_chief",
+      "wields": true,
+      "weapon": "baseball_bat",
+      "weapon_chance": 0.0,
+      "poise": 70,
+      "tint": "#cfdcff",
+      "enrage": {
+        "after_seconds": 75,
+        "warn_seconds": 10,
+        "damage": 1.5,
+        "cooldown": 0.7
+      }
+    },
+    "wiroj_protocol": {
+      "name": "The Wiroj Protocol",
+      "max_hp": 1170,
+      "speed": 0.8,
+      "defense": 5,
+      "power": 1.0,
+      "scale": 1.3,
+      "boss": true,
+      "poise": 90,
+      "moveset": {
+        "light": "wiroj_jab",
+        "heavy": "wiroj_palm"
+      },
+      "ai": {
+        "spacing": 58,
+        "reaction": 10,
+        "cooldown": 36,
+        "cooldown_jitter": 20,
+        "heavy_chance": 0.3,
+        "heavy_cooldown": 330,
+        "grab": {
+          "chance": 0.2,
+          "every": 390,
+          "range": 130
+        }
+      },
+      "phases": [
+        {
+          "below": 0.7,
+          "speed": 0.85,
+          "power": 1.05,
+          "cooldown": 30,
+          "heavy_chance": 0.35,
+          "heavy_cooldown": 300,
+          "shield": {
+            "up": 420,
+            "down": 300
+          },
+          "hazard": {
+            "every": 100,
+            "cycle": [
+              {
+                "kind": "steam",
+                "warn": 60,
+                "damage": 24,
+                "half": [
+                  26,
+                  10
+                ]
+              },
+              {
+                "kind": "shock",
+                "warn": 55,
+                "damage": 22,
+                "half": [
+                  60,
+                  14
+                ]
+              },
+              {
+                "kind": "laser",
+                "warn": 60,
+                "damage": 26,
+                "half": [
+                  900,
+                  9
+                ]
+              }
+            ]
+          },
+          "moveset": {
+            "light": "wiroj_jab",
+            "heavy": "wiroj_sweep"
+          }
+        },
+        {
+          "below": 0.3,
+          "speed": 1.0,
+          "power": 1.15,
+          "cooldown": 22,
+          "heavy_chance": 0.6,
+          "heavy_cooldown": 270,
+          "hazard": {},
+          "moveset": {
+            "light": "wiroj_jab",
+            "heavy": "wiroj_ruin"
+          }
+        }
+      ],
+      "xp": 1500,
+      "loot": {
+        "money": [
+          2260,
+          2560
+        ],
+        "drops": [
+          {
+            "item": "heart_epic_weapon",
+            "chance": 0.15
+          },
+          {
+            "item": "heart_epic_body",
+            "chance": 0.15
+          },
+          {
+            "item": "heart_epic_head",
+            "chance": 0.15
+          },
+          {
+            "item": "heart_epic_hands",
+            "chance": 0.15
+          },
+          {
+            "item": "heart_epic_feet",
+            "chance": 0.15
+          },
+          {
+            "item": "heart_epic_charm",
+            "chance": 0.15
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 1.0
+          },
+          {
+            "item": "herbal_tonic",
+            "chance": 0.5
+          }
+        ]
+      },
+      "color": "#e0e0e8",
+      "sprite": "director_wiroj",
+      "wields": false,
+      "weapon": "knife",
+      "enrage": {
+        "after_seconds": 75,
+        "warn_seconds": 10,
+        "damage": 1.5,
+        "cooldown": 0.7
+      },
+      "tint": "#ff7a7a"
+    },
+    "vault_runner": {
+      "name": "Vault Runner",
+      "max_hp": 95,
+      "speed": 1.2,
+      "defense": 2,
+      "power": 1.0,
+      "moveset": {
+        "light": "punk_flurry",
+        "heavy": "thug_kick"
+      },
+      "ai": {
+        "spacing": 46,
+        "reaction": 8,
+        "cooldown": 40,
+        "cooldown_jitter": 26,
+        "heavy_chance": 0.25,
+        "heavy_cooldown": 270
+      },
+      "xp": 40,
+      "loot": {
+        "money": [
+          24,
+          32
+        ],
+        "drops": [
+          {
+            "item": "rice_box",
+            "chance": 0.12
+          },
+          {
+            "item": "herbal_tonic",
+            "chance": 0.05
+          },
+          {
+            "item": "coolant_rare_head",
+            "chance": 0.02
+          },
+          {
+            "item": "coolant_rare_hands",
+            "chance": 0.02
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 0.22
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.8
+          }
+        ]
+      },
+      "color": "#6a3a9a",
+      "sprite": "network_runner",
+      "wields": false,
+      "tint": "#a8dcff"
+    },
+    "tank_crawler": {
+      "name": "Tank Crawler",
+      "max_hp": 55,
+      "speed": 1.15,
+      "defense": 0,
+      "moveset": {
+        "light": "punk_flurry",
+        "heavy": "thug_kick"
+      },
+      "ai": {
+        "spacing": 46,
+        "reaction": 8,
+        "cooldown": 40,
+        "cooldown_jitter": 30,
+        "heavy_chance": 0.2,
+        "heavy_cooldown": 270
+      },
+      "xp": 24,
+      "loot": {
+        "money": [
+          16,
+          21
+        ],
+        "drops": [
+          {
+            "item": "rice_box",
+            "chance": 0.12
+          },
+          {
+            "item": "herbal_tonic",
+            "chance": 0.05
+          },
+          {
+            "item": "underworks_rare_head",
+            "chance": 0.02
+          },
+          {
+            "item": "underworks_rare_hands",
+            "chance": 0.02
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 0.25
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.8
+          }
+        ]
+      },
+      "color": "#a04a8a",
+      "sprite": "market_punk",
+      "wields": true,
+      "weapon_chance": 0.45,
+      "tint": "#c4ec9c"
+    },
+    "furnace_hauler": {
+      "name": "Furnace Hauler",
+      "max_hp": 150,
+      "speed": 0.6,
+      "defense": 2,
+      "power": 1.2,
+      "scale": 1.2,
+      "moveset": {
+        "light": "brute_jab",
+        "heavy": "brute_slam"
+      },
+      "ai": {
+        "spacing": 64,
+        "reaction": 16,
+        "cooldown": 62,
+        "cooldown_jitter": 36,
+        "heavy_chance": 0.4,
+        "heavy_cooldown": 300
+      },
+      "xp": 41,
+      "loot": {
+        "money": [
+          28,
+          36
+        ],
+        "drops": [
+          {
+            "item": "rice_box",
+            "chance": 0.12
+          },
+          {
+            "item": "herbal_tonic",
+            "chance": 0.05
+          },
+          {
+            "item": "foundry_rare_feet",
+            "chance": 0.02
+          },
+          {
+            "item": "foundry_rare_charm",
+            "chance": 0.02
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 0.28
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.8
+          }
+        ]
+      },
+      "color": "#c06a2a",
+      "sprite": "stevedore",
+      "wields": true,
+      "weapon_chance": 0.4,
+      "tint": "#ffc08a"
+    },
+    "rivet_thrower": {
+      "name": "Rivet Thrower",
+      "max_hp": 36,
+      "speed": 0.95,
+      "defense": 0,
+      "moveset": {
+        "light": "thug_jab",
+        "heavy": "bottle_lob"
+      },
+      "ai": {
+        "spacing": 110,
+        "reaction": 14,
+        "cooldown": 70,
+        "cooldown_jitter": 30,
+        "heavy_chance": 1.0,
+        "heavy_cooldown": 120,
+        "ranged": {
+          "min": 80,
+          "max": 150
+        }
+      },
+      "ranged": {
+        "move": "bottle_lob",
+        "projectile": "bottle",
+        "damage": 6
+      },
+      "xp": 21,
+      "loot": {
+        "money": [
+          35,
+          44
+        ],
+        "drops": [
+          {
+            "item": "rice_box",
+            "chance": 0.12
+          },
+          {
+            "item": "herbal_tonic",
+            "chance": 0.05
+          },
+          {
+            "item": "heart_rare_head",
+            "chance": 0.02
+          },
+          {
+            "item": "heart_rare_hands",
+            "chance": 0.02
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 0.31
+          },
+          {
+            "item": "scrap_metal",
+            "chance": 0.8
+          }
+        ]
+      },
+      "color": "#7a8a6a",
+      "sprite": "street_thrower",
+      "wields": false,
+      "tint": "#ffb0b0"
     }
   }
 }

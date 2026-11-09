@@ -44,6 +44,33 @@ profiles, plus boss-only runs (several minutes). It writes `report.json` and
   in the config's `boss_models` are **comparison parameters, not approved
   game values**.
 
+## Levelling time and enrage timers
+
+- `tests/harness/LevelingRun.gd` (with `LevelingSim`) measures the story's clear time and
+  XP per hour on every farming ground at hero levels around it, up to the level cap, and
+  turns them into hours per level for the current curve and a proposal from target
+  hours (`--out` must be outside the repository; `--part=K/N` splits the work across
+  processes, `--merge` writes report.json and report.md).
+- `tests/harness/EnrageCompare.gd` fights every boss lair with auto battle for each
+  enrage timer in `--timers` (and none), with `--kits` gear (S no gear, B shop +0, C boss
+  +5, D boss +10), `--seeds` seeds and the hero `--level_offset` levels from the lair's
+  suggested level (`--lairs` narrows the list), and prints kill rate, knock-outs, median,
+  90th-percentile and slowest kill time, damage taken, how often the enrage fired and food
+  eaten.
+- `tests/harness/FarmCheck.gd` runs farming sessions (`LevelingSim.farm_rate`) on the
+  grounds in `--areas` at `--offsets` levels from each ground's own, with `--seeds` seeds per
+  gear profile, and prints mean XP, coins, Scrap Metal and Refined Alloy per hour and the
+  knock-outs, plus damage taken, food eaten, kills and gear drops per hour and what caused
+  each knock-out (the last attacker, its hit, and how many enemies stood within reach);
+  `--gears` picks B shop +0, C boss +5, D boss +10.
+- `tests/harness/WorldBossCheck.gd` fights each world boss with one hero at its level and
+  reports damage per minute and the minutes one hero needs to empty the round's pool,
+  against the round's open minutes.
+- `tests/harness/ItemBudgetQuery.gd` prints the `ItemRules` budget and score of the items
+  in `--in=file.json`, so content tools price gear with the game's own rule.
+
+All five only read the data; anything they change lives in memory for one run.
+
 ## Limits
 
 - Simulation is not play: `AutoPilot` stands in for a player. A person may be

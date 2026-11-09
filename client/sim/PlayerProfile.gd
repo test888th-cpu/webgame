@@ -163,13 +163,7 @@ func equip_problem(item_id: String, content: ContentDB) -> String:
 
 
 func xp_to_next(content: ContentDB) -> int:
-	var curve: Dictionary = content.progression.get("xp", {})
-	var steps := level - 1
-	return (
-		int(curve.get("base", 40))
-		+ int(curve.get("growth", 0)) * steps
-		+ int(curve.get("square", 0)) * steps * steps
-	)
+	return LevelRules.xp_to_next(content.progression.get("xp", {}), level)
 
 
 func max_level(content: ContentDB) -> int:
@@ -378,7 +372,6 @@ static func from_dict(data: Variant, content: ContentDB) -> PlayerProfile:
 				"dealt": maxi(0, int(state.get("dealt", 0))),
 				"tiers": clampi(int(state.get("tiers", 0)), 0, boss_data["tiers"].size()),
 				"killed": bool(state.get("killed", false)),
-				"attempts": clampi(int(state.get("attempts", 0)), 0, 1000),
 			}
 			var attempt: Variant = state.get("attempt")
 			if attempt is Dictionary and attempt.has_all(["dealt", "total", "level"]):

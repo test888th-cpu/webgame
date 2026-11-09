@@ -29,9 +29,36 @@ static func max_level(content: ContentDB) -> int:
 ## What the next level of `slot` costs: {"coins", "items": {id: count},
 ## "rate"}, or {} at the top.
 static func next_cost(profile: PlayerProfile, slot: String, content: ContentDB) -> Dictionary:
-	var levels: Array = content.progression.get("enhance", {}).get("levels", [])
+	var enhance: Dictionary = content.progression.get("enhance", {})
+	var levels: Array = enhance.get("levels", [])
 	var current := level(profile, slot)
-	return levels[current] if current < levels.size() else {}
+	if current >= levels.size():
+		return {}
+	var item_level := int(content.item(str(profile.equipment.get(slot, ""))).get("level", 1))
+	return scaled_cost(levels[current], enhance.get("item_level_costs", []), item_level)
+
+
+## A level's cost for an item of `item_level`: the coins and materials times
+## the factors of the highest "item_level_costs" band at or below that level
+## ([{"from_level", "coins", "items"}]), so gear past level 50 costs more to
+## upgrade without a second table. The rate is never changed.
+static func scaled_cost(cost: Dictionary, bands: Array, item_level: int) -> Dictionary:
+	var coins := 1.0
+	var mats := 1.0
+	var top := 0
+	for band: Dictionary in bands:
+		var from := int(band.get("from_level", 0))
+		if item_level >= from and from >= top:
+			top = from
+			coins = float(band.get("coins", 1.0))
+			mats = float(band.get("items", 1.0))
+	var out := cost.duplicate(true)
+	out["coins"] = roundi(int(cost.get("coins", 0)) * coins)
+	var needs := {}
+	for item_id: String in cost.get("items", {}):
+		needs[item_id] = maxi(1, roundi(int(cost["items"][item_id]) * mats))
+	out["items"] = needs
+	return out
 
 
 ## The chance the next attempt on `slot` succeeds, pity included.
@@ -94,9 +121,14 @@ static func bonus(
 static func copy_bonus(
 	profile: PlayerProfile, key: String, item: Dictionary, content: ContentDB
 ) -> Dictionary:
+	return bonus_at(item, item_level(profile, key), content)
+
+
+## What `item` adds at upgrade level `steps` (0 adds nothing): the preview
+## of the next level uses it with the level after the current one.
+static func bonus_at(item: Dictionary, steps: int, content: ContentDB) -> Dictionary:
 	var extra := {}
-	var steps := item_level(profile, key)
-	if steps == 0:
+	if steps <= 0:
 		return extra
 	var per := float(content.progression.get("enhance", {}).get("bonus_per_level", 0.0))
 	var stats: Dictionary = item.get("stats", {})

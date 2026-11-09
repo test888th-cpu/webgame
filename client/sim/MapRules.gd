@@ -78,7 +78,7 @@ static func state(
 		return KNOWN
 	if content.area(area_id).get("world_boss", false):
 		return KNOWN if area_id in arenas(profile, content) else UNKNOWN
-	if AreaRules.kind(content, area_id) == AreaRules.FARM:
+	if AreaRules.kind(content, area_id) in AreaRules.GATED:
 		return KNOWN if AreaRules.unlocked(profile, content, area_id) else UNKNOWN
 	if area_id in profile.visited:
 		return KNOWN
@@ -117,7 +117,7 @@ static func about(
 		return info
 	info["name"] = str(area.get("name", area_id))
 	info["level"] = int(area.get("level", 1))
-	if AreaRules.kind(content, area_id) == AreaRules.FARM:
+	if AreaRules.kind(content, area_id) in AreaRules.GATED:
 		info["purpose"] = str(area.get("purpose", ""))
 	if seen == IN_SIGHT:
 		return info
@@ -130,7 +130,7 @@ static func about(
 	info["gate"] = _gate(profile, area)
 	info["prizes"] = prizes(content, area_id)
 	var groups: Array[String] = []
-	for grade: String in ["legendary", "epic"]:
+	for grade: String in ["mythic", "legendary", "epic"]:
 		var names: Array[String] = []
 		for item_id: String in info["prizes"]:
 			if content.item(item_id).get("rarity") == grade:
@@ -257,7 +257,7 @@ static func prizes(content: ContentDB, area_id: String) -> Array[String]:
 		if str(data.get("area")) == area_id:
 			found.append_array(data.get("kill", {}).get("rolls", {}).keys())
 	var out: Array[String] = []
-	for grade: String in ["legendary", "epic"]:
+	for grade: String in ["mythic", "legendary", "epic"]:
 		for item_id in found:
 			if content.item(item_id).get("rarity") == grade and item_id not in out:
 				out.append(item_id)

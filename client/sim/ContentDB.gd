@@ -15,7 +15,7 @@ const ITEM_TYPES := ["consumable", "equipment", "material", "key"]
 ## hand-in (quests.json "dialogue").
 const DIALOGUE_LINES := ["offer", "active", "done"]
 ## From most common to rarest; the UI colours names by rarity.
-const RARITIES := ["common", "uncommon", "rare", "epic", "legendary"]
+const RARITIES := ["common", "uncommon", "rare", "epic", "legendary", "mythic"]
 const EXIT_SIDES := ["west", "east"]
 ## NPC roles: people (shop, quests, travel) and things to use (a workbench
 ## that opens the upgrade screen, a notice board to read). A thing names the
@@ -157,67 +157,10 @@ func hero(id: String) -> Dictionary:
 
 ## The art a profile's hero shows: the look of the worn body item if the hero
 ## has art for it (e.g. "armoured"), else the hero's default.
-## Where `item_id` comes from, for players: who drops it (and how often, and
-## where they fight), who sells it, which quest gives it. Worked out from
-## the loot tables, shops and quests, so it can never disagree with them.
-## Each entry is {"kind": "drop" | "shop" | "quest", "text"}; drops come
-## first, most likely first.
+## Where `key` comes from, for players: drops, field elites, world boss
+## rewards, shops and quests (ItemSources).
 func sources(key: String) -> Array[Dictionary]:
-	var item_id := base_id(key)
-	var drops: Array[Dictionary] = []
-	for enemy_id: String in enemies:
-		for drop: Dictionary in enemies[enemy_id].get("loot", {}).get("drops", []):
-			if drop["item"] != item_id:
-				continue
-			var where := _first_area_of(enemy_id)
-			(
-				drops
-				. append(
-					{
-						"kind": "drop",
-						"chance": float(drop["chance"]),
-						"text":
-						(
-							"%s (%d%%)%s"
-							% [
-								enemies[enemy_id]["name"],
-								roundi(float(drop["chance"]) * 100.0),
-								"  -  " + where if where else ""
-							]
-						),
-					}
-				)
-			)
-	drops.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["chance"] > b["chance"])
-	var found: Array[Dictionary] = []
-	found.append_array(drops)
-	for shop_id: String in shops:
-		if item_id in ShopRules.all_items(shops[shop_id]):
-			found.append(
-				{
-					"kind": "shop",
-					"text": "%s, %d coins" % [shops[shop_id]["name"], int(item(item_id)["price"])]
-				}
-			)
-	for quest_id: String in quests:
-		if quests[quest_id].get("rewards", {}).get("items", {}).has(item_id):
-			found.append({"kind": "quest", "text": 'Quest "%s"' % quests[quest_id]["name"]})
-	return found
-
-
-## The first area (in street order from the start) where `enemy_id` fights.
-func _first_area_of(enemy_id: String) -> String:
-	for area_id: String in areas:
-		var area_data: Dictionary = areas[area_id]
-		var found := false
-		for placed: Dictionary in area_data.get("placed", []):
-			found = found or placed["enemy"] == enemy_id
-		for encounter: Dictionary in area_data.get("encounters", []):
-			for wave: Variant in encounter.get("waves", []):
-				found = found or enemy_id in JSON.stringify(wave)
-		if found:
-			return str(area_data["name"])
-	return ""
+	return ItemSources.of(self, key)
 
 
 func hero_art(profile: PlayerProfile) -> String:
@@ -253,6 +196,10 @@ func validate() -> void:
 				items.get(item_id, {}).get("type") == "material",
 				"%s.items: %s is not a material" % [where, item_id]
 			)
+	for band: Variant in enhance.get("item_level_costs", []):
+		var ok: bool = band is Dictionary and int(band.get("from_level", 0)) >= 1
+		ok = ok and float(band.get("coins", 0)) >= 1.0 and float(band.get("items", 0)) >= 1.0
+		_check(ok, "progression.enhance.item_level_costs: {from_level >= 1, coins, items >= 1}")
 	for i in tutorial.size():
 		var step: Variant = tutorial[i]
 		var where := "tutorial.steps[%d]" % i
@@ -277,6 +224,7 @@ func validate() -> void:
 		_validate_area(id, areas[id])
 	_validate_city()
 	errors.append_array(AreaRules.problems(self))
+	errors.append_array(BossEnrage.content_problems(self))
 	errors.append_array(FarmSpawner.problems(self))
 	errors.append_array(ItemRules.problems(self))
 	_validate_progression()
@@ -288,6 +236,7 @@ func validate() -> void:
 
 func _validate_enemy(id: String, e: Dictionary) -> void:
 	var where := "enemies.%s" % id
+	_check(Color.html_is_valid(str(e.get("tint", "#ffffff"))), where + ".tint: a colour, #rrggbb")
 	_number(e, "max_hp", where, 1)
 	_number(e, "speed", where, 0)
 	_number(e, "xp", where, 0)
@@ -395,7 +344,7 @@ func _validate_world_boss() -> void:
 			area(str(wb.get("area"))).get("world_boss", false), where + ".area: needs world_boss"
 		)
 		_check(enemies.has(str(wb.get("unlock"))), where + ".unlock: unknown enemy")
-		for field in ["period_minutes", "open_minutes", "pool", "attempts"]:
+		for field in ["period_minutes", "open_minutes", "pool"]:
 			_number(wb, field, where, 1)
 		_number(wb, "level", where, 1)
 		for scaled in ["min_level", "level_above_hero", "min_hero_level"]:
@@ -785,7 +734,7 @@ func _validate_city() -> void:
 	var exits: Dictionary = city.get("exits", {})
 	_check(exits.keys() == ["east"], where + ": its one way out is the gate east")
 	for id: String in areas:
-		if AreaRules.kind(self, id) in [AreaRules.FARM, AreaRules.WORLD_BOSS]:
+		if AreaRules.kind(self, id) in [AreaRules.FARM, AreaRules.LAIR, AreaRules.WORLD_BOSS]:
 			continue
 		for side: String in areas[id].get("exits", {}):
 			_check(
@@ -863,7 +812,6 @@ func _validate_heroes() -> void:
 func _validate_progression() -> void:
 	_number(progression, "max_level", "progression", 1)
 	_number(progression, "sell_rate", "progression", 0)
-	_number(progression, "boss_fight_food", "progression", 1)
 	_number(progression, "max_characters", "progression", 1)
 	_check(float(progression.get("sell_rate", 0)) < 1.0, "progression.sell_rate: below 1")
 	var xp: Variant = progression.get("xp")
@@ -873,6 +821,16 @@ func _validate_progression() -> void:
 		_number(xp, "growth", "progression.xp", 0)
 		if xp.has("square"):
 			_number(xp, "square", "progression.xp", 0)
+		var top := int(progression.get("max_level", 1))
+		var levels: Variant = xp.get("levels", {})
+		_check(levels is Dictionary, "progression.xp.levels: expected an object")
+		if levels is Dictionary:
+			for key: Variant in levels:
+				var at := int(str(key)) if str(key).is_valid_int() else 0
+				_check(
+					at >= 1 and at < top, "progression.xp.levels.%s: a level below the cap" % key
+				)
+				_check(int(levels[key]) > 0, "progression.xp.levels.%s: XP above 0" % key)
 
 
 func _validate_skills() -> void:
