@@ -218,7 +218,14 @@ func test_the_workbench_upgrades_from_the_item_card() -> void:
 	for name: String in PlayerProfile.SLOTS:
 		if profile.equipment[name] and not slot:
 			slot = name
+	# The plain bag shows the upgrade's numbers but cannot upgrade: only the
+	# workbench can (talk to it).
 	game.open_inventory()
+	game._upgrade(slot)
+	assert_eq(EnhanceRules.level(profile, slot), 0, "not from the bag")
+	game.close_menu()
+	game._last_upgrade_ms = -100000
+	game.open_workbench()
 	game.inspect_item(profile.equipment[slot], slot)
 	var card_text := _texts(game.item_card)
 	assert_true(card_text.contains("UPGRADE"), "the card offers an upgrade")
