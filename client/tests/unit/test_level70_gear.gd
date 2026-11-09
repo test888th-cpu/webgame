@@ -177,7 +177,11 @@ func test_a_failed_upgrade_keeps_the_item_and_its_level() -> void:
 			failed = true
 			assert_eq(str(profile.equipment["body"]), key, "the item is kept")
 			assert_eq(EnhanceRules.level(profile, "body"), 9, "and its level")
-			assert_true(int(profile.enhance_pity[key]) > 0, "and the next try is likelier")
+			assert_eq(
+				EnhanceRules.chance(profile, "body", c),
+				float(c.progression["enhance"]["levels"][9]["rate"]),
+				"and the next try has the same odds"
+			)
 			break
 		profile.enhance[key] = 9
 	assert_true(failed, "a 20% try fails within 30 rolls")

@@ -73,7 +73,8 @@ display (`MapRules`).
 ## 5. Enhancement rules (+0 to +10)
 
 These are unchanged: the cap is still +10 (no +11 to +15), the rates run from 100% down to
-20%, pity adds 5% per failure, and a failure keeps the item and its level (there is no
+20%, and a failure keeps the item and its level (since the owner's later rule, the odds do
+not build up over failures: no pity; there is no
 destruction, so no protection item is needed). Upgrades are saved per item copy.
 
 New: the cost grows with the item's level (`progression.json`
@@ -131,7 +132,7 @@ Material counts round half up, with a minimum of 1 per step.
 
 - **Workbench (city):**
   1. Pick the worn item.
-  2. The card shows the current bonus, "Next +N adds: ...", the chance (pity included), the
+  2. The card shows the current bonus, "Next +N adds: ...", the chance, the
      coins and materials, and what is missing.
   3. Confirm.
   4. The result toast and the saved level follow.

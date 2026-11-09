@@ -278,7 +278,8 @@ ground's monsters) and epics (the lair boss; the ground's elites rarely).
 **[built] Upgrades**: each equipment slot goes from +0 to +10 at the Depot workbench
 (10% more of the worn item's stats per level, kept by the slot when gear changes);
 coins and Scrap Metal/Refined Alloy per attempt, 100% down to 20% success, failures
-keep the level and add 5% to the next try. The cost grows with the item's level
+keep the item and its level; the odds never build up over failures (each try is at its
+level's rate). The cost grows with the item's level
 (`enhance.item_level_costs`: x2 coins and x1.5 materials from item level 51, x3 and x2
 from 61), the success rates do not, and the workbench card shows what the next level adds. **[built] Materials** drop from enemies
 (bosses always) and item cards say where every item comes from. **[built] Crit**
