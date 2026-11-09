@@ -275,7 +275,33 @@ The Core ถูกสร้างมาเพื่อบำบัดน้ำ�
 ภารกิจ (Dr. Pim): The Walkway → The Iron Legacy (รางวัล **Heart of Iron City**: Legendary ชิ้นเดียวในเกม ได้ครั้งเดียว; ปิดเกมด้วย **Epilogue: A City That Remains**
 ตาม §4: แผงของ Ama และ Night Market เปิดอีกครั้ง, Chief Odo ยืนนำประชุมชุมชน, Dr. Pim ส่งหลักฐานถึงมือผู้ตรวจ, Big Sak และ Nattapong ให้การ,
 Kraisorn ถูกสอบสวนและ Wiroj รับผิด, คนงานกะดึกได้กลับบ้านและสีเขียวค่อย ๆ จางลง, คลองยังต้องใช้เวลาหลายปี: ชนะการต่อสู้ไม่เท่ากับแก้ปัญหาทั้งเมือง แต่คือจุดเริ่มต้น)
-หลังจบเรื่อง เกมเล่นต่อได้ (ฟาม ตีบวก ไล่เลเวลถึง 50)
+หลังจบเรื่อง เกมเล่นต่อได้ (ฟาม ตีบวก ไล่เลเวลถึง 70 ดู §5.6)
+
+## 5.6 หลังจบเรื่อง: เลเวล 50–70 (ทำแล้ว Phase 2, ภาพชั่วคราว, ชื่อและเหตุผลในเรื่องรอเจ้าของอนุมัติ)
+
+The Core ปิดแล้ว แต่ใต้ศูนย์ควบคุมยังมีส่วนที่ไม่มีใครปิด: ห้องเก็บน้ำหล่อเย็น ใต้เตาปฏิกรณ์ โรงหล่อเก่า และ "หัวใจเหล็ก"
+ที่ Wiroj สร้างไว้ใต้เมือง คนของ Kraisorn ที่ยังเหลือพยายามเก็บกู้ของมีค่าจากที่เหล่านี้ก่อนผู้ตรวจจะมาถึง
+ทุกที่ไปได้ด้วยรถของ Uncle Thong จากเมือง (ไม่อยู่บนถนนเนื้อเรื่อง) และไม่ขัดกับ Epilogue: Wiroj ยังถูกควบคุมตัว
+
+| พื้นที่ (`id`) | เลเวลแนะนำ | เปิดเมื่อชนะ | เนื้อหา |
+|---|---|---|---|
+| Core Spillway (`farm_core_spillway`) | 43 | Commander Arthit | ทางระบายน้ำของ Core Facility ทหาร Facility Trooper, Hazmat Sprayer, Core Sentinel ฟามช่วงเลเวล 41–45 ก่อนบทสุดท้าย |
+| Spillway Gatehouse (`spillway_gatehouse`) | 45 | Commander Arthit | ห้องประตูน้ำ **Spillway Chief** หัวหน้ากะของหน่วยรปภ. ถือกุญแจประตูระบาย (คนทำงานตามคำสั่ง แบบ Nattapong) |
+| Coolant Vaults (`farm_coolant_vaults`) | 53 | Director Wiroj | ห้องเก็บน้ำหล่อเย็นที่น้ำท่วม คนของ Kraisorn: Vault Trooper, Coolant Drone, Vault Warden |
+| Coolant Control Room (`coolant_control_room`) | 55 | Director Wiroj | **Commander Arthit, Reinstated**: ทนายของ Kraisorn ประกันตัวเขาออกมา และจ้างให้คุมการขนของออกจากห้องเก็บ |
+| Reactor Underworks (`farm_reactor_underworks`) | 58 | Arthit, Reinstated | ใต้เตาปฏิกรณ์ที่ถังทดลองสุดท้ายแตก Underworks Brute, Reactor Tech, Reactor Overseer |
+| Tank Hall (`underworks_tank_hall`) | 60 | Arthit, Reinstated | **Subject Twelve, Relapsed**: กลับลงไปช่วยเพื่อนคนงานที่ติดอยู่ สัมผัสสารซ้ำจนอาการกลับมา (ตาม §3.3: หยุดสัมผัสแล้วหายได้ จึงสู้เพื่อ "พาเขาออกมา" ไม่ใช่ฆ่า) |
+| Foundry Depths (`farm_foundry_depths`) | 63 | Twelve, Relapsed | โรงหล่อเก่าใต้ Iron City ที่ยังเดินเครื่องให้ใครก็ได้ที่จ่าย Foundry Hand, Slag Slinger, Foundry Boss |
+| The Crucible (`foundry_crucible`) | 65 | Twelve, Relapsed | **Unit K-7, Overdriven**: K-7 อีกตัวจากสายการผลิตเดียวกัน ถูกโอเวอร์ไดรฟ์ให้เฝ้าเตาหลอม |
+| The Iron Heart (`farm_iron_heart`) | 68 | K-7, Overdriven | หัวใจเครื่องจักรที่ Wiroj สร้างไว้ใต้เมือง Heart Guard, Iron Sentry, Heart Keeper |
+| Heart Core Chamber (`heart_core_chamber`) | 70 | K-7, Overdriven | **The Wiroj Protocol**: ระบบป้องกันของหัวใจเหล็กที่ใช้เสียงที่บันทึกไว้และท่าของ Wiroj (ตัวจริงยังถูกควบคุมตัว) |
+
+บอสโลกหลังเรื่อง (เข้าได้ไม่จำกัดครั้ง ไม่มีจำกัดต่อวัน ไม่ต้องรอระหว่างครั้ง เหมือนบอสโลกทุกตัว):
+
+| `id` | ชื่อ | เหตุผลในเรื่อง |
+|---|---|---|
+| `slag_titan` | The Slag Titan | หุ่นต้นแบบรุ่นเดียวกับ Iron Colossus ที่ตกลงไปในเตาหลอมของ Slag Furnace (`slag_furnace`) และลุกขึ้นมาพร้อมตะกรันร้อน เลเวล 60 กลุ่ม 5 คน ทุก 6 ชั่วโมง ปลดล็อกหลังชนะ Twelve, Relapsed |
+| `iron_sovereign` | The Iron Sovereign | สิ่งที่ The Core สร้างจากกากที่สะสมใน Sovereign Vault (`sovereign_vault`) ใต้หัวใจเหล็ก เลเวล 70 กลุ่ม 10 คน วันละครั้ง ปลดล็อกหลังชนะ Wiroj Protocol ดรอปชุด Mythic |
 
 ## 6. ทะเบียนศัตรู: ตีความภาพเดิมให้เข้ากับโลก (เสนอ D6)
 

@@ -96,13 +96,13 @@ TIERS = [
         "palette": {"sky": "#100808", "buildings": ["#261012", "#2e1416", "#1e0c0e"], "windows": "#ff5060",
                     "sidewalk": "#3e3436", "street": "#1e1214"},
         "purpose": "The machine heart the Director built under the city, the last ground before level 70: "
-                   "Heartforged gear and the Director's last stand.",
+                   "Heartforged gear, and the Wiroj Protocol (the Heart's defences, in his voice) waits in its core.",
         "mobs": [("heart_guard", "Heart Guard", "riot_trooper"),
                  ("iron_sentry", "Iron Sentry", "core_sentinel")],
         "champion": ("heart_keeper", "Heart Keeper", "core_sentinel"),
-        "boss": ("wiroj_last_stand", "Director Wiroj, Last Stand", "director_wiroj"),
+        "boss": ("wiroj_protocol", "The Wiroj Protocol", "director_wiroj"),
         "shop_from": "Ama",
-        "uncommon": "Heartforged", "rare": "Heart Sentry", "epic": "Last Stand",
+        "uncommon": "Heartforged", "rare": "Heart Sentry", "epic": "Protocol",
     },
 ]
 
@@ -133,7 +133,7 @@ WORLD_BOSSES = [
     {
         "id": "iron_sovereign", "name": "The Iron Sovereign", "clone": "subject_zero", "level": 70, "players": 10,
         "arena": "sovereign_vault", "arena_name": "Sovereign Vault", "arena_clone": "sunken_reservoir",
-        "unlock": "wiroj_last_stand", "period_minutes": 1440, "offset_minutes": 720,
+        "unlock": "wiroj_protocol", "period_minutes": 1440, "offset_minutes": 720,
         "prizes": [("sovereign_fists", "Sovereign Fists", "weapon"), ("sovereign_mantle", "Sovereign Mantle", "body"),
                    ("sovereign_crown", "Sovereign Crown", "head"), ("sovereign_grips", "Sovereign Grips", "hands"),
                    ("sovereign_treads", "Sovereign Treads", "feet"), ("sovereign_seal", "Sovereign Seal", "charm")],
@@ -356,7 +356,7 @@ def world_boss(enemies, areas, specs, items, wb):
         {"share": 0.6, "money": 3500, "items": {"refined_alloy": 10}},
         {"share": 1.0, "money": 5000, "items": {"refined_alloy": 14}, "rolls": dict(rolls)},
     ]
-    base["kill"] = {"money": 7000, "items": {"refined_alloy": 18}, "rolls": {p: rare_roll * 3 for p in prize_ids}}
+    base["kill"] = {"money": 7000, "items": {"refined_alloy": 18}, "rolls": {p: round(rare_roll * 3, 3) for p in prize_ids}}
     specs[wb["id"]] = base
 
 

@@ -70,7 +70,8 @@ func _jobs(content: ContentDB, seeds: int, quick: bool) -> Array:
 		if AreaRules.kind(content, area_id) != AreaRules.FARM:
 			continue
 		var ground := int(content.area(area_id)["level"])
-		for level in range(maxi(1, ground - 6), mini(ground + 7, 51), 2):
+		var cap := int(content.progression["max_level"]) + 1
+		for level in range(maxi(1, ground - 6), mini(ground + 7, cap), 2):
 			for gear: String in GEARS:
 				for seed in range(1, seeds + 1):
 					jobs.append(
@@ -216,6 +217,8 @@ func _report(content: ContentDB, results: Array) -> Dictionary:
 		var cur_real := LevelingSim.plan(curve, 50, 70, real_at)
 		var cur_syn := LevelingSim.plan(curve, 50, 70, syn_at)
 		var proposal := LevelingSim.propose(TARGETS, syn_at, 1.06)
+		# The grounds past 50 are real now: the proposal from their rates.
+		var proposal_real := LevelingSim.propose(TARGETS, real_at, 1.06)
 		report["plans"][gear] = {
 			"to_50_story_then_farm": report["story_hours"] + float(finish["hours"]),
 			"to_50_farm_only": farm_only["hours"],
@@ -224,6 +227,8 @@ func _report(content: ContentDB, results: Array) -> Dictionary:
 			"current_curve_50_70_synthetic_grounds": cur_syn,
 			"proposal": proposal,
 			"proposal_plan": LevelingSim.plan(proposal, 50, 70, syn_at),
+			"proposal_real_grounds": proposal_real,
+			"proposal_real_plan": LevelingSim.plan(proposal_real, 50, 70, real_at),
 		}
 	return report
 
@@ -260,6 +265,9 @@ func _markdown(report: Dictionary) -> String:
 			)
 		)
 		lines.append("- Proposal plan 50 to 70: %.1f h" % p["proposal_plan"]["hours"])
+		lines.append(
+			"- Proposal from real grounds 50 to 70: %.1f h" % p["proposal_real_plan"]["hours"]
+		)
 	lines.append("")
 	lines.append("Hours per day assumed: %.1f." % HOURS_PER_DAY)
 	return "\n".join(lines) + "\n"

@@ -4,6 +4,42 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added: levels 50-70 content, boss lairs, mythic gear and boss enrage (Phase 2)
+- **Level cap 70** with a data-driven XP curve (`progression.json` `xp.levels`), see the entry below.
+- **Farming grounds:** Core Spillway (Lv 43, fills the 41-45 gap) and four grounds for 50-70:
+  Coolant Vaults (53), Reactor Underworks (58), Foundry Depths (63) and The Iron Heart (68),
+  each with two new monster kinds and a champion elite. Existing grounds and unlocks are unchanged.
+- **Boss lairs** (`"kind": "lair"`, `AreaRules.LAIR`): a short arena beside each new ground
+  with one boss fight that comes back after every rest; reached by Uncle Thong's truck
+  ("Rematches"), opened with its ground. Bosses: Spillway Chief, Commander Arthit
+  (Reinstated), Subject Twelve (Relapsed), Unit K-7 (Overdriven), The Wiroj Protocol.
+  Ground and lair pairs open in a chain, never by level.
+- **World bosses:** The Slag Titan (Lv 60, 5 players) and The Iron Sovereign (Lv 70, 10
+  players). Unlimited entries and attempts, no daily limit, no wait, shared round pool,
+  as for every world boss.
+- **Gear:** 83 new items: uncommon, rare and epic in every slot for each tier (53, 58,
+  63, 68), Spillway Chief's level 42 epic body and head (closing the boss-gear gap from
+  27 to 48), three legendary Slag Titan prizes and a six-piece mythic Sovereign set.
+  New grade **mythic** (budget x1.85). Every piece is priced to the `ItemRules` budget.
+- **Enhancement:** still +0 to +10 with the same rates, pity and no-loss failures; no new
+  material. `enhance.item_level_costs` scales coins x2 / materials x1.5 from item level
+  51 and x3 / x2 from 61. The workbench card previews what the next level adds.
+- **Market:** Ama's 50-70 stock opens with each lair boss (`"defeated"` stock entries).
+- **Enrage** (`BossEnrage`, data-driven): lair bosses enrage after 75 s, warned 10 s ahead
+  (x1.5 damage, hazards and summons 30% quicker); the 50-70 world bosses for the last 20
+  minutes of the round (x1.3, 20% quicker), shown on the HUD. It never ends a fight or
+  limits entries or food.
+  - Compared with `tests/harness/EnrageCompare.gd` (5 lairs, shop and boss gear, 8 seeds,
+    heroes at the lair level and 5 and 10 below): no knock-outs at any setting; median
+    kills 16-60 s, slowest 62 s at the suggested level (Wiroj Protocol, shop gear) and
+    70 s ten levels below. 60 s enraged that fight for on-level heroes (1 in 8 runs) and
+    for 2-3 in 8 at ten levels below; 75 s and 90 s never fired. 75 s kept.
+- **Tools:** `tools/content/level70_content.py` generates all of the above (idempotent);
+  `tests/harness/ItemBudgetQuery.gd`, `EnrageCompare.gd`; `LevelingRun` now measures the
+  real grounds up to the cap. Scenery for the twelve new areas from the asset pipeline.
+- **Tests:** `test_lairs.gd`, `test_boss_enrage.gd`, `test_level70_gear.gd`; the ground,
+  taxi, market and boss-gear tests follow the new content.
+
 ### Added: the client/sim purity test and local architecture guides
 - `client/tests/unit/test_sim_purity.gd` checks every `client/sim/*.gd` file.
   - **Forbidden:** scene types, the `Input` singleton, the scene tree, host services (`OS`, `Engine`, `Time`, ...), `res://scenes` paths, autoloads, global or unseeded random numbers, and file or network access.

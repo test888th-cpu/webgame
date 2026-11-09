@@ -5373,7 +5373,7 @@
       },
       "kind": "farm",
       "region": "Main Control Centre",
-      "purpose": "The machine heart the Director built under the city, the last ground before level 70: Heartforged gear and the Director's last stand.",
+      "purpose": "The machine heart the Director built under the city, the last ground before level 70: Heartforged gear, and the Wiroj Protocol (the Heart's defences, in his voice) waits in its core.",
       "unlock": {
         "defeated": "k7_overdriven"
       },
@@ -5890,7 +5890,7 @@
       "width": 1300,
       "safe": false,
       "kind": "lair",
-      "purpose": "Director Wiroj, Last Stand's stand at the end of the The Iron Heart: a boss fight that comes back after every rest, with Last Stand gear.",
+      "purpose": "The Wiroj Protocol's stand at the end of the The Iron Heart: a boss fight that comes back after every rest, with Protocol gear.",
       "unlock": {
         "defeated": "k7_overdriven"
       },
@@ -5934,7 +5934,7 @@
           "max_alive": 3,
           "waves": [
             [
-              "wiroj_last_stand"
+              "wiroj_protocol"
             ],
             [
               "heart_guard",

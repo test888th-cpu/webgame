@@ -236,9 +236,9 @@
           "refined_alloy": 18
         },
         "rolls": {
-          "titan_slagfist": 0.15000000000000002,
-          "titan_grip": 0.15000000000000002,
-          "titan_core": 0.15000000000000002
+          "titan_slagfist": 0.15,
+          "titan_grip": 0.15,
+          "titan_core": 0.15
         }
       },
       "enrage": {
@@ -251,7 +251,7 @@
     "iron_sovereign": {
       "enemy": "iron_sovereign",
       "area": "sovereign_vault",
-      "unlock": "wiroj_last_stand",
+      "unlock": "wiroj_protocol",
       "level": 70,
       "players": 10,
       "pool": 14,

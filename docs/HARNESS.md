@@ -44,6 +44,22 @@ profiles, plus boss-only runs (several minutes). It writes `report.json` and
   in the config's `boss_models` are **comparison parameters, not approved
   game values**.
 
+## Levelling time and enrage timers
+
+- `tests/harness/LevelingRun.gd` (with `LevelingSim`) measures the story's clear time and
+  XP per hour on every farming ground at hero levels around it, up to the level cap, and
+  turns them into hours per level for the current curve and a proposal from target
+  hours (`--out` must be outside the repository; `--part=K/N` splits the work across
+  processes, `--merge` writes report.json and report.md).
+- `tests/harness/EnrageCompare.gd` fights every boss lair with auto battle for each
+  enrage timer in `--timers` (and none), with `--kits` gear, `--seeds` seeds and the
+  hero `--level_offset` levels from the lair's suggested level, and prints kill rate,
+  knock-outs, median and slowest kill time, how often the enrage fired and food eaten.
+- `tests/harness/ItemBudgetQuery.gd` prints the `ItemRules` budget and score of the items
+  in `--in=file.json`, so content tools price gear with the game's own rule.
+
+All three only read the data; anything they change lives in memory for one run.
+
 ## Limits
 
 - Simulation is not play: `AutoPilot` stands in for a player. A person may be

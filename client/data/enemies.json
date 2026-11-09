@@ -3558,147 +3558,6 @@
       "sprite": "core_sentinel",
       "wields": false
     },
-    "wiroj_last_stand": {
-      "name": "Director Wiroj, Last Stand",
-      "max_hp": 900,
-      "speed": 0.8,
-      "defense": 5,
-      "power": 1.0,
-      "scale": 1.3,
-      "boss": true,
-      "poise": 90,
-      "moveset": {
-        "light": "wiroj_jab",
-        "heavy": "wiroj_palm"
-      },
-      "ai": {
-        "spacing": 58,
-        "reaction": 10,
-        "cooldown": 36,
-        "cooldown_jitter": 20,
-        "heavy_chance": 0.3,
-        "heavy_cooldown": 330,
-        "grab": {
-          "chance": 0.2,
-          "every": 390,
-          "range": 130
-        }
-      },
-      "phases": [
-        {
-          "below": 0.7,
-          "speed": 0.85,
-          "power": 1.05,
-          "cooldown": 30,
-          "heavy_chance": 0.35,
-          "heavy_cooldown": 300,
-          "shield": {
-            "up": 420,
-            "down": 300
-          },
-          "hazard": {
-            "every": 100,
-            "cycle": [
-              {
-                "kind": "steam",
-                "warn": 60,
-                "damage": 24,
-                "half": [
-                  26,
-                  10
-                ]
-              },
-              {
-                "kind": "shock",
-                "warn": 55,
-                "damage": 22,
-                "half": [
-                  60,
-                  14
-                ]
-              },
-              {
-                "kind": "laser",
-                "warn": 60,
-                "damage": 26,
-                "half": [
-                  900,
-                  9
-                ]
-              }
-            ]
-          },
-          "moveset": {
-            "light": "wiroj_jab",
-            "heavy": "wiroj_sweep"
-          }
-        },
-        {
-          "below": 0.3,
-          "speed": 1.0,
-          "power": 1.15,
-          "cooldown": 22,
-          "heavy_chance": 0.6,
-          "heavy_cooldown": 270,
-          "hazard": {},
-          "moveset": {
-            "light": "wiroj_jab",
-            "heavy": "wiroj_ruin"
-          }
-        }
-      ],
-      "xp": 1500,
-      "loot": {
-        "money": [
-          2260,
-          2560
-        ],
-        "drops": [
-          {
-            "item": "heart_epic_weapon",
-            "chance": 0.15
-          },
-          {
-            "item": "heart_epic_body",
-            "chance": 0.15
-          },
-          {
-            "item": "heart_epic_head",
-            "chance": 0.15
-          },
-          {
-            "item": "heart_epic_hands",
-            "chance": 0.15
-          },
-          {
-            "item": "heart_epic_feet",
-            "chance": 0.15
-          },
-          {
-            "item": "heart_epic_charm",
-            "chance": 0.15
-          },
-          {
-            "item": "refined_alloy",
-            "chance": 1.0
-          },
-          {
-            "item": "herbal_tonic",
-            "chance": 0.5
-          }
-        ]
-      },
-      "color": "#e0e0e8",
-      "sprite": "director_wiroj",
-      "wields": false,
-      "weapon": "knife",
-      "enrage": {
-        "after_seconds": 75,
-        "warn_seconds": 10,
-        "damage": 1.5,
-        "cooldown": 0.7
-      }
-    },
     "slag_titan": {
       "name": "The Slag Titan",
       "max_hp": 1000,
@@ -4066,6 +3925,147 @@
       "weapon": "baseball_bat",
       "weapon_chance": 0.0,
       "poise": 70,
+      "enrage": {
+        "after_seconds": 75,
+        "warn_seconds": 10,
+        "damage": 1.5,
+        "cooldown": 0.7
+      }
+    },
+    "wiroj_protocol": {
+      "name": "The Wiroj Protocol",
+      "max_hp": 900,
+      "speed": 0.8,
+      "defense": 5,
+      "power": 1.0,
+      "scale": 1.3,
+      "boss": true,
+      "poise": 90,
+      "moveset": {
+        "light": "wiroj_jab",
+        "heavy": "wiroj_palm"
+      },
+      "ai": {
+        "spacing": 58,
+        "reaction": 10,
+        "cooldown": 36,
+        "cooldown_jitter": 20,
+        "heavy_chance": 0.3,
+        "heavy_cooldown": 330,
+        "grab": {
+          "chance": 0.2,
+          "every": 390,
+          "range": 130
+        }
+      },
+      "phases": [
+        {
+          "below": 0.7,
+          "speed": 0.85,
+          "power": 1.05,
+          "cooldown": 30,
+          "heavy_chance": 0.35,
+          "heavy_cooldown": 300,
+          "shield": {
+            "up": 420,
+            "down": 300
+          },
+          "hazard": {
+            "every": 100,
+            "cycle": [
+              {
+                "kind": "steam",
+                "warn": 60,
+                "damage": 24,
+                "half": [
+                  26,
+                  10
+                ]
+              },
+              {
+                "kind": "shock",
+                "warn": 55,
+                "damage": 22,
+                "half": [
+                  60,
+                  14
+                ]
+              },
+              {
+                "kind": "laser",
+                "warn": 60,
+                "damage": 26,
+                "half": [
+                  900,
+                  9
+                ]
+              }
+            ]
+          },
+          "moveset": {
+            "light": "wiroj_jab",
+            "heavy": "wiroj_sweep"
+          }
+        },
+        {
+          "below": 0.3,
+          "speed": 1.0,
+          "power": 1.15,
+          "cooldown": 22,
+          "heavy_chance": 0.6,
+          "heavy_cooldown": 270,
+          "hazard": {},
+          "moveset": {
+            "light": "wiroj_jab",
+            "heavy": "wiroj_ruin"
+          }
+        }
+      ],
+      "xp": 1500,
+      "loot": {
+        "money": [
+          2260,
+          2560
+        ],
+        "drops": [
+          {
+            "item": "heart_epic_weapon",
+            "chance": 0.15
+          },
+          {
+            "item": "heart_epic_body",
+            "chance": 0.15
+          },
+          {
+            "item": "heart_epic_head",
+            "chance": 0.15
+          },
+          {
+            "item": "heart_epic_hands",
+            "chance": 0.15
+          },
+          {
+            "item": "heart_epic_feet",
+            "chance": 0.15
+          },
+          {
+            "item": "heart_epic_charm",
+            "chance": 0.15
+          },
+          {
+            "item": "refined_alloy",
+            "chance": 1.0
+          },
+          {
+            "item": "herbal_tonic",
+            "chance": 0.5
+          }
+        ]
+      },
+      "color": "#e0e0e8",
+      "sprite": "director_wiroj",
+      "wields": false,
+      "weapon": "knife",
       "enrage": {
         "after_seconds": 75,
         "warn_seconds": 10,

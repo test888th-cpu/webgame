@@ -2323,7 +2323,7 @@
       "description": "Carried by the The Iron Heart's guards."
     },
     "heart_epic_weapon": {
-      "name": "Last Stand Knuckles",
+      "name": "Protocol Knuckles",
       "type": "equipment",
       "slot": "weapon",
       "rarity": "epic",
@@ -2335,10 +2335,10 @@
         "crit": 0.25
       },
       "icon": "ringmaster_wraps",
-      "description": "Taken from Director Wiroj, Last Stand."
+      "description": "Taken from The Wiroj Protocol."
     },
     "heart_epic_body": {
-      "name": "Last Stand Plate",
+      "name": "Protocol Plate",
       "type": "equipment",
       "slot": "body",
       "rarity": "epic",
@@ -2349,10 +2349,10 @@
         "max_hp": 171
       },
       "icon": "reactor_plate",
-      "description": "Taken from Director Wiroj, Last Stand."
+      "description": "Taken from The Wiroj Protocol."
     },
     "heart_epic_head": {
-      "name": "Last Stand Helm",
+      "name": "Protocol Helm",
       "type": "equipment",
       "slot": "head",
       "rarity": "epic",
@@ -2364,10 +2364,10 @@
         "crit": 0.07
       },
       "icon": "dockers_cap",
-      "description": "Taken from Director Wiroj, Last Stand."
+      "description": "Taken from The Wiroj Protocol."
     },
     "heart_epic_hands": {
-      "name": "Last Stand Gloves",
+      "name": "Protocol Gloves",
       "type": "equipment",
       "slot": "hands",
       "rarity": "epic",
@@ -2379,10 +2379,10 @@
         "crit": 0.2
       },
       "icon": "insulated_gloves",
-      "description": "Taken from Director Wiroj, Last Stand."
+      "description": "Taken from The Wiroj Protocol."
     },
     "heart_epic_feet": {
-      "name": "Last Stand Boots",
+      "name": "Protocol Boots",
       "type": "equipment",
       "slot": "feet",
       "rarity": "epic",
@@ -2394,10 +2394,10 @@
         "attack_speed": 0.18
       },
       "icon": "facility_boots",
-      "description": "Taken from Director Wiroj, Last Stand."
+      "description": "Taken from The Wiroj Protocol."
     },
     "heart_epic_charm": {
-      "name": "Last Stand Charm",
+      "name": "Protocol Charm",
       "type": "equipment",
       "slot": "charm",
       "rarity": "epic",
@@ -2409,7 +2409,7 @@
         "crit": 0.15
       },
       "icon": "subject_band",
-      "description": "Taken from Director Wiroj, Last Stand."
+      "description": "Taken from The Wiroj Protocol."
     },
     "titan_slagfist": {
       "name": "Titan's Slagfist",
