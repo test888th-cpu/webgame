@@ -210,6 +210,10 @@ func _make_fighter_view(f: Fighter) -> FighterView:
 		view.setup_enemy(content.enemy(f.kind), content.art, zone.enemy_level(f.id))
 		if f.elite:
 			view.mark_elite(content.enemy(f.kind))
+		elif f.id == zone.boss_id and MapRules.kind_of(content, zone.area_id) == MapRules.MINI_BOSS:
+			# The map's mini-boss mark, not the skull: a district's final boss and
+			# the one waiting before it must not look alike.
+			view.mark_mini_boss(content.enemy(f.kind))
 	return view
 
 

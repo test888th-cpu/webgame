@@ -16,6 +16,8 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 - **Shop:** tick many items and sell them at once.
 - **World bosses** are open to every hero from level 10
   (`progression.json` `world_boss_entry_level`); no story boss has to fall first.
+- **Mini-bosses** wear the map's mini-boss mark and "Mini-boss" overhead, on the boss bar
+  and in their arrival toast, instead of the boss skull.
 
 ### Added: three raid world bosses, Godforged prizes, armed world bosses
 - **The Floodgate Marshal** (Lv 56, 15 players), **The Crucible King** (Lv 64, 20) and **The

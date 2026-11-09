@@ -298,7 +298,7 @@ func _handle(event: ZoneEvent) -> void:
 			SaveStore.save(profile)
 		"spawn":
 			if event.data.get("boss", false):
-				_hud.toast("BOSS: %s" % _boss_name())
+				_hud.toast("%s: %s" % [MapRules.rank_word(content, zone.area_id), _boss_name()])
 			elif event.data.get("elite", false):
 				var name := str(content.enemy(event.data["kind"]).get("name", "enemy"))
 				_hud.toast("An elite %s joins the fight!" % name)

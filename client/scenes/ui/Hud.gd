@@ -67,6 +67,7 @@ var _quest_progress: Label
 var _quest_action: Label
 var _boss: VBoxContainer
 var _boss_name: Label
+var _boss_icon: TextureRect
 var _boss_bar: StatBar
 var _toast: PanelContainer
 var _toast_text: Label
@@ -235,8 +236,15 @@ func _process(delta: float) -> void:
 	_boss.visible = boss != null and not boss.is_ko()
 	if _boss.visible:
 		var level := zone.enemy_level(boss.id)
+		var mini := MapRules.kind_of(content, zone.area_id) == MapRules.MINI_BOSS
+		_boss_icon.texture = UiKit.icon(content, "map_mini_boss" if mini else "map_boss")
 		_boss_name.text = (
-			"%s  Lv %d" % [str(content.enemy(boss.kind).get("name", "")).to_upper(), level]
+			"%s%s  Lv %d"
+			% [
+				"MINI-BOSS " if mini else "",
+				str(content.enemy(boss.kind).get("name", "")).to_upper(),
+				level
+			]
 		)
 		var threat := LevelRules.threat(level, profile.level)
 		_boss_name.add_theme_color_override("font_color", UiTheme.THREAT[threat])
@@ -359,9 +367,9 @@ func _build_boss_bar(root: Control) -> void:
 	title.alignment = BoxContainer.ALIGNMENT_CENTER
 	title.add_theme_constant_override("separation", 4)
 	_boss.add_child(title)
-	var skull := UiKit.icon_rect(GameSession.content, "map_boss")
-	skull.name = "BossIcon"
-	title.add_child(skull)
+	_boss_icon = UiKit.icon_rect(GameSession.content, "map_boss")
+	_boss_icon.name = "BossIcon"
+	title.add_child(_boss_icon)
 	_boss_name = UiKit.overlay_label("", UiTheme.SIZE_SMALL, Color("ffb0a0"))
 	title.add_child(_boss_name)
 	_boss_bar = _bar(UiTheme.DANGER, Vector2(260, 8), false)

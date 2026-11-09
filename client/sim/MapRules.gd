@@ -155,6 +155,11 @@ static func kind_of(content: ContentDB, area_id: String) -> String:
 	return TOWN if area.get("safe", false) else AREA
 
 
+## "MINI-BOSS" where `area_id`'s boss waits before its district's end, else "BOSS".
+static func rank_word(content: ContentDB, area_id: String) -> String:
+	return "MINI-BOSS" if kind_of(content, area_id) == MINI_BOSS else "BOSS"
+
+
 ## The hero's district as the HUD route shows it: {"name", "here": the
 ## hero's index or -1, "reached": the furthest index reached, "nodes": [{
 ## "area", "number" (from 1), "state", "kind", "beaten", "goal"}]}, west to
