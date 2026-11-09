@@ -14,28 +14,6 @@ const COVER := 0.6
 const BITE := 0.3
 
 
-## How many more foods the hero may eat in this boss fight
-## (progression.json "boss_fight_food"), or -1 with no boss up. Food tops a
-## hero up between blows; it cannot stand in for gear: a boss is a test of
-## what the hero wears and has upgraded, as in the games this follows, so a
-## level 50 hero in starter clothes does not out-eat the Director.
-static func boss_food_left(zone: ZoneSim) -> int:
-	if zone.boss_id == 0:
-		return -1
-	var limit := int(zone.content.progression.get("boss_fight_food", 6))
-	return maxi(0, limit - int(zone.boss_food.get(zone.boss_id, 0)))
-
-
-## Why the hero cannot eat `item_id` now, or `fallback`: nothing to eat, or
-## this boss fight's food is gone.
-static func why_not(zone: ZoneSim, item_id: String, fallback := "") -> String:
-	if item_id == "":
-		return "Nothing to eat"
-	if boss_food_left(zone) == 0:
-		return "No more food in this boss fight"
-	return fallback
-
-
 ## Healing foods in `content`, the smallest heal first.
 static func foods(content: ContentDB) -> Array[String]:
 	var out: Array[String] = []

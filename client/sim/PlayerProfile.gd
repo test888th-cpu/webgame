@@ -378,7 +378,6 @@ static func from_dict(data: Variant, content: ContentDB) -> PlayerProfile:
 				"dealt": maxi(0, int(state.get("dealt", 0))),
 				"tiers": clampi(int(state.get("tiers", 0)), 0, boss_data["tiers"].size()),
 				"killed": bool(state.get("killed", false)),
-				"attempts": clampi(int(state.get("attempts", 0)), 0, 1000),
 			}
 			var attempt: Variant = state.get("attempt")
 			if attempt is Dictionary and attempt.has_all(["dealt", "total", "level"]):

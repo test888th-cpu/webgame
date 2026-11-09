@@ -20,7 +20,7 @@ Milestone ของ Master Prompt ใช้ชื่อ **IL-0 ถึง IL-7** 
 | ส่วน | ไฟล์ที่อ่าน |
 |---|---|
 | เอกสาร | README, ARCHITECTURE, GAME_DESIGN, CHANGELOG, CLAUDE.md, docs/ROADMAP, docs/REPOSITORY_AUDIT, docs/ASSETS, docs/UI |
-| กฎเกม (`client/sim/`) | CombatRules, Fighter, ZoneSim, BossMechanics, EnemyBrain, AutoPilot, AutoRules, FoodRules, LevelRules, LootRules, QuestRules, SkillRules, ShopRules, PlayerProfile, ContentDB, MoveLibrary |
+| กฎเกม (`client/sim/`) | CombatRules, Fighter, ZoneSim, BossMechanics, EnemyBrain, AutoPilot, AutoRules, FoodRules, GearCheck, LevelRules, LootRules, QuestRules, SkillRules, ShopRules, PlayerProfile, ContentDB, MoveLibrary |
 | ข้อมูล (`client/data/`) | areas, enemies, heroes, items, moves, progression, quests, shops, skills, weapons |
 | Presentation | `scenes/` (Game, Hud, FighterView, ZoneView, CharacterCreate, Title), `scripts/core/` (SaveStore, Sfx, InputSetup) |
 | Asset | `art/lpc/characters.json`, `art/kit/kit.json`, `art/weapons/`, `art/sounds/sounds.json` |

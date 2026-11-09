@@ -124,7 +124,7 @@ func _call_hazard(zone: ZoneSim, boss: Fighter, data: Dictionary, events: Array[
 			"at": spots[i],
 			"ticks": int(data["warn"]) + i * int(data.get("stagger", 0)),
 			"half": half,
-			"damage": roundi(float(data["damage"]) * boss.power),
+			"damage": roundi(float(data["damage"]) * boss.power * boss.hit_scale),
 			"kind": str(data.get("kind", "crane")),
 		}
 		zone.hazards.append(drop)

@@ -10,7 +10,14 @@
     "power": 0.05
   },
   "defeat_money_loss": 0.1,
-  "boss_fight_food": 6,
+  "gear_check": {
+    "story_boss": 0.5,
+    "story_per_level": 0.012,
+    "world_boss": 1.5,
+    "deal_per_shortfall": 2.0,
+    "take_per_shortfall": 4.0,
+    "min_deal": 0.1
+  },
   "sell_rate": 0.3,
   "max_characters": 4,
   "enhance": {

@@ -60,9 +60,8 @@ var pickups: Array[Dictionary] = []
 var tick_count := 0
 ## Id of the boss in the current fight, 0 if none.
 var boss_id := 0
-## Ticks until the hero may use another consumable; foods eaten per boss id.
+## Ticks until the hero may use another consumable.
 var item_cooldown := 0
-var boss_food := {}
 ## The area's difficulty level (enemies scale with it; see LevelRules).
 var level := 1
 ## Weapons lying on the street: {id, weapon, position, uses}.
@@ -209,6 +208,7 @@ func spawn_enemy(kind: String, position: Vector2) -> Fighter:
 	if data.get("boss", false):
 		boss_id = enemy.id
 		enemy.unshaken = true
+		GearCheck.apply(self, enemy)
 	return enemy
 
 
@@ -617,14 +617,14 @@ func enemy_level(id: int) -> int:
 	return int(_enemy_level.get(id, {}).get("level", 0))
 
 
-## Uses a consumable on the hero: a short shared cooldown, a few per boss fight (FoodRules).
+## Uses a consumable from the inventory on the hero. Consumables share a
+## short cooldown so healing cannot be spammed mid-combo.
 func use_item(item_id: String) -> bool:
-	if item_cooldown > 0 or hero.is_ko() or FoodRules.boss_food_left(self) == 0:
+	if item_cooldown > 0 or hero.is_ko():
 		return false
 	if not profile.use_item(item_id, hero, content):
 		return false
 	item_cooldown = content.item_cooldown
-	boss_food[boss_id] = int(boss_food.get(boss_id, 0)) + 1
 	return true
 
 
@@ -972,8 +972,7 @@ func _collect_pickups(events: Array[ZoneEvent]) -> void:
 		events.append(ZoneEvent.make("pickup", pickup))
 
 
-## What still keeps the exit on `side` shut, or {} when it is open
-## (StreetMemory.gate).
+## What still keeps the exit on `side` shut, or {} when it is open (StreetMemory.gate).
 func exit_locked(side: String) -> Dictionary:
 	return StreetMemory.gate(profile, content, area_id, side)
 

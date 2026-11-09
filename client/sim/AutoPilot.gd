@@ -140,7 +140,7 @@ func has_heals(profile: PlayerProfile) -> bool:
 func _pick_heal(zone: ZoneSim) -> String:
 	var hero := zone.hero
 	var share := float(hero.hp) / maxf(1.0, hero.max_hp)
-	if zone.item_cooldown > 0 or share >= heal_below or FoodRules.boss_food_left(zone) == 0:
+	if zone.item_cooldown > 0 or share >= heal_below:
 		return ""
 	var urgent := share < heal_below * 0.5
 	return FoodRules.choose(zone.profile, _content, hero.max_hp - hero.hp, urgent)

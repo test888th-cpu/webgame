@@ -85,28 +85,6 @@ func test_it_waits_for_the_drains_to_be_reached() -> void:
 	)
 
 
-func test_a_round_allows_a_few_tries() -> void:
-	# Falling and riding back all hour would wear down a five-player boss
-	# alone; each round gives every hero "attempts" tries.
-	var profile := _hero()
-	var now := _during(1000)
-	var round := int(WorldBossRules.window(_content(), MOTHER, now)["round"])
-	var tries := int(_spec()["attempts"])
-	assert_true(tries >= 1, "a round has tries")
-	for i in tries:
-		assert_eq(WorldBossRules.problem(profile, _content(), MOTHER, now), "", "try %d" % (i + 1))
-		WorldBossRules.begin_attempt(profile, MOTHER, round)
-	assert_eq(WorldBossRules.attempts_left(profile, _content(), MOTHER, round), 0, "all used")
-	assert_true(
-		WorldBossRules.problem(profile, _content(), MOTHER, now).contains("No tries left"),
-		"refused"
-	)
-	var next := _during(1001)
-	assert_eq(
-		WorldBossRules.problem(profile, _content(), MOTHER, next), "", "a new round, new tries"
-	)
-
-
 func test_a_world_boss_is_the_same_for_everyone() -> void:
 	# Fixed like a field boss: its level and pool never follow the hero.
 	for boss: String in _content().world_bosses:
@@ -245,7 +223,7 @@ func test_the_arena_cannot_be_walked_or_loaded_into() -> void:
 
 func test_the_round_is_saved() -> void:
 	var profile := _hero()
-	var state := {"round": 9, "dealt": 1234, "tiers": 2, "killed": false, "attempts": 2}
+	var state := {"round": 9, "dealt": 1234, "tiers": 2, "killed": false}
 	profile.world_boss = {MOTHER: state.duplicate()}
 	var loaded := PlayerProfile.from_dict(profile.to_dict(), _content())
 	assert_eq(loaded.world_boss, {MOTHER: state}, "round kept")
