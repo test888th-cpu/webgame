@@ -57,10 +57,10 @@ func problem() -> String:
 
 
 ## True when auto follows the story here: the setting is on, and this is
-## neither a farming ground nor a world boss arena.
+## neither a farming ground, a lair nor a world boss arena.
 func _follows_story() -> bool:
 	var area_id := _game.zone.area_id
-	if AreaRules.kind(_game.content, area_id) == AreaRules.FARM:
+	if AreaRules.kind(_game.content, area_id) in AreaRules.GATED:
 		return false
 	if _game.content.area(area_id).get("world_boss", false):
 		return false

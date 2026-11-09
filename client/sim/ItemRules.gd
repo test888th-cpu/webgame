@@ -42,6 +42,7 @@ const GRADES := {
 	"rare": 1.15,
 	"epic": 1.35,
 	"legendary": 1.6,
+	"mythic": 1.85,
 }
 const TOLERANCE := 0.15
 ## Who may sell each grade: the shop never sells Rare or better.

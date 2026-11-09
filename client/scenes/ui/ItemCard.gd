@@ -157,6 +157,22 @@ static func _upgrade_lines(
 	if cost.is_empty():
 		box.add_child(UiKit.label("  Fully upgraded.", UiTheme.SIZE_SMALL, UiTheme.GOLD))
 		return
+	var now_level := EnhanceRules.level(profile, slot)
+	var next := EnhanceRules.bonus_at(item, now_level + 1, content)
+	var gains: Array[String] = []
+	for key: String in ItemText.STAT_NAMES:
+		var more := float(next.get(key, 0.0)) - float(extra.get(key, 0.0))
+		if more > 0.0:
+			gains.append("%s %s" % [ItemText.bonus_value(key, more), ItemText.STAT_NAMES[key]])
+	if not gains.is_empty():
+		box.add_child(
+			UiKit.label(
+				"  Next +%d adds: %s" % [now_level + 1, ", ".join(gains)],
+				UiTheme.SIZE_CAPTION,
+				UiTheme.GOOD,
+				WIDTH - 16
+			)
+		)
 	var odds := roundi(EnhanceRules.chance(profile, slot, content) * 100.0)
 	box.add_child(
 		UiKit.label(

@@ -27,6 +27,9 @@ static func problem(
 		return (
 			"" if AreaRules.unlocked(profile, content, area_id) else "This ground is not open yet."
 		)
+	if AreaRules.kind(content, area_id) == AreaRules.LAIR:
+		if not AreaRules.unlocked(profile, content, area_id):
+			return "This lair is not open yet."
 	if not content.area(area_id).get("encounters", []).is_empty():
 		return ""
 	var world := bool(content.area(area_id).get("world_boss", false))

@@ -6,7 +6,7 @@ extends RefCounted
 ## run the same ones once the game is online.
 ##
 ## The city has one merchant (Ama's Market): its own "items" from the start,
-## and more "stock" ([{"reached": area, "from": who brings it, "items"}]) as
+## and more "stock" ([{"reached": area or "defeated": boss, "from", "items"}]) as
 ## the story reaches each chapter, the wares of the street's other traders,
 ## brought to her stall. The wares are shown in one list, food first.
 
@@ -50,7 +50,7 @@ static func wares(profile: PlayerProfile, content: ContentDB, shop_id: String) -
 	var shop: Dictionary = content.shops.get(shop_id, {})
 	var open := shop.duplicate()
 	open["stock"] = shop.get("stock", []).filter(
-		func(stock: Dictionary) -> bool: return str(stock.get("reached", "")) in profile.visited
+		func(stock: Dictionary) -> bool: return stock_open(profile, stock)
 	)
 	var out := all_items(open)
 	out.sort_custom(
@@ -66,11 +66,25 @@ static func wares(profile: PlayerProfile, content: ContentDB, shop_id: String) -
 ## Night Market.", or "" when every stock is in.
 static func next_stock(profile: PlayerProfile, content: ContentDB, shop_id: String) -> String:
 	for stock: Dictionary in content.shops.get(shop_id, {}).get("stock", []):
+		if stock_open(profile, stock):
+			continue
+		var who := str(stock.get("from", "More"))
+		if stock.has("defeated"):
+			var boss := str(stock["defeated"])
+			var foe := str(content.enemy(boss).get("name", boss))
+			return "%s brings new stock once %s is defeated." % [who, foe]
 		var place := str(stock.get("reached", ""))
-		if place not in profile.visited:
-			var name := str(content.area(place).get("name", place))
-			return "%s brings new stock once you reach %s." % [stock.get("from", "More"), name]
+		var name := str(content.area(place).get("name", place))
+		return "%s brings new stock once you reach %s." % [who, name]
 	return ""
+
+
+## True when a stock entry is in the shop: its "reached" area visited, or its
+## "defeated" boss beaten (the stock after the story, levels 50-70).
+static func stock_open(profile: PlayerProfile, stock: Dictionary) -> bool:
+	if stock.has("defeated"):
+		return int(profile.defeated.get(str(stock["defeated"]), 0)) > 0
+	return str(stock.get("reached", "")) in profile.visited
 
 
 ## What is wrong with shops.json, one message each: unknown items or areas.
@@ -83,6 +97,10 @@ static func problems(content: ContentDB) -> PackedStringArray:
 				out.append("shops.%s: unknown item %s" % [id, item_id])
 		var places: Array = [shop.get("unlock", {}).get("reached", "")]
 		for stock: Dictionary in shop.get("stock", []):
+			if stock.has("defeated"):
+				if not content.enemy(str(stock["defeated"])).get("boss", false):
+					out.append("shops.%s: stock waits on a boss, not %s" % [id, stock["defeated"]])
+				continue
 			places.append(stock.get("reached", "?"))
 		for place: Variant in places:
 			if str(place) != "" and content.area(str(place)).is_empty():

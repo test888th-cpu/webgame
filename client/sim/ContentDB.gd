@@ -15,7 +15,7 @@ const ITEM_TYPES := ["consumable", "equipment", "material", "key"]
 ## hand-in (quests.json "dialogue").
 const DIALOGUE_LINES := ["offer", "active", "done"]
 ## From most common to rarest; the UI colours names by rarity.
-const RARITIES := ["common", "uncommon", "rare", "epic", "legendary"]
+const RARITIES := ["common", "uncommon", "rare", "epic", "legendary", "mythic"]
 const EXIT_SIDES := ["west", "east"]
 ## NPC roles: people (shop, quests, travel) and things to use (a workbench
 ## that opens the upgrade screen, a notice board to read). A thing names the
@@ -253,6 +253,10 @@ func validate() -> void:
 				items.get(item_id, {}).get("type") == "material",
 				"%s.items: %s is not a material" % [where, item_id]
 			)
+	for band: Variant in enhance.get("item_level_costs", []):
+		var ok: bool = band is Dictionary and int(band.get("from_level", 0)) >= 1
+		ok = ok and float(band.get("coins", 0)) >= 1.0 and float(band.get("items", 0)) >= 1.0
+		_check(ok, "progression.enhance.item_level_costs: {from_level >= 1, coins, items >= 1}")
 	for i in tutorial.size():
 		var step: Variant = tutorial[i]
 		var where := "tutorial.steps[%d]" % i
@@ -785,7 +789,7 @@ func _validate_city() -> void:
 	var exits: Dictionary = city.get("exits", {})
 	_check(exits.keys() == ["east"], where + ": its one way out is the gate east")
 	for id: String in areas:
-		if AreaRules.kind(self, id) in [AreaRules.FARM, AreaRules.WORLD_BOSS]:
+		if AreaRules.kind(self, id) in [AreaRules.FARM, AreaRules.LAIR, AreaRules.WORLD_BOSS]:
 			continue
 		for side: String in areas[id].get("exits", {}):
 			_check(
