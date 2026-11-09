@@ -74,16 +74,21 @@ func test_a_slain_boss_is_gone_until_its_next_round() -> void:
 		assert_eq(WorldBossRules.problem(profile, c, MOTHER, _during(8)), "", "any number of tries")
 
 
-func test_an_emptied_pool_is_a_kill_even_when_banked_after_a_quit() -> void:
-	# The tab closed on the killing blow: settle() banks the attempt. The boss
-	# is dead, so it pays and stays down, never 0 HP and standing.
+func test_an_emptied_pool_keeps_the_boss_down_even_when_banked_after_a_quit() -> void:
+	# The tab closed on the last blow: settle() banks the attempt. Only a kill
+	# seen to the end pays (test_item_safety), but the boss stays down: never
+	# 0 HP and standing for a one-hit rematch.
 	var c := _content()
 	var profile := _hero()
 	var total := WorldBossRules.pool(c, MOTHER)
 	WorldBossRules.note_attempt(profile, MOTHER, 9, total, total, 32)
 	var settled := WorldBossRules.settle(profile, c, _rng())
-	assert_true(settled[MOTHER]["kill"], "the emptied pool pays the kill")
-	assert_true(WorldBossRules.fallen(profile, MOTHER, 9), "and the boss stays down")
+	assert_true(not settled[MOTHER]["kill"], "a cut-short attempt pays nothing")
+	assert_true(WorldBossRules.fallen(profile, MOTHER, 9), "but the boss stays down")
+	assert_true(
+		WorldBossRules.problem(profile, c, MOTHER, _during(9)).begins_with("Already defeated"),
+		"no rematch at 0 HP"
+	)
 
 
 func test_at_the_end_of_the_hour_the_boss_escapes_off_the_arena() -> void:

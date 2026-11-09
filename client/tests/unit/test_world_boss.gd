@@ -305,7 +305,7 @@ func test_a_group_boss_pays_by_ones_part_when_it_falls_once() -> void:
 
 
 func test_rare_drops_are_rare() -> void:
-	# Over many kills the exclusive legendaries turn up near their chance:
+	# Over many kills the exclusive Godforged prizes turn up near their chance:
 	# hard to get, never guaranteed.
 	var boss := "subject_zero"
 	var rng := _rng()
@@ -317,4 +317,6 @@ func test_rare_drops_are_rare() -> void:
 	var chance := float(_spec(boss)["kill"]["rolls"]["iron_legacy"])
 	assert_true(found > 0 and found < 400 * chance * 3.0, "rare: %d in 400 kills" % found)
 	for item_id: String in ["colossus_core", "piston_gauntlets", "zeros_mantle", "iron_legacy"]:
-		assert_eq(str(_content().item(item_id)["rarity"]), "legendary", "%s is legendary" % item_id)
+		# World boss prizes are their own top grade (the owner's call: far above
+		# story gear), no longer Legendary like a story boss's.
+		assert_eq(str(_content().item(item_id)["rarity"]), "godforged", "%s is Godforged" % item_id)

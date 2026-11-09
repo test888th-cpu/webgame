@@ -72,10 +72,12 @@ static func problem(profile: PlayerProfile, content: ContentDB, boss: String, no
 	return ""
 
 
-## True when `boss` has fallen in round `round` (its pool emptied).
+## True when `boss` has fallen in round `round`: killed, or its whole pool
+## dealt (an attempt cut short on the last blow).
 static func fallen(profile: PlayerProfile, boss: String, round: int) -> bool:
 	var state: Dictionary = profile.world_boss.get(boss, {})
-	return int(state.get("round", -1)) == round and bool(state.get("killed", false))
+	var down := bool(state.get("killed", false)) or bool(state.get("down", false))
+	return int(state.get("round", -1)) == round and down
 
 
 ## "1h 12m" or "42m" until `boss` next rises (the round after this one).
@@ -143,9 +145,11 @@ static func award(
 	state["dealt"] = mini(total, int(state["dealt"]) + maxi(0, dealt))
 	var paid := {"tiers": [], "kill": false, "money": 0, "items": {}}
 	state.erase("attempt")
-	# The whole pool dealt is a kill, however the attempt ended (a closed tab
-	# banked by settle() included): the boss never stands with an empty bar.
-	slain = slain or (total > 0 and int(state["dealt"]) >= total)
+	# The whole pool dealt keeps the boss down for the round, however the
+	# attempt ended (a closed tab banked by settle() included): it never stands
+	# again with an empty bar. Only a kill seen to the end pays.
+	if total > 0 and int(state["dealt"]) >= total:
+		state["down"] = true
 	if not slain or state.get("killed", false):
 		return paid
 	var scale := 1.0 + LevelRules.MONEY_PER_LEVEL * (level - 1)

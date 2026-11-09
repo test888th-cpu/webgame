@@ -6021,6 +6021,165 @@
           ]
         }
       ]
+    },
+    "floodgate_barracks": {
+      "name": "Floodgate Barracks",
+      "level": 54,
+      "width": 1300,
+      "safe": false,
+      "world_boss": true,
+      "theme": "canal",
+      "kit_theme": "tunnels",
+      "palette": {
+        "sky": "#06101a",
+        "buildings": [
+          "#0f2232",
+          "#132a3c",
+          "#0b1a28"
+        ],
+        "windows": "#7fd4ff",
+        "sidewalk": "#33424c",
+        "street": "#121c26"
+      },
+      "exits": {
+        "west": {
+          "to": "main_city",
+          "entry": "west"
+        }
+      },
+      "encounters": [
+        {
+          "trigger_x": 120,
+          "arena": [
+            60,
+            1280
+          ],
+          "max_alive": 4,
+          "waves": [
+            [
+              "floodgate_marshal"
+            ]
+          ]
+        }
+      ],
+      "obstacles": [
+        {
+          "kind": "crates",
+          "x": 340,
+          "y": 258
+        },
+        {
+          "kind": "oil_drums",
+          "x": 1000,
+          "y": 258
+        }
+      ]
+    },
+    "crucible_pit": {
+      "name": "The Crucible Pit",
+      "level": 62,
+      "width": 1300,
+      "safe": false,
+      "world_boss": true,
+      "theme": "canal",
+      "kit_theme": "junkyard",
+      "palette": {
+        "sky": "#1c0804",
+        "buildings": [
+          "#3a1408",
+          "#46190a",
+          "#2e1006"
+        ],
+        "windows": "#ff8a3c",
+        "sidewalk": "#4e3a30",
+        "street": "#2a140c"
+      },
+      "exits": {
+        "west": {
+          "to": "main_city",
+          "entry": "west"
+        }
+      },
+      "encounters": [
+        {
+          "trigger_x": 120,
+          "arena": [
+            60,
+            1280
+          ],
+          "max_alive": 4,
+          "waves": [
+            [
+              "crucible_king"
+            ]
+          ]
+        }
+      ],
+      "obstacles": [
+        {
+          "kind": "car_wreck",
+          "x": 360,
+          "y": 262
+        },
+        {
+          "kind": "oil_drums",
+          "x": 1040,
+          "y": 258
+        }
+      ]
+    },
+    "founders_floor": {
+      "name": "The Founder's Floor",
+      "level": 68,
+      "width": 1300,
+      "safe": false,
+      "world_boss": true,
+      "theme": "canal",
+      "kit_theme": "tunnels",
+      "palette": {
+        "sky": "#0e0c06",
+        "buildings": [
+          "#2a2410",
+          "#342c14",
+          "#211c0c"
+        ],
+        "windows": "#ffd25a",
+        "sidewalk": "#4a4436",
+        "street": "#221e14"
+      },
+      "exits": {
+        "west": {
+          "to": "main_city",
+          "entry": "west"
+        }
+      },
+      "encounters": [
+        {
+          "trigger_x": 120,
+          "arena": [
+            60,
+            1280
+          ],
+          "max_alive": 4,
+          "waves": [
+            [
+              "founders_engine"
+            ]
+          ]
+        }
+      ],
+      "obstacles": [
+        {
+          "kind": "crates",
+          "x": 340,
+          "y": 258
+        },
+        {
+          "kind": "oil_drums",
+          "x": 1000,
+          "y": 258
+        }
+      ]
     }
   }
 }

@@ -128,10 +128,15 @@ func on_event(event: ZoneEvent) -> void:
 			if not _drops.is_empty():
 				_drops.pop_front().land()
 			var sound := {
-				"steam": "steam_hiss", "sludge": "steam_hiss", "shock": "zap", "laser": "laser_beam"
+				"steam": "steam_hiss",
+				"sludge": "steam_hiss",
+				"shock": "zap",
+				"laser": "laser_beam",
+				"quake": "break_metal",
+				"rain": "break_metal",
 			}
 			Sfx.play(sound.get(event.data.get("kind"), "break_metal"), -2.0)
-			if event.data.get("kind", "crane") == "crane":
+			if event.data.get("kind", "crane") in ["crane", "quake"]:
 				# A container hitting the street: the ground shakes.
 				view.shake(4.0)
 			var kind := str(event.data.get("kind", "crane"))

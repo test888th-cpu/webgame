@@ -158,6 +158,159 @@ WORLD_BOSSES = [
                    ("sovereign_treads", "Sovereign Treads", "feet"), ("sovereign_seal", "Sovereign Seal", "charm")],
         "grade": "godforged", "item_level": 70,
     },
+] + [
+    # Three raid bosses, one for each band past the story (50-60, 60-65, 65-70): each stronger
+    # than the last, built for more players, armed, with its own moves and skills (the "quake"
+    # column and "rain" volley hazards among them) and its own arena. Values are a first pass,
+    # tuned here and re-run.
+    {
+        "id": "floodgate_marshal", "name": "The Floodgate Marshal", "clone": "commander_arthit",
+        "spec_clone": "subject_zero", "level": 56, "players": 15, "tint": "#8fc8ff", "weapon": "pipe",
+        "arena": "floodgate_barracks", "arena_name": "Floodgate Barracks", "arena_clone": "sunken_reservoir",
+        "arena_palette": {"sky": "#06101a", "buildings": ["#0f2232", "#132a3c", "#0b1a28"], "windows": "#7fd4ff",
+                          "sidewalk": "#33424c", "street": "#121c26"},
+        "unlock": "arthit_reinstated", "period_minutes": 240, "offset_minutes": 60,
+        "prizes": [("marshal_greatcoat", "Marshal's Greatcoat", "body"),
+                   ("marshal_visor", "Marshal's Floodlight Visor", "head"),
+                   ("marshal_sabatons", "Marshal's Sabatons", "feet")],
+        "grade": "godforged", "item_level": 56,
+        "moves": {
+            "marshal_baton": ("arthit_baton", {"damage": 1.3, "reach": 1.4}),
+            "marshal_charge": ("colossus_charge", {"damage": 1.15, "advance": 1.2}),
+            "marshal_floodslam": ("colossus_stomp", {"damage": 1.2, "reach": 1.15}),
+            "marshal_tidebreaker": ("colossus_overload", {"damage": 1.15}),
+        },
+        "enemy": {
+            "max_hp": 1250, "power": 1.25, "defense": 6, "speed": 0.75, "scale": 2.2, "poise": 160, "xp": 5200,
+            "moveset": {"light": "marshal_baton", "heavy": "marshal_charge"},
+            "ai": {"spacing": 70, "reaction": 10, "cooldown": 38, "cooldown_jitter": 20, "heavy_chance": 0.3,
+                   "heavy_cooldown": 320},
+            "hazard": {"every": 200, "cycle": [
+                {"kind": "laser", "warn": 60, "damage": 26, "half": [900, 9]},
+                {"kind": "quake", "warn": 60, "damage": 28, "half": [24, 90]}]},
+            "summon": {"enemy": "vault_trooper", "every": 560, "count": 2, "max": 3},
+            "phases": [
+                {"below": 0.6, "speed": 0.82, "power": 1.3, "cooldown": 32, "heavy_chance": 0.38,
+                 "heavy_cooldown": 300,
+                 "moveset": {"light": "marshal_baton", "heavy": "marshal_floodslam"},
+                 "hazard": {"every": 150, "cycle": [
+                     {"kind": "quake", "warn": 55, "damage": 30, "half": [24, 90]},
+                     {"kind": "laser", "warn": 55, "damage": 28, "half": [900, 9]},
+                     {"kind": "shock", "warn": 55, "damage": 26, "half": [60, 14]}]}},
+                {"below": 0.3, "speed": 0.9, "power": 1.35, "cooldown": 28, "heavy_chance": 0.45,
+                 "heavy_cooldown": 280, "shield": {"up": 280, "down": 360}, "summon_every": 420,
+                 "moveset": {"light": "marshal_baton", "heavy": "marshal_tidebreaker"},
+                 "hazard": {"every": 110, "cycle": [
+                     {"kind": "quake", "warn": 50, "damage": 32, "half": [24, 90], "count": 2,
+                      "spread": [220, 0], "stagger": 14},
+                     {"kind": "laser", "warn": 50, "damage": 30, "half": [900, 9]}]}},
+            ],
+        },
+    },
+    {
+        "id": "crucible_king", "name": "The Crucible King", "clone": "furnace_baron",
+        "spec_clone": "subject_zero", "level": 64, "players": 20, "tint": "#ffb070", "weapon": "wrench",
+        "arena": "crucible_pit", "arena_name": "The Crucible Pit", "arena_clone": "old_scrapyard",
+        "arena_palette": {"sky": "#1c0804", "buildings": ["#3a1408", "#46190a", "#2e1006"], "windows": "#ff8a3c",
+                          "sidewalk": "#4e3a30", "street": "#2a140c"},
+        "unlock": "k7_overdriven", "period_minutes": 480, "offset_minutes": 180,
+        "prizes": [("crucible_maul", "Crucible King's Maul", "weapon"),
+                   ("crucible_gauntlets", "Crucible Gauntlets", "hands"),
+                   ("crucible_heart", "Heart of the Crucible", "charm")],
+        "grade": "godforged", "item_level": 64,
+        "moves": {
+            "crucible_haymaker": ("baron_haymaker", {"damage": 1.35, "reach": 1.4}),
+            "crucible_rush": ("baron_rush", {"damage": 1.25, "advance": 1.3}),
+            "crucible_eruption": ("baron_furnace", {"damage": 1.3, "reach": 1.3}),
+            "crucible_meltdown": ("colossus_overload", {"damage": 1.2, "reach": 1.1}),
+        },
+        "enemy": {
+            "max_hp": 1350, "power": 1.3, "defense": 6, "speed": 0.8, "scale": 2.4, "poise": 170, "xp": 6400,
+            "moveset": {"light": "crucible_haymaker", "heavy": "crucible_rush"},
+            "ai": {"spacing": 74, "reaction": 9, "cooldown": 36, "cooldown_jitter": 18, "heavy_chance": 0.32,
+                   "heavy_cooldown": 300},
+            "hazard": {"every": 190, "cycle": [
+                {"kind": "rain", "warn": 55, "damage": 22, "half": [14, 8], "count": 6,
+                 "spread": [240, 40], "stagger": 6},
+                {"kind": "steam", "warn": 55, "damage": 28, "half": [26, 10]}]},
+            "summon": {"enemy": "furnace_hauler", "every": 540, "count": 2, "max": 3},
+            "phases": [
+                {"below": 0.66, "speed": 0.86, "power": 1.35, "cooldown": 30, "heavy_chance": 0.4,
+                 "heavy_cooldown": 280,
+                 "moveset": {"light": "crucible_haymaker", "heavy": "crucible_eruption"},
+                 "hazard": {"every": 140, "cycle": [
+                     {"kind": "rain", "warn": 50, "damage": 24, "half": [14, 8], "count": 8,
+                      "spread": [280, 44], "stagger": 5},
+                     {"kind": "quake", "warn": 55, "damage": 30, "half": [24, 90]},
+                     {"kind": "steam", "warn": 50, "damage": 30, "half": [26, 10]}]}},
+                {"below": 0.33, "speed": 0.92, "power": 1.42, "cooldown": 26, "heavy_chance": 0.5,
+                 "heavy_cooldown": 260, "shield": {"up": 300, "down": 340}, "summon_every": 400,
+                 "moveset": {"light": "crucible_haymaker", "heavy": "crucible_meltdown"},
+                 "hazard": {"every": 100, "cycle": [
+                     {"kind": "rain", "warn": 45, "damage": 26, "half": [14, 8], "count": 10,
+                      "spread": [320, 46], "stagger": 4},
+                     {"kind": "quake", "warn": 50, "damage": 32, "half": [24, 90], "count": 2,
+                      "spread": [200, 0], "stagger": 12}]}},
+            ],
+        },
+    },
+    {
+        "id": "founders_engine", "name": "The Founder's Engine", "clone": "unit_k7",
+        "spec_clone": "subject_zero", "level": 70, "players": 30, "tint": "#ffe08a", "weapon": "machete",
+        "arena": "founders_floor", "arena_name": "The Founder's Floor", "arena_clone": "sovereign_vault",
+        "arena_palette": {"sky": "#0e0c06", "buildings": ["#2a2410", "#342c14", "#211c0c"], "windows": "#ffd25a",
+                          "sidewalk": "#4a4436", "street": "#221e14"},
+        "unlock": "wiroj_protocol", "period_minutes": 1440, "offset_minutes": 840,
+        "prizes": [("founders_edge", "The Founder's Edge", "weapon"), ("founders_plate", "Founder's Plate", "body"),
+                   ("founders_halo", "Founder's Halo", "head"), ("founders_engine_core", "Engine Heart", "charm")],
+        "grade": "godforged", "item_level": 70,
+        "moves": {
+            "founder_piston": ("k7_piston", {"damage": 1.45, "reach": 1.5}),
+            "founder_press": ("k7_press", {"damage": 1.35, "reach": 1.35}),
+            "founder_overdrive": ("k7_overdrive", {"damage": 1.35, "advance": 1.35}),
+            "founder_cataclysm": ("colossus_overload", {"damage": 1.3, "reach": 1.2}),
+            "founder_last_light": ("wiroj_ruin", {"damage": 1.35, "reach": 1.3}),
+        },
+        "enemy": {
+            "max_hp": 1500, "power": 1.35, "defense": 7, "speed": 0.8, "scale": 2.6, "poise": 190, "xp": 8000,
+            "moveset": {"light": "founder_piston", "heavy": "founder_press"},
+            "ai": {"spacing": 80, "reaction": 9, "cooldown": 34, "cooldown_jitter": 16, "heavy_chance": 0.34,
+                   "heavy_cooldown": 310},
+            "hazard": {"every": 180, "cycle": [
+                {"kind": "laser", "warn": 58, "damage": 28, "half": [900, 9]},
+                {"kind": "shock", "warn": 55, "damage": 26, "half": [60, 14]},
+                {"kind": "quake", "warn": 58, "damage": 30, "half": [24, 90]}]},
+            "summon": {"enemy": "iron_sentry", "every": 520, "count": 2, "max": 3},
+            "phases": [
+                {"below": 0.7, "speed": 0.86, "power": 1.4, "cooldown": 30, "heavy_chance": 0.4,
+                 "heavy_cooldown": 290,
+                 "moveset": {"light": "founder_piston", "heavy": "founder_overdrive"},
+                 "hazard": {"every": 130, "cycle": [
+                     {"kind": "rain", "warn": 50, "damage": 24, "half": [14, 8], "count": 8,
+                      "spread": [300, 44], "stagger": 5},
+                     {"kind": "laser", "warn": 52, "damage": 30, "half": [900, 9]},
+                     {"kind": "crane", "warn": 60, "damage": 30, "half": [30, 10]}]}},
+                {"below": 0.4, "speed": 0.92, "power": 1.45, "cooldown": 26, "heavy_chance": 0.48,
+                 "heavy_cooldown": 275, "shield": {"up": 300, "down": 330}, "summon_every": 380,
+                 "moveset": {"light": "founder_piston", "heavy": "founder_cataclysm"},
+                 "hazard": {"every": 100, "cycle": [
+                     {"kind": "quake", "warn": 48, "damage": 32, "half": [24, 90], "count": 3,
+                      "spread": [260, 0], "stagger": 10},
+                     {"kind": "shock", "warn": 48, "damage": 30, "half": [60, 14]},
+                     {"kind": "rain", "warn": 45, "damage": 26, "half": [14, 8], "count": 10,
+                      "spread": [320, 46], "stagger": 4}]}},
+                {"below": 0.15, "speed": 1.0, "power": 1.5, "cooldown": 22, "heavy_chance": 0.55,
+                 "heavy_cooldown": 262,
+                 "moveset": {"light": "founder_piston", "heavy": "founder_last_light"},
+                 "hazard": {"every": 85, "cycle": [
+                     {"kind": "laser", "warn": 46, "damage": 32, "half": [900, 9]},
+                     {"kind": "quake", "warn": 46, "damage": 34, "half": [24, 90], "count": 3,
+                      "spread": [260, 0], "stagger": 8},
+                     {"kind": "rain", "warn": 42, "damage": 28, "half": [14, 8], "count": 12,
+                      "spread": [340, 46], "stagger": 3}]}},
+            ],
+        },
+    },
 ]
 
 NOUNS = {
@@ -380,8 +533,27 @@ def lair_area(areas, lair_id, name, ground, boss_id, guard, unlock, purpose):
     areas[lair_id] = lair
 
 
-def world_boss(enemies, areas, specs, items, wb):
+def boss_moves(moves, wb):
+    """A boss's own moves: each copies an existing move (its timing, its telegraph, so it reads
+    fair) and multiplies the listed numbers (damage, reach, advance)."""
+    for move_id, (source, scale) in wb.get("moves", {}).items():
+        move = json.loads(json.dumps(moves[source]))
+        for key, factor in scale.items():
+            move[key] = int(round(float(move[key]) * factor))
+        moves[move_id] = move
+
+
+def world_boss(enemies, areas, specs, items, wb, moves):
     data = json.loads(json.dumps(enemies[wb["clone"]]))
+    boss_moves(moves, wb)
+    if "enemy" in wb:
+        # A raid boss of its own: the clone gives the sprite and the body; everything it does
+        # in the fight (moves, skills, phases, summons) is its own.
+        for key in ("hazard", "summon", "phases", "moveset", "ai"):
+            data.pop(key, None)
+        data.update(json.loads(json.dumps(wb["enemy"])))
+        data["boss"] = True
+        data["wields"] = False
     data["name"] = wb["name"]
     data["tint"] = wb["tint"]
     data["weapon"] = wb["weapon"]  # world bosses fight armed (held weapons last longer: LevelRules)
@@ -392,13 +564,15 @@ def world_boss(enemies, areas, specs, items, wb):
     arena = json.loads(json.dumps(areas[wb["arena_clone"]]))
     arena["name"] = wb["arena_name"]
     arena["level"] = wb["level"] - 2
+    if "arena_palette" in wb:
+        arena["palette"] = dict(wb["arena_palette"])
     arena["encounters"] = [{"trigger_x": 120, "arena": [60, 1280], "max_alive": 4, "waves": [[wb["id"]]]}]
     areas[wb["arena"]] = arena
     prize_ids = []
     for item_id, name, slot in wb["prizes"]:
         make_item(items, item_id, name, slot, wb["grade"], wb["item_level"], "A prize of %s." % wb["name"])
         prize_ids.append(item_id)
-    base = json.loads(json.dumps(specs[wb["clone"]]))
+    base = json.loads(json.dumps(specs[wb.get("spec_clone", wb["clone"])]))
     rare_roll = 0.03 if wb["players"] >= 10 else 0.05
     rolls = {p: rare_roll for p in prize_ids}
     base.update({
@@ -473,8 +647,9 @@ def main():
         tier_enemies(enemies, tier, gear[tier["key"]])
         ground_area(areas, tier)
     gap_area(areas, enemies, items)
+    moves_doc = load("moves.json")
     for wb in WORLD_BOSSES:
-        world_boss(enemies, areas, specs, items, wb)
+        world_boss(enemies, areas, specs, items, wb, moves_doc["moves"])
     godforge_world_boss_prizes(items, specs)
     price_pending(items)
     shop_stock(shops_doc.get("shops", shops_doc), TIERS, gear)
@@ -482,7 +657,7 @@ def main():
     themes[GAP_GROUND["boss"][0]] = fx["bosses"][GAP_GROUND["boss"][2]]
     themes.update({wb["id"]: fx["bosses"][wb["clone"]] for wb in WORLD_BOSSES})
     for name, doc in (("items.json", items_doc), ("enemies.json", enemies_doc), ("areas.json", areas_doc),
-                      ("shops.json", shops_doc), ("world_boss.json", wb_doc)):
+                      ("shops.json", shops_doc), ("world_boss.json", wb_doc), ("moves.json", moves_doc)):
         save(name, doc)
     boss_fx(DATA / "boss_fx.json", themes)
     count = len(PENDING)

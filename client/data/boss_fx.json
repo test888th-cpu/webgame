@@ -21,6 +21,9 @@
     "tunnel_mother": "toxic",
     "iron_colossus": "tech",
     "subject_zero": "shadow",
+    "founders_engine": "tech",
+    "crucible_king": "fire",
+    "floodgate_marshal": "tech",
     "wiroj_protocol": "tech",
     "spillway_chief": "brawl",
     "iron_sovereign": "shadow",
@@ -39,6 +42,8 @@
     "steam": "steam_burst",
     "shock": "shock_zap",
     "laser": "hit",
-    "sludge": "sludge_splash"
+    "sludge": "sludge_splash",
+    "quake": "slam",
+    "rain": "hit_heavy"
   }
 }

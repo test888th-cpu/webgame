@@ -2577,6 +2577,157 @@
       },
       "icon": "dockers_cap",
       "description": "Taken from the Spillway Chief."
+    },
+    "marshal_greatcoat": {
+      "name": "Marshal's Greatcoat",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "godforged",
+      "level": 56,
+      "price": 0,
+      "stats": {
+        "defense": 24,
+        "max_hp": 250
+      },
+      "icon": "zeros_mantle",
+      "description": "A prize of The Floodgate Marshal."
+    },
+    "marshal_visor": {
+      "name": "Marshal's Floodlight Visor",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "godforged",
+      "level": 56,
+      "price": 0,
+      "stats": {
+        "defense": 14,
+        "max_hp": 181,
+        "crit": 0.17
+      },
+      "icon": "core_guard_helm",
+      "description": "A prize of The Floodgate Marshal."
+    },
+    "marshal_sabatons": {
+      "name": "Marshal's Sabatons",
+      "type": "equipment",
+      "slot": "feet",
+      "rarity": "godforged",
+      "level": 56,
+      "price": 0,
+      "stats": {
+        "speed": 0.52,
+        "defense": 11,
+        "attack_speed": 0.27
+      },
+      "icon": "walkway_boots",
+      "description": "A prize of The Floodgate Marshal."
+    },
+    "crucible_maul": {
+      "name": "Crucible King's Maul",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "godforged",
+      "level": 64,
+      "price": 0,
+      "stats": {
+        "power": 2.91,
+        "crit": 0.32,
+        "attack_speed": 0.26
+      },
+      "icon": "arthit_baton",
+      "description": "A prize of The Crucible King."
+    },
+    "crucible_gauntlets": {
+      "name": "Crucible Gauntlets",
+      "type": "equipment",
+      "slot": "hands",
+      "rarity": "godforged",
+      "level": 64,
+      "price": 0,
+      "stats": {
+        "power": 0.88,
+        "defense": 7,
+        "crit": 0.26,
+        "attack_speed": 0.17
+      },
+      "icon": "grip_gloves",
+      "description": "A prize of The Crucible King."
+    },
+    "crucible_heart": {
+      "name": "Heart of the Crucible",
+      "type": "equipment",
+      "slot": "charm",
+      "rarity": "godforged",
+      "level": 64,
+      "price": 0,
+      "stats": {
+        "max_hp": 254,
+        "power": 0.44,
+        "crit": 0.16,
+        "attack_speed": 0.16
+      },
+      "icon": "colossus_core",
+      "description": "A prize of The Crucible King."
+    },
+    "founders_edge": {
+      "name": "The Founder's Edge",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "godforged",
+      "level": 70,
+      "price": 0,
+      "stats": {
+        "power": 3.16,
+        "crit": 0.35,
+        "attack_speed": 0.28
+      },
+      "icon": "arthit_baton",
+      "description": "A prize of The Founder's Engine."
+    },
+    "founders_plate": {
+      "name": "Founder's Plate",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "godforged",
+      "level": 70,
+      "price": 0,
+      "stats": {
+        "defense": 30,
+        "max_hp": 308
+      },
+      "icon": "zeros_mantle",
+      "description": "A prize of The Founder's Engine."
+    },
+    "founders_halo": {
+      "name": "Founder's Halo",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "godforged",
+      "level": 70,
+      "price": 0,
+      "stats": {
+        "defense": 17,
+        "max_hp": 223,
+        "crit": 0.21
+      },
+      "icon": "core_guard_helm",
+      "description": "A prize of The Founder's Engine."
+    },
+    "founders_engine_core": {
+      "name": "Engine Heart",
+      "type": "equipment",
+      "slot": "charm",
+      "rarity": "godforged",
+      "level": 70,
+      "price": 0,
+      "stats": {
+        "max_hp": 276,
+        "power": 0.47,
+        "crit": 0.18,
+        "attack_speed": 0.18
+      },
+      "icon": "colossus_core",
+      "description": "A prize of The Founder's Engine."
     }
   }
 }
