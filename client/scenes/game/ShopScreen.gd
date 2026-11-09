@@ -7,6 +7,11 @@ extends RefCounted
 ## Left/Right change the amount, Enter on the list trades one. Prices and
 ## what may be sold come from ShopRules; Game's _buy/_sell make the change
 ## and rebuild the screen, which reopens on the same tab and item.
+##
+## Selling many at once: on the Sell tab each item can be ticked (the "Tick"
+## box by its deal bar; "[x]" in the list), and "Sell ticked" sells every
+## ticked stack in one go. The ticks survive the screen's rebuilds (kept on
+## the game node as the "sell_ticked" meta) and are cleared once sold.
 
 const SIZE := Vector2(600, 318)
 const LIST_WIDTH := 190.0
@@ -86,7 +91,15 @@ static func _page(game: Game, npc: Dictionary, mode: String, chosen: String) -> 
 	list.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	list.fixed_icon_size = Vector2i(16, 16)
 	list.allow_reselect = true
-	page.add_child(list)
+	if mode == "sell":
+		var column := VBoxContainer.new()
+		column.add_theme_constant_override("separation", UiTheme.GAP)
+		column.add_child(list)
+		column.add_child(_many_bar(game, npc, ids))
+		page.add_child(column)
+	else:
+		page.add_child(list)
+	var ticked := ticks(game)
 	var detail := VBoxContainer.new()
 	detail.name = "Detail"
 	detail.add_theme_constant_override("separation", UiTheme.GAP)
@@ -101,7 +114,7 @@ static func _page(game: Game, npc: Dictionary, mode: String, chosen: String) -> 
 		if mode == "sell":
 			var plus := EnhanceRules.item_level(profile, ids[i])
 			var name := "%s +%d" % [item["name"], plus] if plus else str(item["name"])
-			text = "%s  x%d   %d" % [name, count, price]
+			text = "%s%s  x%d   %d" % ["[x] " if ticked.has(ids[i]) else "", name, count, price]
 		list.add_item(text, UiKit.icon(content, item["icon"]))
 		var dim := mode == "buy" and profile.money < price
 		list.set_item_custom_fg_color(i, UiTheme.TEXT_FAINT if dim else ItemText.rarity_color(item))
@@ -178,6 +191,15 @@ static func _deal(
 		card.add_child(
 			UiKit.label("Its upgrades are lost when sold.", UiTheme.SIZE_SMALL, UiTheme.DANGER)
 		)
+	if mode == "sell":
+		var tick := CheckBox.new()
+		tick.name = "Tick"
+		tick.text = "Tick to sell with others"
+		tick.focus_mode = Control.FOCUS_NONE
+		tick.add_theme_font_size_override("font_size", UiTheme.SIZE_SMALL)
+		tick.button_pressed = ticks(game).has(item_id)
+		tick.toggled.connect(func(on: bool) -> void: set_tick(game, npc, item_id, on))
+		detail.add_child(tick)
 	detail.add_child(_bar(game, npc, detail, mode, item_id))
 
 
@@ -271,3 +293,92 @@ static func _trade(game: Game, npc: Dictionary, mode: String, item_id: String, a
 		game._buy(npc, item_id, amount)
 	else:
 		game._sell(npc, item_id, amount)
+
+
+## The items ticked to sell together: {item key: true}.
+static func ticks(game: Game) -> Dictionary:
+	if not game.has_meta("sell_ticked"):
+		game.set_meta("sell_ticked", {})
+	return game.get_meta("sell_ticked")
+
+
+## Ticks or unticks `item_id`, then shows the screen again on it.
+static func set_tick(game: Game, npc: Dictionary, item_id: String, on: bool) -> void:
+	if on:
+		ticks(game)[item_id] = true
+	else:
+		ticks(game).erase(item_id)
+	Sfx.play("ui_move", -6.0)
+	game.menu_focus = "sell:" + item_id
+	game.open_shop(npc)
+
+
+## Under the Sell list: tick all or none, and sell every ticked stack.
+static func _many_bar(game: Game, npc: Dictionary, ids: Array) -> Control:
+	var ticked := ticks(game)
+	for key: String in ticked.keys():
+		if key not in ids:
+			ticked.erase(key)  # sold or gone since
+	var coins := 0
+	var precious := false
+	for key: String in ticked:
+		coins += ShopRules.sell_price(game.content, key) * game.profile.count(key)
+		precious = precious or EnhanceRules.item_level(game.profile, key) > 0
+		precious = precious or ContentDB.RARITIES.find(str(game.content.item(key)["rarity"])) >= 2
+	var box := HBoxContainer.new()
+	box.name = "Many"
+	box.add_theme_constant_override("separation", UiTheme.GAP)
+	var all := UiKit.button("Tick all", func() -> void: _tick_all(game, npc, ids, true))
+	all.name = "TickAll"
+	var none := UiKit.button("Clear", func() -> void: _tick_all(game, npc, ids, false))
+	none.name = "TickNone"
+	var sell := UiKit.button("Sell ticked (%d)  %d" % [ticked.size(), coins], func() -> void: pass)
+	sell.name = "SellTicked"
+	sell.disabled = ticked.is_empty()
+	sell.pressed.connect(
+		func() -> void:
+			# Rare gear or upgraded items among them: ask once more.
+			if precious and not sell.text.begins_with("Sure?"):
+				sell.text = "Sure? %d items" % ticked.size()
+				sell.add_theme_color_override("font_color", UiTheme.DANGER)
+				return
+			sell_ticked(game, npc)
+	)
+	for button: Button in [all, none, sell]:
+		button.focus_mode = Control.FOCUS_NONE
+		button.add_theme_font_size_override("font_size", UiTheme.SIZE_SMALL)
+		box.add_child(button)
+	return box
+
+
+static func _tick_all(game: Game, npc: Dictionary, ids: Array, on: bool) -> void:
+	var ticked := ticks(game)
+	ticked.clear()
+	if on:
+		for key: String in ids:
+			ticked[key] = true
+	Sfx.play("ui_move", -6.0)
+	game.menu_focus = game.menu_focus if game.menu_focus.begins_with("sell:") else "sell:"
+	game.open_shop(npc)
+
+
+## Sells every ticked stack (ShopRules.sell, one stack at a time), says what
+## it came to, saves once and shows the Sell tab again.
+static func sell_ticked(game: Game, npc: Dictionary) -> void:
+	var ticked := ticks(game)
+	var sold := 0
+	var coins := 0
+	for key: String in ticked.keys():
+		var price := ShopRules.sell_price(game.content, key)
+		var count := game.profile.count(key)
+		while count > 0:  # in deals of at most ShopRules.MAX_AMOUNT
+			var deal := mini(count, ShopRules.MAX_AMOUNT)
+			if ShopRules.sell(game.profile, key, game.content, deal) != "":
+				break
+			sold += deal
+			coins += price * deal
+			count -= deal
+	ticked.clear()
+	game._trade_done("" if sold > 0 else "nothing", "Sold %d items for %d coins" % [sold, coins])
+	game.menu_focus = "sell:"
+	game.open_shop(npc)

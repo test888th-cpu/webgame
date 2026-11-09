@@ -181,3 +181,37 @@ func test_an_upgraded_copy_has_its_own_cell_in_the_bag() -> void:
 	assert_eq([own.count, own.upgrade], [1, 10], "the +10 one on its own")
 	_check_layout(game.menu, "bag with copies")
 	_done(game)
+
+
+func test_ticking_several_items_sells_them_in_one_go() -> void:
+	var game := _game()
+	var npc := {"name": "Ama", "shop": "city_market", "role": "shop"}
+	game.profile.add_item("steamed_bun", 3)
+	game.profile.add_item("scrap_metal", 120)
+	game.profile.add_item("brass_knuckles")
+	game.menu_focus = "sell:steamed_bun"
+	game.open_shop(npc)
+	var tick := game.menu.find_child("Tick", true, false) as CheckBox
+	assert_true(tick != null and not tick.button_pressed, "each item can be ticked")
+	tick.button_pressed = true
+	game.menu_focus = "sell:scrap_metal"
+	game.open_shop(npc)
+	(game.menu.find_child("Tick", true, false) as CheckBox).button_pressed = true
+	var tabs := game.menu.find_child("Tabs", true, false) as TabContainer
+	var list := tabs.get_child(1).find_child("List", true, false) as ItemList
+	var marked := 0
+	for i in list.item_count:
+		marked += int(list.get_item_text(i).begins_with("[x] "))
+	assert_eq(marked, 2, "ticked rows are marked")
+	var bun := ShopRules.sell_price(game.content, "steamed_bun")
+	var scrap := ShopRules.sell_price(game.content, "scrap_metal")
+	var sell := game.menu.find_child("SellTicked", true, false) as Button
+	assert_true(sell.text.begins_with("Sell ticked (2)"), sell.text)
+	var money := game.profile.money
+	sell.pressed.emit()
+	assert_eq(game.profile.count("steamed_bun"), 0, "every bun sold")
+	assert_eq(game.profile.count("scrap_metal"), 0, "120 scrap sold, past one deal's 99")
+	assert_eq(game.profile.count("brass_knuckles"), 1, "an unticked item stays")
+	assert_eq(game.profile.money, money + bun * 3 + scrap * 120, "paid for all of it")
+	assert_true(ShopScreen.ticks(game).is_empty(), "the ticks are cleared")
+	_done(game)
