@@ -57,7 +57,7 @@ func test_the_core_follows_the_control_room() -> void:
 	assert_eq(str(gate["defeat"]), "commander_arthit", "opened by beating Arthit")
 	var wiroj := _content().enemy("director_wiroj")
 	var level := LevelRules.enemy_level(wiroj, int(_content().area("core_chamber")["level"]))
-	assert_eq(level, int(_content().progression["max_level"]), "Wiroj fights at the level cap")
+	assert_eq(level, 50, "Wiroj fights at 50, the top of the story (levels 51-70 come after it)")
 
 
 func test_wiroj_has_three_distinct_phases() -> void:

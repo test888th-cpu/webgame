@@ -163,13 +163,7 @@ func equip_problem(item_id: String, content: ContentDB) -> String:
 
 
 func xp_to_next(content: ContentDB) -> int:
-	var curve: Dictionary = content.progression.get("xp", {})
-	var steps := level - 1
-	return (
-		int(curve.get("base", 40))
-		+ int(curve.get("growth", 0)) * steps
-		+ int(curve.get("square", 0)) * steps * steps
-	)
+	return LevelRules.xp_to_next(content.progression.get("xp", {}), level)
 
 
 func max_level(content: ContentDB) -> int:

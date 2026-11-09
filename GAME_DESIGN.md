@@ -175,7 +175,8 @@ Network Backrooms (29, after the Counting House), Facility Annex (37, after Mach
 Hall) and Core Overflow (50, after Director Wiroj). The level is a **suggested** level
 for the fights there ("suggested Lv" on the taxi and map), never a requirement to
 enter: a ground opens on its unlock rule alone. Core Overflow is for endgame materials
-and coins; at the level cap (50) no XP is earned there, as anywhere.
+and coins and is the bridge from the story into levels 50 and beyond (the cap is 70; see
+"Levels 50-70").
 
 Fights repeat: once every fight in a ground is won, they all come back as soon as the
 hero is back at its west end (walking back, arriving by taxi or loading a save there),

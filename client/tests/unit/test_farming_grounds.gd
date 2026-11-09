@@ -251,7 +251,8 @@ func test_the_map_shows_a_grounds_level_as_a_suggestion_and_what_it_is_for() -> 
 		assert_true("No level needed to enter" in lines.text, gid + ": not a requirement")
 		panel.free()
 	assert_eq(MapRules.about(profile, c, "saltmarket", "depot_yard")["purpose"], "", "streets")
-	assert_true("no XP" in str(c.area("farm_core_overflow")["purpose"]), "the cap is said")
+	var bridge := str(c.area("farm_core_overflow")["purpose"])
+	assert_true("beyond" in bridge, "Core Overflow says it leads past level 50")
 
 
 func test_auto_battle_farms_each_ground_at_its_level() -> void:

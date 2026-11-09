@@ -138,7 +138,7 @@ func test_elites_and_bosses_fight_above_their_area() -> void:
 func test_chapters_climb_their_level_bands() -> void:
 	# Chapter 1's streets run levels 1-10, Chapter 2's 11-16, Chapter 3's 19-24
 	# Chapter 4's 26-31, Chapter 5's 33-39 and the final chapter's 42-48 (its
-	# boss at the level cap); their elites and bosses stand at most two higher.
+	# boss at 50, the top of the story); their elites and bosses stand at most two higher.
 	var bands := {
 		"gang_hq": [1, 10],
 		"crane_yard": [11, 16],
@@ -164,7 +164,7 @@ func test_chapters_climb_their_level_bands() -> void:
 		assert_true(top <= int(band[1]) + 2, "%s's toughest foe stays near the band" % area_id)
 		assert_true(level >= low, "%s never drops a level" % area_id)
 		low = level
-	assert_eq(_content().progression["max_level"], 50, "the hero can reach level 50")
+	assert_eq(_content().progression["max_level"], 70, "the hero can reach level 70")
 
 
 func test_early_enemies_are_simple_minded() -> void:
@@ -237,7 +237,10 @@ func test_far_weaker_enemies_pay_little_xp() -> void:
 
 func test_a_straight_run_keeps_the_hero_near_each_area_level() -> void:
 	# Clearing each area once and handing in each quest on the way leaves the
-	# hero within two levels of every area on arrival (from the Canal Works on).
+	# hero within two levels of every area on arrival (from the Canal Works on)
+	# until the final chapter (areas from level 42), where the curve's ramp into
+	# 50 (C1) lets a hero who only plays the story fall up to six behind: the
+	# farming grounds (the level 43 one fills the gap) are the way to catch up.
 	var quests := _content().quests
 	var hero := PlayerProfile.new_game(_content())
 	var kills := {}
@@ -246,7 +249,8 @@ func test_a_straight_run_keeps_the_hero_near_each_area_level() -> void:
 		var area := _content().area(area_id)
 		var level := int(area["level"])
 		if level >= 3:
-			assert_true(absi(hero.level - level) <= 2, "%s: hero %d" % [area_id, hero.level])
+			var slack := 6 if level >= 42 else 2
+			assert_true(absi(hero.level - level) <= slack, "%s: hero %d" % [area_id, hero.level])
 		for enemy_id: String in _encounter_enemies(area):
 			var data := _content().enemy(enemy_id)
 			var at := LevelRules.enemy_level(data, level)

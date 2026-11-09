@@ -39,7 +39,10 @@ func test_xp_levels_up_and_refills_hp() -> void:
 
 func test_big_xp_gives_several_levels_and_stops_at_cap() -> void:
 	var p := _profile()
-	var gained := p.add_xp(1000000, _content())
+	var curve: Dictionary = _content().progression["xp"]
+	var gained := p.add_xp(
+		LevelingSim.xp_between(curve, 1, p.max_level(_content())) + 1, _content()
+	)
 	assert_eq(p.level, p.max_level(_content()), "capped")
 	assert_eq(gained, p.max_level(_content()) - 1, "levels gained")
 	assert_eq(p.add_xp(100, _content()), 0, "no XP past the cap")

@@ -30,15 +30,7 @@ const TICKS_PER_HOUR := CombatRules.TICK_RATE * 3600
 ## "square"} as progression.json "xp", plus optional "levels" {"N": xp} that
 ## overrides single levels (a proposed curve).
 static func xp_to_next(curve: Dictionary, level: int) -> int:
-	var overrides: Dictionary = curve.get("levels", {})
-	if overrides.has(str(level)):
-		return int(overrides[str(level)])
-	var steps := level - 1
-	return (
-		int(curve.get("base", 0))
-		+ int(curve.get("growth", 0)) * steps
-		+ int(curve.get("square", 0)) * steps * steps
-	)
+	return LevelRules.xp_to_next(curve, level)
 
 
 ## Total XP from level `from` to level `to` under `curve`.

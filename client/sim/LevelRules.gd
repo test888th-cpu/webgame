@@ -106,6 +106,21 @@ static func threat(enemy_level: int, hero_level: int) -> String:
 	return _threat(enemy_level, hero_level)["id"]
 
 
+## XP from `level` to the next under `curve` (progression.json "xp"): the
+## formula base + growth * steps + square * steps^2, unless "levels" names that
+## level ({"N": xp}), so any level's cost can be tuned in data alone.
+static func xp_to_next(curve: Dictionary, level: int) -> int:
+	var overrides: Dictionary = curve.get("levels", {})
+	if overrides.has(str(level)):
+		return int(overrides[str(level)])
+	var steps := level - 1
+	return (
+		int(curve.get("base", 40))
+		+ int(curve.get("growth", 0)) * steps
+		+ int(curve.get("square", 0)) * steps * steps
+	)
+
+
 ## The share of its XP an enemy pays a hero at `hero_level`.
 static func xp_scale(enemy_level: int, hero_level: int) -> float:
 	return float(_threat(enemy_level, hero_level)["xp"])

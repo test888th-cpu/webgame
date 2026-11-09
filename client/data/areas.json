@@ -5005,7 +5005,7 @@
       },
       "kind": "farm",
       "region": "Main Control Centre",
-      "purpose": "The Core's overflow halls after the story, run by its backup machines and holdout troopers: endgame Scrap Metal, Refined Alloy and coins. A hero at the level cap (50) earns no XP here, as anywhere.",
+      "purpose": "The Core's overflow halls after the story, run by its backup machines and holdout troopers: endgame Scrap Metal, Refined Alloy and coins, and the bridge from the story into levels 50 and beyond.",
       "unlock": {
         "defeated": "director_wiroj"
       },

@@ -19,8 +19,10 @@ func test_the_story_alone_ends_a_little_short_of_the_cap() -> void:
 		quests += int(quest["rewards"].get("xp", 0))
 	assert_eq(model["quest_xp"], quests, "every quest's XP counted once")
 	var level := int(model["level"])
-	assert_true(level >= 47 and level <= 49, "one story pass ends at level 47-49 (%d)" % level)
-	assert_true(int(model["to_cap"]) > 0, "level 50 still needs XP after the story")
+	# The curve slows from level 38 (the C1 ramp into 50), so the story alone
+	# ends a few levels short and the farming grounds carry the hero to 50.
+	assert_true(level >= 44 and level <= 47, "one story pass ends at level 44-47 (%d)" % level)
+	assert_true(int(model["to_cap"]) > 0, "the cap still needs XP after the story")
 	assert_eq(model["areas"].size(), StreetMemory.street(_content()).size(), "every story area")
 
 

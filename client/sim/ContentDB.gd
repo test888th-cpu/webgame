@@ -872,6 +872,16 @@ func _validate_progression() -> void:
 		_number(xp, "growth", "progression.xp", 0)
 		if xp.has("square"):
 			_number(xp, "square", "progression.xp", 0)
+		var top := int(progression.get("max_level", 1))
+		var levels: Variant = xp.get("levels", {})
+		_check(levels is Dictionary, "progression.xp.levels: expected an object")
+		if levels is Dictionary:
+			for key: Variant in levels:
+				var at := int(str(key)) if str(key).is_valid_int() else 0
+				_check(
+					at >= 1 and at < top, "progression.xp.levels.%s: a level below the cap" % key
+				)
+				_check(int(levels[key]) > 0, "progression.xp.levels.%s: XP above 0" % key)
 
 
 func _validate_skills() -> void:
