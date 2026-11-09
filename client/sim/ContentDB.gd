@@ -157,67 +157,10 @@ func hero(id: String) -> Dictionary:
 
 ## The art a profile's hero shows: the look of the worn body item if the hero
 ## has art for it (e.g. "armoured"), else the hero's default.
-## Where `item_id` comes from, for players: who drops it (and how often, and
-## where they fight), who sells it, which quest gives it. Worked out from
-## the loot tables, shops and quests, so it can never disagree with them.
-## Each entry is {"kind": "drop" | "shop" | "quest", "text"}; drops come
-## first, most likely first.
+## Where `key` comes from, for players: drops, field elites, world boss
+## rewards, shops and quests (ItemSources).
 func sources(key: String) -> Array[Dictionary]:
-	var item_id := base_id(key)
-	var drops: Array[Dictionary] = []
-	for enemy_id: String in enemies:
-		for drop: Dictionary in enemies[enemy_id].get("loot", {}).get("drops", []):
-			if drop["item"] != item_id:
-				continue
-			var where := _first_area_of(enemy_id)
-			(
-				drops
-				. append(
-					{
-						"kind": "drop",
-						"chance": float(drop["chance"]),
-						"text":
-						(
-							"%s (%d%%)%s"
-							% [
-								enemies[enemy_id]["name"],
-								roundi(float(drop["chance"]) * 100.0),
-								"  -  " + where if where else ""
-							]
-						),
-					}
-				)
-			)
-	drops.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["chance"] > b["chance"])
-	var found: Array[Dictionary] = []
-	found.append_array(drops)
-	for shop_id: String in shops:
-		if item_id in ShopRules.all_items(shops[shop_id]):
-			found.append(
-				{
-					"kind": "shop",
-					"text": "%s, %d coins" % [shops[shop_id]["name"], int(item(item_id)["price"])]
-				}
-			)
-	for quest_id: String in quests:
-		if quests[quest_id].get("rewards", {}).get("items", {}).has(item_id):
-			found.append({"kind": "quest", "text": 'Quest "%s"' % quests[quest_id]["name"]})
-	return found
-
-
-## The first area (in street order from the start) where `enemy_id` fights.
-func _first_area_of(enemy_id: String) -> String:
-	for area_id: String in areas:
-		var area_data: Dictionary = areas[area_id]
-		var found := false
-		for placed: Dictionary in area_data.get("placed", []):
-			found = found or placed["enemy"] == enemy_id
-		for encounter: Dictionary in area_data.get("encounters", []):
-			for wave: Variant in encounter.get("waves", []):
-				found = found or enemy_id in JSON.stringify(wave)
-		if found:
-			return str(area_data["name"])
-	return ""
+	return ItemSources.of(self, key)
 
 
 func hero_art(profile: PlayerProfile) -> String:
