@@ -30,6 +30,13 @@ const PUNCHES: Array[String] = [
 ## fighters: it does not slide along after them.
 const FOLLOWS: Array[String] = ["rush", "whirlwind"]
 const GROUND: Array[String] = ["slam"]
+## A wide hazard's landing effect plays every FIELD_GAP px across a shocked
+## field and every LASER_GAP px along a laser, within LASER_SPAN of the hero
+## (what is on screen), MAX_SPOTS at most.
+const FIELD_GAP := 36.0
+const LASER_GAP := 90.0
+const LASER_SPAN := 360.0
+const MAX_SPOTS := 9
 
 var content: ContentDB
 var view: ZoneView
@@ -120,13 +127,19 @@ func on_event(event: ZoneEvent) -> void:
 				str(event.data.get("kind", "crane")),
 				event.data.get("half", Vector2(30, 10))
 			)
+			var at: Vector2 = event.data["at"]
+			var road := view.zone.bounds
+			drop.lane = Vector2(road.position.y - at.y, road.end.y - at.y)
 			view.effects.add_child(drop)
 			_drops.append(drop)
 			Sfx.play("hazard_warn", -8.0)
 		"hazard_hit":
 			_drops = _drops.filter(func(d: HazardView) -> bool: return is_instance_valid(d))
+			var half := Vector2(30, 10)
 			if not _drops.is_empty():
-				_drops.pop_front().land()
+				var landed: HazardView = _drops.pop_front()
+				half = landed.half
+				landed.land()
 			var sound := {
 				"steam": "steam_hiss",
 				"sludge": "steam_hiss",
@@ -141,7 +154,8 @@ func on_event(event: ZoneEvent) -> void:
 				view.shake(4.0)
 			var kind := str(event.data.get("kind", "crane"))
 			var landing := BossFxRules.hazard(content, kind)
-			Fx.spawn(view.effects, content, landing if landing else "dust", event.data["at"])
+			for spot in hazard_spots(kind, event.data["at"], half):
+				Fx.spawn(view.effects, content, landing if landing else "dust", spot)
 			view.shake(6.0)
 
 
@@ -411,3 +425,21 @@ func _enrage(event: ZoneEvent) -> void:
 	view.shake(5.0)
 	if boss:
 		view.show_text("ENRAGED", boss.position + Vector2(0, -40), UiTheme.GOLD)
+
+
+## Where a landing hazard's effect plays: across its whole footprint, so a
+## wide one reads as one big strike, not a burst in its middle: lightning all
+## over a shocked field, sparks all along a laser beam (the stretch on screen
+## around the hero), one burst for anything narrow.
+static func hazard_spots(kind: String, at: Vector2, half: Vector2) -> Array[Vector2]:
+	var spots: Array[Vector2] = []
+	var reach := minf(half.x, LASER_SPAN) if kind == "laser" else half.x
+	var gap := LASER_GAP if kind == "laser" else FIELD_GAP
+	var count := clampi(floori(reach * 2.0 / gap) + 1, 1, MAX_SPOTS)
+	if kind not in ["shock", "laser"] or count <= 1:
+		return [at] as Array[Vector2]
+	for i in count:
+		var x := -reach + reach * 2.0 * i / (count - 1)
+		var dy := 0.0 if kind == "laser" else half.y * (0.5 if i % 2 == 0 else -0.5)
+		spots.append(at + Vector2(x, dy))
+	return spots

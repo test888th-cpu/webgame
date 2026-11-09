@@ -146,3 +146,20 @@ func test_every_hazard_kind_draws() -> void:
 			await tree.process_frame
 		view.free()
 	assert_true(true, "every kind drew, waiting and landing")
+
+
+func test_wide_hazards_strike_across_their_whole_footprint() -> void:
+	# A shocked field and a laser are struck by many effects across their
+	# width, not one burst in the middle; anything narrow lands once.
+	var at := Vector2(500, 300)
+	var shock := GameFeedback.hazard_spots("shock", at, Vector2(60, 14))
+	assert_true(shock.size() >= 3, "lightning across the field (%d)" % shock.size())
+	var xs := shock.map(func(p: Vector2) -> float: return p.x)
+	assert_near(xs.min(), at.x - 60.0, "from one edge", 0.01)
+	assert_near(xs.max(), at.x + 60.0, "to the other", 0.01)
+	var laser := GameFeedback.hazard_spots("laser", at, Vector2(900, 9))
+	assert_true(laser.size() >= 5, "sparks along the beam (%d)" % laser.size())
+	assert_true(laser.size() <= GameFeedback.MAX_SPOTS, "within reason")
+	assert_eq(
+		GameFeedback.hazard_spots("crane", at, Vector2(30, 10)), [at] as Array[Vector2], "one"
+	)

@@ -36,6 +36,10 @@ const FLICKER := 0.05
 var kind := "crane"
 ## Half the footprint it hits (as ZoneSim measures it).
 var half := Vector2(30, 10)
+## The road's top and bottom edge (y, relative to this node): the street a
+## "quake" is drawn on, so its crack never climbs onto the pavement or the
+## shopfronts. Set by GameFeedback from the zone's bounds.
+var lane := Vector2(-INF, INF)
 var _left := 1.0
 var _total := 1.0
 var _landed := false
@@ -94,12 +98,22 @@ func _draw() -> void:
 	if _landed or _left <= FALL_SECONDS:
 		var box := Vector2(half.x * 2.0, half.x * 2.0 * BOX_HEIGHT)
 		var top := Vector2(-box.x / 2.0, -box.y - fall * DROP_HEIGHT)
+		# A shipping container in pixel-art shading: lit roof, darker base,
+		# corrugated ribs with a highlight each, and steel corner castings.
 		draw_rect(Rect2(top, box), STEEL)
+		draw_rect(Rect2(top, Vector2(box.x, 3)), STEEL.lightened(0.3))
+		draw_rect(Rect2(top + Vector2(0, box.y - 4), Vector2(box.x, 4)), RIB)
 		var ribs := maxi(4, roundi(box.x / 9.0))
 		for i in range(1, ribs):
 			var x := top.x + box.x * i / ribs
-			draw_line(Vector2(x, top.y + 3), Vector2(x, top.y + box.y - 3), RIB, 2.0)
-		draw_rect(Rect2(top, box), EDGE, false, 2.0)
+			draw_line(Vector2(x, top.y + 4), Vector2(x, top.y + box.y - 5), RIB, 2.0)
+			draw_line(
+				Vector2(x + 2, top.y + 4), Vector2(x + 2, top.y + box.y - 5), STEEL.lightened(0.15)
+			)
+		for corner in [top, top + Vector2(box.x - 4, 0), top + Vector2(0, box.y - 4)]:
+			draw_rect(Rect2(corner, Vector2(4, 4)), EDGE)
+		draw_rect(Rect2(top + Vector2(box.x - 4, box.y - 4), Vector2(4, 4)), EDGE)
+		draw_rect(Rect2(top, box), EDGE, false, 1.0)
 		# Two crane cables to the corners, cut the moment it lands.
 		if not _landed:
 			for corner in [top + Vector2(4, 0), top + Vector2(box.x - 4, 0)]:
@@ -114,79 +128,102 @@ func _ellipse_outline(radius: Vector2, color: Color) -> void:
 	draw_polyline(points, color, 1.5)
 
 
-func _ellipse(radius: Vector2, color: Color) -> void:
+func _ellipse(radius: Vector2, color: Color, center := Vector2.ZERO) -> void:
 	var points := PackedVector2Array()
 	for i in 24:
 		var angle := TAU * i / 24.0
-		points.append(Vector2(cos(angle) * radius.x, sin(angle) * radius.y))
+		points.append(center + Vector2(cos(angle) * radius.x, sin(angle) * radius.y))
 	draw_colored_polygon(points, color)
 
 
-## A floor vent as wide as what it hits, hissing wisps that thicken as it
+## A round floor vent as wide as what it hits, hissing wisps that thicken as it
 ## comes; the column itself is the pixelfx burst on landing (steam_burst,
 ## sludge_splash), after which only the vent stays, glowing as it cools.
 func _draw_steam(near: float) -> void:
-	var vent := Rect2(-half.x * 0.6, -3, half.x * 1.2, 6)
-	draw_rect(vent, GRATE)
-	var bars := maxi(3, roundi(vent.size.x / 6.0))
+	var vent := Vector2(half.x * 0.6, 3.5)
+	_ellipse(vent, GRATE)
+	var bars := maxi(3, roundi(vent.x / 3.0))
 	for i in range(1, bars):
-		var x := vent.position.x + vent.size.x * i / bars
-		draw_line(Vector2(x, -3), Vector2(x, 3), GRATE_BAR, 1.0)
+		var x := -vent.x + vent.x * 2.0 * i / bars
+		var depth := vent.y * sqrt(maxf(0.0, 1.0 - pow(x / vent.x, 2.0)))
+		draw_line(Vector2(x, -depth), Vector2(x, depth), GRATE_BAR, 1.0)
 	var tint := SLUDGE if kind == "sludge" else STEAM
 	if _landed:
-		draw_rect(vent, Color(tint, 0.5 * maxf(0.0, 1.0 - _since_landed)), false, 1.0)
+		_ellipse_outline(vent, Color(tint, 0.5 * maxf(0.0, 1.0 - _since_landed)))
 		return
 	for i in 4:
 		var rise := fmod(near * 3.0 + i * 0.25, 1.0)
-		var x := vent.position.x + vent.size.x * (i + 0.5) / 4.0 + sin(rise * 9.0 + i) * 2.0
+		var x := -vent.x + vent.x * 2.0 * (i + 0.5) / 4.0 + sin(rise * 9.0 + i) * 2.0
 		draw_circle(
 			Vector2(x, -4.0 - rise * 14.0 * near), 1.5 + near * 2.0, Color(tint, 0.35 * near)
 		)
 
 
-## A band across the lane, its full width: a thin aiming line that thickens
-## and flickers as it charges, then the beam: a soft glow, a bright band and a
-## white core that narrow as it fades.
+## A beam across the lane, its full width: while it charges, a dashed aiming
+## line that flickers over a soft glow building at the hero's depth; when it
+## fires, layered light (a wide haze, the beam, a white-hot core) that narrows
+## as it fades. Spark sprites burst along it (GameFeedback), so it reads as
+## light, not a painted band.
 func _draw_laser(near: float, pulse: float) -> void:
-	var band := Rect2(-half.x, -half.y, half.x * 2.0, half.y * 2.0)
 	if not _landed:
-		draw_rect(band, Color(LASER, 0.08 + 0.2 * near + 0.08 * pulse))
-		var aim := Color(LASER, 0.5 + 0.5 * pulse)
-		draw_line(Vector2(-half.x, 0), Vector2(half.x, 0), aim, 1.0 + near)
+		for layer in 3:
+			var width := half.y * (1.0 + layer) * (0.4 + 0.8 * near)
+			var alpha := (0.05 + 0.12 * near) / (layer + 1.0)
+			draw_line(Vector2(-half.x, 0), Vector2(half.x, 0), Color(LASER, alpha), width)
+		var dash := 10.0
+		var x := -half.x + fmod(near * 160.0, dash * 2.0)
+		while x < half.x:
+			var aim := Color(LASER, 0.4 + 0.5 * pulse)
+			draw_line(Vector2(x, 0), Vector2(minf(x + dash, half.x), 0), aim, 1.0 + near)
+			x += dash * 2.0
 		return
 	var fade := clampf(1.0 - _since_landed / 0.35, 0.0, 1.0)
-	var glow := Rect2(-half.x, -half.y * 1.6, half.x * 2.0, half.y * 3.2)
-	draw_rect(glow, Color(LASER, 0.25 * fade))
 	var beam := half.y * (0.4 + 0.6 * fade)
-	draw_rect(Rect2(-half.x, -beam, half.x * 2.0, beam * 2.0), Color(LASER, 0.85))
+	draw_line(Vector2(-half.x, 0), Vector2(half.x, 0), Color(LASER, 0.15 * fade), beam * 5.0)
+	draw_line(Vector2(-half.x, 0), Vector2(half.x, 0), Color(LASER, 0.35 * fade), beam * 3.0)
+	draw_line(Vector2(-half.x, 0), Vector2(half.x, 0), Color(LASER, 0.85), beam * 1.6)
 	draw_line(Vector2(-half.x, 0), Vector2(half.x, 0), Color(1, 0.92, 0.92), 1.0 + 2.0 * fade)
 
 
-## A floor plate the size of what it hits: its seams glow brighter as it
-## charges, with a stray spark now and then; on landing the plate flashes and
-## arcs crackle across it, a new pattern every FLICKER seconds, dying away.
+## An electric field on the ground, an oval the size of what it hits: a soft
+## glow that brightens as it charges, its rim pulsing, arcs crawling across it
+## (more as it comes, a new pattern every FLICKER seconds); when it fires the
+## field flashes and bolts leap up from it, while lightning sprites strike
+## across the whole field (GameFeedback, shock_zap).
 func _draw_shock(near: float, pulse: float) -> void:
-	var plate := Rect2(-half.x, -half.y, half.x * 2.0, half.y * 2.0)
-	draw_rect(plate, Color(0.15, 0.17, 0.22, 0.6))
-	var fade := clampf(1.0 - _since_landed / 0.6, 0.0, 1.0) if _landed else 1.0
-	var bright := (0.2 + 0.5 * near + 0.2 * pulse) if not _landed else 0.9 * fade
-	var glow := Color(SPARK, bright)
-	draw_rect(plate, glow, false, 1.5)
-	var seams := maxi(2, roundi(plate.size.x / 30.0))
-	for i in range(1, seams):
-		var x := plate.position.x + plate.size.x * i / seams
-		draw_line(Vector2(x, -half.y), Vector2(x, half.y), Color(glow, glow.a * 0.6), 1.0)
+	var field := Vector2(half.x, half.y * 1.3)
 	_bolts.seed = int((_total - _left + _since_landed) / FLICKER) * 7919 + get_instance_id()
 	if not _landed:
-		if near > 0.5 and _bolts.randf() < near:
-			_bolt(_bolts.randf_range(-half.x, half.x), 2, 4.0, Color(SPARK, 0.6))
+		_ellipse(field, Color(SPARK, 0.06 + 0.16 * near + 0.06 * pulse))
+		_ellipse_outline(field, Color(SPARK, 0.2 + 0.5 * near * pulse))
+		for arc in 1 + roundi(near * 4.0):
+			_ground_arc(field, Color(SPARK, 0.35 + 0.5 * near))
 		return
+	var fade := clampf(1.0 - _since_landed / 0.6, 0.0, 1.0)
 	if fade <= 0.0:
 		return
-	draw_rect(plate, Color(SPARK, 0.35 * fade))
-	for i in seams + 1:
-		var x := plate.position.x + plate.size.x * (i + _bolts.randf()) / (seams + 1)
+	_ellipse(field * (1.0 + 0.25 * (1.0 - fade)), Color(SPARK, 0.35 * fade))
+	for arc in 4:
+		_ground_arc(field, Color(1, 1, 1, 0.9 * fade))
+	for bolt in 4:
+		var x := _bolts.randf_range(-field.x * 0.8, field.x * 0.8)
 		_bolt(x, 4, 5.0 + half.y * 0.6, Color(1, 1, 1, 0.9 * fade))
+
+
+## A jagged arc crawling along the ground between two points of `field` (an
+## oval's half size): a soft glow under a bright line.
+func _ground_arc(field: Vector2, color: Color) -> void:
+	var from := Vector2(
+		_bolts.randf_range(-field.x, 0.0), _bolts.randf_range(-field.y, field.y) * 0.6
+	)
+	var to := Vector2(_bolts.randf_range(0.0, field.x), _bolts.randf_range(-field.y, field.y) * 0.6)
+	var points := PackedVector2Array([from])
+	for step in range(1, 6):
+		var at := from.lerp(to, step / 6.0)
+		points.append(at + Vector2(0, _bolts.randf_range(-4.0, 4.0)))
+	points.append(to)
+	draw_polyline(points, Color(SPARK, color.a * 0.35), 3.0)
+	draw_polyline(points, color, 1.0)
 
 
 ## A jagged arc rising from (x, 0): `steps` kinks, each `rise` higher.
@@ -204,25 +241,28 @@ func _bolt(x: float, steps: int, rise: float, color: Color) -> void:
 ## chunks of road jump and fall back.
 func _draw_quake(near: float, pulse: float) -> void:
 	_bolts.seed = get_instance_id()
+	var top := maxf(-half.y, lane.x)
+	var bottom := minf(half.y, lane.y)
 	var points := PackedVector2Array()
 	var steps := 8
 	for i in steps + 1:
-		var y := -half.y + half.y * 2.0 * i / steps
+		var y := top + (bottom - top) * i / steps
 		points.append(Vector2(_bolts.randf_range(-half.x * 0.5, half.x * 0.5), y))
-	var zone := Rect2(-half.x, -half.y, half.x * 2.0, half.y * 2.0)
+	var glow := Vector2(half.x * 1.4, (bottom - top) / 2.0)
+	var middle := Vector2(0, (top + bottom) / 2.0)
 	if not _landed:
-		draw_rect(zone, Color(CRACK, 0.06 + 0.14 * near + 0.06 * pulse))
+		_ellipse(glow, Color(CRACK, 0.05 + 0.12 * near + 0.05 * pulse), middle)
 		draw_polyline(points, Color(0.1, 0.05, 0.03, 0.4 + 0.5 * near), 2.0 + 2.0 * near)
 		draw_polyline(points, Color(CRACK, 0.3 + 0.6 * near * pulse), 1.0)
 		return
 	var fade := clampf(1.0 - _since_landed / 0.7, 0.0, 1.0)
-	draw_rect(zone, Color(CRACK, 0.3 * fade))
+	_ellipse(glow * (1.0 + 0.2 * (1.0 - fade)), Color(CRACK, 0.25 * fade), middle)
 	draw_polyline(points, Color(0.08, 0.04, 0.02, 0.9 * fade), 5.0)
 	draw_polyline(points, Color(1, 0.85, 0.5, fade), 2.0)
 	for i in 6:
 		var jump := sin(clampf(_since_landed / 0.5, 0.0, 1.0) * PI) * (10.0 + i * 3.0)
 		var at := points[i + 1] + Vector2((i % 2) * 8.0 - 4.0, -jump)
-		draw_rect(Rect2(at - Vector2(2, 2), Vector2(4, 4)), Color(0.35, 0.3, 0.28, fade))
+		draw_circle(at, 2.5, Color(0.35, 0.3, 0.28, fade))
 
 
 ## One drop of a rain volley: a glowing mark on the ground that tightens as

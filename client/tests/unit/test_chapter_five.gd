@@ -1,8 +1,11 @@
 extends TestCase
 ## Chapter 5, The Core Facility: four areas past Rattanachai Tower, Dr. Pim's
 ## quest chain, Subject 12 (a worker The Core changed) mid-chapter and
-## Commander Arthit at the end, whose security lasers sweep a whole lane
-## (hazard kind "laser") while he calls a trooper in.
+## Commander Arthit at the end, whose security system strikes a chain of
+## electric fields along the hero's depth (hazard kind "shock", a volley along
+## the lane: each field marked where it will land, so the answer is a step up
+## or down; it replaced a lane-wide laser whose reach read poorly) while he
+## calls a trooper in.
 
 const FACILITY := ["facility_gate", "test_labs", "machine_hall", "control_room"]
 
@@ -16,7 +19,7 @@ func _content() -> ContentDB:
 
 
 ## The Control Room with the hero and Arthit alone, the fight on, everyone's
-## blows held back so only his lasers act.
+## blows held back so only his security system acts.
 func _arthit_fight() -> ZoneSim:
 	var profile := PlayerProfile.new_game(_content())
 	var zone := ZoneSim.new(_content(), profile, "control_room", "", 4)
@@ -37,17 +40,20 @@ func _hold_all(zone: ZoneSim) -> void:
 		(zone.brains[id] as EnemyBrain).cooldown = 100000
 
 
-## Ticks until Arthit's next laser warning, the hero kept at `at`.
-func _until_laser(zone: ZoneSim, at: Vector2) -> Dictionary:
+## Arthit's next hazard warnings (one volley), the hero kept at `at`.
+func _until_strike(zone: ZoneSim, at: Vector2) -> Array:
 	var arthit := zone.fighter(zone.boss_id)
 	for tick in 2000:
 		_hold_all(zone)
 		arthit.position = Vector2(1600, 330)
 		zone.hero.position = at
+		var warns := []
 		for event in zone.tick(FighterInput.new()):
 			if event.type == "hazard_warn":
-				return event.data
-	return {}
+				warns.append(event.data)
+		if not warns.is_empty():
+			return warns
+	return []
 
 
 func test_the_facility_follows_the_tower() -> void:
@@ -92,25 +98,31 @@ func test_the_hybrids_are_explained_where_they_appear() -> void:
 			)
 
 
-func test_a_laser_sweeps_the_whole_lane_at_the_hero_depth() -> void:
+func test_a_chain_of_fields_strikes_along_the_hero_depth() -> void:
 	var zone := _arthit_fight()
 	assert_eq(zone.fighter(zone.boss_id).kind, "commander_arthit", "Arthit is out")
-	var warn := _until_laser(zone, Vector2(1000, 300))
-	assert_eq(str(warn.get("kind", "")), "laser", "a laser is called")
-	assert_true((warn["half"] as Vector2).x >= 600.0, "wide as the street")
+	var warns := _until_strike(zone, Vector2(1000, 300))
+	assert_true(warns.size() >= 3, "a chain of fields (%d)" % warns.size())
+	var xs := {}
+	for warn: Dictionary in warns:
+		assert_eq(str(warn["kind"]), "shock", "electric fields")
+		assert_near(float((warn["at"] as Vector2).y), 300.0, "at the hero's depth", 0.5)
+		xs[roundi((warn["at"] as Vector2).x)] = true
+	assert_eq(xs.size(), warns.size(), "spread along the lane, each its own mark")
 	var before := zone.hero.hp
-	for tick in int(warn["ticks"]) + 2:
+	for tick in int(warns[0]["ticks"]) + 2:
 		_hold_all(zone)
-		zone.hero.position = Vector2(600, 300)  # far along, same depth
+		zone.hero.position = Vector2(1000, 300)  # standing in the first field
 		zone.tick(FighterInput.new())
-	assert_true(zone.hero.hp < before, "walking along the street does not escape it")
+	assert_true(zone.hero.hp < before, "standing in a field is a hit")
 
 
-func test_changing_lane_escapes_the_laser() -> void:
+func test_changing_lane_escapes_the_chain() -> void:
 	var zone := _arthit_fight()
-	var warn := _until_laser(zone, Vector2(1000, 300))
+	var warns := _until_strike(zone, Vector2(1000, 300))
+	var warn: Dictionary = warns[0]
 	var before := zone.hero.hp
-	for tick in int(warn["ticks"]) + 2:
+	for tick in int(warns.back()["ticks"]) + 2:
 		_hold_all(zone)
 		zone.hero.position = Vector2(1000, 300 + (warn["half"] as Vector2).y + 8.0)
 		zone.tick(FighterInput.new())
@@ -126,8 +138,8 @@ func test_the_pilot_changes_lane_out_of_a_laser() -> void:
 	assert_true(absf(input.move.y) > 0.9 and absf(input.move.x) < 0.1, "up or down, not along")
 
 
-func test_hazard_kinds_include_the_laser() -> void:
+func test_arthits_hazards_are_known_kinds() -> void:
 	var db := ContentDB.load_all()
 	db.errors.clear()
 	db._validate_enemy("commander_arthit", db.enemies["commander_arthit"])
-	assert_true(db.errors.is_empty(), "a laser is a known hazard kind")
+	assert_true(db.errors.is_empty(), "his hazards are known kinds")

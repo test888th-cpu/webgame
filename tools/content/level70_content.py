@@ -186,7 +186,8 @@ WORLD_BOSSES = [
             "ai": {"spacing": 70, "reaction": 10, "cooldown": 38, "cooldown_jitter": 20, "heavy_chance": 0.3,
                    "heavy_cooldown": 320},
             "hazard": {"every": 200, "cycle": [
-                {"kind": "laser", "warn": 60, "damage": 26, "half": [900, 9]},
+                {"kind": "shock", "warn": 60, "damage": 26, "half": [40, 14], "count": 4,
+                      "spread": [260, 0], "stagger": 8},
                 {"kind": "quake", "warn": 60, "damage": 28, "half": [24, 90]}]},
             "summon": {"enemy": "vault_trooper", "every": 560, "count": 2, "max": 3},
             "phases": [
@@ -195,7 +196,8 @@ WORLD_BOSSES = [
                  "moveset": {"light": "marshal_baton", "heavy": "marshal_floodslam"},
                  "hazard": {"every": 150, "cycle": [
                      {"kind": "quake", "warn": 55, "damage": 30, "half": [24, 90]},
-                     {"kind": "laser", "warn": 55, "damage": 28, "half": [900, 9]},
+                     {"kind": "rain", "warn": 55, "damage": 28, "half": [14, 8], "count": 7,
+                      "spread": [260, 40], "stagger": 5},
                      {"kind": "shock", "warn": 55, "damage": 26, "half": [60, 14]}]}},
                 {"below": 0.3, "speed": 0.9, "power": 1.35, "cooldown": 28, "heavy_chance": 0.45,
                  "heavy_cooldown": 280, "shield": {"up": 280, "down": 360}, "summon_every": 420,
@@ -203,7 +205,8 @@ WORLD_BOSSES = [
                  "hazard": {"every": 110, "cycle": [
                      {"kind": "quake", "warn": 50, "damage": 32, "half": [24, 90], "count": 2,
                       "spread": [220, 0], "stagger": 14},
-                     {"kind": "laser", "warn": 50, "damage": 30, "half": [900, 9]}]}},
+                     {"kind": "shock", "warn": 50, "damage": 30, "half": [40, 14], "count": 4,
+                      "spread": [260, 0], "stagger": 8}]}},
             ],
         },
     },
@@ -277,7 +280,8 @@ WORLD_BOSSES = [
             "ai": {"spacing": 80, "reaction": 9, "cooldown": 34, "cooldown_jitter": 16, "heavy_chance": 0.34,
                    "heavy_cooldown": 310},
             "hazard": {"every": 180, "cycle": [
-                {"kind": "laser", "warn": 58, "damage": 28, "half": [900, 9]},
+                {"kind": "shock", "warn": 58, "damage": 28, "half": [40, 14], "count": 4,
+                      "spread": [260, 0], "stagger": 8},
                 {"kind": "shock", "warn": 55, "damage": 26, "half": [60, 14]},
                 {"kind": "quake", "warn": 58, "damage": 30, "half": [24, 90]}]},
             "summon": {"enemy": "iron_sentry", "every": 520, "count": 2, "max": 3},
@@ -288,7 +292,8 @@ WORLD_BOSSES = [
                  "hazard": {"every": 130, "cycle": [
                      {"kind": "rain", "warn": 50, "damage": 24, "half": [14, 8], "count": 8,
                       "spread": [300, 44], "stagger": 5},
-                     {"kind": "laser", "warn": 52, "damage": 30, "half": [900, 9]},
+                     {"kind": "shock", "warn": 52, "damage": 30, "half": [40, 14], "count": 4,
+                      "spread": [260, 0], "stagger": 8},
                      {"kind": "crane", "warn": 60, "damage": 30, "half": [30, 10]}]}},
                 {"below": 0.4, "speed": 0.92, "power": 1.45, "cooldown": 26, "heavy_chance": 0.48,
                  "heavy_cooldown": 275, "shield": {"up": 300, "down": 330}, "summon_every": 380,
@@ -303,7 +308,8 @@ WORLD_BOSSES = [
                  "heavy_cooldown": 262,
                  "moveset": {"light": "founder_piston", "heavy": "founder_last_light"},
                  "hazard": {"every": 85, "cycle": [
-                     {"kind": "laser", "warn": 46, "damage": 32, "half": [900, 9]},
+                     {"kind": "shock", "warn": 46, "damage": 32, "half": [40, 14], "count": 4,
+                      "spread": [260, 0], "stagger": 8},
                      {"kind": "quake", "warn": 46, "damage": 34, "half": [24, 90], "count": 3,
                       "spread": [260, 0], "stagger": 8},
                      {"kind": "rain", "warn": 42, "damage": 28, "half": [14, 8], "count": 12,

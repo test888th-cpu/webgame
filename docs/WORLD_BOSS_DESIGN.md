@@ -17,13 +17,13 @@ and the decisions that remain the owner's.
 | Boss | Lv | Players | Rises | Arena | Weapon | Skills (hazards) | Opens after |
 |---|---|---|---|---|---|---|---|
 | The Tunnel Mother | 32 | 3 | every 3 h | The Great Drain | pipe | sludge, summons | Unit K-7 |
-| The Iron Colossus | 52 | 5 | every 6 h | Old Scrapyard | wrench | laser, shock, crane, shield | Director Wiroj |
-| Subject Zero | 55 | 10 | daily | Sunken Reservoir | machete | sludge, steam, laser, shield | Director Wiroj |
-| **The Floodgate Marshal** | **56** | **15** | every 4 h | Floodgate Barracks | pipe | laser, **quake**, shock, shield | Arthit, Reinstated |
+| The Iron Colossus | 52 | 5 | every 6 h | Old Scrapyard | wrench | shock chain, shock, crane, shield | Director Wiroj |
+| Subject Zero | 55 | 10 | daily | Sunken Reservoir | machete | sludge, steam, geyser row, shield | Director Wiroj |
+| **The Floodgate Marshal** | **56** | **15** | every 4 h | Floodgate Barracks | pipe | shock chain, **quake**, **rain**, shield | Arthit, Reinstated |
 | The Slag Titan | 60 | 5 | every 6 h | Slag Furnace | baseball bat | as the Colossus | Twelve, Relapsed |
 | **The Crucible King** | **64** | **20** | every 8 h | The Crucible Pit | wrench | **rain**, steam, **quake**, shield | K-7, Overdriven |
 | The Iron Sovereign | 70 | 10 | daily | Sovereign Vault | machete | as Subject Zero | the Wiroj Protocol |
-| **The Founder's Engine** | **70** | **30** | daily | The Founder's Floor | machete | laser, shock, **quake**, **rain**, crane, four phases, shield | the Wiroj Protocol |
+| **The Founder's Engine** | **70** | **30** | daily | The Founder's Floor | machete | shock chain, shock, **quake**, **rain**, crane, four phases, shield | the Wiroj Protocol |
 
 **The three new raid bosses** (bold) rise in level, players, health pool and XP, one after
 another. The Founder's Engine outlasts the Iron Sovereign.
@@ -167,7 +167,11 @@ change approved world boss rules, so none is applied:
 
 **Today.**
 - Boss skills are drawn in code (`HazardView`): a container falling for the crane, a beam
-  for the laser, plates for shock, vents for steam and sludge.
+  electric fields for shock, round vents for steam and sludge. The lane-wide laser
+  (a thin red line whose reach read poorly) was retired: every boss that used it now strikes
+  a chain of marked electric fields along the hero's depth, a row of sludge geysers or a
+  quake, each showing exactly where it lands. Landings play their sprite effect across the
+  whole area (lightning across a shocked field).
 - Their landing bursts are sprite effects from **pixelfx** (MIT; its particle simulation
   adapts **Sprite Fusion's pixel art VFX by Hugo Duprez, MIT**). They are credited in the
   asset manifest and the game's credits with the full licence text.
@@ -183,7 +187,6 @@ automatically):
 | crane | `scifi/scanner` (a red target) | `explosions/dirt-explosion` |
 | steam | `water/bubbles` | `water/geyser` |
 | sludge | `nature/toxic-puddle` | `nature/acid-splash` |
-| laser | `scifi/laser-grid` | `lightning/spark-arc` |
 | shock | `lightning/electrified` | `lightning/zap-hit` |
 | quake | `nature/earth-spike` (cracks) | `nature/quake` |
 | rain | `fire/meteor` marks | `explosions/small-explosion` |
