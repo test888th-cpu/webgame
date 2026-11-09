@@ -188,3 +188,56 @@ func test_the_markets_high_level_stock_opens_with_the_lair_bosses() -> void:
 	copy.shops["city_market"]["stock"].append({"defeated": "smogling", "items": ["rice_box"]})
 	var said := "\n".join(ShopRules.problems(copy))
 	assert_true("stock waits on a boss" in said, "only a boss opens stock")
+
+
+func test_cost_bands_switch_exactly_at_their_levels() -> void:
+	var enhance: Dictionary = _content().progression["enhance"]
+	var step: Dictionary = enhance["levels"][9]
+	var bands: Array = enhance["item_level_costs"]
+	var expected := {1: 1.0, 30: 1.0, 50: 1.0, 51: 2.0, 60: 2.0, 61: 3.0, 70: 3.0}
+	for item_level: int in expected:
+		var cost := EnhanceRules.scaled_cost(step, bands, item_level)
+		assert_eq(
+			int(cost["coins"]),
+			roundi(int(step["coins"]) * float(expected[item_level])),
+			"item level %d: x%s coins" % [item_level, expected[item_level]]
+		)
+		assert_eq(float(cost["rate"]), float(step["rate"]), "the rate never moves")
+
+
+func test_the_preview_is_what_the_upgrade_gives() -> void:
+	# The workbench preview and the upgraded item come from the same rule
+	# (EnhanceRules.bonus_at): what +N+1 shows is what the item has at +N+1.
+	var c := _content()
+	var profile := PlayerProfile.new_game(c)
+	profile.level = 70
+	profile.add_item("foundry_epic_hands")
+	profile.equip("foundry_epic_hands", c)
+	var key := profile.own_copy("hands")
+	var item := c.item(key)
+	for steps in range(0, 10):
+		profile.enhance[key] = steps
+		var preview := EnhanceRules.bonus_at(item, steps + 1, c)
+		profile.enhance[key] = steps + 1
+		var upgraded := ItemCard.upgraded(c, profile, key)
+		for stat: String in item["stats"]:
+			assert_near(
+				float(upgraded["stats"][stat]),
+				float(item["stats"][stat]) + float(preview.get(stat, 0.0)),
+				"+%d %s as previewed" % [steps + 1, stat],
+				0.0001
+			)
+
+
+func test_a_plus_ten_high_level_item_survives_a_save() -> void:
+	var c := _content()
+	var profile := PlayerProfile.new_game(c)
+	profile.level = 70
+	profile.add_item("sovereign_mantle")
+	profile.equip("sovereign_mantle", c)
+	var key := profile.own_copy("body")
+	profile.enhance[key] = 10
+	var loaded := PlayerProfile.from_dict(profile.to_dict(), c)
+	assert_eq(str(loaded.equipment["body"]), key, "the copy is still worn")
+	assert_eq(EnhanceRules.level(loaded, "body"), 10, "at +10")
+	assert_eq(EnhanceRules.next_cost(loaded, "body", c), {}, "with nothing past it")

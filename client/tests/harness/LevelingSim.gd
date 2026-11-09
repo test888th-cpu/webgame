@@ -186,19 +186,25 @@ static func _farm(
 	zone.refresh_hero()
 	var pilot := AutoPilot.new(content)
 	var out := {"xp": 0, "kills": 0, "trips": 0, "ko": false, "coins": 0, "scrap": 0, "alloy": 0}
+	out.merge({"taken": 0, "food": 0, "gear": 0, "ko_near": 0, "ko_by": "", "ko_hit": 0})
 	var ticks := 0
 	var resting := 0
 	while ticks < limit and not zone.hero.is_ko():
 		ticks += 1
 		var input := pilot.think(zone)
-		if pilot.item:
-			zone.use_item(pilot.item)
+		if pilot.item and zone.use_item(pilot.item):
+			out["food"] += 1
 		for event in zone.tick(input):
+			if event.type == "hit" and event.hit.defender_id == zone.hero.id:
+				out["taken"] += event.hit.damage
+				var by := zone.fighter(event.hit.attacker_id)
+				out["ko_by"] = by.kind if by else "hazard"
+				out["ko_hit"] = event.hit.damage
 			if event.type == "defeat" and not event.data.get("boss", false):
 				out["xp"] += int(event.data["xp"])
 				out["kills"] += 1
 			elif event.type == "pickup":
-				_count_pickup(out, event.data)
+				_count_pickup(out, event.data, content)
 		# Hold the hero at the measured level for the whole session.
 		profile.level = level
 		profile.xp = 0
@@ -212,15 +218,23 @@ static func _farm(
 		zone.refresh_hero()
 		pilot = AutoPilot.new(content)
 	out["ko"] = zone.hero.is_ko()
+	if out["ko"]:
+		# What brought the hero down: who landed the last blow, how hard, and
+		# how many enemies stood within reach (a crowd or one hard hitter).
+		for foe in zone.enemies():
+			out["ko_near"] += int(foe.position.distance_to(zone.hero.position) < 120.0)
+	else:
+		out["ko_by"] = ""
+		out["ko_hit"] = 0
 	out["ticks"] = ticks
 	out["xp_per_hour"] = float(out["xp"]) * TICKS_PER_HOUR / maxi(1, ticks)
-	for key: String in ["coins", "scrap", "alloy"]:
+	for key: String in ["coins", "scrap", "alloy", "taken", "food", "gear", "kills"]:
 		out[key + "_per_hour"] = float(out[key]) * TICKS_PER_HOUR / maxi(1, ticks)
 	return out
 
 
 ## Adds a picked-up drop to the session's coin and material totals.
-static func _count_pickup(out: Dictionary, pickup: Dictionary) -> void:
+static func _count_pickup(out: Dictionary, pickup: Dictionary, content: ContentDB) -> void:
 	var amount := int(pickup.get("amount", 1))
 	if pickup.get("kind") == "money":
 		out["coins"] += amount
@@ -228,3 +242,5 @@ static func _count_pickup(out: Dictionary, pickup: Dictionary) -> void:
 		out["scrap"] += amount
 	elif pickup.get("item") == "refined_alloy":
 		out["alloy"] += amount
+	if pickup.get("kind") == "item":
+		out["gear"] += int(content.item(str(pickup["item"])).get("type") == "equipment")

@@ -2,7 +2,10 @@ extends SceneTree
 ## Farming-ground check for balance work (LevelingSim.farm_rate): for each
 ## ground in --areas and each hero level offset from the ground's suggested
 ## level in --offsets, runs --seeds sessions per gear profile and prints the
-## mean XP, coins, Scrap Metal and Refined Alloy per hour and the knock-outs.
+## mean XP, coins, Scrap Metal, Refined Alloy, kills, damage taken, food eaten
+## and gear drops per hour, the knock-outs and what caused each (the last
+## attacker and how many enemies stood within reach). --gears picks profiles
+## (B shop +0, C boss +5, D boss +10).
 ## Read-only.
 ##
 ##   godot --headless --path client --script res://tests/harness/FarmCheck.gd -- \
@@ -10,7 +13,11 @@ extends SceneTree
 ##
 ## Prints one "FARM " JSON line per ground, level and gear.
 
-const GEARS := {"B": {"gear": "shop", "plus": 0}, "C": {"gear": "boss", "plus": 5}}
+const GEARS := {
+	"B": {"gear": "shop", "plus": 0},
+	"C": {"gear": "boss", "plus": 5},
+	"D": {"gear": "boss", "plus": 10},
+}
 
 
 func _init() -> void:
@@ -25,10 +32,11 @@ func _init() -> void:
 		areas = PackedStringArray(AreaRules.farms(content))
 	var offsets := str(args.get("offsets", "0")).split(",")
 	var seeds := int(args.get("seeds", 8))
+	var gears := str(args.get("gears", "B,C")).split(",")
 	for area_id in areas:
 		for offset in offsets:
 			var level := int(content.area(area_id)["level"]) + int(offset)
-			for gear: String in GEARS:
+			for gear: String in gears:
 				print("FARM " + JSON.stringify(_measure(content, area_id, level, gear, seeds)))
 	quit(0)
 
@@ -36,9 +44,11 @@ func _init() -> void:
 func _measure(
 	content: ContentDB, area_id: String, level: int, gear: String, seeds: int
 ) -> Dictionary:
-	var sums := {"xp_per_hour": 0.0, "coins_per_hour": 0.0, "scrap_per_hour": 0.0}
-	sums["alloy_per_hour"] = 0.0
+	var sums := {}
+	for key in ["xp", "coins", "scrap", "alloy", "taken", "food", "gear", "kills"]:
+		sums[key + "_per_hour"] = 0.0
 	var ko := 0
+	var causes: Array[String] = []
 	for seed_value in range(1, seeds + 1):
 		var setup := {"area": area_id, "level": level, "seed": seed_value}
 		setup.merge(GEARS[gear])
@@ -46,7 +56,10 @@ func _measure(
 		for key: String in sums:
 			sums[key] += float(run[key])
 		ko += int(bool(run["ko"]))
+		if run["ko"]:
+			causes.append("%s %d (%d near)" % [run["ko_by"], run["ko_hit"], run["ko_near"]])
 	var out := {"area": area_id, "level": level, "gear": gear, "seeds": seeds, "ko": ko}
+	out["ko_causes"] = causes
 	for key: String in sums:
 		out[key] = roundi(sums[key] / seeds)
 	return out

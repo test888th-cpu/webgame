@@ -146,3 +146,25 @@ func test_the_validator_keeps_a_lair_to_one_boss_fight() -> void:
 	var said := "\n".join(copy.errors)
 	assert_true("not a living field" in said, "no field in a lair")
 	assert_true("one fight, with one boss in it" in said, "a boss in its fight")
+
+
+func test_auto_battle_never_takes_the_hero_to_a_lair_or_a_ground() -> void:
+	# Following the story (StoryAuto) only rides along the street; a lair or a
+	# farming ground is entered only when the player rides there.
+	var c := _content()
+	var profile := _hero(70)
+	for enemy_id: String in c.enemies:
+		if c.enemy(enemy_id).get("boss", false):
+			profile.defeated[enemy_id] = 1
+	var street := StreetMemory.street(c)
+	for area_id: String in c.areas:
+		for cleared in [true, false]:
+			var plan := StoryAuto.step(profile, c, area_id, cleared)
+			if plan.has("to"):
+				assert_true(
+					str(plan["to"]) in street or str(plan["to"]) == area_id,
+					"%s: the story rides along the street (%s)" % [area_id, plan["to"]]
+				)
+	for lair_id in AreaRules.lairs(c):
+		assert_true(lair_id not in AreaRules.farms(c), lair_id + ": never a farming ground")
+		assert_true(not FarmSpawner.active(c, lair_id), lair_id + ": no field for auto to hunt")

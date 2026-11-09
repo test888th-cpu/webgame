@@ -7,11 +7,19 @@ extends SceneTree
 ## in memory only.
 ##
 ##   godot --headless --path client --script res://tests/harness/EnrageCompare.gd \
-##     -- --timers=60,75,90 --seeds=6 --kits=shop,boss [--level_offset=0]
+##     -- --timers=60,75,90 --seeds=6 --kits=B,C [--level_offset=0] [--lairs=a,b]
+##
+## Kits: S no gear (the weakest damage), B shop +0, C boss +5, D boss +10.
 ##
 ## Prints one "ENRAGE " JSON line per lair, timer and kit.
 
 const FOOD := {"rice_box": 20, "herbal_tonic": 10}
+const KITS := {
+	"S": {"gear": "starter", "plus": 0},
+	"B": {"gear": "shop", "plus": 0},
+	"C": {"gear": "boss", "plus": 5},
+	"D": {"gear": "boss", "plus": 10},
+}
 const LIMIT_SECONDS := 360
 
 
@@ -21,10 +29,13 @@ func _init() -> void:
 	for t in str(args.get("timers", "60,75,90")).split(","):
 		timers.append(int(t))
 	var seeds := int(args.get("seeds", 6))
-	var kits := str(args.get("kits", "shop,boss")).split(",")
+	var kits := str(args.get("kits", "B,C")).split(",")
+	var only := str(args.get("lairs", "")).split(",", false)
 	var offset := int(args.get("level_offset", 0))
 	var content := ContentDB.load_all()
 	for lair_id in AreaRules.lairs(content):
+		if not only.is_empty() and lair_id not in only:
+			continue
 		var boss := _boss(content, lair_id)
 		var spec: Dictionary = content.enemy(boss).get("enrage", {}).duplicate()
 		for kit in kits:
@@ -51,6 +62,7 @@ func _run(
 	var kill_seconds: Array[float] = []
 	var enraged := 0
 	var food := 0
+	var taken := 0
 	for seed_value in range(1, seeds + 1):
 		var profile := _hero(content, level, kit)
 		var before := 0
@@ -70,6 +82,8 @@ func _run(
 			if pilot.item:
 				zone.use_item(pilot.item)
 			for event in zone.tick(input):
+				if event.type == "hit" and event.hit.defender_id == zone.hero.id:
+					taken += event.hit.damage
 				if event.type == "encounter_start":
 					started = tick
 				elif event.type == "boss_enrage":
@@ -92,6 +106,11 @@ func _run(
 		enraged += int(raged)
 	kill_seconds.sort()
 	var median := kill_seconds[kill_seconds.size() / 2] if not kill_seconds.is_empty() else -1.0
+	var p90 := (
+		kill_seconds[mini(kill_seconds.size() - 1, roundi(kill_seconds.size() * 0.9))]
+		if not kill_seconds.is_empty()
+		else -1.0
+	)
 	return {
 		"lair": lair_id,
 		"boss": boss,
@@ -102,6 +121,8 @@ func _run(
 		"downs": downs,
 		"enraged": enraged,
 		"median_kill_s": snappedf(median, 0.1),
+		"p90_kill_s": snappedf(p90, 0.1),
+		"taken_per_fight": roundi(float(taken) / seeds),
 		"slowest_kill_s": kill_seconds.back() if not kill_seconds.is_empty() else -1.0,
 		"food_per_fight": snappedf(float(food) / seeds, 0.1),
 	}
@@ -115,9 +136,11 @@ static func _hero(content: ContentDB, level: int, kit: String) -> PlayerProfile:
 		if content.enemy(enemy_id).get("boss", false):
 			profile.defeated[enemy_id] = 1
 	profile.level = level
-	for item_id in ProgressionHarness.gear(content, level, kit):
+	for item_id in ProgressionHarness.gear(content, level, str(KITS[kit]["gear"])):
 		profile.add_item(item_id)
 		profile.equip(item_id, content)
+		var key := profile.own_copy(str(content.item(item_id)["slot"]))
+		profile.enhance[key] = int(KITS[kit]["plus"])
 	for item_id: String in FOOD:
 		profile.add_item(item_id, int(FOOD[item_id]))
 	return profile
