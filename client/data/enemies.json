@@ -2476,8 +2476,8 @@
       "xp": 105,
       "loot": {
         "money": [
-          56,
-          74
+          31,
+          41
         ],
         "drops": [
           {
@@ -2537,8 +2537,8 @@
       "xp": 60,
       "loot": {
         "money": [
-          56,
-          74
+          31,
+          41
         ],
         "drops": [
           {
@@ -2600,8 +2600,8 @@
       "xp": 210,
       "loot": {
         "money": [
-          133,
-          173
+          73,
+          95
         ],
         "drops": [
           {
@@ -2656,7 +2656,7 @@
     },
     "arthit_reinstated": {
       "name": "Commander Arthit, Reinstated",
-      "max_hp": 620,
+      "max_hp": 1240,
       "speed": 0.85,
       "defense": 4,
       "power": 1.0,
@@ -2787,8 +2787,8 @@
       "xp": 130,
       "loot": {
         "money": [
-          59,
-          77
+          34,
+          45
         ],
         "drops": [
           {
@@ -2854,8 +2854,8 @@
       "xp": 38,
       "loot": {
         "money": [
-          59,
-          77
+          34,
+          45
         ],
         "drops": [
           {
@@ -2916,8 +2916,8 @@
       "xp": 210,
       "loot": {
         "money": [
-          138,
-          178
+          80,
+          103
         ],
         "drops": [
           {
@@ -2972,7 +2972,7 @@
     },
     "twelve_relapsed": {
       "name": "Subject Twelve, Relapsed",
-      "max_hp": 640,
+      "max_hp": 1280,
       "speed": 0.9,
       "defense": 3,
       "power": 1.0,
@@ -3077,8 +3077,8 @@
       "xp": 105,
       "loot": {
         "money": [
-          61,
-          79
+          29,
+          37
         ],
         "drops": [
           {
@@ -3145,8 +3145,8 @@
       "xp": 30,
       "loot": {
         "money": [
-          61,
-          79
+          29,
+          37
         ],
         "drops": [
           {
@@ -3207,8 +3207,8 @@
       "xp": 130,
       "loot": {
         "money": [
-          143,
-          183
+          67,
+          86
         ],
         "drops": [
           {
@@ -3263,7 +3263,7 @@
     },
     "k7_overdriven": {
       "name": "Unit K-7, Overdriven",
-      "max_hp": 700,
+      "max_hp": 1400,
       "speed": 0.65,
       "defense": 4,
       "power": 1.0,
@@ -3381,8 +3381,8 @@
       "xp": 130,
       "loot": {
         "money": [
-          64,
-          82
+          56,
+          71
         ],
         "drops": [
           {
@@ -3442,8 +3442,8 @@
       "xp": 210,
       "loot": {
         "money": [
-          64,
-          82
+          56,
+          71
         ],
         "drops": [
           {
@@ -3504,8 +3504,8 @@
       "xp": 210,
       "loot": {
         "money": [
-          148,
-          188
+          129,
+          164
         ],
         "drops": [
           {
@@ -3857,7 +3857,7 @@
     },
     "spillway_chief": {
       "name": "Spillway Chief",
-      "max_hp": 420,
+      "max_hp": 840,
       "speed": 0.85,
       "defense": 3,
       "power": 1.0,
@@ -3934,7 +3934,7 @@
     },
     "wiroj_protocol": {
       "name": "The Wiroj Protocol",
-      "max_hp": 900,
+      "max_hp": 1170,
       "speed": 0.8,
       "defense": 5,
       "power": 1.0,

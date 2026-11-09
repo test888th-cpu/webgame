@@ -5408,7 +5408,7 @@
         "from_x": 320,
         "pool": {
           "heart_guard": 6,
-          "iron_sentry": 3,
+          "iron_sentry": 2,
           "heart_keeper": 1
         }
       },

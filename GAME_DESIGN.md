@@ -243,7 +243,9 @@ value is a first pass, tuned there and re-run):
   warned 10 seconds before (x1.5 damage, hazards and summons 30% quicker); a 50-70 world
   boss enrages for the last 20 minutes of its hour (x1.3, 20% quicker). Enrage only raises
   the pressure: it never ends a fight, takes an entry or limits food. 75 seconds was
-  chosen over 60 and 90 with `tests/harness/EnrageCompare.gd` (see CHANGELOG).
+  chosen over 60 and 90 with `tests/harness/EnrageCompare.gd` (see CHANGELOG). Lair bosses
+  have twice the health of the story boss they come from (the Wiroj Protocol 1.3 times), so
+  an on-level fight takes about 30-65 seconds and the enrage only catches slow fights.
 
 ## Progression
 

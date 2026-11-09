@@ -143,37 +143,38 @@ Material counts round half up, with a minimum of 1 per step.
 
 ## 10. Drop tables
 
-**Core Spillway** (`farm_core_spillway`, Lv 43, unlock {'defeated': 'commander_arthit'}); elite prize: [{'item': 'spillway_epic_body', 'chance': 0.02}, {'item': 'spillway_epic_head', 'chance': 0.02}]
+**Core Spillway** (`farm_core_spillway`, Lv 43, opens after `commander_arthit`). Field weights {'facility_trooper': 6, 'hazmat_sprayer': 2, 'core_sentinel': 1}; elite prize: spillway_epic_body 2%, spillway_epic_head 2%
 - Facility Trooper (`facility_trooper`): coins [20, 32]; rice_box 15%, facility_helmet 3%, refined_alloy 15%, scrap_metal 50%
 - Hazmat Sprayer (`hazmat_sprayer`): coins [12, 20]; steamed_bun 15%, insulated_gloves 3%, scrap_metal 40%
 - Core Sentinel (`core_sentinel`, elite): coins [28, 44]; rice_box 20%, core_guard_helm 3%, reactor_plate 3%, refined_alloy 30%, scrap_metal 90%
 
-**Coolant Vaults** (`farm_coolant_vaults`, Lv 53, unlock {'defeated': 'director_wiroj'}); elite prize: [{'item': 'coolant_epic_body', 'chance': 0.02}]
-- Vault Trooper (`vault_trooper`): coins [56, 74]; rice_box 12%, herbal_tonic 5%, coolant_rare_weapon 2%, coolant_rare_body 2%, coolant_rare_head 2%, refined_alloy 22%, scrap_metal 80%
-- Coolant Drone (`coolant_drone`): coins [56, 74]; rice_box 12%, herbal_tonic 5%, coolant_rare_hands 2%, coolant_rare_feet 2%, coolant_rare_charm 2%, refined_alloy 22%, scrap_metal 80%
-- Vault Warden (`vault_warden`, elite): coins [133, 173]; herbal_tonic 25%, coolant_rare_weapon 4%, coolant_rare_body 4%, coolant_rare_head 4%, coolant_rare_hands 4%, coolant_rare_feet 4%, coolant_rare_charm 4%, coolant_epic_weapon 1%, coolant_epic_body 1%, refined_alloy 60%, scrap_metal 100%
+**Coolant Vaults** (`farm_coolant_vaults`, Lv 53, opens after `director_wiroj`). Field weights {'vault_trooper': 6, 'coolant_drone': 3, 'vault_warden': 1}; elite prize: coolant_epic_body 2%
+- Vault Trooper (`vault_trooper`): coins [31, 41]; rice_box 12%, herbal_tonic 5%, coolant_rare_weapon 2%, coolant_rare_body 2%, coolant_rare_head 2%, refined_alloy 22%, scrap_metal 80%
+- Coolant Drone (`coolant_drone`): coins [31, 41]; rice_box 12%, herbal_tonic 5%, coolant_rare_hands 2%, coolant_rare_feet 2%, coolant_rare_charm 2%, refined_alloy 22%, scrap_metal 80%
+- Vault Warden (`vault_warden`, elite): coins [73, 95]; herbal_tonic 25%, coolant_rare_weapon 4%, coolant_rare_body 4%, coolant_rare_head 4%, coolant_rare_hands 4%, coolant_rare_feet 4%, coolant_rare_charm 4%, coolant_epic_weapon 1%, coolant_epic_body 1%, refined_alloy 60%, scrap_metal 100%
 
-**Reactor Underworks** (`farm_reactor_underworks`, Lv 58, unlock {'defeated': 'arthit_reinstated'}); elite prize: [{'item': 'underworks_epic_body', 'chance': 0.02}]
-- Underworks Brute (`underworks_brute`): coins [59, 77]; rice_box 12%, herbal_tonic 5%, underworks_rare_weapon 2%, underworks_rare_body 2%, underworks_rare_head 2%, refined_alloy 25%, scrap_metal 80%
-- Reactor Tech (`reactor_tech`): coins [59, 77]; rice_box 12%, herbal_tonic 5%, underworks_rare_hands 2%, underworks_rare_feet 2%, underworks_rare_charm 2%, refined_alloy 25%, scrap_metal 80%
-- Reactor Overseer (`reactor_overseer`, elite): coins [138, 178]; herbal_tonic 25%, underworks_rare_weapon 4%, underworks_rare_body 4%, underworks_rare_head 4%, underworks_rare_hands 4%, underworks_rare_feet 4%, underworks_rare_charm 4%, underworks_epic_weapon 1%, underworks_epic_body 1%, refined_alloy 60%, scrap_metal 100%
+**Reactor Underworks** (`farm_reactor_underworks`, Lv 58, opens after `arthit_reinstated`). Field weights {'underworks_brute': 6, 'reactor_tech': 3, 'reactor_overseer': 1}; elite prize: underworks_epic_body 2%
+- Underworks Brute (`underworks_brute`): coins [34, 45]; rice_box 12%, herbal_tonic 5%, underworks_rare_weapon 2%, underworks_rare_body 2%, underworks_rare_head 2%, refined_alloy 25%, scrap_metal 80%
+- Reactor Tech (`reactor_tech`): coins [34, 45]; rice_box 12%, herbal_tonic 5%, underworks_rare_hands 2%, underworks_rare_feet 2%, underworks_rare_charm 2%, refined_alloy 25%, scrap_metal 80%
+- Reactor Overseer (`reactor_overseer`, elite): coins [80, 103]; herbal_tonic 25%, underworks_rare_weapon 4%, underworks_rare_body 4%, underworks_rare_head 4%, underworks_rare_hands 4%, underworks_rare_feet 4%, underworks_rare_charm 4%, underworks_epic_weapon 1%, underworks_epic_body 1%, refined_alloy 60%, scrap_metal 100%
 
-**Foundry Depths** (`farm_foundry_depths`, Lv 63, unlock {'defeated': 'twelve_relapsed'}); elite prize: [{'item': 'foundry_epic_body', 'chance': 0.02}]
-- Foundry Hand (`foundry_hand`): coins [61, 79]; rice_box 12%, herbal_tonic 5%, foundry_rare_weapon 2%, foundry_rare_body 2%, foundry_rare_head 2%, refined_alloy 28%, scrap_metal 80%
-- Slag Slinger (`slag_slinger`): coins [61, 79]; rice_box 12%, herbal_tonic 5%, foundry_rare_hands 2%, foundry_rare_feet 2%, foundry_rare_charm 2%, refined_alloy 28%, scrap_metal 80%
-- Foundry Boss (`foundry_boss`, elite): coins [143, 183]; herbal_tonic 25%, foundry_rare_weapon 4%, foundry_rare_body 4%, foundry_rare_head 4%, foundry_rare_hands 4%, foundry_rare_feet 4%, foundry_rare_charm 4%, foundry_epic_weapon 1%, foundry_epic_body 1%, refined_alloy 60%, scrap_metal 100%
+**Foundry Depths** (`farm_foundry_depths`, Lv 63, opens after `twelve_relapsed`). Field weights {'foundry_hand': 6, 'slag_slinger': 3, 'foundry_boss': 1}; elite prize: foundry_epic_body 2%
+- Foundry Hand (`foundry_hand`): coins [29, 37]; rice_box 12%, herbal_tonic 5%, foundry_rare_weapon 2%, foundry_rare_body 2%, foundry_rare_head 2%, refined_alloy 28%, scrap_metal 80%
+- Slag Slinger (`slag_slinger`): coins [29, 37]; rice_box 12%, herbal_tonic 5%, foundry_rare_hands 2%, foundry_rare_feet 2%, foundry_rare_charm 2%, refined_alloy 28%, scrap_metal 80%
+- Foundry Boss (`foundry_boss`, elite): coins [67, 86]; herbal_tonic 25%, foundry_rare_weapon 4%, foundry_rare_body 4%, foundry_rare_head 4%, foundry_rare_hands 4%, foundry_rare_feet 4%, foundry_rare_charm 4%, foundry_epic_weapon 1%, foundry_epic_body 1%, refined_alloy 60%, scrap_metal 100%
 
-**The Iron Heart** (`farm_iron_heart`, Lv 68, unlock {'defeated': 'k7_overdriven'}); elite prize: [{'item': 'heart_epic_body', 'chance': 0.02}]
-- Heart Guard (`heart_guard`): coins [64, 82]; rice_box 12%, herbal_tonic 5%, heart_rare_weapon 2%, heart_rare_body 2%, heart_rare_head 2%, refined_alloy 31%, scrap_metal 80%
-- Iron Sentry (`iron_sentry`): coins [64, 82]; rice_box 12%, herbal_tonic 5%, heart_rare_hands 2%, heart_rare_feet 2%, heart_rare_charm 2%, refined_alloy 31%, scrap_metal 80%
-- Heart Keeper (`heart_keeper`, elite): coins [148, 188]; herbal_tonic 25%, heart_rare_weapon 4%, heart_rare_body 4%, heart_rare_head 4%, heart_rare_hands 4%, heart_rare_feet 4%, heart_rare_charm 4%, heart_epic_weapon 1%, heart_epic_body 1%, refined_alloy 60%, scrap_metal 100%
-- Lair **Coolant Control Room** (`coolant_control_room`, Lv 55): Commander Arthit, Reinstated coins [1960, 2260]; coolant_epic_weapon 15%, coolant_epic_body 15%, coolant_epic_head 15%, coolant_epic_hands 15%, coolant_epic_feet 15%, coolant_epic_charm 15%, refined_alloy 100%, herbal_tonic 50%; enrage {'after_seconds': 75, 'warn_seconds': 10, 'damage': 1.5, 'cooldown': 0.7}
-- Lair **Tank Hall** (`underworks_tank_hall`, Lv 60): Subject Twelve, Relapsed coins [2060, 2360]; underworks_epic_weapon 15%, underworks_epic_body 15%, underworks_epic_head 15%, underworks_epic_hands 15%, underworks_epic_feet 15%, underworks_epic_charm 15%, refined_alloy 100%, herbal_tonic 50%; enrage {'after_seconds': 75, 'warn_seconds': 10, 'damage': 1.5, 'cooldown': 0.7}
-- Lair **The Crucible** (`foundry_crucible`, Lv 65): Unit K-7, Overdriven coins [2160, 2460]; foundry_epic_weapon 15%, foundry_epic_body 15%, foundry_epic_head 15%, foundry_epic_hands 15%, foundry_epic_feet 15%, foundry_epic_charm 15%, refined_alloy 100%, herbal_tonic 50%; enrage {'after_seconds': 75, 'warn_seconds': 10, 'damage': 1.5, 'cooldown': 0.7}
-- Lair **Heart Core Chamber** (`heart_core_chamber`, Lv 70): The Wiroj Protocol coins [2260, 2560]; heart_epic_weapon 15%, heart_epic_body 15%, heart_epic_head 15%, heart_epic_hands 15%, heart_epic_feet 15%, heart_epic_charm 15%, refined_alloy 100%, herbal_tonic 50%; enrage {'after_seconds': 75, 'warn_seconds': 10, 'damage': 1.5, 'cooldown': 0.7}
-- Lair **Spillway Gatehouse** (`spillway_gatehouse`, Lv 45): Spillway Chief coins [500, 700]; spillway_epic_body 20%, spillway_epic_head 20%, refined_alloy 100%, herbal_tonic 50%; enrage {'after_seconds': 75, 'warn_seconds': 10, 'damage': 1.5, 'cooldown': 0.7}
-- World boss **The Slag Titan** Lv 60, 5 players, every 360 min, unlock twelve_relapsed: tiers 10%: 1500 coins {'refined_alloy': 5} rolls {}; 30%: 2500 coins {'refined_alloy': 8, 'herbal_tonic': 3} rolls {}; 60%: 3500 coins {'refined_alloy': 10} rolls {}; 100%: 5000 coins {'refined_alloy': 14} rolls {'titan_slagfist': 0.05, 'titan_grip': 0.05, 'titan_core': 0.05}; kill {'money': 7000, 'items': {'refined_alloy': 18}, 'rolls': {'titan_slagfist': 0.15, 'titan_grip': 0.15, 'titan_core': 0.15}}; enrage {'last_seconds': 1200, 'warn_seconds': 60, 'damage': 1.3, 'cooldown': 0.8}
-- World boss **The Iron Sovereign** Lv 70, 10 players, every 1440 min, unlock wiroj_protocol: tiers 10%: 1500 coins {'refined_alloy': 5} rolls {}; 30%: 2500 coins {'refined_alloy': 8, 'herbal_tonic': 3} rolls {}; 60%: 3500 coins {'refined_alloy': 10} rolls {}; 100%: 5000 coins {'refined_alloy': 14} rolls {'sovereign_fists': 0.03, 'sovereign_mantle': 0.03, 'sovereign_crown': 0.03, 'sovereign_grips': 0.03, 'sovereign_treads': 0.03, 'sovereign_seal': 0.03}; kill {'money': 7000, 'items': {'refined_alloy': 18}, 'rolls': {'sovereign_fists': 0.09, 'sovereign_mantle': 0.09, 'sovereign_crown': 0.09, 'sovereign_grips': 0.09, 'sovereign_treads': 0.09, 'sovereign_seal': 0.09}}; enrage {'last_seconds': 1200, 'warn_seconds': 60, 'damage': 1.3, 'cooldown': 0.8}
+**The Iron Heart** (`farm_iron_heart`, Lv 68, opens after `k7_overdriven`). Field weights {'heart_guard': 6, 'iron_sentry': 2, 'heart_keeper': 1}; elite prize: heart_epic_body 2%
+- Heart Guard (`heart_guard`): coins [56, 71]; rice_box 12%, herbal_tonic 5%, heart_rare_weapon 2%, heart_rare_body 2%, heart_rare_head 2%, refined_alloy 31%, scrap_metal 80%
+- Iron Sentry (`iron_sentry`): coins [56, 71]; rice_box 12%, herbal_tonic 5%, heart_rare_hands 2%, heart_rare_feet 2%, heart_rare_charm 2%, refined_alloy 31%, scrap_metal 80%
+- Heart Keeper (`heart_keeper`, elite): coins [129, 164]; herbal_tonic 25%, heart_rare_weapon 4%, heart_rare_body 4%, heart_rare_head 4%, heart_rare_hands 4%, heart_rare_feet 4%, heart_rare_charm 4%, heart_epic_weapon 1%, heart_epic_body 1%, refined_alloy 60%, scrap_metal 100%
+
+- Lair **Coolant Control Room** (`coolant_control_room`, Lv 55): Commander Arthit, Reinstated, 1240 HP, coins [1960, 2260]; coolant_epic_weapon 15%, coolant_epic_body 15%, coolant_epic_head 15%, coolant_epic_hands 15%, coolant_epic_feet 15%, coolant_epic_charm 15%, refined_alloy 100%, herbal_tonic 50%; enrage after 75 s
+- Lair **Tank Hall** (`underworks_tank_hall`, Lv 60): Subject Twelve, Relapsed, 1280 HP, coins [2060, 2360]; underworks_epic_weapon 15%, underworks_epic_body 15%, underworks_epic_head 15%, underworks_epic_hands 15%, underworks_epic_feet 15%, underworks_epic_charm 15%, refined_alloy 100%, herbal_tonic 50%; enrage after 75 s
+- Lair **The Crucible** (`foundry_crucible`, Lv 65): Unit K-7, Overdriven, 1400 HP, coins [2160, 2460]; foundry_epic_weapon 15%, foundry_epic_body 15%, foundry_epic_head 15%, foundry_epic_hands 15%, foundry_epic_feet 15%, foundry_epic_charm 15%, refined_alloy 100%, herbal_tonic 50%; enrage after 75 s
+- Lair **Heart Core Chamber** (`heart_core_chamber`, Lv 70): The Wiroj Protocol, 1170 HP, coins [2260, 2560]; heart_epic_weapon 15%, heart_epic_body 15%, heart_epic_head 15%, heart_epic_hands 15%, heart_epic_feet 15%, heart_epic_charm 15%, refined_alloy 100%, herbal_tonic 50%; enrage after 75 s
+- Lair **Spillway Gatehouse** (`spillway_gatehouse`, Lv 45): Spillway Chief, 840 HP, coins [500, 700]; spillway_epic_body 20%, spillway_epic_head 20%, refined_alloy 100%, herbal_tonic 50%; enrage after 75 s
+- World boss **The Slag Titan** (Lv 60, 5 players, every 6 h, after `twelve_relapsed`): tiers 10%: 1500 coins, {'refined_alloy': 5}; 30%: 2500 coins, {'refined_alloy': 8, 'herbal_tonic': 3}; 60%: 3500 coins, {'refined_alloy': 10}; 100%: 5000 coins, {'refined_alloy': 14}, rolls {'titan_slagfist': 0.05, 'titan_grip': 0.05, 'titan_core': 0.05}; kill {'money': 7000, 'items': {'refined_alloy': 18}, 'rolls': {'titan_slagfist': 0.15, 'titan_grip': 0.15, 'titan_core': 0.15}}
+- World boss **The Iron Sovereign** (Lv 70, 10 players, every 24 h, after `wiroj_protocol`): tiers 10%: 1500 coins, {'refined_alloy': 5}; 30%: 2500 coins, {'refined_alloy': 8, 'herbal_tonic': 3}; 60%: 3500 coins, {'refined_alloy': 10}; 100%: 5000 coins, {'refined_alloy': 14}, rolls {'sovereign_fists': 0.03, 'sovereign_mantle': 0.03, 'sovereign_crown': 0.03, 'sovereign_grips': 0.03, 'sovereign_treads': 0.03, 'sovereign_seal': 0.03}; kill {'money': 7000, 'items': {'refined_alloy': 18}, 'rolls': {'sovereign_fists': 0.09, 'sovereign_mantle': 0.09, 'sovereign_crown': 0.09, 'sovereign_grips': 0.09, 'sovereign_treads': 0.09, 'sovereign_seal': 0.09}}
 
 ## 11. Test results
 
@@ -199,7 +200,7 @@ On `claude/level70`, Godot 4.7.2 headless:
 | `coolant_uncommon_head` | Coolant Helm | head | 53 | uncommon | defense 8, max_hp 94 | 1270 |
 | `coolant_uncommon_hands` | Coolant Gloves | hands | 53 | uncommon | power 0.46, defense 2, crit 0.09 | 1150 |
 | `coolant_uncommon_feet` | Coolant Boots | feet | 53 | uncommon | speed 0.22, defense 5, attack_speed 0.12 | 960 |
-| `coolant_uncommon_charm` | Coolant Charm | charm | 53 | uncommon | max_hp 68, power 0.08, crit 0.23 | 1300 |
+| `coolant_uncommon_charm` | Coolant Charm | charm | 53 | uncommon | max_hp 91, power 0.18, crit 0.12 | 1300 |
 | `coolant_rare_weapon` | Vault Guard Knuckles | weapon | 53 | rare | power 1.41, crit 0.16 | - |
 | `coolant_rare_body` | Vault Guard Plate | body | 53 | rare | defense 14, max_hp 108 | - |
 | `coolant_rare_head` | Vault Guard Helm | head | 53 | rare | defense 8, max_hp 84, crit 0.07 | - |
@@ -217,7 +218,7 @@ On `claude/level70`, Godot 4.7.2 headless:
 | `underworks_uncommon_head` | Underworks Helm | head | 58 | uncommon | defense 8, max_hp 102 | 1380 |
 | `underworks_uncommon_hands` | Underworks Gloves | hands | 58 | uncommon | power 0.5, defense 3, crit 0.1 | 1250 |
 | `underworks_uncommon_feet` | Underworks Boots | feet | 58 | uncommon | speed 0.24, defense 5, attack_speed 0.13 | 1040 |
-| `underworks_uncommon_charm` | Underworks Charm | charm | 58 | uncommon | max_hp 74, power 0.08, crit 0.25 | 1420 |
+| `underworks_uncommon_charm` | Underworks Charm | charm | 58 | uncommon | max_hp 99, power 0.2, crit 0.13 | 1420 |
 | `underworks_rare_weapon` | Reactor Crew Knuckles | weapon | 58 | rare | power 1.53, crit 0.18 | - |
 | `underworks_rare_body` | Reactor Crew Plate | body | 58 | rare | defense 15, max_hp 117 | - |
 | `underworks_rare_head` | Reactor Crew Helm | head | 58 | rare | defense 9, max_hp 91, crit 0.07 | - |
@@ -235,7 +236,7 @@ On `claude/level70`, Godot 4.7.2 headless:
 | `foundry_uncommon_head` | Foundry Helm | head | 63 | uncommon | defense 9, max_hp 110 | 1490 |
 | `foundry_uncommon_hands` | Foundry Gloves | hands | 63 | uncommon | power 0.54, defense 3, crit 0.11 | 1350 |
 | `foundry_uncommon_feet` | Foundry Boots | feet | 63 | uncommon | speed 0.26, defense 6, attack_speed 0.14 | 1120 |
-| `foundry_uncommon_charm` | Foundry Charm | charm | 63 | uncommon | max_hp 80, power 0.09, crit 0.27 | 1530 |
+| `foundry_uncommon_charm` | Foundry Charm | charm | 63 | uncommon | max_hp 107, power 0.21, crit 0.14 | 1530 |
 | `foundry_rare_weapon` | Slagworker Knuckles | weapon | 63 | rare | power 1.65, crit 0.19 | - |
 | `foundry_rare_body` | Slagworker Plate | body | 63 | rare | defense 16, max_hp 127 | - |
 | `foundry_rare_head` | Slagworker Helm | head | 63 | rare | defense 10, max_hp 98, crit 0.08 | - |
@@ -253,7 +254,7 @@ On `claude/level70`, Godot 4.7.2 headless:
 | `heart_uncommon_head` | Heartforged Helm | head | 68 | uncommon | defense 9, max_hp 118 | 1600 |
 | `heart_uncommon_hands` | Heartforged Gloves | hands | 68 | uncommon | power 0.58, defense 3, crit 0.12 | 1450 |
 | `heart_uncommon_feet` | Heartforged Boots | feet | 68 | uncommon | speed 0.28, defense 6, attack_speed 0.15 | 1200 |
-| `heart_uncommon_charm` | Heartforged Charm | charm | 68 | uncommon | max_hp 86, power 0.1, crit 0.29 | 1640 |
+| `heart_uncommon_charm` | Heartforged Charm | charm | 68 | uncommon | max_hp 115, power 0.23, crit 0.15 | 1640 |
 | `heart_rare_weapon` | Heart Sentry Knuckles | weapon | 68 | rare | power 1.77, crit 0.2 | - |
 | `heart_rare_body` | Heart Sentry Plate | body | 68 | rare | defense 17, max_hp 136 | - |
 | `heart_rare_head` | Heart Sentry Helm | head | 68 | rare | defense 11, max_hp 106, crit 0.08 | - |
@@ -277,3 +278,18 @@ On `claude/level70`, Godot 4.7.2 headless:
 | `sovereign_seal` | Sovereign Seal | charm | 70 | mythic | max_hp 232, power 0.4, crit 0.15, attack_speed 0.15 | - |
 | `spillway_epic_body` | Spillway Chief's Coat | body | 42 | epic | defense 12, max_hp 110 | - |
 | `spillway_epic_head` | Spillway Chief's Visor | head | 42 | epic | defense 7, max_hp 95, crit 0.05 | - |
+
+## Balance pass (after the first report)
+
+Measured with `FarmCheck.gd`, `EnrageCompare.gd` and `LevelingRun.gd`; 8 seeds unless noted.
+
+| Change | Why (measured) | After |
+|---|---|---|
+| Lair bosses ×2.0 health (the Wiroj Protocol ×1.3) | At ×1.0 every lair boss fell in 16-60 s even ten levels under: the enrage never mattered | On-level median 33-65 s, no knock-out; the 75 s enrage fires in 1/8 on-level runs and 2-3/8 ten levels under |
+| Field coins per tier ×0.55 / 0.58 / 0.47 / 0.87 | 76k-129k coins/h against Core Overflow's 35k, Foundry above Iron Heart | 44k, 50k, 61k, 79-87k coins/h |
+| Iron Heart: Iron Sentry weight 3 → 2 | 3/8 knock-outs at Lv 66 with shop gear | 1/8 at 66 and 68 |
+| Uncommon charm stat mix from Kenji's Lucky Charm | The Lucky Coin (Lv 3) mix gave 0.23-0.29 crit | 0.12-0.15 crit, below the tier's rare |
+
+- Timer check after the change: 60 s enraged the Wiroj Protocol for on-level heroes in 4-6 of 8 runs (too harsh), 90 s never fired, so 75 s stays.
+- Levelling after the change (2 seeds): 50-60 23.4-25.3 h, 60-65 26.6-27.2 h, 65-70 40.3-44.9 h (targets 25/25/40); 1-50 2.4 h. The XP curve is unchanged.
+- Economy: a full six-slot +0 to +10 set at item level 61+ costs on average 168k coins, 934 Scrap and 283 Alloy with failures and pity counted. That is about 281k coins if the materials are bought (Scrap 30, Alloy 300), or about 4 hours of Iron Heart farming against a 40 hour band.

@@ -41,10 +41,16 @@ SLOTS = ["weapon", "body", "head", "hands", "feet", "charm"]
 REMATCH_ENRAGE = {"after_seconds": 75, "warn_seconds": 10, "damage": 1.5, "cooldown": 0.7}
 WORLD_BOSS_ENRAGE = {"last_seconds": 1200, "warn_seconds": 60, "damage": 1.3, "cooldown": 0.8}
 SHOP_PRICE_PER_POINT = 15.0
+# Lair bosses' health over the story boss they are cloned from: at x1.0 every
+# lair boss fell in 16-60 s with no knock-out even ten levels under
+# (EnrageCompare), so the enrage timer never mattered. A tier may set its own
+# "boss_hp" (the Wiroj Protocol keeps the Director's shield phases, which
+# already make the fight long).
+LAIR_BOSS_HP = 2.0
 
 TIERS = [
     {
-        "key": "coolant", "lair": "coolant_control_room", "lair_name": "Coolant Control Room",
+        "key": "coolant", "coins": 0.55, "lair": "coolant_control_room", "lair_name": "Coolant Control Room",
         "level": 53, "ground": "farm_coolant_vaults", "ground_name": "Coolant Vaults",
         "unlock": "director_wiroj", "theme": "canal", "kit": "tunnels",
         "palette": {"sky": "#0a1218", "buildings": ["#14262e", "#183038", "#0f2026"], "windows": "#60d0ff",
@@ -60,7 +66,7 @@ TIERS = [
         "uncommon": "Coolant", "rare": "Vault Guard", "epic": "Reinstated",
     },
     {
-        "key": "underworks", "lair": "underworks_tank_hall", "lair_name": "Tank Hall",
+        "key": "underworks", "coins": 0.58, "lair": "underworks_tank_hall", "lair_name": "Tank Hall",
         "level": 58, "ground": "farm_reactor_underworks", "ground_name": "Reactor Underworks",
         "unlock": "arthit_reinstated", "theme": "canal", "kit": "tunnels",
         "palette": {"sky": "#160c06", "buildings": ["#2e1a0e", "#382012", "#26150b"], "windows": "#ffb050",
@@ -75,7 +81,7 @@ TIERS = [
         "uncommon": "Underworks", "rare": "Reactor Crew", "epic": "Relapsed",
     },
     {
-        "key": "foundry", "lair": "foundry_crucible", "lair_name": "The Crucible",
+        "key": "foundry", "coins": 0.47, "lair": "foundry_crucible", "lair_name": "The Crucible",
         "level": 63, "ground": "farm_foundry_depths", "ground_name": "Foundry Depths",
         "unlock": "twelve_relapsed", "theme": "canal", "kit": "tunnels",
         "palette": {"sky": "#1a0806", "buildings": ["#34130c", "#3e1810", "#2a0f09"], "windows": "#ff7040",
@@ -90,7 +96,7 @@ TIERS = [
         "uncommon": "Foundry", "rare": "Slagworker", "epic": "Overdriven",
     },
     {
-        "key": "heart", "lair": "heart_core_chamber", "lair_name": "Heart Core Chamber",
+        "key": "heart", "boss_hp": 1.3, "coins": 0.87, "lair": "heart_core_chamber", "lair_name": "Heart Core Chamber",
         "level": 68, "ground": "farm_iron_heart", "ground_name": "The Iron Heart",
         "unlock": "k7_overdriven", "theme": "canal", "kit": "tunnels",
         "palette": {"sky": "#100808", "buildings": ["#261012", "#2e1416", "#1e0c0e"], "windows": "#ff5060",
@@ -99,6 +105,8 @@ TIERS = [
                    "Heartforged gear, and the Wiroj Protocol (the Heart's defences, in his voice) waits in its core.",
         "mobs": [("heart_guard", "Heart Guard", "riot_trooper"),
                  ("iron_sentry", "Iron Sentry", "core_sentinel")],
+        # The Iron Sentry is a Core Sentinel (an elite before): fewer of them.
+        "mob_b_weight": 2,
         "champion": ("heart_keeper", "Heart Keeper", "core_sentinel"),
         "boss": ("wiroj_protocol", "The Wiroj Protocol", "director_wiroj"),
         "shop_from": "Ama",
@@ -165,8 +173,17 @@ def godot_prices(request):
     raise SystemExit("ItemBudgetQuery failed:\n" + run.stdout + run.stderr)
 
 
+# Stat mixes picked by hand where the highest existing piece of a grade is an
+# early one with a skewed mix (the only uncommon charm is the level 3 Lucky Coin,
+# nearly all crit): (slot, grade) -> the existing item whose mix is reused.
+TEMPLATE_OVERRIDES = {("charm", "uncommon"): "kenjis_lucky_charm"}
+
+
 def template(items, slot, grade):
     """The highest-level existing item of `slot` (preferring `grade`), whose stat mix is reused."""
+    if (slot, grade) in TEMPLATE_OVERRIDES:
+        item_id = TEMPLATE_OVERRIDES[(slot, grade)]
+        return item_id, items[item_id]
     gear = [(k, v) for k, v in items.items() if v.get("type") == "equipment" and v.get("slot") == slot
             and not is_generated(k)]
     same = [kv for kv in gear if kv[1].get("rarity") == grade] or gear
@@ -242,6 +259,14 @@ def clone_enemy(enemies, new_id, name, base_id, loot, elite=None):
     return data
 
 
+def coins(tier, low, high):
+    """A field monster's coin range, scaled by the tier's "coins" factor: measured with
+    FarmCheck so the coins per hour climb smoothly from Core Overflow's (about 35k/h at
+    level 50) to about 42k, 50k, 60k and 70k/h on the four grounds."""
+    factor = float(tier.get("coins", 1.0))
+    return [max(1, int(round(low * factor))), max(2, int(round(high * factor)))]
+
+
 def tier_enemies(enemies, tier, gear):
     lvl = tier["level"]
     alloy = min(0.45, 0.2 + 0.03 * (lvl - 50) / 5)
@@ -250,20 +275,21 @@ def tier_enemies(enemies, tier, gear):
         drops = [{"item": "rice_box", "chance": 0.12}, {"item": "herbal_tonic", "chance": 0.05}]
         drops += [{"item": r, "chance": 0.02} for r in rares]
         drops += [{"item": "refined_alloy", "chance": round(alloy, 2)}, {"item": "scrap_metal", "chance": 0.8}]
-        clone_enemy(enemies, mob_id, name, base, {"money": [30 + lvl // 2, 48 + lvl // 2], "drops": drops})
+        clone_enemy(enemies, mob_id, name, base, {"money": coins(tier, 30 + lvl // 2, 48 + lvl // 2), "drops": drops})
     champ_id, champ_name, champ_base = tier["champion"]
     drops = [{"item": "herbal_tonic", "chance": 0.25}]
     drops += [{"item": r, "chance": 0.04} for r in gear["rare"]]
     drops += [{"item": e, "chance": 0.01} for e in gear["epic"][:2]]
     drops += [{"item": "refined_alloy", "chance": 0.6}, {"item": "scrap_metal", "chance": 1.0}]
     clone_enemy(enemies, champ_id, champ_name, champ_base,
-                {"money": [80 + lvl, 120 + lvl], "drops": drops}, elite=True)
+                {"money": coins(tier, 80 + lvl, 120 + lvl), "drops": drops}, elite=True)
     boss_id, boss_name, boss_base = tier["boss"]
     drops = [{"item": e, "chance": 0.15} for e in gear["epic"]]
     drops += [{"item": "refined_alloy", "chance": 1.0}, {"item": "herbal_tonic", "chance": 0.5}]
     boss = clone_enemy(enemies, boss_id, boss_name, boss_base,
                        {"money": [900 + 20 * lvl, 1200 + 20 * lvl], "drops": drops})
     boss["enrage"] = dict(REMATCH_ENRAGE)
+    boss["max_hp"] = int(round(int(enemies[boss_base]["max_hp"]) * tier.get("boss_hp", LAIR_BOSS_HP)))
 
 
 def ground_area(areas, tier):
@@ -275,7 +301,7 @@ def ground_area(areas, tier):
     })
     mob_a, mob_b = tier["mobs"][0][0], tier["mobs"][1][0]
     base["spawning"] = dict(base["spawning"])
-    base["spawning"]["pool"] = {mob_a: 6, mob_b: 3, tier["champion"][0]: 1}
+    base["spawning"]["pool"] = {mob_a: 6, mob_b: tier.get("mob_b_weight", 3), tier["champion"][0]: 1}
     base["spawning"]["reward_scale"] = 0.6
     base["spawning"]["elite_drops"] = [{"item": "%s_epic_body" % tier["key"], "chance": 0.02}]
     base["obstacles"] = [{"kind": "oil_drums", "x": 300, "y": 258}, {"kind": "crates", "x": 640, "y": 258},
@@ -303,6 +329,7 @@ def gap_area(areas, enemies, items):
     drops += [{"item": "refined_alloy", "chance": 1.0}, {"item": "herbal_tonic", "chance": 0.5}]
     boss = clone_enemy(enemies, boss_id, boss_name, boss_base, {"money": [500, 700], "drops": drops})
     boss["enrage"] = dict(REMATCH_ENRAGE)
+    boss["max_hp"] = int(round(int(enemies[boss_base]["max_hp"]) * LAIR_BOSS_HP))
     areas[g["id"]] = base
     lair_area(areas, g["lair"], g["lair_name"], base, boss_id, "facility_trooper", g["unlock"],
               "The spillway's gatehouse, where the Spillway Chief keeps the sluice keys: a boss fight "

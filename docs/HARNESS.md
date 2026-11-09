@@ -55,10 +55,14 @@ profiles, plus boss-only runs (several minutes). It writes `report.json` and
   enrage timer in `--timers` (and none), with `--kits` gear, `--seeds` seeds and the
   hero `--level_offset` levels from the lair's suggested level, and prints kill rate,
   knock-outs, median and slowest kill time, how often the enrage fired and food eaten.
+- `tests/harness/FarmCheck.gd` runs farming sessions (`LevelingSim.farm_rate`) on the
+  grounds in `--areas` at `--offsets` levels from each ground's own, with `--seeds` seeds per
+  gear profile, and prints mean XP, coins, Scrap Metal and Refined Alloy per hour and the
+  knock-outs.
 - `tests/harness/ItemBudgetQuery.gd` prints the `ItemRules` budget and score of the items
   in `--in=file.json`, so content tools price gear with the game's own rule.
 
-All three only read the data; anything they change lives in memory for one run.
+All four only read the data; anything they change lives in memory for one run.
 
 ## Limits
 

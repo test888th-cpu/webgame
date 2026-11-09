@@ -1435,9 +1435,9 @@
       "level": 53,
       "price": 1300,
       "stats": {
-        "max_hp": 68,
-        "power": 0.08,
-        "crit": 0.23
+        "max_hp": 91,
+        "power": 0.18,
+        "crit": 0.12
       },
       "icon": "lucky_coin",
       "description": "Ama's Market stocks it once the way down is open."
@@ -1699,9 +1699,9 @@
       "level": 58,
       "price": 1420,
       "stats": {
-        "max_hp": 74,
-        "power": 0.08,
-        "crit": 0.25
+        "max_hp": 99,
+        "power": 0.2,
+        "crit": 0.13
       },
       "icon": "lucky_coin",
       "description": "Ama's Market stocks it once the way down is open."
@@ -1963,9 +1963,9 @@
       "level": 63,
       "price": 1530,
       "stats": {
-        "max_hp": 80,
-        "power": 0.09,
-        "crit": 0.27
+        "max_hp": 107,
+        "power": 0.21,
+        "crit": 0.14
       },
       "icon": "lucky_coin",
       "description": "Ama's Market stocks it once the way down is open."
@@ -2227,9 +2227,9 @@
       "level": 68,
       "price": 1640,
       "stats": {
-        "max_hp": 86,
-        "power": 0.1,
-        "crit": 0.29
+        "max_hp": 115,
+        "power": 0.23,
+        "crit": 0.15
       },
       "icon": "lucky_coin",
       "description": "Ama's Market stocks it once the way down is open."

@@ -185,7 +185,7 @@ static func _farm(
 	var zone := ZoneSim.new(content, profile, area_id, "west", seed)
 	zone.refresh_hero()
 	var pilot := AutoPilot.new(content)
-	var out := {"xp": 0, "kills": 0, "trips": 0, "ko": false}
+	var out := {"xp": 0, "kills": 0, "trips": 0, "ko": false, "coins": 0, "scrap": 0, "alloy": 0}
 	var ticks := 0
 	var resting := 0
 	while ticks < limit and not zone.hero.is_ko():
@@ -197,6 +197,8 @@ static func _farm(
 			if event.type == "defeat" and not event.data.get("boss", false):
 				out["xp"] += int(event.data["xp"])
 				out["kills"] += 1
+			elif event.type == "pickup":
+				_count_pickup(out, event.data)
 		# Hold the hero at the measured level for the whole session.
 		profile.level = level
 		profile.xp = 0
@@ -212,4 +214,17 @@ static func _farm(
 	out["ko"] = zone.hero.is_ko()
 	out["ticks"] = ticks
 	out["xp_per_hour"] = float(out["xp"]) * TICKS_PER_HOUR / maxi(1, ticks)
+	for key: String in ["coins", "scrap", "alloy"]:
+		out[key + "_per_hour"] = float(out[key]) * TICKS_PER_HOUR / maxi(1, ticks)
 	return out
+
+
+## Adds a picked-up drop to the session's coin and material totals.
+static func _count_pickup(out: Dictionary, pickup: Dictionary) -> void:
+	var amount := int(pickup.get("amount", 1))
+	if pickup.get("kind") == "money":
+		out["coins"] += amount
+	elif pickup.get("item") == "scrap_metal":
+		out["scrap"] += amount
+	elif pickup.get("item") == "refined_alloy":
+		out["alloy"] += amount

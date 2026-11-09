@@ -34,8 +34,19 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
     kills 16-60 s, slowest 62 s at the suggested level (Wiroj Protocol, shop gear) and
     70 s ten levels below. 60 s enraged that fight for on-level heroes (1 in 8 runs) and
     for 2-3 in 8 at ten levels below; 75 s and 90 s never fired. 75 s kept.
+- **Balance pass** (measured with `FarmCheck.gd`, `EnrageCompare.gd`, `LevelingRun.gd`):
+  - Lair bosses get ×2.0 the health of the story boss they come from (the Wiroj Protocol ×1.3,
+    whose shield phases already make the fight long). On-level kills now take 33-65 s with no
+    knock-out. The 75 s enrage fires in 1 of 8 on-level runs and 2-3 of 8 ten levels under;
+    60 s fired in 4-6 of 8 on-level Wiroj Protocol runs, and 90 s never fired.
+  - Field coins per tier scaled so coins per hour climb 35k (Core Overflow) → 44k → 50k → 61k →
+    79-87k, instead of 76k-129k with Foundry above Iron Heart.
+  - Iron Heart's Iron Sentry (a former elite) comes less often: knock-outs 3/8 → 1/8 at Lv 66.
+  - Uncommon 50-70 charms take Kenji's Lucky Charm stat mix: crit 0.12-0.15 instead of 0.23-0.29.
+  - Levelling after the pass: 50-60 23-25 h, 60-65 27 h, 65-70 40-45 h (targets 25/25/40).
 - **Tools:** `tools/content/level70_content.py` generates all of the above (idempotent);
-  `tests/harness/ItemBudgetQuery.gd`, `EnrageCompare.gd`; `LevelingRun` now measures the
+  `tests/harness/ItemBudgetQuery.gd`, `EnrageCompare.gd`, `FarmCheck.gd` (coins and materials per
+  hour too); `LevelingRun` now measures the
   real grounds up to the cap. Scenery for the twelve new areas from the asset pipeline.
 - **Tests:** `test_lairs.gd`, `test_boss_enrage.gd`, `test_level70_gear.gd`; the ground,
   taxi, market and boss-gear tests follow the new content.
