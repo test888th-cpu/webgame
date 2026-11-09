@@ -4,6 +4,13 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added: the client/sim purity test and local architecture guides
+- `client/tests/unit/test_sim_purity.gd` checks every `client/sim/*.gd` file.
+  - **Forbidden:** scene types, the `Input` singleton, the scene tree, host services (`OS`, `Engine`, `Time`, ...), `res://scenes` paths, autoloads, global or unseeded random numbers, and file or network access.
+  - **Exceptions:** only the two data loaders, which read the content JSON.
+  - **Self-checks:** each rule is proven to fire on a forbidden sample and to spare comments, `FighterInput` and seeded RNGs.
+- Local `CLAUDE.md` guides for `client/sim/`, `client/scenes/`, `client/data/`, `client/tests/`, `backend/` and `tools/`; the root `CLAUDE.md` points to them.
+- No gameplay change.
 ### Fixed: the original food and world boss rules are back
 - **Food:** unlimited again, as before PR #73.
   - The 6-foods-per-boss-fight cap is removed (progression.json `boss_fight_food`, `FoodRules.boss_food_left`, the hotbar dimming and the "No more food" message).
