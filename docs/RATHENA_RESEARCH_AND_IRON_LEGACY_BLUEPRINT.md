@@ -1486,3 +1486,469 @@ On `main` at `1cd3bdb` [VERIFIED by `git show`]. **Nothing is removed or changed
    - Burst: `gang_hq`, `factory_drains`, `control_room`, `core_chamber` × A–D × skilled and unskilled × 2 seeds.
    - Swarm: `container_yard`, `waste_pools`, `machine_hall`, `reactor_walkway` × A, B, D × the three variants.
    - Slots: `sak_tower`, profile B with each slot removed or upgraded, no food, 2 seeds.
+
+
+---
+
+# DESIGN VALIDATION ROUND 3
+
+**Research only.**
+- **Not changed:** the level cap, combat formulas and content.
+- **Not decided:** no balance value is finalised. The level 51–70 results are synthetic and decide nothing.
+
+**Labels:**
+
+| Label | Meaning |
+|---|---|
+| [MEASURED] | Runs of the game's own rules |
+| [SYNTHETIC] | Runs past the real content (level 51–70), using re-levelled areas and generated gear |
+| [PREDICTED] | Calculated, not run |
+
+## R3.0 Setup
+
+| Item | What was used |
+|---|---|
+| Baseline | Branch `claude/restore-original-rules` (`b634166`), the game with the owner's rules restored: unlimited food, unlimited world-boss entries, no boss multipliers. Checked out in a scratch worktree; test-only switches were patched there, never in the repository |
+| Defense | **current** (`max(1, raw − DEF)`) and **hybrid-T** (§V1.1) |
+| Profiles | A (undergeared), B (shop +0), B5, B10, C (boss weapon and charm +5), D (best +10), as Round 2 |
+| Food | 0, 10 or 99 carried. Eaten as the game does: below 50% HP, the existing 2-second shared cooldown, heal amounts unchanged. **No food rule was altered** |
+| World bosses | Unlimited entries: attempt after attempt in one 60-minute round, re-entering at once (no waiting), 10 foods restocked per attempt, until the pool falls or the round closes |
+| Seeds | 2 seeds × Oren and Mika = 4 fights per cell (world bosses: 1 seed × 2 heroes) |
+| Real content (levels 1–50) | Stage bosses `canal_works` (3), `gang_hq` (10), `crane_yard` (16), `factory_drains` (24), `underground_ring` (27), `sak_tower` (31), `control_room` (39), `core_chamber` (48). Streets `rusted_corner`, `container_yard`, `waste_pools`, `machine_hall`, `reactor_walkway` |
+| **Synthetic (levels 51–70)** | `core_chamber` (Director Wiroj) and `reactor_walkway` re-levelled to 55, 65 and 70 through `LevelRules`. Gear either generated (level-50 items scaled by the `ItemRules` budget to the hero's level; "synthetic gear") or kept at level 50. The Iron Colossus re-levelled to 65 |
+| Extra switches | Heavy attacks ×1.6 on late bosses; "unskilled" (dodge and guard presses removed) |
+
+Total: about 2,250 fights and 56 world-boss rounds.
+
+## R3.1 Stage bosses, levels 1–70
+
+[MEASURED for levels 1–50; SYNTHETIC for 51–70]. Columns:
+- Knock-outs out of 4 fights with 0, 10 and 99 foods.
+- Time to die without food (HP ÷ damage taken per second).
+- The worst 2-second burst as a share of half HP (1.0 = enough to kill through the food timing).
+
+#### Stage bosses, current flat defense
+
+| Bracket | Boss area (level) | Profile | KO with 0 · 10 · 99 foods | TTD s (no food) | Worst 2 s burst ÷ ½ HP (no food) |
+|---|---|---|---|---|---|
+| 1–10 (real) | canal_works (3) | A | 4/4 · 0/4 · 0/4 | 12 | 0.81 |
+| 1–10 (real) | canal_works (3) | B | 3/4 · 0/4 · 0/4 | 15 | 0.66 |
+| 1–10 (real) | canal_works (3) | B5 | 2/4 · 0/4 · 0/4 | 18 | 0.54 |
+| 1–10 (real) | canal_works (3) | B10 | 0/4 · 0/4 · 0/4 | 25 | 0.44 |
+| 1–10 (real) | canal_works (3) | C | 2/4 · 0/4 · 0/4 | 18 | 0.54 |
+| 1–10 (real) | canal_works (3) | D | 0/4 · 0/4 · 0/4 | 33 | 0.41 |
+| 1–10 (real) | gang_hq (10) | A | 4/4 · 1/4 · 0/4 | 12 | 0.81 |
+| 1–10 (real) | gang_hq (10) | B | 4/4 · 0/4 · 0/4 | 14 | 0.69 |
+| 1–10 (real) | gang_hq (10) | B5 | 4/4 · 0/4 · 0/4 | 16 | 0.58 |
+| 1–10 (real) | gang_hq (10) | B10 | 0/4 · 0/4 · 0/4 | 33 | 0.44 |
+| 1–10 (real) | gang_hq (10) | C | 1/4 · 0/4 · 0/4 | 24 | 0.53 |
+| 1–10 (real) | gang_hq (10) | D | 0/4 · 0/4 · 0/4 | 60 | 0.30 |
+| 11–20 (real) | crane_yard (16) | A | 4/4 · 0/4 · 0/4 | 16 | 0.67 |
+| 11–20 (real) | crane_yard (16) | B | 3/4 · 0/4 · 0/4 | 22 | 0.47 |
+| 11–20 (real) | crane_yard (16) | B5 | 2/4 · 0/4 · 0/4 | 29 | 0.43 |
+| 11–20 (real) | crane_yard (16) | B10 | 0/4 · 0/4 · 0/4 | 43 | 0.37 |
+| 11–20 (real) | crane_yard (16) | C | 0/4 · 0/4 · 0/4 | 45 | 0.32 |
+| 11–20 (real) | crane_yard (16) | D | 0/4 · 0/4 · 0/4 | 63 | 0.24 |
+| 21–30 (real) | factory_drains (24) | A | 4/4 · 0/4 · 0/4 | 22 | 0.52 |
+| 21–30 (real) | factory_drains (24) | B | 3/4 · 0/4 · 0/4 | 26 | 0.45 |
+| 21–30 (real) | factory_drains (24) | B5 | 0/4 · 0/4 · 0/4 | 54 | 0.39 |
+| 21–30 (real) | factory_drains (24) | B10 | 0/4 · 0/4 · 0/4 | 62 | 0.29 |
+| 21–30 (real) | factory_drains (24) | C | 0/4 · 0/4 · 0/4 | 72 | 0.24 |
+| 21–30 (real) | factory_drains (24) | D | 0/4 · 0/4 · 0/4 | 107 | 0.19 |
+| 21–30 (real) | underground_ring (27) | A | 2/4 · 0/4 · 0/4 | 31 | 0.45 |
+| 21–30 (real) | underground_ring (27) | B | 0/4 · 0/4 · 0/4 | 47 | 0.28 |
+| 21–30 (real) | underground_ring (27) | B5 | 0/4 · 0/4 · 0/4 | 89 | 0.17 |
+| 21–30 (real) | underground_ring (27) | B10 | 0/4 · 0/4 · 0/4 | 164 | 0.10 |
+| 21–30 (real) | underground_ring (27) | C | 0/4 · 0/4 · 0/4 | 120 | 0.16 |
+| 21–30 (real) | underground_ring (27) | D | 0/4 · 0/4 · 0/4 | 354 | 0.07 |
+| 31–40 (real) | sak_tower (31) | A | 4/4 · 0/4 · 0/4 | 20 | 0.60 |
+| 31–40 (real) | sak_tower (31) | B | 1/4 · 0/4 · 0/4 | 47 | 0.37 |
+| 31–40 (real) | sak_tower (31) | B5 | 0/4 · 0/4 · 0/4 | 62 | 0.35 |
+| 31–40 (real) | sak_tower (31) | B10 | 0/4 · 0/4 · 0/4 | 88 | 0.21 |
+| 31–40 (real) | sak_tower (31) | C | 0/4 · 0/4 · 0/4 | 77 | 0.26 |
+| 31–40 (real) | sak_tower (31) | D | 0/4 · 0/4 · 0/4 | 174 | 0.10 |
+| 31–40 (real) | control_room (39) | A | 4/4 · 0/4 · 0/4 | 18 | 0.53 |
+| 31–40 (real) | control_room (39) | B | 3/4 · 0/4 · 0/4 | 29 | 0.45 |
+| 31–40 (real) | control_room (39) | B5 | 0/4 · 0/4 · 0/4 | 54 | 0.38 |
+| 31–40 (real) | control_room (39) | B10 | 0/4 · 0/4 · 0/4 | 67 | 0.25 |
+| 31–40 (real) | control_room (39) | C | 0/4 · 0/4 · 0/4 | 100 | 0.24 |
+| 31–40 (real) | control_room (39) | D | 0/4 · 0/4 · 0/4 | 118 | 0.20 |
+| 41–50 (real) | core_chamber (48) | A | 4/4 · 0/4 · 0/4 | 57 | 0.48 |
+| 41–50 (real) | core_chamber (48) | B | 0/4 · 0/4 · 0/4 | 76 | 0.34 |
+| 41–50 (real) | core_chamber (48) | B5 | 0/4 · 0/4 · 0/4 | 106 | 0.28 |
+| 41–50 (real) | core_chamber (48) | B10 | 0/4 · 0/4 · 0/4 | 195 | 0.18 |
+| 41–50 (real) | core_chamber (48) | C | 0/4 · 0/4 · 0/4 | 137 | 0.23 |
+| 41–50 (real) | core_chamber (48) | D | 0/4 · 0/4 · 0/4 | 231 | 0.15 |
+| 51–60 (SYNTHETIC) | core_chamber re-levelled to 55 | A | 1/4 · 0/4 · 0/4 | 78 | 0.43 |
+| 51–60 (SYNTHETIC) | core_chamber re-levelled to 55 | B | 0/4 · 0/4 · 0/4 | 105 | 0.32 |
+| 51–60 (SYNTHETIC) | core_chamber re-levelled to 55 | B5 | 0/4 · 0/4 · 0/4 | 188 | 0.18 |
+| 51–60 (SYNTHETIC) | core_chamber re-levelled to 55 | B10 | 0/4 · 0/4 · 0/4 | 218 | 0.18 |
+| 51–60 (SYNTHETIC) | core_chamber re-levelled to 55 | C | 0/4 · 0/4 · 0/4 | 128 | 0.21 |
+| 51–60 (SYNTHETIC) | core_chamber re-levelled to 55 | D | 0/4 · 0/4 · 0/4 | 255 | 0.14 |
+| 61–70 (SYNTHETIC) | core_chamber re-levelled to 65 | A | 2/4 · 0/4 · 0/4 | 83 | 0.40 |
+| 61–70 (SYNTHETIC) | core_chamber re-levelled to 65 | B | 0/4 · 0/4 · 0/4 | 102 | 0.34 |
+| 61–70 (SYNTHETIC) | core_chamber re-levelled to 65 | B5 | 0/4 · 0/4 · 0/4 | 133 | 0.24 |
+| 61–70 (SYNTHETIC) | core_chamber re-levelled to 65 | B10 | 0/4 · 0/4 · 0/4 | 213 | 0.18 |
+| 61–70 (SYNTHETIC) | core_chamber re-levelled to 65 | C | 0/4 · 0/4 · 0/4 | 184 | 0.15 |
+| 61–70 (SYNTHETIC) | core_chamber re-levelled to 65 | D | 0/4 · 0/4 · 0/4 | 322 | 0.13 |
+| 61–70 (SYNTHETIC) | core_chamber re-levelled to 70 | A | 3/4 · 0/4 · 0/4 | 65 | 0.49 |
+| 61–70 (SYNTHETIC) | core_chamber re-levelled to 70 | B | 0/4 · 0/4 · 0/4 | 85 | 0.35 |
+| 61–70 (SYNTHETIC) | core_chamber re-levelled to 70 | B5 | 0/4 · 0/4 · 0/4 | 150 | 0.22 |
+| 61–70 (SYNTHETIC) | core_chamber re-levelled to 70 | B10 | 0/4 · 0/4 · 0/4 | 145 | 0.19 |
+| 61–70 (SYNTHETIC) | core_chamber re-levelled to 70 | C | 0/4 · 0/4 · 0/4 | 235 | 0.17 |
+| 61–70 (SYNTHETIC) | core_chamber re-levelled to 70 | D | 0/4 · 0/4 · 0/4 | 360 | 0.11 |
+
+#### Stage bosses, hybrid-T
+
+| Bracket | Boss area (level) | Profile | KO with 0 · 10 · 99 foods | TTD s (no food) | Worst 2 s burst ÷ ½ HP (no food) |
+|---|---|---|---|---|---|
+| 1–10 (real) | canal_works (3) | A | 4/4 · 0/4 · 0/4 | 12 | 0.82 |
+| 1–10 (real) | canal_works (3) | B | 3/4 · 0/4 · 0/4 | 15 | 0.68 |
+| 1–10 (real) | canal_works (3) | B5 | 3/4 · 0/4 · 0/4 | 15 | 0.61 |
+| 1–10 (real) | canal_works (3) | B10 | 0/4 · 0/4 · 0/4 | 22 | 0.51 |
+| 1–10 (real) | canal_works (3) | C | 3/4 · 0/4 · 0/4 | 15 | 0.61 |
+| 1–10 (real) | canal_works (3) | D | 0/4 · 0/4 · 0/4 | 26 | 0.52 |
+| 1–10 (real) | gang_hq (10) | A | 4/4 · 1/4 · 1/4 | 11 | 0.88 |
+| 1–10 (real) | gang_hq (10) | B | 4/4 · 0/4 · 0/4 | 13 | 0.78 |
+| 1–10 (real) | gang_hq (10) | B5 | 3/4 · 0/4 · 0/4 | 16 | 0.64 |
+| 1–10 (real) | gang_hq (10) | B10 | 1/4 · 0/4 · 0/4 | 23 | 0.52 |
+| 1–10 (real) | gang_hq (10) | C | 2/4 · 0/4 · 0/4 | 18 | 0.57 |
+| 1–10 (real) | gang_hq (10) | D | 0/4 · 0/4 · 0/4 | 36 | 0.41 |
+| 11–20 (real) | crane_yard (16) | A | 4/4 · 0/4 · 0/4 | 14 | 0.70 |
+| 11–20 (real) | crane_yard (16) | B | 4/4 · 0/4 · 0/4 | 16 | 0.55 |
+| 11–20 (real) | crane_yard (16) | B5 | 2/4 · 0/4 · 0/4 | 27 | 0.44 |
+| 11–20 (real) | crane_yard (16) | B10 | 1/4 · 0/4 · 0/4 | 31 | 0.48 |
+| 11–20 (real) | crane_yard (16) | C | 0/4 · 0/4 · 0/4 | 41 | 0.36 |
+| 11–20 (real) | crane_yard (16) | D | 0/4 · 0/4 · 0/4 | 40 | 0.35 |
+| 21–30 (real) | factory_drains (24) | A | 4/4 · 0/4 · 0/4 | 21 | 0.52 |
+| 21–30 (real) | factory_drains (24) | B | 3/4 · 0/4 · 0/4 | 23 | 0.51 |
+| 21–30 (real) | factory_drains (24) | B5 | 0/4 · 0/4 · 0/4 | 44 | 0.49 |
+| 21–30 (real) | factory_drains (24) | B10 | 1/4 · 0/4 · 0/4 | 38 | 0.37 |
+| 21–30 (real) | factory_drains (24) | C | 0/4 · 0/4 · 0/4 | 53 | 0.34 |
+| 21–30 (real) | factory_drains (24) | D | 0/4 · 0/4 · 0/4 | 72 | 0.24 |
+| 21–30 (real) | underground_ring (27) | A | 1/4 · 0/4 · 0/4 | 36 | 0.49 |
+| 21–30 (real) | underground_ring (27) | B | 0/4 · 0/4 · 0/4 | 38 | 0.36 |
+| 21–30 (real) | underground_ring (27) | B5 | 0/4 · 0/4 · 0/4 | 51 | 0.27 |
+| 21–30 (real) | underground_ring (27) | B10 | 0/4 · 0/4 · 0/4 | 70 | 0.22 |
+| 21–30 (real) | underground_ring (27) | C | 0/4 · 0/4 · 0/4 | 63 | 0.28 |
+| 21–30 (real) | underground_ring (27) | D | 0/4 · 0/4 · 0/4 | 73 | 0.19 |
+| 31–40 (real) | sak_tower (31) | A | 4/4 · 0/4 · 0/4 | 18 | 0.57 |
+| 31–40 (real) | sak_tower (31) | B | 3/4 · 0/4 · 0/4 | 25 | 0.50 |
+| 31–40 (real) | sak_tower (31) | B5 | 0/4 · 0/4 · 0/4 | 42 | 0.41 |
+| 31–40 (real) | sak_tower (31) | B10 | 0/4 · 0/4 · 0/4 | 54 | 0.34 |
+| 31–40 (real) | sak_tower (31) | C | 0/4 · 0/4 · 0/4 | 53 | 0.35 |
+| 31–40 (real) | sak_tower (31) | D | 0/4 · 0/4 · 0/4 | 99 | 0.18 |
+| 31–40 (real) | control_room (39) | A | 4/4 · 0/4 · 0/4 | 16 | 0.55 |
+| 31–40 (real) | control_room (39) | B | 4/4 · 0/4 · 0/4 | 23 | 0.43 |
+| 31–40 (real) | control_room (39) | B5 | 1/4 · 0/4 · 0/4 | 33 | 0.42 |
+| 31–40 (real) | control_room (39) | B10 | 0/4 · 0/4 · 0/4 | 43 | 0.36 |
+| 31–40 (real) | control_room (39) | C | 0/4 · 0/4 · 0/4 | 45 | 0.34 |
+| 31–40 (real) | control_room (39) | D | 0/4 · 0/4 · 0/4 | 54 | 0.34 |
+| 41–50 (real) | core_chamber (48) | A | 4/4 · 0/4 · 0/4 | 52 | 0.52 |
+| 41–50 (real) | core_chamber (48) | B | 2/4 · 0/4 · 0/4 | 63 | 0.46 |
+| 41–50 (real) | core_chamber (48) | B5 | 0/4 · 0/4 · 0/4 | 66 | 0.38 |
+| 41–50 (real) | core_chamber (48) | B10 | 0/4 · 0/4 · 0/4 | 98 | 0.27 |
+| 41–50 (real) | core_chamber (48) | C | 0/4 · 0/4 · 0/4 | 101 | 0.26 |
+| 41–50 (real) | core_chamber (48) | D | 0/4 · 0/4 · 0/4 | 118 | 0.23 |
+| 51–60 (SYNTHETIC) | core_chamber re-levelled to 55 | A | 3/4 · 0/4 · 0/4 | 58 | 0.44 |
+| 51–60 (SYNTHETIC) | core_chamber re-levelled to 55 | B | 2/4 · 0/4 · 0/4 | 60 | 0.39 |
+| 51–60 (SYNTHETIC) | core_chamber re-levelled to 55 | B5 | 0/4 · 0/4 · 0/4 | 75 | 0.34 |
+| 51–60 (SYNTHETIC) | core_chamber re-levelled to 55 | B10 | 0/4 · 0/4 · 0/4 | 102 | 0.24 |
+| 51–60 (SYNTHETIC) | core_chamber re-levelled to 55 | C | 0/4 · 0/4 · 0/4 | 96 | 0.23 |
+| 51–60 (SYNTHETIC) | core_chamber re-levelled to 55 | D | 0/4 · 0/4 · 0/4 | 109 | 0.23 |
+| 61–70 (SYNTHETIC) | core_chamber re-levelled to 65 | A | 3/4 · 0/4 · 0/4 | 53 | 0.45 |
+| 61–70 (SYNTHETIC) | core_chamber re-levelled to 65 | B | 1/4 · 0/4 · 0/4 | 57 | 0.41 |
+| 61–70 (SYNTHETIC) | core_chamber re-levelled to 65 | B5 | 0/4 · 0/4 · 0/4 | 78 | 0.30 |
+| 61–70 (SYNTHETIC) | core_chamber re-levelled to 65 | B10 | 0/4 · 0/4 · 0/4 | 71 | 0.28 |
+| 61–70 (SYNTHETIC) | core_chamber re-levelled to 65 | C | 0/4 · 0/4 · 0/4 | 107 | 0.22 |
+| 61–70 (SYNTHETIC) | core_chamber re-levelled to 65 | D | 0/4 · 0/4 · 0/4 | 164 | 0.14 |
+| 61–70 (SYNTHETIC) | core_chamber re-levelled to 70 | A | 3/4 · 0/4 · 0/4 | 54 | 0.43 |
+| 61–70 (SYNTHETIC) | core_chamber re-levelled to 70 | B | 0/4 · 0/4 · 0/4 | 61 | 0.40 |
+| 61–70 (SYNTHETIC) | core_chamber re-levelled to 70 | B5 | 0/4 · 0/4 · 0/4 | 78 | 0.34 |
+| 61–70 (SYNTHETIC) | core_chamber re-levelled to 70 | B10 | 0/4 · 0/4 · 0/4 | 112 | 0.23 |
+| 61–70 (SYNTHETIC) | core_chamber re-levelled to 70 | C | 0/4 · 0/4 · 0/4 | 97 | 0.24 |
+| 61–70 (SYNTHETIC) | core_chamber re-levelled to 70 | D | 0/4 · 0/4 · 0/4 | 124 | 0.22 |
+
+**Findings:**
+1. **Under the owner's food rule, no profile is knocked out by any stage boss at any level.**
+   - The one exception is A at Gang HQ: 1 in 4, under both formulas.
+   - This holds at real levels 1–50 and at synthetic levels 55–70.
+   - It holds with the current formula and with hybrid-T, and with 10 or 99 foods. The results for 10 and 99 are identical, because auto battle never eats more than about 8 in a fight. The 2-second rate limits food, not the amount carried.
+2. **Without food, gear separates clearly at every level:**
+   - A loses almost every fight; D never does.
+   - Time to die rises steadily A < B < B5 < B10 ≈ C < D.
+3. **Hybrid-T keeps the order and removes the extremes.**
+   - D's time to die without food at the Director falls from 231 s to 118 s, and at Underground Ring from 354 s to 73 s.
+   - It makes B lose more often without food in the middle and late game. Control Room: B 3/4 → 4/4, B5 0/4 → 1/4.
+4. **Bursts stay below half HP** (0.07–0.88) for every profile and level, so food timing always saves the hero.
+
+## R3.2 Levels 51–70: synthetic gear vs level-50 gear
+
+[SYNTHETIC]. Director Wiroj re-levelled; hybrid-T; 10 foods.
+
+| Level (SYNTHETIC) | Profile | Synthetic gear scaled to level (hybrid-T, 10 foods) | Level-50 gear kept (hybrid-T, 10 foods) |
+|---|---|---|---|
+| 55 | A | 0/4, 63 s, 15.8/s, TTD 54 s, burst 0.48, foods 2.5 | 0/4, 75 s, 16.8/s, TTD 46 s, burst 0.67, foods 3.8 |
+| 55 | B | 0/4, 57 s, 17.1/s, TTD 59 s, burst 0.41, foods 2.0 | 0/4, 66 s, 16.3/s, TTD 59 s, burst 0.43, foods 2.5 |
+| 55 | B5 | 0/4, 43 s, 17.7/s, TTD 68 s, burst 0.34, foods 0.8 | 0/4, 51 s, 16.8/s, TTD 66 s, burst 0.32, foods 1.5 |
+| 55 | B10 | 0/4, 43 s, 13.6/s, TTD 102 s, burst 0.24, foods 0.0 | 0/4, 46 s, 16.1/s, TTD 78 s, burst 0.29, foods 0.5 |
+| 55 | C | 0/4, 41 s, 13.7/s, TTD 89 s, burst 0.26, foods 0.5 | 0/4, 45 s, 14.0/s, TTD 80 s, burst 0.32, foods 0.8 |
+| 55 | D | 0/4, 35 s, 15.0/s, TTD 109 s, burst 0.23, foods 0.0 | 0/4, 39 s, 11.8/s, TTD 129 s, burst 0.20, foods 0.0 |
+| 65 | A | 0/4, 66 s, 22.9/s, TTD 43 s, burst 0.53, foods 4.0 | 0/4, 76 s, 28.4/s, TTD 31 s, burst 0.70, foods 7.2 |
+| 65 | B | 0/4, 55 s, 19.5/s, TTD 60 s, burst 0.42, foods 1.8 | 0/4, 64 s, 22.9/s, TTD 46 s, burst 0.51, foods 3.8 |
+| 65 | B5 | 0/4, 43 s, 17.2/s, TTD 81 s, burst 0.28, foods 0.2 | 0/4, 48 s, 22.7/s, TTD 53 s, burst 0.44, foods 1.8 |
+| 65 | B10 | 0/4, 44 s, 22.8/s, TTD 70 s, burst 0.29, foods 0.8 | 0/4, 47 s, 19.6/s, TTD 69 s, burst 0.34, foods 1.0 |
+| 65 | C | 0/4, 40 s, 12.9/s, TTD 110 s, burst 0.22, foods 0.2 | 0/4, 51 s, 18.1/s, TTD 68 s, burst 0.36, foods 1.5 |
+| 65 | D | 0/4, 37 s, 11.5/s, TTD 164 s, burst 0.14, foods 0.0 | 0/4, 37 s, 12.2/s, TTD 133 s, burst 0.21, foods 0.0 |
+| 70 | A | 0/4, 65 s, 22.0/s, TTD 47 s, burst 0.47, foods 3.8 | 0/4, 76 s, 30.4/s, TTD 30 s, burst 0.70, foods 7.2 |
+| 70 | B | 0/4, 54 s, 20.4/s, TTD 62 s, burst 0.38, foods 2.0 | 0/4, 63 s, 23.6/s, TTD 47 s, burst 0.56, foods 3.8 |
+| 70 | B5 | 0/4, 41 s, 19.0/s, TTD 78 s, burst 0.34, foods 0.5 | 0/4, 50 s, 23.0/s, TTD 55 s, burst 0.44, foods 2.2 |
+| 70 | B10 | 0/4, 41 s, 15.3/s, TTD 112 s, burst 0.23, foods 0.0 | 0/4, 47 s, 20.1/s, TTD 70 s, burst 0.35, foods 0.8 |
+| 70 | C | 0/4, 37 s, 15.6/s, TTD 97 s, burst 0.24, foods 0.0 | 0/4, 55 s, 16.1/s, TTD 80 s, burst 0.41, foods 1.0 |
+| 70 | D | 0/4, 36 s, 16.3/s, TTD 124 s, burst 0.22, foods 0.0 | 0/4, 40 s, 17.9/s, TTD 94 s, burst 0.28, foods 0.2 |
+
+- **With gear scaled to the level,** the curve stays as flat as at level 48 (B's time to die about 60 s).
+- **With level-50 gear kept,** at level 70 time to die falls 17–36% against gear scaled to the level (A 47 → 30 s, B 62 → 47 s, C 97 → 80 s), and damage taken rises 3–38%.
+- This confirms the Round 3 preparation estimate (§4.1): **a level 70 cap would need gear tiers for 51–70.**
+- Nobody falls while food is carried, in either case.
+- These rows describe no real content and decide no value.
+
+## R3.3 Heavy attacks ×1.6 and dodging
+
+[MEASURED; levels 60 and 65 SYNTHETIC]
+
+| Boss | Profile | Food | Heavy ×1.0 (hybrid-T) | Heavy ×1.6 (hybrid-T) |
+|---|---|---|---|---|
+| control_room | A | 10 | 0/4, 66 s, 23.0/s, TTD 26 s, burst 0.71, foods 4.8 | 0/4, 66 s, 25.9/s, TTD 23 s, burst 0.85, foods 5.5 |
+| control_room | A | 99 | 0/4, 66 s, 23.0/s, TTD 26 s, burst 0.71, foods 4.8 | 0/4, 66 s, 25.9/s, TTD 23 s, burst 0.85, foods 5.5 |
+| control_room | B | 10 | 0/4, 59 s, 20.6/s, TTD 33 s, burst 0.54, foods 3.2 | 0/4, 53 s, 22.6/s, TTD 30 s, burst 0.60, foods 3.5 |
+| control_room | B | 99 | 0/4, 59 s, 20.6/s, TTD 33 s, burst 0.54, foods 3.2 | 0/4, 53 s, 22.6/s, TTD 30 s, burst 0.60, foods 3.5 |
+| control_room | B5 | 10 | 0/4, 48 s, 17.5/s, TTD 43 s, burst 0.36, foods 2.0 | 0/4, 50 s, 25.7/s, TTD 29 s, burst 0.62, foods 3.5 |
+| control_room | B5 | 99 | 0/4, 48 s, 17.5/s, TTD 43 s, burst 0.36, foods 2.0 | 0/4, 50 s, 25.7/s, TTD 29 s, burst 0.62, foods 3.5 |
+| control_room | C | 10 | 0/4, 42 s, 17.7/s, TTD 47 s, burst 0.35, foods 1.2 | 0/4, 46 s, 16.4/s, TTD 50 s, burst 0.42, foods 1.2 |
+| control_room | C | 99 | 0/4, 42 s, 17.7/s, TTD 47 s, burst 0.35, foods 1.2 | 0/4, 46 s, 16.4/s, TTD 50 s, burst 0.42, foods 1.2 |
+| control_room | D | 10 | 0/4, 37 s, 16.5/s, TTD 57 s, burst 0.34, foods 0.5 | 0/4, 35 s, 19.1/s, TTD 49 s, burst 0.44, foods 0.8 |
+| control_room | D | 99 | 0/4, 37 s, 16.5/s, TTD 57 s, burst 0.34, foods 0.5 | 0/4, 35 s, 19.1/s, TTD 49 s, burst 0.44, foods 0.8 |
+| core_chamber | A | 10 | 0/4, 70 s, 18.5/s, TTD 38 s, burst 0.67, foods 4.2 | 0/4, 70 s, 19.1/s, TTD 37 s, burst 0.79, foods 4.0 |
+| core_chamber | A | 99 | 0/4, 70 s, 18.5/s, TTD 38 s, burst 0.67, foods 4.2 | 0/4, 70 s, 19.1/s, TTD 37 s, burst 0.79, foods 4.0 |
+| core_chamber | B | 10 | 0/4, 63 s, 16.9/s, TTD 52 s, burst 0.50, foods 2.8 | 0/4, 64 s, 17.9/s, TTD 49 s, burst 0.67, foods 2.8 |
+| core_chamber | B | 99 | 0/4, 63 s, 16.9/s, TTD 52 s, burst 0.50, foods 2.8 | 0/4, 64 s, 17.9/s, TTD 49 s, burst 0.67, foods 2.8 |
+| core_chamber | B5 | 10 | 0/4, 47 s, 16.1/s, TTD 64 s, burst 0.39, foods 1.0 | 0/4, 47 s, 17.0/s, TTD 61 s, burst 0.54, foods 1.0 |
+| core_chamber | B5 | 99 | 0/4, 47 s, 16.1/s, TTD 64 s, burst 0.39, foods 1.0 | 0/4, 47 s, 17.0/s, TTD 61 s, burst 0.54, foods 1.0 |
+| core_chamber | C | 10 | 0/4, 46 s, 10.6/s, TTD 100 s, burst 0.26, foods 0.2 | 0/4, 45 s, 11.9/s, TTD 89 s, burst 0.37, foods 0.2 |
+| core_chamber | C | 99 | 0/4, 46 s, 10.6/s, TTD 100 s, burst 0.26, foods 0.2 | 0/4, 45 s, 11.9/s, TTD 89 s, burst 0.37, foods 0.2 |
+| core_chamber | D | 10 | 0/4, 41 s, 11.6/s, TTD 118 s, burst 0.23, foods 0.0 | 0/4, 40 s, 16.4/s, TTD 84 s, burst 0.34, foods 0.2 |
+| core_chamber | D | 99 | 0/4, 41 s, 11.6/s, TTD 118 s, burst 0.23, foods 0.0 | 0/4, 40 s, 16.4/s, TTD 84 s, burst 0.34, foods 0.2 |
+| core_chamber re-levelled to 60 (SYNTHETIC) | A | 10 | - | 0/4, 64 s, 30.0/s, TTD 30 s, burst 0.79, foods 5.5 |
+| core_chamber re-levelled to 60 (SYNTHETIC) | A | 99 | - | 0/4, 64 s, 30.0/s, TTD 30 s, burst 0.79, foods 5.5 |
+| core_chamber re-levelled to 60 (SYNTHETIC) | B | 10 | - | 0/4, 51 s, 20.5/s, TTD 54 s, burst 0.53, foods 1.8 |
+| core_chamber re-levelled to 60 (SYNTHETIC) | B | 99 | - | 0/4, 51 s, 20.5/s, TTD 54 s, burst 0.53, foods 1.8 |
+| core_chamber re-levelled to 60 (SYNTHETIC) | B5 | 10 | - | 0/4, 45 s, 17.0/s, TTD 76 s, burst 0.35, foods 0.5 |
+| core_chamber re-levelled to 60 (SYNTHETIC) | B5 | 99 | - | 0/4, 45 s, 17.0/s, TTD 76 s, burst 0.35, foods 0.5 |
+| core_chamber re-levelled to 60 (SYNTHETIC) | C | 10 | - | 0/4, 43 s, 18.6/s, TTD 71 s, burst 0.35, foods 0.5 |
+| core_chamber re-levelled to 60 (SYNTHETIC) | C | 99 | - | 0/4, 43 s, 18.6/s, TTD 71 s, burst 0.35, foods 0.5 |
+| core_chamber re-levelled to 60 (SYNTHETIC) | D | 10 | - | 0/4, 29 s, 15.9/s, TTD 110 s, burst 0.24, foods 0.0 |
+| core_chamber re-levelled to 60 (SYNTHETIC) | D | 99 | - | 0/4, 29 s, 15.9/s, TTD 110 s, burst 0.24, foods 0.0 |
+
+| Boss | Profile | Skilled, heavy ×1.0 | Unskilled, heavy ×1.0 | Unskilled, heavy ×1.6 | (all hybrid-T, 10 foods) |
+|---|---|---|---|---|---|
+| control_room | A | 0/4, 66 s, 23.0/s, TTD 26 s, burst 0.71, foods 4.8 | 0/4, 68 s, 29.5/s, TTD 20 s, burst 0.74, foods 6.5 | 0/4, 72 s, 34.3/s, TTD 18 s, burst 1.01, foods 8.2 | |
+| control_room | B | 0/4, 59 s, 20.6/s, TTD 33 s, burst 0.54, foods 3.2 | 0/4, 54 s, 29.0/s, TTD 23 s, burst 0.65, foods 4.8 | 0/4, 56 s, 30.9/s, TTD 22 s, burst 0.81, foods 5.2 | |
+| control_room | C | 0/4, 42 s, 17.7/s, TTD 47 s, burst 0.35, foods 1.2 | 0/4, 43 s, 25.7/s, TTD 32 s, burst 0.45, foods 2.5 | 0/4, 40 s, 29.1/s, TTD 28 s, burst 0.52, foods 2.5 | |
+| control_room | D | 0/4, 37 s, 16.5/s, TTD 57 s, burst 0.34, foods 0.5 | 0/4, 38 s, 23.1/s, TTD 40 s, burst 0.36, foods 1.5 | 0/4, 38 s, 25.2/s, TTD 37 s, burst 0.45, foods 1.2 | |
+| core_chamber | A | 0/4, 70 s, 18.5/s, TTD 38 s, burst 0.67, foods 4.2 | 0/4, 65 s, 18.9/s, TTD 37 s, burst 0.60, foods 3.8 | 0/4, 65 s, 24.7/s, TTD 29 s, burst 0.80, foods 5.0 | |
+| core_chamber | B | 0/4, 63 s, 16.9/s, TTD 52 s, burst 0.50, foods 2.8 | 0/4, 47 s, 15.7/s, TTD 56 s, burst 0.35, foods 1.2 | 0/4, 48 s, 24.4/s, TTD 36 s, burst 0.57, foods 2.5 | |
+| core_chamber | C | 0/4, 46 s, 10.6/s, TTD 100 s, burst 0.26, foods 0.2 | 0/4, 43 s, 17.0/s, TTD 62 s, burst 0.35, foods 0.8 | 0/4, 43 s, 22.1/s, TTD 48 s, burst 0.51, foods 1.2 | |
+| core_chamber | D | 0/4, 41 s, 11.6/s, TTD 118 s, burst 0.23, foods 0.0 | 0/4, 38 s, 14.4/s, TTD 95 s, burst 0.18, foods 0.0 | 0/4, 38 s, 18.9/s, TTD 73 s, burst 0.25, foods 0.2 | |
+| core_chamber re-levelled to 65 (SYNTHETIC) | A | 0/4, 66 s, 22.9/s, TTD 43 s, burst 0.53, foods 4.0 | 0/4, 54 s, 23.0/s, TTD 42 s, burst 0.53, foods 3.2 | 0/4, 54 s, 29.8/s, TTD 33 s, burst 0.75, foods 4.0 | |
+| core_chamber re-levelled to 65 (SYNTHETIC) | B | 0/4, 55 s, 19.5/s, TTD 60 s, burst 0.42, foods 1.8 | 0/4, 47 s, 28.7/s, TTD 41 s, burst 0.40, foods 3.0 | 0/4, 49 s, 38.7/s, TTD 30 s, burst 0.65, foods 4.8 | |
+| core_chamber re-levelled to 65 (SYNTHETIC) | C | 0/4, 40 s, 12.9/s, TTD 110 s, burst 0.22, foods 0.2 | 0/4, 39 s, 19.0/s, TTD 75 s, burst 0.26, foods 0.5 | 0/4, 39 s, 24.3/s, TTD 59 s, burst 0.38, foods 1.0 | |
+| core_chamber re-levelled to 65 (SYNTHETIC) | D | 0/4, 37 s, 11.5/s, TTD 164 s, burst 0.14, foods 0.0 | 0/4, 33 s, 21.2/s, TTD 89 s, burst 0.22, foods 0.0 | 0/4, 33 s, 28.7/s, TTD 66 s, burst 0.31, foods 0.0 | |
+
+- **Heavy ×1.6 causes no knock-outs with food, for any profile.**
+  - It raises damage taken by about 5–50% and food eaten by up to 1.5 per fight.
+  - A's worst burst rises to 0.79–0.85 of half HP (1.01 when A also never dodges), still not a loss in 4 fights.
+  - **Round 2's prediction (§V3.3) that ×1.6 would make A lose is not confirmed.** With the 2-second food rate, bursts would have to be much larger, and those would also hit B and C.
+- **Dodging:** removing dodges and guards changes damage taken by −7% to +84% (mostly +25–60%), about one gear tier, as in Round 2. It does not change outcomes while food lasts.
+
+## R3.4 Streets
+
+[MEASURED; re-levelled rows SYNTHETIC; 10 foods]
+
+| Street (level) | Profile | Current: KO, clear time, damage in, TTD | Hybrid-T: same |
+|---|---|---|---|
+| rusted_corner | A | 0/4, 70 s, 0.3/s, TTD 571 s | 0/4, 70 s, 0.4/s, TTD 400 s |
+| rusted_corner | B | 0/4, 70 s, 0.3/s, TTD 788 s | 0/4, 70 s, 0.5/s, TTD 410 s |
+| rusted_corner | B5 | 0/4, 67 s, 0.1/s, TTD 1679 s | 0/4, 67 s, 0.4/s, TTD 603 s |
+| rusted_corner | B10 | 0/4, 62 s, 0.1/s, TTD 1893 s | 0/4, 62 s, 0.4/s, TTD 679 s |
+| rusted_corner | C | 0/4, 67 s, 0.1/s, TTD 1679 s | 0/4, 67 s, 0.4/s, TTD 603 s |
+| rusted_corner | D | 0/4, 57 s, 0.1/s, TTD 2082 s | 0/4, 57 s, 0.3/s, TTD 674 s |
+| container_yard | A | 0/4, 121 s, 2.7/s, TTD 105 s | 0/4, 112 s, 4.0/s, TTD 71 s |
+| container_yard | B | 0/4, 96 s, 2.0/s, TTD 177 s | 0/4, 99 s, 2.9/s, TTD 123 s |
+| container_yard | B5 | 0/4, 97 s, 0.8/s, TTD 506 s | 0/4, 96 s, 2.7/s, TTD 148 s |
+| container_yard | B10 | 0/4, 88 s, 0.7/s, TTD 630 s | 0/4, 88 s, 1.9/s, TTD 242 s |
+| container_yard | C | 0/4, 88 s, 1.1/s, TTD 406 s | 0/4, 88 s, 2.7/s, TTD 163 s |
+| container_yard | D | 0/4, 80 s, 0.6/s, TTD 957 s | 0/4, 79 s, 1.6/s, TTD 343 s |
+| waste_pools | A | 0/4, 137 s, 3.9/s, TTD 99 s | 0/4, 124 s, 5.0/s, TTD 78 s |
+| waste_pools | B | 0/4, 113 s, 2.6/s, TTD 167 s | 0/4, 107 s, 2.9/s, TTD 154 s |
+| waste_pools | B5 | 0/4, 101 s, 1.4/s, TTD 347 s | 0/4, 96 s, 2.2/s, TTD 219 s |
+| waste_pools | B10 | 0/4, 89 s, 0.9/s, TTD 619 s | 0/4, 91 s, 2.1/s, TTD 253 s |
+| waste_pools | C | 0/4, 98 s, 1.2/s, TTD 442 s | 0/4, 100 s, 3.1/s, TTD 176 s |
+| waste_pools | D | 0/4, 87 s, 0.3/s, TTD 2339 s | 0/4, 84 s, 1.7/s, TTD 429 s |
+| machine_hall | A | 0/4, 108 s, 6.1/s, TTD 95 s | 0/4, 96 s, 7.1/s, TTD 81 s |
+| machine_hall | B | 0/4, 95 s, 6.2/s, TTD 104 s | 0/4, 83 s, 6.0/s, TTD 109 s |
+| machine_hall | B5 | 0/4, 74 s, 3.8/s, TTD 192 s | 0/4, 71 s, 6.5/s, TTD 113 s |
+| machine_hall | B10 | 0/4, 66 s, 2.1/s, TTD 391 s | 0/4, 63 s, 5.5/s, TTD 151 s |
+| machine_hall | C | 0/4, 72 s, 2.4/s, TTD 333 s | 0/4, 71 s, 5.8/s, TTD 139 s |
+| machine_hall | D | 0/4, 61 s, 1.1/s, TTD 817 s | 0/4, 55 s, 3.8/s, TTD 243 s |
+| reactor_walkway | A | 0/4, 120 s, 15.8/s, TTD 44 s | 0/4, 121 s, 14.8/s, TTD 47 s |
+| reactor_walkway | B | 0/4, 102 s, 11.8/s, TTD 67 s | 0/4, 99 s, 13.4/s, TTD 59 s |
+| reactor_walkway | B5 | 0/4, 81 s, 7.4/s, TTD 121 s | 0/4, 78 s, 9.3/s, TTD 97 s |
+| reactor_walkway | B10 | 0/4, 73 s, 5.2/s, TTD 191 s | 0/4, 71 s, 9.1/s, TTD 111 s |
+| reactor_walkway | C | 0/4, 79 s, 5.2/s, TTD 184 s | 0/4, 79 s, 11.8/s, TTD 82 s |
+| reactor_walkway | D | 0/4, 65 s, 6.2/s, TTD 192 s | 0/4, 64 s, 5.9/s, TTD 202 s |
+| reactor_walkway re-levelled to 55 (SYNTHETIC) | A | 0/4, 105 s, 12.3/s, TTD 69 s | 0/4, 105 s, 14.7/s, TTD 57 s |
+| reactor_walkway re-levelled to 55 (SYNTHETIC) | B | 0/4, 87 s, 10.2/s, TTD 100 s | 0/4, 82 s, 11.2/s, TTD 91 s |
+| reactor_walkway re-levelled to 55 (SYNTHETIC) | B5 | 0/4, 75 s, 5.4/s, TTD 221 s | 0/4, 76 s, 9.0/s, TTD 133 s |
+| reactor_walkway re-levelled to 55 (SYNTHETIC) | B10 | 0/4, 68 s, 6.5/s, TTD 214 s | 0/4, 67 s, 9.0/s, TTD 153 s |
+| reactor_walkway re-levelled to 55 (SYNTHETIC) | C | 0/4, 70 s, 6.6/s, TTD 185 s | 0/4, 69 s, 11.1/s, TTD 111 s |
+| reactor_walkway re-levelled to 55 (SYNTHETIC) | D | 0/4, 61 s, 2.9/s, TTD 560 s | 0/4, 60 s, 8.9/s, TTD 182 s |
+| reactor_walkway re-levelled to 65 (SYNTHETIC) | A | 0/4, 110 s, 15.5/s, TTD 63 s | 1/4, 102 s, 20.4/s, TTD 48 s |
+| reactor_walkway re-levelled to 65 (SYNTHETIC) | B | 0/4, 89 s, 14.0/s, TTD 84 s | 0/4, 90 s, 17.2/s, TTD 68 s |
+| reactor_walkway re-levelled to 65 (SYNTHETIC) | B5 | 0/4, 77 s, 9.1/s, TTD 153 s | 0/4, 76 s, 10.1/s, TTD 137 s |
+| reactor_walkway re-levelled to 65 (SYNTHETIC) | B10 | 0/4, 67 s, 6.0/s, TTD 269 s | 0/4, 70 s, 15.3/s, TTD 104 s |
+| reactor_walkway re-levelled to 65 (SYNTHETIC) | C | 0/4, 72 s, 8.2/s, TTD 172 s | 0/4, 72 s, 13.5/s, TTD 105 s |
+| reactor_walkway re-levelled to 65 (SYNTHETIC) | D | 0/4, 58 s, 2.6/s, TTD 713 s | 0/4, 56 s, 5.2/s, TTD 365 s |
+| reactor_walkway re-levelled to 70 (SYNTHETIC) | A | 0/4, 112 s, 16.1/s, TTD 64 s | 0/4, 103 s, 15.1/s, TTD 69 s |
+| reactor_walkway re-levelled to 70 (SYNTHETIC) | B | 0/4, 90 s, 12.2/s, TTD 103 s | 0/4, 85 s, 13.9/s, TTD 91 s |
+| reactor_walkway re-levelled to 70 (SYNTHETIC) | B5 | 0/4, 78 s, 11.0/s, TTD 135 s | 0/4, 72 s, 12.8/s, TTD 116 s |
+| reactor_walkway re-levelled to 70 (SYNTHETIC) | B10 | 0/4, 67 s, 6.0/s, TTD 285 s | 0/4, 70 s, 11.4/s, TTD 150 s |
+| reactor_walkway re-levelled to 70 (SYNTHETIC) | C | 0/4, 68 s, 9.0/s, TTD 168 s | 0/4, 69 s, 13.5/s, TTD 113 s |
+| reactor_walkway re-levelled to 70 (SYNTHETIC) | D | 0/4, 55 s, 6.3/s, TTD 323 s | 0/4, 57 s, 8.0/s, TTD 254 s |
+
+- No street knocks anyone out with food. The one exception is A at a synthetic level-65 Reactor Walkway under hybrid-T: 1 in 4.
+- Hybrid-T removes near-immunity (D at Waste Pools: 2,339 s to die → 429 s) and leaves A's numbers roughly as they were.
+
+## R3.5 World bosses with unlimited entries
+
+[MEASURED; re-levelled row SYNTHETIC]. Results are per hero, solo, over one 60-minute round with no waiting between attempts.
+
+| World boss (level) | Profile | Current: killed solo / minutes / attempts / pool share dealt / foods | Hybrid-T: same |
+|---|---|---|---|
+| tunnel_mother | A | 2/2, 52 min, 44.0 attempts, 100% of pool, 500 foods | 2/2, 48 min, 45.5 attempts, 100% of pool, 494 foods |
+| tunnel_mother | B | 2/2, 37 min, 17.5 attempts, 100% of pool, 208 foods | 2/2, 33 min, 18.5 attempts, 100% of pool, 226 foods |
+| tunnel_mother | C | 2/2, 25 min, 8.5 attempts, 100% of pool, 113 foods | 2/2, 24 min, 11.5 attempts, 100% of pool, 141 foods |
+| tunnel_mother | D | 2/2, 19 min, 3.5 attempts, 100% of pool, 56 foods | 2/2, 19 min, 7.5 attempts, 100% of pool, 94 foods |
+| iron_colossus | A | 0/2, 60 min, 41.0 attempts, 51% of pool, 425 foods | 0/2, 60 min, 42.0 attempts, 55% of pool, 440 foods |
+| iron_colossus | B | 0/2, 60 min, 32.0 attempts, 63% of pool, 347 foods | 0/2, 60 min, 36.0 attempts, 69% of pool, 383 foods |
+| iron_colossus | C | 1/2, 59 min, 29.5 attempts, 92% of pool, 313 foods | 1/2, 57 min, 34.5 attempts, 98% of pool, 362 foods |
+| iron_colossus | D | 2/2, 51 min, 10.5 attempts, 100% of pool, 140 foods | 2/2, 45 min, 19.5 attempts, 100% of pool, 220 foods |
+| subject_zero | A | 0/2, 60 min, 62.5 attempts, 23% of pool, 648 foods | 0/2, 60 min, 66.5 attempts, 25% of pool, 688 foods |
+| subject_zero | B | 0/2, 60 min, 53.5 attempts, 35% of pool, 562 foods | 0/2, 60 min, 58.5 attempts, 37% of pool, 608 foods |
+| subject_zero | C | 0/2, 60 min, 44.0 attempts, 45% of pool, 494 foods | 0/2, 60 min, 53.5 attempts, 49% of pool, 584 foods |
+| subject_zero | D | 0/2, 60 min, 19.5 attempts, 63% of pool, 270 foods | 0/2, 60 min, 41.0 attempts, 64% of pool, 468 foods |
+| iron_colossus re-levelled to 65 (SYNTHETIC) | A | - | 0/2, 60 min, 41.5 attempts, share not comparable, 432 foods |
+| iron_colossus re-levelled to 65 (SYNTHETIC) | B | - | 0/2, 60 min, 40.0 attempts, share not comparable, 426 foods |
+| iron_colossus re-levelled to 65 (SYNTHETIC) | C | - | 2/2, 53 min, 34.0 attempts, share not comparable, 360 foods |
+| iron_colossus re-levelled to 65 (SYNTHETIC) | D | - | 2/2, 41 min, 18.5 attempts, share not comparable, 216 foods |
+
+- **Tunnel Mother (built for 3) falls to every profile solo.**
+  - A in about 50 minutes over about 45 attempts, eating about 500 foods.
+  - D in 19 minutes.
+- **Iron Colossus (built for 5) falls solo to D** (45–51 minutes) **and once to C.** A and B reach 51–69% of the pool in the hour.
+- **Subject Zero (built for 10) never falls solo:** 23–64% of the pool.
+- **Gear decides how fast and how many attempts:**
+  - A needs about 4–13× as many attempts as D.
+  - Food spent scales the same way: about 500 against 56–94 foods.
+- **Persistence still beats preparation on the 3-player boss.**
+- The enrage (§V5) would cut the time a weak hero can spend; its effect is [PREDICTED] in §R3.7.
+
+## R3.6 Networking evaluation: rules at 60 Hz, snapshots at 20 Hz
+
+**Benchmark** [MEASURED, scratch worktree of the restored baseline]:
+- Hardware: Godot 4.7.2 native headless, Intel Xeon @ 2.10 GHz, 4 cores (cloud container).
+- Load: one hero per zone instance, with auto battle. The rules-only figure removes the auto-battle decision cost, because a server receives inputs instead (ARCHITECTURE.md D7).
+- Length: 3,600 ticks per run (1,200 at 50 instances).
+
+**Rules only, 10 instances:**
+
+| Area | Rules ms per instance-tick | Share of one core per instance at 60 ticks/s |
+|---|---|---|
+| Reactor Walkway (street) | 0.095 | 0.57% |
+| Harbour Stacks (farming ground) | 0.344 | 2.06% |
+| Old Scrapyard (world boss) | 0.116 | 0.69% |
+
+**Including auto battle:**
+
+| Area | Instances | ms per tick (all instances) | Worst tick | Entities per 20 Hz snapshot avg / peak |
+|---|---|---|---|---|
+| Rusted Corner | 1 / 10 / 50 | 0.13 / 1.18 / 5.99 | 1.6 / 8.0 / 14.1 | 3.3 / 11 |
+| Reactor Walkway | 1 / 10 / 50 | 0.13 / 1.33 / 6.26 | 0.8 / 5.7 / 16.1 | 3.1 / 5 |
+| Core Overflow (farming) | 1 / 10 / 50 | 0.33 / 3.85 / 19.2 | 1.4 / 14.3 / 47.3 | 8.2 / 10 |
+| Harbour Stacks (farming) | 1 / 10 / 50 | 0.39 / 3.90 / 20.3 | 1.3 / 14.0 / 48.2 | 12.1 / 16 |
+| Core Chamber (boss) | 1 / 10 / 50 | 0.11 / 0.92 / 4.04 | 0.5 / 3.4 / 14.3 | 2.0 / 3 |
+| Old Scrapyard (world boss) | 1 / 10 / 50 | 0.15 / 1.50 / 5.87 | 1.4 / 9.7 / 19.3 | 4.3 / 9 |
+
+**Reading:**
+- The rules cost 0.6–2.1% of a core per single-hero instance. Farming grounds, with camps of monsters, cost the most.
+- At 60 ticks/s a tick has a 16.7 ms budget. With auto battle included, one process stays inside it with about 10 farming instances (worst 14 ms) but not 50 (worst 47–48 ms). Street and boss instances fit 50 in the average and miss in the worst tick by a little.
+- **Running the rules at 60 Hz costs 3× a 20 Hz loop.** Re-timing every move (frames are ticks) would be a rewrite of the combat data, so 60 Hz rules are recommended.
+- **The real unknown:** `ZoneSim` holds one hero today, so a shared instance with many players cannot be measured yet [UNKNOWN]. Monster AI and hit checks dominate, so shared instances should cost far less per player than solo ones. Measuring that needs multi-hero support (IL-7, not approved).
+
+**Bandwidth** [PREDICTED; entity counts MEASURED above; sizes assumed: about 12 bytes per changed entity, 16 bytes of header]:
+
+| Case | Entities in interest | Down per player | Up per player |
+|---|---|---|---|
+| Farming instance, 24 players | about 24 + 12 = 36 | 36 × 12 + 16 = 448 B × 20 Hz ≈ 72 kbit/s | about 6 kbit/s |
+| Hub, 80 visible at 10 Hz | about 80 | ≈ 78 kbit/s | about 6 kbit/s |
+| Party boss, 5 players | about 10 | ≈ 22 kbit/s | about 6 kbit/s |
+| World boss crowd, interest capped at 50 | 50 | ≈ 99 kbit/s | about 6 kbit/s |
+
+- **Upstream:** 20 packets/s × (8 B header + 3 inputs × 5 B + the previous 15 B repeated) ≈ 38 B.
+- **4,000 CCU in this mix:** about 240–400 Mbit/s egress before compression, consistent with PERFORMANCE.md's 230 Mbit/s estimate. Unmeasured until a protocol exists.
+
+**Prediction and reconciliation** (the design, §3.1 of `docs/ROUND3_PREPARATION.md`):
+- The local hero is predicted with the same 60 Hz rules and replays unacknowledged inputs on each snapshot.
+- Remote entities are interpolated about 100 ms behind.
+- The server decides hits, KO, loot, food use and world-boss damage.
+- **Determinism:** rules reproduce a seeded run exactly (`test_harness.gd`), and the purity test (Phase 1) keeps them independent of the renderer.
+
+## R3.7 What this means for the design
+
+**Under the owner's rules, gear cannot decide survival through food timing without making bosses deadly for everyone** [MEASURED / PREDICTED]:
+- Food restores up to 110 HP/s (tonic) or 60 HP/s (rice box) whenever HP is under half.
+- Undergeared heroes take 15–35 damage per second from late bosses, and 0.5–0.9 of half HP in their worst 2 seconds.
+- To beat food timing, bosses would need about 2× the burst for A (from about 0.5–0.85 to 1.0+). B and C would then sit at about 0.7–1.0 too.
+
+**What gear does decide today, with food unlimited** [MEASURED]:
+- **Kill time:** A takes about 1.6–2× as long as D on late bosses.
+- **Food spent:** A eats 4–8 per boss fight against D's 0–0.5; at world bosses, about 500 against 56–94 per kill.
+- **World-boss feasibility:** whether a solo hero can finish the 5-player boss within the hour.
+- **Survival without food.**
+
+**Ways forward within the owner's rules** (no food change, entries unlimited) [PROPOSED; each needs approval and a Round 4 measurement]:
+1. **Accept efficiency as the gear lever:** time, food cost, coins and world-boss contribution. Keep bosses fair for everyone.
+2. **Story-boss enrage timers** (a boss mechanic, not a food rule). A boss that hits harder after, for example, 60 s turns kill speed into survival: A at 66–76 s meets it, D at 33–41 s does not.
+3. **Burst-sized dangerous attacks** (heavy attacks well above ×1.6), only with the dodgeability rules (§V3.3). Dodging then answers them for every gear level: skill, not gear.
+4. **World-boss enrage** (§V5): the same time lever for the round. Predicted effect, if attack rate and hazards rise in the last 20 minutes of the hour: A's solo Tunnel Mother kill at about 48–52 minutes would no longer fit; D's 19 minutes would.
+
+**What not to do on these results:** no formula is finalised from the synthetic levels; hybrid-T stays proposed; heavy ×1.6 is not supported as a fix.
+
+## R3.8 Remaining risks
+
+- **Auto battle stands in for players.** Humans who eat earlier or dodge better do better.
+- **Few fights per cell.** 4 per cell, so a single knock-out is not significant. Re-measure borderline cells (for example A at Gang HQ) with 8+ seeds before a decision.
+- **Synthetic levels** use generated gear and re-levelled areas; real content past level 50 would differ.
+- **The world-boss runs** count no ride time between attempts (the owner's rule: no forced waiting). A real ride takes a few seconds per attempt.
+- **Multi-hero instances** are unmeasured (§R3.6).
+
+## R3.9 Reproducing
+
+1. Check out `b634166` into a scratch worktree.
+2. Patch `CombatRules.damage_for` and `thrown_hit` with the test-only model switch (as in §V11; `x_k = 2 × (level + 2)`, hybrid-T uses `30 + x_k`).
+3. Run the runner (`_r3sim.gd`).
+   - **Re-levelled areas:** set `content.areas[id]["level"]` in memory.
+   - **Synthetic gear:** level-50 items copied with every stat × `(10 + 2·L) / (10 + 2·item level)`.
+   - **Heavy ×1.6:** multiplies the damage of telegraphed moves in the area's bosses' movesets, restored after each fight.
+   - **World-boss rounds:** repeat `WorldBossRun` attempts and bank each with `WorldBossRules.award`.
+4. The benchmark (`_netbench.gd`) times `ZoneSim.tick` and `AutoPilot.think` with `Time.get_ticks_usec` over 3,600 ticks per run.
