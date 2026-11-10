@@ -41,7 +41,7 @@ func test_ids_are_random_and_well_formed() -> void:
 
 func test_a_new_character_never_replaces_another() -> void:
 	_begin()
-	var ace := _character("pong", "Ace")
+	var ace := _character("dao", "Ace")
 	ace.level = 20
 	SaveStore.save(ace)
 	var mika := _character("mika", "Mika")
@@ -139,7 +139,7 @@ func test_characters_share_nothing() -> void:
 
 func test_the_characters_screen_plays_creates_and_deletes() -> void:
 	_begin()
-	_character("pong", "Ace")
+	_character("dao", "Ace")
 	_character("mika", "Mika")
 	var title: Node = load(TITLE_SCENE).instantiate()
 	tree.root.add_child(title)

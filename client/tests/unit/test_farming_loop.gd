@@ -305,7 +305,7 @@ func test_auto_is_open_in_each_ground_after_saving_and_loading() -> void:
 		profile.area = gid
 		profile.id = SaveStore.new_id()
 		var data := profile.to_dict()
-		assert_eq(int(data["version"]), 10, gid + ": still save version 10")
+		assert_eq(int(data["version"]), PlayerProfile.SAVE_VERSION, gid + ": no new save version")
 		assert_eq(data.keys(), keys, gid + ": no new save field")
 		assert_true(SaveStore.save(profile), gid + ": written to disk")
 		var back := SaveStore.load_character(profile.id, c)

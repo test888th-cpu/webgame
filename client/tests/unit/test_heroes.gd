@@ -15,7 +15,7 @@ func _content() -> ContentDB:
 
 func test_the_roster_has_a_female_and_a_male_hero_that_play_differently() -> void:
 	var db := _content()
-	assert_eq(db.hero_order, ["mika", "oren", "riku", "kan", "dao", "pong"], "roster order")
+	assert_eq(db.hero_order, ["mika", "oren", "riku", "kan", "dao"], "roster order")
 	assert_eq(db.hero("mika")["gender"], "Female", "Mika")
 	assert_eq(db.hero("oren")["gender"], "Male", "Oren")
 	var mika := PlayerProfile.new_game(db, "mika").stats(db)
@@ -107,6 +107,27 @@ func test_version_1_saves_become_mika() -> void:
 	var loaded := PlayerProfile.from_dict(old, _content())
 	assert_true(loaded != null, "loads")
 	assert_eq([loaded.hero, loaded.name, loaded.level], ["mika", "Mika", 3], "migrated")
+
+
+func test_a_retired_hero_s_save_carries_on_as_the_brawler() -> void:
+	var db := _content()
+	var old := PlayerProfile.new_game(db, "kan", "Sarge").to_dict()
+	old["version"] = 10
+	old["hero"] = "pong"
+	old["level"] = 34
+	old["money"] = 777
+	old["hotbar"] = ["attack", "skill:combat_elbow", "", "", "", "", ""]
+	var loaded := PlayerProfile.from_dict(old, db)
+	assert_true(loaded != null, "the save still loads")
+	assert_eq([loaded.hero, loaded.name], ["kan", "Sarge"], "as Kan, under the same name")
+	assert_eq([loaded.level, loaded.money], [34, 777], "with level and coins kept")
+	assert_eq(
+		HotbarRules.layout(loaded, db), HotbarRules.default_layout(db, "kan"), "and Kan's hotbar"
+	)
+	assert_eq(int(loaded.to_dict()["version"]), PlayerProfile.SAVE_VERSION, "saved as current")
+	var other := PlayerProfile.new_game(db, "dao", "Dao").to_dict()
+	other["version"] = 10
+	assert_eq(PlayerProfile.from_dict(other, db).hero, "dao", "other heroes are untouched")
 
 
 func test_hero_art_follows_the_hero_and_armour() -> void:

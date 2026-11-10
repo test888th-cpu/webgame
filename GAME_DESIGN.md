@@ -5,7 +5,7 @@ content is taken from River City Ransom, Kunio-kun or any other game. The genre 
 used (side-scrolling street brawling with depth lanes, RPG progression, shops) are not
 owned by anyone.
 
-**Implemented so far:** everything marked **[built]** below (eight areas, six heroes,
+**Implemented so far:** everything marked **[built]** below (eight areas, five heroes,
 two bosses, street weapons, equipment, quests, local saves). Everything else is design
 intent.
 
@@ -23,7 +23,13 @@ Murk*, a living smog that takes shape as creatures. Street crews, couriers and d
 fight it block by block. The player leads a five-person crew from a run-down depot in the
 harbour district, which becomes their home base.
 
-## The crew (roster of six)
+## The crew (roster of five)
+
+> **Approved 2026-11-10:** five heroes, one job each: Riku = Boxer, Kan = Brawler, Oren =
+> Grappler, Dao = Counter Fighter, Mika = Street Striker. Pong the Soldier left the
+> roster (his saves continue as Kan). The new job kits (6 active, 2 passive and 1 ultimate
+> skill each) are planned in [docs/JOB_SKILL_PLAN.md](docs/JOB_SKILL_PLAN.md); until each
+> lands, the table below describes the heroes as built.
 
 | Hero | Archetype | Feel | Signature |
 |---|---|---|---|
@@ -32,7 +38,6 @@ harbour district, which becomes their home base.
 | Riku Sato **[built]** | Boxer (male) | The all-rounder: 115 HP, 105% power, 1 defense, 100% speed; jab and cross from a tight guard | Liver Shot, One-Two, Dempsey Roll, Knockout Blow |
 | Kan Srisuk **[built]** | Basketball Player (male) | Crowds and area: 110 HP, 100% power, 1 defense, 105% speed, 105% attack speed; the widest skills | Crossover, Elbow Clear, Post Up, Slam Dunk |
 | Dao Kittikun **[built]** | Police Officer (female) | Defence and counters: 120 HP, 95% power, 2 defense; **parries from 12 ticks out** (others 8); the longest hold | Wrist Lock, Leg Sweep, Takedown, Riot Shove |
-| Pong Rattana **[built]** | Soldier (male) | Toughest and slowest: 140 HP, 3 defense, 80% speed; **skills cannot be interrupted** once started | Combat Elbow, Breach Kick, Shoulder Drive, Ground Pound |
 
 **[built]** New game opens hero creation: pick a hero (portrait cards, a large animated
 preview, bio, play style, difficulty, stats compared across the roster, skills) and
@@ -40,7 +45,7 @@ name them (2–16 letters of any script, including Thai). Heroes are data
 (`client/data/heroes.json`); each brings its own base stats, sprites (and armoured
 look) and four skills to the hotbar. The save stores the hero and the name.
 
-The player picks a main hero and develops all six. Persistent data (level, skills,
+The player picks a main hero and develops all five. Persistent data (level, skills,
 equipment) is stored per hero. Temporary combat state is never persisted.
 
 ## Combat pillars

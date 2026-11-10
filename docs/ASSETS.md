@@ -53,7 +53,7 @@ changes the hero's look). `ContentDB` fails if any of these names a missing asse
 | pit_champion | mini-boss | shirtless, buzzcut, thick headband, shorts | OGA-BY 3.0(+) |
 | hero_kan | playable hero (Basketball) | sleeveless jersey, shorts, white shoes, thick headband | OGA-BY 3.0(+) |
 | hero_dao | playable hero (Police) | female, high ponytail, khaki buttoned long sleeves, black pants, boots | OGA-BY 3.0 |
-| hero_pong | playable hero (Soldier) | buzzcut, trimmed beard, green long sleeves and pants, rim boots | OGA-BY 3.0(+) |
+| hero_pong | former playable hero (Soldier; off the roster since 2026-11-10, art kept) | buzzcut, trimmed beard, green long sleeves and pants, rim boots | OGA-BY 3.0(+) |
 | hero_riku | playable hero (Boxer) | light skin, plain hair under a code-drawn snapback (white, hot-pink brim, gold badge), hot-pink cardigan (own palette) over a white tee, gold chain, charcoal cuffed pants, white shoes | CC0, OGA-BY 3.0 |
 
 Two recipe options restyle LPC parts without inventing frames. A recolour may name

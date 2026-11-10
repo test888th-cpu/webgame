@@ -5,7 +5,10 @@ extends RefCounted
 ## for the backend in Milestone 4, when the server becomes the only writer.
 ## Temporary combat state (position, energy, cooldowns) never lives here.
 
-const SAVE_VERSION := 10
+const SAVE_VERSION := 11
+## The hero version 11 retired, and the one their saves continue as.
+const RETIRED_HERO := "pong"
+const RETIRED_HERO_HEIR := "kan"
 ## Equipment slots, in the order the character screen shows them.
 const SLOTS := ["head", "body", "hands", "weapon", "feet", "charm"]
 ## Stats an item can add, as stored in items.json "stats".
@@ -515,6 +518,17 @@ static func migrate(data: Dictionary) -> Dictionary:
 	if int(migrated["version"]) == 9:
 		_migrate_copies(migrated)
 		migrated["version"] = 10
+	if int(migrated["version"]) == 10:
+		# Version 11 has five heroes, one per job. Pong left the roster: his
+		# players carry on as Kan (the Brawler, the nearest job) under the
+		# name they chose, with their level, items and quests. The hotbar held
+		# Pong's skills, so it goes back to the new hero's default.
+		if str(migrated.get("hero", "")) == RETIRED_HERO:
+			migrated["hero"] = RETIRED_HERO_HEIR
+			if not str(migrated.get("name", "")):
+				migrated["name"] = "Pong"
+			migrated["hotbar"] = []
+		migrated["version"] = 11
 	return migrated
 
 

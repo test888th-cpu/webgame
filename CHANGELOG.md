@@ -4,11 +4,17 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
-### Docs: plan for the five jobs and player skills (proposal)
+### Changed: five heroes, one job each (owner's decision, 2026-11-10)
+- **Pong the Soldier left the roster.** The five heroes are Riku (Boxer), Kan (Brawler),
+  Oren (Grappler), Dao (Counter Fighter) and Mika (Street Striker). Pong's four skills and
+  their moves are gone from the data; his art stays in the repository.
+- **Saves are version 11.** A character saved as Pong carries on as Kan under the same
+  name, with level, coins, items and quests kept and Kan's default hotbar.
 - `docs/JOB_SKILL_PLAN.md` compares the owner's five-job blueprint (6 active, 2 passive and
   1 ultimate skill per job, shared grab and throw, separate PvE and PvP balance) with the
-  game as built, lists eight decisions the owner must take first, and proposes the work as
-  a sequence of small PRs. No game data or code changes.
+  game as built and sets out the work as a sequence of small PRs. The owner approved its
+  eight decisions (BLUEPRINT D15). The new job kits themselves are not built yet: the
+  heroes still play with their existing skills.
 
 ### Changed: quality-of-life pass (owner's list, November 2026)
 - **Pickup feed:** items picked up are listed at the screen's left with their icon and their

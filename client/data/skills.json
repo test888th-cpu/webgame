@@ -219,50 +219,6 @@
       "fx_at": "self",
       "sound": "skill_slam",
       "description": "Shove the whole crowd back and down. Breaks guards."
-    },
-    "combat_elbow": {
-      "name": "Combat Elbow",
-      "move": "pong_combat_elbow",
-      "cooldown": 180,
-      "unlock_level": 1,
-      "icon": "skill_cbelbow",
-      "fx": "hit_heavy",
-      "fx_at": "front",
-      "sound": "skill_uppercut",
-      "description": "A short, hard elbow that cracks a guard. Nothing interrupts it."
-    },
-    "breach_kick": {
-      "name": "Breach Kick",
-      "move": "pong_breach_kick",
-      "cooldown": 210,
-      "unlock_level": 1,
-      "icon": "skill_breach",
-      "fx": "hit_heavy",
-      "fx_at": "front",
-      "sound": "skill_slam",
-      "description": "A door-breaking front kick that sends a foe flying."
-    },
-    "shoulder_drive": {
-      "name": "Shoulder Drive",
-      "move": "pong_shoulder_drive",
-      "cooldown": 255,
-      "unlock_level": 2,
-      "icon": "skill_drive",
-      "fx": "rush",
-      "fx_at": "trail",
-      "sound": "skill_rush",
-      "description": "Drive through a line of foes, shoulder first. Breaks guard."
-    },
-    "ground_pound": {
-      "name": "Ground Pound",
-      "move": "pong_ground_pound",
-      "cooldown": 750,
-      "unlock_level": 3,
-      "icon": "skill_pound",
-      "fx": "slam",
-      "fx_at": "self",
-      "sound": "skill_slam",
-      "description": "Both fists into the street: a slow, unstoppable shockwave."
     }
   },
   "hotbar": [

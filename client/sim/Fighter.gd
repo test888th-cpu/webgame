@@ -82,7 +82,7 @@ var armor := 0
 var unshaken := false
 var break_meter := 0.0
 var break_rest := 0
-## Skills cannot be interrupted once started (Pong the Soldier).
+## Skills cannot be interrupted once started (heroes.json `skill_armor`).
 var skill_armor := false
 ## Perfect guard (the hero only, so enemy guards never punish the player's
 ## combos): a guard raised just before a hit parries it. parry_open says

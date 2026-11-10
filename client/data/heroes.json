@@ -4,8 +4,7 @@
     "oren",
     "riku",
     "kan",
-    "dao",
-    "pong"
+    "dao"
   ],
   "heroes": {
     "mika": {
@@ -221,50 +220,6 @@
         ]
       },
       "parry_window": 12
-    },
-    "pong": {
-      "name": "Pong Rattana",
-      "default_name": "Pong",
-      "title": "The Soldier",
-      "gender": "Male",
-      "tagline": "Slow to stop, impossible to stop.",
-      "bio": "A discharged army sergeant come home to South Street. Pong is the toughest of the crew and the slowest on his feet; his skills cannot be interrupted once they start, so he trades blows and walks through them.",
-      "style": [
-        "Tough",
-        "Unstoppable skills",
-        "Slow"
-      ],
-      "difficulty": 1,
-      "color": "#5a8a4a",
-      "stats": {
-        "max_hp": 140,
-        "power": 1.0,
-        "defense": 3,
-        "speed": 0.8,
-        "crit": 0.04
-      },
-      "sprites": {
-        "default": "hero_pong",
-        "armoured": "hero_pong"
-      },
-      "skills": [
-        "combat_elbow",
-        "breach_kick",
-        "shoulder_drive",
-        "ground_pound"
-      ],
-      "starter": {
-        "money": 30,
-        "items": {
-          "steamed_bun": 3,
-          "ginger_tea": 1
-        },
-        "equipment": [
-          "padded_vest",
-          "dock_beanie"
-        ]
-      },
-      "skill_armor": true
     }
   }
 }
