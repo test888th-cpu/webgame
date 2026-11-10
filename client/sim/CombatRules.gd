@@ -121,6 +121,10 @@ static func is_vulnerable(fighter: Fighter) -> bool:
 			return false
 		Fighter.State.DODGE:
 			return fighter.state_tick < DODGE_IFRAME_START or fighter.state_tick >= DODGE_IFRAME_END
+		Fighter.State.ATTACK:
+			# A slipping move cannot be hit until its own blow is through.
+			var move := fighter.move
+			return not (move.evade and fighter.state_tick < move.startup + move.active)
 	return true
 
 
@@ -231,7 +235,7 @@ static func starter(f: Fighter, library: MoveLibrary, input: String) -> String:
 ## by the defender's defense, never below 1.
 static func damage_for(move: MoveData, attacker: Fighter, defender: Fighter) -> int:
 	var scale := 1.0 + PassiveRules.bonus(attacker, "damage", move, defender)
-	if attacker.move == move:
+	if attacker.move == move or move.slam:
 		scale *= SkillSequence.scale(attacker, "damage")
 	return maxi(1, roundi(move.damage * attacker.power * scale) - defender.defense)
 
@@ -242,10 +246,14 @@ static func start_skill(f: Fighter, skill_id: String, library: MoveLibrary) -> b
 	var skill: Dictionary = f.skills.get(skill_id, {})
 	if skill.is_empty() or f.cooldown_left(skill_id) > 0:
 		return false
+	if not UltimateRules.ready(f, skill):
+		return false
 	if not _start_move(f, library.get_move(str(skill["move"]))):
 		return false
+	UltimateRules.spend(f, skill)
 	f.cooldowns[skill_id] = int(skill["cooldown"])
 	f.skill_id = skill_id
+	PassiveRules.on_event(f, PassiveRules.SKILL_EVENT + skill_id)
 	return true
 
 
@@ -276,6 +284,10 @@ static func _step_attack(f: Fighter, input: FighterInput, library: MoveLibrary) 
 			return
 	var ended := f.state_tick >= move.total_ticks() - recovery_cut(f, move)
 	if CounterRules.step(f, library, ended):
+		return
+	if ended and move.grab and not f.hit_landed:
+		# A grab that closed on nobody: whatever was to follow does not.
+		f.enter(Fighter.State.IDLE)
 		return
 	if ended:
 		if move.damage > 0 and not f.hit_landed:
@@ -417,6 +429,7 @@ static func _apply_hit(
 		if rng.randf() < crit:
 			full = roundi(full * CRIT_DAMAGE)
 			event.critical = true
+	full = maxi(1, roundi(full * (1.0 - PassiveRules.resist(defender))))
 	if event.blocked:
 		event.damage = maxi(1, roundi(full * GUARD_DAMAGE_FACTOR))
 		defender.energy -= full * GUARD_ENERGY_PER_DAMAGE
@@ -436,6 +449,7 @@ static func _apply_hit(
 		PassiveRules.on_event(attacker, "hit")
 		PassiveRules.on_event(defender, "hurt")
 	defender.hp = maxi(0, defender.hp - event.damage)
+	UltimateRules.on_hit(attacker, defender, event)
 	if defender.hp == 0:
 		event.ko = true
 		defender.enter(Fighter.State.KO)
@@ -476,7 +490,10 @@ static func is_perfect_guard(defender: Fighter, from_front: bool) -> bool:
 		defender.state == Fighter.State.GUARD
 		and defender.parry_open
 		and from_front
-		and defender.state_tick <= defender.parry_window
+		and (
+			defender.state_tick
+			<= defender.parry_window + roundi(PassiveRules.bonus(defender, "parry_window"))
+		)
 	)
 
 

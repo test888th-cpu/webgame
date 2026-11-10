@@ -278,8 +278,9 @@ func test_hotbar_shows_seven_slots_with_locks_and_counts() -> void:
 	var hotbar: Hotbar = game.get_node("Hud").find_child("Hotbar", true, false)
 	assert_eq(hotbar.slots.size(), 7, "seven slots")
 	_check_layout(hotbar, "hotbar")
-	assert_eq(hotbar.slots[3].locked_level, 2, "rush locked until Lv 2")
-	assert_eq(hotbar.slots[4].locked_level, 3, "slam locked until Lv 3")
+	assert_eq(hotbar.slots[1].locked_level, 0, "the first skill is open from Lv 1")
+	assert_eq(hotbar.slots[3].locked_level, 3, "the third locked until Lv 3")
+	assert_eq(hotbar.slots[4].locked_level, 5, "the fourth until Lv 5")
 	assert_eq(hotbar.slots[5].count, 3, "bun count")
 	assert_true(hotbar.slots[1].icon != null, "skills show icons")
 	_done(game)
@@ -289,9 +290,9 @@ func test_pressing_a_skill_slot_casts_it_and_shows_the_cooldown() -> void:
 	var game := _game()
 	await _settle()
 	var input := FighterInput.new()
-	assert_true(game.use_slot(1, input), "uppercut accepted")
+	assert_true(game.use_slot(1, input), "the first skill is accepted")
 	game.step(input)
-	assert_eq(game.zone.hero.move.id, "rising_uppercut", "the hero uses it")
+	assert_eq(game.zone.hero.move.id, "quick_jab", "the hero uses it")
 	await _settle()
 	var hotbar: Hotbar = game.get_node("Hud").find_child("Hotbar", true, false)
 	assert_true(hotbar.slots[1].cooldown > 0.9, "cooldown sweep shown")
@@ -318,13 +319,16 @@ func test_hits_spawn_effects() -> void:
 func test_skill_effect_plays_on_the_hero() -> void:
 	var game := _game()
 	await _settle()
+	game.profile.level = 25
+	game.zone.refresh_hero()
+	game.zone.hero.skills = SkillRules.unlocked(game.content, "kan", 25)
 	var input := FighterInput.new()
-	game.use_slot(2, input)
+	input.skill = "ground_pound"
 	game.step(input)
 	await tree.create_timer(0.25).timeout
 	var hero_view := game.view.view_of(ZoneSim.HERO_ID)
 	var effects := hero_view.find_children("*", "AnimatedSprite2D", false, false)
-	assert_true(effects.size() >= 2, "the whirlwind plays on the hero (%d)" % effects.size())
+	assert_true(effects.size() >= 2, "the ground pound plays on the hero (%d)" % effects.size())
 	_done(game)
 
 

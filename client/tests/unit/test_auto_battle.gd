@@ -113,24 +113,28 @@ func test_it_eats_when_hurt_and_not_when_well() -> void:
 
 
 func test_it_turns_area_skills_on_a_crowd() -> void:
-	var zone := _zone()
+	var zone := _zone("saltmarket", "kan", 40)
 	_foe(zone, "smogling", Vector2(620, 300))
 	_foe(zone, "smogling", Vector2(580, 300))
 	var input := AutoPilot.new(_content()).think(zone)
-	assert_eq(input.skill, "whirlwind_kick", "the kick that hits both sides")
+	assert_true(input.skill != "", "a skill for the crowd")
+	var move := _content().moves.get_move(str(_content().skills[input.skill]["move"]))
+	assert_true(move.reach_offset < 0.0, "%s hits both sides" % input.skill)
 
 
 func test_it_saves_the_big_skill_for_crowds_and_bosses() -> void:
-	var zone := _zone()
-	for skill_id: String in ["rising_uppercut", "whirlwind_kick", "shoulder_rush"]:
+	var zone := _zone("saltmarket", "kan", 50)
+	for skill_id in SkillRules.actives(_content(), "kan"):
 		zone.hero.cooldowns[skill_id] = 1000
 	var foe := _foe(zone, "smogling", Vector2(625, 300))
 	var pilot := AutoPilot.new(_content())
-	assert_true(pilot.think(zone).skill != "furnace_slam", "not on one street thug")
+	assert_eq(pilot.think(zone).skill, "", "no ultimate while the gauge is empty")
+	zone.hero.gauge = UltimateRules.FULL
+	assert_true(pilot.think(zone).skill != "street_carnage", "not on one street thug")
 	zone.fighters.erase(foe)
 	zone.brains.erase(foe.id)
 	_foe(zone, "sludge_foreman", Vector2(625, 300))
-	assert_eq(pilot.think(zone).skill, "furnace_slam", "but on a boss")
+	assert_eq(pilot.think(zone).skill, "street_carnage", "but on a boss")
 
 
 func test_it_dodges_what_guard_cannot_stop_and_parries_the_rest() -> void:

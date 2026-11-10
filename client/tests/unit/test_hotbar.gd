@@ -41,7 +41,7 @@ func test_every_hero_starts_with_the_default_layout() -> void:
 		var keys := HotbarRules.layout(_profile(hero), _content())
 		assert_eq(keys.size(), HotbarRules.SLOTS, "%s: seven slots" % hero)
 		assert_eq(keys[0], HotbarRules.ATTACK, "%s: attack first" % hero)
-		var first_skill := str(_content().hero(hero)["skills"][0])
+		var first_skill := SkillRules.actives(_content(), hero)[0]
 		assert_eq(keys[1], "skill:" + first_skill, "%s: their first skill on 2" % hero)
 		assert_eq(keys[5], "item:steamed_bun", "%s: food on 6" % hero)
 
@@ -51,11 +51,13 @@ func test_any_slot_takes_anything_the_hero_can_use_once() -> void:
 	assert_true(HotbarRules.place(p, _content(), 2, "item:steamed_bun"), "a bun on 3")
 	var keys := HotbarRules.layout(p, _content())
 	assert_eq(keys[2], "item:steamed_bun", "there")
-	assert_eq(keys[5], "skill:whirlwind_kick", "what was on 3 went to the bun's old slot")
+	assert_eq(keys[5], "skill:triple_punch", "what was on 3 went to the bun's old slot")
 	assert_eq(keys.count("item:steamed_bun"), 1, "never twice")
 	assert_true(HotbarRules.place(p, _content(), 6, "item:rice_box"), "any food")
-	assert_true(HotbarRules.place(p, _content(), 0, "skill:furnace_slam"), "a skill on 1")
-	assert_true(not HotbarRules.place(p, _content(), 1, "skill:headbutt"), "not Oren's skill")
+	assert_true(HotbarRules.place(p, _content(), 0, "skill:chain_breaker"), "a skill on 1")
+	assert_true(HotbarRules.place(p, _content(), 3, "skill:million_fist_onslaught"), "the ultimate")
+	assert_true(not HotbarRules.place(p, _content(), 1, "skill:flow_state"), "never a passive")
+	assert_true(not HotbarRules.place(p, _content(), 1, "skill:iron_grip"), "not Oren's skill")
 	assert_true(not HotbarRules.place(p, _content(), 1, "item:work_jacket"), "not gear")
 	assert_true(not HotbarRules.place(p, _content(), 1, "item:torn_label"), "not evidence")
 	assert_true(not HotbarRules.place(p, _content(), 7, "item:steamed_bun"), "only 1-7")
@@ -74,7 +76,7 @@ func test_layouts_are_saved_and_cleaned_on_load() -> void:
 	)
 	assert_eq(loaded.hotbar, p.hotbar, "kept")
 	var data := p.to_dict()
-	data["hotbar"] = ["attack", "attack", "skill:headbutt", "item:work_jacket", "", "x", ""]
+	data["hotbar"] = ["attack", "attack", "skill:iron_grip", "item:work_jacket", "", "x", ""]
 	var cleaned := PlayerProfile.from_dict(data, _content())
 	assert_eq(cleaned.hotbar, ["attack", "", "", "", "", "", ""], "only what this hero can use")
 	data["hotbar"] = ["attack"]
@@ -105,7 +107,7 @@ func test_the_bag_puts_food_on_the_bar_and_only_food() -> void:
 	game.open_inventory()
 	await tree.process_frame
 	await tree.process_frame
-	assert_true(game.menu.find_child("Drag_skill_whirlwind_kick", true, false) == null, "no skills")
+	assert_true(game.menu.find_child("Drag_skill_rush_combo", true, false) == null, "no skills")
 	var bar3 := game.menu.find_child("Bar3", true, false) as ItemSlot
 	var rice := game.menu.find_child("Bag_rice_box", true, false) as ItemSlot
 	var data: Variant = rice._get_drag_data(Vector2.ZERO)
@@ -113,7 +115,7 @@ func test_the_bag_puts_food_on_the_bar_and_only_food() -> void:
 	var gear := game.menu.find_child("Bag_taped_knuckles", true, false) as ItemSlot
 	var gloves: Variant = gear._get_drag_data(Vector2.ZERO)
 	assert_true(not bar3._can_drop_data(Vector2.ZERO, gloves), "gear cannot")
-	var skill := {"from": "skills", "key": "skill:whirlwind_kick"}
+	var skill := {"from": "skills", "key": "skill:triple_punch"}
 	assert_true(not bar3._can_drop_data(Vector2.ZERO, skill), "nor a skill, in the Bag")
 	bar3._drop_data(Vector2.ZERO, data)
 	assert_eq(HotbarRules.layout(game.profile, game.content)[2], "item:rice_box", "it did")
@@ -141,14 +143,14 @@ func test_the_skills_screen_lists_the_skills_and_puts_them_on_the_bar() -> void:
 	await tree.process_frame
 	assert_eq(game.menu_name, "skills", "its own screen")
 	var cards := game.menu.find_children("Card_*", "PanelContainer", true, false)
-	assert_eq(cards.size(), 5, "the attack and the hero's four skills")
+	assert_eq(cards.size(), 10, "the attack and the job's nine skills")
 	assert_true(game.menu.find_child("Bag_steamed_bun", true, false) == null, "no items here")
-	var kick := game.menu.find_child("Drag_skill_whirlwind_kick", true, false) as ItemSlot
+	var rush := game.menu.find_child("Drag_skill_rush_combo", true, false) as ItemSlot
 	var bar1 := game.menu.find_child("Bar1", true, false) as ItemSlot
 	var food := {"from": "bag", "item_id": "steamed_bun"}
 	assert_true(not bar1._can_drop_data(Vector2.ZERO, food), "food goes on from the Bag")
-	bar1._drop_data(Vector2.ZERO, kick._get_drag_data(Vector2.ZERO))
-	assert_eq(HotbarRules.layout(game.profile, game.content)[0], "skill:whirlwind_kick", "put")
+	bar1._drop_data(Vector2.ZERO, rush._get_drag_data(Vector2.ZERO))
+	assert_eq(HotbarRules.layout(game.profile, game.content)[0], "skill:rush_combo", "put")
 	assert_eq(game.menu_name, "skills", "still on the Skills screen")
 	var text := ""
 	for label: Label in game.menu.find_children("*", "Label", true, false):

@@ -67,18 +67,24 @@ func test_new_game_uses_the_chosen_hero_and_name() -> void:
 func test_each_hero_has_their_own_skills() -> void:
 	var db := _content()
 	var oren := SkillRules.unlocked(db, "oren", 1)
-	assert_true(oren.has("headbutt") and oren.has("clothesline"), "Oren's Lv 1 skills")
-	assert_true(not oren.has("rising_uppercut"), "not Mika's")
-	assert_eq(db.hotbar_for("oren")[1]["id"], "headbutt", "Oren's hotbar slot 2")
-	assert_eq(db.hotbar_for("mika")[1]["id"], "rising_uppercut", "Mika's hotbar slot 2")
+	assert_true(oren.has("iron_grip"), "Oren's Lv 1 skill")
+	assert_true(not oren.has("quick_jab"), "not Mika's")
+	assert_eq(db.hotbar_for("oren")[1]["id"], "iron_grip", "Oren's hotbar slot 2")
+	assert_eq(db.hotbar_for("mika")[1]["id"], "quick_jab", "Mika's hotbar slot 2")
+	var seen := {}
+	for hero_id: String in db.hero_order:
+		for skill_id: String in SkillRules.kit(db, hero_id):
+			assert_true(not seen.has(skill_id), skill_id + " belongs to one hero only")
+			seen[skill_id] = true
+	assert_eq(seen.size(), 45, "five kits of nine skills")
 	var zone := ZoneSim.new(db, PlayerProfile.new_game(db, "oren"), "depot_yard", "", 1)
 	var input := FighterInput.new()
-	input.skill = "rising_uppercut"
+	input.skill = "quick_jab"
 	zone.tick(input)
 	assert_eq(zone.hero.state, Fighter.State.IDLE, "Oren cannot use Mika's skill")
-	input.skill = "headbutt"
+	input.skill = "iron_grip"
 	zone.tick(input)
-	assert_eq(zone.hero.move.id if zone.hero.move else "", "headbutt", "but can headbutt")
+	assert_eq(zone.hero.move.id if zone.hero.move else "", "iron_grip", "but has his iron grip")
 	assert_near(zone.hero.speed, 0.85, "Oren walks slower")
 
 

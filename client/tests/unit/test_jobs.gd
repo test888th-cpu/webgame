@@ -10,7 +10,8 @@ func _fresh() -> ContentDB:
 
 ## A job skill of `type` unlocking at `level`, built on an existing skill.
 func _job_skill(db: ContentDB, job: String, type: String, level: int) -> Dictionary:
-	var skill: Dictionary = db.skills["liver_shot"].duplicate(true)
+	var source := {"active": "quick_jab", "passive": "flow_state", "ultimate": "street_carnage"}
+	var skill: Dictionary = db.skills[source[type]].duplicate(true)
 	skill["job"] = job
 	skill["type"] = type
 	skill["unlock_level"] = level
@@ -20,6 +21,8 @@ func _job_skill(db: ContentDB, job: String, type: String, level: int) -> Diction
 
 ## Gives the Boxer a whole kit at the levels jobs.json asks for.
 func _build_boxer_kit(db: ContentDB) -> void:
+	for old: String in db.jobs["boxer"]["skills"]:
+		db.skills.erase(old)
 	var kit := []
 	for type: String in JobRules.KIT:
 		for index in int(JobRules.KIT[type]):
@@ -46,8 +49,8 @@ func test_five_jobs_each_have_their_own_hero() -> void:
 
 func test_a_kit_unlocks_at_the_agreed_levels() -> void:
 	var db := _fresh()
-	assert_eq(db.job_unlocks["active"], [1.0, 10.0, 20.0, 25.0, 35.0, 40.0], "six actives")
-	assert_eq(db.job_unlocks["passive"], [15.0, 30.0], "two passives")
+	assert_eq(db.job_unlocks["active"], [1.0, 2.0, 3.0, 5.0, 15.0, 30.0], "six actives")
+	assert_eq(db.job_unlocks["passive"], [10.0, 25.0], "two passives")
 	assert_eq(JobRules.unlock_level(db, "ultimate", 0), 50, "the ultimate at 50, not the cap")
 	assert_eq(JobRules.unlock_level(db, "ultimate", 1), 0, "and only one")
 
@@ -98,11 +101,11 @@ func test_player_skills_and_enemy_moves_never_mix() -> void:
 	var hostile := JobRules.enemy_moves(db)
 	assert_true(hostile.has("brute_slam"), "enemy moves are found")
 	for skill_id: String in db.skills:
-		var move := str(db.skills[skill_id]["move"])
-		assert_true(not hostile.has(move), "%s is the player's alone" % skill_id)
-	db.skills["liver_shot"]["move"] = "brute_slam"
+		for move: String in SkillSequence.moves(db.skills[skill_id]):
+			assert_true(not hostile.has(move), "%s is the player's alone" % skill_id)
+	db.skills["power_jab"]["move"] = "brute_slam"
 	var found := ", ".join(JobRules.problems(db))
-	assert_true("skills.liver_shot.move: brute_slam is an enemy's move" in found, found)
+	assert_true("skills.power_jab.move: brute_slam is an enemy's move" in found, found)
 
 
 func test_modes_are_tuned_apart() -> void:
@@ -114,17 +117,20 @@ func test_modes_are_tuned_apart() -> void:
 	assert_near(BalanceProfile.scale({"cooldown": 5}, "pvp", "damage"), 1.0, "no profiles: 1.0")
 
 
-func test_the_zone_uses_the_pve_profile_and_old_skills_are_unchanged() -> void:
+func test_the_zone_uses_the_pve_profile() -> void:
 	var db := _fresh()
+	var plain := int(db.skills["power_jab"]["cooldown"])
 	var before: Dictionary = SkillRules.unlocked(db, "riku", 70)
 	assert_eq(
-		int(before["liver_shot"]["cooldown"]), int(db.skills["liver_shot"]["cooldown"]), "same"
+		int(before["power_jab"]["cooldown"]), plain, "the shipped PvE profile changes nothing"
 	)
-	db.skills["liver_shot"]["profiles"] = {"pve": {"cooldown": 2.0}, "pvp": {"cooldown": 9.0}}
+	db.skills["power_jab"]["profiles"] = {"pve": {"cooldown": 2.0}, "pvp": {"cooldown": 9.0}}
 	var after: Dictionary = SkillRules.unlocked(db, "riku", 70)
-	assert_eq(
-		int(after["liver_shot"]["cooldown"]), 2 * int(db.skills["liver_shot"]["cooldown"]), "PvE"
-	)
+	assert_eq(int(after["power_jab"]["cooldown"]), 2 * plain, "PvE")
+	var duel: Dictionary = SkillRules.unlocked(db, "riku", 70, BalanceProfile.PVP)
+	assert_eq(int(duel["power_jab"]["cooldown"]), 9 * plain, "PvP has its own")
+	assert_near(float(duel["heavy_cross"]["scale"]["damage"]), 0.6, "and its own damage")
+	assert_near(float(after["heavy_cross"]["scale"]["damage"]), 1.0, "which PvE never sees")
 
 
 ## The moves the light button walks through for `job`, from its first punch.

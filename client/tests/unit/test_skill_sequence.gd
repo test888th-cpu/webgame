@@ -134,18 +134,22 @@ func test_the_profile_scales_a_skill_s_blows_only() -> void:
 	assert_eq(hits[0].damage, plain[0].damage, "a basic jab is not scaled")
 
 
-func test_a_one_move_skill_still_works_and_the_zone_reports_each_stage() -> void:
+func test_the_zone_reports_each_stage_of_a_real_skill() -> void:
 	var db := ContentDB.load_all()
 	var skills := SkillRules.unlocked(db, "riku", 70)
-	assert_eq(skills["liver_shot"]["then"], [], "today's skills are one move")
-	assert_near(float(skills["liver_shot"]["scale"]["damage"]), 1.0, "at full damage")
-	db.skills["liver_shot"]["then"] = ["jab"]
-	var zone := ZoneSim.new(db, PlayerProfile.new_game(db, "riku"), "depot_yard", "", 1)
+	assert_eq(skills["power_jab"]["then"], [], "a one-move skill has no later stages")
+	assert_eq(skills["knockout_combo"]["then"].size(), 3, "the Knockout Combo has three")
+	var profile := PlayerProfile.new_game(db, "riku")
+	profile.level = 40
+	var zone := ZoneSim.new(db, profile, "depot_yard", "", 1)
 	var steps := []
-	var input := _press("liver_shot")
-	for t in 80:
+	var input := _press("knockout_combo")
+	for t in 120:
 		for event in zone.tick(input):
 			if event.type == "swing" and event.data["id"] == zone.hero.id:
 				steps.append([event.data["skill"], event.data["step"]])
 		input = FighterInput.new()
-	assert_eq(steps, [["liver_shot", 0], ["liver_shot", 1]], "both stages reported")
+	var expected := []
+	for step in 4:
+		expected.append(["knockout_combo", step])
+	assert_eq(steps, expected, "all four stages reported")

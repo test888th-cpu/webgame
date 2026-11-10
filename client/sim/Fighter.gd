@@ -73,6 +73,15 @@ var thrown_hits := {}
 ## (SkillSequence). Cleared by any state but ATTACK, so a hit ends the skill.
 var skill_id := ""
 var skill_step := 0
+## The ultimate gauge (0..UltimateRules.FULL) and what fills it: points per
+## blow landed and per share of health lost ({} for fighters without one).
+var gauge := 0.0
+var gauge_rates := {}
+## The skill behind the current hold, if a skill's grab made it: its own
+## throw, crash, hold and squeeze, and where the skill continues after.
+var grab_plan := {}
+## The move a body thrown by this fighter crashes into others with.
+var crash_move := ""
 ## A counter stance caught a blow: the reply starts next tick (CounterRules).
 var countered := false
 ## Passive skills (id -> spec) and the stacks earned (id -> {"count",

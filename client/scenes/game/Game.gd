@@ -182,6 +182,8 @@ func _physics_process(_delta: float) -> void:
 		_clicked_slot = -1
 	if slot >= 0:
 		use_slot(slot, input)
+	elif Input.is_action_just_pressed("ultimate"):
+		SkillPress.ultimate(self, input)
 	elif input.light:
 		# Z/J are the attack slot too: light it up so the link is visible.
 		_hud.flash_slot(0, true)
@@ -217,19 +219,7 @@ func use_slot(index: int, input: FighterInput) -> bool:
 		"attack":
 			input.light = true
 		"skill":
-			var skill_id: String = entry["id"]
-			var skill: Dictionary = content.skills[skill_id]
-			var move := content.moves.get_move(str(skill["move"]))
-			if not zone.hero.skills.has(skill_id):
-				_hud.toast("%s unlocks at level %d" % [skill["name"], skill["unlock_level"]])
-				ok = false
-			elif zone.hero.cooldown_left(skill_id) > 0:
-				ok = false
-			elif zone.hero.energy < move.energy_cost:
-				_hud.flash_energy()
-				ok = false
-			else:
-				input.skill = skill_id
+			ok = SkillPress.try(self, str(entry["id"]), input)
 		"item":
 			ok = _use_hotbar_item(str(entry["id"]))
 	_hud.flash_slot(index, ok)

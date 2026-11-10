@@ -6,10 +6,10 @@ extends TestCase
 const BOUNDS := Rect2(0, 200, 2000, 200)
 const CLASSES := [
 	"The Boxer",
-	"The Street Brawler",
-	"The Footballer",
-	"The Basketball Player",
-	"The Police Officer",
+	"The Brawler",
+	"The Grappler",
+	"The Counter Fighter",
+	"The Street Striker",
 ]
 
 var content: ContentDB
@@ -58,16 +58,21 @@ func test_no_hero_is_best_at_everything() -> void:
 			assert_true(oren["max_hp"] > other["max_hp"], "and tougher than %s" % hero_id)
 
 
-func test_the_basketball_player_reaches_widest() -> void:
+func test_the_brawler_s_ultimate_covers_the_most_street() -> void:
 	var widest := ""
 	var reach := 0.0
 	for hero_id: String in _content().hero_order:
-		var skills: Array = _content().hero(hero_id)["skills"]
-		var move := _content().moves.get_move(str(_content().skills[skills[3]]["move"]))
-		if move.reach > reach:
-			reach = move.reach
-			widest = hero_id
-	assert_eq(widest, "kan", "Kan's slam dunk covers the most street")
+		var skill: Dictionary = _content().skills[SkillRules.ultimate(_content(), hero_id)]
+		for move_id in SkillSequence.moves(skill):
+			var move := _content().moves.get_move(move_id)
+			if move.reach_offset < 0.0 and move.reach > reach:
+				reach = move.reach
+				widest = hero_id
+	assert_eq(widest, "oren", "the Grappler's shockwave is the widest single blow")
+	var around := 0
+	for move_id in SkillSequence.moves(_content().skills["street_carnage"]):
+		around += 1 if _content().moves.get_move(move_id).reach_offset < 0.0 else 0
+	assert_true(around >= 4, "but Street Carnage hits all around again and again")
 
 
 func test_the_police_officer_parries_from_further_out() -> void:
@@ -110,7 +115,8 @@ func test_skill_armour_cannot_be_interrupted_mid_skill() -> void:
 		foe.facing = 1  # behind the hero, jabbing its back
 		foe.moveset = {"light": "thug_jab"}
 		var fighters: Array[Fighter] = [hero, foe]
-		var skill_id := str(_content().hero(pair[0])["skills"][0])
+		var skill_id := "heavy_cross"
+		hero.skills = SkillRules.unlocked(_content(), "riku", 70)
 		var press := FighterInput.new()
 		press.skill = skill_id
 		CombatRules.tick(fighters, {hero.id: press}, _content().moves, BOUNDS)

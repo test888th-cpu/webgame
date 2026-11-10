@@ -171,7 +171,7 @@ func test_a_slam_stays_where_it_landed_and_a_charge_trail_follows() -> void:
 	var game := _game()
 	var hero := game.zone.hero
 	var hero_view := game.view.view_of(ZoneSim.HERO_ID)
-	for skill_id in ["furnace_slam", "shoulder_rush"]:
+	for skill_id in ["ground_pound", "dash_strike"]:
 		hero.move = game.content.moves.get_move(str(game.content.skills[skill_id]["move"]))
 		game._feedback.on_event(
 			ZoneEvent.make("swing", {"id": ZoneSim.HERO_ID, "move": "", "skill": skill_id})
@@ -184,7 +184,7 @@ func test_a_slam_stays_where_it_landed_and_a_charge_trail_follows() -> void:
 	assert_eq(cracks.size(), 1, "the slam's crack is on the street")
 	assert_eq((cracks[0] as Node2D).position, landed_at, "where the hero stood when it landed")
 	# The owner's report: an effect as wide as the blow reaches, not twice it.
-	var slam := game.content.moves.get_move(str(game.content.skills["furnace_slam"]["move"]))
+	var slam := game.content.moves.get_move(str(game.content.skills["ground_pound"]["move"]))
 	var art: Array = game.content.fx["effects"]["slam"]["size"]
 	var drawn := float(art[0]) * (cracks[0] as Node2D).scale.x
 	var reach := GameFeedback.hit_width(slam)
@@ -216,6 +216,8 @@ func test_every_skill_effect_is_drawn_the_width_it_hits() -> void:
 	var c := GameSession.content
 	for skill_id: String in c.skills:
 		var skill: Dictionary = c.skills[skill_id]
+		if SkillRules.is_passive(skill):
+			continue
 		var move := c.moves.get_move(str(skill["move"]))
 		var art: Array = c.fx["effects"][str(skill["fx"])]["size"]
 		var size := GameFeedback.fit(c, str(skill["fx"]), GameFeedback.hit_width(move))

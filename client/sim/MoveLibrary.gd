@@ -10,7 +10,7 @@ const INT_FIELDS := ["startup", "active", "recovery", "damage", "hitstun"]
 const FLOAT_FIELDS := ["knockback", "reach", "depth_tolerance", "energy_cost", "advance"]
 ## May be negative: a sweep whose hitbox starts behind the attacker.
 const SIGNED_FLOAT_FIELDS := ["reach_offset"]
-const BOOL_FIELDS := ["guard_break", "knockdown", "telegraph", "grab", "counter"]
+const BOOL_FIELDS := ["guard_break", "knockdown", "telegraph", "grab", "counter", "evade", "slam"]
 const CHAIN_INPUTS := ["light", "heavy"]
 ## Body animations a move can play: a one-arm swing, an overhead slash, a
 ## straight stab (knife), or a weapon brought down from beside the head

@@ -49,7 +49,7 @@ static func advance(f: Fighter, library: MoveLibrary) -> bool:
 ## The running skill's multiplier on `field` ("damage", "hitstun",
 ## "knockback") from its balance profile; 1.0 outside a skill.
 static func scale(f: Fighter, field: String) -> float:
-	if f.skill_id == "" or f.state != Fighter.State.ATTACK:
+	if f.skill_id == "":
 		return 1.0
 	var scales: Variant = f.skills.get(f.skill_id, {}).get("scale", {})
 	return float(scales.get(field, 1.0)) if scales is Dictionary else 1.0

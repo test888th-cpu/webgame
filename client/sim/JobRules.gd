@@ -34,6 +34,15 @@ static func moveset(content: ContentDB, hero_id: String) -> Dictionary:
 	return found.duplicate() if found is Dictionary else {}
 
 
+## Gives `hero` what their job brings to a fight: its punches, its grab and
+## how its ultimate gauge fills.
+static func equip(hero: Fighter, content: ContentDB, hero_id: String) -> void:
+	var job: Dictionary = content.jobs.get(job_of(content, hero_id), {})
+	hero.moveset = moveset(content, hero_id)
+	hero.grab = job.get("grab", {})
+	hero.gauge_rates = content.job_gauge
+
+
 ## Every move reached from `starts` through chains, as a set.
 static func reachable(content: ContentDB, starts: Array) -> Dictionary:
 	var found := {}
@@ -85,6 +94,7 @@ static func problems(content: ContentDB) -> PackedStringArray:
 	if listed != known:
 		out.append("jobs.order: must list every job once")
 	out.append_array(_unlock_problems(content))
+	out.append_array(UltimateRules.problems(content.job_gauge, "jobs.gauge"))
 	for id: String in content.jobs:
 		out.append_array(_job_problems(content, id))
 	for hero_id: String in content.heroes:
@@ -110,6 +120,7 @@ static func problems(content: ContentDB) -> PackedStringArray:
 		if str(skill.get("type", "")) not in KIT:
 			out.append("%s.type: expected active, passive or ultimate" % where)
 		out.append_array(BalanceProfile.problems(skill, where))
+		out.append_array(SkillRules.problems(skill, content.moves, where))
 	return out
 
 
@@ -171,8 +182,6 @@ static func _job_problems(content: ContentDB, id: String) -> PackedStringArray:
 	var kit: Variant = job.get("skills")
 	if not kit is Array:
 		out.append(where + ".skills: expected a list (empty until the kit is built)")
-		return out
-	if kit.is_empty():
 		return out
 	var levels := {}
 	for type: String in KIT:

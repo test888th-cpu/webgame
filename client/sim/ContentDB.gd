@@ -23,8 +23,9 @@ const EXIT_SIDES := ["west", "east"]
 const NPC_ROLES := ["shop", "quests", "travel", "workbench", "board"]
 const HOTBAR_TYPES := ["attack", "skill", "item"]
 const HOTBAR_SLOTS := 7
-## Skills each hero brings to the hotbar.
-const HERO_SKILLS := 4
+## Skill slots on the default hotbar: a hero's first active skills, in the
+## order their job lists them.
+const HOTBAR_SKILLS := 4
 const HERO_STATS := ["max_hp", "power", "defense", "speed"]
 
 var moves: MoveLibrary
@@ -58,6 +59,8 @@ var hotbar: Array = []
 var jobs: Dictionary = {}
 var job_order: Array = []
 var job_unlocks: Dictionary = {}
+## How the ultimate gauge fills (jobs.json "gauge"; UltimateRules).
+var job_gauge: Dictionary = {}
 ## Ticks between uses of consumables (shared by all of them).
 var item_cooldown := 0
 ## Imported art, from the asset manifest (asset id -> entry).
@@ -115,6 +118,7 @@ static func load_all(dir := DATA_DIR) -> ContentDB:
 	db.jobs = job_file.get("jobs", {})
 	db.job_order = job_file.get("order", [])
 	db.job_unlocks = job_file.get("unlocks", {})
+	db.job_gauge = job_file.get("gauge", {})
 	db.tutorial = db._read(dir.path_join("tutorial.json")).get("steps", [])
 	db.world_bosses = db._read(dir.path_join("world_boss.json")).get("world_bosses", {})
 	db.boss_fx = db._read(dir.path_join("boss_fx.json"))
@@ -181,7 +185,7 @@ func hero_art(profile: PlayerProfile) -> String:
 
 ## The hotbar for one hero: the template with its skill slots filled in.
 func hotbar_for(hero_id: String) -> Array[Dictionary]:
-	var hero_skills: Array = hero(hero_id).get("skills", [])
+	var hero_skills := SkillRules.actives(self, hero_id)
 	var result: Array[Dictionary] = []
 	for slot: Dictionary in hotbar:
 		var entry := slot.duplicate()
@@ -804,14 +808,6 @@ func _validate_heroes() -> void:
 				)
 			for item_id: Variant in starter.get("items", {}):
 				_check(items.has(str(item_id)), "%s.starter: unknown item %s" % [where, item_id])
-		var hero_skills: Variant = h.get("skills")
-		_check(
-			hero_skills is Array and hero_skills.size() == HERO_SKILLS,
-			"%s.skills: expected %d skills" % [where, HERO_SKILLS]
-		)
-		if hero_skills is Array:
-			for skill_id: Variant in hero_skills:
-				_check(skills.has(str(skill_id)), "%s.skills: unknown skill %s" % [where, skill_id])
 	# Every item look (e.g. "armoured") must exist for every hero.
 	for item_id: String in items:
 		var look := str(items[item_id].get("look", ""))
@@ -882,8 +878,8 @@ func _validate_skills() -> void:
 			"skill":
 				var index: Variant = slot.get("hero_skill")
 				_check(
-					(index is int or index is float) and index >= 0 and index < HERO_SKILLS,
-					where + ": hero_skill must be 0..%d" % (HERO_SKILLS - 1)
+					(index is int or index is float) and index >= 0 and index < HOTBAR_SKILLS,
+					where + ": hero_skill must be 0..%d" % (HOTBAR_SKILLS - 1)
 				)
 			"item":
 				var item_data := item(str(slot.get("id")))

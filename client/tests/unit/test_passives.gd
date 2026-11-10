@@ -128,20 +128,59 @@ func test_a_real_parry_earns_the_stack() -> void:
 
 func test_passives_unlock_by_level_and_never_reach_the_hotbar() -> void:
 	var db := ContentDB.load_all()
-	var skill: Dictionary = db.skills["liver_shot"].duplicate(true)
-	skill.erase("move")
-	skill["type"] = "passive"
-	skill["unlock_level"] = 15
-	skill["passive"] = {"gain": "hit", "reset": "miss", "max": 5, "effects": {"crit": 0.02}}
-	db.skills["liver_shot"] = skill
-	assert_eq(SkillRules.passives(db, "riku", 14), {}, "locked below level 15")
-	assert_true(SkillRules.passives(db, "riku", 15).has("liver_shot"), "open at 15")
-	assert_true(not SkillRules.unlocked(db, "riku", 70).has("liver_shot"), "never a usable skill")
+	assert_eq(SkillRules.passives(db, "riku", 9), {}, "locked below level 10")
+	assert_true(SkillRules.passives(db, "riku", 10).has("critical_focus"), "open at 10")
+	assert_true(
+		not SkillRules.unlocked(db, "riku", 70).has("critical_focus"), "never a usable skill"
+	)
 	var profile := PlayerProfile.new_game(db, "riku")
-	assert_true(not HotbarRules.allowed(profile, db, "skill:liver_shot"), "nor on the hotbar")
+	assert_true(not HotbarRules.allowed(profile, db, "skill:critical_focus"), "nor on the hotbar")
 	profile.level = 15
 	var zone := ZoneSim.new(db, profile, "depot_yard", "", 1)
-	assert_true(zone.hero.passives.has("liver_shot"), "the zone gives the hero the passive")
+	assert_true(zone.hero.passives.has("critical_focus"), "the zone gives the hero the passive")
+
+
+func test_a_skill_s_buff_lasts_its_time() -> void:
+	var db := ContentDB.load_all()
+	var hero := Fighter.new(1, 1, Vector2(500, 300), 200)
+	hero.skills = SkillRules.unlocked(db, "dao", 70)
+	hero.passives = SkillRules.passives(db, "dao", 70)
+	var foe := Fighter.new(2, 2, Vector2(526, 300), 500)
+	foe.facing = -1
+	var fighters: Array[Fighter] = [hero, foe]
+	var jab := db.moves.get_move("thug_jab")
+	var plain := CombatRules.damage_for(jab, foe, hero)
+	assert_near(PassiveRules.resist(hero), 0.0, "no resistance at rest")
+	var press := FighterInput.new()
+	press.skill = "defensive_stance"
+	CombatRules.tick(fighters, {1: press}, db.moves, BOUNDS)
+	assert_near(PassiveRules.resist(hero), 0.4, "braced: 40% off")
+	for t in 20:
+		CombatRules.tick(fighters, {}, db.moves, BOUNDS)
+	var hp := hero.hp
+	CombatRules.strike(foe, hero, jab)
+	assert_eq(hp - hero.hp, maxi(1, roundi(plain * 0.6)), "a blow lands for 60%")
+	for t in int(db.skills["defensive_stance"]["buff"]["duration"]):
+		CombatRules.tick(fighters, {}, db.moves, BOUNDS)
+	assert_near(PassiveRules.resist(hero), 0.0, "and it wears off")
+
+
+func test_a_skill_s_bonus_applies_to_that_skill_only() -> void:
+	var db := ContentDB.load_all()
+	var hero := Fighter.new(1, 1, Vector2(500, 300), 200)
+	hero.skills = SkillRules.unlocked(db, "dao", 70)
+	hero.passives = SkillRules.passives(db, "dao", 1)
+	hero.passives.merge(SkillRules.passives(db, "dao", 3))
+	hero.passives.erase("combat_awareness")
+	var foe := Fighter.new(2, 2, Vector2(526, 300), 500)
+	var blow := db.moves.get_move("precision_blow")
+	var plain := CombatRules.damage_for(blow, hero, foe)
+	foe.enter(Fighter.State.HITSTUN, 60)
+	assert_eq(CombatRules.damage_for(blow, hero, foe), plain, "nothing extra outside the skill")
+	hero.skill_id = "precision_blow"
+	assert_eq(CombatRules.damage_for(blow, hero, foe), roundi(plain * 1.6), "60% on a reeling foe")
+	foe.enter(Fighter.State.IDLE)
+	assert_eq(CombatRules.damage_for(blow, hero, foe), plain, "and none on a steady one")
 
 
 func test_bad_passive_data_is_refused() -> void:

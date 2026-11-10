@@ -33,6 +33,12 @@ var grab := false
 ## A counter stance: deals nothing; a blow caught from the front while it is
 ## active starts the skill's reply (CounterRules).
 var counter := false
+## A slipping move: its user cannot be hit until its blow is through (the
+## recovery is open).
+var evade := false
+## A throw, or a thrown body crashing into someone (for passives that
+## strengthen slams).
+var slam := false
 ## Shows a warning during startup. Used for slow, heavy enemy attacks so a
 ## player has time to react.
 var telegraph := false
