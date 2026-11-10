@@ -56,11 +56,18 @@ static func _drops(content: ContentDB, item_id: String) -> Array[Dictionary]:
 	return out
 
 
-## A farming ground's field elites: any of its enemies may come as one.
+## A farming ground's own prizes (any enemy there) and its field elites'
+## (any of its enemies may come as one).
 static func _elites(content: ContentDB, item_id: String) -> Array[Dictionary]:
 	var out: Array[Dictionary] = []
 	for area_id in AreaRules.farms(content):
 		var spawning: Dictionary = content.area(area_id).get("spawning", {})
+		for prize: Dictionary in spawning.get("drops", []):
+			if prize["item"] == item_id:
+				var name := str(content.area(area_id).get("name", area_id))
+				var chance := float(prize["chance"])
+				var text := "Any enemy, %s (%s)" % [name, _percent(chance)]
+				out.append({"kind": DROP, "chance": chance, "text": text})
 		for prize: Dictionary in spawning.get("elite_drops", []):
 			if prize["item"] == item_id:
 				var name := str(content.area(area_id).get("name", area_id))

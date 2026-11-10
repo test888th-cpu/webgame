@@ -173,6 +173,17 @@ static func problems(content: ContentDB) -> PackedStringArray:
 	return out
 
 
+## True when farming ground `id`'s one way out is west, with no gate, into a
+## farming ground of a lower level.
+static func _west_to_lower_ground(content: ContentDB, id: String) -> bool:
+	var exits: Dictionary = content.area(id).get("exits", {})
+	var west: Dictionary = exits.get("west", {})
+	var to := str(west.get("to", ""))
+	if exits.keys() != ["west"] or west.has("requires") or kind(content, to) != FARM:
+		return false
+	return int(content.area(to).get("level", 1)) < int(content.area(id).get("level", 1))
+
+
 ## True when area data `a` has one way out, west to the hub, with no gate.
 static func _west_to_hub(content: ContentDB, a: Dictionary) -> bool:
 	var exits: Dictionary = a.get("exits", {})
@@ -221,9 +232,14 @@ static func _gated_problems(
 		out.append("%s: %s is not a safe area" % [where, what])
 	if a.get("heal_on_enter", false):
 		out.append("%s: no rest in %s" % [where, what])
-	if not _west_to_hub(content, a):
+	# A farming ground walks west into the next lower ground (like a street),
+	# the lowest back to the hub; a lair's one way out is west to the hub.
+	var farm := kind(content, id) == FARM
+	if not _west_to_hub(content, a) and not (farm and _west_to_lower_ground(content, id)):
 		out.append("%s: its one way out is west to %s" % [where, hub(content)])
 	for other: String in content.areas:
+		if farm and kind(content, other) == FARM:
+			continue  # the ground above walks into it
 		for side: String in content.areas[other].get("exits", {}):
 			if str(content.areas[other]["exits"][side].get("to")) == id:
 				out.append("%s: %s leads into it; it is reached by taxi only" % [where, other])

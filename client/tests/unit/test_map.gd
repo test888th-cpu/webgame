@@ -85,9 +85,11 @@ func test_world_boss_arenas_appear_once_unlocked() -> void:
 		MapRules.UNKNOWN,
 		"the arena next to the yard stays hidden"
 	)
-	var spec := WorldBossRules.spec(_content(), "tunnel_mother")
-	profile.defeated[str(spec["unlock"])] = 1
-	assert_eq(MapRules.arenas(profile, _content()), ["great_drain"] as Array[String], "unlocked")
+	profile.level = 10
+	var all: Array[String] = []
+	for boss: String in _content().world_bosses:
+		all.append(str(WorldBossRules.spec(_content(), boss)["area"]))
+	assert_eq(MapRules.arenas(profile, _content()), all, "every arena from level 10")
 	assert_eq(
 		MapRules.state(profile, _content(), "great_drain", "depot_yard"), MapRules.KNOWN, "known"
 	)
@@ -148,30 +150,31 @@ func test_map_tab_opens_on_the_hero_and_fits() -> void:
 	var heading: Label = game.menu.find_child("Heading", true, false)
 	assert_true(heading.text.begins_with("Depot Yard"), "shows where the hero is")
 	var rows := game.menu.find_children("Area_*", "MapNode", true, false)
-	assert_eq(
-		rows.size(), StreetMemory.street(game.content).size() + 1, "every street area and the city"
-	)
+	# On the street, the story only (the owner's rule).
+	assert_eq(rows.size(), StreetMemory.street(game.content).size(), "every street area")
 	assert_true(
-		game.menu.find_child("Area_" + game.content.city_area, true, false) != null,
-		"the city has its own row"
+		game.menu.find_child("Area_" + game.content.city_area, true, false) == null,
+		"the city waits for the city"
 	)
 	_done(game)
 
 
-func test_the_story_and_the_hub_are_two_sections_and_fit_late_in_the_game() -> void:
-	var game := _game()
-	for area_id in StreetMemory.street(game.content):
-		StreetMemory.visit(game.profile, area_id)
-	for enemy_id: String in game.content.enemies:
-		if game.content.enemy(enemy_id).get("boss", false):
-			game.profile.defeated[enemy_id] = 1
+func test_the_city_map_shows_every_section_apart_and_fits_late_in_the_game() -> void:
+	var game := _late_game()
+	game._go_to_city()
 	game.open_screen("map")
 	await _settle()
 	var map: Node = game.menu.find_child("Map", true, false)
 	var story: Label = map.find_child("Section_story", false, false)
 	var hub: Label = map.find_child("Section_hub", false, false)
-	assert_true(story != null and hub != null, "two sections")
+	assert_true(story != null and hub != null, "the story, then everything off the street")
 	assert_true("IRON CITY CENTRAL" in hub.text, "the hub is named: " + hub.text)
+	assert_true(map.find_child("OnlyHere", false, false) == null, "everything in the city")
+	for row in ["Row_City", "Row_Farming", "Row_World_Bosses"]:
+		var title := map.find_child(row, true, false) as Label
+		assert_true(title != null, row + ": a category of its own")
+		var colour := title.get_theme_color("font_color")
+		assert_true(colour != UiTheme.TEXT_DIM, row + ": in its own colour")
 	var order: Array[String] = []
 	for child in map.get_children():
 		var areas := child.find_children("Area_*", "MapNode", true, false)
@@ -183,7 +186,7 @@ func test_the_story_and_the_hub_are_two_sections_and_fit_late_in_the_game() -> v
 	assert_eq(order[0], "Section_story", "the story comes first")
 	assert_true(order.find("Area_depot_yard") < split, "the street is in the story")
 	for area_id: String in [game.content.city_area, "farm_saltmarket_backlots", "great_drain"]:
-		assert_true(order.find("Area_" + area_id) > split, area_id + ": in the hub's section")
+		assert_true(order.find("Area_" + area_id) > split, area_id + ": off the street")
 	for node in game.menu.find_children("*", "Control", true, false):
 		var control: Control = node
 		if control.is_visible_in_tree() and (control is Button or control is Label):
@@ -194,8 +197,47 @@ func test_the_story_and_the_hub_are_two_sections_and_fit_late_in_the_game() -> v
 	var ground: Control = game.menu.find_child("Area_farm_facility_annex", true, false)
 	ground.grab_focus()
 	var heading: Label = game.menu.find_child("Heading", true, false)
-	assert_true("Win's taxi in Iron City Central" in heading.text, "how to get there")
+	assert_true("Uncle Thong's truck in Iron City Central" in heading.text, "how to get there")
 	_done(game)
+
+
+func test_away_from_the_city_the_map_shows_only_where_the_hero_is() -> void:
+	# The owner's rule: the story on the street, the grounds in a ground, the
+	# arenas in an arena.
+	var game := _late_game()
+	var cases := {
+		"saltmarket": "Section_story",
+		"farm_core_overflow": "Section_farming",
+	}
+	for area_id: String in cases:
+		game.enter_area(area_id, "west")
+		assert_eq(game.zone.area_id, area_id, "in " + area_id)
+		game.open_screen("map")
+		await _settle()
+		var map: Node = game.menu.find_child("Map", true, false)
+		var sections: Array[String] = []
+		for child in map.get_children():
+			if str(child.name).begins_with("Section_"):
+				sections.append(str(child.name))
+		assert_eq(sections, [cases[area_id]] as Array[String], area_id + ": its section only")
+		assert_true(map.find_child("OnlyHere", false, false) != null, area_id + ": says why")
+		var own := map.find_child("Area_" + area_id, true, false)
+		assert_true(own != null, area_id + ": the hero's own box is there")
+		game.close_menu()
+	assert_eq(MapTab.sections(game.content, "great_drain"), [MapTab.BOSSES], "an arena")
+	assert_eq(MapTab.sections(game.content, "foundry_crucible"), [MapTab.FARMING], "a lair")
+	_done(game)
+
+
+func _late_game() -> Game:
+	var game := _game()
+	for area_id in StreetMemory.street(game.content):
+		StreetMemory.visit(game.profile, area_id)
+	for enemy_id: String in game.content.enemies:
+		if game.content.enemy(enemy_id).get("boss", false):
+			game.profile.defeated[enemy_id] = 1
+	game.profile.level = 70
+	return game
 
 
 func test_the_route_marks_the_town_the_mini_bosses_and_the_boss() -> void:

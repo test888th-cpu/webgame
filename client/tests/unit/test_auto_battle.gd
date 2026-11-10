@@ -248,3 +248,23 @@ func test_the_hud_switch_shows_its_state() -> void:
 	assert_true(not game.auto.on, "pressing again turns it off")
 	assert_eq(spin.rotation_degrees, 0.0, "and the arrows stop")
 	_done(game)
+
+
+func test_the_equipment_screen_says_when_auto_battle_changes_gear() -> void:
+	# Auto battle wears better gear it finds (setting "auto_gear"): it can put
+	# back what the player took off, so the switch sits where gear changes.
+	var game: Game = _game()
+	GameSession.set_setting("auto_gear", true)
+	game.open_inventory()
+	var toggle := game.menu.find_child("AutoGear", true, false) as CheckButton
+	assert_true(toggle != null, "the switch is on the equipment screen")
+	assert_true(toggle.button_pressed, "showing it is on")
+	toggle.button_pressed = false
+	assert_eq(GameSession.settings["auto_gear"], false, "turned off from here")
+	game.profile.level = 30
+	game.profile.add_item("riveted_jacket")
+	var worn := str(game.profile.equipment["body"])
+	game.auto._wear_upgrades()
+	assert_eq(str(game.profile.equipment["body"]), worn, "off: auto leaves the gear alone")
+	GameSession.set_setting("auto_gear", true)
+	_done(game)

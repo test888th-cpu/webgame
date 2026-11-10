@@ -32,6 +32,8 @@ var menu_name := ""
 ## not jump the cursor back to the top.
 ## "bag:<item id>" or "worn:<slot>" on the Equipment tab.
 var menu_focus := ""
+## True while the bag was opened at the workbench: the only place to upgrade.
+var at_workbench := false
 ## The item card open over the pause window, if any.
 var item_card: Control = null
 ## Auto battle (AutoBattle): the switch, the farm loop and its tally.
@@ -296,7 +298,7 @@ func _handle(event: ZoneEvent) -> void:
 			SaveStore.save(profile)
 		"spawn":
 			if event.data.get("boss", false):
-				_hud.toast("BOSS: %s" % _boss_name())
+				_hud.toast("%s: %s" % [MapRules.rank_word(content, zone.area_id), _boss_name()])
 			elif event.data.get("elite", false):
 				var name := str(content.enemy(event.data["kind"]).get("name", "enemy"))
 				_hud.toast("An elite %s joins the fight!" % name)
@@ -421,6 +423,7 @@ func close_menu() -> void:
 	menu_name = ""
 	GameSession.show_street(true)
 	menu_focus = ""
+	at_workbench = false
 	item_card = null
 	zone.refresh_hero()
 	view.update_npc_marks(profile)
@@ -469,6 +472,7 @@ func open_workbench() -> void:
 			menu_focus = "worn:" + slot
 			break
 	open_inventory()
+	at_workbench = true
 	if menu_focus == "":
 		_hud.toast("Wear some gear first, then upgrade it here.")
 	else:
@@ -526,7 +530,7 @@ func inspect_item(item_id: String, worn_slot: String) -> void:
 	var actions: Array[Dictionary] = []
 	if worn_slot:
 		var next := EnhanceRules.next_cost(profile, worn_slot, content)
-		if next:
+		if next and at_workbench:
 			var odds := roundi(EnhanceRules.chance(profile, worn_slot, content) * 100.0)
 			var label := "Upgrade +%d (%d%%)" % [EnhanceRules.level(profile, worn_slot) + 1, odds]
 			actions.append({"text": label, "call": _upgrade.bind(worn_slot)})
@@ -591,7 +595,7 @@ func _equip(item_id: String) -> void:
 	_reopen_bag("bag:" + item_id)
 
 
-## One upgrade attempt at the workbench (safe areas only). Saved at once,
+## One upgrade attempt, at the workbench only (talk to it). Saved at once,
 ## and a second press within UPGRADE_GAP_MS is ignored, so a double click
 ## never spends twice by accident.
 func _upgrade(slot: String) -> void:
@@ -599,8 +603,8 @@ func _upgrade(slot: String) -> void:
 	if now - _last_upgrade_ms < UPGRADE_GAP_MS:
 		return
 	_last_upgrade_ms = now
-	if not zone.area.get("safe", false):
-		_hud.toast("Upgrade at the workbench in a safe area (the Depot Yard).")
+	if not at_workbench:
+		_hud.toast("Talk to the workbench (+) in Iron City Central to upgrade.")
 		Sfx.play("denied", -4.0)
 		return
 	var outcome := EnhanceRules.attempt(profile, slot, content, _upgrade_rng)

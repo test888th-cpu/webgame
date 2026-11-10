@@ -158,16 +158,20 @@ func test_a_cleared_camp_stands_again_a_few_seconds_later() -> void:
 		_fell(zone, enemy)
 	var respawn := int(data["respawn_ticks"])
 	var back := -1
+	var arrived: Array[float] = []
 	for tick in respawn + FarmSpawner.RESPAWN_JITTER + 5:
 		zone.tick(FighterInput.new())
 		zone.hero.position.x = centre - 30.0
 		if back < 0 and _camp(zone, 0).size() > 0:
 			back = tick
+			# Where they stand as they arrive: after that they come for the hero.
+			for enemy in _camp(zone, 0):
+				arrived.append(enemy.position.x)
 	assert_true(back >= respawn - FarmSpawner.RESPAWN_JITTER - 1, "a breather first (%d)" % back)
 	var again := _camp(zone, 0).size()
 	assert_true(again >= sizes.x and again <= sizes.y, "then it stands again, a new size")
-	for enemy in _camp(zone, 0):
-		assert_true(enemy.position.x > centre, "on the far side from the hero")
+	for x in arrived:
+		assert_true(x > centre, "on the far side from the hero")
 
 
 func test_a_fallen_one_waits_while_its_camp_still_fights() -> void:

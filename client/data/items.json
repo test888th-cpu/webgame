@@ -13,7 +13,7 @@
       "name": "Ginger Tea",
       "type": "consumable",
       "rarity": "uncommon",
-      "price": 25,
+      "price": 22,
       "heal": 50,
       "energy": 40,
       "icon": "ginger_tea",
@@ -23,7 +23,7 @@
       "name": "Rice Box",
       "type": "consumable",
       "rarity": "uncommon",
-      "price": 45,
+      "price": 55,
       "heal": 120,
       "icon": "rice_box",
       "description": "Rice, basil pork and a fried egg in a paper box. A night shift's whole meal."
@@ -32,7 +32,7 @@
       "name": "Herbal Tonic",
       "type": "consumable",
       "rarity": "rare",
-      "price": 90,
+      "price": 110,
       "heal": 220,
       "energy": 60,
       "icon": "herbal_tonic",
@@ -2481,10 +2481,10 @@
       "level": 70,
       "price": 0,
       "stats": {
-        "defense": 30,
-        "max_hp": 308
+        "defense": 32,
+        "max_hp": 292
       },
-      "icon": "zeros_mantle",
+      "icon": "reactor_plate",
       "description": "A prize of The Iron Sovereign."
     },
     "sovereign_crown": {
@@ -2586,10 +2586,10 @@
       "level": 56,
       "price": 0,
       "stats": {
-        "defense": 24,
-        "max_hp": 250
+        "defense": 26,
+        "max_hp": 237
       },
-      "icon": "zeros_mantle",
+      "icon": "reactor_plate",
       "description": "A prize of The Floodgate Marshal."
     },
     "marshal_visor": {
@@ -2617,7 +2617,7 @@
       "stats": {
         "speed": 0.52,
         "defense": 11,
-        "attack_speed": 0.27
+        "attack_speed": 0.28
       },
       "icon": "walkway_boots",
       "description": "A prize of The Floodgate Marshal."
@@ -2692,10 +2692,10 @@
       "level": 70,
       "price": 0,
       "stats": {
-        "defense": 30,
-        "max_hp": 308
+        "defense": 32,
+        "max_hp": 292
       },
-      "icon": "zeros_mantle",
+      "icon": "reactor_plate",
       "description": "A prize of The Founder's Engine."
     },
     "founders_halo": {
@@ -2728,6 +2728,814 @@
       },
       "icon": "colossus_core",
       "description": "A prize of The Founder's Engine."
+    },
+    "used_work_jacket": {
+      "name": "Used Work Jacket",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "common",
+      "level": 3,
+      "price": 70,
+      "stats": {
+        "defense": 2,
+        "max_hp": 8
+      },
+      "icon": "work_jacket",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_hard_hat": {
+      "name": "Used Hard Hat",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "common",
+      "level": 4,
+      "price": 80,
+      "stats": {
+        "max_hp": 14,
+        "defense": 1
+      },
+      "icon": "hard_hat",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_steel_toe_boots": {
+      "name": "Used Steel-toe Boots",
+      "type": "equipment",
+      "slot": "feet",
+      "rarity": "common",
+      "level": 4,
+      "price": 80,
+      "stats": {
+        "defense": 1,
+        "max_hp": 12,
+        "speed": -0.02
+      },
+      "icon": "steel_toe_boots",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_riveted_jacket": {
+      "name": "Used Riveted Jacket",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "common",
+      "level": 6,
+      "price": 190,
+      "stats": {
+        "defense": 2,
+        "max_hp": 18
+      },
+      "icon": "riveted_jacket",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_street_runners": {
+      "name": "Used Street Runners",
+      "type": "equipment",
+      "slot": "feet",
+      "rarity": "common",
+      "level": 6,
+      "price": 170,
+      "stats": {
+        "speed": 0.03,
+        "defense": 1,
+        "attack_speed": 0.02
+      },
+      "icon": "street_runners",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_brass_knuckles": {
+      "name": "Used Brass Knuckles",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "common",
+      "level": 6,
+      "price": 220,
+      "stats": {
+        "power": 0.18,
+        "crit": 0.03
+      },
+      "icon": "brass_knuckles",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_iron_helm": {
+      "name": "Used Iron Helm",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "common",
+      "level": 7,
+      "price": 200,
+      "stats": {
+        "defense": 2,
+        "max_hp": 12
+      },
+      "icon": "iron_helm",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_dockers_cap": {
+      "name": "Used Docker's Cap",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "common",
+      "level": 11,
+      "price": 320,
+      "stats": {
+        "defense": 2,
+        "max_hp": 22
+      },
+      "icon": "dockers_cap",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_port_jacket": {
+      "name": "Used Port Authority Jacket",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "common",
+      "level": 11,
+      "price": 360,
+      "stats": {
+        "defense": 3,
+        "max_hp": 25
+      },
+      "icon": "port_jacket",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_cargo_gloves": {
+      "name": "Used Cargo Gloves",
+      "type": "equipment",
+      "slot": "hands",
+      "rarity": "common",
+      "level": 13,
+      "price": 340,
+      "stats": {
+        "power": 0.11,
+        "defense": 1,
+        "attack_speed": 0.03
+      },
+      "icon": "cargo_gloves",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_deck_boots": {
+      "name": "Used Deck Boots",
+      "type": "equipment",
+      "slot": "feet",
+      "rarity": "common",
+      "level": 13,
+      "price": 320,
+      "stats": {
+        "speed": 0.06,
+        "defense": 1,
+        "max_hp": 13
+      },
+      "icon": "deck_boots",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_dock_hook": {
+      "name": "Used Dock Hook",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "common",
+      "level": 13,
+      "price": 420,
+      "stats": {
+        "power": 0.31,
+        "crit": 0.04
+      },
+      "icon": "rebar_pipe",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_hazmat_hood": {
+      "name": "Used Hazmat Hood",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "common",
+      "level": 19,
+      "price": 480,
+      "stats": {
+        "defense": 3,
+        "max_hp": 34
+      },
+      "icon": "hazmat_hood",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_plant_vest": {
+      "name": "Used Plant Security Vest",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "common",
+      "level": 19,
+      "price": 530,
+      "stats": {
+        "defense": 4,
+        "max_hp": 33
+      },
+      "icon": "plant_vest",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_insulated_gloves": {
+      "name": "Used Insulated Gloves",
+      "type": "equipment",
+      "slot": "hands",
+      "rarity": "common",
+      "level": 21,
+      "price": 510,
+      "stats": {
+        "power": 0.16,
+        "defense": 1,
+        "crit": 0.04
+      },
+      "icon": "insulated_gloves",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_lab_boots": {
+      "name": "Used Lab Boots",
+      "type": "equipment",
+      "slot": "feet",
+      "rarity": "common",
+      "level": 21,
+      "price": 480,
+      "stats": {
+        "speed": 0.09,
+        "defense": 2,
+        "attack_speed": 0.04
+      },
+      "icon": "lab_boots",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_shock_baton": {
+      "name": "Used Shock Baton",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "common",
+      "level": 21,
+      "price": 630,
+      "stats": {
+        "power": 0.46,
+        "crit": 0.06
+      },
+      "icon": "chiefs_baton",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_watch_cap": {
+      "name": "Used Night Watch Cap",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "common",
+      "level": 26,
+      "price": 660,
+      "stats": {
+        "defense": 3,
+        "max_hp": 43
+      },
+      "icon": "watch_cap",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_kevlar_jacket": {
+      "name": "Used Kevlar Jacket",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "common",
+      "level": 26,
+      "price": 730,
+      "stats": {
+        "defense": 5,
+        "max_hp": 46
+      },
+      "icon": "kevlar_jacket",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_fight_gloves": {
+      "name": "Used Taped Fight Gloves",
+      "type": "equipment",
+      "slot": "hands",
+      "rarity": "common",
+      "level": 27,
+      "price": 710,
+      "stats": {
+        "power": 0.21,
+        "defense": 1,
+        "crit": 0.05
+      },
+      "icon": "fight_gloves",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_runner_sneakers": {
+      "name": "Used Runner Sneakers",
+      "type": "equipment",
+      "slot": "feet",
+      "rarity": "common",
+      "level": 27,
+      "price": 680,
+      "stats": {
+        "speed": 0.14,
+        "defense": 2,
+        "attack_speed": 0.05
+      },
+      "icon": "runner_sneakers",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_weighted_knuckles": {
+      "name": "Used Weighted Knuckles",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "common",
+      "level": 27,
+      "price": 850,
+      "stats": {
+        "power": 0.57,
+        "crit": 0.07
+      },
+      "icon": "brass_knuckles",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_facility_helmet": {
+      "name": "Used Facility Helmet",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "common",
+      "level": 33,
+      "price": 870,
+      "stats": {
+        "defense": 4,
+        "max_hp": 51
+      },
+      "icon": "facility_helmet",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_trooper_vest": {
+      "name": "Used Trooper Vest",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "common",
+      "level": 33,
+      "price": 950,
+      "stats": {
+        "defense": 7,
+        "max_hp": 51
+      },
+      "icon": "trooper_vest",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_grip_gloves": {
+      "name": "Used Lab Grip Gloves",
+      "type": "equipment",
+      "slot": "hands",
+      "rarity": "common",
+      "level": 35,
+      "price": 940,
+      "stats": {
+        "power": 0.26,
+        "defense": 2,
+        "crit": 0.05
+      },
+      "icon": "grip_gloves",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_facility_boots": {
+      "name": "Used Facility Boots",
+      "type": "equipment",
+      "slot": "feet",
+      "rarity": "common",
+      "level": 35,
+      "price": 880,
+      "stats": {
+        "speed": 0.14,
+        "defense": 3,
+        "attack_speed": 0.07
+      },
+      "icon": "facility_boots",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_riot_baton": {
+      "name": "Used Riot Baton",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "common",
+      "level": 35,
+      "price": 1120,
+      "stats": {
+        "power": 0.71,
+        "crit": 0.09
+      },
+      "icon": "arthit_baton",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_core_guard_helm": {
+      "name": "Used Core Guard Helm",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "common",
+      "level": 42,
+      "price": 1280,
+      "stats": {
+        "defense": 5,
+        "max_hp": 65
+      },
+      "icon": "core_guard_helm",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_reactor_plate": {
+      "name": "Used Reactor Plate",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "common",
+      "level": 42,
+      "price": 1400,
+      "stats": {
+        "defense": 8,
+        "max_hp": 71
+      },
+      "icon": "reactor_plate",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_insulated_gauntlets": {
+      "name": "Used Insulated Gauntlets",
+      "type": "equipment",
+      "slot": "hands",
+      "rarity": "common",
+      "level": 44,
+      "price": 1360,
+      "stats": {
+        "power": 0.33,
+        "defense": 2,
+        "crit": 0.07
+      },
+      "icon": "insulated_gauntlets",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_walkway_boots": {
+      "name": "Used Walkway Boots",
+      "type": "equipment",
+      "slot": "feet",
+      "rarity": "common",
+      "level": 44,
+      "price": 1320,
+      "stats": {
+        "speed": 0.16,
+        "defense": 3,
+        "attack_speed": 0.08
+      },
+      "icon": "walkway_boots",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_alloy_knuckles": {
+      "name": "Used Alloy Knuckles",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "common",
+      "level": 44,
+      "price": 1660,
+      "stats": {
+        "power": 0.9,
+        "crit": 0.09
+      },
+      "icon": "brass_knuckles",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_coolant_uncommon_weapon": {
+      "name": "Used Coolant Knuckles",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "common",
+      "level": 53,
+      "price": 1920,
+      "stats": {
+        "power": 1.06,
+        "crit": 0.11
+      },
+      "icon": "brass_knuckles",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_coolant_uncommon_body": {
+      "name": "Used Coolant Plate",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "common",
+      "level": 53,
+      "price": 1360,
+      "stats": {
+        "defense": 9,
+        "max_hp": 88
+      },
+      "icon": "reactor_plate",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_coolant_uncommon_head": {
+      "name": "Used Coolant Helm",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "common",
+      "level": 53,
+      "price": 1080,
+      "stats": {
+        "defense": 6,
+        "max_hp": 80
+      },
+      "icon": "core_guard_helm",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_coolant_uncommon_hands": {
+      "name": "Used Coolant Gloves",
+      "type": "equipment",
+      "slot": "hands",
+      "rarity": "common",
+      "level": 53,
+      "price": 980,
+      "stats": {
+        "power": 0.39,
+        "defense": 2,
+        "crit": 0.08
+      },
+      "icon": "insulated_gauntlets",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_coolant_uncommon_feet": {
+      "name": "Used Coolant Boots",
+      "type": "equipment",
+      "slot": "feet",
+      "rarity": "common",
+      "level": 53,
+      "price": 820,
+      "stats": {
+        "speed": 0.19,
+        "defense": 4,
+        "attack_speed": 0.1
+      },
+      "icon": "walkway_boots",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_coolant_uncommon_charm": {
+      "name": "Used Coolant Charm",
+      "type": "equipment",
+      "slot": "charm",
+      "rarity": "common",
+      "level": 53,
+      "price": 1100,
+      "stats": {
+        "max_hp": 77,
+        "power": 0.15,
+        "crit": 0.1
+      },
+      "icon": "lucky_coin",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_underworks_uncommon_weapon": {
+      "name": "Used Underworks Knuckles",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "common",
+      "level": 58,
+      "price": 2090,
+      "stats": {
+        "power": 1.15,
+        "crit": 0.12
+      },
+      "icon": "brass_knuckles",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_underworks_uncommon_body": {
+      "name": "Used Underworks Plate",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "common",
+      "level": 58,
+      "price": 1480,
+      "stats": {
+        "defense": 10,
+        "max_hp": 96
+      },
+      "icon": "reactor_plate",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_underworks_uncommon_head": {
+      "name": "Used Underworks Helm",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "common",
+      "level": 58,
+      "price": 1170,
+      "stats": {
+        "defense": 7,
+        "max_hp": 87
+      },
+      "icon": "core_guard_helm",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_underworks_uncommon_hands": {
+      "name": "Used Underworks Gloves",
+      "type": "equipment",
+      "slot": "hands",
+      "rarity": "common",
+      "level": 58,
+      "price": 1060,
+      "stats": {
+        "power": 0.42,
+        "defense": 2,
+        "crit": 0.09
+      },
+      "icon": "insulated_gauntlets",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_underworks_uncommon_feet": {
+      "name": "Used Underworks Boots",
+      "type": "equipment",
+      "slot": "feet",
+      "rarity": "common",
+      "level": 58,
+      "price": 880,
+      "stats": {
+        "speed": 0.21,
+        "defense": 4,
+        "attack_speed": 0.11
+      },
+      "icon": "walkway_boots",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_underworks_uncommon_charm": {
+      "name": "Used Underworks Charm",
+      "type": "equipment",
+      "slot": "charm",
+      "rarity": "common",
+      "level": 58,
+      "price": 1210,
+      "stats": {
+        "max_hp": 84,
+        "power": 0.17,
+        "crit": 0.11
+      },
+      "icon": "lucky_coin",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_foundry_uncommon_weapon": {
+      "name": "Used Foundry Knuckles",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "common",
+      "level": 63,
+      "price": 2250,
+      "stats": {
+        "power": 1.24,
+        "crit": 0.13
+      },
+      "icon": "brass_knuckles",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_foundry_uncommon_body": {
+      "name": "Used Foundry Plate",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "common",
+      "level": 63,
+      "price": 1600,
+      "stats": {
+        "defense": 11,
+        "max_hp": 103
+      },
+      "icon": "reactor_plate",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_foundry_uncommon_head": {
+      "name": "Used Foundry Helm",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "common",
+      "level": 63,
+      "price": 1270,
+      "stats": {
+        "defense": 8,
+        "max_hp": 94
+      },
+      "icon": "core_guard_helm",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_foundry_uncommon_hands": {
+      "name": "Used Foundry Gloves",
+      "type": "equipment",
+      "slot": "hands",
+      "rarity": "common",
+      "level": 63,
+      "price": 1150,
+      "stats": {
+        "power": 0.46,
+        "defense": 2,
+        "crit": 0.09
+      },
+      "icon": "insulated_gauntlets",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_foundry_uncommon_feet": {
+      "name": "Used Foundry Boots",
+      "type": "equipment",
+      "slot": "feet",
+      "rarity": "common",
+      "level": 63,
+      "price": 950,
+      "stats": {
+        "speed": 0.22,
+        "defense": 5,
+        "attack_speed": 0.12
+      },
+      "icon": "walkway_boots",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_foundry_uncommon_charm": {
+      "name": "Used Foundry Charm",
+      "type": "equipment",
+      "slot": "charm",
+      "rarity": "common",
+      "level": 63,
+      "price": 1300,
+      "stats": {
+        "max_hp": 91,
+        "power": 0.18,
+        "crit": 0.12
+      },
+      "icon": "lucky_coin",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_heart_uncommon_weapon": {
+      "name": "Used Heartforged Knuckles",
+      "type": "equipment",
+      "slot": "weapon",
+      "rarity": "common",
+      "level": 68,
+      "price": 2420,
+      "stats": {
+        "power": 1.34,
+        "crit": 0.14
+      },
+      "icon": "brass_knuckles",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_heart_uncommon_body": {
+      "name": "Used Heartforged Plate",
+      "type": "equipment",
+      "slot": "body",
+      "rarity": "common",
+      "level": 68,
+      "price": 1710,
+      "stats": {
+        "defense": 12,
+        "max_hp": 111
+      },
+      "icon": "reactor_plate",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_heart_uncommon_head": {
+      "name": "Used Heartforged Helm",
+      "type": "equipment",
+      "slot": "head",
+      "rarity": "common",
+      "level": 68,
+      "price": 1360,
+      "stats": {
+        "defense": 8,
+        "max_hp": 101
+      },
+      "icon": "core_guard_helm",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_heart_uncommon_hands": {
+      "name": "Used Heartforged Gloves",
+      "type": "equipment",
+      "slot": "hands",
+      "rarity": "common",
+      "level": 68,
+      "price": 1230,
+      "stats": {
+        "power": 0.49,
+        "defense": 3,
+        "crit": 0.1
+      },
+      "icon": "insulated_gauntlets",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_heart_uncommon_feet": {
+      "name": "Used Heartforged Boots",
+      "type": "equipment",
+      "slot": "feet",
+      "rarity": "common",
+      "level": 68,
+      "price": 1020,
+      "stats": {
+        "speed": 0.24,
+        "defense": 5,
+        "attack_speed": 0.13
+      },
+      "icon": "walkway_boots",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
+    },
+    "used_heart_uncommon_charm": {
+      "name": "Used Heartforged Charm",
+      "type": "equipment",
+      "slot": "charm",
+      "rarity": "common",
+      "level": 68,
+      "price": 1390,
+      "stats": {
+        "max_hp": 98,
+        "power": 0.2,
+        "crit": 0.12
+      },
+      "icon": "lucky_coin",
+      "description": "Second-hand, from Kenji's stall. The real thing drops on the street."
     }
   }
 }

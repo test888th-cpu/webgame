@@ -3,7 +3,6 @@
     "tunnel_mother": {
       "enemy": "tunnel_mother",
       "area": "great_drain",
-      "unlock": "unit_k7",
       "period_minutes": 180,
       "open_minutes": 60,
       "level": 32,
@@ -75,7 +74,6 @@
     "iron_colossus": {
       "enemy": "iron_colossus",
       "area": "old_scrapyard",
-      "unlock": "director_wiroj",
       "level": 52,
       "players": 5,
       "pool": 14,
@@ -131,7 +129,6 @@
     "subject_zero": {
       "enemy": "subject_zero",
       "area": "sunken_reservoir",
-      "unlock": "director_wiroj",
       "level": 55,
       "players": 10,
       "pool": 14,
@@ -187,7 +184,6 @@
     "slag_titan": {
       "enemy": "slag_titan",
       "area": "slag_furnace",
-      "unlock": "twelve_relapsed",
       "level": 60,
       "players": 5,
       "pool": 14,
@@ -251,7 +247,6 @@
     "iron_sovereign": {
       "enemy": "iron_sovereign",
       "area": "sovereign_vault",
-      "unlock": "wiroj_protocol",
       "level": 70,
       "players": 10,
       "pool": 14,
@@ -321,7 +316,6 @@
     "floodgate_marshal": {
       "enemy": "floodgate_marshal",
       "area": "floodgate_barracks",
-      "unlock": "arthit_reinstated",
       "level": 56,
       "players": 15,
       "pool": 14,
@@ -385,7 +379,6 @@
     "crucible_king": {
       "enemy": "crucible_king",
       "area": "crucible_pit",
-      "unlock": "k7_overdriven",
       "level": 64,
       "players": 20,
       "pool": 14,
@@ -449,7 +442,6 @@
     "founders_engine": {
       "enemy": "founders_engine",
       "area": "founders_floor",
-      "unlock": "wiroj_protocol",
       "level": 70,
       "players": 30,
       "pool": 14,

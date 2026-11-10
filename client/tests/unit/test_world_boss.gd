@@ -3,7 +3,7 @@ extends TestCase
 ## one health pool per round worn down attempt by attempt, personal reward
 ## tiers paid once each, a kill paid once, and a results screen (no knock-out
 ## penalty) instead of the game-over. Each fights at a fixed level with a
-## fixed pool, for anyone who unlocked it; all three are built for groups,
+## fixed pool, for any hero from the entry level (10); all three are built for groups,
 ## their rarest drops coming with the kill.
 
 const TEST_SAVE := "user://test_world_boss_save"
@@ -34,8 +34,6 @@ func _during(round: int, boss := MOTHER) -> int:
 func _hero(level := 30) -> PlayerProfile:
 	var profile := PlayerProfile.new_game(_content())
 	profile.level = level
-	for boss: String in _content().world_bosses:
-		profile.defeated[str(_spec(boss)["unlock"])] = 1
 	return profile
 
 
@@ -73,16 +71,22 @@ func test_rounds_open_on_the_clock() -> void:
 	assert_eq(int(shut["opens_at"]), start + _period(), "and opens again next period")
 
 
-func test_it_waits_for_the_drains_to_be_reached() -> void:
-	var profile := PlayerProfile.new_game(_content())
-	var now := _period() * 1000 + 10
-	assert_true(WorldBossRules.problem(profile, _content(), MOTHER, now) != "", "locked before K-7")
-	profile.defeated[str(_spec()["unlock"])] = 1
-	assert_eq(WorldBossRules.problem(profile, _content(), MOTHER, now), "", "open once K-7 is down")
-	var shut := now + int(_spec()["open_minutes"]) * 60
-	assert_true(
-		WorldBossRules.problem(profile, _content(), MOTHER, shut).contains("Back in"), "says when"
-	)
+func test_every_world_boss_opens_to_every_hero_from_level_10() -> void:
+	# The owner's rule: from level 10 anyone may face any world boss, whatever
+	# the story has reached; whether they survive is up to them.
+	assert_eq(WorldBossRules.entry_level(_content()), 10, "the approved entry level")
+	for boss: String in _content().world_bosses:
+		var now := _during(1000, boss)
+		var nine := _hero(9)
+		assert_true(WorldBossRules.problem(nine, _content(), boss, now) != "", boss + ": not at 9")
+		assert_true("level 10" in WorldBossRules.problem(nine, _content(), boss, now), "says why")
+		var ten := _hero(10)
+		assert_eq(ten.defeated, {}, "no story boss beaten")
+		assert_eq(WorldBossRules.problem(ten, _content(), boss, now), "", boss + ": open at 10")
+		var shut := now + int(_spec(boss)["open_minutes"]) * 60
+		assert_true(
+			WorldBossRules.problem(ten, _content(), boss, shut).contains("Back in"), "says when"
+		)
 
 
 func test_entries_are_unlimited_with_no_waiting() -> void:
@@ -173,7 +177,7 @@ func test_the_fight_lasts_until_the_hour_is_up() -> void:
 
 func test_win_rides_there_only_while_it_is_open() -> void:
 	var game := _game()
-	game.profile.defeated[str(_spec()["unlock"])] = 1
+	game.profile.level = maxi(game.profile.level, 10)
 	game.profile.money = 100
 	var npc := {"name": "Uncle Thong", "role": "travel", "routes": "field", "fare": 10}
 	game._show("travel", GameMenus.travel(game, npc))
@@ -200,7 +204,7 @@ func test_win_rides_there_only_while_it_is_open() -> void:
 
 func test_an_attempt_from_the_taxi_to_the_results() -> void:
 	var game := _game()
-	game.profile.defeated[str(_spec()["unlock"])] = 1
+	game.profile.level = maxi(game.profile.level, 10)
 	game.profile.level = 30
 	game.profile.money = 100
 	game._ride_world_boss({"fare": 10}, MOTHER)
@@ -256,13 +260,15 @@ func test_the_round_is_saved() -> void:
 	assert_eq(PlayerProfile.from_dict(old, _content()).world_boss, {}, "a v6 save starts fresh")
 
 
-func test_no_level_is_asked_at_the_door() -> void:
-	# Anyone who has unlocked it may try; being ready is up to them.
-	var now := _period("iron_colossus") * 100 + int(_spec("iron_colossus")["offset_minutes"]) * 60
+func test_no_level_but_the_entry_level_is_asked_at_the_door() -> void:
+	# Far below the boss's own level is still the hero's call.
+	var now := (
+		_period("founders_engine") * 100 + int(_spec("founders_engine")["offset_minutes"]) * 60
+	)
 	assert_eq(
-		WorldBossRules.problem(_hero(5), _content(), "iron_colossus", now + 10),
+		WorldBossRules.problem(_hero(10), _content(), "founders_engine", now + 10),
 		"",
-		"a level 5 hero may walk in"
+		"a level 10 hero may walk in on a level 70 boss"
 	)
 
 

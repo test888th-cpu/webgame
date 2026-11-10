@@ -1,6 +1,7 @@
 {
   "max_level": 70,
   "boss_weapon_durability": 2.5,
+  "world_boss_entry_level": 10,
   "xp": {
     "base": 100,
     "growth": 100,
@@ -49,7 +50,6 @@
   "max_characters": 4,
   "enhance": {
     "bonus_per_level": 0.1,
-    "pity_per_fail": 0.05,
     "levels": [
       {
         "coins": 40,

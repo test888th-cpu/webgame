@@ -37,6 +37,10 @@ const FIELD_GAP := 36.0
 const LASER_GAP := 90.0
 const LASER_SPAN := 360.0
 const MAX_SPOTS := 9
+## An effect is drawn the width of what it hits (fit): never under MIN_FIT or
+## over MAX_FIT of its art, so a small jab still shows and nothing balloons.
+const MIN_FIT := 0.3
+const MAX_FIT := 1.5
 
 var content: ContentDB
 var view: ZoneView
@@ -65,6 +69,7 @@ func on_event(event: ZoneEvent) -> void:
 				Sfx.play("coin", -8.0, 0.08)
 			else:
 				Sfx.play("pickup", -6.0)
+				hud.pickups.add(content, str(event.data["item"]), int(event.data.get("amount", 1)))
 		"level_up":
 			level_up(event.data["level"], event.data.get("skills", []))
 		"quest_complete":
@@ -154,8 +159,12 @@ func on_event(event: ZoneEvent) -> void:
 				view.shake(4.0)
 			var kind := str(event.data.get("kind", "crane"))
 			var landing := BossFxRules.hazard(content, kind)
-			for spot in hazard_spots(kind, event.data["at"], half):
-				Fx.spawn(view.effects, content, landing if landing else "dust", spot)
+			var spots := hazard_spots(kind, event.data["at"], half)
+			var effect := landing if landing else "dust"
+			# One burst the width of the marked area, or one per FIELD_GAP.
+			var each := 2.0 * half.x if spots.size() == 1 else FIELD_GAP * 1.5
+			for spot in spots:
+				Fx.spawn(view.effects, content, effect, spot, false, fit(content, effect, each))
 			view.shake(6.0)
 
 
@@ -283,7 +292,8 @@ func _on_hit(hit: CombatEvent) -> void:
 	if boss_blow and heavy and not hit.blocked and defender:
 		# A boss's heavy blow lands with a burst of debris at the target's feet.
 		var impact := BossFxRules.effect(content, "heavy_impact")
-		Fx.spawn(view.effects, content, impact, defender.position)
+		var wide := fit(content, impact, hit_width(striker.move)) if striker.move else 1.0
+		Fx.spawn(view.effects, content, impact, defender.position, false, wide)
 		view.shake(3.0)
 	if hit.broken:
 		# A boss beaten off its feet: rare, so it lands hard.
@@ -335,11 +345,15 @@ func _on_swing(data: Dictionary) -> void:
 	var delay := fighter.move.startup * CombatRules.TICK_SECONDS
 	var flip := fighter.facing < 0
 	var effect := str(skill["fx"])
+	# As wide as the blow reaches (the owner's report: a skill that hit two
+	# cells looked like four); under a scaled body, undo the body's scale.
+	var size := fit(content, effect, hit_width(fighter.move))
+	var body := size / maxf(fighter_view.scale.x, 0.01)
 	if effect == "rush":
 		# The trail follows the hero through the charge.
-		Fx.spawn(fighter_view, content, effect, Vector2(0, -10), flip)
+		Fx.spawn(fighter_view, content, effect, Vector2(0, -10), flip, body)
 	elif effect in FOLLOWS:
-		_later(delay, fighter_view, effect, Vector2.ZERO, flip)
+		_later(delay, fighter_view, effect, Vector2.ZERO, flip, body)
 	else:
 		# Where the blow lands: an uppercut's arc rises just ahead, a strike's
 		# burst at chest height in front; a ground effect under the fighter.
@@ -348,27 +362,43 @@ func _on_swing(data: Dictionary) -> void:
 			ahead = Vector2(fighter.facing * 18.0, 0)
 		elif effect not in GROUND:
 			ahead = CHEST + Vector2(fighter.facing * 16.0, 0)
-		_landed(delay, int(data["id"]), effect, ahead, flip)
+		_landed(delay, int(data["id"]), effect, ahead, flip, size)
 	if effect == "slam":
 		view.get_tree().create_timer(delay).timeout.connect(view.shake.bind(7.0))
 		_dust(data["id"], delay)
 
 
-func _later(seconds: float, parent: Node2D, effect: String, at: Vector2, flip: bool) -> void:
+## How wide `move` strikes: its reach plus the body it can catch at either end.
+static func hit_width(move: MoveData) -> float:
+	return move.reach + 2.0 * CombatRules.HURT_HALF_WIDTH
+
+
+## The size to draw `effect` at so its art spans `span` px (MIN_FIT..MAX_FIT).
+static func fit(content: ContentDB, effect: String, span: float) -> float:
+	var art: Dictionary = content.fx.get("effects", {}).get(effect, {})
+	var width := float(art.get("size", [span, 0])[0])
+	return clampf(span / maxf(width, 1.0), MIN_FIT, MAX_FIT)
+
+
+func _later(
+	seconds: float, parent: Node2D, effect: String, at: Vector2, flip: bool, size := 1.0
+) -> void:
 	# By id: the view may be gone (area change) before the timer fires.
 	var parent_id := parent.get_instance_id()
 	parent.get_tree().create_timer(seconds).timeout.connect(
 		func() -> void:
 			var target := instance_from_id(parent_id) as Node2D
 			if target and target.is_inside_tree():
-				Fx.spawn(target, content, effect, at, flip)
+				Fx.spawn(target, content, effect, at, flip, size)
 	)
 
 
 ## Plays `effect` after `seconds` where fighter `fighter_id` then stands
 ## (plus `offset`), in the world: on the street for a GROUND effect, else
 ## over it. It stays there.
-func _landed(seconds: float, fighter_id: int, effect: String, offset: Vector2, flip: bool) -> void:
+func _landed(
+	seconds: float, fighter_id: int, effect: String, offset: Vector2, flip: bool, size := 1.0
+) -> void:
 	var view_id := view.get_instance_id()
 	view.get_tree().create_timer(seconds).timeout.connect(
 		func() -> void:
@@ -377,7 +407,7 @@ func _landed(seconds: float, fighter_id: int, effect: String, offset: Vector2, f
 			if fighter_view == null:
 				return
 			var layer := zone_view.ground if effect in GROUND else zone_view.effects
-			Fx.spawn(layer, content, effect, fighter_view.position + offset, flip)
+			Fx.spawn(layer, content, effect, fighter_view.position + offset, flip, size)
 	)
 
 

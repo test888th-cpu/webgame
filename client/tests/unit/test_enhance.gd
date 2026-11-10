@@ -51,18 +51,23 @@ func test_a_success_raises_the_worn_item_and_pays_once() -> void:
 	assert_eq(profile.count("scrap_metal"), scrap - int(cost["items"]["scrap_metal"]), "and scrap")
 
 
-func test_a_failure_keeps_everything_but_the_cost_and_adds_pity() -> void:
+func test_a_failure_keeps_everything_but_the_cost_and_the_odds_stay_the_same() -> void:
+	# The owner's rule: no chance builds up over failures.
 	var profile := _profile()
 	var copy := profile.own_copy("body")
 	profile.enhance[copy] = 5
 	var before := EnhanceRules.chance(profile, "body", _content())
-	var outcome := EnhanceRules.attempt(profile, "body", _content(), _rng(false))
-	assert_eq(outcome["result"], "fail", "failed")
-	assert_eq(EnhanceRules.level(profile, "body"), 5, "the level stays")
-	assert_eq(profile.equipment["body"], copy, "the item stays")
-	assert_true(EnhanceRules.chance(profile, "body", _content()) > before, "next try is better")
-	EnhanceRules.attempt(profile, "body", _content(), _rng(true))
-	assert_eq(profile.enhance_pity.get(copy, 0), 0, "pity resets on success")
+	var rate := float(_content().progression["enhance"]["levels"][5]["rate"])
+	assert_eq(before, rate, "the level's rate")
+	for attempt in 3:
+		var outcome := EnhanceRules.attempt(profile, "body", _content(), _rng(false))
+		assert_eq(outcome["result"], "fail", "failed")
+		assert_eq(EnhanceRules.level(profile, "body"), 5, "the level stays")
+		assert_eq(profile.equipment["body"], copy, "the item stays")
+		assert_eq(EnhanceRules.chance(profile, "body", _content()), rate, "the same odds again")
+	assert_true(not _content().progression["enhance"].has("pity_per_fail"), "none in the data")
+	profile.enhance_pity[copy] = 4  # an old save's count
+	assert_eq(EnhanceRules.chance(profile, "body", _content()), rate, "ignored")
 
 
 func test_identical_copies_keep_their_own_upgrades() -> void:
@@ -213,7 +218,14 @@ func test_the_workbench_upgrades_from_the_item_card() -> void:
 	for name: String in PlayerProfile.SLOTS:
 		if profile.equipment[name] and not slot:
 			slot = name
+	# The plain bag shows the upgrade's numbers but cannot upgrade: only the
+	# workbench can (talk to it).
 	game.open_inventory()
+	game._upgrade(slot)
+	assert_eq(EnhanceRules.level(profile, slot), 0, "not from the bag")
+	game.close_menu()
+	game._last_upgrade_ms = -100000
+	game.open_workbench()
 	game.inspect_item(profile.equipment[slot], slot)
 	var card_text := _texts(game.item_card)
 	assert_true(card_text.contains("UPGRADE"), "the card offers an upgrade")

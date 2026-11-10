@@ -42,10 +42,15 @@ func test_each_tier_has_every_slot_in_three_grades() -> void:
 
 
 func test_every_new_piece_has_a_source() -> void:
-	# Uncommon from the market, rare from the ground's monsters, epic from the
-	# lair's boss: the farming loop always has a target.
+	# Uncommon and rare from the grounds (the owner's rule: the gear stall
+	# sells a Common copy only), rare also from the ground's monsters, epic
+	# from the lair's boss: the farming loop always has a target.
 	var c := _content()
-	var market: Array = ShopRules.all_items(c.shops["city_market"])
+	var market: Array = ShopRules.all_items(c.shops["city_gear"])
+	var ground_prizes := []
+	for gid in AreaRules.farms(c):
+		for prize: Dictionary in c.area(gid)["spawning"].get("drops", []):
+			ground_prizes.append(prize["item"])
 	var lair_drops := []
 	var field_drops := []
 	for lair_id in AreaRules.lairs(c):
@@ -57,7 +62,9 @@ func test_every_new_piece_has_a_source() -> void:
 			field_drops.append_array(_drops(kind))
 	for tier: String in TIERS:
 		for slot: String in ItemRules.SLOT_WEIGHTS:
-			assert_true("%s_uncommon_%s" % [tier, slot] in market, tier + " uncommon: sold")
+			var piece := "%s_uncommon_%s" % [tier, slot]
+			assert_true(piece in ground_prizes, tier + " uncommon: a ground's prize")
+			assert_true("used_" + piece in market, tier + " uncommon: a Common copy sold")
 			assert_true("%s_rare_%s" % [tier, slot] in field_drops, tier + " rare: dropped")
 			assert_true("%s_epic_%s" % [tier, slot] in lair_drops, tier + " epic: a boss's")
 	for slot: String in ItemRules.SLOT_WEIGHTS:
@@ -177,7 +184,11 @@ func test_a_failed_upgrade_keeps_the_item_and_its_level() -> void:
 			failed = true
 			assert_eq(str(profile.equipment["body"]), key, "the item is kept")
 			assert_eq(EnhanceRules.level(profile, "body"), 9, "and its level")
-			assert_true(int(profile.enhance_pity[key]) > 0, "and the next try is likelier")
+			assert_eq(
+				EnhanceRules.chance(profile, "body", c),
+				float(c.progression["enhance"]["levels"][9]["rate"]),
+				"and the next try has the same odds"
+			)
 			break
 		profile.enhance[key] = 9
 	assert_true(failed, "a 20% try fails within 30 rolls")
@@ -204,7 +215,7 @@ func test_the_markets_high_level_stock_opens_with_the_lair_bosses() -> void:
 	for area_id in StreetMemory.street(c):
 		StreetMemory.visit(profile, area_id)
 	var gated := 0
-	for stock: Dictionary in c.shops["city_market"]["stock"]:
+	for stock: Dictionary in c.shops["city_gear"]["stock"]:
 		if not stock.has("defeated"):
 			continue
 		gated += 1
@@ -214,12 +225,12 @@ func test_the_markets_high_level_stock_opens_with_the_lair_bosses() -> void:
 		for item_id: String in stock["items"]:
 			if c.item(item_id).get("type") == "equipment":
 				assert_true(
-					item_id not in ShopRules.wares(profile, c, "city_market"), item_id + ": not yet"
+					item_id not in ShopRules.wares(profile, c, "city_gear"), item_id + ": not yet"
 				)
 		profile.defeated[boss] = 1
 		assert_true(ShopRules.stock_open(profile, stock), boss + ": open after")
 		for item_id: String in stock["items"]:
-			assert_true(item_id in ShopRules.wares(profile, c, "city_market"), item_id + ": sold")
+			assert_true(item_id in ShopRules.wares(profile, c, "city_gear"), item_id + ": sold")
 	assert_eq(gated, 4, "one stock per tier")
 	var copy := ContentDB.load_all()
 	copy.shops["city_market"]["stock"].append({"defeated": "smogling", "items": ["rice_box"]})

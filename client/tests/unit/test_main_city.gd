@@ -19,6 +19,7 @@ const SERVICES := {
 	"thong_truck_city": ["travel", "travel"],
 	"city_notice_board": ["board", "board"],
 	"vendor_ama": ["shop", "shop"],
+	"vendor_kenji_city": ["shop", "shop"],
 	"city_workbench": ["workbench", "bag"],
 }
 ## Depot Yard as it is on main (SHA-256 of its areas.json entry, its kit and
@@ -163,6 +164,10 @@ func test_depot_yard_is_exactly_as_on_main() -> void:
 	var npcs: Array = depot["npcs"]
 	assert_eq(npcs.map(func(n: Dictionary) -> String: return n["id"]), ["chief_odo"], "Odo stays")
 	depot.erase("npcs")
+	# The owner's later rule: the street walks back west into the city, so
+	# Depot Yard has a west exit through the city's gate; the rest is as was.
+	assert_eq(depot["exits"].get("west", {}).get("to"), CITY, "west, back into the city")
+	depot["exits"].erase("west")
 	assert_eq(JSON.stringify(depot, "", true).sha256_text(), DEPOT_AREA_SHA, "Depot Yard's data")
 	assert_eq(
 		JSON.stringify(_content().kit["areas"]["depot_yard"], "", true).sha256_text(),
@@ -178,7 +183,7 @@ func test_depot_yard_is_exactly_as_on_main() -> void:
 		var path := "res://assets/environment/depot_yard/%s.png" % layer
 		assert_eq(FileAccess.get_sha256(path), DEPOT_PNG_SHA[layer], "Depot Yard's %s" % layer)
 	assert_eq(_content().start_area, "depot_yard", "new characters still start there")
-	assert_true(not depot["exits"].has("west"), "Depot Yard gains no west exit")
+	assert_eq(depot["exits"].keys(), ["east"], "and on east, as before")
 
 
 # --- A separate area off the street ---------------------------------------
@@ -204,8 +209,14 @@ func test_the_city_is_its_own_area_off_the_street() -> void:
 		)
 		for side: String in _content().area(area_id).get("exits", {}):
 			var to := str(_content().area(area_id)["exits"][side]["to"])
-			if hub_only:
+			var farm_chain := (
+				AreaRules.kind(_content(), area_id) == AreaRules.FARM
+				and AreaRules.kind(_content(), to) == AreaRules.FARM
+			)
+			if hub_only and not farm_chain:
 				assert_eq(to, CITY, "%s: walked out of, it leads back to the city" % area_id)
+			elif area_id == "depot_yard" and side == "west":
+				assert_eq(to, CITY, "the street walks back west into the city through its gate")
 			else:
 				assert_true(to != CITY, "no story area walks into the city (%s)" % area_id)
 	var fresh := PlayerProfile.new_game(_content())
@@ -265,8 +276,15 @@ func test_only_the_city_has_merchants_and_a_taxi() -> void:
 	for npc: Dictionary in _city()["npcs"]:
 		roles[npc["role"]] = int(roles.get(npc["role"], 0)) + 1
 	assert_eq(int(roles.get("travel", 0)), 2, "Win's story rank and Uncle Thong's truck")
-	assert_eq(int(roles.get("shop", 0)), 1, "one merchant: Ama's Market")
-	assert_eq(_content().shops.keys(), ["city_market"], "selling every trader's wares")
+	# The owner's rule (November 2026): food at Ama's, Common gear at Kenji's.
+	assert_eq(int(roles.get("shop", 0)), 2, "two merchants: Ama and Kenji")
+	assert_eq(_content().shops.keys(), ["city_market", "city_gear"], "food and gear")
+	for item_id in ShopRules.all_items(_content().shops["city_market"]):
+		assert_eq(_content().item(item_id)["type"], "consumable", item_id + ": Ama sells food")
+	for item_id in ShopRules.all_items(_content().shops["city_gear"]):
+		var item := _content().item(item_id)
+		assert_eq(item["type"], "equipment", item_id + ": Kenji sells gear")
+		assert_eq(item["rarity"], "common", item_id + ": Common only")
 	var game := _game()
 	game.profile.money = 1000
 	for area_id in StreetMemory.street(game.content):
@@ -283,8 +301,7 @@ func test_the_two_taxis_keep_to_their_own_routes_and_fit_small_screens() -> void
 	game._go_to_city()
 	for area_id in StreetMemory.street(game.content):
 		StreetMemory.visit(game.profile, area_id)
-	for boss: String in game.content.world_bosses:
-		game.profile.defeated[str(WorldBossRules.spec(game.content, boss)["unlock"])] = 1
+	game.profile.level = maxi(game.profile.level, 10)
 	# The grounds past the story open as their rematch bosses fall.
 	for gid in AreaRules.farms(game.content):
 		var rule: Dictionary = game.content.area(gid)["unlock"]
@@ -345,7 +362,7 @@ func test_the_pause_menu_goes_to_the_city_with_recalls_checks() -> void:
 	assert_true(game.city_problem() != "", "not while down")
 	# During a world boss attempt: no.
 	var boss := "tunnel_mother"
-	game.profile.defeated[str(WorldBossRules.spec(game.content, boss)["unlock"])] = 1
+	game.profile.level = maxi(game.profile.level, 10)
 	game.now_override = int(WorldBossRules.spec(game.content, boss)["period_minutes"]) * 60000 + 60
 	game._start_world_boss(boss)
 	assert_true(game.world_run != null, "an attempt under way")
@@ -455,28 +472,28 @@ func test_the_market_gets_each_traders_stock_with_their_chapter() -> void:
 	game._buy(_npc("vendor_ama"), "steamed_bun")
 	assert_eq(game.profile.money, 50 - price, "Ama's Market is open from the start")
 	assert_eq(game.profile.count("steamed_bun"), 4, "bought one (3 in the starter kit)")
-	var market: Dictionary = game.content.shops["city_market"]
-	var before := ShopRules.wares(game.profile, game.content, "city_market")
+	var market: Dictionary = game.content.shops["city_gear"]
+	var before := ShopRules.wares(game.profile, game.content, "city_gear")
 	for stock: Dictionary in market["stock"]:
 		var fresh := ""
 		for item_id: String in stock["items"]:
-			if item_id not in ShopRules.wares(game.profile, game.content, "city_market"):
+			if item_id not in ShopRules.wares(game.profile, game.content, "city_gear"):
 				fresh = item_id
 		if fresh == "":
 			continue
 		game.profile.money = 100000
-		var text := ShopRules.next_stock(game.profile, game.content, "city_market")
+		var text := ShopRules.next_stock(game.profile, game.content, "city_gear")
 		assert_true(text.begins_with(str(stock["from"])), "the next stock is named: " + text)
-		var refused := ShopRules.buy(game.profile, "city_market", fresh, game.content)
+		var refused := ShopRules.buy(game.profile, "city_gear", fresh, game.content)
 		assert_eq(refused, "not_sold", fresh + ": not before its chapter")
 		if stock.has("defeated"):
 			game.profile.defeated[str(stock["defeated"])] = 1
 		else:
 			StreetMemory.visit(game.profile, str(stock["reached"]))
-		assert_eq(ShopRules.buy(game.profile, "city_market", fresh, game.content), "", fresh)
-	var after := ShopRules.wares(game.profile, game.content, "city_market")
+		assert_eq(ShopRules.buy(game.profile, "city_gear", fresh, game.content), "", fresh)
+	var after := ShopRules.wares(game.profile, game.content, "city_gear")
 	assert_true(after.size() > before.size(), "the whole street's wares by the end")
-	assert_eq(ShopRules.next_stock(game.profile, game.content, "city_market"), "", "all in")
+	assert_eq(ShopRules.next_stock(game.profile, game.content, "city_gear"), "", "all in")
 	_done(game)
 
 
@@ -508,11 +525,9 @@ func test_the_board_reveals_no_more_than_the_story_has() -> void:
 		var data := WorldBossRules.spec(game.content, boss)
 		assert_true(game.menu.find_child("Boss_" + boss, true, false) != null, boss)
 		assert_true(str(game.content.enemy(str(data["enemy"]))["name"]) not in text, "unnamed")
-		assert_true(str(game.content.enemy(str(data["unlock"]))["name"]) not in text, "no hint")
 	var goal := str(MapRules.goal(game.profile, game.content)["text"])
 	assert_true(goal in text, "the current job: " + goal)
-	var unlock := str(WorldBossRules.spec(game.content, "tunnel_mother")["unlock"])
-	game.profile.defeated[unlock] = 1
+	game.profile.level = WorldBossRules.entry_level(game.content)
 	var period := int(WorldBossRules.spec(game.content, "tunnel_mother")["period_minutes"]) * 60
 	game.now_override = period * 1000 + 60
 	game._show("board", GameMenus.notice_board(game, board))
@@ -588,4 +603,21 @@ func test_a_short_ride_list_is_shown_whole() -> void:
 	for row: Button in game.menu.find_children("Ride_*", "Button", true, false):
 		if row.is_visible_in_tree():
 			assert_true(box.grow(1).encloses(row.get_global_rect()), "%s is not cut off" % row.name)
+	_done(game)
+
+
+func test_the_street_walks_back_west_into_the_city() -> void:
+	# The owner's rule: once past, the street is walked both ways, the city
+	# included: from Saltmarket back through Depot Yard and in at the gate.
+	var game := _game()
+	game.enter_area("saltmarket", "west")
+	var left := FighterInput.new()
+	left.move = Vector2(-1, 0)
+	for area_id in ["depot_yard", CITY]:
+		for tick in 2400:
+			game.step(left)
+			if game.zone.area_id == area_id:
+				break
+		assert_eq(game.zone.area_id, area_id, "walked west into " + area_id)
+	assert_true(game.zone.hero.position.x > game.zone.bounds.get_center().x, "in at the east gate")
 	_done(game)

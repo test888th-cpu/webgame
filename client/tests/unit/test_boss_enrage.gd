@@ -91,7 +91,6 @@ func test_a_world_boss_enrages_for_the_rounds_last_seconds() -> void:
 	var rage: Dictionary = spec["enrage"]
 	var profile := PlayerProfile.new_game(c)
 	profile.level = 60
-	profile.defeated[str(spec["unlock"])] = 1
 	var arena := str(spec["area"])
 	var period := int(spec["period_minutes"]) * 60
 	var opens := 3 * period + int(spec.get("offset_minutes", 0)) * 60

@@ -343,7 +343,7 @@ func _validate_world_boss() -> void:
 		_check(
 			area(str(wb.get("area"))).get("world_boss", false), where + ".area: needs world_boss"
 		)
-		_check(enemies.has(str(wb.get("unlock"))), where + ".unlock: unknown enemy")
+		_check(not wb.has("unlock"), where + ".unlock: open to all from the entry level")
 		for field in ["period_minutes", "open_minutes", "pool"]:
 			_number(wb, field, where, 1)
 		_number(wb, "level", where, 1)
@@ -733,10 +733,14 @@ func _validate_city() -> void:
 	_check(not city.get("world_boss", false), where + ": not a world boss arena")
 	var exits: Dictionary = city.get("exits", {})
 	_check(exits.keys() == ["east"], where + ": its one way out is the gate east")
+	# The street's first area walks back west through the same gate.
+	var gate := str(exits.get("east", {}).get("to", ""))
 	for id: String in areas:
 		if AreaRules.kind(self, id) in [AreaRules.FARM, AreaRules.LAIR, AreaRules.WORLD_BOSS]:
 			continue
 		for side: String in areas[id].get("exits", {}):
+			if id == gate and side == "west":
+				continue
 			_check(
 				str(areas[id]["exits"][side].get("to")) != city_area,
 				"%s: %s leads into the city; it is reached by taxi only" % [where, id]

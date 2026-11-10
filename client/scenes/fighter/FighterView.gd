@@ -129,6 +129,12 @@ func setup_enemy(data: Dictionary, art: Dictionary, level := 0) -> void:
 		set_art(str(data["sprite"]), art)
 
 
+## A boss that waits before a district's end (MapRules.MINI_BOSS): the map's
+## mini-boss mark and "Mini-boss" overhead, in the accent colour, not the skull.
+func mark_mini_boss(data: Dictionary) -> void:
+	_rank("Mini-boss %s" % data.get("name", ""), "map_mini_boss", UiTheme.ACCENT)
+
+
 ## A farming ground's elite (FarmSpawner): its name and level overhead, in gold.
 func mark_elite(data: Dictionary) -> void:
 	var tag := "  Lv %d" % enemy_level if enemy_level > 0 else ""

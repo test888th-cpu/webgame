@@ -7,8 +7,10 @@ extends RefCounted
 ## own (PlayerProfile.own_copy), so identical items in the bag stay +0.
 ## The workbench upgrades what is worn, so these rules take the slot and
 ## work on the item in it. Each attempt costs coins and materials and
-## succeeds at the level's rate; a failure keeps the item and the level, and
-## adds pity_per_fail to that item's next try until one succeeds.
+## succeeds at the level's rate, the same rate every try: a failure keeps the
+## item and the level, and the next try has the same odds (no chance builds
+## up over failures; the owner's rule). Saves may still carry an old
+## "enhance_pity" count: it is ignored, and cleared on the next try.
 ## The random roll comes from the caller (the server, once online).
 
 
@@ -61,14 +63,12 @@ static func scaled_cost(cost: Dictionary, bands: Array, item_level: int) -> Dict
 	return out
 
 
-## The chance the next attempt on `slot` succeeds, pity included.
+## The chance the next attempt on `slot` succeeds: its level's rate.
 static func chance(profile: PlayerProfile, slot: String, content: ContentDB) -> float:
 	var cost := next_cost(profile, slot, content)
 	if cost.is_empty():
 		return 0.0
-	var pity := float(content.progression["enhance"].get("pity_per_fail", 0.0))
-	var item_id := str(profile.equipment.get(slot, ""))
-	return minf(1.0, float(cost["rate"]) + pity * int(profile.enhance_pity.get(item_id, 0)))
+	return float(cost["rate"])
 
 
 ## Why `slot` cannot be upgraded now ("" if it can): "empty" (nothing worn),
@@ -101,11 +101,10 @@ static func attempt(
 	profile.money -= int(cost["coins"])
 	for material: String in cost["items"]:
 		profile.remove_item(material, int(cost["items"][material]))
+	profile.enhance_pity.erase(copy)  # an old save's count, never used
 	if rng.randf() < odds:
 		profile.enhance[copy] = level(profile, slot) + 1
-		profile.enhance_pity.erase(copy)
 		return {"result": "success", "level": level(profile, slot)}
-	profile.enhance_pity[copy] = int(profile.enhance_pity.get(copy, 0)) + 1
 	return {"result": "fail", "level": level(profile, slot)}
 
 

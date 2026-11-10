@@ -29,8 +29,18 @@ const KINDS: Array[String] = ["crane", "steam", "laser", "shock", "sludge", "qua
 ## Random spots a volley tries for each extra drop before giving it up.
 const VOLLEY_TRIES := 12
 
+## A boss whose quarry has run this far off (pixels along the street)
+## strides to catch up: at least CATCH_UP times the hero's own walk, so a hero
+## cannot simply outrun a slow boss and leave it calling skills from afar.
+const CATCH_UP_FROM := 150.0
+const CATCH_UP := 1.15
+
 var _hazard_timer := 0
 var _hazard_turn := 0
+## The boss's own walking speed (its kind, level and phase) and the speed this
+## class last gave it, so a phase change is noticed and not overwritten.
+var _walk_speed := 0.0
+var _set_walk := -1.0
 var _summon_timer := 0
 var _shield_timer := 0
 var _shield_up := false
@@ -53,6 +63,7 @@ func tick(zone: ZoneSim, events: Array[ZoneEvent]) -> void:
 		_set_shield(zone, boss, false, events)
 		return
 	_tick_enrage(zone, boss, events)
+	_catch_up(zone, boss)
 	var phase := _phase(zone, boss)
 	var running := true
 	var shield: Dictionary = phase.get("shield", {})
@@ -75,6 +86,18 @@ func tick(zone: ZoneSim, events: Array[ZoneEvent]) -> void:
 		if _summon_timer >= _every(zone, boss, summon, "summon_every"):
 			_summon_timer = 0
 			_summon(zone, boss, summon, events)
+
+
+## Lets `boss` stride after a hero who has run off (CATCH_UP_FROM), and walk
+## at its own pace again once close.
+func _catch_up(zone: ZoneSim, boss: Fighter) -> void:
+	if not is_equal_approx(boss.speed, _set_walk):
+		_walk_speed = boss.speed
+	var far := absf(zone.hero.position.x - boss.position.x) > CATCH_UP_FROM
+	var hero_walk := zone.hero.speed * zone.hero.weapon_speed
+	var stride := maxf(_walk_speed, hero_walk * CATCH_UP / maxf(boss.weapon_speed, 0.01))
+	boss.speed = stride if far else _walk_speed
+	_set_walk = boss.speed
 
 
 ## The fight timer of a boss with "enrage": a warning, then the enrage.

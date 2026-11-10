@@ -210,6 +210,10 @@ func _make_fighter_view(f: Fighter) -> FighterView:
 		view.setup_enemy(content.enemy(f.kind), content.art, zone.enemy_level(f.id))
 		if f.elite:
 			view.mark_elite(content.enemy(f.kind))
+		elif f.id == zone.boss_id and MapRules.kind_of(content, zone.area_id) == MapRules.MINI_BOSS:
+			# The map's mini-boss mark, not the skull: a district's final boss and
+			# the one waiting before it must not look alike.
+			view.mark_mini_boss(content.enemy(f.kind))
 	return view
 
 
@@ -427,26 +431,44 @@ func _build_npcs() -> void:
 		var top := -50.0
 		if npc.has("piece"):
 			top = minf(-Scenery.piece_height(content, str(npc["piece"])) - 8.0, -20.0)
+		# The label rides on the NPC: what it is for ("service", e.g. Market) over
+		# its mark and name on one line ("$ Ama"), so the two never part.
+		if npc.has("service"):
+			var service := Label.new()
+			service.name = "Service"
+			service.text = str(npc["service"]).to_upper()
+			service.add_theme_font_size_override("font_size", 7)
+			service.add_theme_constant_override("outline_size", 3)
+			service.add_theme_color_override("font_color", UiTheme.GOLD)
+			service.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			service.position = Vector2(-60, top - 20)
+			service.size = Vector2(120, 10)
+			view.add_child(service)
+		var line := HBoxContainer.new()
+		line.name = "Tag"
+		line.alignment = BoxContainer.ALIGNMENT_CENTER
+		line.add_theme_constant_override("separation", 2)
+		line.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		line.position = Vector2(-60, top - 10)
+		line.size = Vector2(120, 12)
+		view.add_child(line)
+		var mark := Label.new()
+		mark.name = "Mark"
+		mark.add_theme_font_size_override("font_size", 9)
+		mark.add_theme_constant_override("outline_size", 3)
+		mark.add_theme_color_override("font_color", Color(1, 0.85, 0.3))
+		line.add_child(mark)
 		var name_label := Label.new()
+		name_label.name = "Name"
 		name_label.text = str(npc["name"])
 		name_label.add_theme_font_size_override("font_size", 7)
 		name_label.add_theme_constant_override("outline_size", 3)
-		name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		name_label.position = Vector2(-40, top - 8)
-		name_label.size = Vector2(80, 10)
-		view.add_child(name_label)
-		var mark := Label.new()
-		mark.add_theme_font_size_override("font_size", 12)
-		mark.add_theme_constant_override("outline_size", 4)
-		mark.add_theme_color_override("font_color", Color(1, 0.85, 0.3))
-		mark.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		mark.position = Vector2(-10, top - 24)
-		mark.size = Vector2(20, 14)
-		view.add_child(mark)
+		name_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		line.add_child(name_label)
 		_npc_marks[npc["id"]] = mark
 		var prompt := CenterContainer.new()
 		prompt.name = "Prompt"
-		prompt.position = Vector2(-40, top - 42)
+		prompt.position = Vector2(-40, top - (34 if npc.has("service") else 24))
 		prompt.size = Vector2(80, 12)
 		prompt.visible = false
 		prompt.add_child(UiKit.key_hint("E", str(VERBS.get(npc["role"], "Talk"))))

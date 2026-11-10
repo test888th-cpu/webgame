@@ -115,6 +115,7 @@ static func equipment(game: Game) -> Control:
 	doll_column.add_theme_constant_override("separation", UiTheme.GAP)
 	doll_card.add_child(doll_column)
 	doll_column.add_child(UiKit.label("WORN", UiTheme.SIZE_CAPTION, UiTheme.TEXT_DIM))
+	doll_column.add_child(_auto_gear_notice())
 	var doll := HBoxContainer.new()
 	doll.add_theme_constant_override("separation", 6)
 	doll_column.add_child(doll)
@@ -225,6 +226,23 @@ static func equipment(game: Game) -> Control:
 
 
 ## Bag order: consumables first, then gear by slot, rarest first.
+## Auto battle wears better gear it finds ("auto_gear"), which can put back
+## something the player took off: said here, where gear is changed, with the
+## switch to turn it off.
+static func _auto_gear_notice() -> Control:
+	var toggle := GameMenus._toggle("Auto battle wears better gear it finds", "auto_gear")
+	toggle.name = "AutoGear"
+	toggle.add_theme_font_size_override("font_size", UiTheme.SIZE_CAPTION)
+	toggle.add_theme_color_override(
+		"font_color", UiTheme.GOLD if toggle.button_pressed else UiTheme.TEXT_DIM
+	)
+	toggle.toggled.connect(
+		func(on: bool) -> void:
+			toggle.add_theme_color_override("font_color", UiTheme.GOLD if on else UiTheme.TEXT_DIM)
+	)
+	return toggle
+
+
 static func bag_order(content: ContentDB, profile: PlayerProfile) -> Array[String]:
 	var ids: Array[String] = []
 	for item_id: String in profile.inventory:

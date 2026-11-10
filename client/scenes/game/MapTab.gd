@@ -1,18 +1,37 @@
 class_name MapTab
 extends RefCounted
 ## The Map tab of the pause window (MapRules): where the hero is and where
-## the goal is, then two sections kept apart. STORY: the street district by
-## district, west to east, one row each. The hub (Iron City Central, off the
-## street): the city, the farming grounds open to the hero (AreaRules) and
-## the world boss arenas the hero knows, all reached by Win's taxi in the
-## city only (AreaRules.hub). Walking the boxes
-## (keyboard, gamepad, mouse) shows what is known of each area underneath.
-## Read-only: travel stays with Win's taxi.
+## the goal is, then sections kept apart (SHOWN picks them by where the hero
+## stands). STORY: the street district by district, west to east, one row
+## each. The hub (Iron City Central, off the street). FARMING GROUNDS: those
+## open to the hero (AreaRules), by level. WORLD BOSSES: the arenas the hero
+## knows. Walking the boxes (keyboard, gamepad, mouse) shows what is known
+## of each area underneath. Read-only: travel stays with the taxi and truck.
 
 const NAME_WIDTH := 104.0
 const DETAIL_WIDTH := 540.0
 const STORY := "story"
 const HUB := "hub"
+const FARMING := "farming"
+const BOSSES := "bosses"
+## What the map shows where the hero stands (the owner's rule, November
+## 2026): on the street the story only, in a farming ground (or a lair off
+## one) the grounds only, in a world boss arena the arenas only, and in the
+## city everything, each under its own heading.
+const SHOWN := {
+	AreaRules.STREET: [STORY],
+	AreaRules.FARM: [FARMING],
+	AreaRules.LAIR: [FARMING],
+	AreaRules.WORLD_BOSS: [BOSSES],
+	AreaRules.CITY: [STORY, HUB, FARMING, BOSSES],
+}
+
+## Row titles in the colour of their part of the map.
+const ROW_COLOURS := {
+	HUB: UiTheme.TEAL,
+	FARMING: UiTheme.ACCENT,
+	BOSSES: UiTheme.DANGER,
+}
 
 
 static func build(game: Game) -> Control:
@@ -33,7 +52,17 @@ static func build(game: Game) -> Control:
 	for id: String in MiniMap.ICONS:
 		icons[id] = UiKit.icon(content, id)
 	var hub := str(content.area(AreaRules.hub(content)).get("name", ""))
-	# [section, row title, areas]: the story first, then the hub's own rows.
+	var shown: Array = sections(content, here)
+	if shown.size() < SHOWN[AreaRules.CITY].size():
+		var only := UiKit.label(
+			"Only this part of the map here: open it in the city to see everything.",
+			UiTheme.SIZE_CAPTION,
+			UiTheme.TEXT_DIM
+		)
+		only.name = "OnlyHere"
+		column.add_child(only)
+	# [section, row title, areas]: the story first, then the city, the
+	# grounds and the arenas, each section only where it is shown.
 	var rows: Array = []
 	for district in MapRules.districts(content):
 		rows.append([STORY, district["name"], district["areas"]])
@@ -42,15 +71,21 @@ static func build(game: Game) -> Control:
 	# Farming grounds: only those open to the hero, once there is one.
 	var grounds := AreaRules.open_farms(profile, content)
 	if not grounds.is_empty():
-		rows.append([HUB, "Farming", grounds])
+		rows.append([FARMING, "Farming", _by_level(content, grounds)])
 	var arenas := MapRules.arenas(profile, content)
 	if not arenas.is_empty():
-		rows.append([HUB, "World Bosses", arenas])
-	var section := ""
+		rows.append([BOSSES, "World Bosses", arenas])
+	var heading := ""
 	for row: Array in rows:
-		if row[0] != section:
-			section = row[0]
-			column.add_child(_section(section, hub))
+		if row[0] not in shown:
+			continue
+		# In the city the parts off the street share one heading (it all fits
+		# on the small canvas); each row's title wears its category's colour.
+		var group: String = HUB if shown.size() > 1 and row[0] != STORY else row[0]
+		if group != heading:
+			heading = group
+			column.add_child(_section(group, hub, WorldBossRules.entry_level(content)))
+		var colour: Color = ROW_COLOURS.get(row[0], UiTheme.TEXT_DIM)
 		row = row.slice(1)
 		var line := HBoxContainer.new()
 		line.add_theme_constant_override("separation", 0)
@@ -74,8 +109,9 @@ static func build(game: Game) -> Control:
 			if area_id == here:
 				focus = node
 		var title := UiKit.label(
-			str(row[0]) if known else MapRules.UNKNOWN_NAME, UiTheme.SIZE_SMALL, UiTheme.TEXT_DIM
+			str(row[0]) if known else MapRules.UNKNOWN_NAME, UiTheme.SIZE_SMALL, colour
 		)
+		title.name = "Row_" + str(row[0]).replace(" ", "_")
 		title.custom_minimum_size.x = NAME_WIDTH
 		title.clip_text = true
 		line.add_child(title)
@@ -88,13 +124,35 @@ static func build(game: Game) -> Control:
 	return column
 
 
-## A section's heading: the story, or the hub and what it is for.
-static func _section(section: String, hub: String) -> Control:
-	var text := "STORY  ·  the street, west to east"
+## The sections the map shows in `area_id` (SHOWN; everything off the known kinds).
+static func sections(content: ContentDB, area_id: String) -> Array:
+	return SHOWN.get(AreaRules.kind(content, area_id), SHOWN[AreaRules.CITY])
+
+
+## `ids` (areas) in order of their level.
+static func _by_level(content: ContentDB, ids: Array[String]) -> Array[String]:
+	var out := ids.duplicate()
+	out.sort_custom(
+		func(a: String, b: String) -> bool:
+			return int(content.area(a).get("level", 0)) < int(content.area(b).get("level", 0))
+	)
+	return out
+
+
+## A section's heading: what it holds and how it is reached.
+static func _section(section: String, hub: String, boss_level: int) -> Control:
+	var text := "STORY  ·  the street, west to east: walk, or Win's taxi"
 	var colour := UiTheme.GOLD
 	if section == HUB:
-		text = "%s  ·  rest, farming, world bosses: Win's taxi there" % hub.to_upper()
+		text = "%s  ·  the city; farming grounds and world bosses by Uncle Thong's truck"
+		text = text % hub.to_upper()
 		colour = UiTheme.TEAL
+	elif section == FARMING:
+		text = "FARMING GROUNDS  ·  by level: Uncle Thong's truck; west leads one ground down"
+		colour = UiTheme.ACCENT
+	elif section == BOSSES:
+		text = "WORLD BOSSES  ·  from level %d: Uncle Thong's truck" % boss_level
+		colour = UiTheme.DANGER
 	var label := UiKit.label(text, UiTheme.SIZE_CAPTION, colour)
 	label.name = "Section_" + section
 	return label
@@ -164,7 +222,7 @@ static func _show(panel: PanelContainer, info: Dictionary, goal: bool, via := ""
 	if int(info["level"]) > 0:
 		heading.text += ("   Suggested Lv %d" if farm else "   Lv %d") % info["level"]
 	if via:
-		heading.text += "   ·   Win's taxi in %s" % via
+		heading.text += "   ·   Uncle Thong's truck in %s" % via
 	var parts: Array[String] = [states[info["state"]]]
 	if farm:
 		# A farming ground's level is advice for the fights there, not a gate.

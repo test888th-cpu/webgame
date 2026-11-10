@@ -8,7 +8,7 @@ extends RefCounted
 ##   the way on is always shown;
 ## * everything past that is unknown, and a district with nothing known is
 ##   unnamed.
-## World boss arenas are known once their boss is unlocked (WorldBossRules),
+## World boss arenas are known from the world boss entry level (WorldBossRules),
 ## and farming grounds once their unlock rule is met (AreaRules).
 ## The map also says where the hero's goal is: the tracked quest's area
 ## (quests.json objective "area"), its giver once it is done, or the giver
@@ -58,7 +58,7 @@ static func locate(content: ContentDB, area_id: String) -> Dictionary:
 	return {}
 
 
-## World boss arenas the hero knows of (their boss unlocked), in data order.
+## World boss arenas the hero knows of (from the entry level), in data order.
 static func arenas(profile: PlayerProfile, content: ContentDB) -> Array[String]:
 	var out: Array[String] = []
 	for boss: String in content.world_bosses:
@@ -153,6 +153,11 @@ static func kind_of(content: ContentDB, area_id: String) -> String:
 		var last: bool = spot and int(spot["index"]) == int(spot["count"]) - 1
 		return BOSS if last else MINI_BOSS
 	return TOWN if area.get("safe", false) else AREA
+
+
+## "MINI-BOSS" where `area_id`'s boss waits before its district's end, else "BOSS".
+static func rank_word(content: ContentDB, area_id: String) -> String:
+	return "MINI-BOSS" if kind_of(content, area_id) == MINI_BOSS else "BOSS"
 
 
 ## The hero's district as the HUD route shows it: {"name", "here": the
