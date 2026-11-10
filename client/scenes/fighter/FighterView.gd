@@ -20,7 +20,9 @@ const HIT_FLASH_TICKS := 6
 ## Ticks over which the knock-down animation plays before holding its last frame.
 const DOWN_TICKS := 30
 ## What art without an animation plays instead (the rest fall back to idle).
-const FALLBACK := {"swing": "light", "grab": "light", "throw": "heavy", "lift": "idle"}
+const FALLBACK := {
+	"swing": "light", "grab": "light", "throw": "heavy", "lift": "idle", "stance": "idle"
+}
 ## Ticks over which a holder raises the foe they grabbed.
 const LIFT_TICKS := 8
 ## A held fighter is drawn lying across the holder's raised hands: turned on
@@ -385,6 +387,8 @@ func _animate_sprite(moved: bool) -> void:
 		Fighter.State.ATTACK:
 			var move := fighter.move
 			_warning.visible = move.telegraph and fighter.state_tick < move.startup
+			# The guard shows while a counter stance is open, so it can be read.
+			_shield.visible = CounterRules.open(fighter)
 			var anim := _pick(move.anim)
 			_show(anim)
 			var count := _sprite.sprite_frames.get_frame_count(anim)

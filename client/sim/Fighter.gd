@@ -73,6 +73,8 @@ var thrown_hits := {}
 ## (SkillSequence). Cleared by any state but ATTACK, so a hit ends the skill.
 var skill_id := ""
 var skill_step := 0
+## A counter stance caught a blow: the reply starts next tick (CounterRules).
+var countered := false
 ## Passive skills (id -> spec) and the stacks earned (id -> {"count",
 ## "ticks"}); see PassiveRules.
 var passives := {}
@@ -151,3 +153,4 @@ func enter(new_state: State, duration := 0) -> void:
 		queued_skill = ""
 		skill_id = ""
 		skill_step = 0
+		countered = false

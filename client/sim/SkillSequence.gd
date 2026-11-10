@@ -71,4 +71,5 @@ static func problems(skill: Dictionary, library: MoveLibrary, where: String) -> 
 			out.append("%s.then: unknown move %s" % [where, id])
 		elif move.energy_cost > 0.0:
 			out.append("%s.then: %s must cost no energy (the first move pays)" % [where, id])
+	out.append_array(CounterRules.problems(skill, library, where))
 	return out

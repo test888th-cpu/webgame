@@ -274,7 +274,10 @@ static func _step_attack(f: Fighter, input: FighterInput, library: MoveLibrary) 
 		var next_id: String = move.chains.get(f.queued, "")
 		if next_id and _start_move(f, library.get_move(next_id)):
 			return
-	if f.state_tick >= move.total_ticks() - recovery_cut(f, move):
+	var ended := f.state_tick >= move.total_ticks() - recovery_cut(f, move)
+	if CounterRules.step(f, library, ended):
+		return
+	if ended:
 		if move.damage > 0 and not f.hit_landed:
 			PassiveRules.on_event(f, "miss")
 		if SkillSequence.advance(f, library):
@@ -375,6 +378,7 @@ static func _start_move(f: Fighter, move: MoveData) -> bool:
 	f.queued_skill = ""
 	f.skill_id = ""
 	f.skill_step = 0
+	f.countered = false
 	return true
 
 
@@ -389,9 +393,13 @@ static func _apply_hit(
 	event.move_id = move.id
 	event.position = defender.position
 	var from_front := signf(attacker.position.x - defender.position.x) != -defender.facing
-	if is_perfect_guard(defender, from_front):
+	var countered := CounterRules.catches(defender, move, from_front)
+	if countered or is_perfect_guard(defender, from_front):
 		_parry(attacker, defender, event)
 		PassiveRules.on_event(defender, "parry")
+		if countered:
+			event.countered = true
+			CounterRules.caught(defender)
 		return event
 	var stun := roundi(move.hitstun * SkillSequence.scale(attacker, "hitstun"))
 	var push := move.knockback * SkillSequence.scale(attacker, "knockback")

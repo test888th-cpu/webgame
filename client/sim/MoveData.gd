@@ -30,6 +30,9 @@ var knockdown := false
 ## A grab: deals nothing itself; if it closes on a foe the attacker holds
 ## them (GrabRules).
 var grab := false
+## A counter stance: deals nothing; a blow caught from the front while it is
+## active starts the skill's reply (CounterRules).
+var counter := false
 ## Shows a warning during startup. Used for slow, heavy enemy attacks so a
 ## player has time to react.
 var telegraph := false

@@ -37,6 +37,11 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 - **Grab, lift and throw animations** for all 51 LPC characters, built from LPC's own
   thrust, spellcast and slash frames (`art/lpc/characters.json`); existing rows are
   unchanged. A held foe is drawn lying across the holder's raised hands.
+- **Counter stances** (`CounterRules`, moves with `"counter": true`): a skill may open with
+  a stance; a blow caught from the front while it is open does nothing, staggers the
+  attacker and starts the skill's reply at once. A stance nobody hits deals nothing and
+  leaves its user open. Guard breakers, blows from behind, grabs and thrown weapons go
+  through it. The guard shows while a stance is open. No hero has such a skill yet.
 - **Skills of several blows** (`SkillSequence`): a skill may list the moves that follow its
   first (`then`). Each stage starts by itself and can hit a defender once; only the first
   move costs energy; being hit ends the skill; nothing cancels it before its last stage.

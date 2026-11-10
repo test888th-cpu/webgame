@@ -2150,6 +2150,20 @@
       "reach_offset": 0,
       "reach": 1,
       "depth_tolerance": 1
+    },
+    "counter_stance": {
+      "startup": 3,
+      "active": 24,
+      "recovery": 20,
+      "damage": 0,
+      "hitstun": 0,
+      "knockback": 0,
+      "reach_offset": 0,
+      "reach": 1,
+      "depth_tolerance": 1,
+      "energy_cost": 15,
+      "anim": "stance",
+      "counter": true
     }
   }
 }
