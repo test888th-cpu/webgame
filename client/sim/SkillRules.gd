@@ -69,15 +69,19 @@ static func energy_cost(content: ContentDB, skill_id: String) -> float:
 	return move.energy_cost if move else 0.0
 
 
-## One line of numbers for a skill card: what it costs and how often.
-static func facts(content: ContentDB, skill_id: String) -> String:
+## One line of numbers for a skill: what it costs and how often (`short`
+## for a narrow card).
+static func facts(content: ContentDB, skill_id: String, short := false) -> String:
 	var skill: Dictionary = content.skills.get(skill_id, {})
 	if is_passive(skill):
-		return "Passive: always on"
+		return "Passive" if short else "Passive: always on"
 	if is_ultimate(skill):
-		return "Ultimate: needs a full gauge"
-	var seconds := snappedf(int(skill.get("cooldown", 0)) * CombatRules.TICK_SECONDS, 0.1)
-	return "Energy %d  ·  Cooldown %ss" % [roundi(energy_cost(content, skill_id)), str(seconds)]
+		return "Full gauge" if short else "Ultimate: needs a full gauge"
+	var seconds := str(snappedf(int(skill.get("cooldown", 0)) * CombatRules.TICK_SECONDS, 0.1))
+	var energy := roundi(energy_cost(content, skill_id))
+	if short:
+		return "Energy %d · %ss" % [energy, seconds]
+	return "Energy %d  ·  Cooldown %ss" % [energy, seconds]
 
 
 static func is_ultimate(skill: Dictionary) -> bool:

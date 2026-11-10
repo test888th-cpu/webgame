@@ -98,44 +98,34 @@ static func _card(game: Game, key: String, on_slot: int, detail: Label) -> Contr
 	text.add_theme_constant_override("separation", 0)
 	text.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	line.add_child(text)
-	var head := HBoxContainer.new()
-	head.add_theme_constant_override("separation", 6)
-	text.add_child(head)
+	text.custom_minimum_size.x = CARD_TEXT
 	var name := ""
 	var facts := ""
 	var locked := 0
 	var passive := false
 	if entry["type"] == "attack":
-		var attack := Hotbar.attack_entry(content)
-		name = str(attack.get("name", "Attack"))
+		name = str(Hotbar.attack_entry(content).get("name", "Attack"))
 		facts = "No cooldown"
 	else:
 		var skill: Dictionary = content.skills[entry["id"]]
-		name = str(skill["name"])
-		facts = SkillRules.facts(content, str(entry["id"]))
+		name = str(skill["name"]).capitalize()
+		facts = SkillRules.facts(content, str(entry["id"]), true)
 		passive = SkillRules.is_passive(skill)
 		var unlock := int(skill["unlock_level"])
 		locked = unlock if game.profile.level < unlock else 0
-	head.add_child(
+	text.add_child(
 		UiKit.label(name, UiTheme.SIZE_BODY, UiTheme.TEXT_DIM if locked else UiTheme.TEXT)
 	)
+	# Under the name, short enough for half the window at 150% text: the
+	# level it unlocks at (while locked), its numbers, the key it is on.
+	var line2 := HBoxContainer.new()
+	line2.add_theme_constant_override("separation", 6)
+	text.add_child(line2)
 	if locked:
-		head.add_child(
-			UiKit.label("Unlocks at Lv %d" % locked, UiTheme.SIZE_CAPTION, UiTheme.DANGER)
-		)
-	var slot_text := "Key %d" % (on_slot + 1) if on_slot >= 0 else "Not on the bar"
-	if not passive:
-		head.add_child(
-			UiKit.label(
-				slot_text,
-				UiTheme.SIZE_CAPTION,
-				UiTheme.ACCENT if on_slot >= 0 else UiTheme.TEXT_FAINT
-			)
-		)
-	var numbers := UiKit.label(facts, UiTheme.SIZE_CAPTION, UiTheme.TEXT_DIM)
-	numbers.custom_minimum_size.x = CARD_TEXT
-	numbers.clip_text = true
-	text.add_child(numbers)
+		line2.add_child(UiKit.label("Lv %d" % locked, UiTheme.SIZE_CAPTION, UiTheme.DANGER))
+	line2.add_child(UiKit.label(facts, UiTheme.SIZE_CAPTION, UiTheme.TEXT_DIM))
+	if not passive and on_slot >= 0:
+		line2.add_child(UiKit.label("Key %d" % (on_slot + 1), UiTheme.SIZE_CAPTION, UiTheme.ACCENT))
 	for child in text.find_children("*", "Control", true, false):
 		(child as Control).mouse_filter = Control.MOUSE_FILTER_IGNORE
 	return card

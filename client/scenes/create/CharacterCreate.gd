@@ -384,9 +384,8 @@ func _fill_details(hero: Dictionary) -> void:
 	var skills := UiKit.section("Skills")
 	var grid := GridContainer.new()
 	grid.name = "SkillGrid"
-	grid.columns = 2
-	grid.add_theme_constant_override("h_separation", 6)
-	grid.add_theme_constant_override("v_separation", 0)
+	grid.columns = 1
+	grid.add_theme_constant_override("v_separation", -3)
 	for skill_id: String in SkillRules.kit(content, selected):
 		grid.add_child(_skill_row(skill_id))
 	skills.add_child(grid)
@@ -401,7 +400,6 @@ func _skill_row(skill_id: String) -> Control:
 	line.add_theme_constant_override("separation", 3)
 	line.tooltip_text = "%s\n%s" % [skill["description"], SkillRules.facts(content, skill_id)]
 	line.mouse_filter = Control.MOUSE_FILTER_PASS
-	line.custom_minimum_size.x = (PANEL_WIDTH - 40) / 2.0
 	var icon := UiKit.icon_rect(content, str(skill["icon"]))
 	icon.custom_minimum_size = Vector2(12, 12)
 	line.add_child(icon)
@@ -409,7 +407,6 @@ func _skill_row(skill_id: String) -> Control:
 		str(skill["name"]).capitalize(), UiTheme.SIZE_CAPTION, UiTheme.TEXT
 	)
 	name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	name_label.clip_text = true
 	line.add_child(name_label)
 	line.add_child(
 		UiKit.label("Lv %d" % skill["unlock_level"], UiTheme.SIZE_CAPTION, UiTheme.ACCENT)

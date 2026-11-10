@@ -156,7 +156,7 @@ func test_the_skills_screen_lists_the_skills_and_puts_them_on_the_bar() -> void:
 	for label: Label in game.menu.find_children("*", "Label", true, false):
 		text += label.text + "|"
 	assert_true(text.contains("Key 1"), "a card says which key it is on")
-	assert_true(text.contains("Unlocks at Lv"), "and when a locked one unlocks")
+	assert_true(text.contains("Lv 50"), "and when a locked one unlocks")
 	_fits(game, "skills")
 	_done(game)
 
