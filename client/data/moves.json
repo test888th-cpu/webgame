@@ -1775,6 +1775,248 @@
       "knockdown": true,
       "telegraph": true,
       "anim": "heavy"
+    },
+    "boxer_jab": {
+      "startup": 4,
+      "active": 3,
+      "recovery": 9,
+      "damage": 6,
+      "hitstun": 16,
+      "knockback": 4,
+      "reach_offset": 6,
+      "reach": 32,
+      "depth_tolerance": 12,
+      "chains": {
+        "light": "boxer_straight",
+        "heavy": "haymaker"
+      }
+    },
+    "boxer_straight": {
+      "startup": 5,
+      "active": 3,
+      "recovery": 11,
+      "damage": 8,
+      "hitstun": 18,
+      "knockback": 6,
+      "reach_offset": 6,
+      "reach": 34,
+      "depth_tolerance": 12,
+      "chains": {
+        "light": "boxer_heavy",
+        "heavy": "haymaker"
+      }
+    },
+    "boxer_heavy": {
+      "startup": 8,
+      "active": 4,
+      "recovery": 18,
+      "damage": 14,
+      "hitstun": 32,
+      "knockback": 24,
+      "reach_offset": 4,
+      "reach": 34,
+      "depth_tolerance": 12,
+      "anim": "heavy",
+      "chains": {
+        "heavy": "haymaker"
+      }
+    },
+    "brawler_left": {
+      "startup": 5,
+      "active": 3,
+      "recovery": 10,
+      "damage": 6,
+      "hitstun": 16,
+      "knockback": 6,
+      "reach_offset": 4,
+      "reach": 32,
+      "depth_tolerance": 16,
+      "chains": {
+        "light": "brawler_right",
+        "heavy": "haymaker"
+      }
+    },
+    "brawler_right": {
+      "startup": 6,
+      "active": 3,
+      "recovery": 12,
+      "damage": 8,
+      "hitstun": 18,
+      "knockback": 8,
+      "reach_offset": 4,
+      "reach": 34,
+      "depth_tolerance": 16,
+      "chains": {
+        "light": "brawler_swing",
+        "heavy": "haymaker"
+      }
+    },
+    "brawler_swing": {
+      "startup": 8,
+      "active": 5,
+      "recovery": 19,
+      "damage": 12,
+      "hitstun": 26,
+      "knockback": 85,
+      "reach_offset": 0,
+      "reach": 40,
+      "depth_tolerance": 20,
+      "knockdown": true,
+      "anim": "heavy",
+      "chains": {
+        "heavy": "haymaker"
+      }
+    },
+    "grappler_short": {
+      "startup": 4,
+      "active": 3,
+      "recovery": 9,
+      "damage": 6,
+      "hitstun": 16,
+      "knockback": 4,
+      "reach_offset": 6,
+      "reach": 30,
+      "depth_tolerance": 12,
+      "chains": {
+        "light": "grappler_heavy",
+        "heavy": "haymaker"
+      }
+    },
+    "grappler_heavy": {
+      "startup": 5,
+      "active": 3,
+      "recovery": 11,
+      "damage": 8,
+      "hitstun": 18,
+      "knockback": 6,
+      "reach_offset": 6,
+      "reach": 32,
+      "depth_tolerance": 12,
+      "chains": {
+        "light": "grappler_push",
+        "heavy": "haymaker"
+      }
+    },
+    "grappler_push": {
+      "startup": 7,
+      "active": 4,
+      "recovery": 18,
+      "damage": 12,
+      "hitstun": 26,
+      "knockback": 70,
+      "reach_offset": 4,
+      "reach": 34,
+      "depth_tolerance": 12,
+      "knockdown": true,
+      "chains": {
+        "heavy": "haymaker"
+      }
+    },
+    "counter_quick": {
+      "startup": 4,
+      "active": 3,
+      "recovery": 10,
+      "damage": 5,
+      "hitstun": 16,
+      "knockback": 4,
+      "reach_offset": 6,
+      "reach": 30,
+      "depth_tolerance": 12,
+      "chains": {
+        "light": "counter_punch",
+        "heavy": "haymaker"
+      }
+    },
+    "counter_punch": {
+      "startup": 5,
+      "active": 3,
+      "recovery": 14,
+      "damage": 7,
+      "hitstun": 20,
+      "knockback": 6,
+      "reach_offset": 6,
+      "reach": 32,
+      "depth_tolerance": 12,
+      "chains": {
+        "light": "counter_heavy",
+        "heavy": "haymaker"
+      }
+    },
+    "counter_heavy": {
+      "startup": 8,
+      "active": 4,
+      "recovery": 18,
+      "damage": 11,
+      "hitstun": 26,
+      "knockback": 60,
+      "reach_offset": 4,
+      "reach": 34,
+      "depth_tolerance": 12,
+      "knockdown": true,
+      "anim": "heavy",
+      "chains": {
+        "heavy": "haymaker"
+      }
+    },
+    "striker_jab": {
+      "startup": 3,
+      "active": 3,
+      "recovery": 7,
+      "damage": 5,
+      "hitstun": 16,
+      "knockback": 4,
+      "reach_offset": 6,
+      "reach": 30,
+      "depth_tolerance": 12,
+      "chains": {
+        "light": "striker_cross",
+        "heavy": "haymaker"
+      }
+    },
+    "striker_cross": {
+      "startup": 4,
+      "active": 3,
+      "recovery": 8,
+      "damage": 6,
+      "hitstun": 18,
+      "knockback": 5,
+      "reach_offset": 6,
+      "reach": 32,
+      "depth_tolerance": 12,
+      "chains": {
+        "light": "striker_rapid",
+        "heavy": "haymaker"
+      }
+    },
+    "striker_rapid": {
+      "startup": 3,
+      "active": 3,
+      "recovery": 7,
+      "damage": 5,
+      "hitstun": 16,
+      "knockback": 4,
+      "reach_offset": 6,
+      "reach": 30,
+      "depth_tolerance": 12,
+      "chains": {
+        "light": "striker_finisher",
+        "heavy": "haymaker"
+      }
+    },
+    "striker_finisher": {
+      "startup": 6,
+      "active": 4,
+      "recovery": 16,
+      "damage": 10,
+      "hitstun": 26,
+      "knockback": 60,
+      "reach_offset": 4,
+      "reach": 34,
+      "depth_tolerance": 12,
+      "knockdown": true,
+      "chains": {
+        "heavy": "haymaker"
+      }
     }
   }
 }

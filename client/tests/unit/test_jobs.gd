@@ -125,3 +125,77 @@ func test_the_zone_uses_the_pve_profile_and_old_skills_are_unchanged() -> void:
 	assert_eq(
 		int(after["liver_shot"]["cooldown"]), 2 * int(db.skills["liver_shot"]["cooldown"]), "PvE"
 	)
+
+
+## The moves the light button walks through for `job`, from its first punch.
+func _combo(db: ContentDB, job: String) -> Array[MoveData]:
+	var chain: Array[MoveData] = []
+	var id := str(db.jobs[job]["moveset"]["light"])
+	while id != "" and chain.size() < 8:
+		var move := db.moves.get_move(id)
+		chain.append(move)
+		id = str(move.chains.get("light", ""))
+	return chain
+
+
+func _total(chain: Array[MoveData]) -> int:
+	var sum := 0
+	for move in chain:
+		sum += move.damage
+	return sum
+
+
+func test_each_hero_fights_with_their_job_s_own_punches() -> void:
+	var db := _fresh()
+	var starters := {}
+	for hero_id: String in db.hero_order:
+		var zone := ZoneSim.new(db, PlayerProfile.new_game(db, hero_id), "depot_yard", "", 1)
+		var light := CombatRules.starter(zone.hero, db.moves, "light")
+		assert_eq(light, str(db.jobs[JobRules.job_of(db, hero_id)]["moveset"]["light"]), hero_id)
+		assert_true(CombatRules.starter(zone.hero, db.moves, "heavy") != "", hero_id + ": a heavy")
+		starters[light] = true
+	assert_eq(starters.size(), db.hero_order.size(), "no two jobs open with the same punch")
+
+
+func test_the_combos_are_three_punches_and_the_striker_s_four() -> void:
+	var db := _fresh()
+	for job: String in ["boxer", "brawler", "grappler", "counter"]:
+		assert_eq(_combo(db, job).size(), 3, job + ": three punches")
+	assert_eq(_combo(db, "striker").size(), 4, "the Striker: jab, cross, rapid jab, finisher")
+	for job: String in db.job_order:
+		var chain := _combo(db, job)
+		for move in chain:
+			assert_true(move.chains.has("heavy"), "%s: %s can end in the heavy" % [job, move.id])
+
+
+func test_each_combo_shows_its_job() -> void:
+	var db := _fresh()
+	var boxer := _combo(db, "boxer")
+	var brawler := _combo(db, "brawler")
+	var counter := _combo(db, "counter")
+	var striker := _combo(db, "striker")
+	assert_true(_total(boxer) > _total(counter), "the Counter Fighter's basics hit less")
+	assert_true(boxer[2].damage > striker[3].damage, "no Striker punch matches the Boxer's last")
+	assert_true(not boxer[2].knockdown, "the Boxer's last blow staggers; the foe stays up")
+	assert_true(boxer[0].reach > striker[0].reach, "the Boxer's jab reaches furthest")
+	for i in 3:
+		assert_true(
+			brawler[i].depth_tolerance > boxer[i].depth_tolerance, "the Brawler swings wider"
+		)
+	assert_true(brawler[2].knockback > boxer[2].knockback, "and shoves harder")
+	assert_true(
+		striker[0].total_ticks() < boxer[0].total_ticks(), "the Striker's jab is the quickest"
+	)
+	for move in striker:
+		assert_true(move.damage <= boxer[1].damage + 2, "the Striker's punches are light")
+
+
+func test_a_job_s_punches_are_never_an_enemy_s() -> void:
+	var db := _fresh()
+	db.jobs["boxer"]["moveset"]["light"] = "brute_slam"
+	var found := ", ".join(JobRules.problems(db))
+	assert_true("jobs.boxer.moveset: brute_slam is an enemy's move" in found, found)
+	db.jobs["boxer"]["moveset"] = {"light": "nothing"}
+	found = ", ".join(JobRules.problems(db))
+	assert_true("jobs.boxer.moveset.light: unknown move" in found, "unknown move: " + found)
+	assert_true("jobs.boxer.moveset.heavy: unknown move" in found, "no heavy")

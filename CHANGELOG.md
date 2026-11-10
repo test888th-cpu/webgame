@@ -19,6 +19,14 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
   `heroes.json`, and the levels a kit unlocks at (actives 1/10/20/25/35/40, passives 15/30,
   ultimate 50). Checked on load: one hero per job; a job's kit, once listed, is 6 active,
   2 passive and 1 ultimate skill at those levels; and no player skill uses an enemy's move.
+- **Each job punches its own way** (`jobs.json` `moveset`, new moves in `moves.json`): the
+  Boxer's jab, straight and heavy (longest reach, a last blow that staggers without
+  flooring); the Brawler's left, right and swing (wider, a harder shove); the Counter
+  Fighter's lighter quick, counter and heavy; the Street Striker's four fast punches. The
+  Grappler's three keep the old combination's values until grabs arrive. The heavy button
+  is unchanged. Measured with auto battle on four farming grounds (4 seeds each): kills
+  per hour within 5% and damage taken within 11% of the old combination for every hero
+  (`docs/JOB_SKILL_PLAN.md`).
 - **PvE and PvP balance are separate** (`BalanceProfile`): a job skill carries a `pve` and
   a `pvp` profile of multipliers (damage, hitstun, knockback, duration, cooldown). Zones
   read cooldowns through the PvE profile; today's skills have none and are unchanged.

@@ -76,6 +76,11 @@ equipment) is stored per hero. Temporary combat state is never persisted.
   and the first hit on them is a counter (1.5x damage). Letting go of guard closes the
   window for 24 ticks. Only the hero parries. **[built]** A 12-tick input buffer keeps presses made just
   before a swing ends.
+- **[built]** Each job has its own punch combination on the attack button
+  (`client/data/jobs.json` `moveset`): Boxer jab, straight, heavy (longest reach; the last
+  blow staggers); Brawler left, right, swing (wider, shoves hard); Grappler short, heavy,
+  push; Counter Fighter quick, counter, heavy (lighter); Street Striker jab, cross, rapid
+  jab, finisher (four fast, light punches). The heavy attack is shared.
 - **[built]** Skills on a seven-slot hotbar (`client/data/skills.json`): 1 attack, 2–5
   skills, 6–7 consumables. Each skill is a move with an energy cost and a cooldown, and
   unlocks at a level. A skill can cancel an attack that has landed, so combos end in

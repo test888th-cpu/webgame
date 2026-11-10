@@ -34,6 +34,11 @@
         "Counter punches"
       ],
       "weakness": "A miss costs the opening, and crowds are hard work.",
+      "combo": "Boxing Combination",
+      "moveset": {
+        "light": "boxer_jab",
+        "heavy": "haymaker"
+      },
       "skills": []
     },
     "brawler": {
@@ -46,6 +51,11 @@
         "Relentless pressure"
       ],
       "weakness": "Long attacks need the right range and timing; less damage on one target than the Boxer.",
+      "combo": "Brutal Combination",
+      "moveset": {
+        "light": "brawler_left",
+        "heavy": "haymaker"
+      },
       "skills": []
     },
     "grappler": {
@@ -58,6 +68,11 @@
         "Impact damage"
       ],
       "weakness": "Must get close, and a missed grab leaves an opening.",
+      "combo": "Grappling Combination",
+      "moveset": {
+        "light": "grappler_short",
+        "heavy": "haymaker"
+      },
       "skills": []
     },
     "counter": {
@@ -70,6 +85,11 @@
         "Punishing counters"
       ],
       "weakness": "Has to read the opponent; waiting alone never wins.",
+      "combo": "Defensive Combination",
+      "moveset": {
+        "light": "counter_quick",
+        "heavy": "haymaker"
+      },
       "skills": []
     },
     "striker": {
@@ -82,6 +102,11 @@
         "Chasing pressure"
       ],
       "weakness": "Each punch is lighter than a Boxer's, and a dropped combo loses its edge.",
+      "combo": "Street Combo",
+      "moveset": {
+        "light": "striker_jab",
+        "heavy": "haymaker"
+      },
       "skills": []
     }
   }

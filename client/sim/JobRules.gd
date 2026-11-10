@@ -9,7 +9,7 @@ extends RefCounted
 
 ## How many skills of each type a finished kit holds.
 const KIT := {"active": 6, "passive": 2, "ultimate": 1}
-const TEXT_FIELDS: Array[String] = ["name", "role", "description", "weakness"]
+const TEXT_FIELDS: Array[String] = ["name", "role", "description", "weakness", "combo"]
 
 
 ## The job of `hero_id` ("" if the hero or its job is unknown).
@@ -26,6 +26,30 @@ static func hero_of(content: ContentDB, job_id: String) -> String:
 	return ""
 
 
+## The basic attacks of `hero_id`'s job: input -> the move it starts from
+## neutral (the job's own punch combination, chained in moves.json).
+static func moveset(content: ContentDB, hero_id: String) -> Dictionary:
+	var job: Dictionary = content.jobs.get(job_of(content, hero_id), {})
+	var found: Variant = job.get("moveset", {})
+	return found.duplicate() if found is Dictionary else {}
+
+
+## Every move reached from `starts` through chains, as a set.
+static func reachable(content: ContentDB, starts: Array) -> Dictionary:
+	var found := {}
+	var open: Array = starts.duplicate()
+	while not open.is_empty():
+		var id := str(open.pop_back())
+		if found.has(id):
+			continue
+		found[id] = true
+		var move := content.moves.get_move(id)
+		if move:
+			for next: Variant in move.chains.values():
+				open.append(str(next))
+	return found
+
+
 ## The level the `index`-th skill of `type` unlocks at (0 if there is none).
 static func unlock_level(content: ContentDB, type: String, index: int) -> int:
 	var levels: Variant = content.job_unlocks.get(type, [])
@@ -37,8 +61,7 @@ static func unlock_level(content: ContentDB, type: String, index: int) -> int:
 ## Every move an enemy can use: its moveset, its phases' movesets and whatever
 ## those chain into.
 static func enemy_moves(content: ContentDB) -> Dictionary:
-	var found := {}
-	var open: Array[String] = []
+	var open: Array = []
 	for enemy: Variant in content.enemies.values():
 		if not enemy is Dictionary:
 			continue
@@ -50,16 +73,7 @@ static func enemy_moves(content: ContentDB) -> Dictionary:
 			if moveset is Dictionary:
 				for move_id: Variant in moveset.values():
 					open.append(str(move_id))
-	while not open.is_empty():
-		var id: String = open.pop_back()
-		if found.has(id):
-			continue
-		found[id] = true
-		var move := content.moves.get_move(id)
-		if move:
-			for next: Variant in move.chains.values():
-				open.append(str(next))
-	return found
+	return reachable(content, open)
 
 
 static func problems(content: ContentDB) -> PackedStringArray:
@@ -124,6 +138,17 @@ static func _job_problems(content: ContentDB, id: String) -> PackedStringArray:
 	if not job is Dictionary:
 		out.append(where + ": expected an object")
 		return out
+	var basics: Variant = job.get("moveset")
+	if not basics is Dictionary:
+		out.append(where + ".moveset: expected an object")
+	else:
+		for input: String in MoveLibrary.CHAIN_INPUTS:
+			if not content.moves.moves.has(str(basics.get(input, ""))):
+				out.append("%s.moveset.%s: unknown move" % [where, input])
+		var hostile := enemy_moves(content)
+		for move_id: String in reachable(content, basics.values()):
+			if hostile.has(move_id):
+				out.append("%s.moveset: %s is an enemy's move" % [where, move_id])
 	for field: String in TEXT_FIELDS:
 		if str(job.get(field, "")) == "":
 			out.append("%s.%s: required" % [where, field])
