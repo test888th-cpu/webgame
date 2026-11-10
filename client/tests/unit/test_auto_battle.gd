@@ -272,3 +272,59 @@ func test_the_equipment_screen_says_when_auto_battle_changes_gear() -> void:
 	assert_eq(str(game.profile.equipment["body"]), worn, "off: auto leaves the gear alone")
 	GameSession.set_setting("auto_gear", true)
 	_done(game)
+
+
+func test_it_answers_an_attack_with_a_counter_stance() -> void:
+	var zone := _zone("saltmarket", "dao", 3)
+	var thug := _foe(zone, "dock_thug", Vector2(626, 300))
+	thug.facing = -1
+	var jab := _content().moves.get_move(str(thug.moveset["light"]))
+	thug.enter(Fighter.State.ATTACK)
+	thug.move = jab
+	thug.state_tick = maxi(0, jab.startup - 6)
+	var input := AutoPilot.new(_content()).think(zone)
+	assert_eq(input.skill, "quick_counter", "a blow on its way: the stance, not a jab")
+	assert_eq(input.face, 1, "facing the attacker")
+	zone.hero.cooldowns["quick_counter"] = 500
+	input = AutoPilot.new(_content()).think(zone)
+	assert_true(input.skill != "quick_counter", "not while it cools down")
+
+
+func test_it_never_opens_with_a_stance() -> void:
+	var zone := _zone("saltmarket", "dao", 70)
+	_foe(zone, "smogling", Vector2(624, 300))
+	var input := AutoPilot.new(_content()).think(zone)
+	var skill: Dictionary = zone.hero.skills.get(input.skill, {})
+	assert_true(
+		input.skill == "" or not AutoSkills.is_stance(_content(), skill),
+		"with nobody attacking it strikes or punches (%s)" % input.skill
+	)
+
+
+func test_it_throws_what_it_grabs() -> void:
+	var zone := _zone("saltmarket", "oren", 3)
+	var foe := _foe(zone, "dock_thug", Vector2(618, 300))
+	var pilot := AutoPilot.new(_content())
+	var held := false
+	var thrown := false
+	for t in 200:
+		for event in zone.tick(pilot.think(zone)):
+			if event.type == "hit" and event.hit.move_id == "grappler_throw":
+				thrown = true
+		held = held or foe.state == Fighter.State.HELD
+		if thrown:
+			break
+	assert_true(held, "the Grappler's first skill seizes the thug")
+	assert_true(thrown, "and auto throws them")
+
+
+func test_it_braces_when_hurt_in_a_fight() -> void:
+	var zone := _zone("saltmarket", "dao", 70)
+	_foe(zone, "smogling", Vector2(640, 300))
+	for skill_id in SkillRules.actives(_content(), "dao"):
+		if skill_id != "defensive_stance":
+			zone.hero.cooldowns[skill_id] = 1000
+	var pilot := AutoPilot.new(_content())
+	assert_true(pilot.think(zone).skill != "defensive_stance", "not at full health")
+	zone.hero.hp = zone.hero.max_hp / 3
+	assert_eq(pilot.think(zone).skill, "defensive_stance", "hurt and close: brace")

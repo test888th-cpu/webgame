@@ -6,7 +6,7 @@ All characters, places, art, audio and code are original to this project.
 
 > **Status: Milestone 2 — playable single-player loop.** Title screen, character status
 > and equipment screens (six gear slots, item rarity and levels), hero creation
-> (five heroes, one per class: Mika, Oren, Riku, Kan and Dao, each with their own stats, skills and edge; name your hero), six areas
+> (five heroes, one per job: Riku the Boxer, Kan the Brawler, Oren the Grappler, Dao the Counter Fighter and Mika the Street Striker, each with six active skills, two passives and an ultimate; name your hero), six areas
 > of rising level (home base with a shop, a quest giver and a training dummy; streets of
 > enemy waves; two boss zones), ten enemy types including elites and two-phase bosses
 > that get tougher and smarter with the area level, street weapons held in hand (pick

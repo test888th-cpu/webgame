@@ -25,25 +25,23 @@ harbour district, which becomes their home base.
 
 ## The crew (roster of five)
 
-> **Approved 2026-11-10:** five heroes, one job each: Riku = Boxer, Kan = Brawler, Oren =
-> Grappler, Dao = Counter Fighter, Mika = Street Striker. Pong the Soldier left the
-> roster (his saves continue as Kan). The new job kits (6 active, 2 passive and 1 ultimate
-> skill each) are planned in [docs/JOB_SKILL_PLAN.md](docs/JOB_SKILL_PLAN.md); until each
-> lands, the table below describes the heroes as built.
+> **Approved 2026-11-10:** five heroes, one job each (BLUEPRINT D15). Pong the Soldier left
+> the roster (his saves continue as Kan). Plan, decisions and measurements:
+> [docs/JOB_SKILL_PLAN.md](docs/JOB_SKILL_PLAN.md).
 
-| Hero | Archetype | Feel | Signature |
+| Hero | Job | Feel | Ultimate |
 |---|---|---|---|
-| Mika Tanabe **[built]** | Footballer (female) | Damage and mobility: 100 HP, 110% power, 110% speed, long combo strings | Rising Uppercut, Whirlwind Kick, Shoulder Rush, Furnace Slam |
-| Oren Vale **[built]** | Street Brawler (male) | Slow, tough, controls crowds: 130 HP, 100% power, 2 defense, 85% speed | Headbutt, Clothesline, Shoulder Charge, Earthshaker |
-| Riku Sato **[built]** | Boxer (male) | The all-rounder: 115 HP, 105% power, 1 defense, 100% speed; jab and cross from a tight guard | Liver Shot, One-Two, Dempsey Roll, Knockout Blow |
-| Kan Srisuk **[built]** | Basketball Player (male) | Crowds and area: 110 HP, 100% power, 1 defense, 105% speed, 105% attack speed; the widest skills | Crossover, Elbow Clear, Post Up, Slam Dunk |
-| Dao Kittikun **[built]** | Police Officer (female) | Defence and counters: 120 HP, 95% power, 2 defense; **parries from 12 ticks out** (others 8); the longest hold | Wrist Lock, Leg Sweep, Takedown, Riot Shove |
+| Riku Sato **[built]** | Boxer (male) | Precision and burst: 115 HP, 105% power, 1 defense; the hardest hits on one target, critical hits, a counter punch | Knockout Devastation |
+| Kan Srisuk **[built]** | Brawler (male) | Pressure and area: 110 HP, 100% power, 1 defense, 105% speed; wide swings and ground blows that floor a crowd | Street Carnage |
+| Oren Vale **[built]** | Grappler (male) | Grab, throw and control: 130 HP, 2 defense, 85% speed; every skill seizes a foe | Titan Destruction |
+| Dao Kittikun **[built]** | Counter Fighter (female) | Defence and punishment: 120 HP, 95% power, 2 defense; **parries from 12 ticks out** (others 8); skills that catch a blow and answer it | Absolute Retribution |
+| Mika Tanabe **[built]** | Street Striker (female) | Speed and combos: 100 HP, 110% power, 110% speed; four-punch combination, many light blows | Million Fist Onslaught |
 
 **[built]** New game opens hero creation: pick a hero (portrait cards, a large animated
 preview, bio, play style, difficulty, stats compared across the roster, skills) and
 name them (2–16 letters of any script, including Thai). Heroes are data
 (`client/data/heroes.json`); each brings its own base stats, sprites (and armoured
-look) and four skills to the hotbar. The save stores the hero and the name.
+look) and its job; the job (`client/data/jobs.json`) brings the punches, the grab and nine skills. The save stores the hero and the name.
 
 The player picks a main hero and develops all five. Persistent data (level, skills,
 equipment) is stored per hero. Temporary combat state is never persisted.
@@ -86,26 +84,33 @@ equipment) is stored per hero. Temporary combat state is never persisted.
   it meets. Holds end by themselves, a hit on the holder frees the foe, bosses cannot be
   held (they are shoved) and elites only briefly. Each job grabs its own way
   (`client/data/jobs.json` `grab`); the Grappler's is the longest and hardest.
-- **[built]** Skills on a seven-slot hotbar (`client/data/skills.json`): 1 attack, 2–5
-  skills, 6–7 consumables. Each skill is a move with an energy cost and a cooldown, and
-  unlocks at a level. A skill can cancel an attack that has landed, so combos end in
-  skills. Consumables share a 2-second cooldown so healing cannot be spammed.
-
-  | Slot | Skill | Energy | Cooldown | Unlock | Role |
-  |---|---|---|---|---|---|
-  | 2 | Rising Uppercut | 10 | 4 s | Lv 1 | 26 damage; fast single-target knockdown; combo ender |
-  | 3 | Whirlwind Kick | 20 | 7 s | Lv 1 | 22 damage; hits both sides; escape when surrounded |
-  | 4 | Shoulder Rush | 15 | 6 s | Lv 2 | 28 damage; 90 px charge through a line; breaks guard |
-  | 5 | Furnace Slam | 40 | 20 s | Lv 3 | 45 damage; big area knockdown; breaks guard |
-
-  Balance (Mika / Oren): Mika is damage and mobility (power 110%, speed 110%, 100 HP,
-  0 defense, shorter cooldowns, faster skills); Oren is toughness and control (power
-  100%, speed 85%, 130 HP, 2 defense, wider skills and longer stuns, slower start-up).
-  Oren's skills carry more base damage (28/24/30/50) so that with his lower power each
-  slot lands within 15% of Mika's. The heavy attack (X/K) has no cooldown, so it is the
-  weaker, energy-hungry option (13 damage, 20 energy) and every skill hits at least 1.5x
-  as hard; the slot-5 skill is each hero's strongest. `tests/unit/test_balance.gd` enforces
-  these rules.
+- **[built]** Job skills (`client/data/skills.json`, kits in `client/data/jobs.json`): each
+  job has six active skills, two passives and one ultimate. Active skills unlock at levels
+  1, 2, 3, 5, 15 and 30, passives at 10 and 25, the ultimate at 50. The seven-slot hotbar
+  starts as 1 attack, 2–5 the first four skills, 6–7 consumables; the Skills screen (V)
+  shows all nine and puts any active skill or the ultimate on any slot. An active skill
+  costs energy and has a cooldown (regular ones at most 4.25 s; up to two slower "big"
+  ones per job); it can cancel an attack that has landed, so combos end in skills.
+  Consumables share a 2-second cooldown so healing cannot be spammed.
+  - **Skills of several blows** play their stages by themselves; each stage hits a foe
+    once; being hit ends the skill.
+  - **Counter stances** (Boxer's Counter Punch, most of the Counter Fighter's kit) catch a
+    blow from the front and answer it; with nobody attacking they do nothing and leave an
+    opening. Guard breakers, blows from behind and grabs go through.
+  - **Skill grabs** (the Grappler's kit) seize a foe and throw by themselves; a boss is
+    struck instead of held.
+  - **Passives** are standing bonuses earned by how the hero fights (stacks from landed
+    blows or parries, lost by missing or by time).
+  - **Ultimates** need a full gauge (the gold bar under XP): it fills a little with every
+    blow landed and with every share of health lost, so the losing side builds it too. R
+    fires it, or a hotbar slot. Each is 2 to 3 times the job's strongest skill on one
+    target, warns before it strikes, and has an answer: the Boxer's must be aimed, the
+    Brawler's is spread over an area, the Grappler's cannot lift a boss, the Counter
+    Fighter's does nothing unless attacked, the Striker's is lost on a foe who gets away.
+  - **PvE and PvP are tuned apart**: every job skill carries two profiles of multipliers
+    (`BalanceProfile`); PvP ones are placeholders until online play exists.
+  `tests/unit/test_balance.gd`, `test_skill_pacing.gd` and `test_ultimate.gd` enforce these
+  rules. The full kit tables are in `docs/JOB_SKILL_PLAN.md`.
 
   Energy (which also pays for dodges, guard and the haymaker) is the shared budget,
   which is why slot 7 holds Ginger Tea (restores energy). Skills and cooldowns are

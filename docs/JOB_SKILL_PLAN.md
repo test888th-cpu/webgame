@@ -1,9 +1,15 @@
 # แผนพัฒนาระบบ 5 อาชีพและ Player Skill — The Iron Legacy
 
 **สถานะ:** อนุมัติแล้ว (เจ้าของ 2026-11-10: J1–J8 ตามคำแนะนำทุกข้อ บันทึกเป็น D15 ใน
-`docs/BLUEPRINT.md`) ทำแล้ว: JS-0, JS-1a (ถอด Pong, เซฟเวอร์ชัน 11) , JS-1 (โครงข้อมูลอาชีพ) , JS-2 (Basic Attack ต่ออาชีพ) , JS-3 (สกิลหลายจังหวะ + Passive) , JS-4 (Grab/Throw + animation) และ JS-5 (ท่าตั้งรับสวนกลับ) เอกสารนี้เทียบ
-"Blueprint ระบบ 5 อาชีพและ Player Skill System" ของเจ้าของกับ repo ปัจจุบัน
-แล้ววางแผนลงมือทำเป็น PR ย่อย คอลัมน์ "คำแนะนำ" ในส่วนที่ 3 จึงเป็นข้อตกลงแล้ว
+`docs/BLUEPRINT.md`) **ทำแล้ว: JS-0 ถึง JS-11** คือชุดสกิลครบ 5 อาชีพ (30 Active, 10 Passive,
+5 Ultimate), Grab/Throw, ท่าตั้งรับ, Ultimate gauge, หน้าจอ และ auto battle
+**ยังเหลือ:** การอนุมัติค่าสมดุลโดยเจ้าของ (ส่วน "ผลวัดชุดสกิลครบ"), ภาพไอคอนและท่าทางเฉพาะสกิล,
+และ PvP (หลัง IL-7) เอกสารนี้เทียบ "Blueprint ระบบ 5 อาชีพและ Player Skill System" ของเจ้าของกับ repo
+แล้ววางแผนลงมือทำ คอลัมน์ "คำแนะนำ" ในส่วนที่ 3 เป็นข้อตกลงแล้ว
+
+**สิ่งที่ต่างจากข้อตกลงเดิมและรอเจ้าของยืนยัน:** ตารางปลดล็อก (J4) เปลี่ยนจาก 1/10/20/25/35/40
+(Passive 15/30) เป็น **1/2/3/5/15/30 (Passive 10/25)** Ultimate ยังอยู่ที่ 50 เหตุผลและตัวเลขอยู่ในส่วน
+"ผลวัดชุดสกิลครบ"
 
 ## 1. Baseline ที่เจ้าของเสนอ (ย่อ)
 
@@ -116,9 +122,9 @@
 | JS-3 (เสร็จ) | `SkillSequence` (สกิลหลายจังหวะ) + `PassiveRules` | เทสต์: แต่ละจังหวะโดนเป้าหนึ่งครั้ง, ถูกขัดแล้วหยุด, passive สะสมและหมดอายุ |
 | JS-4 (เสร็จ) | `GrabRules`: Basic Grab/Throw ของทุกอาชีพ, `grab_resist` | `test_grab`: จับ ทุ่ม ชนตัวอื่น หลุดเอง กันจับซ้ำ บอสจับไม่ติด |
 | JS-5 (เสร็จ) | `CounterRules`: ท่าตั้งรับสวนกลับ | เทสต์: สวนเฉพาะในหน้าต่าง ด้านหน้าเท่านั้น ไม่สวนท่าทำลายการ์ดของบอส พลาดแล้วเปิดช่อง |
-| JS-6 | Boxer ครบชุด (6 + 2) แทนสกิลเดิมของ Riku พร้อมตารางปลดล็อกใหม่, hotbar, tutorial, AutoPilot | `test_skills`, `test_balance` (กฎใหม่), `test_auto_battle`, harness บท 1–5 |
-| JS-7 – JS-10 | Brawler, Grappler, Counter Fighter, Street Fighter อาชีพละ PR ตามแบบ JS-6 | เหมือน JS-6 + `test_classes`: ไม่มีอาชีพใดเก่งทุกด้าน (ตารางส่วนที่ 8 ของ Blueprint เป็นเทสต์) |
-| JS-11 | `UltimateRules` + Ultimate ทั้ง 5 + HUD | เทสต์: gauge เติมจากการตีและการถูกตี, มีช่วงเตือน, damage รวม 2–3 เท่าของ Active ที่แรงที่สุด, Counter Ultimate ไม่ทำ damage ถ้าไม่ถูกตี, Titan Destruction ไม่บังคับทุ่มบอส |
+| JS-6 (เสร็จ) | Boxer ครบชุด (6 + 2) แทนสกิลเดิมของ Riku พร้อมตารางปลดล็อกใหม่, hotbar, tutorial, AutoPilot | `test_skills`, `test_balance` (กฎใหม่), `test_auto_battle`, harness บท 1–5 |
+| JS-7 – JS-10 (เสร็จ) | Brawler, Grappler, Counter Fighter, Street Fighter อาชีพละ PR ตามแบบ JS-6 | เหมือน JS-6 + `test_classes`: ไม่มีอาชีพใดเก่งทุกด้าน (ตารางส่วนที่ 8 ของ Blueprint เป็นเทสต์) |
+| JS-11 (เสร็จ) | `UltimateRules` + Ultimate ทั้ง 5 + HUD | เทสต์: gauge เติมจากการตีและการถูกตี, มีช่วงเตือน, damage รวม 2–3 เท่าของ Active ที่แรงที่สุด, Counter Ultimate ไม่ทำ damage ถ้าไม่ถูกตี, Titan Destruction ไม่บังคับทุ่มบอส |
 | JS-12 | PvE Balance: Monster, Mini-boss, Stage boss, World boss, อุปกรณ์เริ่มต้นถึง Endgame, +0 ถึง +10 | รายงาน harness (หลาย seed) ให้เจ้าของอนุมัติ ปรับค่าเฉพาะใน profile `pve` |
 | หลัง IL-7 | PvP: โหมดของโซน, profile `pvp`, Grab Break, ทดสอบ 5 × 5 | เทสต์ sim สองฮีโร่สู้กัน: ไม่มี lock เกินเพดาน, Ultimate ไม่ one-shot ที่ gear ใกล้เคียง |
 
@@ -147,6 +153,114 @@ Dao +5% / +11%; Mika −1% / −9% ล้มรวม 3 ครั้งจาก
 ฆ่า −3% รับ damage −4% ล้ม 3/72 (เดิม 1/72) แต่ทำให้เทสต์ฟาร์มอัตโนมัติ seed เดียว
 (`test_farming_loop`) ล้ม จึงคงค่าเท่าชุดเดิมไว้ก่อน ระยะประชิดของ Grappler จะมาพร้อมระบบ Grab (JS-4)
 ซึ่งให้สิ่งตอบแทนกับระยะที่สั้นลง
+
+### ผลวัดชุดสกิลครบ (JS-6 ถึง JS-11, 2026-11-10)
+
+**ตารางปลดล็อก.** วัดด่านเนื้อเรื่องเลเวล 2–9 ด้วย auto battle (ฮีโร่ 5 ตัว × 3 seed, ของร้าน, ข้าวกล่อง 10):
+
+| ตาราง | เวลาเคลียร์เทียบของเดิม | Damage ที่รับตอนสู้บอสด่านแรก | อาหารที่ใช้กับบอสด่านแรก |
+|---|---|---|---|
+| ของเดิม (4 สกิลครบที่เลเวล 3) | 100% | 1.55 เท่าของ HP | 2.5 |
+| 1/10/20/25/35/40 (ตามข้อตกลง J4) | ช้าลง 17–45% | 2.62 เท่า | 4.5 |
+| **1/2/3/5/15/30 (ที่ใช้อยู่)** | ช้าลง 3–19% | 1.93 เท่า | 3.1 |
+
+ตาราง J4 ทำให้ auto battle ผ่านบอสด่านแรกจากเซฟใหม่ไม่ได้ (เทสต์ `test_story_auto` ล้ม) จึงใช้ตารางที่สาม
+ไม่มีการล้มในทั้งสามแบบ เปลี่ยนได้ที่เดียวคือ `jobs.json` `unlocks` (และ `unlock_level` ของแต่ละสกิล)
+
+**ฟาร์ม.** 4 ลาน (เลเวล 4, 29, 43, 58) ฮีโร่เลเวลเท่าลาน ของร้าน +0, 4 seed เทียบกับเกมก่อนเริ่มงานนี้ (ผลรวม 4 ลาน):
+
+| ฮีโร่ | อาชีพ | จำนวนฆ่าต่อชั่วโมง | Damage ที่รับ | ล้ม (จาก 16 รอบ) |
+|---|---|---|---|---|
+| Riku | Boxer | +6% | −20% | 1 (เดิม 0) |
+| Kan | Brawler | −8% | −15% | 0 (เดิม 1) |
+| Oren | Grappler | −4% | −6% | 1 (เดิม 0) |
+| Dao | Counter Fighter | −3% | −24% | 0 (เดิม 0) |
+| Mika | Street Striker | +6% | −3% | 0 (เดิม 2) |
+
+**Ultimate ต่อเป้าหมายเดียว** (ผลรวม damage ของทุกจังหวะ ก่อนคูณ power): Boxer 136, Grappler 126,
+Counter Fighter 130 (เมื่อสวนสำเร็จ), Striker 120, Brawler 114 (แต่โดนทุกตัวรอบตัว) ทุกท่าอยู่ที่ 2–3 เท่าของ
+Active ที่แรงที่สุดของอาชีพ (`test_balance`)
+
+**ยังไม่ได้วัด:** Mini-boss, Stage boss และ World boss ที่เลเวลสูง, อุปกรณ์ระดับ Endgame และ +10,
+อัตราการเติม gauge ในการเล่นจริง (ตอนนี้ +1.5 ต่อหมัดที่โดน และ +60 ต่อการเสีย HP ทั้งหลอด)
+ค่า PvP ใน profile เป็นค่าตั้งต้น (damage ×0.6, Ultimate ×0.5) ยังไม่มีโหมดให้ทดสอบ
+
+**ข้อจำกัดที่รู้:** สกิลใช้ไอคอน เอฟเฟกต์ และเสียงชุดเดิมซ้ำกัน (ยังไม่มีไอคอนเฉพาะ 45 ตัว),
+ท่าตั้งรับใช้ท่ายืน + โล่, gauge หายเมื่อเปลี่ยนพื้นที่, gamepad ใช้ Ultimate ผ่านช่อง hotbar
+
+### ชุดสกิลที่ใช้อยู่ (สร้างจากข้อมูลเกม)
+
+Damage คือผลรวมทุกจังหวะต่อเป้าหมายเดียว ก่อนคูณ power ของฮีโร่ สกิลตั้งรับทำ damage เฉพาะเมื่อรับหมัดได้
+
+**Boxer** (Riku Sato): Precision and burst damage
+
+| Lv | Skill | Type | Damage on one target | Energy | Cooldown | What it does |
+|---|---|---|---|---|---|---|
+| 1 | Power Jab | active | 22 | 8 | 2.5 s | A fast straight punch that reaches further than a normal jab. Opens an attack. |
+| 2 | Heavy Cross | active | 32 | 14 | 4 s | A heavy cross with the whole body behind it. Staggers its target and breaks guard. |
+| 3 | Uppercut | active | 30 | 12 | 3.5 s | A rising punch that lifts one foe off their feet. |
+| 5 | Body Blow | active | 36 | 14 | 4.2 s | A short punch to the body at close range. Heavy damage to one foe and a long stagger. Breaks guard. |
+| 15 | Counter Punch | active | 44 | 15 | 4.2 s | Guard for a moment; a blow caught from the front is answered with a heavy punch. Nothing happens if nobody attacks. |
+| 30 | Knockout Combo | active | 58 | 30 | 10 s | Three quick punches and a heavy one that sends the foe flying. |
+| 10 | Critical Focus | passive | - | - | - | Each blow landed in a row adds 3% critical chance, up to 15%. A miss loses it. |
+| 25 | Precision Impact | passive | - | - | - | Heavy punches, skills and the last blow of a combination deal 12% more damage. |
+| 50 | Knockout Devastation | ultimate | 136 | full gauge | - | Gather everything into one assault: lunge in, four heavy punches, then a knockout blow whose shock hits everyone nearby. Aim it: a miss wastes the gauge. |
+
+**Brawler** (Kan Srisuk): Pressure and area damage
+
+| Lv | Skill | Type | Damage on one target | Energy | Cooldown | What it does |
+|---|---|---|---|---|---|---|
+| 1 | Rapid Punch | active | 26 | 10 | 2.5 s | A burst of four punches at whatever stands in front. |
+| 2 | Double Smash | active | 34 | 14 | 4 s | Two heavy blows, the second one flooring whoever it hits. |
+| 3 | Wide Swing | active | 26 | 15 | 4 s | A sweeping punch across a wide arc that knocks down several foes at once. |
+| 5 | Ground Pound | active | 32 | 25 | 7 s | Punch the street itself. Damages and floors everyone around. Breaks guard. |
+| 15 | Brutal Rush | active | 40 | 22 | 4.2 s | Charge forward throwing three punches, ploughing through anyone in the way. The last breaks guard. |
+| 30 | Backhand Smash | active | 40 | 28 | 9 s | A swinging backhand that hits behind and in front. Clears whoever closed in at the sides. |
+| 10 | Pain Resistance | passive | - | - | - | While attacking, blows that land on you deal 20% less damage. They still stagger. |
+| 25 | Berserk Momentum | passive | - | - | - | Each blow landed adds 4% damage for 4 seconds, up to 20%. Keep hitting to keep it. |
+| 50 | Street Carnage | ultimate | 114 | full gauge | - | Let it all out: three bursts of punches all around, a heavy punch forward, then a ground smash whose shockwave floors the whole street corner. |
+
+**Grappler** (Oren Vale): Grab, throw and control
+
+| Lv | Skill | Type | Damage on one target | Energy | Cooldown | What it does |
+|---|---|---|---|---|---|---|
+| 1 | Iron Grip | active | - | 10 | 3 s | Lunge in and seize a foe from further away. Then throw them with any attack. |
+| 2 | Power Throw | active | 30 | 15 | 4.2 s | Seize a foe and hurl them far ahead. They knock down everyone they hit. |
+| 3 | Backbreaker | active | 44 | 18 | 4.2 s | Seize a foe and break them over your knee. Heavy damage to that one foe. |
+| 5 | Ground Slam | active | 52 | 25 | 7 s | Lift a foe and slam them into the street. The impact floors everyone close by. |
+| 15 | Crowd Toss | active | 24 | 22 | 4.2 s | Use the foe you seize as a missile: thrown a long way, hitting hard everyone in their path. |
+| 30 | Crushing Hold | active | 50 | 30 | 10 s | Lock a foe in a crushing hold for a second, hurting them all the while, then drop them. |
+| 10 | Unbreakable Hold | passive | - | - | - | Your grabs hold ordinary foes 40% longer. Bosses still cannot be held, and nobody can be grabbed twice in a row. |
+| 25 | Heavy Impact | passive | - | - | - | Throws, slams and thrown bodies deal 15% more damage. |
+| 50 | Titan Destruction | ultimate | 126 | full gauge | - | Lunge, seize a foe, lift them overhead and drive them into the street. The shockwave floors everyone around. A boss cannot be lifted: it takes the blow and the shockwave instead. |
+
+**Counter Fighter** (Dao Kittikun): Defence and punishment
+
+| Lv | Skill | Type | Damage on one target | Energy | Cooldown | What it does |
+|---|---|---|---|---|---|---|
+| 1 | Quick Counter | active | 22 | 8 | 2.5 s | Guard for an instant; a blow caught from the front is answered at once. Nothing happens if nobody attacks. |
+| 2 | Slip Punch | active | 28 | 12 | 3.5 s | Slip past an attack and punch from the side. You cannot be hit while slipping in. |
+| 3 | Precision Blow | active | 26 | 12 | 4 s | A picked punch that deals 60% more damage to a foe who is staggered or left open by a parry. |
+| 5 | Defensive Stance | active | - | 20 | 12 s | Brace yourself: for 5 seconds every blow that lands on you deals 40% less damage. |
+| 15 | Perfect Parry | active | 18 | 10 | 4.2 s | A very short parry. A blow it catches is answered with a punch that leaves the attacker staggered for a long time. |
+| 30 | Reversal Strike | active | 52 | 20 | 10 s | Wait for the attack, then answer it with a heavy punch that floors the attacker. Breaks guard. Nothing happens if nobody attacks. |
+| 10 | Combat Awareness | passive | - | - | - | Your perfect guard opens 4 ticks earlier, so parries are easier to time. |
+| 25 | Retaliation | passive | - | - | - | Each parry or caught blow stores power (up to 2): your next counter hit deals 25% more damage for each. |
+| 50 | Absolute Retribution | ultimate | 130 | full gauge | - | Take the perfect guard for a second. A blow caught from the front is answered with five punches and a reversal that ends the fight. If nobody attacks, the gauge is wasted. |
+
+**Street Striker** (Mika Tanabe): Speed, combos and flow
+
+| Lv | Skill | Type | Damage on one target | Energy | Cooldown | What it does |
+|---|---|---|---|---|---|---|
+| 1 | Quick Jab | active | 14 | 6 | 2 s | A very fast jab. Opens a combo. |
+| 2 | Triple Punch | active | 28 | 12 | 3.5 s | Three punches in a row; the last knocks the foe down. |
+| 3 | Rush Combo | active | 33 | 16 | 4.2 s | Dash in throwing four punches at everyone in the way; the last is a wide hook that floors foes on both sides. |
+| 5 | Rising Fist | active | 30 | 12 | 4 s | A rising punch that lifts a foe off their feet, ready for more. |
+| 15 | Dash Strike | active | 30 | 15 | 4 s | A short dash ending in a punch. Breaks guard. |
+| 30 | Chain Breaker | active | 44 | 25 | 8 s | The punch that ends a combo: heavy damage, and the foe is thrown back. |
+| 10 | Flow State | passive | - | - | - | Each blow landed adds 4% attack speed for 3 seconds, up to 20%. |
+| 25 | Combo Mastery | passive | - | - | - | Each blow landed stores 5% damage (up to 20%, for 2.5 seconds) for your next skill. |
+| 50 | Million Fist Onslaught | ultimate | 120 | full gauge | - | Dash in and let fly a dozen punches too fast to count, then a heavy one that sends the foe away. A foe who gets out of reach escapes the rest. |
 
 ### JS-4: Grab/Throw ที่ทำแล้ว (2026-11-10)
 
@@ -179,12 +293,6 @@ Dao +5% / +11%; Mika −1% / −9% ล้มรวม 3 ครั้งจาก
 - การรับหมัดสำเร็จนับเป็น parry สำหรับ Passive (Retaliation)
 - มี move กลาง `counter_stance` (เปิด 24 ticks, energy 15) ให้สกิลใช้ ยังไม่มีสกิลใดใช้จนกว่าจะถึง JS-6
 - ยังไม่ทำ: Defensive Stance (ลด damage ชั่วคราว) เป็นกลไก buff คนละแบบ จะทำพร้อมชุด Counter Fighter (JS-9)
-
-### สิ่งที่ JS-3 ทิ้งไว้ให้ JS-6
-
-หน้าจอ `SkillsScreen`, `CharacterCreate` และ hotbar เริ่มต้น (`skills.json` `hotbar` แบบ `hero_skill` 0–3)
-ยังอ่านสกิล 4 ตัวจาก `heroes.json` และถือว่าทุกสกิลมี `move` ต้องเปลี่ยนไปใช้ `SkillRules.kit`
-และแสดง Passive (ไม่มี `move`) ก่อนใส่ชุดสกิลของอาชีพแรก
 
 ## 6. ความเสี่ยง
 
