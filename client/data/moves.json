@@ -2017,6 +2017,139 @@
       "chains": {
         "heavy": "haymaker"
       }
+    },
+    "grab_reach": {
+      "startup": 6,
+      "active": 4,
+      "recovery": 16,
+      "damage": 0,
+      "hitstun": 0,
+      "knockback": 0,
+      "reach_offset": 2,
+      "reach": 22,
+      "depth_tolerance": 12,
+      "energy_cost": 10,
+      "anim": "grab",
+      "grab": true
+    },
+    "grappler_grab_reach": {
+      "startup": 5,
+      "active": 5,
+      "recovery": 16,
+      "damage": 0,
+      "hitstun": 0,
+      "knockback": 0,
+      "reach_offset": 2,
+      "reach": 28,
+      "depth_tolerance": 14,
+      "energy_cost": 10,
+      "anim": "grab",
+      "grab": true
+    },
+    "grab_release": {
+      "startup": 2,
+      "active": 1,
+      "recovery": 14,
+      "damage": 0,
+      "hitstun": 0,
+      "knockback": 0,
+      "reach_offset": 0,
+      "reach": 1,
+      "depth_tolerance": 1,
+      "anim": "throw"
+    },
+    "grab_shove": {
+      "startup": 1,
+      "active": 1,
+      "recovery": 1,
+      "damage": 8,
+      "hitstun": 20,
+      "knockback": 30,
+      "reach_offset": 0,
+      "reach": 1,
+      "depth_tolerance": 1
+    },
+    "throw_crash": {
+      "startup": 1,
+      "active": 1,
+      "recovery": 1,
+      "damage": 8,
+      "hitstun": 22,
+      "knockback": 30,
+      "reach_offset": 0,
+      "reach": 1,
+      "depth_tolerance": 1,
+      "knockdown": true
+    },
+    "grappler_crash": {
+      "startup": 1,
+      "active": 1,
+      "recovery": 1,
+      "damage": 14,
+      "hitstun": 26,
+      "knockback": 50,
+      "reach_offset": 0,
+      "reach": 1,
+      "depth_tolerance": 1,
+      "knockdown": true
+    },
+    "boxer_throw": {
+      "startup": 1,
+      "active": 1,
+      "recovery": 1,
+      "damage": 8,
+      "hitstun": 36,
+      "knockback": 40,
+      "reach_offset": 0,
+      "reach": 1,
+      "depth_tolerance": 1
+    },
+    "brawler_throw": {
+      "startup": 1,
+      "active": 1,
+      "recovery": 1,
+      "damage": 14,
+      "hitstun": 30,
+      "knockback": 110,
+      "reach_offset": 0,
+      "reach": 1,
+      "depth_tolerance": 1,
+      "knockdown": true
+    },
+    "grappler_throw": {
+      "startup": 1,
+      "active": 1,
+      "recovery": 1,
+      "damage": 22,
+      "hitstun": 30,
+      "knockback": 150,
+      "reach_offset": 0,
+      "reach": 1,
+      "depth_tolerance": 1,
+      "knockdown": true
+    },
+    "counter_throw": {
+      "startup": 1,
+      "active": 1,
+      "recovery": 1,
+      "damage": 12,
+      "hitstun": 30,
+      "knockback": 80,
+      "reach_offset": 0,
+      "reach": 1,
+      "depth_tolerance": 1,
+      "knockdown": true
+    },
+    "striker_throw": {
+      "startup": 1,
+      "active": 1,
+      "recovery": 1,
+      "damage": 8,
+      "hitstun": 30,
+      "knockback": 50,
+      "reach_offset": 0,
+      "reach": 1,
+      "depth_tolerance": 1
     }
   }
 }

@@ -81,6 +81,11 @@ equipment) is stored per hero. Temporary combat state is never persisted.
   blow staggers); Brawler left, right, swing (wider, shoves hard); Grappler short, heavy,
   push; Counter Fighter quick, counter, heavy (lighter); Street Striker jab, cross, rapid
   jab, finisher (four fast, light punches). The heavy attack is shared.
+- **[built]** Grab and throw: G (or E / USE / B with empty hands and nothing to pick up)
+  seizes the foe in front; any attack throws them, and the thrown body knocks down others
+  it meets. Holds end by themselves, a hit on the holder frees the foe, bosses cannot be
+  held (they are shoved) and elites only briefly. Each job grabs its own way
+  (`client/data/jobs.json` `grab`); the Grappler's is the longest and hardest.
 - **[built]** Skills on a seven-slot hotbar (`client/data/skills.json`): 1 attack, 2–5
   skills, 6–7 consumables. Each skill is a move with an energy cost and a cooldown, and
   unlocks at a level. A skill can cancel an attack that has landed, so combos end in

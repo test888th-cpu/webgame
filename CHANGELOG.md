@@ -27,6 +27,16 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
   is unchanged. Measured with auto battle on four farming grounds (4 seeds each): kills
   per hour within 5% and damage taken within 11% of the old combination for every hero
   (`docs/JOB_SKILL_PLAN.md`).
+- **Grab and throw for every job** (`GrabRules`, `jobs.json` `grab`): G grabs the foe in
+  front (E, USE or B does too with empty hands and nothing to pick up); any attack button
+  throws them the way the hero faces, and a thrown body knocks down others in its path.
+  A hold ends by itself, a hit on the holder frees the foe, a held player shakes free by
+  pressing buttons, nobody is grabbed twice within 1.5 s, bosses are only shoved and
+  elites are held half as long. The Grappler reaches furthest, holds longest and throws
+  hardest; the Boxer and the Street Striker push a foe off balance instead of flooring them.
+- **Grab, lift and throw animations** for all 51 LPC characters, built from LPC's own
+  thrust, spellcast and slash frames (`art/lpc/characters.json`); existing rows are
+  unchanged. A held foe is drawn lying across the holder's raised hands.
 - **Skills of several blows** (`SkillSequence`): a skill may list the moves that follow its
   first (`then`). Each stage starts by itself and can hit a defender once; only the first
   move costs energy; being hit ends the skill; nothing cancels it before its last stage.

@@ -4,7 +4,8 @@ extends RefCounted
 ## progression (level, equipment) lives in the backend and only seeds max_hp
 ## and similar values when a fighter enters a zone.
 
-enum State { IDLE, ATTACK, HITSTUN, DODGE, GUARD, DOWN, KO }
+## GRAB: holding a foe. HELD: in someone's hold (GrabRules).
+enum State { IDLE, ATTACK, HITSTUN, DODGE, GUARD, DOWN, KO, GRAB, HELD }
 
 var id := 0
 ## Fighters only hit fighters of other teams.
@@ -57,6 +58,17 @@ var weapon_speed := 1.0
 ## Skills this fighter can use: skill id -> {"move": move id, "cooldown":
 ## ticks, "then": later moves, "scale": balance multipliers} (SkillRules).
 var skills := {}
+## Grab and throw (GrabRules). `grab` is the job's profile ({} for fighters
+## who cannot grab): {"move", "release", "throw", "crash", "shove", "hold"}.
+## `holding` / `held_by` are the other fighter's id (0: nobody); grab_guard
+## the ticks in which this fighter cannot be grabbed again. A thrown body
+## remembers who threw it and whom it has already knocked into.
+var grab := {}
+var holding := 0
+var held_by := 0
+var grab_guard := 0
+var thrown_by := 0
+var thrown_hits := {}
 ## The skill being used ("" outside one) and which of its moves is running
 ## (SkillSequence). Cleared by any state but ATTACK, so a hit ends the skill.
 var skill_id := ""

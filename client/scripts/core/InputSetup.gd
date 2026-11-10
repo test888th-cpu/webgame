@@ -25,6 +25,9 @@ const KEYS := {
 	"dodge": [KEY_SPACE, KEY_L],
 	"guard": [KEY_SHIFT, KEY_I],
 	"interact": [KEY_E, KEY_U],
+	# Grab the foe in front, or throw the one held. Interact (USE on touch,
+	# B on a gamepad) does the same with empty hands and nothing to pick up.
+	"grab": [KEY_G],
 	"use_item": [KEY_H, KEY_Q],
 	"pause": [KEY_ESCAPE, KEY_P],
 	"auto_battle": [KEY_T],
@@ -52,6 +55,9 @@ const PAD_BUTTONS := {
 	"dodge": JOY_BUTTON_A,
 	"guard": JOY_BUTTON_LEFT_SHOULDER,
 	"interact": JOY_BUTTON_B,
+	# Every face and shoulder button is taken: grabbing on a pad is interact
+	# with empty hands; a back paddle, where a pad has one, grabs outright.
+	"grab": JOY_BUTTON_PADDLE1,
 	"use_item": JOY_BUTTON_RIGHT_SHOULDER,
 	"pause": JOY_BUTTON_START,
 	"auto_battle": JOY_BUTTON_BACK,

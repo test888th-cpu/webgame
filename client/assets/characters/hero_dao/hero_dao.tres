@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=52 format=3]
+[gd_resource type="SpriteFrames" load_steps=65 format=3]
 
 [ext_resource type="Texture2D" path="res://assets/characters/hero_dao/sheet.png" id="sheet"]
 
@@ -45,6 +45,30 @@ region = Rect2(256, 320, 64, 64)
 [sub_resource type="AtlasTexture" id="down_5"]
 atlas = ExtResource("sheet")
 region = Rect2(320, 320, 64, 64)
+
+[sub_resource type="AtlasTexture" id="grab_0"]
+atlas = ExtResource("sheet")
+region = Rect2(0, 576, 64, 64)
+
+[sub_resource type="AtlasTexture" id="grab_1"]
+atlas = ExtResource("sheet")
+region = Rect2(64, 576, 64, 64)
+
+[sub_resource type="AtlasTexture" id="grab_2"]
+atlas = ExtResource("sheet")
+region = Rect2(128, 576, 64, 64)
+
+[sub_resource type="AtlasTexture" id="grab_3"]
+atlas = ExtResource("sheet")
+region = Rect2(192, 576, 64, 64)
+
+[sub_resource type="AtlasTexture" id="grab_4"]
+atlas = ExtResource("sheet")
+region = Rect2(256, 576, 64, 64)
+
+[sub_resource type="AtlasTexture" id="grab_5"]
+atlas = ExtResource("sheet")
+region = Rect2(320, 576, 64, 64)
 
 [sub_resource type="AtlasTexture" id="heavy_0"]
 atlas = ExtResource("sheet")
@@ -101,6 +125,18 @@ region = Rect2(64, 0, 64, 64)
 [sub_resource type="AtlasTexture" id="idle_2"]
 atlas = ExtResource("sheet")
 region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="lift_0"]
+atlas = ExtResource("sheet")
+region = Rect2(0, 640, 64, 64)
+
+[sub_resource type="AtlasTexture" id="lift_1"]
+atlas = ExtResource("sheet")
+region = Rect2(64, 640, 64, 64)
+
+[sub_resource type="AtlasTexture" id="lift_2"]
+atlas = ExtResource("sheet")
+region = Rect2(128, 640, 64, 64)
 
 [sub_resource type="AtlasTexture" id="light_0"]
 atlas = ExtResource("sheet")
@@ -169,6 +205,22 @@ region = Rect2(256, 512, 64, 64)
 [sub_resource type="AtlasTexture" id="swing_5"]
 atlas = ExtResource("sheet")
 region = Rect2(320, 512, 64, 64)
+
+[sub_resource type="AtlasTexture" id="throw_0"]
+atlas = ExtResource("sheet")
+region = Rect2(0, 704, 64, 64)
+
+[sub_resource type="AtlasTexture" id="throw_1"]
+atlas = ExtResource("sheet")
+region = Rect2(64, 704, 64, 64)
+
+[sub_resource type="AtlasTexture" id="throw_2"]
+atlas = ExtResource("sheet")
+region = Rect2(128, 704, 64, 64)
+
+[sub_resource type="AtlasTexture" id="throw_3"]
+atlas = ExtResource("sheet")
+region = Rect2(192, 704, 64, 64)
 
 [sub_resource type="AtlasTexture" id="walk_0"]
 atlas = ExtResource("sheet")
@@ -249,6 +301,29 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("grab_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("grab_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("grab_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("grab_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("grab_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("grab_5")
+}],
+"loop": false,
+"name": &"grab",
+"speed": 14.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("heavy_0")
 }, {
 "duration": 1.0,
@@ -303,6 +378,20 @@ animations = [{
 "loop": true,
 "name": &"idle",
 "speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("lift_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("lift_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("lift_2")
+}],
+"loop": false,
+"name": &"lift",
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -369,6 +458,23 @@ animations = [{
 "loop": false,
 "name": &"swing",
 "speed": 16.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("throw_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("throw_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("throw_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("throw_3")
+}],
+"loop": false,
+"name": &"throw",
+"speed": 14.0
 }, {
 "frames": [{
 "duration": 1.0,

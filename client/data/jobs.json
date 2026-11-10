@@ -39,6 +39,14 @@
         "light": "boxer_jab",
         "heavy": "haymaker"
       },
+      "grab": {
+        "move": "grab_reach",
+        "release": "grab_release",
+        "throw": "boxer_throw",
+        "crash": "throw_crash",
+        "shove": "grab_shove",
+        "hold": 36
+      },
       "skills": []
     },
     "brawler": {
@@ -55,6 +63,14 @@
       "moveset": {
         "light": "brawler_left",
         "heavy": "haymaker"
+      },
+      "grab": {
+        "move": "grab_reach",
+        "release": "grab_release",
+        "throw": "brawler_throw",
+        "crash": "throw_crash",
+        "shove": "grab_shove",
+        "hold": 45
       },
       "skills": []
     },
@@ -73,6 +89,14 @@
         "light": "grappler_short",
         "heavy": "haymaker"
       },
+      "grab": {
+        "move": "grappler_grab_reach",
+        "release": "grab_release",
+        "throw": "grappler_throw",
+        "crash": "grappler_crash",
+        "shove": "grab_shove",
+        "hold": 75
+      },
       "skills": []
     },
     "counter": {
@@ -90,6 +114,14 @@
         "light": "counter_quick",
         "heavy": "haymaker"
       },
+      "grab": {
+        "move": "grab_reach",
+        "release": "grab_release",
+        "throw": "counter_throw",
+        "crash": "throw_crash",
+        "shove": "grab_shove",
+        "hold": 45
+      },
       "skills": []
     },
     "striker": {
@@ -106,6 +138,14 @@
       "moveset": {
         "light": "striker_jab",
         "heavy": "haymaker"
+      },
+      "grab": {
+        "move": "grab_reach",
+        "release": "grab_release",
+        "throw": "striker_throw",
+        "crash": "throw_crash",
+        "shove": "grab_shove",
+        "hold": 30
       },
       "skills": []
     }

@@ -147,9 +147,15 @@ static func _job_problems(content: ContentDB, id: String) -> PackedStringArray:
 			if not content.moves.moves.has(str(basics.get(input, ""))):
 				out.append("%s.moveset.%s: unknown move" % [where, input])
 		var hostile := enemy_moves(content)
-		for move_id: String in reachable(content, basics.values()):
+		var own: Array = basics.values()
+		var grab: Variant = job.get("grab", {})
+		if grab is Dictionary:
+			for field: String in GrabRules.PROFILE_MOVES:
+				own.append(str(grab.get(field, "")))
+		for move_id: String in reachable(content, own):
 			if hostile.has(move_id):
 				out.append("%s.moveset: %s is an enemy's move" % [where, move_id])
+	out.append_array(GrabRules.problems(job.get("grab"), content.moves, where + ".grab"))
 	for field: String in TEXT_FIELDS:
 		if str(job.get(field, "")) == "":
 			out.append("%s.%s: required" % [where, field])

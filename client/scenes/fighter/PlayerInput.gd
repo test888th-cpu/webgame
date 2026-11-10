@@ -17,6 +17,7 @@ static func read() -> FighterInput:
 	input.light = Input.is_action_just_pressed("attack_light")
 	input.heavy = Input.is_action_just_pressed("attack_heavy")
 	input.dodge = Input.is_action_just_pressed("dodge")
+	input.grab = Input.is_action_just_pressed("grab")
 	return input
 
 
@@ -29,6 +30,7 @@ static func is_active(input: FighterInput) -> bool:
 		or input.dodge
 		or input.guard
 		or input.pick
+		or input.grab
 		or input.skill != ""
 	)
 

@@ -138,6 +138,7 @@ func _init(
 	hero.parry_window = int(hero_data.get("parry_window", CombatRules.PERFECT_GUARD_TICKS))
 	hero.skill_armor = bool(hero_data.get("skill_armor", false))
 	hero.moveset = JobRules.moveset(content, profile.hero)
+	hero.grab = content.jobs.get(JobRules.job_of(content, profile.hero), {}).get("grab", {})
 	hero.throws = true
 	hero.facing = -1 if entry == "east" else 1
 	if area.get("heal_on_enter", false):

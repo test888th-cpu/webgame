@@ -27,6 +27,9 @@ var advance := 0.0
 var guard_break := false
 ## Leaves the defender on the ground (and briefly invulnerable).
 var knockdown := false
+## A grab: deals nothing itself; if it closes on a foe the attacker holds
+## them (GrabRules).
+var grab := false
 ## Shows a warning during startup. Used for slow, heavy enemy attacks so a
 ## player has time to react.
 var telegraph := false

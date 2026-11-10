@@ -41,6 +41,7 @@ const CONTROLS := [
 	["Heavy attack", "K / X", "Y / Triangle"],
 	["Dodge", "Space / L", "A / Cross"],
 	["Guard (hold); just before a hit: parry", "Shift / I", "LB / L1"],
+	["Grab a foe; any attack throws them", "G (or E, empty-handed)", "B / Circle, empty-handed"],
 	["Talk, shop", "E / U", "B / Circle"],
 	["Eat (quick heal)", "H / Q", "RB / R1"],
 	["Auto battle on / off (areas you have cleared)", "T", "Back / Select"],

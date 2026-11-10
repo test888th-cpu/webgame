@@ -101,7 +101,7 @@ static func tick(
 			and attacker.move.is_active_tick(attacker.state_tick)
 		):
 			swings.append([attacker, attacker.move])
-	var events: Array[CombatEvent] = []
+	var events := GrabRules.tick(fighters, inputs, library, rng)
 	for swing: Array in swings:
 		var attacker: Fighter = swing[0]
 		var move: MoveData = swing[1]
@@ -117,7 +117,7 @@ static func is_vulnerable(fighter: Fighter) -> bool:
 	if fighter.grace > 0:
 		return false
 	match fighter.state:
-		Fighter.State.KO, Fighter.State.DOWN:
+		Fighter.State.KO, Fighter.State.DOWN, Fighter.State.HELD:
 			return false
 		Fighter.State.DODGE:
 			return fighter.state_tick < DODGE_IFRAME_START or fighter.state_tick >= DODGE_IFRAME_END
@@ -305,6 +305,15 @@ static func _advance(f: Fighter, bounds: Rect2) -> void:
 	if move.advance > 0.0 and f.state_tick <= ticks:
 		var step := Vector2(f.facing * move.advance / ticks, 0)
 		f.position = LaneMovement.clamp_to(f.position + step, bounds)
+
+
+## Lands `move` from `attacker` on `defender` outside a swing (a throw, a
+## thrown body crashing into someone, a shove). The caller has checked reach
+## and vulnerability.
+static func strike(
+	attacker: Fighter, defender: Fighter, move: MoveData, rng: RandomNumberGenerator = null
+) -> CombatEvent:
+	return _apply_hit(attacker, defender, move, rng)
 
 
 ## Starts `move` from outside the input step (a throw). See _start_move.
