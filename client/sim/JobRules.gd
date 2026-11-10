@@ -97,8 +97,9 @@ static func problems(content: ContentDB) -> PackedStringArray:
 		if not skill is Dictionary:
 			continue
 		var where := "skills.%s" % skill_id
-		if hostile.has(str(skill.get("move", ""))):
-			out.append("%s.move: %s is an enemy's move" % [where, skill["move"]])
+		for move_id: String in SkillSequence.moves(skill):
+			if hostile.has(move_id):
+				out.append("%s.move: %s is an enemy's move" % [where, move_id])
 		if not skill.has("job"):
 			continue
 		var job: Variant = content.jobs.get(str(skill["job"]))

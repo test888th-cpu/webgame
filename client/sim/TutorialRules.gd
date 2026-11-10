@@ -56,7 +56,7 @@ static func signals_for(
 			"swing":
 				if event.data["id"] != hero.id:
 					continue
-				if event.data["skill"]:
+				if event.data["skill"] and int(event.data.get("step", 0)) == 0:
 					found.append("skill")
 				elif event.data["move"] == CombatRules.starter(hero, library, "heavy"):
 					found.append("heavy")

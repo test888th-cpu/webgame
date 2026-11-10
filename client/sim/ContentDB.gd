@@ -858,12 +858,15 @@ func _validate_skills() -> void:
 		if not skill is Dictionary:
 			errors.append(where + ": expected an object")
 			continue
-		_check(moves.moves.has(str(skill.get("move"))), "%s.move: unknown move" % where)
-		_number(skill, "cooldown", where, 1)
 		_number(skill, "unlock_level", where, 1)
 		for field in ["name", "description"]:
 			_check(str(skill.get(field, "")) != "", "%s.%s: required" % [where, field])
 		_check(icons.has(str(skill.get("icon"))), "%s.icon: no such icon" % where)
+		if SkillRules.is_passive(skill):
+			errors.append_array(PassiveRules.problems(skill.get("passive"), where + ".passive"))
+			continue
+		errors.append_array(SkillSequence.problems(skill, moves, where))
+		_number(skill, "cooldown", where, 1)
 		_check(fx.get("effects", {}).has(str(skill.get("fx"))), "%s.fx: no such effect" % where)
 		_check(
 			audio.get("sounds", {}).has(str(skill.get("sound"))), "%s.sound: no such sound" % where

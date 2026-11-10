@@ -54,8 +54,17 @@ var weapon := ""
 var weapon_uses := 0
 var weapon_moveset := {}
 var weapon_speed := 1.0
-## Skills this fighter can use: skill id -> {"move": move id, "cooldown": ticks}.
+## Skills this fighter can use: skill id -> {"move": move id, "cooldown":
+## ticks, "then": later moves, "scale": balance multipliers} (SkillRules).
 var skills := {}
+## The skill being used ("" outside one) and which of its moves is running
+## (SkillSequence). Cleared by any state but ATTACK, so a hit ends the skill.
+var skill_id := ""
+var skill_step := 0
+## Passive skills (id -> spec) and the stacks earned (id -> {"count",
+## "ticks"}); see PassiveRules.
+var passives := {}
+var stacks := {}
 ## Ticks until each skill can be used again (absent or 0: ready).
 var cooldowns := {}
 ## A skill pressed during an attack, used if the attack can be cancelled.
@@ -128,3 +137,5 @@ func enter(new_state: State, duration := 0) -> void:
 		move = null
 		queued = ""
 		queued_skill = ""
+		skill_id = ""
+		skill_step = 0

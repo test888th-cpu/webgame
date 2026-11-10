@@ -27,6 +27,14 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
   is unchanged. Measured with auto battle on four farming grounds (4 seeds each): kills
   per hour within 5% and damage taken within 11% of the old combination for every hero
   (`docs/JOB_SKILL_PLAN.md`).
+- **Skills of several blows** (`SkillSequence`): a skill may list the moves that follow its
+  first (`then`). Each stage starts by itself and can hit a defender once; only the first
+  move costs energy; being hit ends the skill; nothing cancels it before its last stage.
+- **Passive skills** (`PassiveRules`): data-driven stacks earned by landing blows or
+  parrying, lost by missing or by time, adding damage, critical chance or attack speed,
+  optionally only on a combination's last blow or on a counter. No hero has one yet.
+- A running skill's PvE profile now scales its damage, hitstun and knockback as well as
+  its cooldown.
 - **PvE and PvP balance are separate** (`BalanceProfile`): a job skill carries a `pve` and
   a `pvp` profile of multipliers (damage, hitstun, knockback, duration, cooldown). Zones
   read cooldowns through the PvE profile; today's skills have none and are unchanged.
