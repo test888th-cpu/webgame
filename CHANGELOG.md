@@ -4,6 +4,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Docs: plan for the five jobs and player skills (proposal)
+- `docs/JOB_SKILL_PLAN.md` compares the owner's five-job blueprint (6 active, 2 passive and
+  1 ultimate skill per job, shared grab and throw, separate PvE and PvP balance) with the
+  game as built, lists eight decisions the owner must take first, and proposes the work as
+  a sequence of small PRs. No game data or code changes.
+
 ### Changed: quality-of-life pass (owner's list, November 2026)
 - **Pickup feed:** items picked up are listed at the screen's left with their icon and their
   name in the rarity's colour.
