@@ -1,7 +1,7 @@
 # แผนพัฒนาระบบ 5 อาชีพและ Player Skill — The Iron Legacy
 
 **สถานะ:** อนุมัติแล้ว (เจ้าของ 2026-11-10: J1–J8 ตามคำแนะนำทุกข้อ บันทึกเป็น D15 ใน
-`docs/BLUEPRINT.md`) ทำแล้ว: JS-0 และ JS-1a (ถอด Pong, เซฟเวอร์ชัน 11) เอกสารนี้เทียบ
+`docs/BLUEPRINT.md`) ทำแล้ว: JS-0, JS-1a (ถอด Pong, เซฟเวอร์ชัน 11) และ JS-1 (โครงข้อมูลอาชีพ) เอกสารนี้เทียบ
 "Blueprint ระบบ 5 อาชีพและ Player Skill System" ของเจ้าของกับ repo ปัจจุบัน
 แล้ววางแผนลงมือทำเป็น PR ย่อย คอลัมน์ "คำแนะนำ" ในส่วนที่ 3 จึงเป็นข้อตกลงแล้ว
 
@@ -111,7 +111,7 @@
 |---|---|---|
 | JS-0 (เสร็จ) | บันทึกข้อตกลง J1–J8 ลง BLUEPRINT, GAME_DESIGN, STORY_BIBLE | เอกสารเท่านั้น |
 | JS-1a (เสร็จ) | ถอดฮีโร่ตัวที่ 6 ออกจาก `heroes.json` `order` พร้อม migration ของเซฟ | `test_heroes`, `test_classes`, `test_save_carry_over`: เซฟ Pong เดิมโหลดได้ครบเป็นฮีโร่ตัวใหม่ |
-| JS-1 | โครงข้อมูล: `jobs.json`, ฟิลด์ใหม่ใน `skills.json`, `BalanceProfile`, การตรวจใน `ContentDB` รวมกฎแยกสกิลบอส ฮีโร่ยังใช้สกิลเดิม | `test_content`, เทสต์ใหม่ `test_jobs`; เกมเล่นเหมือนเดิมทุกประการ |
+| JS-1 (เสร็จ) | โครงข้อมูล: `jobs.json`, ฟิลด์ใหม่ใน `skills.json`, `BalanceProfile`, การตรวจใน `ContentDB` รวมกฎแยกสกิลบอส ฮีโร่ยังใช้สกิลเดิม | `test_content`, เทสต์ใหม่ `test_jobs`; เกมเล่นเหมือนเดิมทุกประการ |
 | JS-2 | Basic Attack ต่ออาชีพ (ข้อมูล + `moveset` ของฮีโร่) | `test_combat`, เทสต์ combo ต่ออาชีพ, วัดบทที่ 1 ด้วย harness |
 | JS-3 | `SkillSequence` (สกิลหลายจังหวะ) + `PassiveRules` | เทสต์: แต่ละจังหวะโดนเป้าหนึ่งครั้ง, ถูกขัดแล้วหยุด, passive สะสมและหมดอายุ |
 | JS-4 | `GrabRules`: Basic Grab/Throw ของทุกอาชีพ, `grab_resist` | `test_grab`: จับ ทุ่ม ชนตัวอื่น หลุดเอง กันจับซ้ำ บอสจับไม่ติด |

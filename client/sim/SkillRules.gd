@@ -13,7 +13,8 @@ static func unlocked(content: ContentDB, hero_id: String, level: int) -> Diction
 	for id: String in content.hero(hero_id).get("skills", []):
 		var skill: Dictionary = content.skills[id]
 		if level >= int(skill["unlock_level"]):
-			result[id] = {"move": str(skill["move"]), "cooldown": int(skill["cooldown"])}
+			var cooldown := BalanceProfile.cooldown(skill, BalanceProfile.PVE)
+			result[id] = {"move": str(skill["move"]), "cooldown": cooldown}
 	return result
 
 

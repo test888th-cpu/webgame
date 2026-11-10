@@ -52,6 +52,12 @@ var weapons: Dictionary = {}
 ## Hero skills (skill id -> definition) and the hotbar layout, from skills.json.
 var skills: Dictionary = {}
 var hotbar: Array = []
+## Jobs (job id -> definition), their order and the levels a job's skills
+## unlock at ({"active": [...], "passive": [...], "ultimate": [...]}), from
+## jobs.json. Each hero has one job (heroes.json "job"); see JobRules.
+var jobs: Dictionary = {}
+var job_order: Array = []
+var job_unlocks: Dictionary = {}
 ## Ticks between uses of consumables (shared by all of them).
 var item_cooldown := 0
 ## Imported art, from the asset manifest (asset id -> entry).
@@ -105,6 +111,10 @@ static func load_all(dir := DATA_DIR) -> ContentDB:
 	var skill_file := db._read(dir.path_join("skills.json"))
 	db.skills = skill_file.get("skills", {})
 	db.hotbar = skill_file.get("hotbar", [])
+	var job_file := db._read(dir.path_join("jobs.json"))
+	db.jobs = job_file.get("jobs", {})
+	db.job_order = job_file.get("order", [])
+	db.job_unlocks = job_file.get("unlocks", {})
 	db.tutorial = db._read(dir.path_join("tutorial.json")).get("steps", [])
 	db.world_bosses = db._read(dir.path_join("world_boss.json")).get("world_bosses", {})
 	db.boss_fx = db._read(dir.path_join("boss_fx.json"))
@@ -227,6 +237,7 @@ func validate() -> void:
 	errors.append_array(BossEnrage.content_problems(self))
 	errors.append_array(FarmSpawner.problems(self))
 	errors.append_array(ItemRules.problems(self))
+	errors.append_array(JobRules.problems(self))
 	_validate_progression()
 	_validate_weapons()
 	_validate_heroes()

@@ -15,6 +15,13 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
   game as built and sets out the work as a sequence of small PRs. The owner approved its
   eight decisions (BLUEPRINT D15). The new job kits themselves are not built yet: the
   heroes still play with their existing skills.
+- **Jobs are data** (`client/data/jobs.json`, `JobRules`): five jobs, each hero's `job` in
+  `heroes.json`, and the levels a kit unlocks at (actives 1/10/20/25/35/40, passives 15/30,
+  ultimate 50). Checked on load: one hero per job; a job's kit, once listed, is 6 active,
+  2 passive and 1 ultimate skill at those levels; and no player skill uses an enemy's move.
+- **PvE and PvP balance are separate** (`BalanceProfile`): a job skill carries a `pve` and
+  a `pvp` profile of multipliers (damage, hitstun, knockback, duration, cooldown). Zones
+  read cooldowns through the PvE profile; today's skills have none and are unchanged.
 
 ### Changed: quality-of-life pass (owner's list, November 2026)
 - **Pickup feed:** items picked up are listed at the screen's left with their icon and their

@@ -1,0 +1,88 @@
+{
+  "order": [
+    "boxer",
+    "brawler",
+    "grappler",
+    "counter",
+    "striker"
+  ],
+  "unlocks": {
+    "active": [
+      1,
+      10,
+      20,
+      25,
+      35,
+      40
+    ],
+    "passive": [
+      15,
+      30
+    ],
+    "ultimate": [
+      50
+    ]
+  },
+  "jobs": {
+    "boxer": {
+      "name": "Boxer",
+      "role": "Precision and burst damage",
+      "description": "Heavy, exact punches. Reads the moment and lands the one blow that matters.",
+      "strengths": [
+        "Single-target damage",
+        "Critical hits",
+        "Counter punches"
+      ],
+      "weakness": "A miss costs the opening, and crowds are hard work.",
+      "skills": []
+    },
+    "brawler": {
+      "name": "Brawler",
+      "role": "Pressure and area damage",
+      "description": "Wide swings and ground-shaking blows that keep a whole crowd on the back foot.",
+      "strengths": [
+        "Many targets",
+        "Knockback",
+        "Relentless pressure"
+      ],
+      "weakness": "Long attacks need the right range and timing; less damage on one target than the Boxer.",
+      "skills": []
+    },
+    "grappler": {
+      "name": "Grappler",
+      "role": "Grab, throw and control",
+      "description": "Seizes a foe, slams them down and throws them into the rest.",
+      "strengths": [
+        "Grabs and throws",
+        "Positioning",
+        "Impact damage"
+      ],
+      "weakness": "Must get close, and a missed grab leaves an opening.",
+      "skills": []
+    },
+    "counter": {
+      "name": "Counter Fighter",
+      "role": "Defence and punishment",
+      "description": "Guards, slips and parries, then answers a mistimed attack with a harder one.",
+      "strengths": [
+        "Defence",
+        "Parries",
+        "Punishing counters"
+      ],
+      "weakness": "Has to read the opponent; waiting alone never wins.",
+      "skills": []
+    },
+    "striker": {
+      "name": "Street Striker",
+      "role": "Speed, combos and flow",
+      "description": "Fast hands and long chains of punches that never let a foe breathe.",
+      "strengths": [
+        "Attack speed",
+        "Long combos",
+        "Chasing pressure"
+      ],
+      "weakness": "Each punch is lighter than a Boxer's, and a dropped combo loses its edge.",
+      "skills": []
+    }
+  }
+}
