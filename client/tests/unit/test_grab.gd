@@ -75,7 +75,11 @@ func test_the_pick_button_grabs_only_with_empty_hands() -> void:
 	assert_true(GrabRules.wants(fighters[0], _press("pick")), "empty hands: pick grabs")
 	fighters[0].weapon = "pipe"
 	assert_true(not GrabRules.wants(fighters[0], _press("pick")), "armed: pick is for the weapon")
-	assert_true(GrabRules.wants(fighters[0], _press("grab")), "the grab button always grabs")
+	assert_true(not GrabRules.wants(fighters[0], _press("grab")), "armed: nobody is grabbed")
+	assert_true(GrabRules.lets_go(fighters[0], _press("grab")), "the grab button drops it first")
+	fighters[0].weapon = ""
+	assert_true(GrabRules.wants(fighters[0], _press("grab")), "empty again: the grab button grabs")
+	assert_true(not GrabRules.lets_go(fighters[0], _press("grab")), "nothing to let go")
 	assert_true(not GrabRules.wants(fighters[1], _press("grab")), "enemies have no grab")
 
 
@@ -90,7 +94,8 @@ func test_an_attack_button_throws_the_held_foe() -> void:
 	assert_eq(fighters[1].state, Fighter.State.DOWN, "and floors the foe")
 	assert_eq([fighters[0].holding, fighters[1].held_by], [0, 0], "nobody is held any more")
 	_run(fighters, 30)
-	assert_true(fighters[1].position.x > 580, "thrown well clear, the way the hero faces")
+	var landed := (fighters[1].position.x - 500) / GrabRules.BODY
+	assert_true(landed >= 2.0 and landed <= 3.0, "lands 2 to 3 bodies ahead (%.1f)" % landed)
 
 
 func test_the_hero_can_turn_and_throw_the_other_way() -> void:
@@ -101,20 +106,24 @@ func test_the_hero_can_turn_and_throw_the_other_way() -> void:
 	_run(fighters, 1, {1: turn})
 	assert_near(fighters[1].position.x, 500 - GrabRules.HOLD_GAP, "carried round behind")
 	_run(fighters, 30, {1: _press("heavy")})
-	assert_true(fighters[1].position.x < 440, "and thrown that way")
+	assert_true(fighters[1].position.x < 500 - 2 * GrabRules.BODY, "and thrown that way")
 
 
 func test_a_thrown_body_knocks_into_the_others_once() -> void:
-	var fighters := _scene("grappler", 2)
+	var fighters := _scene("grappler", 3)
 	_seize(fighters)
+	# Two right where the body comes down, one well past where it can land.
+	fighters[2].position.x = 540
+	fighters[3].position.x = 556
+	fighters[4].position.x = 640
 	var hits := _run(fighters, 40, {1: _press("light")})
 	var crashed := {}
 	for hit in hits:
 		if hit.move_id == "grappler_crash":
 			assert_true(not crashed.has(hit.defender_id), "each foe is hit once")
 			crashed[hit.defender_id] = true
-	assert_eq(crashed.size(), 2, "both foes in the way are knocked down")
-	assert_true(not crashed.has(2), "the thrown body does not hit itself")
+	assert_eq(crashed.keys(), [3, 4], "both foes in the way are knocked down")
+	assert_true(not crashed.has(5), "a body is not thrown far enough to reach the far one")
 	assert_eq(fighters[1].thrown_by, 0, "and is harmless once it lands")
 
 
@@ -306,8 +315,17 @@ func test_the_view_shows_the_reach_the_lift_and_the_carried_foe() -> void:
 	for view in views:
 		view.sync()
 	assert_eq(holder.animation, &"throw", "the throw plays")
-	assert_eq(carried.position, Vector2.ZERO, "and the foe is back on their own feet's spot")
-	assert_near(carried.rotation, 0.0, "upright in the sheet's own pose")
+	var lifted := -carried.position.y
+	assert_true(lifted > 20.0 and absf(carried.rotation) > 1.5, "flung from overhead, on its side")
+	_run(fighters, GrabRules.AIR_TICKS / 2)
+	for view in views:
+		view.sync()
+	assert_true(-carried.position.y < lifted, "coming down")
+	_run(fighters, GrabRules.AIR_TICKS)
+	for view in views:
+		view.sync()
+	assert_eq(carried.position, Vector2.ZERO, "landed: the foe lies on their own spot")
+	assert_near(carried.rotation, 0.0, "in the sheet's own pose")
 	for view in views:
 		view.queue_free()
 

@@ -820,7 +820,7 @@ static func world_boss_result(game: Game, run: WorldBossRun, paid: Dictionary) -
 	return parts["root"]
 
 
-static func knocked_out(game: Game, loss: int, at_boss := false) -> Control:
+static func knocked_out(game: Game, loss: int, wake: String) -> Control:
 	var root := Control.new()
 	root.set_anchors_preset(Control.PRESET_FULL_RECT)
 	root.mouse_filter = Control.MOUSE_FILTER_STOP
@@ -837,15 +837,16 @@ static func knocked_out(game: Game, loss: int, at_boss := false) -> Control:
 	heading.add_theme_constant_override("outline_size", 8)
 	heading.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	column.add_child(heading)
-	var here := str(game.zone.area.get("name", "the street"))
-	var where := (
-		"You come to just short of the fight. Try again."
-		if at_boss
-		else "You come to at the edge of %s. Fights you won stay won." % here
-	)
-	var text := UiKit.label(where, UiTheme.SIZE_H2, UiTheme.TEXT)
+	var there := str(game.content.area(wake).get("name", "safety"))
+	var text := UiKit.label("You come to in %s." % there, UiTheme.SIZE_H2, UiTheme.TEXT)
 	text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	column.add_child(text)
+	var kept := "Your story is kept: quests, streets reached and fights won."
+	if wake != game.zone.area_id:
+		kept += "\nCatch your breath, then take the taxi back to where you fell."
+	var story := UiKit.label(kept, UiTheme.SIZE_BODY, UiTheme.TEXT_DIM)
+	story.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	column.add_child(story)
 	var cost := UiKit.label(
 		"You dropped %d coins in the street." % loss if loss else "You had no coins to lose.",
 		UiTheme.SIZE_BODY,

@@ -102,20 +102,21 @@ func test_the_old_single_save_becomes_a_character_once() -> void:
 	_end()
 
 
-func test_four_slots_and_one_name_each() -> void:
+func test_five_slots_and_one_name_each() -> void:
 	var content := _content()
-	assert_eq(RosterRules.max_characters(content), 4, "four characters per account")
-	var three: Array[PlayerProfile] = []
-	for name: String in ["Ana", "Bea", "Cid"]:
-		three.append(PlayerProfile.new_game(content, "mika", name))
-	assert_eq(RosterRules.problem(three.size(), three, content, "Dot"), "", "a fourth is fine")
+	assert_eq(RosterRules.max_characters(content), 5, "five characters per account")
+	assert_eq(RosterRules.max_characters(content), content.jobs.size(), "one slot for each job")
+	var made: Array[PlayerProfile] = []
+	for name: String in ["Ana", "Bea", "Cid", "Dot"]:
+		made.append(PlayerProfile.new_game(content, "mika", name))
+	assert_eq(RosterRules.problem(made.size(), made, content, "Fay"), "", "a fifth is fine")
 	assert_eq(
-		RosterRules.problem(three.size(), three, content, "bea"),
+		RosterRules.problem(made.size(), made, content, "bea"),
 		"name",
 		"names are the account's own"
 	)
-	three.append(PlayerProfile.new_game(content, "mika", "Dot"))
-	assert_eq(RosterRules.problem(three.size(), three, content, "Eve"), "full", "not a fifth")
+	made.append(PlayerProfile.new_game(content, "mika", "Eve"))
+	assert_eq(RosterRules.problem(made.size(), made, content, "Gus"), "full", "not a sixth")
 
 
 func test_characters_share_nothing() -> void:
@@ -148,17 +149,17 @@ func test_the_characters_screen_plays_creates_and_deletes() -> void:
 	await tree.process_frame
 	await tree.process_frame
 	var slots := title.find_child("Slots", true, false)
-	assert_eq(slots.get_child_count(), 4, "four slots")
+	assert_eq(slots.get_child_count(), 5, "five slots")
 	var texts := []
 	for card: Button in slots.get_children():
 		texts.append(card.text)
-	assert_eq(texts.count("+\nNew character"), 2, "two free")
+	assert_eq(texts.count("+\nNew character"), 3, "three free")
 	for node in slots.find_children("*", "Control", true, false):
 		var control: Control = node
-		if control is Label and control.is_visible_in_tree():
+		if (control is Label or control is Button) and control.is_visible_in_tree():
 			assert_true(
 				Rect2(0, 0, 640, 360).grow(1).encloses(control.get_global_rect()),
-				"%s fits" % (control as Label).text
+				"%s %s fits" % [control.name, control.get("text")]
 			)
 	# A mouse click only chooses the card, so Delete can reach any of them.
 	var second := slots.get_child(1) as Button
@@ -187,16 +188,16 @@ func test_the_characters_screen_plays_creates_and_deletes() -> void:
 
 func test_a_full_account_takes_no_more() -> void:
 	_begin()
-	for name: String in ["Ana", "Bea", "Cid", "Dot"]:
+	for name: String in ["Ana", "Bea", "Cid", "Dot", "Eve"]:
 		_character("mika", name)
-	GameSession.start_new_game("mika", "Eve")
-	assert_true(not SaveStore.save(GameSession.profile), "a fifth is refused")
-	assert_eq(SaveStore.characters(_content()).size(), 4, "still four")
+	GameSession.start_new_game("mika", "Fay")
+	assert_true(not SaveStore.save(GameSession.profile), "a sixth is refused")
+	assert_eq(SaveStore.characters(_content()).size(), 5, "still five")
 	var old := PlayerProfile.new_game(_content(), "mika", "Old")
 	var data := old.to_dict()
 	data.erase("id")
 	_write(ROOT.path_join(SaveStore.LEGACY_SAVE), JSON.stringify(data))
-	assert_eq(SaveStore.characters(_content()).size(), 4, "an old save waits while full")
+	assert_eq(SaveStore.characters(_content()).size(), 5, "an old save waits while full")
 	assert_true(FileAccess.file_exists(ROOT.path_join(SaveStore.LEGACY_SAVE)), "and is kept")
 	var create: Node = load("res://scenes/create/CharacterCreate.tscn").instantiate()
 	tree.root.add_child(create)

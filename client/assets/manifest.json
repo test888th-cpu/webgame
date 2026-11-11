@@ -25571,6 +25571,7 @@
     },
     "sounds": {
       "arena_lock": "res://assets/audio/arena_lock.wav",
+      "body_slam": "res://assets/audio/body_slam.wav",
       "boss_roar": "res://assets/audio/boss_roar.wav",
       "break_glass": "res://assets/audio/break_glass.wav",
       "break_metal": "res://assets/audio/break_metal.wav",
@@ -25607,6 +25608,8 @@
       "skill_uppercut": "res://assets/audio/skill_uppercut.wav",
       "skill_whirlwind": "res://assets/audio/skill_whirlwind.wav",
       "steam_hiss": "res://assets/audio/steam_hiss.wav",
+      "step_1": "res://assets/audio/step_1.wav",
+      "step_2": "res://assets/audio/step_2.wav",
       "swing_heavy": "res://assets/audio/swing_heavy.wav",
       "swing_light": "res://assets/audio/swing_light.wav",
       "ui_back": "res://assets/audio/ui_back.wav",

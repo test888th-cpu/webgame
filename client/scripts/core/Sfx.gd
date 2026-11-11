@@ -7,23 +7,29 @@ extends Node
 
 const VOICES := 12
 const REPEAT_MSEC := 40
+## Footfalls (Footsteps) have voices of their own, so a crowd walking never
+## cuts a blow's sound short.
+const STEP_VOICES := 4
+const STEP_JITTER := 0.08
 
 var _streams := {}
 var _players: Array[AudioStreamPlayer] = []
 var _next := 0
 var _last := {}
+var _steps: Array[AudioStreamPlayer] = []
+var _next_step := 0
 
 
 func _ready() -> void:
-	for i in VOICES:
+	for i in VOICES + STEP_VOICES:
 		var player := AudioStreamPlayer.new()
 		add_child(player)
-		_players.append(player)
+		(_players if i < VOICES else _steps).append(player)
 
 
 func _exit_tree() -> void:
 	# Release the streams before the engine checks for leaked resources.
-	for player in _players:
+	for player in _players + _steps:
 		player.stop()
 		player.stream = null
 	_streams.clear()
@@ -51,6 +57,20 @@ func play(id: String, volume_db := 0.0, pitch_jitter := 0.06, pitch := 1.0) -> v
 	player.stream = stream
 	player.volume_db = volume_db + linear_to_db(volume)
 	player.pitch_scale = pitch + randf_range(-pitch_jitter, pitch_jitter)
+	player.play()
+
+
+## Plays footfall `id` (quiet, `volume_db`) on the footstep voices.
+func step(id: String, volume_db: float, pitch := 1.0) -> void:
+	var volume := float(GameSession.settings.get("sfx_volume", 0.8))
+	var stream := _stream(id)
+	if volume <= 0.0 or stream == null or DisplayServer.get_name() == "headless":
+		return
+	var player := _steps[_next_step]
+	_next_step = (_next_step + 1) % STEP_VOICES
+	player.stream = stream
+	player.volume_db = volume_db + linear_to_db(volume)
+	player.pitch_scale = pitch + randf_range(-STEP_JITTER, STEP_JITTER)
 	player.play()
 
 

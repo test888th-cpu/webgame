@@ -58,20 +58,20 @@ func test_a_broken_save_falls_back_to_the_last_good_one() -> void:
 
 func test_an_unreadable_character_is_kept_and_holds_its_slot() -> void:
 	_begin()
-	for name: String in ["Ana", "Bea", "Cid"]:
+	for name: String in ["Ana", "Bea", "Cid", "Dot"]:
 		_saved(name)
 	var broken := SaveStore.new_id()
 	DirAccess.make_dir_recursive_absolute(SaveStore.folder())
 	_write(SaveStore.path_of(broken), '{"version": 999}')
-	assert_eq(SaveStore.characters(_content()).size(), 3, "three can be played")
-	assert_eq(SaveStore.unreadable(_content()), [broken], "the fourth is shown as unreadable")
-	assert_eq(SaveStore.slots_used(), 4, "and holds its slot")
-	var extra := PlayerProfile.new_game(_content(), "mika", "Dot")
+	assert_eq(SaveStore.characters(_content()).size(), 4, "four can be played")
+	assert_eq(SaveStore.unreadable(_content()), [broken], "the fifth is shown as unreadable")
+	assert_eq(SaveStore.slots_used(), 5, "and holds its slot")
+	var extra := PlayerProfile.new_game(_content(), "mika", "Eve")
 	extra.id = SaveStore.new_id()
-	assert_true(not SaveStore.save(extra), "so no fifth is made in its place")
+	assert_true(not SaveStore.save(extra), "so no sixth is made in its place")
 	assert_true(FileAccess.file_exists(SaveStore.path_of(broken)), "and its file is untouched")
 	assert_true(SaveStore.delete_character(broken), "it can be deleted (moved aside)")
-	assert_eq(SaveStore.slots_used(), 3, "freeing the slot")
+	assert_eq(SaveStore.slots_used(), 4, "freeing the slot")
 	_end()
 
 

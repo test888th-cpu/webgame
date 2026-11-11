@@ -425,6 +425,8 @@ func _pick_skill(zone: ZoneSim, foes: Array[Fighter], target: Fighter) -> String
 		# A grab with no blow of its own is wasted on a foe who cannot be held.
 		if move.grab and skill.get("grab", {}).is_empty() and not GrabRules.can_hold(target):
 			continue
+		if GrabRules.barred(hero, move):  # No grab with a weapon in hand.
+			continue
 		var facing := _skill_facing(zone, foes, target, skill_id)
 		var hits := 0
 		var weight := 0.0

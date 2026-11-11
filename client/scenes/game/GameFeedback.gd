@@ -63,6 +63,8 @@ func on_event(event: ZoneEvent) -> void:
 		"dodge":
 			_dust(event.data["id"])
 			Sfx.play("dodge", -4.0)
+		"slam":
+			_slam(int(event.data["id"]), event.data["at"])
 		"pickup":
 			# Quiet and short: coins are picked up all the time.
 			if event.data["kind"] == "money":
@@ -299,11 +301,27 @@ func _on_hit(hit: CombatEvent) -> void:
 		# A boss beaten off its feet: rare, so it lands hard.
 		view.shake(5.0)
 		view.show_text("BREAK!", hit.position, UiTheme.GOLD)
-	if hit.knocked_down or hit.ko:
+	var thrown := view.zone.fighter(hit.defender_id)
+	# A thrown body's fall is heard and felt when it lands ("slam"), not now.
+	if (hit.knocked_down or hit.ko) and not (thrown and thrown.airborne > 0):
 		Sfx.play_later("knockdown", 0.18, -2.0)
 		_dust(hit.defender_id, 0.2)
 	if hit.ko and hit.defender_id != ZoneSim.HERO_ID:
 		Sfx.play("ko", -4.0)
+
+
+## A thrown body hits the street: a deep thud under a bone-jarring impact, the
+## ground shakes, dust bursts out both ways, and the body freezes for a beat
+## so the weight lands.
+func _slam(id: int, at: Vector2) -> void:
+	Sfx.play("body_slam", 0.0, 0.04)
+	Sfx.play("knockdown", -6.0, 0.04, 0.8)
+	view.shake(6.0)
+	Fx.spawn(view.effects, content, "dust", at + Vector2(-8, 0), true, 1.3)
+	Fx.spawn(view.effects, content, "dust", at + Vector2(8, 0), false, 1.3)
+	var body := view.view_of(id)
+	if body:
+		body.impact(Color.WHITE, 0.08, 0.12)
 
 
 ## Fists and feet land with a recorded punch (lower and backed by a thump
