@@ -29,7 +29,11 @@ func test_the_blocks_lead_one_into_the_next_and_back() -> void:
 	assert_eq(middle["west"], {"to": gid, "entry": "east", "block": 4}, "block 5 west: 4")
 	assert_eq(middle["east"], {"to": gid, "entry": "west", "block": 6}, "block 5 east: 6")
 	assert_true(not BlockRules.exits(c, gid, 10).has("east"), "the last block: no way on")
-	assert_eq(BlockRules.exits(c, "saltmarket", 1), c.area("saltmarket")["exits"], "a street")
+	var street := BlockRules.exits(c, "saltmarket", 1)
+	for side: String in c.area("saltmarket")["exits"]:
+		var own: Dictionary = c.area("saltmarket")["exits"][side]
+		assert_eq(street[side]["to"], own["to"], "a street keeps its own exit " + side)
+		assert_eq(street[side]["block"], 1, "into a one-block area")
 
 
 func test_walking_through_all_ten_blocks_and_back() -> void:

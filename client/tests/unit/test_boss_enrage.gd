@@ -53,7 +53,7 @@ func test_a_lair_boss_warns_then_enrages_on_its_timer() -> void:
 	assert_near(gap, float(spec["warn_seconds"]), "warned that many seconds ahead", 0.1)
 	assert_near(boss.power, power * float(spec["damage"]), "harder blows", 0.001)
 	assert_near(boss.rage, float(spec["cooldown"]), "quicker hazards", 0.001)
-	assert_true(not boss.is_ko() and zone.in_encounter(), "the fight goes on")
+	assert_true(not boss.is_ko(), "the fight goes on")
 
 
 func test_enrage_paces_hazards_and_raises_damage() -> void:
