@@ -21,11 +21,19 @@ Owner's requests (2026-11-11).
   either end of the street unless it means to walk on east (blocks and exits).
 - **Grappler compensation**, measured (3 minutes of auto battle on the level 9, 29 and
   50 grounds, 3 seeds; before = the release before the throw changes): basic combo
-  damage x1.5 (`grappler_short` 9, `grappler_heavy` 12, `grappler_push` 18) and the
-  grab skills' throws, crashes and squeezes x1.6. Oren: kills 261 -> 232, XP 66.9k ->
-  61.1k, knock-outs 1 -> 0 of 9, damage taken 15.0 -> 12.5 times his health. Without
-  it, pacing the grabs alone cost him 31% of his kills; a grab every 3 s, or throws at
-  x2.0, measured no better.
+  damage x1.5 (`grappler_short` 9, `grappler_heavy` 12, `grappler_push` 18); Power
+  Throw and Crowd Toss throws and crashes x1.3, Ground Slam's x1.2. Backbreaker, Crushing
+  Hold and Titan Destruction keep theirs, so the balance rules still hold (his ultimate
+  2 to 3 times his strongest skill, none out-hits the Boxer's, every boss skill at
+  least the median hero skill). Oren: kills 261 -> 218, XP 66.9k -> 54.7k, knock-outs
+  1 -> 0 of 9, damage taken 15.0 -> 14.2 times his health. Pacing the grabs with no
+  compensation: 179 kills; a grab every 3 s measured worse, and higher throw damage
+  broke those rules.
+- **Footsteps are 11 dB quieter** (hero -24 dB, monsters -29 dB).
+- **Auto battle hunts a lair after the story** too (it said there was no one to fight):
+  it may run wherever there is a living field.
+- **Block signs:** the signs at each end of a block name the next and the previous
+  block ("Block 3/10 >", "< Block 1/10"), or the area the end leads to.
 
 ### Changed: ten blocks per farming ground and lair; roaming lair mini-bosses; ranks; footsteps
 Owner's requests (2026-11-11).
