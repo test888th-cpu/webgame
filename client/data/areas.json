@@ -6273,7 +6273,7 @@
       "region": "Main Control Centre",
       "name": "Coolant Control Room",
       "level": 55,
-      "width": 2000,
+      "width": 1300,
       "safe": false,
       "kind": "lair",
       "purpose": "Ten blocks of Coolant Vaults's fighters at the lair's level, where Commander Arthit, Reinstated roams as a mini-boss: it turns up in one block at random, and comes back 30 minutes after it falls, with its gear.",
@@ -6315,9 +6315,9 @@
       "mini_boss": "arthit_reinstated",
       "spawning": {
         "camps": [
-          520,
-          860,
-          1200
+          480,
+          780,
+          1080
         ],
         "camp_size": [
           2,
@@ -6413,7 +6413,7 @@
       "region": "Main Control Centre",
       "name": "Tank Hall",
       "level": 60,
-      "width": 2000,
+      "width": 1300,
       "safe": false,
       "kind": "lair",
       "purpose": "Ten blocks of Reactor Underworks's fighters at the lair's level, where Subject Twelve, Relapsed roams as a mini-boss: it turns up in one block at random, and comes back 30 minutes after it falls, with its gear.",
@@ -6455,9 +6455,9 @@
       "mini_boss": "twelve_relapsed",
       "spawning": {
         "camps": [
-          520,
-          860,
-          1200
+          480,
+          780,
+          1080
         ],
         "camp_size": [
           2,
@@ -6601,7 +6601,7 @@
       "region": "Main Control Centre",
       "name": "The Crucible",
       "level": 65,
-      "width": 2000,
+      "width": 1300,
       "safe": false,
       "kind": "lair",
       "purpose": "Ten blocks of Foundry Depths's fighters at the lair's level, where Unit K-7, Overdriven roams as a mini-boss: it turns up in one block at random, and comes back 30 minutes after it falls, with its gear.",
@@ -6643,9 +6643,9 @@
       "mini_boss": "k7_overdriven",
       "spawning": {
         "camps": [
-          520,
-          860,
-          1200
+          480,
+          780,
+          1080
         ],
         "camp_size": [
           2,
@@ -6789,7 +6789,7 @@
       "region": "Main Control Centre",
       "name": "Heart Core Chamber",
       "level": 70,
-      "width": 2000,
+      "width": 1300,
       "safe": false,
       "kind": "lair",
       "purpose": "Ten blocks of The Iron Heart's fighters at the lair's level, where The Wiroj Protocol roams as a mini-boss: it turns up in one block at random, and comes back 30 minutes after it falls, with its gear.",
@@ -6831,9 +6831,9 @@
       "mini_boss": "wiroj_protocol",
       "spawning": {
         "camps": [
-          520,
-          860,
-          1200
+          480,
+          780,
+          1080
         ],
         "camp_size": [
           2,
@@ -6977,7 +6977,7 @@
       "region": "The Core Facility",
       "name": "Spillway Gatehouse",
       "level": 45,
-      "width": 1400,
+      "width": 1300,
       "safe": false,
       "kind": "lair",
       "purpose": "Ten blocks of Core Spillway's fighters at the lair's level, where Spillway Chief roams as a mini-boss: it turns up in one block at random, and comes back 30 minutes after it falls, with its gear.",
@@ -7019,9 +7019,9 @@
       "mini_boss": "spillway_chief",
       "spawning": {
         "camps": [
-          520,
-          860,
-          1200
+          480,
+          780,
+          1080
         ],
         "camp_size": [
           2,

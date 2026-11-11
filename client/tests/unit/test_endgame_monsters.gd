@@ -48,7 +48,7 @@ func test_every_endgame_monster_and_boss_is_tinted() -> void:
 		for kind: String in c.area(gid)["spawning"]["pool"]:
 			assert_true(c.enemy(kind).has("tint"), kind + ": tinted")
 	for lair_id in AreaRules.lairs(c):
-		var boss := str(c.area(lair_id)["encounters"][0]["waves"][0][0])
+		var boss := LairRules.boss(c, lair_id)
 		assert_true(c.enemy(boss).has("tint"), boss + ": tinted")
 	for boss: String in ["slag_titan", "iron_sovereign"]:
 		assert_true(c.enemy(boss).has("tint"), boss + ": tinted")

@@ -4,6 +4,37 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed: ten blocks per farming ground and lair; roaming lair mini-bosses; ranks; footsteps
+Owner's requests (2026-11-11).
+- **Ten blocks per farming ground** (`BlockRules`, areas.json `"blocks": 10`): each ground
+  is ten blocks of the same street, level, monsters and camps, walked through east and
+  west (1 to 10 and back). The first block's west edge and the last block's east edge
+  are the ground's own exits; arriving from the east puts the hero in the last block.
+  The arrival toast names the block ("Block 3/10"); street weapons stay in their block.
+- **Lairs are ten blocks of field with a roaming mini-boss** (`LairRules`): each lair is
+  a living field at its level (the pool of the ground beside it), with no arena. Its
+  boss (areas.json `"mini_boss"`) turns up in one block at random, with no warning, and
+  comes back 30 minutes (`PERIOD_SECONDS`) after it falls, in another block. The wait is
+  kept per character (save field `lairs`, unix seconds). It keeps its skills, hazards,
+  summons and fight timer. The map, the drop sources and the boss-skill tier read it.
+- **Elite, mini-boss and boss are separate** ranks: a named elite (`"elite"` in
+  enemies.json, e.g. the Smog Warden) shows the elite star (gold), not the mini-boss
+  horns, and **can be grabbed and thrown** like any monster (it still has poise, so it
+  is held for half as long). Bosses and mini-boss keep their own marks and can never be
+  held.
+- **Stronger mid-story mini-bosses**, measured (each against all five heroes at its
+  area level in shop gear with food, 2 seeds): Security Chief, The Ringmaster and
+  Subject 12 max HP x1.6 (Subject 12 x1.4) and power x1.25 (their enraged phase too);
+  Pit Champion max HP x1.3. Before / after: Security Chief 26 s, 0.7x max HP taken ->
+  49 s, 1.9x; Ringmaster 31 s, 0.7x -> 53 s, 1.5x; Subject 12 36 s, 0.6x -> 54 s, 1.3x;
+  Pit Champion 31 s, 1.4x -> 44 s, 1.8x; all still won 10 of 10. The Sludge Foreman
+  (43 s, 2.4x) and the lairs' mini-bosses (already 0 to 6 wins in 10 in shop gear) are
+  unchanged.
+- **Footsteps** are recorded steps on stone (CC0, Fantozzi's Footsteps on OpenGameArt;
+  `art/sounds/sounds.json`, `step_l1`..`step_r3`), left and right, a different take each
+  time, played on the walk animation's foot-contact frames (`FighterView.footfall`).
+  They were synthesised thumps every 24 px, about twice the pace of the feet.
+
 ### Fixed: auto battle at home; Changed: slammed foes stay down longer; three throw poses
 Owner's requests (2026-11-11).
 - **Auto battle no longer bounces between Depot Yard and the city.** A hurt hero with no

@@ -293,8 +293,8 @@ func test_an_elite_drops_three_rolls_of_its_loot() -> void:
 func test_no_other_area_has_a_living_field() -> void:
 	var c := _content()
 	for area_id: String in c.areas:
-		var farm := AreaRules.kind(c, area_id) == AreaRules.FARM
-		assert_eq(FarmSpawner.active(c, area_id), farm, area_id + ": a field only in a ground")
+		var farm := AreaRules.kind(c, area_id) in AreaRules.GATED
+		assert_eq(FarmSpawner.active(c, area_id), farm, area_id + ": a field in a ground or lair")
 	var zone := ZoneSim.new(c, _hero(5), "saltmarket", "west", 3)
 	for tick in 300:
 		for event in zone.tick(FighterInput.new()):
@@ -326,7 +326,8 @@ func test_the_validator_checks_every_spawning_block() -> void:
 	story.areas["saltmarket"]["spawning"] = story.areas[GROUND]["spawning"].duplicate(true)
 	story.errors.clear()
 	story.validate()
-	assert_true("only a farming ground has one" in "\n".join(story.errors), "not on the street")
+	var said := "\n".join(story.errors)
+	assert_true("only a farming ground or a lair has one" in said, "not on the street")
 	assert_eq(_content().errors, PackedStringArray(), "the shipped data is clean")
 
 

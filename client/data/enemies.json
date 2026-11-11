@@ -1075,7 +1075,7 @@
       "max_hp": 672,
       "speed": 0.85,
       "defense": 3,
-      "power": 1.4,
+      "power": 1.25,
       "scale": 1.2,
       "boss": true,
       "moveset": {
@@ -1099,7 +1099,7 @@
         {
           "below": 0.5,
           "speed": 1.0,
-          "power": 1.54,
+          "power": 1.38,
           "cooldown": 26,
           "heavy_chance": 0.45,
           "heavy_cooldown": 300,
@@ -1377,7 +1377,7 @@
       "max_hp": 896,
       "speed": 0.95,
       "defense": 3,
-      "power": 1.4,
+      "power": 1.25,
       "scale": 1.25,
       "boss": true,
       "poise": 70,
@@ -1402,7 +1402,7 @@
         {
           "below": 0.5,
           "speed": 1.1,
-          "power": 1.54,
+          "power": 1.38,
           "cooldown": 22,
           "heavy_chance": 0.45,
           "heavy_cooldown": 270,
@@ -1674,10 +1674,10 @@
     },
     "subject_twelve": {
       "name": "Subject 12",
-      "max_hp": 1024,
+      "max_hp": 896,
       "speed": 0.9,
       "defense": 3,
-      "power": 1.4,
+      "power": 1.25,
       "scale": 1.4,
       "boss": true,
       "poise": 80,
@@ -1697,7 +1697,7 @@
         {
           "below": 0.5,
           "speed": 1.05,
-          "power": 1.54,
+          "power": 1.38,
           "cooldown": 24,
           "heavy_chance": 0.45,
           "heavy_cooldown": 270,
