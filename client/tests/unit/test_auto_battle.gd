@@ -328,3 +328,38 @@ func test_it_braces_when_hurt_in_a_fight() -> void:
 	assert_true(pilot.think(zone).skill != "defensive_stance", "not at full health")
 	zone.hero.hp = zone.hero.max_hp / 3
 	assert_eq(pilot.think(zone).skill, "defensive_stance", "hurt and close: brace")
+
+
+func test_it_never_tries_to_hold_a_boss_or_mini_boss() -> void:
+	for kind: String in ["smog_warden", "sludge_foreman"]:
+		# In the yard, alone with it: a street's own thugs may of course be grabbed.
+		var zone := _zone("depot_yard", "oren", 30)
+		zone.hero.position = Vector2(300, 300)
+		for other in zone.enemies():
+			zone.fighters.erase(other)
+			zone.brains.erase(other.id)
+		var foe := _foe(zone, kind, Vector2(324, 300))
+		foe.max_hp = 100000
+		foe.hp = 100000
+		var pilot := AutoPilot.new(_content())
+		var used := {}
+		var was_held := false
+		for t in 1200:
+			var input := pilot.think(zone)
+			if input.skill != "":
+				used[input.skill] = true
+			assert_true(not input.grab, kind + ": the grab button is never pressed")
+			zone.tick(input)
+			was_held = was_held or foe.state == Fighter.State.HELD
+			if zone.hero.is_ko():
+				break
+		assert_true(not was_held, kind + " is never held")
+		assert_true(not used.has("iron_grip"), kind + ": no bare grab is spent on it")
+		assert_true(not used.is_empty(), "%s: the other skills still strike it (%s)" % [kind, used])
+	var throwable := _zone("saltmarket", "oren", 30)
+	var thug := _foe(throwable, "dock_thug", Vector2(624, 300))
+	var oren := throwable.hero
+	var plain := AutoSkills.power(_content(), oren, oren.skills["backbreaker"], thug)
+	thug.ungrabbable = true
+	var shoved := AutoSkills.power(_content(), oren, oren.skills["backbreaker"], thug)
+	assert_true(shoved < plain, "auto counts a grab on such a foe as its shove only")

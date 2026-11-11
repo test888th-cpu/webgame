@@ -81,8 +81,8 @@ equipment) is stored per hero. Temporary combat state is never persisted.
   jab, finisher (four fast, light punches). The heavy attack is shared.
 - **[built]** Grab and throw: G (or E / USE / B with empty hands and nothing to pick up)
   seizes the foe in front; any attack throws them, and the thrown body knocks down others
-  it meets. Holds end by themselves, a hit on the holder frees the foe, bosses cannot be
-  held (they are shoved) and elites only briefly. Each job grabs its own way
+  it meets. Holds end by themselves, a hit on the holder frees the foe. Only ordinary
+  monsters and players are ever held: bosses and mini-bosses are shoved instead. Each job grabs its own way
   (`client/data/jobs.json` `grab`); the Grappler's is the longest and hardest.
 - **[built]** Job skills (`client/data/skills.json`, kits in `client/data/jobs.json`): each
   job has six active skills, two passives and one ultimate. Active skills unlock at levels

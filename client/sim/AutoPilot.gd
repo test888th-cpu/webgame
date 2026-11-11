@@ -418,9 +418,12 @@ func _pick_skill(zone: ZoneSim, foes: Array[Fighter], target: Fighter) -> String
 			continue
 		var skill: Dictionary = hero.skills[skill_id]
 		var move := _content.moves.get_move(str(skill["move"]))
-		var power := AutoSkills.power(_content, hero, skill)
+		var power := AutoSkills.power(_content, hero, skill, target)
 		# Stances answer an attack (_defend); a skill with no blow braces (_fight).
 		if move == null or move.counter or power <= 0.0 or not UltimateRules.ready(hero, skill):
+			continue
+		# A grab with no blow of its own is wasted on a foe who cannot be held.
+		if move.grab and skill.get("grab", {}).is_empty() and not GrabRules.can_hold(target):
 			continue
 		var facing := _skill_facing(zone, foes, target, skill_id)
 		var hits := 0

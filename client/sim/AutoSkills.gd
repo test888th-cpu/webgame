@@ -1,14 +1,18 @@
 class_name AutoSkills
 extends RefCounted
 ## What auto battle needs to know about the hero's skills to choose among
-## them as a player would: how hard a skill hits in all, which skills are
+## them as a player would: how hard a skill hits in all (a grab on a boss or
+## mini-boss only shoves, so it is worth only its shove), which skills are
 ## counter stances (answers to an attack, never openers), which only brace
 ## the hero, and which need a full gauge. Reads the same data the rules use.
 
 
-## Damage of all of `skill`'s blows together on one target (a Fighter.skills
-## entry): its moves, and the throw of a skill that grabs.
-static func power(content: ContentDB, hero: Fighter, skill: Dictionary) -> float:
+## Damage of all of `skill`'s blows together on `target` (a Fighter.skills
+## entry): its moves, and for a skill that grabs its throw, or only its
+## shove when `target` cannot be held (a boss or mini-boss).
+static func power(
+	content: ContentDB, hero: Fighter, skill: Dictionary, target: Fighter = null
+) -> float:
 	var sum := 0.0
 	for id: String in SkillSequence.moves(skill):
 		var move := content.moves.get_move(id)
@@ -16,8 +20,10 @@ static func power(content: ContentDB, hero: Fighter, skill: Dictionary) -> float
 	var first := content.moves.get_move(str(skill.get("move", "")))
 	if first != null and first.grab:
 		var plan: Dictionary = skill.get("grab", {})
-		var throw := content.moves.get_move(str(plan.get("throw", hero.grab.get("throw", ""))))
-		sum += throw.damage if throw else 0
+		var held := target == null or GrabRules.can_hold(target)
+		var blow := "throw" if held else "shove"
+		var landed := content.moves.get_move(str(plan.get(blow, hero.grab.get(blow, ""))))
+		sum += landed.damage if landed else 0
 	return sum * float(skill.get("scale", {}).get("damage", 1.0))
 
 

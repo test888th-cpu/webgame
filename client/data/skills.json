@@ -570,7 +570,7 @@
       "type": "passive",
       "unlock_level": 10,
       "icon": "skill_wristlock",
-      "description": "Your grabs hold ordinary foes 40% longer. Bosses still cannot be held, and nobody can be grabbed twice in a row.",
+      "description": "Your grabs hold ordinary foes 40% longer. Bosses and mini-bosses still cannot be held, and nobody can be grabbed twice in a row.",
       "passive": {
         "always": true,
         "effects": {
@@ -615,7 +615,7 @@
       "fx": "slam",
       "fx_at": "self",
       "sound": "skill_slam",
-      "description": "Lunge, seize a foe, lift them overhead and drive them into the street. The shockwave floors everyone around. A boss cannot be lifted: it takes the blow and the shockwave instead.",
+      "description": "Lunge, seize a foe, lift them overhead and drive them into the street. The shockwave floors everyone around. A boss or mini-boss cannot be lifted: it takes the blow and the shockwave instead.",
       "grab": {
         "hold": 30,
         "throw": "titan_slam",
