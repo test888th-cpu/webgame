@@ -45,7 +45,9 @@ func test_the_steps_of_the_first_stage() -> void:
 	StreetMemory.visit(profile, "saltmarket")
 	assert_eq(StoryAuto.step(profile, c, "saltmarket", false)["do"], StoryAuto.EAST, "and on")
 	var far := StoryAuto.step(profile, c, "depot_yard", true)
-	assert_eq(far, {"do": StoryAuto.RIDE, "to": "saltmarket"}, "to the furthest reached")
+	assert_eq(far, {"do": StoryAuto.EAST, "to": "saltmarket"}, "next door: walk, no taxi")
+	var ride := StoryAuto.step(profile, c, "main_city", true)
+	assert_eq(ride, {"do": StoryAuto.RIDE, "to": "saltmarket"}, "farther: the taxi")
 	StreetMemory.visit(profile, "canal_works")
 	assert_eq(StoryAuto.step(profile, c, "canal_works", false)["do"], StoryAuto.STAY, "the boss")
 	var again := StoryAuto.step(profile, c, "canal_works", true)
@@ -165,7 +167,7 @@ func test_a_quest_left_far_behind_does_not_drag_the_hero_back() -> void:
 	assert_eq(step["do"], StoryAuto.HERE, "the first quest is far back: fight on here")
 	assert_eq(step["to"], "canal_works", "and it says where the quest is")
 	var near := StoryAuto.step(profile, c, "saltmarket", false)
-	assert_eq(near["do"], StoryAuto.RIDE, "close by, auto still goes for it")
+	assert_eq(near, {"do": StoryAuto.EAST, "to": "canal_works"}, "close by, auto walks to it")
 
 
 func test_with_the_quest_far_behind_auto_walks_on_instead_of_looping() -> void:

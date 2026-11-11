@@ -282,7 +282,7 @@ static func run_loop(content: ContentDB, setup: Dictionary) -> Dictionary:
 	profile.money = int(setup.get("money", 500))
 	var keep := int(setup.get("keep", 10))
 	var home := AreaRules.rest_home(content, area_id)
-	var fare := maxi(0, AutoRules.fare(content, home))
+	var fare := AutoRules.ride_fare(content, home, area_id)
 	var seed := int(setup.get("seed", 1))
 	var zone := ZoneSim.new(content, profile, home, "", seed)
 	AutoRules.restock(profile, content, home, keep, fare)

@@ -261,16 +261,17 @@ func _rest_and_return(story := false) -> void:
 		stop("Area clear. Auto off." if cleared else "Out of food. Auto off.")
 		return
 	var home := AreaRules.rest_home(content, farm_area)
-	var fare := maxi(0, AutoRules.fare(content, home))
+	var fare := AutoRules.ride_fare(content, home, farm_area)
 	_travelling = true
-	_game.enter_area(home, "")
+	_game.enter_area(home, "west" if home == farm_area else "")
 	var keep := int(GameSession.settings.get("auto_food", 10.0))
 	var bought := AutoRules.restock(_game.profile, content, home, keep, fare)
 	if not EconomyRules.charge(_game.profile, fare):
 		_travelling = false
 		stop("Not enough coins for the ride back. Auto off.")
 		return
-	_game.enter_area(farm_area, "west")
+	if home != farm_area:
+		_game.enter_area(farm_area, "west")
 	_travelling = false
 	var text := "Rested at %s" % content.area(home).get("name", home)
 	if bought:

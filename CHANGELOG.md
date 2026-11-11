@@ -4,6 +4,40 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Fixed: auto battle at home; Changed: slammed foes stay down longer; three throw poses
+Owner's requests (2026-11-11).
+- **Auto battle no longer bounces between Depot Yard and the city.** A hurt hero with no
+  food in Depot Yard was sent to rest in the city and, without coins for the taxi back,
+  left there with auto off; from the city, auto took the taxi to Depot Yard. Now an area
+  that heals on entry is its own rest (`AreaRules.rest_home`), a place one walk away is
+  never paid for (`AutoRules.ride_fare`, `AreaRules.next_door`), and the story walks
+  from the city into Depot Yard through its east exit instead of riding (`StoryAuto`).
+  The harness uses the same fare.
+- **A slammed foe lies on the street for 1.5 s** (`GrabRules.SLAM_DOWN_TICKS` 90, was
+  the 50-tick knockdown) before getting up. A knockdown may now carry its own length
+  (`Fighter.state_duration`); every other knockdown is unchanged.
+- **Throws land 3 to 4 bodies ahead** (`MAX_THROW_BODIES` 4; was 2 to 3): Boxer and
+  Street Fighter 3, Counter Fighter and Brawler 3.5, Grappler 4 (throw knockback 40,
+  49, 58; Power Throw and Crowd Toss 58, Crushing Hold 40).
+- **Three throw poses** (`GrabRules.POSES`, a `"pose"` on each job's and grab skill's
+  grab, validated on load), drawn from the existing frames by `FighterView.POSES`. The
+  bodies stay side-on, facing each other, never turned to the camera:
+  - *shoulder toss* (`overhead`, every job's grab; Power Throw, Crowd Toss), to the
+    owner's drawing: face to face with the hands at the waist (the grab frames),
+    lifted across the shoulders head to the back (lift), **one step forward**
+    (`GrabRules.STEP_LENGTH` over `STEP_TICKS`; no throw before the step is taken,
+    a throw pressed sooner waits for it), tossed forward (throw) flat as it was
+    carried, landing face down with its head towards the thrower, lying there
+    1.5 s, then getting up. Every hold now lasts at least `READY_TICKS` + 1. The
+    thrower's release (17 ticks, unchanged) holds the one-handed toss frame for the
+    first half of the flight, then LPC's thrust frame 5 (borrowed whole into the
+    throw row of every LPC character, `art/lpc/characters.json`; no edited frames);
+  - *body slam* (Backbreaker, Crushing Hold): lifted to the chest, slammed down
+    ahead;
+  - *piledriver* (the Grappler's Ground Slam and Titan Destruction): hung upside down
+    against the thrower's chest; the thrower jumps (`Fighter.hop`) and drives it head
+    first into the street where it stands (at most half a body of travel).
+
 ### Added: every boss and mini-boss has skills of its own
 - **110 boss skills** for all 24 bosses: 10 mini-bosses (3-4 each), 6 stage bosses (4-5)
   and 8 world bosses (5-7). Each has a unique id (`MB_`, `SB_` or `WB_`, the owner, a

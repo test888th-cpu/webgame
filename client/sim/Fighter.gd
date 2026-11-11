@@ -77,6 +77,11 @@ var thrown_hits := {}
 var airborne := 0
 ## True on the one tick a thrown body hits the ground (the slam).
 var landed := false
+## How a held body is carried and thrown (GrabRules.POSES): presentation
+## reads it; the rules only use it to keep a piledriver in place.
+var grab_pose := ""
+## Ticks left of a thrower's jump into a piledriver (presentation only).
+var hop := 0
 ## The skill being used ("" outside one) and which of its moves is running
 ## (SkillSequence). Cleared by any state but ATTACK, so a hit ends the skill.
 var skill_id := ""

@@ -80,6 +80,15 @@ static func fare(content: ContentDB, area_id: String) -> int:
 	return -1
 
 
+## What auto pays to go from `home` to `to`: nothing to stay, nothing to a
+## place one walk away (the city and Depot Yard are next door), else the
+## taxi's fare (0 when `home` has no taxi).
+static func ride_fare(content: ContentDB, home: String, to: String) -> int:
+	if home == to or AreaRules.next_door(content, home, to):
+		return 0
+	return maxi(0, fare(content, home))
+
+
 ## Buys food sold in `area_id` (the best buy for this hero first, see
 ## FoodRules.shopping_list) until the hero carries `keep` foods in all, never
 ## spending the coins kept back (`reserve`, the taxi fare back out). Returns
