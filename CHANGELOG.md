@@ -34,6 +34,11 @@ Owner's requests (2026-11-11).
   `art/sounds/sounds.json`, `step_l1`..`step_r3`), left and right, a different take each
   time, played on the walk animation's foot-contact frames (`FighterView.footfall`).
   They were synthesised thumps every 24 px, about twice the pace of the feet.
+- Balance of the combat changes since the last release (the step before a throw, 3 to
+  4 body throws, 1.5 s on the street), measured with auto battle: five heroes, three
+  minutes on the level 9, 29 and 50 grounds, 3 seeds each, before and after. Riku, Kan,
+  Dao and Mika: identical (auto battle never throws for them). Oren (Grappler): kills
+  261 -> 234 (-10%), XP -8%, knock-outs 1 -> 0 of 9, damage taken the same.
 
 ### Fixed: auto battle at home; Changed: slammed foes stay down longer; three throw poses
 Owner's requests (2026-11-11).
