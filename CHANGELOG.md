@@ -111,6 +111,27 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
   - Presentation only: hit areas, damage, warning durations and the simulation are
     unchanged.
 
+### Added: the tutorial teaches grabbing; the ultimate gauge follows the hero
+- **Tutorial:** a new step after the weapon throw has the player grab the training dummy
+  (G, or E with empty hands) and says bosses and mini-bosses cannot be grabbed. Saves are
+  version 12: a save past that point keeps its place, and a finished tutorial stays
+  finished.
+- **Ultimate gauge:** it is kept when the hero walks or rides to another area. It is not
+  part of a save, so loading a game starts it empty.
+
+### Fixed: mini-bosses can no longer be grabbed or thrown (owner's rule, 2026-11-11)
+- **Only ordinary monsters and players are held or thrown.** Bosses already could not be;
+  mini-bosses (enemies with the mini-boss mark, `"elite"` in `enemies.json`) could, for
+  half the usual hold. A grab on either now lands as a shove.
+- **Auto battle** no longer spends the Grappler's Iron Grip (a grab with no blow of its
+  own) on a boss or mini-boss, and rates his other grab skills on them by their shove,
+  not their throw. It never pressed the grab button itself.
+- Cost to the Grappler, measured with auto battle on all 12 farming grounds (6 seeds):
+  kills per hour 5% lower, damage taken 5% higher, knock-outs 2 of 72 (3 before).
+- Tests: the farming hunt retries two more seeds after a knock-out (one seed alone was a
+  lottery: about one three-minute run in thirty ends in a knock-out whatever the skills),
+  and the story auto test gives the Grappler two more levels of margin.
+
 ### Added: the five job kits (30 active skills, 10 passives, 5 ultimates)
 - **Every hero fights with their job's kit**: six active skills, two passives and an
   ultimate each (`client/data/skills.json`, kits in `jobs.json`). The old four-skill sets

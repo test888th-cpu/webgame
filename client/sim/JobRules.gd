@@ -34,13 +34,18 @@ static func moveset(content: ContentDB, hero_id: String) -> Dictionary:
 	return found.duplicate() if found is Dictionary else {}
 
 
-## Gives `hero` what their job brings to a fight: its punches, its grab and
-## how its ultimate gauge fills.
-static func equip(hero: Fighter, content: ContentDB, hero_id: String) -> void:
+## Gives `hero` what their job brings to a fight: its punches, its grab, how
+## its ultimate gauge fills and, with a `profile`, the gauge carried in from
+## the last area.
+static func equip(
+	hero: Fighter, content: ContentDB, hero_id: String, profile: PlayerProfile = null
+) -> void:
 	var job: Dictionary = content.jobs.get(job_of(content, hero_id), {})
 	hero.moveset = moveset(content, hero_id)
 	hero.grab = job.get("grab", {})
 	hero.gauge_rates = content.job_gauge
+	if profile != null:
+		hero.gauge = clampf(profile.gauge, 0.0, UltimateRules.FULL)
 
 
 ## Every move reached from `starts` through chains, as a set.
