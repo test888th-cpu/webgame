@@ -46,6 +46,18 @@ const MAX_THROW_BODIES := 3.0
 const MAX_THROW := BODY * MAX_THROW_BODIES - HOLD_GAP
 ## Ticks a thrown body is in the air before it hits the street.
 const AIR_TICKS := 16
+## How a body is carried and thrown (jobs.json and skills.json "grab"
+## "pose"): a body slam from the chest, an overhead slam (the default), or a
+## piledriver (upside down, the thrower jumps and drives it head first into
+## the street where it stands, so it lands at most PILEDRIVER_TRAVEL away).
+const BODY_SLAM := "body_slam"
+const OVERHEAD := "overhead"
+const PILEDRIVER := "piledriver"
+const POSES: Array[String] = [BODY_SLAM, OVERHEAD, PILEDRIVER]
+const PILEDRIVER_TRAVEL := BODY * 0.5
+## Ticks a slammed body lies on the street before it gets up (1.5 s): the
+## wind is knocked out of it, so a throw buys real room.
+const SLAM_DOWN_TICKS := 90
 ## Where a thrown body lands, it knocks down anyone within a body and a half.
 const LAND_HALF := BODY * 1.5
 
@@ -63,6 +75,8 @@ static func tick(
 		f.landed = false
 		if f.grab_guard > 0:
 			f.grab_guard -= 1
+		if f.hop > 0:
+			f.hop -= 1
 		if f.state == Fighter.State.HELD:
 			var holder := _find(fighters, f.held_by)
 			if holder == null or holder.state != Fighter.State.GRAB or holder.holding != f.id:
@@ -84,9 +98,9 @@ static func tick(
 				f.landed = true
 				f.knockback_remaining = 0.0
 				# Floored from the moment it hits the street, not from the
-				# throw: the time in the air is no time spent down.
+				# throw, and for longer than a blow's knockdown.
 				if f.state == Fighter.State.DOWN:
-					f.enter(Fighter.State.DOWN)
+					f.enter(Fighter.State.DOWN, SLAM_DOWN_TICKS)
 	return events
 
 
@@ -180,6 +194,7 @@ static func _reach(
 	f.enter(Fighter.State.GRAB, ticks)
 	f.grab_plan = plan
 	f.holding = target.id
+	target.grab_pose = str(plan.get("pose", f.grab.get("pose", OVERHEAD)))
 	target.enter(Fighter.State.HELD)
 	target.held_by = f.id
 	target.knockback_remaining = 0.0
@@ -241,7 +256,10 @@ static func _throw(
 	var throw := library.get_move(str(plan.get("throw", f.grab.get("throw", ""))))
 	events.append(CombatRules.strike(f, held, throw, rng))
 	# Whatever scaled the throw, a body lands at most MAX_THROW_BODIES away.
-	held.knockback_remaining = clampf(held.knockback_remaining, -MAX_THROW, MAX_THROW)
+	var most := PILEDRIVER_TRAVEL if held.grab_pose == PILEDRIVER else MAX_THROW
+	held.knockback_remaining = clampf(held.knockback_remaining, -most, most)
+	if held.grab_pose == PILEDRIVER:
+		f.hop = AIR_TICKS
 	held.airborne = AIR_TICKS
 	held.thrown_by = f.id
 	held.thrown_hits = {}
@@ -346,6 +364,8 @@ static func plan_problems(
 	var hold: Variant = plan.get("hold")
 	if not (hold is float or hold is int) or hold < 1 or hold > MAX_HOLD:
 		out.append("%s.grab.hold: expected 1 to %d ticks" % [where, MAX_HOLD])
+	if plan.has("pose") and not str(plan["pose"]) in POSES:
+		out.append("%s.grab.pose: expected one of %s" % [where, ", ".join(POSES)])
 	if plan.has("squeeze") and int(plan.get("every", 0)) < 1:
 		out.append(where + ".grab.every: expected ticks between squeezes")
 	return out
@@ -364,6 +384,8 @@ static func problems(profile: Variant, library: MoveLibrary, where: String) -> P
 	if reach != null and not reach.grab:
 		out.append(where + '.move: must be a grab ("grab": true)')
 	out.append_array(_throw_problems(library.get_move(str(profile.get("throw", ""))), where))
+	if profile.has("pose") and not str(profile["pose"]) in POSES:
+		out.append("%s.pose: expected one of %s" % [where, ", ".join(POSES)])
 	var release := library.get_move(str(profile.get("release", "")))
 	if release != null and release.damage > 0:
 		out.append(where + ".release: must deal no damage (the throw does)")

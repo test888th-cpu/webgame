@@ -101,9 +101,18 @@ static func wake_area(content: ContentDB, area_id: String) -> String:
 
 
 ## The way home from `area_id` to rest (AutoBattle's rest, ProgressionHarness):
-## the hub, where the merchants and the taxi are, from anywhere.
-static func rest_home(content: ContentDB, _area_id: String) -> String:
-	return hub(content)
+## the hub, where the merchants and the taxi are; but an area that heals on
+## entry (Depot Yard, the city itself) is its own rest, with no ride at all.
+static func rest_home(content: ContentDB, area_id: String) -> String:
+	return area_id if content.area(area_id).get("heal_on_enter", false) else hub(content)
+
+
+## True when `to` is one walk from `from`: through one of `from`'s exits.
+static func next_door(content: ContentDB, from: String, to: String) -> bool:
+	for side: String in content.area(from).get("exits", {}):
+		if str(content.area(from)["exits"][side].get("to", "")) == to:
+			return true
+	return false
 
 
 ## True when a taxi ride from `area_id` may go to the farming grounds and the

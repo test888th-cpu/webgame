@@ -10,7 +10,9 @@ extends RefCounted
 ##   is, as the quest card lets a player (QuestFlow), handing in first so the
 ##   next one is offered;
 ## * EAST: the goal lies east of the furthest area reached and this is that
-##   area: clear its fights, then walk on through its east exit;
+##   area: clear its fights, then walk on through its east exit. The same
+##   when that area is next door east (from the city into Depot Yard): the
+##   hero walks there, never paying a taxi for one street;
 ## * STAY: this is the goal area: fight on to its boss;
 ## * RIDE: the goal (or the furthest area reached on the way to it) is
 ##   elsewhere: home to the hub, then Win's taxi there. Also the goal area
@@ -54,6 +56,9 @@ static func step(
 	if to != here and _backtrack(content, here, to):
 		return {"do": HERE, "to": to, "quest": str(goal.get("text", ""))}
 	if to != here:
+		# Next door (the city's east exit is Depot Yard): walk there, no taxi.
+		if AreaRules.next_door(content, here, to):
+			return {"do": EAST if _east_of(content, here) == to else RIDE, "to": to}
 		return {"do": RIDE, "to": to}
 	if goal_area != here:
 		return {"do": EAST}
@@ -85,6 +90,11 @@ static func target(profile: PlayerProfile, content: ContentDB, goal_area: String
 		if street[i] in profile.visited:
 			return street[i]
 	return content.start_area
+
+
+## The area through `area_id`'s east exit, or "".
+static func _east_of(content: ContentDB, area_id: String) -> String:
+	return str(content.area(area_id).get("exits", {}).get("east", {}).get("to", ""))
 
 
 ## True when going to `to` would take the hero from a fight in `here` back to

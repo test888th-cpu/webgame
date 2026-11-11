@@ -25,14 +25,24 @@ const FALLBACK := {
 }
 ## Ticks over which a holder raises the foe they grabbed.
 const LIFT_TICKS := 8
-## A held fighter is drawn lying across the holder's raised hands: turned on
-## their side, this far up, and this far past the holder (who stands
-## GrabRules.HOLD_GAP away) so the body is centred over the holder's head.
-const HELD_RISE := 44.0
-const HELD_REACH := 24.0
-## A thrown body leaves the thrower's hands with this little lift before it
-## drops (GrabRules.AIR_TICKS in the air), falling ever faster onto the street.
-const THROW_LOFT := 10.0
+## How a held body is drawn for each GrabRules pose, and thrown from there
+## (GrabRules.AIR_TICKS in the air). The sprite turns about its feet:
+## * "rise": how high its feet are lifted; "reach": how far back towards the
+##   holder they sit (the body stands GrabRules.HOLD_GAP in front);
+## * "turn": its rotation (a quarter turn lies it on its side; a half turn
+##   hangs it upside down from its feet);
+## * "loft": the little lift as it leaves the hands before it falls ever
+##   faster; "land": the height its feet are at when it hits the street;
+## * "hop": how high the thrower jumps with it (the piledriver).
+## overhead: pressed above the holder's head, centred over it, slammed down
+## ahead. body_slam: face to face, lifted to the chest, slammed onto its back.
+## piledriver: upside down against the holder's chest, its head at their
+## knees; the holder jumps and drives it head first into the street.
+const POSES := {
+	"overhead": {"rise": 44.0, "reach": 38.0, "turn": -PI / 2, "loft": 10.0, "land": 0.0},
+	"body_slam": {"rise": 26.0, "reach": 18.0, "turn": -PI / 2, "loft": 6.0, "land": 0.0},
+	"piledriver": {"rise": 52.0, "reach": 8.0, "turn": PI, "loft": 0.0, "land": 46.0, "hop": 14.0},
+}
 const FLASH_SHADER := preload("res://scenes/fighter/flash.gdshader")
 ## The shadow under a fighter, in game pixels (scaled with a big one).
 const SHADOW_WIDTH := 24.0
@@ -290,6 +300,11 @@ func sync() -> void:
 		_sprite.position = _home
 		if _freeze <= 0.0:
 			_animate_sprite(moved)
+		if fighter.hop > 0:
+			# The thrower's jump into a piledriver.
+			var t := 1.0 - float(fighter.hop) / GrabRules.AIR_TICKS
+			_home.y -= hop_height(POSES[GrabRules.PILEDRIVER], t)
+			_sprite.position = _home
 	else:
 		_pose_polygons()
 	# A warm sheen while poise armor holds: blows will not stop this one.
@@ -420,26 +435,43 @@ func _animate_sprite(moved: bool) -> void:
 		Fighter.State.GRAB:
 			_set_frame_by_progress("lift", float(fighter.state_tick) / LIFT_TICKS)
 		Fighter.State.HELD:
-			# Carried over the holder's head, on their side, face up.
+			# Lifted into the pose over LIFT_TICKS (POSES).
+			var pose := pose_of(fighter)
 			_set_frame_by_progress("hurt", 0.0)
 			var rise := minf(1.0, float(fighter.state_tick) / LIFT_TICKS)
-			_sprite.rotation = -PI / 2 * fighter.facing * rise
-			var reach := fighter.facing * (GrabRules.HOLD_GAP + HELD_REACH)
-			_home = Vector2(reach, -HELD_RISE) * rise
+			_sprite.rotation = float(pose["turn"]) * fighter.facing * rise
+			_home = Vector2(fighter.facing * float(pose["reach"]), -float(pose["rise"])) * rise
 			_sprite.position = _home
 		_:
 			_play("walk" if moved and _has("walk") else "idle")
 
 
-## A thrown body in the air: from over the thrower's head (where HELD carried
-## it) down onto the street ahead, on its side, gathering speed as it falls,
-## so it lands with weight instead of floating like a thrown bottle.
+## The POSES entry for `f`'s grab pose (overhead when it has none).
+static func pose_of(f: Fighter) -> Dictionary:
+	return POSES.get(f.grab_pose, POSES[GrabRules.OVERHEAD])
+
+
+## How high a jumping thrower is off the street `t` of the way through it.
+static func hop_height(pose: Dictionary, t: float) -> float:
+	return float(pose.get("hop", 0.0)) * 4.0 * t * (1.0 - t)
+
+
+## A thrown body in the air: from where HELD carried it down onto the street,
+## gathering speed as it falls, so it lands with weight instead of floating
+## like a thrown bottle. A piledriver rides the thrower's jump, head down.
 func _thrown_pose() -> void:
+	var pose := pose_of(fighter)
 	var t := 1.0 - float(fighter.airborne) / GrabRules.AIR_TICKS
 	_set_frame_by_progress("hurt", 0.0)
-	var height := HELD_RISE * (1.0 - t * t) + THROW_LOFT * 4.0 * t * (1.0 - t)
-	var back := fighter.facing * (GrabRules.HOLD_GAP + HELD_REACH) * (1.0 - t)
-	_sprite.rotation = -PI / 2 * fighter.facing * (1.0 + 0.3 * sin(PI * t))
+	var rise := float(pose["rise"])
+	var land := float(pose["land"])
+	var height := land + (rise - land) * (1.0 - t * t) + float(pose["loft"]) * 4.0 * t * (1.0 - t)
+	height += hop_height(pose, t)
+	var back := fighter.facing * float(pose["reach"]) * (1.0 - t)
+	var turn := float(pose["turn"])
+	# A slam tumbles a little on the way down; a piledriver stays straight.
+	var tumble := 0.0 if pose.has("hop") else 0.3 * sin(PI * t)
+	_sprite.rotation = turn * fighter.facing * (1.0 + tumble)
 	_home = Vector2(back, -height)
 	_sprite.position = _home
 

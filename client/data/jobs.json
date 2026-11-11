@@ -49,7 +49,8 @@
         "throw": "boxer_throw",
         "crash": "throw_crash",
         "shove": "grab_shove",
-        "hold": 36
+        "hold": 36,
+        "pose": "body_slam"
       },
       "skills": [
         "power_jab",
@@ -84,7 +85,8 @@
         "throw": "brawler_throw",
         "crash": "throw_crash",
         "shove": "grab_shove",
-        "hold": 45
+        "hold": 45,
+        "pose": "overhead"
       },
       "skills": [
         "rapid_punch",
@@ -119,7 +121,8 @@
         "throw": "grappler_throw",
         "crash": "grappler_crash",
         "shove": "grab_shove",
-        "hold": 75
+        "hold": 75,
+        "pose": "overhead"
       },
       "skills": [
         "iron_grip",
@@ -154,7 +157,8 @@
         "throw": "counter_throw",
         "crash": "throw_crash",
         "shove": "grab_shove",
-        "hold": 45
+        "hold": 45,
+        "pose": "body_slam"
       },
       "skills": [
         "quick_counter",
@@ -189,7 +193,8 @@
         "throw": "striker_throw",
         "crash": "throw_crash",
         "shove": "grab_shove",
-        "hold": 30
+        "hold": 30,
+        "pose": "body_slam"
       },
       "skills": [
         "quick_jab",

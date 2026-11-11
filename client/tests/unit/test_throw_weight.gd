@@ -71,6 +71,10 @@ func test_a_thrown_body_flies_evenly_then_slams_down_once() -> void:
 	assert_eq(body.knockback_remaining, 0.0, "and stays where it fell")
 	assert_eq(body.state, Fighter.State.DOWN, "on the ground")
 	assert_eq(body.state_tick, 11, "down since it landed, not since it was thrown")
+	_run(fighters, GrabRules.SLAM_DOWN_TICKS - 13)
+	assert_eq(body.state, Fighter.State.DOWN, "still down after more than a second")
+	_run(fighters, 3)
+	assert_eq(body.state, Fighter.State.IDLE, "and up after 1.5 s on the street")
 
 
 func test_no_throw_sends_a_body_flying_far() -> void:
@@ -129,3 +133,59 @@ func test_a_grab_skill_waits_for_empty_hands() -> void:
 	assert_eq(hero.cooldown_left("power_throw"), 0, "and nothing is spent")
 	hero.weapon = ""
 	assert_true(CombatRules.start_skill(hero, "power_throw", _lib()), "empty hands: it starts")
+
+
+func test_every_grab_has_a_known_pose() -> void:
+	var db := _content()
+	var poses := {}
+	for job: String in db.job_order:
+		var pose := str(db.jobs[job]["grab"].get("pose", GrabRules.OVERHEAD))
+		assert_true(pose in GrabRules.POSES, job + ": " + pose)
+		poses[pose] = true
+	for skill_id: String in db.skills:
+		var plan: Variant = db.skills[skill_id].get("grab")
+		if plan is Dictionary:
+			poses[str(plan.get("pose", GrabRules.OVERHEAD))] = true
+	assert_eq(poses.size(), GrabRules.POSES.size(), "all three poses are used")
+	var bad: Dictionary = db.jobs["boxer"]["grab"].duplicate()
+	bad["pose"] = "moonsault"
+	var found := ", ".join(GrabRules.problems(bad, db.moves, "g"))
+	assert_true("g.pose: expected one of" in found, found)
+
+
+func test_a_piledriver_lands_where_it_stands_as_the_thrower_jumps() -> void:
+	var fighters := _scene("grappler")
+	var hero := fighters[0]
+	var body := fighters[1]
+	hero.skills = {"ground_slam": _content().skills["ground_slam"]}
+	assert_true(CombatRules.start_skill(hero, "ground_slam", _lib()), "the skill starts")
+	var hopped := false
+	var start_x := 0.0
+	for t in 120:
+		_run(fighters, 1)
+		if body.state == Fighter.State.HELD:
+			start_x = body.position.x
+		hopped = hopped or hero.hop > 0
+	assert_eq(body.grab_pose, GrabRules.PILEDRIVER, "held for a piledriver")
+	assert_true(hopped, "the thrower jumps with it")
+	var moved := absf(body.position.x - start_x)
+	assert_true(moved <= GrabRules.PILEDRIVER_TRAVEL + 0.01, "driven down in place (%.1f)" % moved)
+
+
+func test_the_view_draws_each_pose() -> void:
+	var scene: PackedScene = load("res://scenes/fighter/FighterView.tscn")
+	var fighters := _scene("boxer")
+	var view: FighterView = scene.instantiate()
+	tree.root.add_child(view)
+	view.fighter = fighters[1]
+	view.set_art("hero_riku", _content().art)
+	var sprite := view.get_node("Sprite") as AnimatedSprite2D
+	_seize(fighters)
+	var lift := {}
+	for pose: String in GrabRules.POSES:
+		fighters[1].grab_pose = pose
+		view.sync()
+		lift[pose] = -sprite.position.y
+	assert_true(lift["body_slam"] < lift["overhead"], "a body slam is lifted to the chest")
+	assert_near(absf(sprite.rotation), PI, "a piledriver hangs upside down")
+	view.queue_free()

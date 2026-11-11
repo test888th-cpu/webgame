@@ -25,6 +25,8 @@ const GUARD_ENERGY_PER_DAMAGE := 1.5
 const GUARD_DRAIN := 0.2
 const GUARD_BREAK_STUN := 40
 
+## Ticks on the ground after a knockdown; longer when the knockdown says so
+## (a body slammed into the street stays down GrabRules.SLAM_DOWN_TICKS).
 const KNOCKDOWN_TICKS := 50
 ## A button pressed this many ticks or fewer before an attack ends is not
 ## lost: it starts as soon as the attack is over (an input buffer), so
@@ -161,7 +163,7 @@ static func _step(f: Fighter, input: FighterInput, library: MoveLibrary, bounds:
 		Fighter.State.KO:
 			pass
 		Fighter.State.DOWN:
-			if f.state_tick >= KNOCKDOWN_TICKS:
+			if f.state_tick >= maxi(KNOCKDOWN_TICKS, f.state_duration):
 				f.enter(Fighter.State.IDLE)
 				if f.stun_limit > 0:
 					f.stun_meter = 0

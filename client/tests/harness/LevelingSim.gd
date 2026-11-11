@@ -180,7 +180,7 @@ static func _farm(
 	var seed := int(setup.get("seed", 1))
 	var limit := int(setup.get("ticks", 18000))
 	var home := AreaRules.rest_home(content, area_id)
-	var fare := maxi(0, AutoRules.fare(content, home))
+	var fare := AutoRules.ride_fare(content, home, area_id)
 	AutoRules.restock(profile, content, home, 10, fare)
 	var zone := ZoneSim.new(content, profile, area_id, "west", seed)
 	zone.refresh_hero()
