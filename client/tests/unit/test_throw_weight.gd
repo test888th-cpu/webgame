@@ -67,7 +67,7 @@ func test_a_thrown_body_flies_evenly_then_slams_down_once() -> void:
 	assert_eq(landings, 1, "it hits the street once")
 	assert_near(steps[0], steps[steps.size() - 1], "at an even pace, no skid")
 	var away := (body.position.x - fighters[0].position.x) / GrabRules.BODY
-	assert_true(away <= GrabRules.MAX_THROW_BODIES + 0.01, "no farther than 3 bodies (%.1f)" % away)
+	assert_true(away <= GrabRules.MAX_THROW_BODIES + 0.01, "no farther than 4 bodies (%.1f)" % away)
 	assert_eq(body.knockback_remaining, 0.0, "and stays where it fell")
 	assert_eq(body.state, Fighter.State.DOWN, "on the ground")
 	assert_eq(body.state_tick, 11, "down since it landed, not since it was thrown")
@@ -84,14 +84,14 @@ func test_no_throw_sends_a_body_flying_far() -> void:
 		var throw := db.moves.get_move(str(profile["throw"]))
 		assert_true(throw.knockdown, job + ": the throw floors the foe")
 		var lands := (GrabRules.HOLD_GAP + throw.knockback) / GrabRules.BODY
-		assert_true(lands >= 2.0 and lands <= 3.0, "%s lands %.1f bodies away" % [job, lands])
+		assert_true(lands >= 3.0 and lands <= 4.0, "%s lands %.1f bodies away" % [job, lands])
 	var bad: Dictionary = db.jobs["brawler"]["grab"].duplicate()
 	bad["throw"] = "jab"
 	var found := ", ".join(GrabRules.problems(bad, db.moves, "g"))
 	assert_true("g.throw: a thrown body hits the ground" in found, found)
-	bad["throw"] = "grappler_crash"
+	bad["throw"] = "baron_furnace"
 	found = ", ".join(GrabRules.problems(bad, db.moves, "g"))
-	assert_true("g.throw: knockback 50 lands past 3 bodies" in found, found)
+	assert_true("g.throw: knockback 120 lands past 4 bodies" in found, found)
 	# Even a skill that scales knockback up cannot fling a body past the limit.
 	var fighters := _scene("grappler")
 	_seize(fighters)

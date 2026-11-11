@@ -95,7 +95,7 @@ func test_an_attack_button_throws_the_held_foe() -> void:
 	assert_eq([fighters[0].holding, fighters[1].held_by], [0, 0], "nobody is held any more")
 	_run(fighters, 30)
 	var landed := (fighters[1].position.x - 500) / GrabRules.BODY
-	assert_true(landed >= 2.0 and landed <= 3.0, "lands 2 to 3 bodies ahead (%.1f)" % landed)
+	assert_true(landed >= 3.0 and landed <= 4.0, "lands 3 to 4 bodies ahead (%.1f)" % landed)
 
 
 func test_the_hero_can_turn_and_throw_the_other_way() -> void:
@@ -106,7 +106,7 @@ func test_the_hero_can_turn_and_throw_the_other_way() -> void:
 	_run(fighters, 1, {1: turn})
 	assert_near(fighters[1].position.x, 500 - GrabRules.HOLD_GAP, "carried round behind")
 	_run(fighters, 30, {1: _press("heavy")})
-	assert_true(fighters[1].position.x < 500 - 2 * GrabRules.BODY, "and thrown that way")
+	assert_true(fighters[1].position.x < 500 - 3 * GrabRules.BODY, "and thrown that way")
 
 
 func test_a_thrown_body_knocks_into_the_others_once() -> void:
@@ -324,7 +324,12 @@ func test_the_view_shows_the_reach_the_lift_and_the_carried_foe() -> void:
 	_run(fighters, GrabRules.AIR_TICKS)
 	for view in views:
 		view.sync()
-	assert_eq(carried.position, Vector2.ZERO, "landed: the foe lies on their own spot")
+	assert_near(absf(carried.rotation), PI / 2, "landed: lying on its side")
+	assert_true(-carried.position.y < 10.0, "on the street")
+	_run(fighters, GrabRules.SLAM_DOWN_TICKS)
+	for view in views:
+		view.sync()
+	assert_eq(carried.position, Vector2.ZERO, "up again on its own spot")
 	assert_near(carried.rotation, 0.0, "in the sheet's own pose")
 	for view in views:
 		view.queue_free()

@@ -7,8 +7,8 @@ extends RefCounted
 ## (`lets_go`), so the next press grabs. If the reach closes on a foe it
 ## holds them: the foe is HELD, cannot act or be hit, and is carried in front
 ## of the holder. Any attack button throws the foe the way the holder faces.
-## A body is heavy: it is thrown only a couple of bodies away (never more
-## than MAX_THROW_BODIES from the thrower), flies for AIR_TICKS at an even
+## A body is heavy: it is thrown only 3 to 4 bodies away (never more than
+## MAX_THROW_BODIES from the thrower), flies for AIR_TICKS at an even
 ## pace, knocks into others on the way and where it lands (the job's
 ## "crash") and slams into the street (`landed`, reported by ZoneSim as
 ## "slam").
@@ -42,7 +42,7 @@ const BODY := 18.0
 ## The farthest a thrown body lands from the thrower, in BODY spaces: a
 ## person is no sack of rice. MAX_THROW is the throw's knockback that puts it
 ## there (it starts HOLD_GAP in front).
-const MAX_THROW_BODIES := 3.0
+const MAX_THROW_BODIES := 4.0
 const MAX_THROW := BODY * MAX_THROW_BODIES - HOLD_GAP
 ## Ticks a thrown body is in the air before it hits the street.
 const AIR_TICKS := 16

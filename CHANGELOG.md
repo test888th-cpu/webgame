@@ -16,12 +16,18 @@ Owner's requests (2026-11-11).
 - **A slammed foe lies on the street for 1.5 s** (`GrabRules.SLAM_DOWN_TICKS` 90, was
   the 50-tick knockdown) before getting up. A knockdown may now carry its own length
   (`Fighter.state_duration`); every other knockdown is unchanged.
+- **Throws land 3 to 4 bodies ahead** (`MAX_THROW_BODIES` 4; was 2 to 3): Boxer and
+  Street Fighter 3, Counter Fighter and Brawler 3.5, Grappler 4 (throw knockback 40,
+  49, 58; Power Throw and Crowd Toss 58, Crushing Hold 40).
 - **Three throw poses** (`GrabRules.POSES`, a `"pose"` on each job's and grab skill's
-  grab, validated on load), drawn from the existing frames by `FighterView.POSES`:
-  - *body slam* (Boxer, Counter Fighter, Street Fighter; Backbreaker, Crushing Hold):
-    face to face, lifted to the chest, slammed onto its back;
-  - *overhead slam* (Brawler, Grappler; Power Throw, Crowd Toss): pressed above the
-    head, slammed down ahead;
+  grab, validated on load), drawn from the existing frames by `FighterView.POSES`. The
+  bodies stay side-on, facing each other, never turned to the camera:
+  - *shoulder toss* (`overhead`, every job's grab; Power Throw, Crowd Toss), to the
+    owner's drawing: face to face with the hands at the waist (the grab frames),
+    lifted across the shoulders head to the back (lift), tossed forward (throw),
+    turning over to land on its side head away, lying there 1.5 s, then getting up;
+  - *body slam* (Backbreaker, Crushing Hold): lifted to the chest, slammed down
+    ahead;
   - *piledriver* (the Grappler's Ground Slam and Titan Destruction): hung upside down
     against the thrower's chest; the thrower jumps (`Fighter.hop`) and drives it head
     first into the street where it stands (at most half a body of travel).
