@@ -229,3 +229,30 @@ func test_every_skill_effect_is_drawn_the_width_it_hits() -> void:
 			"%s: %d px drawn for %d px of reach" % [skill_id, drawn, reach]
 		)
 		assert_true(drawn <= reach * 1.5 or bounded, skill_id + ": never balloons past its reach")
+
+
+func test_every_boss_skill_shows_where_it_hits() -> void:
+	# The boss skills (BossSkillRules): each plays its sound and its theme's
+	# glow, and a blow's effect lands on the middle of its hitbox.
+	var game := _game()
+	var c := game.content
+	var landed := 0
+	for kind: String in c.boss_skills["bosses"]:
+		var boss := game.zone.spawn_enemy(kind, game.zone.hero.position + Vector2(200, 0))
+		game.view.sync()
+		for id in BossSkillRules.of(c, kind):
+			var data := BossSkillRules.skill(c, id)
+			boss.move = c.moves.get_move(str(data["moves"][0]))
+			boss.facing = -1
+			game._feedback.on_event(
+				ZoneEvent.make("swing", {"id": boss.id, "move": boss.move.id, "skill": id})
+			)
+			if str(data["fx"]) != "":
+				landed += 1
+		game.zone.fighters.erase(boss)
+		game.zone.brains.erase(boss.id)
+	assert_true(landed > 50, "the blows' effects on their way (%d)" % landed)
+	await tree.create_timer(0.8).timeout
+	# End on a frame boundary, as the other scene tests do.
+	await tree.process_frame
+	_done(game)

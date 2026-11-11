@@ -35,8 +35,12 @@ const VOLLEY_TRIES := 12
 const CATCH_UP_FROM := 150.0
 const CATCH_UP := 1.15
 
+## The boss's own skills (BossSkills): combos, casts and their cleanup.
+var skills := BossSkills.new()
 var _hazard_timer := 0
 var _hazard_turn := 0
+## Counts hazard waves called, so each wave's drops share an id.
+var _wave := 0
 ## The boss's own walking speed (its kind, level and phase) and the speed this
 ## class last gave it, so a phase change is noticed and not overwritten.
 var _walk_speed := 0.0
@@ -55,6 +59,9 @@ func shield_up() -> bool:
 
 ## Advances the boss of `zone` one tick, appending what happened to `events`.
 func tick(zone: ZoneSim, events: Array[ZoneEvent]) -> void:
+	# Skills first: a boss that fell or left this tick takes its waiting
+	# hazards with it before they could land.
+	skills.tick(zone, self, events)
 	_land_hazards(zone, events)
 	var boss := zone.fighter(zone.boss_id) if zone.boss_id != 0 else null
 	if boss == null or boss.is_ko() or zone.hero.is_ko():
@@ -73,7 +80,8 @@ func tick(zone: ZoneSim, events: Array[ZoneEvent]) -> void:
 		_set_shield(zone, boss, false, events)
 	var data := zone.content.enemy(boss.kind)
 	var hazard: Dictionary = phase.get("hazard", data.get("hazard", {}))
-	if hazard and running:
+	# While an Ultimate is channelled its waves are the only hazards called.
+	if hazard and running and not skills.channeling():
 		_hazard_timer += 1
 		if _hazard_timer >= BossEnrage.paced(boss, int(phase.get("hazard_every", hazard["every"]))):
 			_hazard_timer = 0
@@ -81,7 +89,7 @@ func tick(zone: ZoneSim, events: Array[ZoneEvent]) -> void:
 			_call_hazard(zone, boss, cycle[_hazard_turn % cycle.size()], events)
 			_hazard_turn += 1
 	var summon: Dictionary = data.get("summon", {})
-	if summon:
+	if summon and not skills.channeling():
 		_summon_timer += 1
 		if _summon_timer >= _every(zone, boss, summon, "summon_every"):
 			_summon_timer = 0
@@ -165,9 +173,22 @@ func _every(zone: ZoneSim, boss: Fighter, spec: Dictionary, phase_key: String) -
 	return BossEnrage.paced(boss, every)
 
 
-func _call_hazard(zone: ZoneSim, boss: Fighter, data: Dictionary, events: Array[ZoneEvent]) -> void:
+## Calls hazard `data` down for `boss` (a skill's cast; see _call_hazard).
+func call_hazard(zone: ZoneSim, boss: Fighter, data: Dictionary, events: Array) -> void:
+	_call_hazard(zone, boss, data, events)
+
+
+## Calls in helpers `data` for `boss` (a skill's cast; see _summon).
+func summon(zone: ZoneSim, boss: Fighter, data: Dictionary, events: Array) -> void:
+	_summon(zone, boss, data, events)
+
+
+func _call_hazard(zone: ZoneSim, boss: Fighter, data: Dictionary, events: Array) -> void:
 	var half := Vector2(data["half"][0], data["half"][1])
-	var spots := volley(zone, data, half)
+	var spots := placed(zone, boss, data) if data.has("offsets") else volley(zone, data, half)
+	# One call is one wave: a fighter it catches is hit once, however many of
+	# its tiles touch them (_land_hazards).
+	_wave += 1
 	for i in spots.size():
 		var drop := {
 			"at": spots[i],
@@ -175,10 +196,31 @@ func _call_hazard(zone: ZoneSim, boss: Fighter, data: Dictionary, events: Array[
 			"half": half,
 			"damage": roundi(float(data["damage"]) * boss.power),
 			"kind": str(data.get("kind", "crane")),
+			"wave": _wave,
+			# The skill that called it ("" for the boss's own hazard cycle).
+			"from": str(data.get("from", "")),
 		}
 		zone.hazards.append(drop)
 		var warn := {"at": drop["at"], "ticks": drop["ticks"], "kind": drop["kind"], "half": half}
 		events.append(ZoneEvent.make("hazard_warn", warn))
+
+
+## Where a laid-out wave (`data` "offsets": [[dx, dy]], an Ultimate's) lands:
+## each offset from "origin" ("boss": mirrored to the boss's facing, so a
+## pattern points at the hero; "hero": on the hero), kept inside the fight,
+## once each.
+static func placed(zone: ZoneSim, boss: Fighter, data: Dictionary) -> Array[Vector2]:
+	var on_boss := str(data.get("origin", "boss")) == "boss"
+	var origin := boss.position if on_boss else zone.hero.position
+	var facing := float(boss.facing) if on_boss else 1.0
+	var room := zone.arena if zone.arena.size.x > 0.0 else zone.bounds
+	var spots: Array[Vector2] = []
+	for offset: Variant in data["offsets"]:
+		var at := origin + Vector2(float(offset[0]) * facing, float(offset[1]))
+		at = LaneMovement.clamp_to(at, room)
+		if at not in spots:
+			spots.append(at)
+	return spots
 
 
 ## Where a volley of `data` lands: on the hero first, then up to "count" - 1
@@ -211,6 +253,8 @@ static func volley(zone: ZoneSim, data: Dictionary, half: Vector2) -> Array[Vect
 
 ## Hazards whose warning has run out land on whoever stands there.
 func _land_hazards(zone: ZoneSim, events: Array[ZoneEvent]) -> void:
+	# Fighter id + wave: who a wave has already hit this tick.
+	var struck := {}
 	for drop: Dictionary in zone.hazards.duplicate():
 		drop["ticks"] -= 1
 		if drop["ticks"] > 0:
@@ -225,6 +269,10 @@ func _land_hazards(zone: ZoneSim, events: Array[ZoneEvent]) -> void:
 				continue
 			if gap.x > half.x or gap.y > half.y:
 				continue
+			var key := "%d:%d" % [f.id, int(drop.get("wave", 0))]
+			if struck.has(key):
+				continue
+			struck[key] = true
 			var hit := CombatRules.thrown_hit(
 				f, zone.boss_id, at.x, int(drop["damage"]), true, str(drop["kind"])
 			)
@@ -233,7 +281,7 @@ func _land_hazards(zone: ZoneSim, events: Array[ZoneEvent]) -> void:
 
 ## Reinforcements: up to "count" of "enemy", one from each edge of the fight
 ## in turn, never past "max" helpers on their feet at once.
-func _summon(zone: ZoneSim, boss: Fighter, data: Dictionary, events: Array[ZoneEvent]) -> void:
+func _summon(zone: ZoneSim, boss: Fighter, data: Dictionary, events: Array) -> void:
 	var standing := 0
 	for enemy in zone.enemies():
 		if enemy != boss and not enemy.is_ko() and zone.brains.has(enemy.id):

@@ -1,0 +1,5221 @@
+{
+  "bosses": {
+    "sludge_foreman": {
+      "tier": "mini",
+      "level": 3,
+      "skills": [
+        "MB_SLUDGE_FOREMAN_001",
+        "MB_SLUDGE_FOREMAN_002",
+        "MB_SLUDGE_FOREMAN_003",
+        "MB_SLUDGE_FOREMAN_ULT_001"
+      ]
+    },
+    "furnace_baron": {
+      "tier": "stage",
+      "level": 10,
+      "skills": [
+        "SB_FURNACE_BARON_001",
+        "SB_FURNACE_BARON_002",
+        "SB_FURNACE_BARON_003",
+        "SB_FURNACE_BARON_004",
+        "SB_FURNACE_BARON_ULT_001"
+      ]
+    },
+    "pit_champion": {
+      "tier": "mini",
+      "level": 8,
+      "skills": [
+        "MB_PIT_CHAMPION_001",
+        "MB_PIT_CHAMPION_002",
+        "MB_PIT_CHAMPION_003",
+        "MB_PIT_CHAMPION_ULT_001"
+      ]
+    },
+    "harbourmaster_chen": {
+      "tier": "stage",
+      "level": 16,
+      "skills": [
+        "SB_HARBOURMASTER_CHEN_001",
+        "SB_HARBOURMASTER_CHEN_002",
+        "SB_HARBOURMASTER_CHEN_003",
+        "SB_HARBOURMASTER_CHEN_004",
+        "SB_HARBOURMASTER_CHEN_ULT_001"
+      ]
+    },
+    "security_chief": {
+      "tier": "mini",
+      "level": 21,
+      "skills": [
+        "MB_SECURITY_CHIEF_001",
+        "MB_SECURITY_CHIEF_002",
+        "MB_SECURITY_CHIEF_003",
+        "MB_SECURITY_CHIEF_ULT_001"
+      ]
+    },
+    "unit_k7": {
+      "tier": "stage",
+      "level": 24,
+      "skills": [
+        "SB_UNIT_K7_001",
+        "SB_UNIT_K7_002",
+        "SB_UNIT_K7_003",
+        "SB_UNIT_K7_004",
+        "SB_UNIT_K7_ULT_001"
+      ]
+    },
+    "ringmaster": {
+      "tier": "mini",
+      "level": 27,
+      "skills": [
+        "MB_RINGMASTER_001",
+        "MB_RINGMASTER_002",
+        "MB_RINGMASTER_003",
+        "MB_RINGMASTER_ULT_001"
+      ]
+    },
+    "big_sak": {
+      "tier": "stage",
+      "level": 31,
+      "skills": [
+        "SB_BIG_SAK_001",
+        "SB_BIG_SAK_002",
+        "SB_BIG_SAK_003",
+        "SB_BIG_SAK_004",
+        "SB_BIG_SAK_005",
+        "SB_BIG_SAK_ULT_001"
+      ]
+    },
+    "subject_twelve": {
+      "tier": "mini",
+      "level": 35,
+      "skills": [
+        "MB_SUBJECT_TWELVE_001",
+        "MB_SUBJECT_TWELVE_002",
+        "MB_SUBJECT_TWELVE_003",
+        "MB_SUBJECT_TWELVE_004",
+        "MB_SUBJECT_TWELVE_ULT_001"
+      ]
+    },
+    "commander_arthit": {
+      "tier": "stage",
+      "level": 39,
+      "skills": [
+        "SB_COMMANDER_ARTHIT_001",
+        "SB_COMMANDER_ARTHIT_002",
+        "SB_COMMANDER_ARTHIT_003",
+        "SB_COMMANDER_ARTHIT_004",
+        "SB_COMMANDER_ARTHIT_005",
+        "SB_COMMANDER_ARTHIT_ULT_001"
+      ]
+    },
+    "director_wiroj": {
+      "tier": "stage",
+      "level": 48,
+      "skills": [
+        "SB_DIRECTOR_WIROJ_001",
+        "SB_DIRECTOR_WIROJ_002",
+        "SB_DIRECTOR_WIROJ_003",
+        "SB_DIRECTOR_WIROJ_004",
+        "SB_DIRECTOR_WIROJ_005",
+        "SB_DIRECTOR_WIROJ_ULT_001"
+      ]
+    },
+    "tunnel_mother": {
+      "tier": "world",
+      "level": 32,
+      "skills": [
+        "WB_TUNNEL_MOTHER_001",
+        "WB_TUNNEL_MOTHER_002",
+        "WB_TUNNEL_MOTHER_003",
+        "WB_TUNNEL_MOTHER_004",
+        "WB_TUNNEL_MOTHER_005",
+        "WB_TUNNEL_MOTHER_ULT_001"
+      ]
+    },
+    "iron_colossus": {
+      "tier": "world",
+      "level": 52,
+      "skills": [
+        "WB_IRON_COLOSSUS_001",
+        "WB_IRON_COLOSSUS_002",
+        "WB_IRON_COLOSSUS_003",
+        "WB_IRON_COLOSSUS_004",
+        "WB_IRON_COLOSSUS_005",
+        "WB_IRON_COLOSSUS_ULT_001"
+      ]
+    },
+    "subject_zero": {
+      "tier": "world",
+      "level": 55,
+      "skills": [
+        "WB_SUBJECT_ZERO_001",
+        "WB_SUBJECT_ZERO_002",
+        "WB_SUBJECT_ZERO_003",
+        "WB_SUBJECT_ZERO_004",
+        "WB_SUBJECT_ZERO_005",
+        "WB_SUBJECT_ZERO_ULT_001"
+      ]
+    },
+    "arthit_reinstated": {
+      "tier": "mini",
+      "level": 55,
+      "skills": [
+        "MB_ARTHIT_REINSTATED_001",
+        "MB_ARTHIT_REINSTATED_002",
+        "MB_ARTHIT_REINSTATED_003",
+        "MB_ARTHIT_REINSTATED_004",
+        "MB_ARTHIT_REINSTATED_ULT_001"
+      ]
+    },
+    "twelve_relapsed": {
+      "tier": "mini",
+      "level": 60,
+      "skills": [
+        "MB_TWELVE_RELAPSED_001",
+        "MB_TWELVE_RELAPSED_002",
+        "MB_TWELVE_RELAPSED_003",
+        "MB_TWELVE_RELAPSED_004",
+        "MB_TWELVE_RELAPSED_ULT_001"
+      ]
+    },
+    "k7_overdriven": {
+      "tier": "mini",
+      "level": 65,
+      "skills": [
+        "MB_K7_OVERDRIVEN_001",
+        "MB_K7_OVERDRIVEN_002",
+        "MB_K7_OVERDRIVEN_003",
+        "MB_K7_OVERDRIVEN_004",
+        "MB_K7_OVERDRIVEN_ULT_001"
+      ]
+    },
+    "slag_titan": {
+      "tier": "world",
+      "level": 60,
+      "skills": [
+        "WB_SLAG_TITAN_001",
+        "WB_SLAG_TITAN_002",
+        "WB_SLAG_TITAN_003",
+        "WB_SLAG_TITAN_004",
+        "WB_SLAG_TITAN_005",
+        "WB_SLAG_TITAN_006",
+        "WB_SLAG_TITAN_ULT_001"
+      ]
+    },
+    "iron_sovereign": {
+      "tier": "world",
+      "level": 70,
+      "skills": [
+        "WB_IRON_SOVEREIGN_001",
+        "WB_IRON_SOVEREIGN_002",
+        "WB_IRON_SOVEREIGN_003",
+        "WB_IRON_SOVEREIGN_004",
+        "WB_IRON_SOVEREIGN_005",
+        "WB_IRON_SOVEREIGN_006",
+        "WB_IRON_SOVEREIGN_007",
+        "WB_IRON_SOVEREIGN_ULT_001"
+      ]
+    },
+    "spillway_chief": {
+      "tier": "mini",
+      "level": 45,
+      "skills": [
+        "MB_SPILLWAY_CHIEF_001",
+        "MB_SPILLWAY_CHIEF_002",
+        "MB_SPILLWAY_CHIEF_003",
+        "MB_SPILLWAY_CHIEF_004",
+        "MB_SPILLWAY_CHIEF_ULT_001"
+      ]
+    },
+    "wiroj_protocol": {
+      "tier": "mini",
+      "level": 70,
+      "skills": [
+        "MB_WIROJ_PROTOCOL_001",
+        "MB_WIROJ_PROTOCOL_002",
+        "MB_WIROJ_PROTOCOL_003",
+        "MB_WIROJ_PROTOCOL_004",
+        "MB_WIROJ_PROTOCOL_ULT_001"
+      ]
+    },
+    "floodgate_marshal": {
+      "tier": "world",
+      "level": 56,
+      "skills": [
+        "WB_FLOODGATE_MARSHAL_001",
+        "WB_FLOODGATE_MARSHAL_002",
+        "WB_FLOODGATE_MARSHAL_003",
+        "WB_FLOODGATE_MARSHAL_004",
+        "WB_FLOODGATE_MARSHAL_005",
+        "WB_FLOODGATE_MARSHAL_006",
+        "WB_FLOODGATE_MARSHAL_ULT_001"
+      ]
+    },
+    "crucible_king": {
+      "tier": "world",
+      "level": 64,
+      "skills": [
+        "WB_CRUCIBLE_KING_001",
+        "WB_CRUCIBLE_KING_002",
+        "WB_CRUCIBLE_KING_003",
+        "WB_CRUCIBLE_KING_004",
+        "WB_CRUCIBLE_KING_005",
+        "WB_CRUCIBLE_KING_006",
+        "WB_CRUCIBLE_KING_ULT_001"
+      ]
+    },
+    "founders_engine": {
+      "tier": "world",
+      "level": 70,
+      "skills": [
+        "WB_FOUNDERS_ENGINE_001",
+        "WB_FOUNDERS_ENGINE_002",
+        "WB_FOUNDERS_ENGINE_003",
+        "WB_FOUNDERS_ENGINE_004",
+        "WB_FOUNDERS_ENGINE_005",
+        "WB_FOUNDERS_ENGINE_006",
+        "WB_FOUNDERS_ENGINE_007",
+        "WB_FOUNDERS_ENGINE_ULT_001"
+      ]
+    }
+  },
+  "skills": {
+    "MB_SLUDGE_FOREMAN_001": {
+      "owner": "sludge_foreman",
+      "name": "Wrench Clout",
+      "type": "strike",
+      "cooldown": 300,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_mb_sludge_foreman_001"
+      ],
+      "range": [
+        0,
+        58
+      ],
+      "lane": 20,
+      "fx": "hit_heavy",
+      "sound": "swing_heavy"
+    },
+    "MB_SLUDGE_FOREMAN_002": {
+      "owner": "sludge_foreman",
+      "name": "Sludge Spit",
+      "type": "ground",
+      "cooldown": 480,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_mb_sludge_foreman_002"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "",
+      "sound": "hazard_warn",
+      "hazard": {
+        "half": [
+          36,
+          14
+        ],
+        "kind": "sludge",
+        "warn": 60,
+        "damage": 25
+      }
+    },
+    "MB_SLUDGE_FOREMAN_003": {
+      "owner": "sludge_foreman",
+      "name": "Foreman's Shove",
+      "type": "charge",
+      "cooldown": 420,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_mb_sludge_foreman_003"
+      ],
+      "range": [
+        70,
+        190
+      ],
+      "lane": 18,
+      "fx": "rush",
+      "sound": "skill_rush"
+    },
+    "MB_SLUDGE_FOREMAN_ULT_001": {
+      "owner": "sludge_foreman",
+      "name": "Sludge Geyser Field",
+      "type": "ultimate",
+      "ultimate": true,
+      "cooldown": 1500,
+      "opening": 540,
+      "phase": 0,
+      "weight": 3.0,
+      "moves": [
+        "bs_mb_sludge_foreman_ult_001"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "phase_burst",
+      "sound": "boss_roar",
+      "waves": [
+        {
+          "kind": "sludge",
+          "warn": 110,
+          "damage": 25,
+          "origin": "boss",
+          "offsets": [
+            [
+              -70,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              70,
+              0
+            ]
+          ],
+          "half": [
+            34,
+            46
+          ],
+          "delay": 0
+        }
+      ]
+    },
+    "SB_FURNACE_BARON_001": {
+      "owner": "furnace_baron",
+      "name": "Furnace Pipe",
+      "type": "strike",
+      "cooldown": 300,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_sb_furnace_baron_001"
+      ],
+      "range": [
+        0,
+        58
+      ],
+      "lane": 20,
+      "fx": "hit_heavy",
+      "sound": "swing_heavy"
+    },
+    "SB_FURNACE_BARON_002": {
+      "owner": "furnace_baron",
+      "name": "Bellows Charge",
+      "type": "charge",
+      "cooldown": 420,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_sb_furnace_baron_002"
+      ],
+      "range": [
+        70,
+        190
+      ],
+      "lane": 18,
+      "fx": "rush",
+      "sound": "skill_rush"
+    },
+    "SB_FURNACE_BARON_003": {
+      "owner": "furnace_baron",
+      "name": "Ember Spill",
+      "type": "ground",
+      "cooldown": 480,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_sb_furnace_baron_003"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "",
+      "sound": "hazard_warn",
+      "hazard": {
+        "half": [
+          36,
+          14
+        ],
+        "kind": "steam",
+        "warn": 60,
+        "damage": 28
+      }
+    },
+    "SB_FURNACE_BARON_004": {
+      "owner": "furnace_baron",
+      "name": "Coal Sweep",
+      "type": "sweep",
+      "cooldown": 360,
+      "phase": 1,
+      "weight": 1.0,
+      "moves": [
+        "bs_sb_furnace_baron_004"
+      ],
+      "range": [
+        0,
+        82
+      ],
+      "lane": 26,
+      "fx": "whirlwind",
+      "sound": "skill_whirlwind"
+    },
+    "SB_FURNACE_BARON_ULT_001": {
+      "owner": "furnace_baron",
+      "name": "Furnace Eruption",
+      "type": "ultimate",
+      "ultimate": true,
+      "cooldown": 1500,
+      "opening": 540,
+      "phase": 0,
+      "weight": 3.0,
+      "moves": [
+        "bs_sb_furnace_baron_ult_001"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "phase_burst",
+      "sound": "boss_roar",
+      "waves": [
+        {
+          "kind": "steam",
+          "warn": 110,
+          "damage": 35,
+          "origin": "boss",
+          "offsets": [
+            [
+              0,
+              0
+            ]
+          ],
+          "half": [
+            90,
+            46
+          ],
+          "delay": 0
+        }
+      ]
+    },
+    "MB_PIT_CHAMPION_001": {
+      "owner": "pit_champion",
+      "name": "Chair Smash",
+      "type": "strike",
+      "cooldown": 300,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_mb_pit_champion_001"
+      ],
+      "range": [
+        0,
+        58
+      ],
+      "lane": 20,
+      "fx": "hit_heavy",
+      "sound": "swing_heavy"
+    },
+    "MB_PIT_CHAMPION_002": {
+      "owner": "pit_champion",
+      "name": "Ring Rush",
+      "type": "charge",
+      "cooldown": 420,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_mb_pit_champion_002"
+      ],
+      "range": [
+        70,
+        190
+      ],
+      "lane": 18,
+      "fx": "rush",
+      "sound": "skill_rush"
+    },
+    "MB_PIT_CHAMPION_003": {
+      "owner": "pit_champion",
+      "name": "Haymaker Sweep",
+      "type": "sweep",
+      "cooldown": 360,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_mb_pit_champion_003"
+      ],
+      "range": [
+        0,
+        82
+      ],
+      "lane": 26,
+      "fx": "whirlwind",
+      "sound": "skill_whirlwind"
+    },
+    "MB_PIT_CHAMPION_ULT_001": {
+      "owner": "pit_champion",
+      "name": "Ring Collapse",
+      "type": "ultimate",
+      "ultimate": true,
+      "cooldown": 1500,
+      "opening": 540,
+      "phase": 0,
+      "weight": 3.0,
+      "moves": [
+        "bs_mb_pit_champion_ult_001"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "phase_burst",
+      "sound": "boss_roar",
+      "waves": [
+        {
+          "kind": "quake",
+          "warn": 110,
+          "damage": 27,
+          "origin": "boss",
+          "offsets": [
+            [
+              -120,
+              0
+            ],
+            [
+              -50,
+              0
+            ],
+            [
+              50,
+              0
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "half": [
+            24,
+            90
+          ],
+          "delay": 0
+        }
+      ]
+    },
+    "SB_HARBOURMASTER_CHEN_001": {
+      "owner": "harbourmaster_chen",
+      "name": "Tide Cutter",
+      "type": "sweep",
+      "cooldown": 349,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_sb_harbourmaster_chen_001"
+      ],
+      "range": [
+        0,
+        82
+      ],
+      "lane": 26,
+      "fx": "whirlwind",
+      "sound": "skill_whirlwind"
+    },
+    "SB_HARBOURMASTER_CHEN_002": {
+      "owner": "harbourmaster_chen",
+      "name": "Two-Hook Combo",
+      "type": "combo2",
+      "cooldown": 349,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_sb_harbourmaster_chen_002",
+        "bs_sb_harbourmaster_chen_002_2"
+      ],
+      "range": [
+        0,
+        52
+      ],
+      "lane": 18,
+      "fx": "hit_heavy",
+      "sound": "swing_heavy"
+    },
+    "SB_HARBOURMASTER_CHEN_003": {
+      "owner": "harbourmaster_chen",
+      "name": "Cargo Drop",
+      "type": "crane",
+      "cooldown": 466,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_sb_harbourmaster_chen_003"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "",
+      "sound": "hazard_warn",
+      "hazard": {
+        "kind": "crane",
+        "half": [
+          30,
+          10
+        ],
+        "warn": 58,
+        "damage": 32
+      }
+    },
+    "SB_HARBOURMASTER_CHEN_004": {
+      "owner": "harbourmaster_chen",
+      "name": "Dockside Charge",
+      "type": "charge",
+      "cooldown": 407,
+      "phase": 1,
+      "weight": 1.0,
+      "moves": [
+        "bs_sb_harbourmaster_chen_004"
+      ],
+      "range": [
+        70,
+        195
+      ],
+      "lane": 18,
+      "fx": "rush",
+      "sound": "skill_rush"
+    },
+    "SB_HARBOURMASTER_CHEN_ULT_001": {
+      "owner": "harbourmaster_chen",
+      "name": "Cargo Avalanche",
+      "type": "ultimate",
+      "ultimate": true,
+      "cooldown": 1500,
+      "opening": 540,
+      "phase": 0,
+      "weight": 3.0,
+      "moves": [
+        "bs_sb_harbourmaster_chen_ult_001"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "phase_burst",
+      "sound": "boss_roar",
+      "waves": [
+        {
+          "kind": "crane",
+          "warn": 108,
+          "damage": 32,
+          "origin": "boss",
+          "offsets": [
+            [
+              40,
+              0
+            ],
+            [
+              160,
+              0
+            ]
+          ],
+          "half": [
+            40,
+            46
+          ],
+          "delay": 0
+        },
+        {
+          "kind": "crane",
+          "warn": 108,
+          "damage": 32,
+          "origin": "boss",
+          "offsets": [
+            [
+              90,
+              0
+            ],
+            [
+              210,
+              0
+            ]
+          ],
+          "half": [
+            40,
+            46
+          ],
+          "delay": 48
+        }
+      ]
+    },
+    "MB_SECURITY_CHIEF_001": {
+      "owner": "security_chief",
+      "name": "Baton Drill",
+      "type": "combo2",
+      "cooldown": 338,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_mb_security_chief_001",
+        "bs_mb_security_chief_001_2"
+      ],
+      "range": [
+        0,
+        52
+      ],
+      "lane": 18,
+      "fx": "hit_heavy",
+      "sound": "swing_heavy"
+    },
+    "MB_SECURITY_CHIEF_002": {
+      "owner": "security_chief",
+      "name": "Lockdown Tackle",
+      "type": "charge",
+      "cooldown": 395,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_mb_security_chief_002"
+      ],
+      "range": [
+        70,
+        200
+      ],
+      "lane": 18,
+      "fx": "rush",
+      "sound": "skill_rush"
+    },
+    "MB_SECURITY_CHIEF_003": {
+      "owner": "security_chief",
+      "name": "Cuff Grab",
+      "type": "grab",
+      "cooldown": 508,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_mb_security_chief_003"
+      ],
+      "range": [
+        0,
+        36
+      ],
+      "lane": 14,
+      "fx": "uppercut",
+      "sound": "skill_uppercut"
+    },
+    "MB_SECURITY_CHIEF_ULT_001": {
+      "owner": "security_chief",
+      "name": "Lockdown",
+      "type": "ultimate",
+      "ultimate": true,
+      "cooldown": 1500,
+      "opening": 540,
+      "phase": 0,
+      "weight": 3.0,
+      "moves": [
+        "bs_mb_security_chief_ult_001"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "phase_burst",
+      "sound": "boss_roar",
+      "waves": [
+        {
+          "kind": "quake",
+          "warn": 106,
+          "damage": 21,
+          "origin": "boss",
+          "offsets": [
+            [
+              -180,
+              0
+            ],
+            [
+              -120,
+              0
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              180,
+              0
+            ]
+          ],
+          "half": [
+            24,
+            90
+          ],
+          "delay": 0
+        },
+        {
+          "kind": "quake",
+          "warn": 106,
+          "damage": 21,
+          "origin": "boss",
+          "offsets": [
+            [
+              -60,
+              0
+            ],
+            [
+              60,
+              0
+            ]
+          ],
+          "half": [
+            24,
+            90
+          ],
+          "delay": 48
+        },
+        {
+          "kind": "quake",
+          "warn": 106,
+          "damage": 21,
+          "origin": "boss",
+          "offsets": [
+            [
+              0,
+              0
+            ]
+          ],
+          "half": [
+            46,
+            46
+          ],
+          "delay": 96
+        }
+      ]
+    },
+    "SB_UNIT_K7_001": {
+      "owner": "unit_k7",
+      "name": "Piston Jabs",
+      "type": "combo2",
+      "cooldown": 338,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_sb_unit_k7_001",
+        "bs_sb_unit_k7_001_2"
+      ],
+      "range": [
+        0,
+        52
+      ],
+      "lane": 18,
+      "fx": "hit_heavy",
+      "sound": "swing_heavy"
+    },
+    "SB_UNIT_K7_002": {
+      "owner": "unit_k7",
+      "name": "Rail Leap",
+      "type": "leap",
+      "cooldown": 451,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_sb_unit_k7_002"
+      ],
+      "range": [
+        80,
+        190
+      ],
+      "lane": 28,
+      "fx": "slam",
+      "sound": "skill_slam"
+    },
+    "SB_UNIT_K7_003": {
+      "owner": "unit_k7",
+      "name": "Live Wire",
+      "type": "row",
+      "cooldown": 508,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_sb_unit_k7_003"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "",
+      "sound": "hazard_warn",
+      "hazard": {
+        "half": [
+          34,
+          12
+        ],
+        "count": 3,
+        "spread": [
+          0,
+          46
+        ],
+        "stagger": 6,
+        "kind": "shock",
+        "warn": 56,
+        "damage": 32
+      }
+    },
+    "SB_UNIT_K7_004": {
+      "owner": "unit_k7",
+      "name": "Clamp Hold",
+      "type": "grab",
+      "cooldown": 508,
+      "phase": 1,
+      "weight": 1.0,
+      "moves": [
+        "bs_sb_unit_k7_004"
+      ],
+      "range": [
+        0,
+        36
+      ],
+      "lane": 14,
+      "fx": "uppercut",
+      "sound": "skill_uppercut"
+    },
+    "SB_UNIT_K7_ULT_001": {
+      "owner": "unit_k7",
+      "name": "Overload Grid",
+      "type": "ultimate",
+      "ultimate": true,
+      "cooldown": 1500,
+      "opening": 540,
+      "phase": 0,
+      "weight": 3.0,
+      "moves": [
+        "bs_sb_unit_k7_ult_001"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "phase_burst",
+      "sound": "boss_roar",
+      "waves": [
+        {
+          "kind": "shock",
+          "warn": 106,
+          "damage": 35,
+          "origin": "boss",
+          "offsets": [
+            [
+              -150,
+              -24
+            ],
+            [
+              -50,
+              -24
+            ],
+            [
+              50,
+              -24
+            ],
+            [
+              150,
+              -24
+            ]
+          ],
+          "half": [
+            40,
+            25
+          ],
+          "delay": 0
+        },
+        {
+          "kind": "shock",
+          "warn": 106,
+          "damage": 35,
+          "origin": "boss",
+          "offsets": [
+            [
+              -150,
+              24
+            ],
+            [
+              -50,
+              24
+            ],
+            [
+              50,
+              24
+            ],
+            [
+              150,
+              24
+            ]
+          ],
+          "half": [
+            40,
+            25
+          ],
+          "delay": 48
+        }
+      ]
+    },
+    "MB_RINGMASTER_001": {
+      "owner": "ringmaster",
+      "name": "Plank Spin",
+      "type": "sweep",
+      "cooldown": 338,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_mb_ringmaster_001"
+      ],
+      "range": [
+        0,
+        82
+      ],
+      "lane": 26,
+      "fx": "whirlwind",
+      "sound": "skill_whirlwind"
+    },
+    "MB_RINGMASTER_002": {
+      "owner": "ringmaster",
+      "name": "Showstopper Leap",
+      "type": "leap",
+      "cooldown": 451,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_mb_ringmaster_002"
+      ],
+      "range": [
+        80,
+        190
+      ],
+      "lane": 28,
+      "fx": "slam",
+      "sound": "skill_slam"
+    },
+    "MB_RINGMASTER_003": {
+      "owner": "ringmaster",
+      "name": "Crowd Debris",
+      "type": "crane",
+      "cooldown": 451,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_mb_ringmaster_003"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "",
+      "sound": "hazard_warn",
+      "hazard": {
+        "kind": "crane",
+        "half": [
+          30,
+          10
+        ],
+        "warn": 56,
+        "damage": 32
+      }
+    },
+    "MB_RINGMASTER_ULT_001": {
+      "owner": "ringmaster",
+      "name": "Grand Finale",
+      "type": "ultimate",
+      "ultimate": true,
+      "cooldown": 1500,
+      "opening": 540,
+      "phase": 0,
+      "weight": 3.0,
+      "moves": [
+        "bs_mb_ringmaster_ult_001"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "phase_burst",
+      "sound": "boss_roar",
+      "waves": [
+        {
+          "kind": "crane",
+          "warn": 106,
+          "damage": 30,
+          "half": [
+            16,
+            10
+          ],
+          "count": 5,
+          "spread": [
+            160,
+            40
+          ],
+          "stagger": 4,
+          "delay": 0
+        },
+        {
+          "kind": "crane",
+          "warn": 106,
+          "damage": 30,
+          "origin": "boss",
+          "offsets": [
+            [
+              -90,
+              0
+            ],
+            [
+              90,
+              0
+            ]
+          ],
+          "half": [
+            40,
+            46
+          ],
+          "delay": 48
+        }
+      ]
+    },
+    "SB_BIG_SAK_001": {
+      "owner": "big_sak",
+      "name": "Grand Slam",
+      "type": "strike",
+      "cooldown": 273,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_sb_big_sak_001"
+      ],
+      "range": [
+        0,
+        58
+      ],
+      "lane": 20,
+      "fx": "hit_heavy",
+      "sound": "swing_heavy"
+    },
+    "SB_BIG_SAK_002": {
+      "owner": "big_sak",
+      "name": "Tower Charge",
+      "type": "charge",
+      "cooldown": 382,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_sb_big_sak_002"
+      ],
+      "range": [
+        70,
+        205
+      ],
+      "lane": 18,
+      "fx": "rush",
+      "sound": "skill_rush"
+    },
+    "SB_BIG_SAK_003": {
+      "owner": "big_sak",
+      "name": "Bat Flurry",
+      "type": "combo3",
+      "cooldown": 382,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_sb_big_sak_003",
+        "bs_sb_big_sak_003_2",
+        "bs_sb_big_sak_003_3"
+      ],
+      "range": [
+        0,
+        52
+      ],
+      "lane": 18,
+      "fx": "hit_heavy",
+      "sound": "swing_heavy"
+    },
+    "SB_BIG_SAK_004": {
+      "owner": "big_sak",
+      "name": "Call the Crew",
+      "type": "summon",
+      "cooldown": 819,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_sb_big_sak_004"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "",
+      "sound": "arena_lock",
+      "summon": {
+        "enemy": "network_runner",
+        "count": 2,
+        "max": 3
+      }
+    },
+    "SB_BIG_SAK_005": {
+      "owner": "big_sak",
+      "name": "Rooftop Leap",
+      "type": "leap",
+      "cooldown": 437,
+      "phase": 1,
+      "weight": 1.0,
+      "moves": [
+        "bs_sb_big_sak_005"
+      ],
+      "range": [
+        80,
+        190
+      ],
+      "lane": 28,
+      "fx": "slam",
+      "sound": "skill_slam"
+    },
+    "SB_BIG_SAK_ULT_001": {
+      "owner": "big_sak",
+      "name": "Tower Collapse",
+      "type": "ultimate",
+      "ultimate": true,
+      "cooldown": 1500,
+      "opening": 540,
+      "phase": 0,
+      "weight": 3.0,
+      "moves": [
+        "bs_sb_big_sak_ult_001"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "phase_burst",
+      "sound": "boss_roar",
+      "waves": [
+        {
+          "kind": "quake",
+          "warn": 104,
+          "damage": 32,
+          "origin": "boss",
+          "offsets": [
+            [
+              40,
+              0
+            ],
+            [
+              110,
+              0
+            ],
+            [
+              180,
+              0
+            ]
+          ],
+          "half": [
+            24,
+            90
+          ],
+          "delay": 0
+        },
+        {
+          "kind": "quake",
+          "warn": 104,
+          "damage": 32,
+          "origin": "boss",
+          "offsets": [
+            [
+              -40,
+              0
+            ],
+            [
+              -110,
+              0
+            ],
+            [
+              -180,
+              0
+            ]
+          ],
+          "half": [
+            24,
+            90
+          ],
+          "delay": 48
+        },
+        {
+          "kind": "quake",
+          "warn": 104,
+          "damage": 32,
+          "origin": "boss",
+          "offsets": [
+            [
+              0,
+              0
+            ]
+          ],
+          "half": [
+            56,
+            46
+          ],
+          "delay": 96
+        }
+      ]
+    },
+    "MB_SUBJECT_TWELVE_001": {
+      "owner": "subject_twelve",
+      "name": "Maul Flurry",
+      "type": "combo3",
+      "cooldown": 382,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_mb_subject_twelve_001",
+        "bs_mb_subject_twelve_001_2",
+        "bs_mb_subject_twelve_001_3"
+      ],
+      "range": [
+        0,
+        52
+      ],
+      "lane": 18,
+      "fx": "hit_heavy",
+      "sound": "swing_heavy"
+    },
+    "MB_SUBJECT_TWELVE_002": {
+      "owner": "subject_twelve",
+      "name": "Feral Pounce",
+      "type": "leap",
+      "cooldown": 437,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_mb_subject_twelve_002"
+      ],
+      "range": [
+        80,
+        190
+      ],
+      "lane": 28,
+      "fx": "slam",
+      "sound": "skill_slam"
+    },
+    "MB_SUBJECT_TWELVE_003": {
+      "owner": "subject_twelve",
+      "name": "Black Bile",
+      "type": "row",
+      "cooldown": 491,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_mb_subject_twelve_003"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "",
+      "sound": "hazard_warn",
+      "hazard": {
+        "half": [
+          34,
+          12
+        ],
+        "count": 3,
+        "spread": [
+          0,
+          46
+        ],
+        "stagger": 6,
+        "kind": "sludge",
+        "warn": 54,
+        "damage": 32
+      }
+    },
+    "MB_SUBJECT_TWELVE_004": {
+      "owner": "subject_twelve",
+      "name": "Hybrid Grab",
+      "type": "grab",
+      "cooldown": 491,
+      "phase": 1,
+      "weight": 1.0,
+      "moves": [
+        "bs_mb_subject_twelve_004"
+      ],
+      "range": [
+        0,
+        36
+      ],
+      "lane": 14,
+      "fx": "uppercut",
+      "sound": "skill_uppercut"
+    },
+    "MB_SUBJECT_TWELVE_ULT_001": {
+      "owner": "subject_twelve",
+      "name": "Feral Frenzy",
+      "type": "ultimate",
+      "ultimate": true,
+      "cooldown": 1500,
+      "opening": 540,
+      "phase": 0,
+      "weight": 3.0,
+      "moves": [
+        "bs_mb_subject_twelve_ult_001"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "phase_burst",
+      "sound": "boss_roar",
+      "waves": [
+        {
+          "kind": "sludge",
+          "warn": 104,
+          "damage": 32,
+          "origin": "hero",
+          "offsets": [
+            [
+              0,
+              0
+            ]
+          ],
+          "half": [
+            34,
+            46
+          ],
+          "delay": 0
+        },
+        {
+          "kind": "sludge",
+          "warn": 104,
+          "damage": 32,
+          "origin": "boss",
+          "offsets": [
+            [
+              -70,
+              0
+            ],
+            [
+              70,
+              0
+            ]
+          ],
+          "half": [
+            34,
+            46
+          ],
+          "delay": 48
+        },
+        {
+          "kind": "sludge",
+          "warn": 104,
+          "damage": 32,
+          "origin": "hero",
+          "offsets": [
+            [
+              0,
+              0
+            ]
+          ],
+          "half": [
+            34,
+            46
+          ],
+          "delay": 96
+        }
+      ]
+    },
+    "SB_COMMANDER_ARTHIT_001": {
+      "owner": "commander_arthit",
+      "name": "Command Baton",
+      "type": "combo3",
+      "cooldown": 382,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_sb_commander_arthit_001",
+        "bs_sb_commander_arthit_001_2",
+        "bs_sb_commander_arthit_001_3"
+      ],
+      "range": [
+        0,
+        52
+      ],
+      "lane": 18,
+      "fx": "hit_heavy",
+      "sound": "swing_heavy"
+    },
+    "SB_COMMANDER_ARTHIT_002": {
+      "owner": "commander_arthit",
+      "name": "Volley Order",
+      "type": "volley",
+      "cooldown": 546,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_sb_commander_arthit_002"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "",
+      "sound": "hazard_warn",
+      "hazard": {
+        "half": [
+          16,
+          10
+        ],
+        "count": 6,
+        "spread": [
+          240,
+          40
+        ],
+        "stagger": 5,
+        "kind": "shock",
+        "warn": 54,
+        "damage": 32
+      }
+    },
+    "SB_COMMANDER_ARTHIT_003": {
+      "owner": "commander_arthit",
+      "name": "Shield Wall Rush",
+      "type": "charge",
+      "cooldown": 382,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_sb_commander_arthit_003"
+      ],
+      "range": [
+        70,
+        205
+      ],
+      "lane": 18,
+      "fx": "rush",
+      "sound": "skill_rush"
+    },
+    "SB_COMMANDER_ARTHIT_004": {
+      "owner": "commander_arthit",
+      "name": "Arrest Lock",
+      "type": "grab",
+      "cooldown": 491,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_sb_commander_arthit_004"
+      ],
+      "range": [
+        0,
+        36
+      ],
+      "lane": 14,
+      "fx": "uppercut",
+      "sound": "skill_uppercut"
+    },
+    "SB_COMMANDER_ARTHIT_005": {
+      "owner": "commander_arthit",
+      "name": "Suppression Line",
+      "type": "row",
+      "cooldown": 491,
+      "phase": 1,
+      "weight": 1.0,
+      "moves": [
+        "bs_sb_commander_arthit_005"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "",
+      "sound": "hazard_warn",
+      "hazard": {
+        "half": [
+          34,
+          12
+        ],
+        "count": 3,
+        "spread": [
+          0,
+          46
+        ],
+        "stagger": 6,
+        "kind": "shock",
+        "warn": 54,
+        "damage": 32
+      }
+    },
+    "SB_COMMANDER_ARTHIT_ULT_001": {
+      "owner": "commander_arthit",
+      "name": "Total Suppression",
+      "type": "ultimate",
+      "ultimate": true,
+      "cooldown": 1500,
+      "opening": 540,
+      "phase": 0,
+      "weight": 3.0,
+      "moves": [
+        "bs_sb_commander_arthit_ult_001"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "phase_burst",
+      "sound": "boss_roar",
+      "waves": [
+        {
+          "kind": "shock",
+          "warn": 104,
+          "damage": 32,
+          "origin": "boss",
+          "offsets": [
+            [
+              -240,
+              0
+            ],
+            [
+              -180,
+              0
+            ],
+            [
+              -120,
+              0
+            ],
+            [
+              -60,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              180,
+              0
+            ],
+            [
+              240,
+              0
+            ]
+          ],
+          "half": [
+            28,
+            46
+          ],
+          "delay": 0
+        },
+        {
+          "kind": "shock",
+          "warn": 104,
+          "damage": 32,
+          "origin": "boss",
+          "offsets": [
+            [
+              -240,
+              0
+            ],
+            [
+              -180,
+              0
+            ],
+            [
+              -120,
+              0
+            ],
+            [
+              -60,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              180,
+              0
+            ],
+            [
+              240,
+              0
+            ]
+          ],
+          "half": [
+            28,
+            46
+          ],
+          "delay": 48
+        },
+        {
+          "kind": "rain",
+          "warn": 104,
+          "damage": 32,
+          "half": [
+            16,
+            10
+          ],
+          "count": 6,
+          "spread": [
+            220,
+            40
+          ],
+          "stagger": 4,
+          "delay": 96
+        }
+      ]
+    },
+    "SB_DIRECTOR_WIROJ_001": {
+      "owner": "director_wiroj",
+      "name": "Board Cut Combo",
+      "type": "combo3",
+      "cooldown": 370,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_sb_director_wiroj_001",
+        "bs_sb_director_wiroj_001_2",
+        "bs_sb_director_wiroj_001_3"
+      ],
+      "range": [
+        0,
+        52
+      ],
+      "lane": 18,
+      "fx": "hit_heavy",
+      "sound": "swing_heavy"
+    },
+    "SB_DIRECTOR_WIROJ_002": {
+      "owner": "director_wiroj",
+      "name": "Executive Leap",
+      "type": "leap",
+      "cooldown": 422,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_sb_director_wiroj_002"
+      ],
+      "range": [
+        80,
+        190
+      ],
+      "lane": 28,
+      "fx": "slam",
+      "sound": "skill_slam"
+    },
+    "SB_DIRECTOR_WIROJ_003": {
+      "owner": "director_wiroj",
+      "name": "Shareholder Grid",
+      "type": "chain",
+      "cooldown": 528,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_sb_director_wiroj_003"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "",
+      "sound": "hazard_warn",
+      "hazard": {
+        "kind": "shock",
+        "half": [
+          40,
+          14
+        ],
+        "count": 4,
+        "spread": [
+          260,
+          0
+        ],
+        "stagger": 8,
+        "warn": 52,
+        "damage": 32
+      }
+    },
+    "SB_DIRECTOR_WIROJ_004": {
+      "owner": "director_wiroj",
+      "name": "Hostile Takeover",
+      "type": "grab",
+      "cooldown": 475,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_sb_director_wiroj_004"
+      ],
+      "range": [
+        0,
+        36
+      ],
+      "lane": 14,
+      "fx": "uppercut",
+      "sound": "skill_uppercut"
+    },
+    "SB_DIRECTOR_WIROJ_005": {
+      "owner": "director_wiroj",
+      "name": "Market Crash",
+      "type": "quake",
+      "cooldown": 528,
+      "phase": 1,
+      "weight": 1.0,
+      "moves": [
+        "bs_sb_director_wiroj_005"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "",
+      "sound": "hazard_warn",
+      "hazard": {
+        "kind": "quake",
+        "half": [
+          24,
+          90
+        ],
+        "warn": 52,
+        "damage": 32
+      }
+    },
+    "SB_DIRECTOR_WIROJ_ULT_001": {
+      "owner": "director_wiroj",
+      "name": "Hostile Liquidation",
+      "type": "ultimate",
+      "ultimate": true,
+      "cooldown": 1500,
+      "opening": 540,
+      "phase": 0,
+      "weight": 3.0,
+      "moves": [
+        "bs_sb_director_wiroj_ult_001"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "phase_burst",
+      "sound": "boss_roar",
+      "waves": [
+        {
+          "kind": "shock",
+          "warn": 102,
+          "damage": 32,
+          "origin": "boss",
+          "offsets": [
+            [
+              -240,
+              0
+            ],
+            [
+              -180,
+              0
+            ],
+            [
+              -120,
+              0
+            ],
+            [
+              -60,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              180,
+              0
+            ],
+            [
+              240,
+              0
+            ]
+          ],
+          "half": [
+            28,
+            46
+          ],
+          "delay": 0
+        },
+        {
+          "kind": "shock",
+          "warn": 102,
+          "damage": 32,
+          "origin": "boss",
+          "offsets": [
+            [
+              -240,
+              0
+            ],
+            [
+              -180,
+              0
+            ],
+            [
+              -120,
+              0
+            ],
+            [
+              -60,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              180,
+              0
+            ],
+            [
+              240,
+              0
+            ]
+          ],
+          "half": [
+            28,
+            46
+          ],
+          "delay": 48
+        },
+        {
+          "kind": "quake",
+          "warn": 102,
+          "damage": 32,
+          "origin": "boss",
+          "offsets": [
+            [
+              0,
+              0
+            ]
+          ],
+          "half": [
+            24,
+            90
+          ],
+          "delay": 96
+        }
+      ]
+    },
+    "WB_TUNNEL_MOTHER_001": {
+      "owner": "tunnel_mother",
+      "name": "Brood Swipe",
+      "type": "sweep",
+      "cooldown": 328,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_tunnel_mother_001"
+      ],
+      "range": [
+        0,
+        82
+      ],
+      "lane": 26,
+      "fx": "whirlwind",
+      "sound": "skill_whirlwind"
+    },
+    "WB_TUNNEL_MOTHER_002": {
+      "owner": "tunnel_mother",
+      "name": "Drain Slam",
+      "type": "leap",
+      "cooldown": 437,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_tunnel_mother_002"
+      ],
+      "range": [
+        80,
+        190
+      ],
+      "lane": 28,
+      "fx": "slam",
+      "sound": "skill_slam"
+    },
+    "WB_TUNNEL_MOTHER_003": {
+      "owner": "tunnel_mother",
+      "name": "Bile Rain",
+      "type": "volley",
+      "cooldown": 546,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_tunnel_mother_003"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "",
+      "sound": "hazard_warn",
+      "hazard": {
+        "half": [
+          16,
+          10
+        ],
+        "count": 6,
+        "spread": [
+          240,
+          40
+        ],
+        "stagger": 5,
+        "kind": "sludge",
+        "warn": 54,
+        "damage": 32
+      }
+    },
+    "WB_TUNNEL_MOTHER_004": {
+      "owner": "tunnel_mother",
+      "name": "Call the Brood",
+      "type": "summon",
+      "cooldown": 819,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_tunnel_mother_004"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "",
+      "sound": "arena_lock",
+      "summon": {
+        "enemy": "tar_hound",
+        "count": 2,
+        "max": 3
+      }
+    },
+    "WB_TUNNEL_MOTHER_005": {
+      "owner": "tunnel_mother",
+      "name": "Sewer Surge",
+      "type": "charge",
+      "cooldown": 382,
+      "phase": 1,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_tunnel_mother_005"
+      ],
+      "range": [
+        70,
+        205
+      ],
+      "lane": 18,
+      "fx": "rush",
+      "sound": "skill_rush"
+    },
+    "WB_TUNNEL_MOTHER_ULT_001": {
+      "owner": "tunnel_mother",
+      "name": "Brood Deluge",
+      "type": "ultimate",
+      "ultimate": true,
+      "cooldown": 1500,
+      "opening": 540,
+      "phase": 0,
+      "weight": 3.0,
+      "moves": [
+        "bs_wb_tunnel_mother_ult_001"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "phase_burst",
+      "sound": "boss_roar",
+      "waves": [
+        {
+          "kind": "sludge",
+          "warn": 104,
+          "damage": 32,
+          "half": [
+            16,
+            10
+          ],
+          "count": 8,
+          "spread": [
+            260,
+            40
+          ],
+          "stagger": 4,
+          "delay": 0
+        },
+        {
+          "kind": "sludge",
+          "warn": 104,
+          "damage": 32,
+          "origin": "boss",
+          "offsets": [
+            [
+              -80,
+              0
+            ],
+            [
+              80,
+              0
+            ],
+            [
+              0,
+              -30
+            ],
+            [
+              0,
+              30
+            ]
+          ],
+          "half": [
+            30,
+            14
+          ],
+          "delay": 48
+        },
+        {
+          "kind": "quake",
+          "warn": 104,
+          "damage": 32,
+          "origin": "boss",
+          "offsets": [
+            [
+              -150,
+              0
+            ],
+            [
+              150,
+              0
+            ]
+          ],
+          "half": [
+            24,
+            90
+          ],
+          "delay": 96
+        }
+      ]
+    },
+    "WB_IRON_COLOSSUS_001": {
+      "owner": "iron_colossus",
+      "name": "Wrench Crusher",
+      "type": "strike",
+      "cooldown": 255,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_iron_colossus_001"
+      ],
+      "range": [
+        0,
+        58
+      ],
+      "lane": 20,
+      "fx": "hit_heavy",
+      "sound": "swing_heavy"
+    },
+    "WB_IRON_COLOSSUS_002": {
+      "owner": "iron_colossus",
+      "name": "Scrap Quake",
+      "type": "quake",
+      "cooldown": 510,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_iron_colossus_002"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "",
+      "sound": "hazard_warn",
+      "hazard": {
+        "kind": "quake",
+        "half": [
+          24,
+          90
+        ],
+        "warn": 50,
+        "damage": 30
+      }
+    },
+    "WB_IRON_COLOSSUS_003": {
+      "owner": "iron_colossus",
+      "name": "Magnet Pull",
+      "type": "grab",
+      "cooldown": 459,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_iron_colossus_003"
+      ],
+      "range": [
+        0,
+        36
+      ],
+      "lane": 14,
+      "fx": "uppercut",
+      "sound": "skill_uppercut"
+    },
+    "WB_IRON_COLOSSUS_004": {
+      "owner": "iron_colossus",
+      "name": "Junk Barrage",
+      "type": "volley",
+      "cooldown": 510,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_iron_colossus_004"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "",
+      "sound": "hazard_warn",
+      "hazard": {
+        "half": [
+          16,
+          10
+        ],
+        "count": 6,
+        "spread": [
+          240,
+          40
+        ],
+        "stagger": 5,
+        "kind": "crane",
+        "warn": 50,
+        "damage": 30
+      }
+    },
+    "WB_IRON_COLOSSUS_005": {
+      "owner": "iron_colossus",
+      "name": "Colossus Charge",
+      "type": "charge",
+      "cooldown": 357,
+      "phase": 1,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_iron_colossus_005"
+      ],
+      "range": [
+        70,
+        215
+      ],
+      "lane": 18,
+      "fx": "rush",
+      "sound": "skill_rush"
+    },
+    "WB_IRON_COLOSSUS_ULT_001": {
+      "owner": "iron_colossus",
+      "name": "Scrapyard Cataclysm",
+      "type": "ultimate",
+      "ultimate": true,
+      "cooldown": 1500,
+      "opening": 540,
+      "phase": 0,
+      "weight": 3.0,
+      "moves": [
+        "bs_wb_iron_colossus_ult_001"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "phase_burst",
+      "sound": "boss_roar",
+      "waves": [
+        {
+          "kind": "quake",
+          "warn": 100,
+          "damage": 38,
+          "origin": "boss",
+          "offsets": [
+            [
+              -90,
+              0
+            ],
+            [
+              90,
+              0
+            ]
+          ],
+          "half": [
+            24,
+            90
+          ],
+          "delay": 0
+        },
+        {
+          "kind": "crane",
+          "warn": 100,
+          "damage": 38,
+          "half": [
+            16,
+            10
+          ],
+          "count": 8,
+          "spread": [
+            260,
+            40
+          ],
+          "stagger": 4,
+          "delay": 48
+        },
+        {
+          "kind": "crane",
+          "warn": 100,
+          "damage": 38,
+          "origin": "boss",
+          "offsets": [
+            [
+              -90,
+              0
+            ],
+            [
+              90,
+              0
+            ],
+            [
+              0,
+              -30
+            ],
+            [
+              0,
+              30
+            ]
+          ],
+          "half": [
+            30,
+            14
+          ],
+          "delay": 96
+        }
+      ]
+    },
+    "WB_SUBJECT_ZERO_001": {
+      "owner": "subject_zero",
+      "name": "Zero Rend",
+      "type": "combo3",
+      "cooldown": 357,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_subject_zero_001",
+        "bs_wb_subject_zero_001_2",
+        "bs_wb_subject_zero_001_3"
+      ],
+      "range": [
+        0,
+        52
+      ],
+      "lane": 18,
+      "fx": "hit_heavy",
+      "sound": "swing_heavy"
+    },
+    "WB_SUBJECT_ZERO_002": {
+      "owner": "subject_zero",
+      "name": "Abyss Pounce",
+      "type": "leap",
+      "cooldown": 408,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_subject_zero_002"
+      ],
+      "range": [
+        80,
+        190
+      ],
+      "lane": 28,
+      "fx": "slam",
+      "sound": "skill_slam"
+    },
+    "WB_SUBJECT_ZERO_003": {
+      "owner": "subject_zero",
+      "name": "Black Tide",
+      "type": "volley",
+      "cooldown": 510,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_subject_zero_003"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "",
+      "sound": "hazard_warn",
+      "hazard": {
+        "half": [
+          16,
+          10
+        ],
+        "count": 6,
+        "spread": [
+          240,
+          40
+        ],
+        "stagger": 5,
+        "kind": "rain",
+        "warn": 50,
+        "damage": 27
+      }
+    },
+    "WB_SUBJECT_ZERO_004": {
+      "owner": "subject_zero",
+      "name": "Reservoir Geysers",
+      "type": "row",
+      "cooldown": 459,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_subject_zero_004"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "",
+      "sound": "hazard_warn",
+      "hazard": {
+        "half": [
+          34,
+          12
+        ],
+        "count": 3,
+        "spread": [
+          0,
+          46
+        ],
+        "stagger": 6,
+        "kind": "steam",
+        "warn": 50,
+        "damage": 27
+      }
+    },
+    "WB_SUBJECT_ZERO_005": {
+      "owner": "subject_zero",
+      "name": "Null Grip",
+      "type": "grab",
+      "cooldown": 459,
+      "phase": 1,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_subject_zero_005"
+      ],
+      "range": [
+        0,
+        36
+      ],
+      "lane": 14,
+      "fx": "uppercut",
+      "sound": "skill_uppercut"
+    },
+    "WB_SUBJECT_ZERO_ULT_001": {
+      "owner": "subject_zero",
+      "name": "Abyssal Tide",
+      "type": "ultimate",
+      "ultimate": true,
+      "cooldown": 1500,
+      "opening": 540,
+      "phase": 0,
+      "weight": 3.0,
+      "moves": [
+        "bs_wb_subject_zero_ult_001"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "phase_burst",
+      "sound": "boss_roar",
+      "waves": [
+        {
+          "kind": "rain",
+          "warn": 110,
+          "damage": 35,
+          "half": [
+            16,
+            10
+          ],
+          "count": 8,
+          "spread": [
+            260,
+            40
+          ],
+          "stagger": 4,
+          "delay": 0
+        },
+        {
+          "kind": "rain",
+          "warn": 110,
+          "damage": 35,
+          "origin": "boss",
+          "offsets": [
+            [
+              -240,
+              0
+            ],
+            [
+              -180,
+              0
+            ],
+            [
+              -120,
+              0
+            ],
+            [
+              -60,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              180,
+              0
+            ],
+            [
+              240,
+              0
+            ]
+          ],
+          "half": [
+            28,
+            46
+          ],
+          "delay": 48
+        },
+        {
+          "kind": "rain",
+          "warn": 110,
+          "damage": 35,
+          "origin": "hero",
+          "offsets": [
+            [
+              0,
+              0
+            ]
+          ],
+          "half": [
+            34,
+            46
+          ],
+          "delay": 96
+        }
+      ]
+    },
+    "MB_ARTHIT_REINSTATED_001": {
+      "owner": "arthit_reinstated",
+      "name": "Riot Line",
+      "type": "chain",
+      "cooldown": 510,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_mb_arthit_reinstated_001"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "",
+      "sound": "hazard_warn",
+      "hazard": {
+        "kind": "shock",
+        "half": [
+          40,
+          14
+        ],
+        "count": 4,
+        "spread": [
+          260,
+          0
+        ],
+        "stagger": 8,
+        "warn": 50,
+        "damage": 32
+      }
+    },
+    "MB_ARTHIT_REINSTATED_002": {
+      "owner": "arthit_reinstated",
+      "name": "Reinstated Baton",
+      "type": "combo3",
+      "cooldown": 357,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_mb_arthit_reinstated_002",
+        "bs_mb_arthit_reinstated_002_2",
+        "bs_mb_arthit_reinstated_002_3"
+      ],
+      "range": [
+        0,
+        52
+      ],
+      "lane": 18,
+      "fx": "hit_heavy",
+      "sound": "swing_heavy"
+    },
+    "MB_ARTHIT_REINSTATED_003": {
+      "owner": "arthit_reinstated",
+      "name": "Command Charge",
+      "type": "charge",
+      "cooldown": 357,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_mb_arthit_reinstated_003"
+      ],
+      "range": [
+        70,
+        215
+      ],
+      "lane": 18,
+      "fx": "rush",
+      "sound": "skill_rush"
+    },
+    "MB_ARTHIT_REINSTATED_004": {
+      "owner": "arthit_reinstated",
+      "name": "Squad Call",
+      "type": "summon",
+      "cooldown": 765,
+      "phase": 1,
+      "weight": 1.0,
+      "moves": [
+        "bs_mb_arthit_reinstated_004"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "",
+      "sound": "arena_lock",
+      "summon": {
+        "enemy": "facility_trooper",
+        "count": 2,
+        "max": 3
+      }
+    },
+    "MB_ARTHIT_REINSTATED_ULT_001": {
+      "owner": "arthit_reinstated",
+      "name": "Reinstatement Order",
+      "type": "ultimate",
+      "ultimate": true,
+      "cooldown": 1500,
+      "opening": 540,
+      "phase": 0,
+      "weight": 3.0,
+      "moves": [
+        "bs_mb_arthit_reinstated_ult_001"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "phase_burst",
+      "sound": "boss_roar",
+      "waves": [
+        {
+          "kind": "shock",
+          "warn": 100,
+          "damage": 32,
+          "origin": "boss",
+          "offsets": [
+            [
+              -240,
+              0
+            ],
+            [
+              -180,
+              0
+            ],
+            [
+              -120,
+              0
+            ],
+            [
+              -60,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              180,
+              0
+            ],
+            [
+              240,
+              0
+            ]
+          ],
+          "half": [
+            28,
+            46
+          ],
+          "delay": 0
+        },
+        {
+          "kind": "shock",
+          "warn": 100,
+          "damage": 32,
+          "origin": "boss",
+          "offsets": [
+            [
+              -240,
+              0
+            ],
+            [
+              -180,
+              0
+            ],
+            [
+              -120,
+              0
+            ],
+            [
+              -60,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              180,
+              0
+            ],
+            [
+              240,
+              0
+            ]
+          ],
+          "half": [
+            28,
+            46
+          ],
+          "delay": 48
+        },
+        {
+          "kind": "shock",
+          "warn": 100,
+          "damage": 32,
+          "origin": "boss",
+          "offsets": [
+            [
+              -240,
+              0
+            ],
+            [
+              -180,
+              0
+            ],
+            [
+              -120,
+              0
+            ],
+            [
+              -60,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              240,
+              0
+            ]
+          ],
+          "half": [
+            28,
+            46
+          ],
+          "delay": 96
+        }
+      ]
+    },
+    "MB_TWELVE_RELAPSED_001": {
+      "owner": "twelve_relapsed",
+      "name": "Relapse Frenzy",
+      "type": "combo3",
+      "cooldown": 357,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_mb_twelve_relapsed_001",
+        "bs_mb_twelve_relapsed_001_2",
+        "bs_mb_twelve_relapsed_001_3"
+      ],
+      "range": [
+        0,
+        52
+      ],
+      "lane": 18,
+      "fx": "hit_heavy",
+      "sound": "swing_heavy"
+    },
+    "MB_TWELVE_RELAPSED_002": {
+      "owner": "twelve_relapsed",
+      "name": "Toxic Bloom",
+      "type": "volley",
+      "cooldown": 510,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_mb_twelve_relapsed_002"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "",
+      "sound": "hazard_warn",
+      "hazard": {
+        "half": [
+          16,
+          10
+        ],
+        "count": 6,
+        "spread": [
+          240,
+          40
+        ],
+        "stagger": 5,
+        "kind": "sludge",
+        "warn": 50,
+        "damage": 32
+      }
+    },
+    "MB_TWELVE_RELAPSED_003": {
+      "owner": "twelve_relapsed",
+      "name": "Lunging Rend",
+      "type": "leap",
+      "cooldown": 408,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_mb_twelve_relapsed_003"
+      ],
+      "range": [
+        80,
+        190
+      ],
+      "lane": 28,
+      "fx": "slam",
+      "sound": "skill_slam"
+    },
+    "MB_TWELVE_RELAPSED_004": {
+      "owner": "twelve_relapsed",
+      "name": "Seizing Grip",
+      "type": "grab",
+      "cooldown": 459,
+      "phase": 1,
+      "weight": 1.0,
+      "moves": [
+        "bs_mb_twelve_relapsed_004"
+      ],
+      "range": [
+        0,
+        36
+      ],
+      "lane": 14,
+      "fx": "uppercut",
+      "sound": "skill_uppercut"
+    },
+    "MB_TWELVE_RELAPSED_ULT_001": {
+      "owner": "twelve_relapsed",
+      "name": "Relapse Bloom",
+      "type": "ultimate",
+      "ultimate": true,
+      "cooldown": 1500,
+      "opening": 540,
+      "phase": 0,
+      "weight": 3.0,
+      "moves": [
+        "bs_mb_twelve_relapsed_ult_001"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "phase_burst",
+      "sound": "boss_roar",
+      "waves": [
+        {
+          "kind": "sludge",
+          "warn": 100,
+          "damage": 32,
+          "origin": "hero",
+          "offsets": [
+            [
+              0,
+              0
+            ]
+          ],
+          "half": [
+            34,
+            46
+          ],
+          "delay": 0
+        },
+        {
+          "kind": "sludge",
+          "warn": 100,
+          "damage": 32,
+          "half": [
+            16,
+            10
+          ],
+          "count": 6,
+          "spread": [
+            200,
+            40
+          ],
+          "stagger": 4,
+          "delay": 48
+        },
+        {
+          "kind": "sludge",
+          "warn": 100,
+          "damage": 32,
+          "origin": "hero",
+          "offsets": [
+            [
+              0,
+              0
+            ]
+          ],
+          "half": [
+            34,
+            46
+          ],
+          "delay": 96
+        }
+      ]
+    },
+    "MB_K7_OVERDRIVEN_001": {
+      "owner": "k7_overdriven",
+      "name": "Overdrive Piston",
+      "type": "strike",
+      "cooldown": 246,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_mb_k7_overdriven_001"
+      ],
+      "range": [
+        0,
+        58
+      ],
+      "lane": 20,
+      "fx": "hit_heavy",
+      "sound": "swing_heavy"
+    },
+    "MB_K7_OVERDRIVEN_002": {
+      "owner": "k7_overdriven",
+      "name": "Arc Lattice",
+      "type": "chain",
+      "cooldown": 492,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_mb_k7_overdriven_002"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "",
+      "sound": "hazard_warn",
+      "hazard": {
+        "kind": "shock",
+        "half": [
+          40,
+          14
+        ],
+        "count": 4,
+        "spread": [
+          260,
+          0
+        ],
+        "stagger": 8,
+        "warn": 48,
+        "damage": 32
+      }
+    },
+    "MB_K7_OVERDRIVEN_003": {
+      "owner": "k7_overdriven",
+      "name": "Hydraulic Leap",
+      "type": "leap",
+      "cooldown": 394,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_mb_k7_overdriven_003"
+      ],
+      "range": [
+        80,
+        190
+      ],
+      "lane": 28,
+      "fx": "slam",
+      "sound": "skill_slam"
+    },
+    "MB_K7_OVERDRIVEN_004": {
+      "owner": "k7_overdriven",
+      "name": "Meltdown Press",
+      "type": "quake",
+      "cooldown": 492,
+      "phase": 1,
+      "weight": 1.0,
+      "moves": [
+        "bs_mb_k7_overdriven_004"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "",
+      "sound": "hazard_warn",
+      "hazard": {
+        "kind": "quake",
+        "half": [
+          24,
+          90
+        ],
+        "warn": 48,
+        "damage": 32
+      }
+    },
+    "MB_K7_OVERDRIVEN_ULT_001": {
+      "owner": "k7_overdriven",
+      "name": "Critical Meltdown",
+      "type": "ultimate",
+      "ultimate": true,
+      "cooldown": 1500,
+      "opening": 540,
+      "phase": 0,
+      "weight": 3.0,
+      "moves": [
+        "bs_mb_k7_overdriven_ult_001"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "phase_burst",
+      "sound": "boss_roar",
+      "waves": [
+        {
+          "kind": "shock",
+          "warn": 98,
+          "damage": 35,
+          "origin": "boss",
+          "offsets": [
+            [
+              -160,
+              -24
+            ],
+            [
+              -80,
+              -24
+            ],
+            [
+              0,
+              -24
+            ],
+            [
+              80,
+              -24
+            ],
+            [
+              160,
+              -24
+            ]
+          ],
+          "half": [
+            36,
+            25
+          ],
+          "delay": 0
+        },
+        {
+          "kind": "shock",
+          "warn": 98,
+          "damage": 35,
+          "origin": "boss",
+          "offsets": [
+            [
+              -120,
+              24
+            ],
+            [
+              -40,
+              24
+            ],
+            [
+              40,
+              24
+            ],
+            [
+              120,
+              24
+            ]
+          ],
+          "half": [
+            36,
+            25
+          ],
+          "delay": 48
+        },
+        {
+          "kind": "quake",
+          "warn": 98,
+          "damage": 35,
+          "origin": "boss",
+          "offsets": [
+            [
+              -60,
+              0
+            ],
+            [
+              60,
+              0
+            ]
+          ],
+          "half": [
+            24,
+            90
+          ],
+          "delay": 96
+        }
+      ]
+    },
+    "WB_SLAG_TITAN_001": {
+      "owner": "slag_titan",
+      "name": "Slag Swing",
+      "type": "sweep",
+      "cooldown": 306,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_slag_titan_001"
+      ],
+      "range": [
+        0,
+        82
+      ],
+      "lane": 26,
+      "fx": "whirlwind",
+      "sound": "skill_whirlwind"
+    },
+    "WB_SLAG_TITAN_002": {
+      "owner": "slag_titan",
+      "name": "Molten Leap",
+      "type": "leap",
+      "cooldown": 408,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_slag_titan_002"
+      ],
+      "range": [
+        80,
+        190
+      ],
+      "lane": 28,
+      "fx": "slam",
+      "sound": "skill_slam"
+    },
+    "WB_SLAG_TITAN_003": {
+      "owner": "slag_titan",
+      "name": "Slag Rain",
+      "type": "volley",
+      "cooldown": 510,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_slag_titan_003"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "",
+      "sound": "hazard_warn",
+      "hazard": {
+        "half": [
+          16,
+          10
+        ],
+        "count": 6,
+        "spread": [
+          240,
+          40
+        ],
+        "stagger": 5,
+        "kind": "rain",
+        "warn": 50,
+        "damage": 30
+      }
+    },
+    "WB_SLAG_TITAN_004": {
+      "owner": "slag_titan",
+      "name": "Furnace Quake",
+      "type": "quake",
+      "cooldown": 510,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_slag_titan_004"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "",
+      "sound": "hazard_warn",
+      "hazard": {
+        "kind": "quake",
+        "half": [
+          24,
+          90
+        ],
+        "warn": 50,
+        "damage": 30
+      }
+    },
+    "WB_SLAG_TITAN_005": {
+      "owner": "slag_titan",
+      "name": "Titan Grip",
+      "type": "grab",
+      "cooldown": 459,
+      "phase": 1,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_slag_titan_005"
+      ],
+      "range": [
+        0,
+        36
+      ],
+      "lane": 14,
+      "fx": "uppercut",
+      "sound": "skill_uppercut"
+    },
+    "WB_SLAG_TITAN_006": {
+      "owner": "slag_titan",
+      "name": "Forge Charge",
+      "type": "charge",
+      "cooldown": 357,
+      "phase": 2,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_slag_titan_006"
+      ],
+      "range": [
+        70,
+        215
+      ],
+      "lane": 18,
+      "fx": "rush",
+      "sound": "skill_rush"
+    },
+    "WB_SLAG_TITAN_ULT_001": {
+      "owner": "slag_titan",
+      "name": "Molten Collapse",
+      "type": "ultimate",
+      "ultimate": true,
+      "cooldown": 1500,
+      "opening": 540,
+      "phase": 0,
+      "weight": 3.0,
+      "moves": [
+        "bs_wb_slag_titan_ult_001"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "phase_burst",
+      "sound": "boss_roar",
+      "waves": [
+        {
+          "kind": "steam",
+          "warn": 100,
+          "damage": 38,
+          "origin": "boss",
+          "offsets": [
+            [
+              -70,
+              0
+            ],
+            [
+              70,
+              0
+            ],
+            [
+              0,
+              -30
+            ],
+            [
+              0,
+              30
+            ]
+          ],
+          "half": [
+            30,
+            14
+          ],
+          "delay": 0
+        },
+        {
+          "kind": "steam",
+          "warn": 100,
+          "damage": 38,
+          "origin": "boss",
+          "offsets": [
+            [
+              -240,
+              0
+            ],
+            [
+              -180,
+              0
+            ],
+            [
+              -120,
+              0
+            ],
+            [
+              -60,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              180,
+              0
+            ],
+            [
+              240,
+              0
+            ]
+          ],
+          "half": [
+            28,
+            46
+          ],
+          "delay": 48
+        },
+        {
+          "kind": "steam",
+          "warn": 100,
+          "damage": 38,
+          "origin": "boss",
+          "offsets": [
+            [
+              -240,
+              0
+            ],
+            [
+              -180,
+              0
+            ],
+            [
+              -120,
+              0
+            ],
+            [
+              -60,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              180,
+              0
+            ],
+            [
+              240,
+              0
+            ]
+          ],
+          "half": [
+            28,
+            46
+          ],
+          "delay": 96
+        },
+        {
+          "kind": "quake",
+          "warn": 100,
+          "damage": 38,
+          "origin": "boss",
+          "offsets": [
+            [
+              0,
+              0
+            ]
+          ],
+          "half": [
+            24,
+            90
+          ],
+          "delay": 144
+        }
+      ]
+    },
+    "WB_IRON_SOVEREIGN_001": {
+      "owner": "iron_sovereign",
+      "name": "Sovereign Cleave",
+      "type": "sweep",
+      "cooldown": 295,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_iron_sovereign_001"
+      ],
+      "range": [
+        0,
+        82
+      ],
+      "lane": 26,
+      "fx": "whirlwind",
+      "sound": "skill_whirlwind"
+    },
+    "WB_IRON_SOVEREIGN_002": {
+      "owner": "iron_sovereign",
+      "name": "Vault Rend",
+      "type": "combo3",
+      "cooldown": 344,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_iron_sovereign_002",
+        "bs_wb_iron_sovereign_002_2",
+        "bs_wb_iron_sovereign_002_3"
+      ],
+      "range": [
+        0,
+        52
+      ],
+      "lane": 18,
+      "fx": "hit_heavy",
+      "sound": "swing_heavy"
+    },
+    "WB_IRON_SOVEREIGN_003": {
+      "owner": "iron_sovereign",
+      "name": "Iron Decree",
+      "type": "quake",
+      "cooldown": 492,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_iron_sovereign_003"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "",
+      "sound": "hazard_warn",
+      "hazard": {
+        "kind": "quake",
+        "half": [
+          24,
+          90
+        ],
+        "warn": 48,
+        "damage": 30
+      }
+    },
+    "WB_IRON_SOVEREIGN_004": {
+      "owner": "iron_sovereign",
+      "name": "Shadow Rain",
+      "type": "volley",
+      "cooldown": 492,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_iron_sovereign_004"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "",
+      "sound": "hazard_warn",
+      "hazard": {
+        "half": [
+          16,
+          10
+        ],
+        "count": 6,
+        "spread": [
+          240,
+          40
+        ],
+        "stagger": 5,
+        "kind": "rain",
+        "warn": 48,
+        "damage": 27
+      }
+    },
+    "WB_IRON_SOVEREIGN_005": {
+      "owner": "iron_sovereign",
+      "name": "Sovereign Pounce",
+      "type": "leap",
+      "cooldown": 394,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_iron_sovereign_005"
+      ],
+      "range": [
+        80,
+        190
+      ],
+      "lane": 28,
+      "fx": "slam",
+      "sound": "skill_slam"
+    },
+    "WB_IRON_SOVEREIGN_006": {
+      "owner": "iron_sovereign",
+      "name": "Crown Grip",
+      "type": "grab",
+      "cooldown": 443,
+      "phase": 1,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_iron_sovereign_006"
+      ],
+      "range": [
+        0,
+        36
+      ],
+      "lane": 14,
+      "fx": "uppercut",
+      "sound": "skill_uppercut"
+    },
+    "WB_IRON_SOVEREIGN_007": {
+      "owner": "iron_sovereign",
+      "name": "Toll of Iron",
+      "type": "chain",
+      "cooldown": 492,
+      "phase": 2,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_iron_sovereign_007"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "",
+      "sound": "hazard_warn",
+      "hazard": {
+        "kind": "shock",
+        "half": [
+          40,
+          14
+        ],
+        "count": 4,
+        "spread": [
+          260,
+          0
+        ],
+        "stagger": 8,
+        "warn": 48,
+        "damage": 27
+      }
+    },
+    "WB_IRON_SOVEREIGN_ULT_001": {
+      "owner": "iron_sovereign",
+      "name": "Iron Judgement",
+      "type": "ultimate",
+      "ultimate": true,
+      "cooldown": 1500,
+      "opening": 540,
+      "phase": 0,
+      "weight": 3.0,
+      "moves": [
+        "bs_wb_iron_sovereign_ult_001"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "phase_burst",
+      "sound": "boss_roar",
+      "waves": [
+        {
+          "kind": "rain",
+          "warn": 98,
+          "damage": 35,
+          "origin": "hero",
+          "offsets": [
+            [
+              0,
+              0
+            ]
+          ],
+          "half": [
+            34,
+            46
+          ],
+          "delay": 0
+        },
+        {
+          "kind": "rain",
+          "warn": 98,
+          "damage": 35,
+          "origin": "boss",
+          "offsets": [
+            [
+              -240,
+              0
+            ],
+            [
+              -180,
+              0
+            ],
+            [
+              -120,
+              0
+            ],
+            [
+              -60,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              180,
+              0
+            ],
+            [
+              240,
+              0
+            ]
+          ],
+          "half": [
+            28,
+            46
+          ],
+          "delay": 48
+        },
+        {
+          "kind": "quake",
+          "warn": 98,
+          "damage": 35,
+          "origin": "boss",
+          "offsets": [
+            [
+              -160,
+              0
+            ],
+            [
+              160,
+              0
+            ]
+          ],
+          "half": [
+            24,
+            90
+          ],
+          "delay": 96
+        },
+        {
+          "kind": "rain",
+          "warn": 98,
+          "damage": 35,
+          "origin": "boss",
+          "offsets": [
+            [
+              -240,
+              0
+            ],
+            [
+              -180,
+              0
+            ],
+            [
+              -120,
+              0
+            ],
+            [
+              -60,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              180,
+              0
+            ],
+            [
+              240,
+              0
+            ]
+          ],
+          "half": [
+            28,
+            46
+          ],
+          "delay": 144
+        }
+      ]
+    },
+    "MB_SPILLWAY_CHIEF_001": {
+      "owner": "spillway_chief",
+      "name": "Floodgate Swing",
+      "type": "sweep",
+      "cooldown": 317,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_mb_spillway_chief_001"
+      ],
+      "range": [
+        0,
+        82
+      ],
+      "lane": 26,
+      "fx": "whirlwind",
+      "sound": "skill_whirlwind"
+    },
+    "MB_SPILLWAY_CHIEF_002": {
+      "owner": "spillway_chief",
+      "name": "Spillway Rush",
+      "type": "charge",
+      "cooldown": 370,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_mb_spillway_chief_002"
+      ],
+      "range": [
+        70,
+        210
+      ],
+      "lane": 18,
+      "fx": "rush",
+      "sound": "skill_rush"
+    },
+    "MB_SPILLWAY_CHIEF_003": {
+      "owner": "spillway_chief",
+      "name": "Debris Wave",
+      "type": "quake",
+      "cooldown": 528,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_mb_spillway_chief_003"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "",
+      "sound": "hazard_warn",
+      "hazard": {
+        "kind": "quake",
+        "half": [
+          24,
+          90
+        ],
+        "warn": 52,
+        "damage": 32
+      }
+    },
+    "MB_SPILLWAY_CHIEF_004": {
+      "owner": "spillway_chief",
+      "name": "Gate Bash Combo",
+      "type": "combo3",
+      "cooldown": 370,
+      "phase": 1,
+      "weight": 1.0,
+      "moves": [
+        "bs_mb_spillway_chief_004",
+        "bs_mb_spillway_chief_004_2",
+        "bs_mb_spillway_chief_004_3"
+      ],
+      "range": [
+        0,
+        52
+      ],
+      "lane": 18,
+      "fx": "hit_heavy",
+      "sound": "swing_heavy"
+    },
+    "MB_SPILLWAY_CHIEF_ULT_001": {
+      "owner": "spillway_chief",
+      "name": "Floodgate Burst",
+      "type": "ultimate",
+      "ultimate": true,
+      "cooldown": 1500,
+      "opening": 540,
+      "phase": 0,
+      "weight": 3.0,
+      "moves": [
+        "bs_mb_spillway_chief_ult_001"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "phase_burst",
+      "sound": "boss_roar",
+      "waves": [
+        {
+          "kind": "quake",
+          "warn": 102,
+          "damage": 21,
+          "origin": "boss",
+          "offsets": [
+            [
+              -240,
+              0
+            ],
+            [
+              -180,
+              0
+            ],
+            [
+              -120,
+              0
+            ],
+            [
+              -60,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              180,
+              0
+            ],
+            [
+              240,
+              0
+            ]
+          ],
+          "half": [
+            28,
+            46
+          ],
+          "delay": 0
+        },
+        {
+          "kind": "quake",
+          "warn": 102,
+          "damage": 21,
+          "origin": "boss",
+          "offsets": [
+            [
+              -240,
+              0
+            ],
+            [
+              -180,
+              0
+            ],
+            [
+              -120,
+              0
+            ],
+            [
+              -60,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              180,
+              0
+            ],
+            [
+              240,
+              0
+            ]
+          ],
+          "half": [
+            28,
+            46
+          ],
+          "delay": 48
+        },
+        {
+          "kind": "rain",
+          "warn": 102,
+          "damage": 21,
+          "half": [
+            16,
+            10
+          ],
+          "count": 8,
+          "spread": [
+            240,
+            40
+          ],
+          "stagger": 4,
+          "delay": 96
+        }
+      ]
+    },
+    "MB_WIROJ_PROTOCOL_001": {
+      "owner": "wiroj_protocol",
+      "name": "Protocol Cuts",
+      "type": "combo3",
+      "cooldown": 344,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_mb_wiroj_protocol_001",
+        "bs_mb_wiroj_protocol_001_2",
+        "bs_mb_wiroj_protocol_001_3"
+      ],
+      "range": [
+        0,
+        52
+      ],
+      "lane": 18,
+      "fx": "hit_heavy",
+      "sound": "swing_heavy"
+    },
+    "MB_WIROJ_PROTOCOL_002": {
+      "owner": "wiroj_protocol",
+      "name": "Executive Lunge",
+      "type": "charge",
+      "cooldown": 344,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_mb_wiroj_protocol_002"
+      ],
+      "range": [
+        70,
+        220
+      ],
+      "lane": 18,
+      "fx": "rush",
+      "sound": "skill_rush"
+    },
+    "MB_WIROJ_PROTOCOL_003": {
+      "owner": "wiroj_protocol",
+      "name": "Lockout Grid",
+      "type": "volley",
+      "cooldown": 492,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_mb_wiroj_protocol_003"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "",
+      "sound": "hazard_warn",
+      "hazard": {
+        "half": [
+          16,
+          10
+        ],
+        "count": 6,
+        "spread": [
+          240,
+          40
+        ],
+        "stagger": 5,
+        "kind": "shock",
+        "warn": 48,
+        "damage": 32
+      }
+    },
+    "MB_WIROJ_PROTOCOL_004": {
+      "owner": "wiroj_protocol",
+      "name": "Palm of Authority",
+      "type": "grab",
+      "cooldown": 443,
+      "phase": 1,
+      "weight": 1.0,
+      "moves": [
+        "bs_mb_wiroj_protocol_004"
+      ],
+      "range": [
+        0,
+        36
+      ],
+      "lane": 14,
+      "fx": "uppercut",
+      "sound": "skill_uppercut"
+    },
+    "MB_WIROJ_PROTOCOL_ULT_001": {
+      "owner": "wiroj_protocol",
+      "name": "Final Protocol",
+      "type": "ultimate",
+      "ultimate": true,
+      "cooldown": 1500,
+      "opening": 540,
+      "phase": 0,
+      "weight": 3.0,
+      "moves": [
+        "bs_mb_wiroj_protocol_ult_001"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "phase_burst",
+      "sound": "boss_roar",
+      "waves": [
+        {
+          "kind": "shock",
+          "warn": 98,
+          "damage": 32,
+          "origin": "boss",
+          "offsets": [
+            [
+              -240,
+              0
+            ],
+            [
+              -180,
+              0
+            ],
+            [
+              -120,
+              0
+            ],
+            [
+              -60,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              180,
+              0
+            ],
+            [
+              240,
+              0
+            ]
+          ],
+          "half": [
+            28,
+            46
+          ],
+          "delay": 0
+        },
+        {
+          "kind": "shock",
+          "warn": 98,
+          "damage": 32,
+          "origin": "boss",
+          "offsets": [
+            [
+              -240,
+              0
+            ],
+            [
+              -180,
+              0
+            ],
+            [
+              -120,
+              0
+            ],
+            [
+              -60,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              180,
+              0
+            ],
+            [
+              240,
+              0
+            ]
+          ],
+          "half": [
+            28,
+            46
+          ],
+          "delay": 48
+        },
+        {
+          "kind": "shock",
+          "warn": 98,
+          "damage": 32,
+          "origin": "hero",
+          "offsets": [
+            [
+              0,
+              0
+            ]
+          ],
+          "half": [
+            34,
+            46
+          ],
+          "delay": 96
+        },
+        {
+          "kind": "quake",
+          "warn": 98,
+          "damage": 32,
+          "origin": "boss",
+          "offsets": [
+            [
+              0,
+              0
+            ]
+          ],
+          "half": [
+            24,
+            90
+          ],
+          "delay": 144
+        }
+      ]
+    },
+    "WB_FLOODGATE_MARSHAL_001": {
+      "owner": "floodgate_marshal",
+      "name": "Marshal's Drill",
+      "type": "combo3",
+      "cooldown": 357,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_floodgate_marshal_001",
+        "bs_wb_floodgate_marshal_001_2",
+        "bs_wb_floodgate_marshal_001_3"
+      ],
+      "range": [
+        0,
+        52
+      ],
+      "lane": 18,
+      "fx": "hit_heavy",
+      "sound": "swing_heavy"
+    },
+    "WB_FLOODGATE_MARSHAL_002": {
+      "owner": "floodgate_marshal",
+      "name": "Flood Charge",
+      "type": "charge",
+      "cooldown": 357,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_floodgate_marshal_002"
+      ],
+      "range": [
+        70,
+        215
+      ],
+      "lane": 18,
+      "fx": "rush",
+      "sound": "skill_rush"
+    },
+    "WB_FLOODGATE_MARSHAL_003": {
+      "owner": "floodgate_marshal",
+      "name": "Gate Quake",
+      "type": "quake",
+      "cooldown": 510,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_floodgate_marshal_003"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "",
+      "sound": "hazard_warn",
+      "hazard": {
+        "kind": "quake",
+        "half": [
+          24,
+          90
+        ],
+        "warn": 50,
+        "damage": 32
+      }
+    },
+    "WB_FLOODGATE_MARSHAL_004": {
+      "owner": "floodgate_marshal",
+      "name": "Squad Volley",
+      "type": "volley",
+      "cooldown": 510,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_floodgate_marshal_004"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "",
+      "sound": "hazard_warn",
+      "hazard": {
+        "half": [
+          16,
+          10
+        ],
+        "count": 6,
+        "spread": [
+          240,
+          40
+        ],
+        "stagger": 5,
+        "kind": "rain",
+        "warn": 50,
+        "damage": 26
+      }
+    },
+    "WB_FLOODGATE_MARSHAL_005": {
+      "owner": "floodgate_marshal",
+      "name": "Arc Fence",
+      "type": "chain",
+      "cooldown": 510,
+      "phase": 1,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_floodgate_marshal_005"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "",
+      "sound": "hazard_warn",
+      "hazard": {
+        "kind": "shock",
+        "half": [
+          40,
+          14
+        ],
+        "count": 4,
+        "spread": [
+          260,
+          0
+        ],
+        "stagger": 8,
+        "warn": 50,
+        "damage": 27
+      }
+    },
+    "WB_FLOODGATE_MARSHAL_006": {
+      "owner": "floodgate_marshal",
+      "name": "Martial Law",
+      "type": "leap",
+      "cooldown": 408,
+      "phase": 2,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_floodgate_marshal_006"
+      ],
+      "range": [
+        80,
+        190
+      ],
+      "lane": 28,
+      "fx": "slam",
+      "sound": "skill_slam"
+    },
+    "WB_FLOODGATE_MARSHAL_ULT_001": {
+      "owner": "floodgate_marshal",
+      "name": "Martial Flood",
+      "type": "ultimate",
+      "ultimate": true,
+      "cooldown": 1500,
+      "opening": 540,
+      "phase": 0,
+      "weight": 3.0,
+      "moves": [
+        "bs_wb_floodgate_marshal_ult_001"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "phase_burst",
+      "sound": "boss_roar",
+      "waves": [
+        {
+          "kind": "quake",
+          "warn": 100,
+          "damage": 40,
+          "origin": "boss",
+          "offsets": [
+            [
+              -240,
+              0
+            ],
+            [
+              -180,
+              0
+            ],
+            [
+              -120,
+              0
+            ],
+            [
+              -60,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              180,
+              0
+            ],
+            [
+              240,
+              0
+            ]
+          ],
+          "half": [
+            28,
+            46
+          ],
+          "delay": 0
+        },
+        {
+          "kind": "quake",
+          "warn": 100,
+          "damage": 40,
+          "origin": "boss",
+          "offsets": [
+            [
+              -200,
+              0
+            ],
+            [
+              -100,
+              0
+            ],
+            [
+              100,
+              0
+            ],
+            [
+              200,
+              0
+            ]
+          ],
+          "half": [
+            24,
+            90
+          ],
+          "delay": 56
+        },
+        {
+          "kind": "rain",
+          "warn": 100,
+          "damage": 40,
+          "half": [
+            16,
+            10
+          ],
+          "count": 6,
+          "spread": [
+            280,
+            40
+          ],
+          "stagger": 4,
+          "delay": 112
+        },
+        {
+          "kind": "quake",
+          "warn": 100,
+          "damage": 40,
+          "origin": "boss",
+          "offsets": [
+            [
+              0,
+              0
+            ]
+          ],
+          "half": [
+            70,
+            46
+          ],
+          "delay": 168
+        }
+      ]
+    },
+    "WB_CRUCIBLE_KING_001": {
+      "owner": "crucible_king",
+      "name": "Crucible Combo",
+      "type": "combo3",
+      "cooldown": 344,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_crucible_king_001",
+        "bs_wb_crucible_king_001_2",
+        "bs_wb_crucible_king_001_3"
+      ],
+      "range": [
+        0,
+        52
+      ],
+      "lane": 18,
+      "fx": "hit_heavy",
+      "sound": "swing_heavy"
+    },
+    "WB_CRUCIBLE_KING_002": {
+      "owner": "crucible_king",
+      "name": "Molten Pour",
+      "type": "row",
+      "cooldown": 443,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_crucible_king_002"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "",
+      "sound": "hazard_warn",
+      "hazard": {
+        "half": [
+          34,
+          12
+        ],
+        "count": 3,
+        "spread": [
+          0,
+          46
+        ],
+        "stagger": 6,
+        "kind": "steam",
+        "warn": 48,
+        "damage": 25
+      }
+    },
+    "WB_CRUCIBLE_KING_003": {
+      "owner": "crucible_king",
+      "name": "King's Charge",
+      "type": "charge",
+      "cooldown": 344,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_crucible_king_003"
+      ],
+      "range": [
+        70,
+        220
+      ],
+      "lane": 18,
+      "fx": "rush",
+      "sound": "skill_rush"
+    },
+    "WB_CRUCIBLE_KING_004": {
+      "owner": "crucible_king",
+      "name": "Ember Storm",
+      "type": "volley",
+      "cooldown": 492,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_crucible_king_004"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "",
+      "sound": "hazard_warn",
+      "hazard": {
+        "half": [
+          16,
+          10
+        ],
+        "count": 6,
+        "spread": [
+          240,
+          40
+        ],
+        "stagger": 5,
+        "kind": "rain",
+        "warn": 48,
+        "damage": 25
+      }
+    },
+    "WB_CRUCIBLE_KING_005": {
+      "owner": "crucible_king",
+      "name": "Throne Slam",
+      "type": "leap",
+      "cooldown": 394,
+      "phase": 1,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_crucible_king_005"
+      ],
+      "range": [
+        80,
+        190
+      ],
+      "lane": 28,
+      "fx": "slam",
+      "sound": "skill_slam"
+    },
+    "WB_CRUCIBLE_KING_006": {
+      "owner": "crucible_king",
+      "name": "Smelt Grip",
+      "type": "grab",
+      "cooldown": 443,
+      "phase": 2,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_crucible_king_006"
+      ],
+      "range": [
+        0,
+        36
+      ],
+      "lane": 14,
+      "fx": "uppercut",
+      "sound": "skill_uppercut"
+    },
+    "WB_CRUCIBLE_KING_ULT_001": {
+      "owner": "crucible_king",
+      "name": "Crucible Overflow",
+      "type": "ultimate",
+      "ultimate": true,
+      "cooldown": 1500,
+      "opening": 540,
+      "phase": 0,
+      "weight": 3.0,
+      "moves": [
+        "bs_wb_crucible_king_ult_001"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "phase_burst",
+      "sound": "boss_roar",
+      "waves": [
+        {
+          "kind": "steam",
+          "warn": 98,
+          "damage": 48,
+          "origin": "boss",
+          "offsets": [
+            [
+              0,
+              0
+            ]
+          ],
+          "half": [
+            70,
+            46
+          ],
+          "delay": 0
+        },
+        {
+          "kind": "steam",
+          "warn": 98,
+          "damage": 48,
+          "origin": "boss",
+          "offsets": [
+            [
+              -240,
+              0
+            ],
+            [
+              -180,
+              0
+            ],
+            [
+              -120,
+              0
+            ],
+            [
+              -60,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              180,
+              0
+            ],
+            [
+              240,
+              0
+            ]
+          ],
+          "half": [
+            28,
+            46
+          ],
+          "delay": 48
+        },
+        {
+          "kind": "steam",
+          "warn": 98,
+          "damage": 48,
+          "origin": "boss",
+          "offsets": [
+            [
+              -240,
+              0
+            ],
+            [
+              -180,
+              0
+            ],
+            [
+              -120,
+              0
+            ],
+            [
+              -60,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              180,
+              0
+            ],
+            [
+              240,
+              0
+            ]
+          ],
+          "half": [
+            28,
+            46
+          ],
+          "delay": 96
+        },
+        {
+          "kind": "steam",
+          "warn": 98,
+          "damage": 48,
+          "half": [
+            16,
+            10
+          ],
+          "count": 8,
+          "spread": [
+            260,
+            40
+          ],
+          "stagger": 4,
+          "delay": 144
+        }
+      ]
+    },
+    "WB_FOUNDERS_ENGINE_001": {
+      "owner": "founders_engine",
+      "name": "Piston Cascade",
+      "type": "combo3",
+      "cooldown": 344,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_founders_engine_001",
+        "bs_wb_founders_engine_001_2",
+        "bs_wb_founders_engine_001_3"
+      ],
+      "range": [
+        0,
+        52
+      ],
+      "lane": 18,
+      "fx": "hit_heavy",
+      "sound": "swing_heavy"
+    },
+    "WB_FOUNDERS_ENGINE_002": {
+      "owner": "founders_engine",
+      "name": "Engine Rush",
+      "type": "charge",
+      "cooldown": 344,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_founders_engine_002"
+      ],
+      "range": [
+        70,
+        220
+      ],
+      "lane": 18,
+      "fx": "rush",
+      "sound": "skill_rush"
+    },
+    "WB_FOUNDERS_ENGINE_003": {
+      "owner": "founders_engine",
+      "name": "Grid Overload",
+      "type": "chain",
+      "cooldown": 492,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_founders_engine_003"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "",
+      "sound": "hazard_warn",
+      "hazard": {
+        "kind": "shock",
+        "half": [
+          40,
+          14
+        ],
+        "count": 4,
+        "spread": [
+          260,
+          0
+        ],
+        "stagger": 8,
+        "warn": 48,
+        "damage": 32
+      }
+    },
+    "WB_FOUNDERS_ENGINE_004": {
+      "owner": "founders_engine",
+      "name": "Foundation Quake",
+      "type": "quake",
+      "cooldown": 492,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_founders_engine_004"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "",
+      "sound": "hazard_warn",
+      "hazard": {
+        "kind": "quake",
+        "half": [
+          24,
+          90
+        ],
+        "warn": 48,
+        "damage": 38
+      }
+    },
+    "WB_FOUNDERS_ENGINE_005": {
+      "owner": "founders_engine",
+      "name": "Rivet Storm",
+      "type": "volley",
+      "cooldown": 492,
+      "phase": 0,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_founders_engine_005"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "",
+      "sound": "hazard_warn",
+      "hazard": {
+        "half": [
+          16,
+          10
+        ],
+        "count": 6,
+        "spread": [
+          240,
+          40
+        ],
+        "stagger": 5,
+        "kind": "rain",
+        "warn": 48,
+        "damage": 28
+      }
+    },
+    "WB_FOUNDERS_ENGINE_006": {
+      "owner": "founders_engine",
+      "name": "Press Grip",
+      "type": "grab",
+      "cooldown": 443,
+      "phase": 1,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_founders_engine_006"
+      ],
+      "range": [
+        0,
+        36
+      ],
+      "lane": 14,
+      "fx": "uppercut",
+      "sound": "skill_uppercut"
+    },
+    "WB_FOUNDERS_ENGINE_007": {
+      "owner": "founders_engine",
+      "name": "Final Stroke",
+      "type": "leap",
+      "cooldown": 394,
+      "phase": 2,
+      "weight": 1.0,
+      "moves": [
+        "bs_wb_founders_engine_007"
+      ],
+      "range": [
+        80,
+        190
+      ],
+      "lane": 28,
+      "fx": "slam",
+      "sound": "skill_slam"
+    },
+    "WB_FOUNDERS_ENGINE_ULT_001": {
+      "owner": "founders_engine",
+      "name": "Founder's Verdict",
+      "type": "ultimate",
+      "ultimate": true,
+      "cooldown": 1500,
+      "opening": 540,
+      "phase": 0,
+      "weight": 3.0,
+      "moves": [
+        "bs_wb_founders_engine_ult_001"
+      ],
+      "range": [
+        0,
+        260
+      ],
+      "lane": 0,
+      "fx": "phase_burst",
+      "sound": "boss_roar",
+      "waves": [
+        {
+          "kind": "quake",
+          "warn": 108,
+          "damage": 46,
+          "origin": "boss",
+          "offsets": [
+            [
+              -180,
+              0
+            ],
+            [
+              -60,
+              0
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              180,
+              0
+            ]
+          ],
+          "half": [
+            24,
+            90
+          ],
+          "delay": 0
+        },
+        {
+          "kind": "shock",
+          "warn": 108,
+          "damage": 46,
+          "origin": "boss",
+          "offsets": [
+            [
+              -240,
+              0
+            ],
+            [
+              -180,
+              0
+            ],
+            [
+              -120,
+              0
+            ],
+            [
+              -60,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              180,
+              0
+            ],
+            [
+              240,
+              0
+            ]
+          ],
+          "half": [
+            28,
+            46
+          ],
+          "delay": 48
+        },
+        {
+          "kind": "shock",
+          "warn": 108,
+          "damage": 46,
+          "origin": "boss",
+          "offsets": [
+            [
+              -240,
+              0
+            ],
+            [
+              -180,
+              0
+            ],
+            [
+              -120,
+              0
+            ],
+            [
+              -60,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              240,
+              0
+            ]
+          ],
+          "half": [
+            28,
+            46
+          ],
+          "delay": 96
+        },
+        {
+          "kind": "rain",
+          "warn": 108,
+          "damage": 46,
+          "half": [
+            16,
+            10
+          ],
+          "count": 8,
+          "spread": [
+            260,
+            40
+          ],
+          "stagger": 4,
+          "delay": 144
+        }
+      ]
+    }
+  }
+}

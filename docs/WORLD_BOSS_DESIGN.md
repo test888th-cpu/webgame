@@ -31,6 +31,11 @@ another. The Founder's Engine outlasts the Iron Sovereign.
 **Moves.** Each new boss has moves of its own: copies of story moves with bigger numbers
 and the same wind-up telegraphs, so they stay readable, plus a new heavy for every phase.
 
+**Skills.** Every world boss, like every stage boss and mini-boss, also has a skill set of
+its own (5-7 for a world boss, ids `WB_<BOSS>_00n`, in `client/data/boss_skills.json`,
+see `BossSkillRules`). Its finishers open only in later phases. When the boss falls or
+escapes at the bell, its skills and any hazard still waiting are cleared.
+
 **New hazard kinds.**
 - **Quake:** the street splits across its whole depth at the hero's spot. The answer is a
   step along the street, not across it.

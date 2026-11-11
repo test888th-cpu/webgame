@@ -35,6 +35,16 @@ const WANDER_PACE := 0.4
 const WANDER_PAUSE := Vector2i(60, 180)
 ## Ticks a stroll may take before it is given up for the next.
 const STROLL_TICKS := 240
+## A boss's own skills (BossSkillRules): the chance an opening goes to a
+## skill rather than a plain blow, the ticks between two skills, how long it
+## closes in on one before choosing again, and how much less likely the same
+## skill is twice in a row.
+const SKILL_CHANCE := 0.6
+const SKILL_GAP := 50
+const SKILL_CHASE := 150
+const SKILL_REPEAT := 0.25
+## A lunge carrying a fighter at least this far is a charge (see _press_attack).
+const CHARGE_ADVANCE := 60.0
 
 var spacing := 56.0
 var reaction_ticks := 12
@@ -83,6 +93,18 @@ var engaged := true
 ## Walking home after giving up a chase (FarmSpawner heals it there).
 var returning := false
 
+## A boss's own skills, set by BossSkills: [{"id", "range": [min, max] ahead,
+## "lane": lane depth (0: any), "phase", "weight"}], and the phase it is in.
+var boss_skills: Array = []
+var boss_phase := 0
+## The skill this boss is closing in to use ("" if none), the last one used,
+## the ticks before it may choose another, and the ticks spent closing in.
+var planned_skill := ""
+## Ticks a boss stands still, channelling (BossSkills: an Ultimate's waves).
+var hold := 0
+var last_skill := ""
+var skill_wait := 0
+
 ## Ticks until this enemy may attack again.
 var cooldown := 0
 ## Ticks left before acting on the current opening.
@@ -94,6 +116,7 @@ var planned := ""
 var guarding := 0
 ## The target attack (by its start tick) already reacted to.
 var _read_attack := -1
+var _skill_chase := 0
 var _last_hp := -1
 ## Where an idle camp member strolls to next, and the ticks it waits first.
 var _stroll := Vector2.INF
@@ -144,13 +167,17 @@ func think(
 	cooldown = maxi(0, cooldown - 1)
 	heavy_wait = maxi(0, heavy_wait - 1)
 	grab_wait = maxi(0, grab_wait - 1)
+	skill_wait = maxi(0, skill_wait - 1)
 	eyed = false
 	if guarding > 0 and me.state in [Fighter.State.IDLE, Fighter.State.GUARD]:
 		guarding -= 1
 		input.guard = true
 		return input
-	var off_duty := home != Vector2.INF and not _on_duty(me, target, input, rng)
-	if off_duty or me.state != Fighter.State.IDLE or target == null or target.is_ko():
+	# Channelling (an Ultimate): standing its ground, doing nothing else.
+	var held := hold > 0
+	hold = maxi(0, hold - 1)
+	var off_duty := not held and home != Vector2.INF and not _on_duty(me, target, input, rng)
+	if held or off_duty or me.state != Fighter.State.IDLE or target == null or target.is_ko():
 		return input
 	var dx := target.position.x - me.position.x
 	var dir_x := 1 if dx >= 0.0 else -1
@@ -158,7 +185,15 @@ func think(
 	input.face = dir_x
 	if _react_to_attack(me, target, distance, dir_x, input, rng, tick):
 		return input
-	if me.weapon == "" and _go_for_weapon(me, target, may_attack, loot_at, rng, input):
+	var fetched := me.weapon == "" and _go_for_weapon(me, target, may_attack, loot_at, rng, input)
+	var skilled := (
+		not fetched
+		and not boss_skills.is_empty()
+		and may_attack
+		and cooldown == 0
+		and _press_skill(me, target, input, distance, dir_x, rng)
+	)
+	if fetched or skilled:
 		return input
 	if ranged_max > 0.0:
 		input = _keep_range(me, target, input, distance, dir_x, may_attack, library, rng)
@@ -321,6 +356,90 @@ func _keep_range(
 
 
 ## True when this brain is ready to use an attack token.
+## A boss's skill: choose one (off cooldown, in its phase, not the last one
+## if another will do), close to its range and lane, then press it. Returns
+## false when no skill is wanted now (the plain blows take the opening).
+func _press_skill(
+	me: Fighter,
+	target: Fighter,
+	input: FighterInput,
+	distance: float,
+	dir_x: int,
+	rng: RandomNumberGenerator
+) -> bool:
+	if planned_skill == "":
+		if skill_wait > 0:
+			return false
+		planned_skill = _pick_skill(me, distance, rng)
+		_skill_chase = 0
+		if planned_skill == "":
+			skill_wait = SKILL_GAP
+			return false
+	var choice := _choice(planned_skill)
+	if choice.is_empty() or me.cooldown_left(planned_skill) > 0:
+		planned_skill = ""
+		return false
+	var span: Array = choice["range"]
+	var dy := target.position.y - me.position.y
+	var lane := float(choice["lane"])
+	var in_lane := lane <= 0.0 or absf(dy) <= lane * 0.6
+	if distance >= float(span[0]) and distance <= float(span[1]) and in_lane:
+		input.skill = planned_skill
+		input.face = dir_x
+		last_skill = planned_skill
+		planned_skill = ""
+		skill_wait = SKILL_GAP
+		cooldown = cooldown_ticks + rng.randi_range(0, cooldown_jitter)
+		return true
+	_skill_chase += 1
+	if _skill_chase > SKILL_CHASE:
+		planned_skill = ""
+		skill_wait = SKILL_GAP
+		return false
+	var move_x := 0.0
+	if distance > float(span[1]):
+		move_x = dir_x
+	elif distance < float(span[0]):
+		move_x = -dir_x
+	input.move = Vector2(move_x, 0.0 if in_lane else signf(dy))
+	return true
+
+
+## A skill to use next, weighted, favouring one usable from here; "" for a
+## plain blow instead.
+func _pick_skill(me: Fighter, distance: float, rng: RandomNumberGenerator) -> String:
+	if rng.randf() >= SKILL_CHANCE:
+		return ""
+	var ready: Array = []
+	var total := 0.0
+	for choice: Dictionary in boss_skills:
+		if int(choice["phase"]) > boss_phase or me.cooldown_left(str(choice["id"])) > 0:
+			continue
+		var weight := float(choice["weight"])
+		var span: Array = choice["range"]
+		if distance >= float(span[0]) and distance <= float(span[1]):
+			weight *= 2.0
+		if str(choice["id"]) == last_skill:
+			weight *= SKILL_REPEAT
+		ready.append([str(choice["id"]), weight])
+		total += weight
+	if ready.is_empty():
+		return ""
+	var roll := rng.randf() * total
+	for pair: Array in ready:
+		roll -= float(pair[1])
+		if roll <= 0.0:
+			return pair[0]
+	return ready.back()[0]
+
+
+func _choice(id: String) -> Dictionary:
+	for choice: Dictionary in boss_skills:
+		if choice["id"] == id:
+			return choice
+	return {}
+
+
 func wants_attack() -> bool:
 	return cooldown == 0 and engaged
 
@@ -403,6 +522,11 @@ func _press_attack(
 		planned = ""
 		return input
 	var near := move.reach_offset - CombatRules.HURT_HALF_WIDTH + RANGE_MARGIN
+	if move.advance >= CHARGE_ADVANCE:
+		# A charge starts from well beyond its plain reach (a third of its run
+		# out), or it would never be seen.
+		var reach := move.reach_offset + move.reach + CombatRules.HURT_HALF_WIDTH
+		near = maxf(near, reach + move.advance / 3.0)
 	# A lunge carries its hitbox forward, so a charge starts from further out.
 	var far := (
 		move.reach_offset + move.reach + move.advance + CombatRules.HURT_HALF_WIDTH - RANGE_MARGIN
