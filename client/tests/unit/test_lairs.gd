@@ -1,9 +1,9 @@
 extends TestCase
-## Boss lairs (areas.json "kind": "lair", AreaRules.LAIR): a short arena off
-## the street with one boss fight, opened by the same unlock rules as a
+## Boss lairs (areas.json "kind": "lair", AreaRules.LAIR): ten blocks of
+## camps off the street (BlockRules), opened by the same unlock rules as a
 ## farming ground, reached by the field truck from the city and left west to
-## it. The fight walls the hero in, and comes back after every rest, so a
-## lair's boss can be farmed like a ground's field.
+## it. Their boss roams them as a mini-boss (LairRules): it turns up in one
+## block at random, with no arena, and comes back 30 minutes after it falls.
 
 const FOOD := ["rice_box", "herbal_tonic"]
 
@@ -32,14 +32,10 @@ func _hero(level: int) -> PlayerProfile:
 
 
 func _boss(lair_id: String) -> String:
-	for wave: Array in _content().area(lair_id)["encounters"][0]["waves"]:
-		for kind: String in wave:
-			if _content().enemy(kind).get("boss", false):
-				return kind
-	return ""
+	return LairRules.boss(_content(), lair_id)
 
 
-func test_each_lair_is_one_boss_fight_off_the_street() -> void:
+func test_each_lair_is_ten_blocks_of_field_with_a_roaming_mini_boss() -> void:
 	var c := _content()
 	assert_eq(c.errors, PackedStringArray(), "the data validates")
 	var lairs := AreaRules.lairs(c)
@@ -48,10 +44,11 @@ func test_each_lair_is_one_boss_fight_off_the_street() -> void:
 		var area := c.area(lair_id)
 		assert_true(lair_id not in StreetMemory.street(c), lair_id + ": off the street")
 		assert_eq(area["exits"], {"west": {"to": c.city_area, "entry": "west"}}, lair_id + ": exit")
-		assert_true(not FarmSpawner.active(c, lair_id), lair_id + ": no living field")
-		assert_eq(area["encounters"].size(), 1, lair_id + ": one fight")
+		assert_true(FarmSpawner.active(c, lair_id), lair_id + ": a living field")
+		assert_eq(area["encounters"].size(), 0, lair_id + ": no fixed fight")
+		assert_eq(BlockRules.count(c, lair_id), 10, lair_id + ": ten blocks")
 		var boss := _boss(lair_id)
-		assert_true(boss != "", lair_id + ": a boss in it")
+		assert_true(c.enemy(boss).get("boss", false), lair_id + ": a boss roams it")
 		assert_true(c.enemy(boss).has("enrage"), lair_id + ": its boss has a fight timer")
 		assert_true(str(area.get("purpose", "")) != "", lair_id + ": a purpose")
 		var alloy := false
@@ -99,20 +96,48 @@ func test_the_chain_follows_the_lairs_bosses() -> void:
 		assert_eq(opener, _boss(by_level[i - 1]), by_level[i] + ": opened by the lair before")
 
 
-func test_the_fight_walls_in_pays_out_and_comes_back_after_a_rest() -> void:
+func test_the_mini_boss_turns_up_in_one_block_then_after_30_minutes() -> void:
+	var c := _content()
+	var lair_id := "spillway_gatehouse"
+	var profile := _hero(int(c.area(lair_id)["level"]))
+	var now := 1_800_000_000
+	var out: Array[int] = []
+	for block in range(1, 11):
+		if LairRules.here(profile, c, lair_id, block, now):
+			out.append(block)
+	assert_eq(out.size(), 1, "out in exactly one block at first")
+	var zone := ZoneSim.new(c, profile, lair_id, "west", 3)
+	zone.block = out[0]
+	var boss := LairRules.arrive(zone, now)
+	assert_true(boss != null and boss.kind == _boss(lair_id), "there when the hero walks in")
+	assert_true(boss.ungrabbable, "a mini-boss is never grabbed")
+	var other := ZoneSim.new(c, profile, lair_id, "west", 3)
+	other.block = (out[0] % 10) + 1
+	assert_eq(LairRules.arrive(other, now), null, "and in no other block")
+	assert_true(LairRules.on_defeat(profile, c, lair_id, _boss(lair_id), now), "beaten")
+	for block in range(1, 11):
+		assert_true(not LairRules.here(profile, c, lair_id, block, now + 1799), "gone a while")
+	var back := 0
+	for block in range(1, 11):
+		back += 1 if LairRules.here(profile, c, lair_id, block, now + 1800) else 0
+	assert_eq(back, 1, "back in one block 30 minutes on")
+	assert_true(
+		not LairRules.on_defeat(profile, c, lair_id, "facility_trooper", now), "not a trooper"
+	)
+	var saved := PlayerProfile.from_dict(profile.to_dict(), c)
+	assert_eq(LairRules.due(saved, lair_id), now + 1800, "the wait is saved")
+
+
+func test_a_lair_mini_boss_is_beaten_at_the_lair_level() -> void:
 	var c := _content()
 	var lair_id := "spillway_gatehouse"
 	var profile := _hero(int(c.area(lair_id)["level"]) + 2)
-	profile.defeated["commander_arthit"] = 1
-	var boss := _boss(lair_id)
 	var zone := ZoneSim.new(c, profile, lair_id, "west", 7)
 	zone.refresh_hero()
 	zone.hero.hp = zone.hero.max_hp
+	var boss := zone.spawn_enemy(_boss(lair_id), zone.hero.position + Vector2(160, 0))
 	var pilot := AutoPilot.new(c)
-	var walled := false
 	var won := false
-	var xp := 0
-	# Five minutes of auto battle at the lair's suggested level and a little.
 	for tick in 18000:
 		if zone.hero.is_ko():
 			break
@@ -120,32 +145,29 @@ func test_the_fight_walls_in_pays_out_and_comes_back_after_a_rest() -> void:
 		if pilot.item:
 			zone.use_item(pilot.item)
 		for event in zone.tick(input):
-			if event.type == "defeat":
-				xp += int(event.data["xp"])
-			won = won or event.type == "encounter_clear"
-		walled = walled or zone.fight_locked()
+			won = won or (event.type == "defeat" and event.data["id"] == boss.id)
 		if won:
 			break
-	assert_true(walled, "the boss fight walls the hero in")
+	assert_true(not zone.fight_locked(), "no arena walls the hero in")
 	assert_true(not zone.hero.is_ko(), "the hero lasts at the lair's level")
-	assert_true(won, "and wins it")
-	assert_true(int(profile.defeated.get(boss, 0)) > 0, "the boss is counted down")
-	assert_true(xp > 0, "for XP")
-	assert_true(StreetMemory.pending(profile, c, lair_id).is_empty(), "won until a rest")
-	StreetMemory.rest(profile)
-	assert_eq(StreetMemory.pending(profile, c, lair_id), [0] as Array[int], "back after a rest")
+	assert_true(won, "and beats the mini-boss")
+	assert_true(int(profile.defeated.get(boss.kind, 0)) > 0, "counted down")
 
 
-func test_the_validator_keeps_a_lair_to_one_boss_fight() -> void:
+func test_the_validator_keeps_a_lair_a_field_with_a_mini_boss() -> void:
 	var copy := ContentDB.load_all()
 	var lair: Dictionary = copy.areas["spillway_gatehouse"]
-	lair["spawning"] = copy.area("farm_core_spillway")["spawning"].duplicate(true)
+	lair.erase("spawning")
 	lair["encounters"] = [{"trigger_x": 420, "arena": [300, 1280], "waves": [["facility_trooper"]]}]
+	lair["mini_boss"] = "facility_trooper"
+	lair["blocks"] = 1
 	copy.errors.clear()
 	copy.validate()
 	var said := "\n".join(copy.errors)
-	assert_true("not a living field" in said, "no field in a lair")
-	assert_true("one fight, with one boss in it" in said, "a boss in its fight")
+	assert_true("a lair is a living field" in said, "a field in a lair")
+	assert_true(".encounters: none" in said, "no fixed fight")
+	assert_true(".mini_boss: a boss enemy" in said, "a boss roams it")
+	assert_true("a lair is several blocks" in said, "several blocks")
 
 
 func test_auto_battle_never_takes_the_hero_to_a_lair_or_a_ground() -> void:
@@ -167,4 +189,4 @@ func test_auto_battle_never_takes_the_hero_to_a_lair_or_a_ground() -> void:
 				)
 	for lair_id in AreaRules.lairs(c):
 		assert_true(lair_id not in AreaRules.farms(c), lair_id + ": never a farming ground")
-		assert_true(not FarmSpawner.active(c, lair_id), lair_id + ": no field for auto to hunt")
+		assert_true(FarmSpawner.active(c, lair_id), lair_id + ": a field auto hunts once there")

@@ -9,12 +9,13 @@ extends RefCounted
 ## "world_boss", everything else is the street), and a street area's region
 ## is its district. A farming ground ("kind": "farm") always states its
 ## region, its purpose and its unlock rule: {"reached": a story area} or
-## {"defeated": a boss}. A boss lair ("kind": "lair") is a farming ground's
-## counterpart for one boss: a small arena holding a single boss fight that
-## comes back after every rest, reached the same way (by the field truck from
-## the hub, west back to it) and opened by the same unlock rules. Unlocks read
-## what the profile already keeps (areas reached, enemies defeated), so
-## nothing new is saved. Pure rules, shared with the server.
+## {"defeated": a boss}. A boss lair ("kind": "lair") is a farming ground
+## with a mini-boss: ten blocks of camps at its level, where its boss roams,
+## turning up in one block now and then (LairRules); reached the same way (by
+## the field truck from the hub, west back to it) and opened by the same
+## unlock rules. Unlocks read what the profile already keeps (areas reached,
+## enemies defeated), so nothing new is saved. Pure rules, shared with the
+## server.
 
 const STREET := "street"
 const CITY := "city"
@@ -216,25 +217,18 @@ static func _farm_problems(
 	return _gated_problems(content, id, street, "a farming ground")
 
 
-## A lair: a farming ground's rules, plus exactly one fight, with a boss in
-## it, and no living field.
+## A lair: a farming ground's rules, a living field ("spawning") and no
+## fixed fights; its boss roams it as a mini-boss (LairRules checks which).
 static func _lair_problems(
 	content: ContentDB, id: String, street: Array[String]
 ) -> PackedStringArray:
 	var out := _gated_problems(content, id, street, "a lair")
 	var a := content.area(id)
 	var where := "areas.%s" % id
-	if a.has("spawning"):
-		out.append(where + ": a lair holds one boss fight, not a living field")
-	var encounters: Array = a.get("encounters", [])
-	var bosses := 0
-	if encounters.size() == 1:
-		for wave: Array in encounters[0].get("waves", []):
-			for foe: Variant in wave:
-				if content.enemies.get(str(foe), {}).get("boss", false):
-					bosses += 1
-	if encounters.size() != 1 or bosses != 1:
-		out.append(where + ".encounters: one fight, with one boss in it")
+	if not a.has("spawning"):
+		out.append(where + ": a lair is a living field (spawning) its mini-boss roams")
+	if not a.get("encounters", []).is_empty():
+		out.append(where + ".encounters: none; the mini-boss comes by itself")
 	return out
 
 

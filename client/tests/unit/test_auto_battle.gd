@@ -331,7 +331,8 @@ func test_it_braces_when_hurt_in_a_fight() -> void:
 
 
 func test_it_never_tries_to_hold_a_boss_or_mini_boss() -> void:
-	for kind: String in ["smog_warden", "sludge_foreman"]:
+	# Two mini-bosses (bosses short of a district's end); an elite can be held.
+	for kind: String in ["pit_champion", "sludge_foreman"]:
 		# In the yard, alone with it: a street's own thugs may of course be grabbed.
 		var zone := _zone("depot_yard", "oren", 30)
 		zone.hero.position = Vector2(300, 300)

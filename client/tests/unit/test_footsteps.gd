@@ -45,3 +45,24 @@ func test_a_crowd_does_not_drum() -> void:
 		f.position.x += Footsteps.STRIDE
 	var heard := steps.update(zone, 1000)
 	assert_eq(heard.size(), 1, "six strides on one frame: one footfall heard")
+
+
+func test_footfalls_follow_the_feet_on_screen() -> void:
+	var view: FighterView = load("res://scenes/fighter/FighterView.tscn").instantiate()
+	tree.root.add_child(view)
+	view.set_art("hero_oren", GameSession.content.art)
+	var sprite := view.get_node("Sprite") as AnimatedSprite2D
+	sprite.play("walk")
+	var feet: Array[String] = []
+	for frame in 8:
+		sprite.frame = frame
+		feet.append(view.footfall())
+		feet.append(view.footfall())  # the same frame twice: one footfall
+	assert_eq(feet.filter(func(f: String) -> bool: return f != ""), ["l", "r"], "left, right")
+	assert_eq(feet[0], "l", "the left foot first")
+	assert_eq(feet[FighterView.STEP_FRAMES[1] * 2], "r", "the right foot half a cycle on")
+	sprite.play("idle")
+	assert_eq(view.footfall(), "", "standing still: none")
+	var cycle := 8.0 / 10.0  # the walk: 8 frames at 10 fps, two steps a cycle
+	assert_near(Footsteps.STRIDE, LaneMovement.WALK_SPEED_X * cycle / 2.0, "no art: same pace")
+	view.queue_free()

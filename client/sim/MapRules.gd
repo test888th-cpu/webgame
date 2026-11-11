@@ -240,6 +240,8 @@ static func _npc(content: ContentDB, npc_id: String) -> Dictionary:
 ## The first boss fighting in `area_id`, or "". The route shows where the
 ## bosses wait even before an area is reached (not who they are).
 static func boss_of(content: ContentDB, area_id: String) -> String:
+	if LairRules.boss(content, area_id) != "":
+		return LairRules.boss(content, area_id)  # A lair's roaming mini-boss.
 	for encounter: Dictionary in content.area(area_id).get("encounters", []):
 		for wave: Array in encounter["waves"]:
 			for kind: String in wave:

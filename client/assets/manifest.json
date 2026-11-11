@@ -25567,6 +25567,66 @@
         "replace_before_paid": true,
         "title": "Punches.mp3",
         "url": "https://freesound.org/s/619053/"
+      },
+      "step_l1": {
+        "attribution": "Fantozzi's Footsteps (Grass/Sand & Stone) by Fantozzi -- https://opengameart.org/content/fantozzis-footsteps-grasssand-stone -- License: CC0",
+        "authors": [
+          "Fantozzi"
+        ],
+        "license": "CC0",
+        "notes": "StoneL1: one footstep on stone, left foot. Downloaded from OpenGameArt (CC0, 2026-11-11), converted from the pack's FLAC to WAV; faded and normalised by tools/assets/import_sounds.py.",
+        "title": "Fantozzi's Footsteps (Grass/Sand & Stone)",
+        "url": "https://opengameart.org/content/fantozzis-footsteps-grasssand-stone"
+      },
+      "step_l2": {
+        "attribution": "Fantozzi's Footsteps (Grass/Sand & Stone) by Fantozzi -- https://opengameart.org/content/fantozzis-footsteps-grasssand-stone -- License: CC0",
+        "authors": [
+          "Fantozzi"
+        ],
+        "license": "CC0",
+        "notes": "StoneL2: one footstep on stone, left foot. Downloaded from OpenGameArt (CC0, 2026-11-11), converted from the pack's FLAC to WAV; faded and normalised by tools/assets/import_sounds.py.",
+        "title": "Fantozzi's Footsteps (Grass/Sand & Stone)",
+        "url": "https://opengameart.org/content/fantozzis-footsteps-grasssand-stone"
+      },
+      "step_l3": {
+        "attribution": "Fantozzi's Footsteps (Grass/Sand & Stone) by Fantozzi -- https://opengameart.org/content/fantozzis-footsteps-grasssand-stone -- License: CC0",
+        "authors": [
+          "Fantozzi"
+        ],
+        "license": "CC0",
+        "notes": "StoneL3: one footstep on stone, left foot. Downloaded from OpenGameArt (CC0, 2026-11-11), converted from the pack's FLAC to WAV; faded and normalised by tools/assets/import_sounds.py.",
+        "title": "Fantozzi's Footsteps (Grass/Sand & Stone)",
+        "url": "https://opengameart.org/content/fantozzis-footsteps-grasssand-stone"
+      },
+      "step_r1": {
+        "attribution": "Fantozzi's Footsteps (Grass/Sand & Stone) by Fantozzi -- https://opengameart.org/content/fantozzis-footsteps-grasssand-stone -- License: CC0",
+        "authors": [
+          "Fantozzi"
+        ],
+        "license": "CC0",
+        "notes": "StoneR1: one footstep on stone, right foot. Downloaded from OpenGameArt (CC0, 2026-11-11), converted from the pack's FLAC to WAV; faded and normalised by tools/assets/import_sounds.py.",
+        "title": "Fantozzi's Footsteps (Grass/Sand & Stone)",
+        "url": "https://opengameart.org/content/fantozzis-footsteps-grasssand-stone"
+      },
+      "step_r2": {
+        "attribution": "Fantozzi's Footsteps (Grass/Sand & Stone) by Fantozzi -- https://opengameart.org/content/fantozzis-footsteps-grasssand-stone -- License: CC0",
+        "authors": [
+          "Fantozzi"
+        ],
+        "license": "CC0",
+        "notes": "StoneR2: one footstep on stone, right foot. Downloaded from OpenGameArt (CC0, 2026-11-11), converted from the pack's FLAC to WAV; faded and normalised by tools/assets/import_sounds.py.",
+        "title": "Fantozzi's Footsteps (Grass/Sand & Stone)",
+        "url": "https://opengameart.org/content/fantozzis-footsteps-grasssand-stone"
+      },
+      "step_r3": {
+        "attribution": "Fantozzi's Footsteps (Grass/Sand & Stone) by Fantozzi -- https://opengameart.org/content/fantozzis-footsteps-grasssand-stone -- License: CC0",
+        "authors": [
+          "Fantozzi"
+        ],
+        "license": "CC0",
+        "notes": "StoneR3: one footstep on stone, right foot. Downloaded from OpenGameArt (CC0, 2026-11-11), converted from the pack's FLAC to WAV; faded and normalised by tools/assets/import_sounds.py.",
+        "title": "Fantozzi's Footsteps (Grass/Sand & Stone)",
+        "url": "https://opengameart.org/content/fantozzis-footsteps-grasssand-stone"
       }
     },
     "sounds": {
@@ -25608,8 +25668,12 @@
       "skill_uppercut": "res://assets/audio/skill_uppercut.wav",
       "skill_whirlwind": "res://assets/audio/skill_whirlwind.wav",
       "steam_hiss": "res://assets/audio/steam_hiss.wav",
-      "step_1": "res://assets/audio/step_1.wav",
-      "step_2": "res://assets/audio/step_2.wav",
+      "step_l1": "res://assets/audio/step_l1.wav",
+      "step_l2": "res://assets/audio/step_l2.wav",
+      "step_l3": "res://assets/audio/step_l3.wav",
+      "step_r1": "res://assets/audio/step_r1.wav",
+      "step_r2": "res://assets/audio/step_r2.wav",
+      "step_r3": "res://assets/audio/step_r3.wav",
       "swing_heavy": "res://assets/audio/swing_heavy.wav",
       "swing_light": "res://assets/audio/swing_light.wav",
       "ui_back": "res://assets/audio/ui_back.wav",

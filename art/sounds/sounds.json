@@ -133,6 +133,84 @@
       "replace_before_paid": true,
       "start": 13.286,
       "length": 0.3
+    },
+    "step_l1": {
+      "file": "fantozzi_stone_L1.wav",
+      "title": "Fantozzi's Footsteps (Grass/Sand & Stone)",
+      "authors": [
+        "Fantozzi"
+      ],
+      "license": "CC0",
+      "url": "https://opengameart.org/content/fantozzis-footsteps-grasssand-stone",
+      "attribution": "Fantozzi's Footsteps (Grass/Sand & Stone) by Fantozzi -- https://opengameart.org/content/fantozzis-footsteps-grasssand-stone -- License: CC0",
+      "notes": "StoneL1: one footstep on stone, left foot. Downloaded from OpenGameArt (CC0, 2026-11-11), converted from the pack's FLAC to WAV; faded and normalised by tools/assets/import_sounds.py.",
+      "start": 0.0,
+      "length": 0.3
+    },
+    "step_r1": {
+      "file": "fantozzi_stone_R1.wav",
+      "title": "Fantozzi's Footsteps (Grass/Sand & Stone)",
+      "authors": [
+        "Fantozzi"
+      ],
+      "license": "CC0",
+      "url": "https://opengameart.org/content/fantozzis-footsteps-grasssand-stone",
+      "attribution": "Fantozzi's Footsteps (Grass/Sand & Stone) by Fantozzi -- https://opengameart.org/content/fantozzis-footsteps-grasssand-stone -- License: CC0",
+      "notes": "StoneR1: one footstep on stone, right foot. Downloaded from OpenGameArt (CC0, 2026-11-11), converted from the pack's FLAC to WAV; faded and normalised by tools/assets/import_sounds.py.",
+      "start": 0.0,
+      "length": 0.3
+    },
+    "step_l2": {
+      "file": "fantozzi_stone_L2.wav",
+      "title": "Fantozzi's Footsteps (Grass/Sand & Stone)",
+      "authors": [
+        "Fantozzi"
+      ],
+      "license": "CC0",
+      "url": "https://opengameart.org/content/fantozzis-footsteps-grasssand-stone",
+      "attribution": "Fantozzi's Footsteps (Grass/Sand & Stone) by Fantozzi -- https://opengameart.org/content/fantozzis-footsteps-grasssand-stone -- License: CC0",
+      "notes": "StoneL2: one footstep on stone, left foot. Downloaded from OpenGameArt (CC0, 2026-11-11), converted from the pack's FLAC to WAV; faded and normalised by tools/assets/import_sounds.py.",
+      "start": 0.0,
+      "length": 0.3
+    },
+    "step_r2": {
+      "file": "fantozzi_stone_R2.wav",
+      "title": "Fantozzi's Footsteps (Grass/Sand & Stone)",
+      "authors": [
+        "Fantozzi"
+      ],
+      "license": "CC0",
+      "url": "https://opengameart.org/content/fantozzis-footsteps-grasssand-stone",
+      "attribution": "Fantozzi's Footsteps (Grass/Sand & Stone) by Fantozzi -- https://opengameart.org/content/fantozzis-footsteps-grasssand-stone -- License: CC0",
+      "notes": "StoneR2: one footstep on stone, right foot. Downloaded from OpenGameArt (CC0, 2026-11-11), converted from the pack's FLAC to WAV; faded and normalised by tools/assets/import_sounds.py.",
+      "start": 0.0,
+      "length": 0.3
+    },
+    "step_l3": {
+      "file": "fantozzi_stone_L3.wav",
+      "title": "Fantozzi's Footsteps (Grass/Sand & Stone)",
+      "authors": [
+        "Fantozzi"
+      ],
+      "license": "CC0",
+      "url": "https://opengameart.org/content/fantozzis-footsteps-grasssand-stone",
+      "attribution": "Fantozzi's Footsteps (Grass/Sand & Stone) by Fantozzi -- https://opengameart.org/content/fantozzis-footsteps-grasssand-stone -- License: CC0",
+      "notes": "StoneL3: one footstep on stone, left foot. Downloaded from OpenGameArt (CC0, 2026-11-11), converted from the pack's FLAC to WAV; faded and normalised by tools/assets/import_sounds.py.",
+      "start": 0.0,
+      "length": 0.3
+    },
+    "step_r3": {
+      "file": "fantozzi_stone_R3.wav",
+      "title": "Fantozzi's Footsteps (Grass/Sand & Stone)",
+      "authors": [
+        "Fantozzi"
+      ],
+      "license": "CC0",
+      "url": "https://opengameart.org/content/fantozzis-footsteps-grasssand-stone",
+      "attribution": "Fantozzi's Footsteps (Grass/Sand & Stone) by Fantozzi -- https://opengameart.org/content/fantozzis-footsteps-grasssand-stone -- License: CC0",
+      "notes": "StoneR3: one footstep on stone, right foot. Downloaded from OpenGameArt (CC0, 2026-11-11), converted from the pack's FLAC to WAV; faded and normalised by tools/assets/import_sounds.py.",
+      "start": 0.0,
+      "length": 0.3
     }
   }
 }

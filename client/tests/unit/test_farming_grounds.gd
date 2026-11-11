@@ -367,7 +367,7 @@ func test_the_grounds_walk_west_one_into_the_next_lower() -> void:
 	var profile := PlayerProfile.new_game(c)
 	var openers: Array[String] = StreetMemory.street(c)
 	for lair_id in AreaRules.lairs(c):
-		openers.append(str(c.area(lair_id)["encounters"][0]["waves"][0][0]))
+		openers.append(LairRules.boss(c, lair_id))
 	for step: String in openers:
 		if c.areas.has(step):
 			StreetMemory.visit(profile, step)

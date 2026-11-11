@@ -15,18 +15,17 @@ func _content() -> ContentDB:
 	return content
 
 
-## A zone in `area_id` with a hero who cannot fall, already inside the boss fight.
+## A zone in lair `area_id` with a hero who cannot fall, its roaming
+## mini-boss already out (LairRules) in the block the hero is in.
 func _fight(area_id: String) -> ZoneSim:
 	var profile := PlayerProfile.new_game(_content())
 	profile.level = 55
 	var zone := ZoneSim.new(_content(), profile, area_id, "west", 11)
 	zone.hero.max_hp = 100000000
 	zone.hero.hp = zone.hero.max_hp
-	for tick in 600:
-		zone.hero.position.x = float(_content().area(area_id)["encounters"][0]["trigger_x"]) + 10
-		zone.tick(FighterInput.new())
-		if zone.boss_id != 0:
-			break
+	zone.block = LairRules.block_of(_content(), area_id, LairRules.due(profile, area_id))
+	LairRules.arrive(zone, 0)
+	zone.tick(FighterInput.new())
 	return zone
 
 
@@ -54,7 +53,7 @@ func test_a_lair_boss_warns_then_enrages_on_its_timer() -> void:
 	assert_near(gap, float(spec["warn_seconds"]), "warned that many seconds ahead", 0.1)
 	assert_near(boss.power, power * float(spec["damage"]), "harder blows", 0.001)
 	assert_near(boss.rage, float(spec["cooldown"]), "quicker hazards", 0.001)
-	assert_true(not boss.is_ko() and zone.in_encounter(), "the fight goes on")
+	assert_true(not boss.is_ko(), "the fight goes on")
 
 
 func test_enrage_paces_hazards_and_raises_damage() -> void:
@@ -75,7 +74,7 @@ func test_only_bosses_with_an_enrage_have_one() -> void:
 		if c.enemy(id).has("enrage"):
 			var lair := false
 			for lair_id in AreaRules.lairs(c):
-				lair = lair or c.area(lair_id)["encounters"][0]["waves"][0].has(id)
+				lair = lair or LairRules.boss(c, lair_id) == id
 			assert_true(lair, id + ": a lair boss")
 	for street_id in StreetMemory.street(c):
 		for encounter: Dictionary in c.area(street_id).get("encounters", []):

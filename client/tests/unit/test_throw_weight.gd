@@ -191,3 +191,20 @@ func test_the_view_draws_each_pose() -> void:
 	assert_true(lift["body_slam"] < lift["overhead"], "a body slam is lifted to the chest")
 	assert_near(absf(sprite.rotation), PI, "a piledriver hangs upside down")
 	view.queue_free()
+
+
+func test_an_elite_on_the_street_is_grabbed_and_thrown() -> void:
+	var db := _content()
+	var zone := ZoneSim.new(db, PlayerProfile.new_game(db, "oren"), "depot_yard", "", 5)
+	var foe := zone.spawn_enemy("smog_warden", zone.hero.position + Vector2(18, 0))
+	(zone.brains[foe.id] as EnemyBrain).cooldown = 100000
+	assert_true(db.enemy("smog_warden").get("elite", false), "the Smog Warden is an elite")
+	var held := false
+	var thrown := false
+	for t in 60:
+		var press := _press("grab") if t == 0 else (_press("light") if t == 12 else null)
+		for event in zone.tick(press if press else FighterInput.new()):
+			thrown = thrown or event.type == "slam" and event.data["id"] == foe.id
+		held = held or foe.state == Fighter.State.HELD
+	assert_true(held, "held like any monster (an elite is no mini-boss)")
+	assert_true(thrown, "and slammed")

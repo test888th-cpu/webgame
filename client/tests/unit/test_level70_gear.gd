@@ -54,9 +54,9 @@ func test_every_new_piece_has_a_source() -> void:
 	var lair_drops := []
 	var field_drops := []
 	for lair_id in AreaRules.lairs(c):
-		for wave: Array in c.area(lair_id)["encounters"][0]["waves"]:
-			for kind: String in wave:
-				lair_drops.append_array(_drops(kind))
+		lair_drops.append_array(_drops(LairRules.boss(c, lair_id)))
+		for kind: String in c.area(lair_id)["spawning"]["pool"]:
+			lair_drops.append_array(_drops(kind))
 	for gid in AreaRules.farms(c):
 		for kind: String in c.area(gid)["spawning"]["pool"]:
 			field_drops.append_array(_drops(kind))

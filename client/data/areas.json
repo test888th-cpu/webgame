@@ -4509,7 +4509,8 @@
           "x": 1290,
           "y": 236
         }
-      ]
+      ],
+      "blocks": 10
     },
     "farm_rail_sidings": {
       "name": "Rail Sidings",
@@ -4660,7 +4661,8 @@
           "x": 1180,
           "y": 258
         }
-      ]
+      ],
+      "blocks": 10
     },
     "farm_harbour_stacks": {
       "name": "Harbour Stacks",
@@ -4790,7 +4792,8 @@
           "x": 1230,
           "y": 262
         }
-      ]
+      ],
+      "blocks": 10
     },
     "farm_plant_outskirts": {
       "name": "Plant Outskirts",
@@ -4918,7 +4921,8 @@
           "x": 1210,
           "y": 258
         }
-      ]
+      ],
+      "blocks": 10
     },
     "farm_network_backrooms": {
       "name": "Network Backrooms",
@@ -5047,7 +5051,8 @@
           "x": 1250,
           "y": 240
         }
-      ]
+      ],
+      "blocks": 10
     },
     "farm_facility_annex": {
       "name": "Facility Annex",
@@ -5171,7 +5176,8 @@
           "x": 1100,
           "y": 258
         }
-      ]
+      ],
+      "blocks": 10
     },
     "farm_core_overflow": {
       "name": "Core Overflow",
@@ -5281,7 +5287,8 @@
           "x": 1240,
           "y": 258
         }
-      ]
+      ],
+      "blocks": 10
     },
     "farm_coolant_vaults": {
       "name": "Coolant Vaults",
@@ -5428,7 +5435,8 @@
           "x": 1320,
           "y": 258
         }
-      ]
+      ],
+      "blocks": 10
     },
     "farm_reactor_underworks": {
       "name": "Reactor Underworks",
@@ -5623,7 +5631,8 @@
           "x": 1320,
           "y": 258
         }
-      ]
+      ],
+      "blocks": 10
     },
     "farm_foundry_depths": {
       "name": "Foundry Depths",
@@ -5818,7 +5827,8 @@
           "x": 1320,
           "y": 258
         }
-      ]
+      ],
+      "blocks": 10
     },
     "farm_iron_heart": {
       "name": "The Iron Heart",
@@ -6013,7 +6023,8 @@
           "x": 1320,
           "y": 258
         }
-      ]
+      ],
+      "blocks": 10
     },
     "farm_core_spillway": {
       "name": "Core Spillway",
@@ -6136,7 +6147,8 @@
           "x": 1100,
           "y": 258
         }
-      ]
+      ],
+      "blocks": 10
     },
     "slag_furnace": {
       "name": "Slag Furnace",
@@ -6264,7 +6276,7 @@
       "width": 1300,
       "safe": false,
       "kind": "lair",
-      "purpose": "Commander Arthit, Reinstated's stand at the end of the Coolant Vaults: a boss fight that comes back after every rest, with Reinstated gear.",
+      "purpose": "Ten blocks of Coolant Vaults's fighters at the lair's level, where Commander Arthit, Reinstated roams as a mini-boss: it turns up in one block at random, and comes back 30 minutes after it falls, with its gear.",
       "unlock": {
         "defeated": "director_wiroj"
       },
@@ -6298,25 +6310,91 @@
           "y": 258
         }
       ],
-      "encounters": [
-        {
-          "trigger_x": 420,
-          "arena": [
-            300,
-            1280
-          ],
-          "max_alive": 3,
-          "waves": [
-            [
-              "arthit_reinstated"
-            ],
-            [
-              "vault_trooper",
-              "vault_trooper"
-            ]
-          ]
-        }
-      ]
+      "encounters": [],
+      "blocks": 10,
+      "mini_boss": "arthit_reinstated",
+      "spawning": {
+        "camps": [
+          480,
+          780,
+          1080
+        ],
+        "camp_size": [
+          2,
+          4
+        ],
+        "aggro": 100,
+        "respawn_ticks": 240,
+        "reward_scale": 0.66,
+        "elite_chance": 0.05,
+        "elite_drops": [
+          {
+            "item": "coolant_epic_body",
+            "chance": 0.02
+          }
+        ],
+        "from_x": 320,
+        "pool": {
+          "vault_trooper": 5,
+          "vault_runner": 3,
+          "coolant_drone": 2,
+          "vault_warden": 1
+        },
+        "toughness": {
+          "hp": 1.1,
+          "power": 1.0
+        },
+        "drops": [
+          {
+            "item": "coolant_uncommon_body",
+            "chance": 0.0033
+          },
+          {
+            "item": "coolant_uncommon_charm",
+            "chance": 0.0033
+          },
+          {
+            "item": "coolant_uncommon_feet",
+            "chance": 0.0033
+          },
+          {
+            "item": "coolant_uncommon_hands",
+            "chance": 0.0033
+          },
+          {
+            "item": "coolant_uncommon_head",
+            "chance": 0.0033
+          },
+          {
+            "item": "coolant_uncommon_weapon",
+            "chance": 0.0033
+          },
+          {
+            "item": "coolant_rare_body",
+            "chance": 0.001
+          },
+          {
+            "item": "coolant_rare_charm",
+            "chance": 0.001
+          },
+          {
+            "item": "coolant_rare_feet",
+            "chance": 0.001
+          },
+          {
+            "item": "coolant_rare_hands",
+            "chance": 0.001
+          },
+          {
+            "item": "coolant_rare_head",
+            "chance": 0.001
+          },
+          {
+            "item": "coolant_rare_weapon",
+            "chance": 0.001
+          }
+        ]
+      }
     },
     "underworks_tank_hall": {
       "theme": "canal",
@@ -6338,7 +6416,7 @@
       "width": 1300,
       "safe": false,
       "kind": "lair",
-      "purpose": "Subject Twelve, Relapsed's stand at the end of the Reactor Underworks: a boss fight that comes back after every rest, with Relapsed gear.",
+      "purpose": "Ten blocks of Reactor Underworks's fighters at the lair's level, where Subject Twelve, Relapsed roams as a mini-boss: it turns up in one block at random, and comes back 30 minutes after it falls, with its gear.",
       "unlock": {
         "defeated": "arthit_reinstated"
       },
@@ -6372,25 +6450,139 @@
           "y": 258
         }
       ],
-      "encounters": [
-        {
-          "trigger_x": 420,
-          "arena": [
-            300,
-            1280
-          ],
-          "max_alive": 3,
-          "waves": [
-            [
-              "twelve_relapsed"
-            ],
-            [
-              "underworks_brute",
-              "underworks_brute"
-            ]
-          ]
-        }
-      ]
+      "encounters": [],
+      "blocks": 10,
+      "mini_boss": "twelve_relapsed",
+      "spawning": {
+        "camps": [
+          480,
+          780,
+          1080
+        ],
+        "camp_size": [
+          2,
+          4
+        ],
+        "aggro": 100,
+        "respawn_ticks": 240,
+        "reward_scale": 0.93,
+        "elite_chance": 0.05,
+        "elite_drops": [
+          {
+            "item": "underworks_epic_body",
+            "chance": 0.02
+          }
+        ],
+        "from_x": 320,
+        "pool": {
+          "underworks_brute": 2,
+          "tank_crawler": 5,
+          "reactor_tech": 3,
+          "reactor_overseer": 1
+        },
+        "toughness": {
+          "hp": 1.55,
+          "power": 1.15
+        },
+        "drops": [
+          {
+            "item": "coolant_uncommon_body",
+            "chance": 0.0017
+          },
+          {
+            "item": "coolant_uncommon_charm",
+            "chance": 0.0017
+          },
+          {
+            "item": "coolant_uncommon_feet",
+            "chance": 0.0017
+          },
+          {
+            "item": "coolant_uncommon_hands",
+            "chance": 0.0017
+          },
+          {
+            "item": "coolant_uncommon_head",
+            "chance": 0.0017
+          },
+          {
+            "item": "coolant_uncommon_weapon",
+            "chance": 0.0017
+          },
+          {
+            "item": "underworks_uncommon_body",
+            "chance": 0.0017
+          },
+          {
+            "item": "underworks_uncommon_charm",
+            "chance": 0.0017
+          },
+          {
+            "item": "underworks_uncommon_feet",
+            "chance": 0.0017
+          },
+          {
+            "item": "underworks_uncommon_hands",
+            "chance": 0.0017
+          },
+          {
+            "item": "underworks_uncommon_head",
+            "chance": 0.0017
+          },
+          {
+            "item": "underworks_uncommon_weapon",
+            "chance": 0.0017
+          },
+          {
+            "item": "coolant_rare_body",
+            "chance": 0.0005
+          },
+          {
+            "item": "coolant_rare_charm",
+            "chance": 0.0005
+          },
+          {
+            "item": "coolant_rare_feet",
+            "chance": 0.0005
+          },
+          {
+            "item": "coolant_rare_hands",
+            "chance": 0.0005
+          },
+          {
+            "item": "coolant_rare_head",
+            "chance": 0.0005
+          },
+          {
+            "item": "coolant_rare_weapon",
+            "chance": 0.0005
+          },
+          {
+            "item": "underworks_rare_body",
+            "chance": 0.0005
+          },
+          {
+            "item": "underworks_rare_charm",
+            "chance": 0.0005
+          },
+          {
+            "item": "underworks_rare_feet",
+            "chance": 0.0005
+          },
+          {
+            "item": "underworks_rare_hands",
+            "chance": 0.0005
+          },
+          {
+            "item": "underworks_rare_head",
+            "chance": 0.0005
+          },
+          {
+            "item": "underworks_rare_weapon",
+            "chance": 0.0005
+          }
+        ]
+      }
     },
     "foundry_crucible": {
       "theme": "canal",
@@ -6412,7 +6604,7 @@
       "width": 1300,
       "safe": false,
       "kind": "lair",
-      "purpose": "Unit K-7, Overdriven's stand at the end of the Foundry Depths: a boss fight that comes back after every rest, with Overdriven gear.",
+      "purpose": "Ten blocks of Foundry Depths's fighters at the lair's level, where Unit K-7, Overdriven roams as a mini-boss: it turns up in one block at random, and comes back 30 minutes after it falls, with its gear.",
       "unlock": {
         "defeated": "twelve_relapsed"
       },
@@ -6446,25 +6638,139 @@
           "y": 258
         }
       ],
-      "encounters": [
-        {
-          "trigger_x": 420,
-          "arena": [
-            300,
-            1280
-          ],
-          "max_alive": 3,
-          "waves": [
-            [
-              "k7_overdriven"
-            ],
-            [
-              "foundry_hand",
-              "foundry_hand"
-            ]
-          ]
-        }
-      ]
+      "encounters": [],
+      "blocks": 10,
+      "mini_boss": "k7_overdriven",
+      "spawning": {
+        "camps": [
+          480,
+          780,
+          1080
+        ],
+        "camp_size": [
+          2,
+          4
+        ],
+        "aggro": 100,
+        "respawn_ticks": 240,
+        "reward_scale": 0.6,
+        "elite_chance": 0.05,
+        "elite_drops": [
+          {
+            "item": "foundry_epic_body",
+            "chance": 0.02
+          }
+        ],
+        "from_x": 320,
+        "pool": {
+          "foundry_hand": 5,
+          "slag_slinger": 3,
+          "furnace_hauler": 2,
+          "foundry_boss": 1
+        },
+        "toughness": {
+          "hp": 1.0,
+          "power": 1.0
+        },
+        "drops": [
+          {
+            "item": "foundry_uncommon_body",
+            "chance": 0.0017
+          },
+          {
+            "item": "foundry_uncommon_charm",
+            "chance": 0.0017
+          },
+          {
+            "item": "foundry_uncommon_feet",
+            "chance": 0.0017
+          },
+          {
+            "item": "foundry_uncommon_hands",
+            "chance": 0.0017
+          },
+          {
+            "item": "foundry_uncommon_head",
+            "chance": 0.0017
+          },
+          {
+            "item": "foundry_uncommon_weapon",
+            "chance": 0.0017
+          },
+          {
+            "item": "underworks_uncommon_body",
+            "chance": 0.0017
+          },
+          {
+            "item": "underworks_uncommon_charm",
+            "chance": 0.0017
+          },
+          {
+            "item": "underworks_uncommon_feet",
+            "chance": 0.0017
+          },
+          {
+            "item": "underworks_uncommon_hands",
+            "chance": 0.0017
+          },
+          {
+            "item": "underworks_uncommon_head",
+            "chance": 0.0017
+          },
+          {
+            "item": "underworks_uncommon_weapon",
+            "chance": 0.0017
+          },
+          {
+            "item": "foundry_rare_body",
+            "chance": 0.0005
+          },
+          {
+            "item": "foundry_rare_charm",
+            "chance": 0.0005
+          },
+          {
+            "item": "foundry_rare_feet",
+            "chance": 0.0005
+          },
+          {
+            "item": "foundry_rare_hands",
+            "chance": 0.0005
+          },
+          {
+            "item": "foundry_rare_head",
+            "chance": 0.0005
+          },
+          {
+            "item": "foundry_rare_weapon",
+            "chance": 0.0005
+          },
+          {
+            "item": "underworks_rare_body",
+            "chance": 0.0005
+          },
+          {
+            "item": "underworks_rare_charm",
+            "chance": 0.0005
+          },
+          {
+            "item": "underworks_rare_feet",
+            "chance": 0.0005
+          },
+          {
+            "item": "underworks_rare_hands",
+            "chance": 0.0005
+          },
+          {
+            "item": "underworks_rare_head",
+            "chance": 0.0005
+          },
+          {
+            "item": "underworks_rare_weapon",
+            "chance": 0.0005
+          }
+        ]
+      }
     },
     "heart_core_chamber": {
       "theme": "canal",
@@ -6486,7 +6792,7 @@
       "width": 1300,
       "safe": false,
       "kind": "lair",
-      "purpose": "The Wiroj Protocol's stand at the end of the The Iron Heart: a boss fight that comes back after every rest, with Protocol gear.",
+      "purpose": "Ten blocks of The Iron Heart's fighters at the lair's level, where The Wiroj Protocol roams as a mini-boss: it turns up in one block at random, and comes back 30 minutes after it falls, with its gear.",
       "unlock": {
         "defeated": "k7_overdriven"
       },
@@ -6520,25 +6826,139 @@
           "y": 258
         }
       ],
-      "encounters": [
-        {
-          "trigger_x": 420,
-          "arena": [
-            300,
-            1280
-          ],
-          "max_alive": 3,
-          "waves": [
-            [
-              "wiroj_protocol"
-            ],
-            [
-              "heart_guard",
-              "heart_guard"
-            ]
-          ]
-        }
-      ]
+      "encounters": [],
+      "blocks": 10,
+      "mini_boss": "wiroj_protocol",
+      "spawning": {
+        "camps": [
+          480,
+          780,
+          1080
+        ],
+        "camp_size": [
+          2,
+          4
+        ],
+        "aggro": 100,
+        "respawn_ticks": 240,
+        "reward_scale": 0.6,
+        "elite_chance": 0.05,
+        "elite_drops": [
+          {
+            "item": "heart_epic_body",
+            "chance": 0.02
+          }
+        ],
+        "from_x": 320,
+        "pool": {
+          "heart_guard": 5,
+          "rivet_thrower": 3,
+          "iron_sentry": 2,
+          "heart_keeper": 1
+        },
+        "toughness": {
+          "hp": 1.0,
+          "power": 1.0
+        },
+        "drops": [
+          {
+            "item": "foundry_uncommon_body",
+            "chance": 0.0017
+          },
+          {
+            "item": "foundry_uncommon_charm",
+            "chance": 0.0017
+          },
+          {
+            "item": "foundry_uncommon_feet",
+            "chance": 0.0017
+          },
+          {
+            "item": "foundry_uncommon_hands",
+            "chance": 0.0017
+          },
+          {
+            "item": "foundry_uncommon_head",
+            "chance": 0.0017
+          },
+          {
+            "item": "foundry_uncommon_weapon",
+            "chance": 0.0017
+          },
+          {
+            "item": "heart_uncommon_body",
+            "chance": 0.0017
+          },
+          {
+            "item": "heart_uncommon_charm",
+            "chance": 0.0017
+          },
+          {
+            "item": "heart_uncommon_feet",
+            "chance": 0.0017
+          },
+          {
+            "item": "heart_uncommon_hands",
+            "chance": 0.0017
+          },
+          {
+            "item": "heart_uncommon_head",
+            "chance": 0.0017
+          },
+          {
+            "item": "heart_uncommon_weapon",
+            "chance": 0.0017
+          },
+          {
+            "item": "foundry_rare_body",
+            "chance": 0.0005
+          },
+          {
+            "item": "foundry_rare_charm",
+            "chance": 0.0005
+          },
+          {
+            "item": "foundry_rare_feet",
+            "chance": 0.0005
+          },
+          {
+            "item": "foundry_rare_hands",
+            "chance": 0.0005
+          },
+          {
+            "item": "foundry_rare_head",
+            "chance": 0.0005
+          },
+          {
+            "item": "foundry_rare_weapon",
+            "chance": 0.0005
+          },
+          {
+            "item": "heart_rare_body",
+            "chance": 0.0005
+          },
+          {
+            "item": "heart_rare_charm",
+            "chance": 0.0005
+          },
+          {
+            "item": "heart_rare_feet",
+            "chance": 0.0005
+          },
+          {
+            "item": "heart_rare_hands",
+            "chance": 0.0005
+          },
+          {
+            "item": "heart_rare_head",
+            "chance": 0.0005
+          },
+          {
+            "item": "heart_rare_weapon",
+            "chance": 0.0005
+          }
+        ]
+      }
     },
     "spillway_gatehouse": {
       "theme": "canal",
@@ -6560,7 +6980,7 @@
       "width": 1300,
       "safe": false,
       "kind": "lair",
-      "purpose": "The spillway's gatehouse, where the Spillway Chief keeps the sluice keys: a boss fight that comes back after every rest, with Spillway Chief gear.",
+      "purpose": "Ten blocks of Core Spillway's fighters at the lair's level, where Spillway Chief roams as a mini-boss: it turns up in one block at random, and comes back 30 minutes after it falls, with its gear.",
       "unlock": {
         "defeated": "commander_arthit"
       },
@@ -6594,25 +7014,66 @@
           "y": 258
         }
       ],
-      "encounters": [
-        {
-          "trigger_x": 420,
-          "arena": [
-            300,
-            1280
-          ],
-          "max_alive": 3,
-          "waves": [
-            [
-              "spillway_chief"
-            ],
-            [
-              "facility_trooper",
-              "facility_trooper"
-            ]
-          ]
-        }
-      ]
+      "encounters": [],
+      "blocks": 10,
+      "mini_boss": "spillway_chief",
+      "spawning": {
+        "camps": [
+          480,
+          780,
+          1080
+        ],
+        "camp_size": [
+          2,
+          4
+        ],
+        "aggro": 100,
+        "respawn_ticks": 240,
+        "reward_scale": 0.63,
+        "elite_chance": 0.05,
+        "elite_drops": [
+          {
+            "item": "spillway_epic_body",
+            "chance": 0.02
+          },
+          {
+            "item": "spillway_epic_head",
+            "chance": 0.02
+          }
+        ],
+        "from_x": 320,
+        "pool": {
+          "facility_trooper": 6,
+          "hazmat_sprayer": 2,
+          "core_sentinel": 1
+        },
+        "toughness": {
+          "hp": 1.0,
+          "power": 1.0
+        },
+        "drops": [
+          {
+            "item": "alloy_knuckles",
+            "chance": 0.004
+          },
+          {
+            "item": "core_guard_helm",
+            "chance": 0.004
+          },
+          {
+            "item": "insulated_gauntlets",
+            "chance": 0.004
+          },
+          {
+            "item": "reactor_plate",
+            "chance": 0.004
+          },
+          {
+            "item": "walkway_boots",
+            "chance": 0.004
+          }
+        ]
+      }
     },
     "floodgate_barracks": {
       "name": "Floodgate Barracks",

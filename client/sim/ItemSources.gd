@@ -94,8 +94,8 @@ static func _world_bosses(content: ContentDB, item_id: String) -> Array[Dictiona
 	return out
 
 
-## The first area where `enemy_id` fights, its name: placed, in a fight, or
-## in a farming ground's field. "" when it fights nowhere.
+## The first area where `enemy_id` fights, its name: placed, in a fight, in a
+## farming ground's field or roaming a lair. "" when it fights nowhere.
 static func first_area_of(content: ContentDB, enemy_id: String) -> String:
 	for area_id: String in content.areas:
 		var area_data: Dictionary = content.areas[area_id]
@@ -106,6 +106,7 @@ static func first_area_of(content: ContentDB, enemy_id: String) -> String:
 			for wave: Variant in encounter.get("waves", []):
 				found = found or enemy_id in (wave as Array)
 		found = found or area_data.get("spawning", {}).get("pool", {}).has(enemy_id)
+		found = found or LairRules.boss(content, area_id) == enemy_id
 		if found:
 			return str(area_data["name"])
 	return ""

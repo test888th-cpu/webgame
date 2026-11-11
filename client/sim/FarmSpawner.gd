@@ -294,8 +294,8 @@ static func problems(content: ContentDB) -> PackedStringArray:
 			continue
 		var where := "areas.%s.spawning" % id
 		var data: Variant = area["spawning"]
-		if AreaRules.kind(content, id) != AreaRules.FARM:
-			out.append(where + ": only a farming ground has one")
+		if AreaRules.kind(content, id) not in AreaRules.GATED:
+			out.append(where + ": only a farming ground or a lair has one")
 		if not data is Dictionary:
 			out.append(where + ": expected an object")
 			continue

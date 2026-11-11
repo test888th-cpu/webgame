@@ -178,27 +178,29 @@ func test_only_monsters_and_players_are_ever_held() -> void:
 	var zone := ZoneSim.new(db, PlayerProfile.new_game(db, "oren"), "depot_yard", "", 5)
 	var at := zone.hero.position + Vector2(18, 0)
 	var held := {}
-	var counts := {"boss": 0, "mini": 0, "monster": 0}
+	var counts := {"boss": 0, "elite": 0, "monster": 0}
 	for kind: String in db.enemies:
 		var data: Dictionary = db.enemies[kind]
 		if data.get("training", false):
 			continue
 		var foe := zone.spawn_enemy(kind, at)
 		var rank := "boss" if data.get("boss", false) else "monster"
-		rank = "mini" if data.get("elite", false) else rank
+		rank = "elite" if data.get("elite", false) else rank
 		counts[rank] += 1
 		held[rank] = held.get(rank, 0) + (1 if GrabRules.can_hold(foe) else 0)
 		assert_eq(
 			GrabRules.can_hold(foe),
-			rank == "monster",
-			"%s (%s) can be held: %s" % [kind, rank, rank == "monster"]
+			rank != "boss",
+			"%s (%s) can be held: %s" % [kind, rank, rank != "boss"]
 		)
 		zone.fighters.erase(foe)
 		zone.brains.erase(foe.id)
 	assert_true(
-		counts["boss"] > 0 and counts["mini"] > 0 and counts["monster"] > 0, "all three kinds"
+		counts["boss"] > 0 and counts["elite"] > 0 and counts["monster"] > 0, "all three kinds"
 	)
-	assert_eq([held["boss"], held["mini"]], [0, 0], "no boss or mini-boss is ever held")
+	# A mini-boss is a boss fighting before a district's end or in a lair.
+	assert_eq(held.get("boss", 0), 0, "no boss or mini-boss is ever held")
+	assert_eq(held["elite"], counts["elite"], "every elite can be, as on any street")
 	assert_eq(held["monster"], counts["monster"], "every ordinary monster can be")
 	assert_true(GrabRules.can_hold(zone.hero), "and so can a player")
 
@@ -206,7 +208,8 @@ func test_only_monsters_and_players_are_ever_held() -> void:
 func test_a_grab_on_a_mini_boss_only_shoves_in_a_real_zone() -> void:
 	var db := _content()
 	var zone := ZoneSim.new(db, PlayerProfile.new_game(db, "oren"), "depot_yard", "", 5)
-	var foe := zone.spawn_enemy("smog_warden", zone.hero.position + Vector2(18, 0))
+	# The Sludge Foreman: a boss short of South Street's end, so a mini-boss.
+	var foe := zone.spawn_enemy("sludge_foreman", zone.hero.position + Vector2(18, 0))
 	(zone.brains[foe.id] as EnemyBrain).cooldown = 100000
 	var hp := foe.hp
 	var was_held := false
