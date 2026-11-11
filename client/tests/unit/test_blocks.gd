@@ -53,6 +53,12 @@ func test_walking_through_all_ten_blocks_and_back() -> void:
 			seen.append(game.zone.block)
 			assert_eq(game.zone.area_id, gid, "still the same ground")
 	assert_eq(seen, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], "1 to 10 and back")
+	_walk_off(game, 1)
+	var signs: Dictionary = game.view._exit_signs
+	assert_eq(signs["east"].text, "Block 3/10 >", "the way on names the next block")
+	assert_eq(signs["west"].text, "< Block 1/10", "the way back names the one before")
+	_walk_off(game, -1)
+	assert_true(str(game.view._exit_signs["west"].text).begins_with("< Iron City"), "block 1: city")
 	_walk_off(game, -1)
 	assert_eq(game.zone.area_id, c.city_area, "block 1 west: back to the city")
 	game.free()

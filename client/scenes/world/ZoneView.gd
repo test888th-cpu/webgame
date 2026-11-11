@@ -394,14 +394,20 @@ func _build_furniture() -> void:
 func _build_exit_signs() -> void:
 	var width := float(zone.area.get("width", 960))
 	var ground := ZoneSim.LANE_TOP - 20.0
-	var exits: Dictionary = zone.area.get("exits", {})
+	# The neighbouring block of a farming ground or lair, or the area's own exit.
+	var exits := BlockRules.exits(content, zone.area_id, zone.block)
 	for side: String in exits:
-		var target := content.area(exits[side]["to"])
+		var to := str(exits[side]["to"])
+		var target := content.area(to)
+		var block := BlockRules.label(content, to, int(exits[side]["block"]))
 		var exit_sign := Label.new()
 		exit_sign.add_theme_font_size_override("font_size", 8)
 		exit_sign.add_theme_color_override("font_outline_color", Color.BLACK)
 		exit_sign.add_theme_constant_override("outline_size", 3)
-		exit_sign.set_meta("place", str(target.get("name", "")))
+		var place := str(target.get("name", ""))
+		exit_sign.set_meta(
+			"place", block if to == zone.area_id else ("%s  %s" % [place, block]).strip_edges()
+		)
 		exit_sign.position = Vector2(8 if side == "west" else width - 198, ground + 2)
 		exit_sign.size = Vector2(190, 12)
 		exit_sign.horizontal_alignment = (

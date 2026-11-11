@@ -12,8 +12,8 @@ extends RefCounted
 ## walk plays 8 frames at 10 fps, two steps a cycle) at the base walk speed.
 const STRIDE := LaneMovement.WALK_SPEED_X * 0.4
 const TAKES := 3
-const HERO_DB := -13.0
-const ENEMY_DB := -18.0
+const HERO_DB := -24.0
+const ENEMY_DB := -29.0
 ## A monster's steps fade from NEAR px away from the hero, by FADE_DB at
 ## HEARD px; past HEARD they are not heard at all.
 const NEAR := 80.0

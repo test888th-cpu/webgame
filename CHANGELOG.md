@@ -4,6 +4,29 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed: one standard throw, damage on landing; the Grappler's auto battle and damage
+Owner's requests (2026-11-11).
+- **One throw:** the shoulder toss for every grab and grab skill; the body slam and
+  piledriver poses are gone (`GrabRules.POSES`, the `"pose"` fields, `Fighter.hop`).
+- **The throw hurts when the body lands.** Tossed, it tumbles down (it cannot be hit)
+  and takes no damage in the air; when it hits the street the throw's blow lands
+  (`GrabRules._slam`): the damage, a KO, the hit spark and number, with the thud, dust
+  and shake. It hits face down with a little bounce, then rolls into the usual
+  knocked-down pose for the rest of its 1.5 s and gets up as from any knockdown. A
+  skill's follow-up (Ground Slam's wave) now lands while the body is still in the air.
+- **Grappler on auto battle:** a grab skill on a foe that can be held only when it pays
+  (`AutoPilot._grab_pays`): another foe where the body lands, or a tough foe (an elite,
+  or one with poise) above half health, and at most one every 5 s. On a boss or
+  mini-boss a grab skill is a quick shove and is used as before. Auto never pushes off
+  either end of the street unless it means to walk on east (blocks and exits).
+- **Grappler compensation**, measured (3 minutes of auto battle on the level 9, 29 and
+  50 grounds, 3 seeds; before = the release before the throw changes): basic combo
+  damage x1.5 (`grappler_short` 9, `grappler_heavy` 12, `grappler_push` 18) and the
+  grab skills' throws, crashes and squeezes x1.6. Oren: kills 261 -> 232, XP 66.9k ->
+  61.1k, knock-outs 1 -> 0 of 9, damage taken 15.0 -> 12.5 times his health. Without
+  it, pacing the grabs alone cost him 31% of his kills; a grab every 3 s, or throws at
+  x2.0, measured no better.
+
 ### Changed: ten blocks per farming ground and lair; roaming lair mini-bosses; ranks; footsteps
 Owner's requests (2026-11-11).
 - **Ten blocks per farming ground** (`BlockRules`, areas.json `"blocks": 10`): each ground
