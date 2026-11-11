@@ -181,6 +181,7 @@ func test_the_view_draws_each_pose() -> void:
 	view.set_art("hero_riku", _content().art)
 	var sprite := view.get_node("Sprite") as AnimatedSprite2D
 	_seize(fighters)
+	_run(fighters, FighterView.LIFT_TICKS)  # fully lifted
 	var lift := {}
 	for pose: String in GrabRules.POSES:
 		fighters[1].grab_pose = pose
