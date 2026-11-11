@@ -62,6 +62,8 @@ var tick_count := 0
 var boss_id := 0
 ## Ticks until the hero may use another consumable.
 var item_cooldown := 0
+## Which block of the area this is (BlockRules), from 1; set by whoever enters.
+var block := 1
 ## The area's difficulty level (enemies scale with it; see LevelRules).
 var level := 1
 ## Weapons lying on the street: {id, weapon, position, uses}.
@@ -198,7 +200,7 @@ func spawn_enemy(kind: String, position: Vector2) -> Fighter:
 		var weapon_id := LevelRules.armed_weapon(data, content.weapons, enemy_level, rng)
 		if weapon_id:
 			equip_weapon(enemy, weapon_id, int(content.weapons[weapon_id]["durability"]))
-	enemy.ungrabbable = bool(data.get("boss", false)) or bool(data.get("elite", false))
+	enemy.ungrabbable = bool(data.get("boss", false))  # Bosses and mini-bosses; elites can be.
 	if data.get("boss", false):
 		boss_id = enemy.id
 		enemy.unshaken = true
@@ -976,7 +978,7 @@ func exit_locked(side: String) -> Dictionary:
 func _check_exit(input: FighterInput, events: Array[ZoneEvent]) -> void:
 	if fight_locked() or hero.is_ko():
 		return
-	var exits: Dictionary = area.get("exits", {})
+	var exits := BlockRules.exits(content, area_id, block)
 	var side := ""
 	if input.move.x < 0.0 and hero.position.x <= bounds.position.x + 0.5:
 		side = "west"

@@ -107,7 +107,7 @@ func sync() -> void:
 			_pickups.erase(id)
 	_sync_weapons()
 	_sync_thrown()
-	_footsteps.update(zone, Time.get_ticks_msec())
+	_footsteps.update(zone, Time.get_ticks_msec(), _views)
 	_update_exit_signs()
 	_update_prompts()
 	_follow_hero()
@@ -216,6 +216,8 @@ func _make_fighter_view(f: Fighter) -> FighterView:
 			# The map's mini-boss mark, not the skull: a district's final boss and
 			# the one waiting before it must not look alike.
 			view.mark_mini_boss(content.enemy(f.kind))
+		elif f.kind == LairRules.boss(content, zone.area_id):
+			view.mark_mini_boss(content.enemy(f.kind))  # A lair's roaming mini-boss.
 	return view
 
 

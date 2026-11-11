@@ -320,21 +320,6 @@ def body_slam(s: Sound) -> None:
     s.noise(0.06, 0.32, 0.22, low=0.45, high=0.3, attack=0.01, decay=10)
 
 
-def _step(s: Sound, low: float, pitch: float) -> None:
-    # A soft footfall: a muffled heel thump and a whisper of grit underfoot.
-    s.tone(0, 0.06, pitch, pitch * 0.6, "sine", 0.5, attack=0.002, decay=45)
-    s.noise(0, 0.07, 0.5, low=low, low_end=0.05, attack=0.002, decay=40)
-    s.noise(0.008, 0.03, 0.12, low=0.7, high=0.5, attack=0.001, decay=90)
-
-
-def step_1(s: Sound) -> None:
-    _step(s, 0.18, 100)
-
-
-def step_2(s: Sound) -> None:
-    _step(s, 0.15, 88)
-
-
 # id -> (painter, seconds[, level]): level is the peak each is normalised to
 # (0.85 when left out).
 SOUNDS = {
@@ -374,8 +359,6 @@ SOUNDS = {
     "laser_beam": (laser_beam, 0.46, 0.7),
     "elite_arrive": (elite_arrive, 0.52, 0.6),
     "body_slam": (body_slam, 0.55),
-    "step_1": (step_1, 0.08, 0.3),
-    "step_2": (step_2, 0.08, 0.3),
 }
 
 

@@ -51,6 +51,8 @@ const POSES := {
 	"body_slam": {"rise": 26.0, "reach": 18.0, "turn": -PI / 2, "loft": 6.0, "lie": -1.0},
 	"piledriver": {"rise": 52.0, "reach": 8.0, "turn": PI, "land": 46.0, "hop": 14.0, "lie": 1.0},
 }
+## The walk frames on which a foot comes down: the left, then the right.
+const STEP_FRAMES: Array[int] = [0, 4]
 ## The side-on frame a carried, thrown or slammed body is drawn with.
 const BODY_FRAME := "idle"
 ## A slammed body lies flat as its pose's "lie" says: its feet this far from
@@ -107,8 +109,11 @@ var _cast: AnimatedSprite2D
 var _fist: Sprite2D
 var _held_id := ""
 var _threat := ""
+## The walk frame last seen by footfall().
+var _step_frame := -1
 ## The rank icon left of the overhead name: the map's own symbols, so a skull
-## means a boss and horns a mini-boss everywhere; a star for a field elite.
+## means a boss and horns a mini-boss everywhere; a gold star an elite (a
+## named tough monster, or a farming ground's elite), which can be grabbed.
 var _badge: TextureRect
 
 @onready var _body: Node2D = $Body
@@ -165,7 +170,7 @@ func setup_enemy(data: Dictionary, art: Dictionary, level := 0) -> void:
 		_rank(str(data.get("name", "")), "map_boss", UiTheme.DANGER)
 	elif data.get("elite", false):
 		var named := str(data.get("name", "")) + ("  " + tag if tag else "")
-		_rank(named, "map_mini_boss", UiTheme.ACCENT)
+		_rank(named, "star", UiTheme.GOLD)
 	elif tag:
 		_name.text = tag
 		_name.visible = true
@@ -544,6 +549,26 @@ func _slammed_pose() -> void:
 	_sprite.rotation = float(lie["turn"]) * lying
 	_home = Vector2(lie["feet"]) * lying
 	_sprite.position = _home
+
+
+## True when this fighter is drawn with art (an animated sprite).
+func has_art() -> bool:
+	return _sprite != null
+
+
+## The foot that just came down in the walk on screen ("l" or "r"), once per
+## footfall; "" between them and when not walking (Footsteps).
+func footfall() -> String:
+	if _sprite == null or _sprite.animation != &"walk" or not _sprite.is_playing():
+		_step_frame = -1
+		return ""
+	var frame := _sprite.frame
+	if frame == _step_frame:
+		return ""
+	_step_frame = frame
+	if frame == STEP_FRAMES[0]:
+		return "l"
+	return "r" if frame == STEP_FRAMES[1] else ""
 
 
 func _has(anim: String) -> bool:

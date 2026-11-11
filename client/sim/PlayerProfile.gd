@@ -79,6 +79,8 @@ var visited: Array[String] = []
 ## damage so far, "tiers": personal tiers paid, "killed": the kill paid}
 ## (WorldBossRules).
 var world_boss := {}
+## When each lair's next mini-boss is due, unix seconds by lair id (LairRules).
+var lairs := {}
 
 
 ## A fresh profile for `hero_id` (the first hero if empty or unknown), named
@@ -314,6 +316,7 @@ func to_dict() -> Dictionary:
 		"cleared": cleared.duplicate(true),
 		"visited": visited.duplicate(),
 		"world_boss": world_boss.duplicate(),
+		"lairs": lairs.duplicate(),
 		"hotbar": hotbar.duplicate(),
 	}
 
@@ -386,6 +389,11 @@ static func from_dict(data: Variant, content: ContentDB) -> PlayerProfile:
 					"total": maxi(1, int(attempt["total"])),
 					"level": maxi(1, int(attempt["level"])),
 				}
+	var lairs: Variant = migrated.get("lairs", {})
+	if lairs is Dictionary:
+		for lair_id: Variant in lairs:
+			if AreaRules.kind(content, str(lair_id)) == AreaRules.LAIR:
+				p.lairs[str(lair_id)] = maxi(0, int(lairs[lair_id]))
 	return p
 
 

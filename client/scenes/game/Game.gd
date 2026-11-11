@@ -104,14 +104,14 @@ func _ready() -> void:
 	print("%s %s" % [READY_MARKER, BuildInfo.summary()])
 
 
-func enter_area(area_id: String, entry: String, start_x := -1.0) -> void:
+func enter_area(area_id: String, entry: String, start_x := -1.0, block := 1) -> void:
 	# The world boss arena is only ever entered for an attempt (Win's taxi).
 	if content.area(area_id).get("world_boss", false) and not _entering_world_boss:
 		area_id = AreaRules.hub(content)
 		entry = ""
 	if zone:
 		UltimateRules.carry(profile, zone.hero)
-		_street_weapons[zone.area_id] = zone.ground_weapons.duplicate(true)
+		_street_weapons["%s#%d" % [zone.area_id, zone.block]] = zone.ground_weapons.duplicate(true)
 		if zone.collect_all() > 0:
 			_hud.toast("Picked up what was left on the ground")
 	if view:
@@ -119,8 +119,10 @@ func enter_area(area_id: String, entry: String, start_x := -1.0) -> void:
 		view.queue_free()
 	profile.area = area_id
 	zone = ZoneSim.new(content, profile, area_id, entry, randi(), start_x)
-	if _street_weapons.has(area_id):
-		zone.restore_weapons(_street_weapons[area_id])
+	zone.block = block
+	LairRules.arrive(zone, _now())  # A lair's mini-boss, when it is out in this block.
+	if _street_weapons.has("%s#%d" % [area_id, block]):
+		zone.restore_weapons(_street_weapons["%s#%d" % [area_id, block]])
 	view = ZoneView.new()
 	_world.add_child(view)
 	view.build(zone, content)
@@ -131,6 +133,8 @@ func enter_area(area_id: String, entry: String, start_x := -1.0) -> void:
 	var arrived := str(zone.area.get("name", area_id))
 	if spot:
 		arrived += "  ·  %s %d/%d" % [spot["name"], int(spot["index"]) + 1, spot["count"]]
+	if BlockRules.count(content, area_id) > 1:
+		arrived += "  ·  " + BlockRules.label(content, area_id, block)
 	_hud.toast(arrived)
 	if auto:
 		auto.entered(area_id)
@@ -264,7 +268,7 @@ func step(input: FighterInput) -> Array[ZoneEvent]:
 	if _pending_exit:
 		var exit := _pending_exit
 		_pending_exit = {}
-		enter_area(exit["to"], exit["entry"])
+		enter_area(exit["to"], exit["entry"], -1.0, int(exit.get("block", 1)))
 	if auto:
 		auto.after_step(events)
 	for event in events:
@@ -286,6 +290,7 @@ func _handle(event: ZoneEvent) -> void:
 			view.show_text("+%d XP" % event.data["xp"], zone.hero.position, Color(0.6, 0.9, 1))
 			if event.data.get("boss", false):
 				_hud.toast("%s defeated!" % data.get("name", "Boss"))
+			LairRules.on_defeat(profile, content, zone.area_id, str(event.data["kind"]), _now())
 			SaveStore.save(profile)
 		"spawn":
 			if event.data.get("boss", false):
