@@ -225,13 +225,17 @@ try {
   }
   console.log(`combat: ${fought.hero_hits - before.hero_hits} hit(s), dummy hp ${dummyBefore} -> ${dummyAfter}`);
 
-  // Hotbar slot 3 (number key) casts the hero's second skill, which reaches
-  // the dummy in front and starts its cooldown.
+  // Hotbar slot 2 (number key) casts the hero's first skill, the one a new
+  // hero has at level 1, which reaches the dummy in front and starts its
+  // cooldown. A skill that grabs (the Grappler's) holds the dummy; the attack
+  // key then throws it, which is the hit.
   await page.waitForTimeout(900); // the dummy gets back up
   const preSkill = await lineUp();
-  await page.keyboard.press("Digit3");
+  await page.keyboard.press("Digit2");
   const cooling = (p: Probe): string[] => Object.keys(p.cooldowns ?? {}).filter((id) => p.cooldowns[id] > 0);
   const cast = await waitFor("a skill cooldown", (p) => cooling(p).length > 0, 3_000);
+  await page.waitForTimeout(400);
+  await page.keyboard.press("KeyJ");
   await page.waitForTimeout(600);
   const afterSkill = await probe();
   if (!(afterSkill.hero_hits > preSkill.hero_hits)) {
