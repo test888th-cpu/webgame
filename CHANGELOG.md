@@ -21,8 +21,10 @@ Owner's requests (2026-11-11).
   like the others. A thrown body flies for `AIR_TICKS` (16) at an even pace, from over
   the thrower's head down onto the street, falling ever faster, then hits the ground
   once (`Fighter.landed`, zone event `slam`): a new deep `body_slam` thud, the ground
-  shakes, dust bursts both ways and the body freezes for a beat. Crashes into other foes
-  still happen while it flies, so only those right where it comes down are hit.
+  shakes, dust bursts both ways and the body freezes for a beat. It knocks down foes it
+  passes on the way, and anyone within a body and a half of where it lands
+  (`LAND_HALF`), so a throw still clears space without flinging bodies across the
+  street.
 - **Knocked out in the story, you wake in Iron City Central** (`AreaRules.wake_area`),
   healed, minus the usual coins, never in the street that beat you. The story is kept:
   quests, streets reached (Win's and Uncle Thong's taxis ride back) and fights already
@@ -35,8 +37,10 @@ Owner's requests (2026-11-11).
   blow's sound short.
 - **Five character slots, one per job** (`max_characters` 5, was 4). The Characters
   screen fits five cards.
-- Balance: not measured with the harness in this change (throws are shorter, so fewer
-  foes are crashed into, and two jobs' throws now floor).
+- Balance, measured: the Grappler (Oren) on auto battle, three minutes on the Core
+  Overflow farming ground at its level, 16 seeds. Before: 5 knock-outs, 461 kills.
+  Short throws alone: 6 knock-outs, 414 kills; with the landing impact: 5 knock-outs,
+  412 kills (about 10% fewer kills, the same survival).
 
 ### Added: the tutorial teaches grabbing; the ultimate gauge follows the hero
 - **Tutorial:** a new step after the weapon throw has the player grab the training dummy

@@ -9,8 +9,9 @@ extends RefCounted
 ## of the holder. Any attack button throws the foe the way the holder faces.
 ## A body is heavy: it is thrown only a couple of bodies away (never more
 ## than MAX_THROW_BODIES from the thrower), flies for AIR_TICKS at an even
-## pace, knocks into others on the way (the job's "crash") and slams into the
-## street (`landed`, reported by ZoneSim as "slam").
+## pace, knocks into others on the way and where it lands (the job's
+## "crash") and slams into the street (`landed`, reported by ZoneSim as
+## "slam").
 ## Fair by rule: a hold ends by itself, a hit on the holder frees the foe, a
 ## held fighter with stun protection (a player) shakes free faster by
 ## pressing buttons, nobody can be grabbed again for REGRAB_TICKS, and what
@@ -29,11 +30,10 @@ const ESCAPE_TICKS := 6
 const REGRAB_TICKS := 90
 ## How far in front of the holder the held fighter is carried.
 const HOLD_GAP := 14.0
-## A thrown body knocks into fighters this close, while it still travels at
-## least THROWN_MIN px.
+## A thrown body knocks into fighters this close all the while it is in the
+## air, and into a wider spot (LAND_HALF) where it comes down.
 const CRASH_HALF := 22.0
 const CRASH_DEPTH := 14.0
-const THROWN_MIN := 6.0
 const PROFILE_MOVES: Array[String] = ["move", "release", "throw", "crash", "shove"]
 const MIN_HOLD := 10
 const MAX_HOLD := 120
@@ -46,6 +46,8 @@ const MAX_THROW_BODIES := 3.0
 const MAX_THROW := BODY * MAX_THROW_BODIES - HOLD_GAP
 ## Ticks a thrown body is in the air before it hits the street.
 const AIR_TICKS := 16
+## Where a thrown body lands, it knocks down anyone within a body and a half.
+const LAND_HALF := BODY * 1.5
 
 
 ## One tick of grabbing for everyone. Returns the blows it landed (throws,
@@ -275,7 +277,7 @@ static func _fly(
 	events: Array[CombatEvent]
 ) -> void:
 	var thrower := _find(fighters, body.thrown_by)
-	if thrower == null or body.airborne == 0 or absf(body.knockback_remaining) < THROWN_MIN:
+	if thrower == null or body.airborne == 0:
 		body.thrown_by = 0
 		body.thrown_hits = {}
 		return
@@ -288,7 +290,9 @@ static func _fly(
 			continue
 		if other.held_by != 0 or not CombatRules.is_vulnerable(other):
 			continue
-		var near := absf(other.position.x - body.position.x) <= CRASH_HALF
+		# Where it comes down (its last tick aloft) it flattens a wider spot.
+		var half := LAND_HALF if body.airborne == 1 else CRASH_HALF
+		var near := absf(other.position.x - body.position.x) <= half
 		if near and absf(other.position.y - body.position.y) <= CRASH_DEPTH:
 			body.thrown_hits[other.id] = true
 			events.append(CombatRules.strike(thrower, other, crash, rng))
