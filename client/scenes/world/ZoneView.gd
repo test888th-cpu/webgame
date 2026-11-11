@@ -40,6 +40,7 @@ var _npc_prompts := {}
 var _shake := 0.0
 ## Set after the first sync: enemies there from the start are simply there.
 var _shown := false
+var _footsteps := Footsteps.new()
 
 
 func build(p_zone: ZoneSim, p_content: ContentDB) -> void:
@@ -106,6 +107,7 @@ func sync() -> void:
 			_pickups.erase(id)
 	_sync_weapons()
 	_sync_thrown()
+	_footsteps.update(zone, Time.get_ticks_msec())
 	_update_exit_signs()
 	_update_prompts()
 	_follow_hero()

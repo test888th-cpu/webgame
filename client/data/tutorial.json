@@ -8,7 +8,7 @@
     {"id": "guard", "signal": "guard", "count": 1, "text": "Guard: hold Shift. Raise it just before a hit to parry."},
     {"id": "pickup", "signal": "pickup", "count": 1, "text": "Stand on a weapon in the yard and press E to pick it up."},
     {"id": "throw", "signal": "throw", "count": 1, "text": "Press E again to throw it."},
-    {"id": "grab", "signal": "grab", "count": 1, "text": "Grab: stand by the dummy and press G (or E, empty-handed). Then punch to throw it. Bosses and mini-bosses cannot be grabbed."},
+    {"id": "grab", "signal": "grab", "count": 1, "text": "Grab: hands empty, stand by the dummy and press G (or E). Holding a weapon, G drops it first. Then punch to slam it down. Bosses and mini-bosses cannot be grabbed."},
     {"id": "talk", "signal": "talk", "count": 1, "text": "Your first quest: press F (or the quest card) to accept it."}
   ]
 }

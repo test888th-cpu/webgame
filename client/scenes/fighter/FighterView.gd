@@ -30,6 +30,9 @@ const LIFT_TICKS := 8
 ## GrabRules.HOLD_GAP away) so the body is centred over the holder's head.
 const HELD_RISE := 44.0
 const HELD_REACH := 24.0
+## A thrown body leaves the thrower's hands with this little lift before it
+## drops (GrabRules.AIR_TICKS in the air), falling ever faster onto the street.
+const THROW_LOFT := 10.0
 const FLASH_SHADER := preload("res://scenes/fighter/flash.gdshader")
 ## The shadow under a fighter, in game pixels (scaled with a big one).
 const SHADOW_WIDTH := 24.0
@@ -400,6 +403,8 @@ func _animate_sprite(moved: bool) -> void:
 			_set_frame_by_progress(
 				"hurt", float(fighter.state_tick) / maxi(1, fighter.state_duration)
 			)
+		Fighter.State.DOWN, Fighter.State.KO when fighter.airborne > 0:
+			_thrown_pose()
 		Fighter.State.DOWN, Fighter.State.KO:
 			_set_frame_by_progress("down", float(fighter.state_tick) / DOWN_TICKS)
 			if fighter.is_ko():
@@ -424,6 +429,19 @@ func _animate_sprite(moved: bool) -> void:
 			_sprite.position = _home
 		_:
 			_play("walk" if moved and _has("walk") else "idle")
+
+
+## A thrown body in the air: from over the thrower's head (where HELD carried
+## it) down onto the street ahead, on its side, gathering speed as it falls,
+## so it lands with weight instead of floating like a thrown bottle.
+func _thrown_pose() -> void:
+	var t := 1.0 - float(fighter.airborne) / GrabRules.AIR_TICKS
+	_set_frame_by_progress("hurt", 0.0)
+	var height := HELD_RISE * (1.0 - t * t) + THROW_LOFT * 4.0 * t * (1.0 - t)
+	var back := fighter.facing * (GrabRules.HOLD_GAP + HELD_REACH) * (1.0 - t)
+	_sprite.rotation = -PI / 2 * fighter.facing * (1.0 + 0.3 * sin(PI * t))
+	_home = Vector2(back, -height)
+	_sprite.position = _home
 
 
 func _has(anim: String) -> bool:

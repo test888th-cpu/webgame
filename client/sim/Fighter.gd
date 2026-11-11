@@ -72,6 +72,11 @@ var held_by := 0
 var grab_guard := 0
 var thrown_by := 0
 var thrown_hits := {}
+## Ticks a thrown body is still in the air (GrabRules.AIR_TICKS at the
+## throw): it travels its knockback evenly while aloft, then drops.
+var airborne := 0
+## True on the one tick a thrown body hits the ground (the slam).
+var landed := false
 ## The skill being used ("" outside one) and which of its moves is running
 ## (SkillSequence). Cleared by any state but ATTACK, so a hit ends the skill.
 var skill_id := ""

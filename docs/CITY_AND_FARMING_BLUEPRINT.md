@@ -187,7 +187,7 @@ Area list **[V]** (level, `→` gate to pass east):
 
 ### 1.7 Save/load and progression
 
-- **[V]** `SaveStore` holds up to 4 characters per account (`max_characters`) in local
+- **[V]** `SaveStore` holds up to 5 characters per account (`max_characters`) in local
   `user://` storage, at `SAVE_VERSION = 10` with step-by-step migrations. It saves on
   entering an area, on hiding the tab, after trades and after upgrades.
 - **[V]** `PlayerProfile` keeps hero, level, xp, money, hp, inventory, equipment,
