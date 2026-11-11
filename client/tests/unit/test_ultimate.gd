@@ -226,3 +226,17 @@ func test_the_ultimate_sits_on_the_hotbar_or_its_own_key() -> void:
 		assert_true(not SkillRules.unlocked(db, hero_id, 49).has(ultimate), "locked at 49")
 		assert_near(float(SkillRules.unlocked(db, hero_id, 50)[ultimate]["gauge"]), 100.0, "50")
 	assert_true(InputMap.has_action("ultimate"), "and a key of its own")
+
+
+func test_the_gauge_goes_with_the_hero_to_the_next_area_but_not_into_a_save() -> void:
+	var db := _content()
+	var profile := PlayerProfile.new_game(db, "riku")
+	var yard := ZoneSim.new(db, profile, "depot_yard", "", 1)
+	assert_near(yard.hero.gauge, 0.0, "a new hero starts empty")
+	yard.hero.gauge = 64.0
+	UltimateRules.carry(profile, yard.hero)
+	var street := ZoneSim.new(db, profile, "saltmarket", "west", 1)
+	assert_near(street.hero.gauge, 64.0, "carried into the next area")
+	assert_true(not profile.to_dict().has("gauge"), "never written to the save")
+	var loaded := PlayerProfile.from_dict(profile.to_dict(), db)
+	assert_near(loaded.gauge, 0.0, "a loaded game starts empty")

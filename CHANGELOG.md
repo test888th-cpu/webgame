@@ -4,6 +4,14 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added: the tutorial teaches grabbing; the ultimate gauge follows the hero
+- **Tutorial:** a new step after the weapon throw has the player grab the training dummy
+  (G, or E with empty hands) and says bosses and mini-bosses cannot be grabbed. Saves are
+  version 12: a save past that point keeps its place, and a finished tutorial stays
+  finished.
+- **Ultimate gauge:** it is kept when the hero walks or rides to another area. It is not
+  part of a save, so loading a game starts it empty.
+
 ### Fixed: mini-bosses can no longer be grabbed or thrown (owner's rule, 2026-11-11)
 - **Only ordinary monsters and players are held or thrown.** Bosses already could not be;
   mini-bosses (enemies with the mini-boss mark, `"elite"` in `enemies.json`) could, for

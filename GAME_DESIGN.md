@@ -157,7 +157,7 @@ equipment) is stored per hero. Temporary combat state is never persisted.
   shows over their heads.
 
 **[built] Tutorial**: first-time steps in the Depot Yard (move, punch, heavy, skill,
-dodge, guard and parry, pick up, throw, talk to Odo), each finished by doing it, shown
+dodge, guard and parry, pick up, throw, grab the dummy, talk to Odo), each finished by doing it, shown
 in the quest card's place, skippable from the menu; progress is saved (save v4).
 
 ## World structure

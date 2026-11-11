@@ -137,7 +137,7 @@ func _init(
 	var hero_data := content.hero(profile.hero)
 	hero.parry_window = int(hero_data.get("parry_window", CombatRules.PERFECT_GUARD_TICKS))
 	hero.skill_armor = bool(hero_data.get("skill_armor", false))
-	JobRules.equip(hero, content, profile.hero)
+	JobRules.equip(hero, content, profile.hero, profile)
 	hero.throws = true
 	hero.facing = -1 if entry == "east" else 1
 	if area.get("heal_on_enter", false):

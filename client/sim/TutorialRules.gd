@@ -6,7 +6,12 @@ extends RefCounted
 ## last step. This code never names a specific step.
 
 ## What the hero can be seen doing, as the steps count it.
-const SIGNALS := ["move", "hit", "heavy", "skill", "dodge", "guard", "pickup", "throw", "talk"]
+const SIGNALS := [
+	"move", "hit", "heavy", "skill", "dodge", "guard", "pickup", "throw", "grab", "talk"
+]
+## Where save version 12 put the grab step: saves from before it that had
+## reached this index move one step on, so nobody repeats or skips a step.
+const GRAB_STEP := 8
 
 
 ## The step being taught, or {} when the tutorial is over.
@@ -48,6 +53,8 @@ static func signals_for(
 		found.append("move")
 	if hero.state == Fighter.State.GUARD:
 		found.append("guard")
+	if hero.state == Fighter.State.GRAB and hero.state_tick == 0:
+		found.append("grab")
 	for event in events:
 		match event.type:
 			"hit":
