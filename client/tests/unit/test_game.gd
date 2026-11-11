@@ -101,7 +101,7 @@ func test_a_weapon_left_in_an_area_is_there_on_return() -> void:
 	_done(game)
 
 
-func test_defeat_wakes_you_where_you_fell_and_costs_coins() -> void:
+func test_defeat_wakes_you_in_the_city_and_costs_coins() -> void:
 	var game := _game()
 	game.enter_area("saltmarket", "west")
 	game.profile.money = 100
@@ -117,8 +117,7 @@ func test_defeat_wakes_you_where_you_fell_and_costs_coins() -> void:
 	assert_eq(game.menu_name, "game_over", "game over shown")
 	game._recover()
 	assert_eq(game.profile.money, 90, "lost 10%")
-	assert_eq(game.zone.area_id, "saltmarket", "back on your feet in the same street")
-	assert_true(game.zone.hero.position.x < 120.0, "at its west end")
+	assert_eq(game.zone.area_id, "main_city", "back on your feet in the city")
 	assert_eq(game.zone.hero.hp, game.zone.hero.max_hp, "healed")
 	_done(game)
 

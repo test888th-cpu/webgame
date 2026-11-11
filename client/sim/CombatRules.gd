@@ -191,7 +191,11 @@ static func _step(f: Fighter, input: FighterInput, library: MoveLibrary, bounds:
 		f.energy = minf(MAX_ENERGY, f.energy + ENERGY_REGEN)
 	if f.knockback_remaining != 0.0:
 		var push := f.knockback_remaining * KNOCKBACK_RATE
-		if absf(f.knockback_remaining) < 0.5:
+		if f.airborne > 0:
+			# A thrown body flies at an even pace and drops (GrabRules), it
+			# does not skid like a blow's knockback.
+			push = f.knockback_remaining / f.airborne
+		elif absf(f.knockback_remaining) < 0.5:
 			push = f.knockback_remaining
 		f.knockback_remaining -= push
 		f.position = LaneMovement.clamp_to(f.position + Vector2(push, 0), bounds)
@@ -248,7 +252,10 @@ static func start_skill(f: Fighter, skill_id: String, library: MoveLibrary) -> b
 		return false
 	if not UltimateRules.ready(f, skill):
 		return false
-	if not _start_move(f, library.get_move(str(skill["move"]))):
+	var first := library.get_move(str(skill["move"]))
+	if GrabRules.barred(f, first):
+		return false
+	if not _start_move(f, first):
 		return false
 	UltimateRules.spend(f, skill)
 	f.cooldowns[skill_id] = int(skill["cooldown"])

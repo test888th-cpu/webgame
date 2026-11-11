@@ -91,6 +91,15 @@ static func hub(content: ContentDB) -> String:
 	return content.city_area if content.city_area != "" else content.start_area
 
 
+## Where a hero knocked out in `area_id` comes to (Game._recover): the hub,
+## to get back on their feet among the merchants and the taxi, never in the
+## middle of the street that beat them. The story stays: quests, areas
+## reached (the taxi rides back to them) and fights already won are kept.
+## The start area (the tutorial's yard) keeps a hero who falls there.
+static func wake_area(content: ContentDB, area_id: String) -> String:
+	return area_id if area_id == content.start_area else hub(content)
+
+
 ## The way home from `area_id` to rest (AutoBattle's rest, ProgressionHarness):
 ## the hub, where the merchants and the taxi are, from anywhere.
 static func rest_home(content: ContentDB, _area_id: String) -> String:

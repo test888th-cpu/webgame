@@ -102,7 +102,7 @@ var _last_locked_bump := -1000
 
 
 ## `start_x` (if not negative) places the hero along the street instead of at
-## the `entry` side: where a knocked-out hero comes to (see respawn_x).
+## the `entry` side.
 func _init(
 	p_content: ContentDB,
 	p_profile: PlayerProfile,
@@ -156,15 +156,6 @@ func _init(
 			{"data": encounters[i], "state": "pending" if i in pending else "cleared"}
 		)
 	_scatter_weapons()
-
-
-## Where a hero knocked out now comes to in this area: just short of the boss
-## fight they lost, to try again at once; otherwise at the area's west end
-## (fights already won stay won, see StreetMemory).
-func respawn_x() -> float:
-	if _active >= 0 and boss_id != 0:
-		return float(_encounters[_active]["data"]["arena"][0]) + 16.0
-	return bounds.position.x + 24.0
 
 
 ## Applies profile stats (level, equipment) to the hero fighter.
@@ -286,7 +277,10 @@ func tick(hero_input: FighterInput) -> Array[ZoneEvent]:
 				var eyed := {"id": id, "at": brains[id].fetching}
 				events.append(ZoneEvent.make("weapon_eyed", eyed))
 	for id: int in inputs:
-		if inputs[id].pick:
+		if GrabRules.lets_go(fighter(id), inputs[id]):  # Grab with full hands: drop it.
+			_drop_weapon(fighter(id), fighter(id).position + Vector2(0, 3), events)
+			inputs[id] = GrabRules.spent(inputs[id])
+		elif inputs[id].pick:
 			_pick_or_drop(fighter(id), events)
 	for hit in CombatRules.tick(fighters, inputs, content.moves, walk, _resolve_bodies, rng):
 		var event := ZoneEvent.make("hit")
@@ -630,10 +624,12 @@ func use_item(item_id: String) -> bool:
 	return true
 
 
-## Reports attacks, skills and dodges that began this tick (for sounds and
-## effects; they change nothing).
+## Reports attacks, skills and dodges that began this tick, and thrown bodies
+## hitting the street (for sounds and effects; they change nothing).
 func _report_actions(events: Array[ZoneEvent]) -> void:
 	for f in fighters:
+		if f.landed:
+			events.append(ZoneEvent.make("slam", {"id": f.id, "at": f.position}))
 		if f.state_tick != 0:
 			continue
 		if f.state == Fighter.State.ATTACK:

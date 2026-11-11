@@ -111,6 +111,45 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
   - Presentation only: hit areas, damage, warning durations and the simulation are
     unchanged.
 
+### Changed: grabs need empty hands; throws are short, heavy slams; KO wakes you in the city
+Owner's requests (2026-11-11).
+- **No grabbing with a weapon in hand.** The grab button with a weapon drops it at the
+  hero's feet instead (`GrabRules.lets_go`, one press, one meaning); the next press grabs.
+  The pick button already never grabbed while armed. Grab skills (the Grappler's) also
+  wait for empty hands (`GrabRules.barred`): the hotbar says why, and auto battle skips
+  them while armed. The tutorial's grab step says so.
+- **A person is heavy: throws land 2 to 3 bodies away**, not across the street. One
+  space is a person's width (18 px, `GrabRules.BODY`); every throw, the jobs' and the
+  grab skills', lands at most 3 spaces from the thrower (`MAX_THROW_BODIES`), checked on
+  load and capped in play so knockback bonuses cannot fling a body further. New throw
+  knockback: Boxer and Street Fighter 22 (2 spaces), Brawler, Counter and Crushing Hold
+  31 (2.5), Grappler, Power Throw and Crowd Toss 40 (3); before: 40 to 220.
+- **Every throw is a slam.** The Boxer's and Street Fighter's throws now floor the foe
+  like the others. A thrown body flies for `AIR_TICKS` (16) at an even pace, from over
+  the thrower's head down onto the street, falling ever faster, then hits the ground
+  once (`Fighter.landed`, zone event `slam`): a new deep `body_slam` thud, the ground
+  shakes, dust bursts both ways and the body freezes for a beat. It knocks down foes it
+  passes on the way, and anyone within a body and a half of where it lands
+  (`LAND_HALF`), so a throw still clears space without flinging bodies across the
+  street.
+- **Knocked out in the story, you wake in Iron City Central** (`AreaRules.wake_area`),
+  healed, minus the usual coins, never in the street that beat you. The story is kept:
+  quests, streets reached (Win's and Uncle Thong's taxis ride back) and fights already
+  won stay won (the city's own rest does not wipe them for a knock-out). Falling in the
+  tutorial yard still wakes you there. `ZoneSim.respawn_x` is gone.
+- **Footsteps.** Soft footfalls (`step_1`, `step_2`) for the hero and the monsters, one
+  per stride while walking (`scenes/world/Footsteps.gd`). Monsters are quieter and fade
+  out with distance from the hero, a boss's steps are deeper, and a crowd is heard at
+  most once every 110 ms. They play on four voices of their own, so they never cut a
+  blow's sound short.
+- **Five character slots, one per job** (`max_characters` 5, was 4). The Characters
+  screen fits five cards.
+- Balance, measured: the Grappler (Oren) on auto battle, three minutes on the Core
+  Overflow farming ground at its level, 16 seeds. Before: 5 knock-outs, 461 kills.
+  Short throws alone: 6 knock-outs, 414 kills. Final (landing impact, and a slammed foe
+  stays down for the full knockdown from the moment it lands, not from the throw):
+  5 knock-outs, 452 kills.
+
 ### Added: the tutorial teaches grabbing; the ultimate gauge follows the hero
 - **Tutorial:** a new step after the weapon throw has the player grab the training dummy
   (G, or E with empty hands) and says bosses and mini-bosses cannot be grabbed. Saves are

@@ -94,26 +94,28 @@ func test_every_gate_opens_in_one_pass() -> void:
 		)
 
 
-func test_knocked_out_in_a_boss_fight_you_get_up_at_its_door() -> void:
-	var zone := ZoneSim.new(_content(), _profile(), "canal_works", "west", 3)
-	assert_true(zone.respawn_x() < 120.0, "outside a boss fight: the west end")
-	var events: Array[ZoneEvent] = []
-	zone._start_encounter(1, events)
-	zone.tick(FighterInput.new())
-	var arena: Array = _content().area("canal_works")["encounters"][1]["arena"]
-	assert_true(zone.boss_id != 0, "the Foreman is out")
-	assert_near(zone.respawn_x(), float(arena[0]) + 16.0, "just short of his fight")
+func test_a_knock_out_wakes_you_in_the_city() -> void:
+	var content := _content()
+	assert_eq(AreaRules.wake_area(content, "canal_works"), "main_city", "from the street")
+	assert_eq(AreaRules.wake_area(content, "farm_rail_sidings"), "main_city", "from a farm")
+	assert_eq(AreaRules.wake_area(content, "main_city"), "main_city", "in the city itself")
+	assert_eq(AreaRules.wake_area(content, "depot_yard"), "depot_yard", "the tutorial yard")
 
 
-func test_getting_up_keeps_won_fights() -> void:
+func test_getting_up_in_the_city_keeps_the_story() -> void:
 	var game := _game()
 	game.enter_area("saltmarket", "west")
 	_win_first_fight(game.zone)
 	game.zone.hero.hp = 0
 	game.open_game_over()
 	game._recover()
-	assert_eq(game.zone.area_id, "saltmarket", "same street")
-	assert_eq(game.zone._encounters[0]["state"], "cleared", "the won fight stays won")
+	assert_eq(game.zone.area_id, "main_city", "back on your feet in the city")
+	assert_true("saltmarket" in game.profile.visited, "the street stays reached (taxi)")
+	assert_true(StreetMemory.is_cleared(game.profile, "saltmarket", 0), "the won fight is kept")
+	var saved := SaveStore.load_character(game.profile.id, _content())
+	assert_true(StreetMemory.is_cleared(saved, "saltmarket", 0), "and saved")
+	game.enter_area("saltmarket", "west")
+	assert_eq(game.zone._encounters[0]["state"], "cleared", "riding back, it is still won")
 	_done(game)
 
 

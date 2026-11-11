@@ -1,12 +1,17 @@
 class_name GrabRules
 extends RefCounted
 ## Grab and throw, the same for every job (jobs.json "grab" gives each its
-## own reach, hold and throw). A fighter with a grab profile reaches out
-## (the grab button, or the pick button with empty hands and nothing to pick
-## up); if the reach closes on a foe it holds them: the foe is HELD, cannot
-## act or be hit, and is carried in front of the holder. Any attack button
-## throws the foe the way the holder faces; a held foe flies as far as the
-## throw's knockback and knocks into others on the way (the job's "crash").
+## own reach, hold and throw). A fighter with a grab profile and EMPTY HANDS
+## reaches out (the grab button, or the pick button with nothing to pick
+## up); with a weapon in hand the grab button lets the weapon fall instead
+## (`lets_go`), so the next press grabs. If the reach closes on a foe it
+## holds them: the foe is HELD, cannot act or be hit, and is carried in front
+## of the holder. Any attack button throws the foe the way the holder faces.
+## A body is heavy: it is thrown only a couple of bodies away (never more
+## than MAX_THROW_BODIES from the thrower), flies for AIR_TICKS at an even
+## pace, knocks into others on the way and where it lands (the job's
+## "crash") and slams into the street (`landed`, reported by ZoneSim as
+## "slam").
 ## Fair by rule: a hold ends by itself, a hit on the holder frees the foe, a
 ## held fighter with stun protection (a player) shakes free faster by
 ## pressing buttons, nobody can be grabbed again for REGRAB_TICKS, and what
@@ -25,14 +30,24 @@ const ESCAPE_TICKS := 6
 const REGRAB_TICKS := 90
 ## How far in front of the holder the held fighter is carried.
 const HOLD_GAP := 14.0
-## A thrown body knocks into fighters this close, while it still travels at
-## least THROWN_MIN px.
+## A thrown body knocks into fighters this close all the while it is in the
+## air, and into a wider spot (LAND_HALF) where it comes down.
 const CRASH_HALF := 22.0
 const CRASH_DEPTH := 14.0
-const THROWN_MIN := 6.0
 const PROFILE_MOVES: Array[String] = ["move", "release", "throw", "crash", "shove"]
 const MIN_HOLD := 10
 const MAX_HOLD := 120
+## One space on the street: a person's width (Bodies.PERSON.x on each side).
+const BODY := 18.0
+## The farthest a thrown body lands from the thrower, in BODY spaces: a
+## person is no sack of rice. MAX_THROW is the throw's knockback that puts it
+## there (it starts HOLD_GAP in front).
+const MAX_THROW_BODIES := 3.0
+const MAX_THROW := BODY * MAX_THROW_BODIES - HOLD_GAP
+## Ticks a thrown body is in the air before it hits the street.
+const AIR_TICKS := 16
+## Where a thrown body lands, it knocks down anyone within a body and a half.
+const LAND_HALF := BODY * 1.5
 
 
 ## One tick of grabbing for everyone. Returns the blows it landed (throws,
@@ -45,6 +60,7 @@ static func tick(
 ) -> Array[CombatEvent]:
 	var events: Array[CombatEvent] = []
 	for f in fighters:
+		f.landed = false
 		if f.grab_guard > 0:
 			f.grab_guard -= 1
 		if f.state == Fighter.State.HELD:
@@ -62,13 +78,55 @@ static func tick(
 	for f in fighters:
 		if f.thrown_by != 0:
 			_fly(f, fighters, library, rng, events)
+		if f.airborne > 0:
+			f.airborne -= 1
+			if f.airborne == 0:
+				f.landed = true
+				f.knockback_remaining = 0.0
+				# Floored from the moment it hits the street, not from the
+				# throw: the time in the air is no time spent down.
+				if f.state == Fighter.State.DOWN:
+					f.enter(Fighter.State.DOWN)
 	return events
 
 
 ## True when this input asks `f` to grab: the grab button, or the pick
-## button with empty hands (ZoneSim has already used it on a weapon underfoot).
+## button (ZoneSim has already used it on a weapon underfoot), and only with
+## empty hands: a fighter holding a weapon cannot take hold of anyone.
 static func wants(f: Fighter, input: FighterInput) -> bool:
-	return not f.grab.is_empty() and (input.grab or (input.pick and f.weapon == ""))
+	return not f.grab.is_empty() and f.weapon == "" and (input.grab or input.pick)
+
+
+## True when the grab button asks `f` to let its weapon fall first: one
+## press drops it (ZoneSim), the next grabs. Only a fighter free to act.
+static func lets_go(f: Fighter, input: FighterInput) -> bool:
+	return (
+		f != null
+		and input.grab
+		and f.weapon != ""
+		and not f.grab.is_empty()
+		and f.state == Fighter.State.IDLE
+	)
+
+
+## True when `move` is a grab `f` cannot make: its hands are full. Grab
+## skills wait too until the weapon is down (CombatRules.start_skill).
+static func barred(f: Fighter, move: MoveData) -> bool:
+	return move != null and move.grab and f.weapon != ""
+
+
+## `input` with the grab press spent (it let a weapon fall), so the same tick
+## does not grab as well. A copy: the caller's input is left as it was.
+static func spent(input: FighterInput) -> FighterInput:
+	var out := FighterInput.new()
+	out.move = input.move
+	out.light = input.light
+	out.heavy = input.heavy
+	out.dodge = input.dodge
+	out.guard = input.guard
+	out.skill = input.skill
+	out.face = input.face
+	return out
 
 
 ## Whether `defender` can be held (else a grab only shoves them): ordinary
@@ -182,6 +240,9 @@ static func _throw(
 	f.crash_move = str(plan.get("crash", f.grab.get("crash", "")))
 	var throw := library.get_move(str(plan.get("throw", f.grab.get("throw", ""))))
 	events.append(CombatRules.strike(f, held, throw, rng))
+	# Whatever scaled the throw, a body lands at most MAX_THROW_BODIES away.
+	held.knockback_remaining = clampf(held.knockback_remaining, -MAX_THROW, MAX_THROW)
+	held.airborne = AIR_TICKS
 	held.thrown_by = f.id
 	held.thrown_hits = {}
 	if not SkillSequence.advance(f, library):
@@ -220,7 +281,7 @@ static func _fly(
 	events: Array[CombatEvent]
 ) -> void:
 	var thrower := _find(fighters, body.thrown_by)
-	if thrower == null or absf(body.knockback_remaining) < THROWN_MIN:
+	if thrower == null or body.airborne == 0:
 		body.thrown_by = 0
 		body.thrown_hits = {}
 		return
@@ -233,7 +294,9 @@ static func _fly(
 			continue
 		if other.held_by != 0 or not CombatRules.is_vulnerable(other):
 			continue
-		var near := absf(other.position.x - body.position.x) <= CRASH_HALF
+		# Where it comes down (its last tick aloft) it flattens a wider spot.
+		var half := LAND_HALF if body.airborne == 1 else CRASH_HALF
+		var near := absf(other.position.x - body.position.x) <= half
 		if near and absf(other.position.y - body.position.y) <= CRASH_DEPTH:
 			body.thrown_hits[other.id] = true
 			events.append(CombatRules.strike(thrower, other, crash, rng))
@@ -279,6 +342,7 @@ static func plan_problems(
 	for field: String in ["throw", "shove"]:
 		if not plan.has(field):
 			out.append("%s.grab.%s: required" % [where, field])
+	out.append_array(_throw_problems(library.get_move(str(plan.get("throw", ""))), where + ".grab"))
 	var hold: Variant = plan.get("hold")
 	if not (hold is float or hold is int) or hold < 1 or hold > MAX_HOLD:
 		out.append("%s.grab.hold: expected 1 to %d ticks" % [where, MAX_HOLD])
@@ -299,10 +363,29 @@ static func problems(profile: Variant, library: MoveLibrary, where: String) -> P
 	var reach := library.get_move(str(profile.get("move", "")))
 	if reach != null and not reach.grab:
 		out.append(where + '.move: must be a grab ("grab": true)')
+	out.append_array(_throw_problems(library.get_move(str(profile.get("throw", ""))), where))
 	var release := library.get_move(str(profile.get("release", "")))
 	if release != null and release.damage > 0:
 		out.append(where + ".release: must deal no damage (the throw does)")
 	var hold: Variant = profile.get("hold")
 	if not (hold is float or hold is int) or hold < MIN_HOLD or hold > MAX_HOLD:
 		out.append("%s.hold: expected %d to %d ticks" % [where, MIN_HOLD, MAX_HOLD])
+	return out
+
+
+## A throw must floor the body (it slams into the street) and land it no
+## farther than MAX_THROW_BODIES from the thrower.
+static func _throw_problems(throw: MoveData, where: String) -> PackedStringArray:
+	var out: PackedStringArray = []
+	if throw == null:
+		return out
+	if not throw.knockdown:
+		out.append("%s.throw: a thrown body hits the ground (knockdown)" % where)
+	if throw.knockback > MAX_THROW:
+		out.append(
+			(
+				"%s.throw: knockback %d lands past %d bodies (at most %d)"
+				% [where, throw.knockback, MAX_THROW_BODIES, MAX_THROW]
+			)
+		)
 	return out

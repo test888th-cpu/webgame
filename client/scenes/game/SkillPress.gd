@@ -20,6 +20,9 @@ static func try(game: Game, skill_id: String, input: FighterInput) -> bool:
 	if not UltimateRules.ready(hero, hero.skills[skill_id]):
 		game._hud.toast("The ultimate gauge is not full yet. Keep fighting.")
 		return false
+	if GrabRules.barred(hero, content.moves.get_move(str(skill["move"]))):
+		game._hud.toast("Hands full: press G to drop the weapon, then grab.")
+		return false
 	if hero.energy < SkillRules.energy_cost(content, skill_id):
 		game._hud.flash_energy()
 		return false

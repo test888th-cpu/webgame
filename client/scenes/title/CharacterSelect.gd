@@ -8,7 +8,8 @@ extends RefCounted
 ## (SaveStore keeps the file aside, it is never erased).
 
 const SIZE := Vector2(600, 300)
-const CARD := Vector2(134, 196)
+## Five cards (one per job) side by side within SIZE.
+const CARD := Vector2(108, 196)
 
 
 ## `on_play(id)`, `on_create()`, `on_delete(id)` and `on_close()` are the
@@ -39,7 +40,7 @@ static func build(
 	var row := HBoxContainer.new()
 	row.name = "Slots"
 	row.alignment = BoxContainer.ALIGNMENT_CENTER
-	row.add_theme_constant_override("separation", 6)
+	row.add_theme_constant_override("separation", 5)
 	row.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	body.add_child(row)
 	var state := {"id": "", "armed": false}

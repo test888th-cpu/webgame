@@ -509,8 +509,8 @@ func open_quests(npc: Dictionary, said := "") -> void:
 
 func open_game_over() -> void:
 	var loss := EconomyRules.defeat_loss(profile, content)
-	var boss := zone.respawn_x() > zone.bounds.position.x + 24.0
-	_show("game_over", GameMenus.knocked_out(self, loss, boss))
+	var wake := AreaRules.wake_area(content, zone.area_id)
+	_show("game_over", GameMenus.knocked_out(self, loss, wake))
 
 
 ## Opens the card for `item_id` (worn in `worn_slot`, or "" if in the bag)
@@ -768,13 +768,17 @@ func _hand_in(quest_id: String) -> Dictionary:
 	return rewards
 
 
-## Back on your feet where you fell: at the west end of the same area, or just
-## short of the boss fight lost. Fights already won stay won (StreetMemory).
+## Back on your feet in the city (AreaRules.wake_area), healed. A knock-out is
+## no rest: the fights already won stay won, so the story picks up where it
+## was (the city's own rest would fill the streets again).
 func _recover() -> void:
 	EconomyRules.charge(profile, EconomyRules.defeat_loss(profile, content))
 	profile.hp = profile.stats(content)["max_hp"]
 	close_menu()
-	enter_area(zone.area_id, "west", zone.respawn_x())
+	var won := profile.cleared.duplicate(true)
+	enter_area(AreaRules.wake_area(content, zone.area_id), "west")
+	profile.cleared = won
+	SaveStore.save(profile)
 
 
 ## The motorbike taxi: pay the fare and ride to an area reached before.
