@@ -24,8 +24,11 @@ Owner's requests (2026-11-11).
   bodies stay side-on, facing each other, never turned to the camera:
   - *shoulder toss* (`overhead`, every job's grab; Power Throw, Crowd Toss), to the
     owner's drawing: face to face with the hands at the waist (the grab frames),
-    lifted across the shoulders head to the back (lift), tossed forward (throw),
-    turning over to land on its side head away, lying there 1.5 s, then getting up;
+    lifted across the shoulders head to the back (lift), **one step forward**
+    (`GrabRules.STEP_LENGTH` over `STEP_TICKS`; no throw before the step is taken,
+    a throw pressed sooner waits for it), tossed forward (throw) flat as it was
+    carried, landing face down with its head towards the thrower, lying there
+    1.5 s, then getting up. Every hold now lasts at least `READY_TICKS` + 1;
   - *body slam* (Backbreaker, Crushing Hold): lifted to the chest, slammed down
     ahead;
   - *piledriver* (the Grappler's Ground Slam and Titan Destruction): hung upside down

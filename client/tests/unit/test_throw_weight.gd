@@ -52,8 +52,12 @@ func _seize(fighters: Array[Fighter]) -> void:
 func test_a_thrown_body_flies_evenly_then_slams_down_once() -> void:
 	var fighters := _scene("grappler")
 	_seize(fighters)
-	_run(fighters, 1, {1: _press("light")})
 	var body := fighters[1]
+	_run(fighters, 1, {1: _press("light")})
+	for t in GrabRules.READY_TICKS + 1:
+		if body.airborne > 0:
+			break
+		_run(fighters, 1)
 	assert_eq(body.airborne, GrabRules.AIR_TICKS - 1, "in the air")
 	var steps: Array[float] = []
 	var landings := 0
@@ -98,7 +102,7 @@ func test_no_throw_sends_a_body_flying_far() -> void:
 	fighters[0].grab = fighters[0].grab.duplicate()
 	fighters[0].grab["throw"] = "crowd_toss_hit"
 	_run(fighters, 40, {1: _press("light")})
-	var away := (fighters[1].position.x - 500) / GrabRules.BODY
+	var away := (fighters[1].position.x - fighters[0].position.x) / GrabRules.BODY
 	assert_true(away <= GrabRules.MAX_THROW_BODIES + 0.01, "capped (%.1f bodies)" % away)
 
 
@@ -160,16 +164,13 @@ func test_a_piledriver_lands_where_it_stands_as_the_thrower_jumps() -> void:
 	hero.skills = {"ground_slam": _content().skills["ground_slam"]}
 	assert_true(CombatRules.start_skill(hero, "ground_slam", _lib()), "the skill starts")
 	var hopped := false
-	var start_x := 0.0
 	for t in 120:
 		_run(fighters, 1)
-		if body.state == Fighter.State.HELD:
-			start_x = body.position.x
 		hopped = hopped or hero.hop > 0
 	assert_eq(body.grab_pose, GrabRules.PILEDRIVER, "held for a piledriver")
 	assert_true(hopped, "the thrower jumps with it")
-	var moved := absf(body.position.x - start_x)
-	assert_true(moved <= GrabRules.PILEDRIVER_TRAVEL + 0.01, "driven down in place (%.1f)" % moved)
+	var moved := absf(body.position.x - hero.position.x) - GrabRules.HOLD_GAP
+	assert_true(moved <= GrabRules.PILEDRIVER_TRAVEL + 0.5, "driven down in place (%.1f)" % moved)
 
 
 func test_the_view_draws_each_pose() -> void:

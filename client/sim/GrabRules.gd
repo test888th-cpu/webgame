@@ -36,6 +36,14 @@ const CRASH_HALF := 22.0
 const CRASH_DEPTH := 14.0
 const PROFILE_MOVES: Array[String] = ["move", "release", "throw", "crash", "shove"]
 const MIN_HOLD := 10
+## A hold lifts the foe over LIFT_TICKS, then the holder takes one step
+## forward (STEP_LENGTH px over STEP_TICKS) carrying them; only then can they
+## be thrown (READY_TICKS into the hold). A throw pressed sooner waits for the
+## step and goes as soon as it is taken.
+const LIFT_TICKS := 8
+const STEP_TICKS := 10
+const STEP_LENGTH := 14.0
+const READY_TICKS := LIFT_TICKS + STEP_TICKS
 const MAX_HOLD := 120
 ## One space on the street: a person's width (Bodies.PERSON.x on each side).
 const BODY := 18.0
@@ -191,6 +199,8 @@ static func _reach(
 		plan["skill"] = f.skill_id
 		plan["step"] = f.skill_step
 		ticks = int(plan.get("hold", ticks))
+	# Always long enough to lift, step and throw.
+	ticks = maxi(ticks, READY_TICKS + 1)
 	f.enter(Fighter.State.GRAB, ticks)
 	f.grab_plan = plan
 	f.holding = target.id
@@ -222,14 +232,21 @@ static func _hold(
 	if input != null:
 		f.facing = LaneMovement.facing(f.facing, input.move)
 	_carry(f, held)
+	if f.state_tick == LIFT_TICKS:
+		# The step forward, carried by the same slide a shove uses (it keeps
+		# to the street and stops at what stands in the way).
+		f.knockback_remaining = f.facing * STEP_LENGTH
+	var ready := f.state_tick >= READY_TICKS
 	var over := f.state_tick >= f.state_duration
 	if not f.grab_plan.is_empty():
 		_squeeze(f, held, library, events)
-		if over and held.state == Fighter.State.HELD:
+		if over and ready and held.state == Fighter.State.HELD:
 			_throw(f, held, library, rng, events)
 		return
-	var throws := input != null and (input.light or input.heavy or input.grab or input.pick)
-	if throws:
+	if input != null and (input.light or input.heavy or input.grab or input.pick):
+		f.queued = "throw"
+	if ready and f.queued == "throw":
+		f.queued = ""
 		_throw(f, held, library, rng, events)
 	elif over:
 		f.holding = 0

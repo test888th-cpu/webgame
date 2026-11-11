@@ -87,14 +87,17 @@ func test_an_attack_button_throws_the_held_foe() -> void:
 	var fighters := _scene()
 	_seize(fighters)
 	var hp := fighters[1].hp
-	var hits := _run(fighters, 1, {1: _press("light")})
+	var hits := _run(fighters, 2, {1: _press("light")})
+	assert_eq(hits.size(), 0, "pressed at once, the throw waits for the step forward")
+	hits = _run(fighters, GrabRules.READY_TICKS)
 	assert_eq(hits.size(), 1, "the throw lands as one blow")
 	assert_eq(hits[0].move_id, "brawler_throw", "the job's throw")
 	assert_true(fighters[1].hp < hp, "it hurts")
 	assert_eq(fighters[1].state, Fighter.State.DOWN, "and floors the foe")
 	assert_eq([fighters[0].holding, fighters[1].held_by], [0, 0], "nobody is held any more")
 	_run(fighters, 30)
-	var landed := (fighters[1].position.x - 500) / GrabRules.BODY
+	assert_true(fighters[0].position.x > 500 + GrabRules.STEP_LENGTH - 1, "after one step")
+	var landed := (fighters[1].position.x - fighters[0].position.x) / GrabRules.BODY
 	assert_true(landed >= 3.0 and landed <= 4.0, "lands 3 to 4 bodies ahead (%.1f)" % landed)
 
 
@@ -311,7 +314,12 @@ func test_the_view_shows_the_reach_the_lift_and_the_carried_foe() -> void:
 	assert_eq(holder.animation, &"lift", "holding plays the lift")
 	assert_true(carried.position.y < -30.0, "the held foe is drawn overhead")
 	assert_true(absf(carried.rotation) > 1.5, "lying on their side")
-	_run(fighters, 2, {1: _press("light")})
+	_run(fighters, 1, {1: _press("light")})
+	for t in GrabRules.READY_TICKS:
+		if fighters[1].airborne > 0:
+			break
+		_run(fighters, 1)
+	_run(fighters, 2)
 	for view in views:
 		view.sync()
 	assert_eq(holder.animation, &"throw", "the throw plays")
