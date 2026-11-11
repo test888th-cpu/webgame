@@ -81,6 +81,10 @@ var fx_credits: Dictionary = {}
 ## How each boss's fights look (boss_fx.json): its theme's wind-up glow, and
 ## the effects of heavy blows, hazards, shields, summons and its defeat.
 var boss_fx: Dictionary = {}
+## Every boss's and mini-boss's own skills (boss_skills.json, BossSkillRules):
+## {"bosses": {boss: {"tier", "level", "skills"}}, "skills": {id: definition}}.
+## A catalogue of its own, never the heroes' skills.json.
+var boss_skills: Dictionary = {}
 var audio: Dictionary = {}
 ## Bundled fonts: {"thai": {"file", "license", ...}}.
 var fonts: Dictionary = {}
@@ -122,6 +126,7 @@ static func load_all(dir := DATA_DIR) -> ContentDB:
 	db.tutorial = db._read(dir.path_join("tutorial.json")).get("steps", [])
 	db.world_bosses = db._read(dir.path_join("world_boss.json")).get("world_bosses", {})
 	db.boss_fx = db._read(dir.path_join("boss_fx.json"))
+	db.boss_skills = db._read(dir.path_join("boss_skills.json"))
 	db.item_cooldown = int(skill_file.get("item_cooldown", 0))
 	var manifest := db._read(ART_MANIFEST)
 	db.art = manifest.get("assets", {})
@@ -227,6 +232,7 @@ func validate() -> void:
 		_validate_enemy(id, enemies[id])
 	_validate_world_boss()
 	errors.append_array(BossFxRules.problems(self))
+	errors.append_array(BossSkillRules.problems(self))
 	for id: String in items:
 		_validate_item(id, items[id])
 	errors.append_array(ShopRules.problems(self))

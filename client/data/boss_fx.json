@@ -45,5 +45,6 @@
     "sludge": "sludge_splash",
     "quake": "slam",
     "rain": "hit_heavy"
-  }
+  },
+  "telegraph": {"ultimate": "full", "skill": "minimal", "cycle": "minimal"}
 }

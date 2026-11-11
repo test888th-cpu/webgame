@@ -135,7 +135,28 @@ func on_event(event: ZoneEvent) -> void:
 			var at: Vector2 = event.data["at"]
 			var road := view.zone.bounds
 			drop.lane = Vector2(road.position.y - at.y, road.end.y - at.y)
-			view.effects.add_child(drop)
+			# Read-only: the zone's entry for this drop (same spot, kind and
+			# ticks left), whose countdown the warning follows.
+			for entry: Dictionary in view.zone.hazards:
+				var same: bool = entry["at"] == at and str(entry["kind"]) == drop.kind
+				if same and absi(int(entry["ticks"]) - int(event.data["ticks"])) <= 1:
+					drop.source = entry
+					break
+			# How loudly it warns: an Ultimate's waves in full, others minimal
+			# (boss_fx.json "telegraph"; presentation only).
+			var from := str(drop.source.get("from", ""))
+			var levels: Dictionary = content.boss_fx.get("telegraph", {})
+			var ultimate := (
+				from != "" and BossSkillRules.is_ultimate(BossSkillRules.skill(content, from))
+			)
+			var source_key := "ultimate" if ultimate else ("skill" if from != "" else "cycle")
+			var per_skill: Dictionary = levels.get("skills", {})
+			drop.level = str(per_skill.get(from, levels.get(source_key, "full")))
+			var caller := view.zone.fighter(view.zone.boss_id)
+			if caller:
+				drop.theme = str(content.boss_fx.get("bosses", {}).get(caller.kind, "brawl"))
+			# On the street, under the fighters (its falling parts draw above).
+			view.ground.add_child(drop)
 			_drops.append(drop)
 			Sfx.play("hazard_warn", -8.0)
 		"hazard_hit":
@@ -340,11 +361,27 @@ func _on_swing(data: Dictionary) -> void:
 			if glow:
 				Fx.spawn(fighter_view, content, glow, CHEST, fighter.facing < 0)
 		return
-	var skill: Dictionary = content.skills[skill_id]
+	var boss_skill := BossSkillRules.skill(content, skill_id)
+	var skill: Dictionary = boss_skill if boss_skill else content.skills[skill_id]
 	Sfx.play(str(skill["sound"]))
 	var delay := fighter.move.startup * CombatRules.TICK_SECONDS
 	var flip := fighter.facing < 0
 	var effect := str(skill["fx"])
+	if boss_skill:
+		# A boss's skill gathers its theme's glow through the whole wind-up (a
+		# cast's hazard is then warned on the ground, HazardView).
+		var glow := BossFxRules.windup(content, fighter.kind)
+		if glow:
+			Fx.spawn(fighter_view, content, glow, CHEST, flip)
+		if BossSkillRules.is_ultimate(boss_skill):
+			# An Ultimate is called out: its name, a burst and the street shaking
+			# through its long wind-up, before its waves are marked on the ground.
+			hud.toast("ULTIMATE: %s" % str(boss_skill["name"]).to_upper())
+			Fx.spawn(view.effects, content, effect, fighter.position + CHEST)
+			view.shake(4.0)
+			return
+		if effect == "":
+			return
 	# As wide as the blow reaches (the owner's report: a skill that hit two
 	# cells looked like four); under a scaled body, undo the body's scale.
 	var size := fit(content, effect, hit_width(fighter.move))
@@ -358,7 +395,11 @@ func _on_swing(data: Dictionary) -> void:
 		# Where the blow lands: an uppercut's arc rises just ahead, a strike's
 		# burst at chest height in front; a ground effect under the fighter.
 		var ahead := Vector2.ZERO
-		if effect == "uppercut":
+		if boss_skill:
+			# A boss's blow lands on the middle of its hitbox, where it hits.
+			var middle := fighter.move.reach_offset + fighter.move.reach / 2.0
+			ahead = Vector2(fighter.facing * middle, 0.0 if effect in GROUND else CHEST.y)
+		elif effect == "uppercut":
 			ahead = Vector2(fighter.facing * 18.0, 0)
 		elif effect not in GROUND:
 			ahead = CHEST + Vector2(fighter.facing * 16.0, 0)
