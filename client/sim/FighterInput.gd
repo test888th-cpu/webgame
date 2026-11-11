@@ -15,5 +15,8 @@ var skill := ""
 ## Turn to face +1/-1 before acting (0: keep facing). Lets an AI turn toward a
 ## target without stepping.
 var face := 0
+## Grab the foe in front, or throw the one held. Edge-triggered. The pick
+## button does the same with empty hands and nothing to pick up.
+var grab := false
 ## Pick up the weapon underfoot (or put down the one held). Edge-triggered.
 var pick := false

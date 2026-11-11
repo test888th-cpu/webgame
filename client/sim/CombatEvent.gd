@@ -13,6 +13,8 @@ var guard_broken := false
 ## attacker (extra damage).
 var parried := false
 var counter := false
+## Caught by a counter stance (also `parried`): the defender's reply follows.
+var countered := false
 ## A critical hit (CombatRules.CRIT_DAMAGE times the damage).
 var critical := false
 ## Landed on a fighter who did not flinch (poise armor or a telegraphed

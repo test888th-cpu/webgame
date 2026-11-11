@@ -200,7 +200,9 @@ func _select(art_id: String) -> void:
 
 ## Idle and walk first, then attacks, then getting hit, then the rest.
 func _anim_rank(anim: String) -> String:
-	var order := ["idle", "walk", "light", "heavy", "stab", "dodge", "hurt", "down"]
+	var order := [
+		"idle", "walk", "light", "heavy", "stab", "dodge", "hurt", "down", "grab", "lift", "throw"
+	]
 	var at := order.find(anim)
 	return "%02d%s" % [at if at >= 0 else order.size(), anim]
 

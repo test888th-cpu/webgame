@@ -4,6 +4,88 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added: the five job kits (30 active skills, 10 passives, 5 ultimates)
+- **Every hero fights with their job's kit**: six active skills, two passives and an
+  ultimate each (`client/data/skills.json`, kits in `jobs.json`). The old four-skill sets
+  are gone; saved hotbars drop skills that no longer exist. Kit tables and measurements:
+  `docs/JOB_SKILL_PLAN.md`.
+- **Unlock levels:** active skills at 1, 2, 3, 5, 15 and 30, passives at 10 and 25, the
+  ultimate at 50. The schedule first agreed (second skill at level 10) nearly doubled the
+  damage auto battle took from the first boss, so early skills come sooner; awaiting the
+  owner's confirmation.
+- **Ultimates and their gauge** (`UltimateRules`): a gold bar under XP fills with every
+  blow landed and every share of health lost. R fires the ultimate, or a hotbar slot.
+  Knockout Devastation, Street Carnage, Titan Destruction, Absolute Retribution and Million
+  Fist Onslaught each deal 2 to 3 times the job's strongest skill, warn before striking,
+  and have an answer.
+- **New skill rules:** skills that open with a grab and throw by themselves (bosses are
+  struck instead), a squeezing hold, slipping punches that cannot be hit on the way in,
+  timed buffs, bonuses tied to one skill, and passives that resist damage, lengthen holds
+  or widen the parry.
+- **Skills screen and character creation** show all nine skills in two columns; the
+  Skills screen explains the card pointed at or pressed.
+- **Auto battle** answers attacks with counter stances, throws what it grabs, braces when
+  hurt and saves the ultimate for bosses and crowds.
+- **Hero titles, taglines and bios** follow the jobs (The Boxer, The Brawler, The
+  Grappler, The Counter Fighter, The Street Striker).
+- **Skill pacing rule restated** (`test_skill_pacing`): regular skills come back within
+  4.5 s as before; a job may have up to two slower ones (was one of four).
+- **Balance tests restated for kits** (`test_balance`): ultimates at 2 to 3 times the
+  strongest skill, the Boxer hardest on one target, the Brawler widest, the Striker
+  quickest, counters never unprovoked, the Grappler's skills all grabs.
+- Measured against the game before this work (auto battle, 4 farming grounds, 4 seeds):
+  kills per hour within 8% for every hero, damage taken 3% to 24% lower; early story
+  areas clear 3% to 19% slower, with no knock-outs.
+
+### Changed: five heroes, one job each (owner's decision, 2026-11-10)
+- **Pong the Soldier left the roster.** The five heroes are Riku (Boxer), Kan (Brawler),
+  Oren (Grappler), Dao (Counter Fighter) and Mika (Street Striker). Pong's four skills and
+  their moves are gone from the data; his art stays in the repository.
+- **Saves are version 11.** A character saved as Pong carries on as Kan under the same
+  name, with level, coins, items and quests kept and Kan's default hotbar.
+- `docs/JOB_SKILL_PLAN.md` compares the owner's five-job blueprint (6 active, 2 passive and
+  1 ultimate skill per job, shared grab and throw, separate PvE and PvP balance) with the
+  game as built and sets out the work as a sequence of small PRs. The owner approved its
+  eight decisions (BLUEPRINT D15).
+- **Jobs are data** (`client/data/jobs.json`, `JobRules`): five jobs, each hero's `job` in
+  `heroes.json`, and the levels a kit unlocks at (actives 1/10/20/25/35/40, passives 15/30,
+  ultimate 50). Checked on load: one hero per job; a job's kit, once listed, is 6 active,
+  2 passive and 1 ultimate skill at those levels; and no player skill uses an enemy's move.
+- **Each job punches its own way** (`jobs.json` `moveset`, new moves in `moves.json`): the
+  Boxer's jab, straight and heavy (longest reach, a last blow that staggers without
+  flooring); the Brawler's left, right and swing (wider, a harder shove); the Counter
+  Fighter's lighter quick, counter and heavy; the Street Striker's four fast punches. The
+  Grappler's three keep the old combination's values until grabs arrive. The heavy button
+  is unchanged. Measured with auto battle on four farming grounds (4 seeds each): kills
+  per hour within 5% and damage taken within 11% of the old combination for every hero
+  (`docs/JOB_SKILL_PLAN.md`).
+- **Grab and throw for every job** (`GrabRules`, `jobs.json` `grab`): G grabs the foe in
+  front (E, USE or B does too with empty hands and nothing to pick up); any attack button
+  throws them the way the hero faces, and a thrown body knocks down others in its path.
+  A hold ends by itself, a hit on the holder frees the foe, a held player shakes free by
+  pressing buttons, nobody is grabbed twice within 1.5 s, bosses are only shoved and
+  elites are held half as long. The Grappler reaches furthest, holds longest and throws
+  hardest; the Boxer and the Street Striker push a foe off balance instead of flooring them.
+- **Grab, lift and throw animations** for all 51 LPC characters, built from LPC's own
+  thrust, spellcast and slash frames (`art/lpc/characters.json`); existing rows are
+  unchanged. A held foe is drawn lying across the holder's raised hands.
+- **Counter stances** (`CounterRules`, moves with `"counter": true`): a skill may open with
+  a stance; a blow caught from the front while it is open does nothing, staggers the
+  attacker and starts the skill's reply at once. A stance nobody hits deals nothing and
+  leaves its user open. Guard breakers, blows from behind, grabs and thrown weapons go
+  through it. The guard shows while a stance is open. No hero has such a skill yet.
+- **Skills of several blows** (`SkillSequence`): a skill may list the moves that follow its
+  first (`then`). Each stage starts by itself and can hit a defender once; only the first
+  move costs energy; being hit ends the skill; nothing cancels it before its last stage.
+- **Passive skills** (`PassiveRules`): data-driven stacks earned by landing blows or
+  parrying, lost by missing or by time, adding damage, critical chance or attack speed,
+  optionally only on a combination's last blow or on a counter. No hero has one yet.
+- A running skill's PvE profile now scales its damage, hitstun and knockback as well as
+  its cooldown.
+- **PvE and PvP balance are separate** (`BalanceProfile`): a job skill carries a `pve` and
+  a `pvp` profile of multipliers (damage, hitstun, knockback, duration, cooldown). Zones
+  read cooldowns through the PvE profile; today's skills have none and are unchanged.
+
 ### Changed: quality-of-life pass (owner's list, November 2026)
 - **Pickup feed:** items picked up are listed at the screen's left with their icon and their
   name in the rarity's colour.

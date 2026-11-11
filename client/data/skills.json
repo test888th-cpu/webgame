@@ -1,268 +1,1063 @@
 {
   "skills": {
-    "rising_uppercut": {
-      "name": "Rising Uppercut",
-      "move": "rising_uppercut",
+    "power_jab": {
+      "name": "Power Jab",
+      "job": "boxer",
+      "type": "active",
+      "move": "power_jab",
       "cooldown": 150,
       "unlock_level": 1,
+      "icon": "skill_onetwo",
+      "fx": "hit",
+      "fx_at": "front",
+      "sound": "swing_light",
+      "description": "A fast straight punch that reaches further than a normal jab. Opens an attack.",
+      "profiles": {
+        "pve": {},
+        "pvp": {
+          "damage": 0.6,
+          "hitstun": 0.7,
+          "knockback": 0.8
+        }
+      }
+    },
+    "heavy_cross": {
+      "name": "Heavy Cross",
+      "job": "boxer",
+      "type": "active",
+      "move": "heavy_cross",
+      "cooldown": 240,
+      "unlock_level": 2,
+      "icon": "skill_knockout",
+      "fx": "hit_heavy",
+      "fx_at": "front",
+      "sound": "swing_heavy",
+      "description": "A heavy cross with the whole body behind it. Staggers its target and breaks guard.",
+      "profiles": {
+        "pve": {},
+        "pvp": {
+          "damage": 0.6,
+          "hitstun": 0.7,
+          "knockback": 0.8
+        }
+      }
+    },
+    "uppercut": {
+      "name": "Uppercut",
+      "job": "boxer",
+      "type": "active",
+      "move": "uppercut",
+      "cooldown": 210,
+      "unlock_level": 3,
       "icon": "skill_uppercut",
       "fx": "uppercut",
+      "fx_at": "front",
       "sound": "skill_uppercut",
-      "description": "A fast upward blow that knocks one foe down. Cancels a landed combo.",
-      "fx_at": "front"
+      "description": "A rising punch that lifts one foe off their feet.",
+      "profiles": {
+        "pve": {},
+        "pvp": {
+          "damage": 0.6,
+          "hitstun": 0.7,
+          "knockback": 0.8
+        }
+      }
     },
-    "whirlwind_kick": {
-      "name": "Whirlwind Kick",
-      "move": "whirlwind_kick",
-      "cooldown": 240,
-      "unlock_level": 1,
-      "icon": "skill_whirlwind",
-      "fx": "whirlwind",
-      "sound": "skill_whirlwind",
-      "description": "A spinning kick that hits enemies on both sides.",
-      "fx_at": "self"
+    "body_blow": {
+      "name": "Body Blow",
+      "job": "boxer",
+      "type": "active",
+      "move": "body_blow",
+      "cooldown": 255,
+      "unlock_level": 5,
+      "icon": "skill_liver",
+      "fx": "hit_heavy",
+      "fx_at": "front",
+      "sound": "swing_heavy",
+      "description": "A short punch to the body at close range. Heavy damage to one foe and a long stagger. Breaks guard.",
+      "profiles": {
+        "pve": {},
+        "pvp": {
+          "damage": 0.6,
+          "hitstun": 0.7,
+          "knockback": 0.8
+        }
+      }
     },
-    "shoulder_rush": {
-      "name": "Shoulder Rush",
-      "move": "shoulder_rush",
-      "cooldown": 210,
-      "unlock_level": 2,
-      "icon": "skill_rush",
+    "counter_punch": {
+      "name": "Counter Punch",
+      "job": "boxer",
+      "type": "active",
+      "move": "boxer_counter_stance",
+      "then": [
+        "boxer_counter_hit"
+      ],
+      "cooldown": 255,
+      "unlock_level": 15,
+      "icon": "skill_wristlock",
+      "fx": "block",
+      "fx_at": "self",
+      "sound": "hit_block",
+      "description": "Guard for a moment; a blow caught from the front is answered with a heavy punch. Nothing happens if nobody attacks.",
+      "profiles": {
+        "pve": {},
+        "pvp": {
+          "damage": 0.6,
+          "hitstun": 0.7,
+          "knockback": 0.8
+        }
+      }
+    },
+    "knockout_combo": {
+      "name": "Knockout Combo",
+      "job": "boxer",
+      "type": "active",
+      "move": "ko_combo_1",
+      "then": [
+        "ko_combo_2",
+        "ko_combo_3",
+        "ko_combo_4"
+      ],
+      "cooldown": 600,
+      "unlock_level": 30,
+      "icon": "skill_dempsey",
       "fx": "rush",
-      "sound": "skill_rush",
-      "description": "Charge forward through a line of foes. Breaks guard.",
-      "fx_at": "trail"
+      "fx_at": "trail",
+      "sound": "swing_heavy",
+      "description": "Three quick punches and a heavy one that sends the foe flying.",
+      "profiles": {
+        "pve": {},
+        "pvp": {
+          "damage": 0.6,
+          "hitstun": 0.7,
+          "knockback": 0.8
+        }
+      }
     },
-    "furnace_slam": {
-      "name": "Furnace Slam",
-      "move": "furnace_slam",
-      "cooldown": 660,
-      "unlock_level": 3,
-      "icon": "skill_slam",
+    "critical_focus": {
+      "name": "Critical Focus",
+      "job": "boxer",
+      "type": "passive",
+      "unlock_level": 10,
+      "icon": "skill_crossover",
+      "description": "Each blow landed in a row adds 3% critical chance, up to 15%. A miss loses it.",
+      "passive": {
+        "gain": "hit",
+        "reset": "miss",
+        "max": 5,
+        "effects": {
+          "crit": 0.03
+        }
+      },
+      "profiles": {
+        "pve": {},
+        "pvp": {}
+      }
+    },
+    "precision_impact": {
+      "name": "Precision Impact",
+      "job": "boxer",
+      "type": "passive",
+      "unlock_level": 25,
+      "icon": "skill_knockout",
+      "description": "Heavy punches, skills and the last blow of a combination deal 12% more damage.",
+      "passive": {
+        "always": true,
+        "when": "finisher",
+        "effects": {
+          "damage": 0.12
+        }
+      },
+      "profiles": {
+        "pve": {},
+        "pvp": {}
+      }
+    },
+    "knockout_devastation": {
+      "name": "KNOCKOUT DEVASTATION",
+      "job": "boxer",
+      "type": "ultimate",
+      "move": "ko_dev_lunge",
+      "then": [
+        "ko_dev_1",
+        "ko_dev_2",
+        "ko_dev_3",
+        "ko_dev_4",
+        "ko_dev_blow",
+        "ko_dev_shock"
+      ],
+      "cooldown": 60,
+      "unlock_level": 50,
+      "icon": "skill_knockout",
       "fx": "slam",
+      "fx_at": "front",
       "sound": "skill_slam",
-      "description": "Smash the street with a burning fist. Heavy damage all around. Breaks guard.",
-      "fx_at": "self"
+      "description": "Gather everything into one assault: lunge in, four heavy punches, then a knockout blow whose shock hits everyone nearby. Aim it: a miss wastes the gauge.",
+      "profiles": {
+        "pve": {},
+        "pvp": {
+          "damage": 0.5,
+          "hitstun": 0.6,
+          "knockback": 0.8
+        }
+      }
     },
-    "headbutt": {
-      "name": "Headbutt",
-      "move": "headbutt",
-      "cooldown": 180,
+    "rapid_punch": {
+      "name": "Rapid Punch",
+      "job": "brawler",
+      "type": "active",
+      "move": "rapid_punch_1",
+      "then": [
+        "rapid_punch_2",
+        "rapid_punch_3",
+        "rapid_punch_4"
+      ],
+      "cooldown": 150,
       "unlock_level": 1,
+      "icon": "skill_dempsey",
+      "fx": "hit",
+      "fx_at": "front",
+      "sound": "swing_light",
+      "description": "A burst of four punches at whatever stands in front.",
+      "profiles": {
+        "pve": {},
+        "pvp": {
+          "damage": 0.6,
+          "hitstun": 0.7,
+          "knockback": 0.8
+        }
+      }
+    },
+    "double_smash": {
+      "name": "Double Smash",
+      "job": "brawler",
+      "type": "active",
+      "move": "double_smash_1",
+      "then": [
+        "double_smash_2"
+      ],
+      "cooldown": 240,
+      "unlock_level": 2,
       "icon": "skill_headbutt",
       "fx": "hit_heavy",
       "fx_at": "front",
-      "sound": "skill_uppercut",
-      "description": "A crushing headbutt that stuns one foe for a long time. Breaks guard."
+      "sound": "swing_heavy",
+      "description": "Two heavy blows, the second one flooring whoever it hits.",
+      "profiles": {
+        "pve": {},
+        "pvp": {
+          "damage": 0.6,
+          "hitstun": 0.7,
+          "knockback": 0.8
+        }
+      }
     },
-    "clothesline": {
-      "name": "Clothesline",
-      "move": "clothesline",
-      "cooldown": 210,
-      "unlock_level": 1,
+    "wide_swing": {
+      "name": "Wide Swing",
+      "job": "brawler",
+      "type": "active",
+      "move": "wide_swing",
+      "cooldown": 240,
+      "unlock_level": 3,
       "icon": "skill_clothesline",
       "fx": "rush",
       "fx_at": "trail",
       "sound": "swing_heavy",
-      "description": "Step in with a long arm sweep that knocks down everything in front."
+      "description": "A sweeping punch across a wide arc that knocks down several foes at once.",
+      "profiles": {
+        "pve": {},
+        "pvp": {
+          "damage": 0.6,
+          "hitstun": 0.7,
+          "knockback": 0.8
+        }
+      }
     },
-    "shoulder_charge": {
-      "name": "Shoulder Charge",
-      "move": "shoulder_charge",
+    "ground_pound": {
+      "name": "Ground Pound",
+      "job": "brawler",
+      "type": "active",
+      "move": "ground_pound",
+      "cooldown": 420,
+      "unlock_level": 5,
+      "icon": "skill_pound",
+      "fx": "slam",
+      "fx_at": "self",
+      "sound": "skill_slam",
+      "description": "Punch the street itself. Damages and floors everyone around. Breaks guard.",
+      "profiles": {
+        "pve": {},
+        "pvp": {
+          "damage": 0.6,
+          "hitstun": 0.7,
+          "knockback": 0.8
+        }
+      }
+    },
+    "brutal_rush": {
+      "name": "Brutal Rush",
+      "job": "brawler",
+      "type": "active",
+      "move": "brutal_rush_1",
+      "then": [
+        "brutal_rush_2",
+        "brutal_rush_3"
+      ],
       "cooldown": 255,
-      "unlock_level": 2,
+      "unlock_level": 15,
       "icon": "skill_charge",
       "fx": "rush",
       "fx_at": "trail",
       "sound": "skill_rush",
-      "description": "Barrel forward like a freight train, flattening a whole line. Breaks guard."
+      "description": "Charge forward throwing three punches, ploughing through anyone in the way. The last breaks guard.",
+      "profiles": {
+        "pve": {},
+        "pvp": {
+          "damage": 0.6,
+          "hitstun": 0.7,
+          "knockback": 0.8
+        }
+      }
     },
-    "earthshaker": {
-      "name": "Earthshaker",
-      "move": "earthshaker",
-      "cooldown": 720,
-      "unlock_level": 3,
-      "icon": "skill_earthshaker",
-      "fx": "slam",
-      "fx_at": "self",
-      "sound": "skill_slam",
-      "description": "Pound the street hard enough to crack it. Huge damage all around. Breaks guard."
-    },
-    "liver_shot": {
-      "name": "Liver Shot",
-      "move": "liver_shot",
-      "cooldown": 165,
-      "unlock_level": 1,
-      "icon": "skill_liver",
-      "fx": "hit_heavy",
-      "fx_at": "front",
-      "sound": "skill_uppercut",
-      "description": "A short hook to the body that stuns one foe for a long time. The fastest skill in the crew."
-    },
-    "one_two": {
-      "name": "One-Two",
-      "move": "one_two",
-      "cooldown": 210,
-      "unlock_level": 1,
-      "icon": "skill_onetwo",
-      "fx": "rush",
-      "fx_at": "trail",
-      "sound": "swing_heavy",
-      "description": "Step in behind a jab and a cross that knock down everything in front."
-    },
-    "dempsey_roll": {
-      "name": "Dempsey Roll",
-      "move": "dempsey_roll",
-      "cooldown": 240,
-      "unlock_level": 2,
-      "icon": "skill_dempsey",
-      "fx": "rush",
-      "fx_at": "trail",
-      "sound": "skill_rush",
-      "description": "Weave forward through a line of foes, hooking each one down. Breaks guard."
-    },
-    "knockout_blow": {
-      "name": "Knockout Blow",
-      "move": "knockout_blow",
-      "cooldown": 690,
-      "unlock_level": 3,
-      "icon": "skill_knockout",
-      "fx": "slam",
-      "fx_at": "self",
-      "sound": "skill_slam",
-      "description": "Everything into one straight right. The shockwave flattens foes all around. Breaks guard."
-    },
-    "crossover": {
-      "name": "Crossover",
-      "move": "kan_crossover",
-      "cooldown": 150,
-      "unlock_level": 1,
-      "icon": "skill_crossover",
-      "fx": "hit_heavy",
-      "fx_at": "front",
-      "sound": "skill_rush",
-      "description": "A quick change of direction that carries you past a guard and into a stunning hit."
-    },
-    "elbow_clear": {
-      "name": "Elbow Clear",
-      "move": "kan_elbow_clear",
-      "cooldown": 240,
-      "unlock_level": 1,
+    "backhand_smash": {
+      "name": "Backhand Smash",
+      "job": "brawler",
+      "type": "active",
+      "move": "backhand_smash",
+      "cooldown": 540,
+      "unlock_level": 30,
       "icon": "skill_elbow",
       "fx": "whirlwind",
       "fx_at": "self",
       "sound": "skill_whirlwind",
-      "description": "Elbows out on both sides: clears space when you are surrounded."
+      "description": "A swinging backhand that hits behind and in front. Clears whoever closed in at the sides.",
+      "profiles": {
+        "pve": {},
+        "pvp": {
+          "damage": 0.6,
+          "hitstun": 0.7,
+          "knockback": 0.8
+        }
+      }
     },
-    "post_up": {
-      "name": "Post Up",
-      "move": "kan_post_up",
-      "cooldown": 240,
-      "unlock_level": 2,
-      "icon": "skill_postup",
-      "fx": "rush",
-      "fx_at": "trail",
-      "sound": "skill_rush",
-      "description": "Back into a foe and drive them off the spot. Breaks guard."
+    "pain_resistance": {
+      "name": "Pain Resistance",
+      "job": "brawler",
+      "type": "passive",
+      "unlock_level": 10,
+      "icon": "skill_cbelbow",
+      "description": "While attacking, blows that land on you deal 20% less damage. They still stagger.",
+      "passive": {
+        "always": true,
+        "when": "attacking",
+        "effects": {
+          "resist": 0.2
+        }
+      },
+      "profiles": {
+        "pve": {},
+        "pvp": {}
+      }
     },
-    "slam_dunk": {
-      "name": "Slam Dunk",
-      "move": "kan_slam_dunk",
-      "cooldown": 690,
-      "unlock_level": 3,
-      "icon": "skill_dunk",
+    "berserk_momentum": {
+      "name": "Berserk Momentum",
+      "job": "brawler",
+      "type": "passive",
+      "unlock_level": 25,
+      "icon": "skill_drive",
+      "description": "Each blow landed adds 4% damage for 4 seconds, up to 20%. Keep hitting to keep it.",
+      "passive": {
+        "gain": "hit",
+        "max": 5,
+        "duration": 240,
+        "effects": {
+          "damage": 0.04
+        }
+      },
+      "profiles": {
+        "pve": {},
+        "pvp": {}
+      }
+    },
+    "street_carnage": {
+      "name": "STREET CARNAGE",
+      "job": "brawler",
+      "type": "ultimate",
+      "move": "carnage_1",
+      "then": [
+        "carnage_2",
+        "carnage_3",
+        "carnage_punch",
+        "carnage_smash"
+      ],
+      "cooldown": 60,
+      "unlock_level": 50,
+      "icon": "skill_earthshaker",
       "fx": "slam",
       "fx_at": "self",
       "sound": "skill_slam",
-      "description": "Leap and slam down: the widest hit in the crew, flooring everyone around you."
+      "description": "Let it all out: three bursts of punches all around, a heavy punch forward, then a ground smash whose shockwave floors the whole street corner.",
+      "profiles": {
+        "pve": {},
+        "pvp": {
+          "damage": 0.5,
+          "hitstun": 0.6,
+          "knockback": 0.8
+        }
+      }
     },
-    "wrist_lock": {
-      "name": "Wrist Lock",
-      "move": "dao_wrist_lock",
+    "iron_grip": {
+      "name": "Iron Grip",
+      "job": "grappler",
+      "type": "active",
+      "move": "iron_grip",
       "cooldown": 180,
       "unlock_level": 1,
       "icon": "skill_wristlock",
-      "fx": "hit_heavy",
-      "fx_at": "front",
-      "sound": "skill_uppercut",
-      "description": "Grab and twist: holds one foe helpless longer than any other move. Breaks guard."
+      "fx": "rush",
+      "fx_at": "trail",
+      "sound": "weapon_grab",
+      "description": "Lunge in and seize a foe from further away. Then throw them with any attack.",
+      "profiles": {
+        "pve": {},
+        "pvp": {
+          "damage": 0.6,
+          "hitstun": 0.7,
+          "knockback": 0.8
+        }
+      }
     },
-    "leg_sweep": {
-      "name": "Leg Sweep",
-      "move": "dao_leg_sweep",
-      "cooldown": 210,
-      "unlock_level": 1,
-      "icon": "skill_sweep",
-      "fx": "whirlwind",
-      "fx_at": "self",
-      "sound": "skill_whirlwind",
-      "description": "A low spinning sweep that floors everyone at your feet, front and back."
-    },
-    "takedown": {
-      "name": "Takedown",
-      "move": "dao_takedown",
+    "power_throw": {
+      "name": "Power Throw",
+      "job": "grappler",
+      "type": "active",
+      "move": "power_throw_grab",
       "cooldown": 255,
       "unlock_level": 2,
       "icon": "skill_takedown",
       "fx": "rush",
       "fx_at": "trail",
-      "sound": "skill_rush",
-      "description": "Close the distance and put a foe on the ground. Breaks guard."
+      "sound": "weapon_grab",
+      "description": "Seize a foe and hurl them far ahead. They knock down everyone they hit.",
+      "grab": {
+        "hold": 12,
+        "throw": "power_throw_hit",
+        "crash": "power_throw_crash",
+        "shove": "power_throw_shove"
+      },
+      "profiles": {
+        "pve": {},
+        "pvp": {
+          "damage": 0.6,
+          "hitstun": 0.7,
+          "knockback": 0.8
+        }
+      }
     },
-    "riot_shove": {
-      "name": "Riot Shove",
-      "move": "dao_riot_shove",
-      "cooldown": 705,
+    "backbreaker": {
+      "name": "Backbreaker",
+      "job": "grappler",
+      "type": "active",
+      "move": "backbreaker_grab",
+      "cooldown": 255,
       "unlock_level": 3,
       "icon": "skill_riot",
+      "fx": "hit_heavy",
+      "fx_at": "front",
+      "sound": "weapon_grab",
+      "description": "Seize a foe and break them over your knee. Heavy damage to that one foe.",
+      "grab": {
+        "hold": 16,
+        "throw": "backbreaker_hit",
+        "shove": "backbreaker_shove"
+      },
+      "profiles": {
+        "pve": {},
+        "pvp": {
+          "damage": 0.6,
+          "hitstun": 0.7,
+          "knockback": 0.8
+        }
+      }
+    },
+    "ground_slam": {
+      "name": "Ground Slam",
+      "job": "grappler",
+      "type": "active",
+      "move": "ground_slam_grab",
+      "then": [
+        "ground_slam_wave"
+      ],
+      "cooldown": 420,
+      "unlock_level": 5,
+      "icon": "skill_slam",
       "fx": "slam",
       "fx_at": "self",
       "sound": "skill_slam",
-      "description": "Shove the whole crowd back and down. Breaks guards."
+      "description": "Lift a foe and slam them into the street. The impact floors everyone close by.",
+      "grab": {
+        "hold": 16,
+        "throw": "ground_slam_hit",
+        "shove": "ground_slam_shove"
+      },
+      "profiles": {
+        "pve": {},
+        "pvp": {
+          "damage": 0.6,
+          "hitstun": 0.7,
+          "knockback": 0.8
+        }
+      }
     },
-    "combat_elbow": {
-      "name": "Combat Elbow",
-      "move": "pong_combat_elbow",
-      "cooldown": 180,
-      "unlock_level": 1,
-      "icon": "skill_cbelbow",
-      "fx": "hit_heavy",
-      "fx_at": "front",
-      "sound": "skill_uppercut",
-      "description": "A short, hard elbow that cracks a guard. Nothing interrupts it."
-    },
-    "breach_kick": {
-      "name": "Breach Kick",
-      "move": "pong_breach_kick",
-      "cooldown": 210,
-      "unlock_level": 1,
-      "icon": "skill_breach",
-      "fx": "hit_heavy",
-      "fx_at": "front",
-      "sound": "skill_slam",
-      "description": "A door-breaking front kick that sends a foe flying."
-    },
-    "shoulder_drive": {
-      "name": "Shoulder Drive",
-      "move": "pong_shoulder_drive",
+    "crowd_toss": {
+      "name": "Crowd Toss",
+      "job": "grappler",
+      "type": "active",
+      "move": "crowd_toss_grab",
       "cooldown": 255,
+      "unlock_level": 15,
+      "icon": "skill_postup",
+      "fx": "rush",
+      "fx_at": "trail",
+      "sound": "weapon_grab",
+      "description": "Use the foe you seize as a missile: thrown a long way, hitting hard everyone in their path.",
+      "grab": {
+        "hold": 10,
+        "throw": "crowd_toss_hit",
+        "crash": "crowd_toss_crash",
+        "shove": "crowd_toss_shove"
+      },
+      "profiles": {
+        "pve": {},
+        "pvp": {
+          "damage": 0.6,
+          "hitstun": 0.7,
+          "knockback": 0.8
+        }
+      }
+    },
+    "crushing_hold": {
+      "name": "Crushing Hold",
+      "job": "grappler",
+      "type": "active",
+      "move": "crushing_hold_grab",
+      "cooldown": 600,
+      "unlock_level": 30,
+      "icon": "skill_wristlock",
+      "fx": "hit_heavy",
+      "fx_at": "front",
+      "sound": "weapon_grab",
+      "description": "Lock a foe in a crushing hold for a second, hurting them all the while, then drop them.",
+      "grab": {
+        "hold": 60,
+        "squeeze": "crushing_hold_squeeze",
+        "every": 12,
+        "throw": "crushing_hold_drop",
+        "shove": "crushing_hold_shove"
+      },
+      "profiles": {
+        "pve": {},
+        "pvp": {
+          "damage": 0.6,
+          "hitstun": 0.7,
+          "knockback": 0.8
+        }
+      }
+    },
+    "unbreakable_hold": {
+      "name": "Unbreakable Hold",
+      "job": "grappler",
+      "type": "passive",
+      "unlock_level": 10,
+      "icon": "skill_wristlock",
+      "description": "Your grabs hold ordinary foes 40% longer. Bosses still cannot be held, and nobody can be grabbed twice in a row.",
+      "passive": {
+        "always": true,
+        "effects": {
+          "hold": 0.4
+        }
+      },
+      "profiles": {
+        "pve": {},
+        "pvp": {}
+      }
+    },
+    "heavy_impact": {
+      "name": "Heavy Impact",
+      "job": "grappler",
+      "type": "passive",
+      "unlock_level": 25,
+      "icon": "skill_slam",
+      "description": "Throws, slams and thrown bodies deal 15% more damage.",
+      "passive": {
+        "always": true,
+        "when": "slam",
+        "effects": {
+          "damage": 0.15
+        }
+      },
+      "profiles": {
+        "pve": {},
+        "pvp": {}
+      }
+    },
+    "titan_destruction": {
+      "name": "TITAN DESTRUCTION",
+      "job": "grappler",
+      "type": "ultimate",
+      "move": "titan_grab",
+      "then": [
+        "titan_wave"
+      ],
+      "cooldown": 60,
+      "unlock_level": 50,
+      "icon": "skill_earthshaker",
+      "fx": "slam",
+      "fx_at": "self",
+      "sound": "skill_slam",
+      "description": "Lunge, seize a foe, lift them overhead and drive them into the street. The shockwave floors everyone around. A boss cannot be lifted: it takes the blow and the shockwave instead.",
+      "grab": {
+        "hold": 30,
+        "throw": "titan_slam",
+        "crash": "titan_crash",
+        "shove": "titan_shove"
+      },
+      "profiles": {
+        "pve": {},
+        "pvp": {
+          "damage": 0.5,
+          "hitstun": 0.6,
+          "knockback": 0.8
+        }
+      }
+    },
+    "quick_counter": {
+      "name": "Quick Counter",
+      "job": "counter",
+      "type": "active",
+      "move": "quick_counter_stance",
+      "then": [
+        "quick_counter_hit"
+      ],
+      "cooldown": 150,
+      "unlock_level": 1,
+      "icon": "skill_wristlock",
+      "fx": "block",
+      "fx_at": "self",
+      "sound": "hit_block",
+      "description": "Guard for an instant; a blow caught from the front is answered at once. Nothing happens if nobody attacks.",
+      "profiles": {
+        "pve": {},
+        "pvp": {
+          "damage": 0.6,
+          "hitstun": 0.7,
+          "knockback": 0.8
+        }
+      }
+    },
+    "slip_punch": {
+      "name": "Slip Punch",
+      "job": "counter",
+      "type": "active",
+      "move": "slip_punch",
+      "cooldown": 210,
       "unlock_level": 2,
-      "icon": "skill_drive",
+      "icon": "skill_crossover",
+      "fx": "rush",
+      "fx_at": "trail",
+      "sound": "dodge",
+      "description": "Slip past an attack and punch from the side. You cannot be hit while slipping in.",
+      "profiles": {
+        "pve": {},
+        "pvp": {
+          "damage": 0.6,
+          "hitstun": 0.7,
+          "knockback": 0.8
+        }
+      }
+    },
+    "precision_blow": {
+      "name": "Precision Blow",
+      "job": "counter",
+      "type": "active",
+      "move": "precision_blow",
+      "cooldown": 240,
+      "unlock_level": 3,
+      "icon": "skill_liver",
+      "fx": "hit_heavy",
+      "fx_at": "front",
+      "sound": "swing_heavy",
+      "description": "A picked punch that deals 60% more damage to a foe who is staggered or left open by a parry.",
+      "bonus": {
+        "when": "staggered",
+        "effects": {
+          "damage": 0.6
+        }
+      },
+      "profiles": {
+        "pve": {},
+        "pvp": {
+          "damage": 0.6,
+          "hitstun": 0.7,
+          "knockback": 0.8
+        }
+      }
+    },
+    "defensive_stance": {
+      "name": "Defensive Stance",
+      "job": "counter",
+      "type": "active",
+      "move": "defensive_stance",
+      "cooldown": 720,
+      "unlock_level": 5,
+      "icon": "skill_cbelbow",
+      "fx": "block",
+      "fx_at": "self",
+      "sound": "hit_block",
+      "description": "Brace yourself: for 5 seconds every blow that lands on you deals 40% less damage.",
+      "buff": {
+        "effects": {
+          "resist": 0.4
+        },
+        "duration": 300
+      },
+      "profiles": {
+        "pve": {},
+        "pvp": {
+          "damage": 0.6,
+          "hitstun": 0.7,
+          "knockback": 0.8
+        }
+      }
+    },
+    "perfect_parry": {
+      "name": "Perfect Parry",
+      "job": "counter",
+      "type": "active",
+      "move": "perfect_parry_stance",
+      "then": [
+        "perfect_parry_hit"
+      ],
+      "cooldown": 255,
+      "unlock_level": 15,
+      "icon": "skill_sweep",
+      "fx": "block",
+      "fx_at": "self",
+      "sound": "hit_block",
+      "description": "A very short parry. A blow it catches is answered with a punch that leaves the attacker staggered for a long time.",
+      "profiles": {
+        "pve": {},
+        "pvp": {
+          "damage": 0.6,
+          "hitstun": 0.7,
+          "knockback": 0.8
+        }
+      }
+    },
+    "reversal_strike": {
+      "name": "Reversal Strike",
+      "job": "counter",
+      "type": "active",
+      "move": "reversal_stance",
+      "then": [
+        "reversal_hit"
+      ],
+      "cooldown": 600,
+      "unlock_level": 30,
+      "icon": "skill_knockout",
+      "fx": "block",
+      "fx_at": "self",
+      "sound": "hit_block",
+      "description": "Wait for the attack, then answer it with a heavy punch that floors the attacker. Breaks guard. Nothing happens if nobody attacks.",
+      "profiles": {
+        "pve": {},
+        "pvp": {
+          "damage": 0.6,
+          "hitstun": 0.7,
+          "knockback": 0.8
+        }
+      }
+    },
+    "combat_awareness": {
+      "name": "Combat Awareness",
+      "job": "counter",
+      "type": "passive",
+      "unlock_level": 10,
+      "icon": "skill_riot",
+      "description": "Your perfect guard opens 4 ticks earlier, so parries are easier to time.",
+      "passive": {
+        "always": true,
+        "effects": {
+          "parry_window": 4
+        }
+      },
+      "profiles": {
+        "pve": {},
+        "pvp": {}
+      }
+    },
+    "retaliation": {
+      "name": "Retaliation",
+      "job": "counter",
+      "type": "passive",
+      "unlock_level": 25,
+      "icon": "skill_takedown",
+      "description": "Each parry or caught blow stores power (up to 2): your next counter hit deals 25% more damage for each.",
+      "passive": {
+        "gain": "parry",
+        "max": 2,
+        "when": "counter",
+        "consume": true,
+        "effects": {
+          "damage": 0.25
+        }
+      },
+      "profiles": {
+        "pve": {},
+        "pvp": {}
+      }
+    },
+    "absolute_retribution": {
+      "name": "ABSOLUTE RETRIBUTION",
+      "job": "counter",
+      "type": "ultimate",
+      "move": "retribution_stance",
+      "then": [
+        "retribution_1",
+        "retribution_2",
+        "retribution_3",
+        "retribution_4",
+        "retribution_5",
+        "retribution_blow"
+      ],
+      "cooldown": 60,
+      "unlock_level": 50,
+      "icon": "skill_riot",
+      "fx": "block",
+      "fx_at": "self",
+      "sound": "hit_block",
+      "description": "Take the perfect guard for a second. A blow caught from the front is answered with five punches and a reversal that ends the fight. If nobody attacks, the gauge is wasted.",
+      "profiles": {
+        "pve": {},
+        "pvp": {
+          "damage": 0.5,
+          "hitstun": 0.6,
+          "knockback": 0.8
+        }
+      }
+    },
+    "quick_jab": {
+      "name": "Quick Jab",
+      "job": "striker",
+      "type": "active",
+      "move": "quick_jab",
+      "cooldown": 120,
+      "unlock_level": 1,
+      "icon": "skill_onetwo",
+      "fx": "hit",
+      "fx_at": "front",
+      "sound": "swing_light",
+      "description": "A very fast jab. Opens a combo.",
+      "profiles": {
+        "pve": {},
+        "pvp": {
+          "damage": 0.6,
+          "hitstun": 0.7,
+          "knockback": 0.8
+        }
+      }
+    },
+    "triple_punch": {
+      "name": "Triple Punch",
+      "job": "striker",
+      "type": "active",
+      "move": "triple_punch_1",
+      "then": [
+        "triple_punch_2",
+        "triple_punch_3"
+      ],
+      "cooldown": 210,
+      "unlock_level": 2,
+      "icon": "skill_dempsey",
+      "fx": "hit",
+      "fx_at": "front",
+      "sound": "swing_light",
+      "description": "Three punches in a row; the last knocks the foe down.",
+      "profiles": {
+        "pve": {},
+        "pvp": {
+          "damage": 0.6,
+          "hitstun": 0.7,
+          "knockback": 0.8
+        }
+      }
+    },
+    "rush_combo": {
+      "name": "Rush Combo",
+      "job": "striker",
+      "type": "active",
+      "move": "rush_combo_1",
+      "then": [
+        "rush_combo_2",
+        "rush_combo_3",
+        "rush_combo_4"
+      ],
+      "cooldown": 255,
+      "unlock_level": 3,
+      "icon": "skill_rush",
       "fx": "rush",
       "fx_at": "trail",
       "sound": "skill_rush",
-      "description": "Drive through a line of foes, shoulder first. Breaks guard."
+      "description": "Dash in throwing four punches at everyone in the way; the last is a wide hook that floors foes on both sides.",
+      "profiles": {
+        "pve": {},
+        "pvp": {
+          "damage": 0.6,
+          "hitstun": 0.7,
+          "knockback": 0.8
+        }
+      }
     },
-    "ground_pound": {
-      "name": "Ground Pound",
-      "move": "pong_ground_pound",
-      "cooldown": 750,
-      "unlock_level": 3,
-      "icon": "skill_pound",
-      "fx": "slam",
-      "fx_at": "self",
-      "sound": "skill_slam",
-      "description": "Both fists into the street: a slow, unstoppable shockwave."
+    "rising_fist": {
+      "name": "Rising Fist",
+      "job": "striker",
+      "type": "active",
+      "move": "rising_fist",
+      "cooldown": 240,
+      "unlock_level": 5,
+      "icon": "skill_uppercut",
+      "fx": "uppercut",
+      "fx_at": "front",
+      "sound": "skill_uppercut",
+      "description": "A rising punch that lifts a foe off their feet, ready for more.",
+      "profiles": {
+        "pve": {},
+        "pvp": {
+          "damage": 0.6,
+          "hitstun": 0.7,
+          "knockback": 0.8
+        }
+      }
+    },
+    "dash_strike": {
+      "name": "Dash Strike",
+      "job": "striker",
+      "type": "active",
+      "move": "dash_strike",
+      "cooldown": 240,
+      "unlock_level": 15,
+      "icon": "skill_charge",
+      "fx": "rush",
+      "fx_at": "trail",
+      "sound": "skill_rush",
+      "description": "A short dash ending in a punch. Breaks guard.",
+      "profiles": {
+        "pve": {},
+        "pvp": {
+          "damage": 0.6,
+          "hitstun": 0.7,
+          "knockback": 0.8
+        }
+      }
+    },
+    "chain_breaker": {
+      "name": "Chain Breaker",
+      "job": "striker",
+      "type": "active",
+      "move": "chain_breaker",
+      "cooldown": 480,
+      "unlock_level": 30,
+      "icon": "skill_knockout",
+      "fx": "hit_heavy",
+      "fx_at": "front",
+      "sound": "swing_heavy",
+      "description": "The punch that ends a combo: heavy damage, and the foe is thrown back.",
+      "profiles": {
+        "pve": {},
+        "pvp": {
+          "damage": 0.6,
+          "hitstun": 0.7,
+          "knockback": 0.8
+        }
+      }
+    },
+    "flow_state": {
+      "name": "Flow State",
+      "job": "striker",
+      "type": "passive",
+      "unlock_level": 10,
+      "icon": "skill_crossover",
+      "description": "Each blow landed adds 4% attack speed for 3 seconds, up to 20%.",
+      "passive": {
+        "gain": "hit",
+        "max": 5,
+        "duration": 180,
+        "effects": {
+          "attack_speed": 0.04
+        }
+      },
+      "profiles": {
+        "pve": {},
+        "pvp": {}
+      }
+    },
+    "combo_mastery": {
+      "name": "Combo Mastery",
+      "job": "striker",
+      "type": "passive",
+      "unlock_level": 25,
+      "icon": "skill_dempsey",
+      "description": "Each blow landed stores 5% damage (up to 20%, for 2.5 seconds) for your next skill.",
+      "passive": {
+        "gain": "hit",
+        "max": 4,
+        "duration": 150,
+        "when": "skill",
+        "consume": true,
+        "effects": {
+          "damage": 0.05
+        }
+      },
+      "profiles": {
+        "pve": {},
+        "pvp": {}
+      }
+    },
+    "million_fist_onslaught": {
+      "name": "MILLION FIST ONSLAUGHT",
+      "job": "striker",
+      "type": "ultimate",
+      "move": "onslaught_dash",
+      "then": [
+        "onslaught_1",
+        "onslaught_2",
+        "onslaught_3",
+        "onslaught_4",
+        "onslaught_5",
+        "onslaught_6",
+        "onslaught_7",
+        "onslaught_8",
+        "onslaught_9",
+        "onslaught_10",
+        "onslaught_11",
+        "onslaught_12",
+        "onslaught_blow"
+      ],
+      "cooldown": 60,
+      "unlock_level": 50,
+      "icon": "skill_dempsey",
+      "fx": "rush",
+      "fx_at": "trail",
+      "sound": "skill_rush",
+      "description": "Dash in and let fly a dozen punches too fast to count, then a heavy one that sends the foe away. A foe who gets out of reach escapes the rest.",
+      "profiles": {
+        "pve": {},
+        "pvp": {
+          "damage": 0.5,
+          "hitstun": 0.6,
+          "knockback": 0.8
+        }
+      }
     }
   },
   "hotbar": [
@@ -270,7 +1065,7 @@
       "type": "attack",
       "icon": "skill_attack",
       "name": "Attack",
-      "description": "Jab, cross, hook: press again as each blow lands to keep the combo going. Also Z or J. No cooldown. Heavy attack: X or K (costs energy)."
+      "description": "Your job's punch combination: press again as each blow lands to keep the combo going. Also Z or J. No cooldown. Heavy attack: X or K (costs energy)."
     },
     {
       "type": "skill",

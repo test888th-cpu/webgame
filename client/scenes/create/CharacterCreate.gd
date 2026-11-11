@@ -382,40 +382,35 @@ func _fill_details(hero: Dictionary) -> void:
 	_details.add_child(stats)
 
 	var skills := UiKit.section("Skills")
-	for skill_id: String in hero["skills"]:
-		skills.add_child(_skill_row(skill_id))
+	var grid := GridContainer.new()
+	grid.name = "SkillGrid"
+	grid.columns = 1
+	grid.add_theme_constant_override("v_separation", -3)
+	for skill_id: String in SkillRules.kit(content, selected):
+		grid.add_child(_skill_row(skill_id))
+	skills.add_child(grid)
 	_details.add_child(skills)
 
 
+## One skill of the job, small: icon, name and the level it unlocks at; what
+## it does is in the tooltip (the Skills screen spells it out in play).
 func _skill_row(skill_id: String) -> Control:
 	var skill: Dictionary = content.skills[skill_id]
-	var move := content.moves.get_move(str(skill["move"]))
 	var line := HBoxContainer.new()
-	line.add_theme_constant_override("separation", 5)
-	line.tooltip_text = str(skill["description"])
+	line.add_theme_constant_override("separation", 3)
+	line.tooltip_text = "%s\n%s" % [skill["description"], SkillRules.facts(content, skill_id)]
 	line.mouse_filter = Control.MOUSE_FILTER_PASS
 	var icon := UiKit.icon_rect(content, str(skill["icon"]))
-	icon.custom_minimum_size = Vector2(16, 16)
+	icon.custom_minimum_size = Vector2(12, 12)
 	line.add_child(icon)
-	var text := VBoxContainer.new()
-	text.add_theme_constant_override("separation", -2)
-	text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	line.add_child(text)
-	text.add_child(UiKit.label(str(skill["name"]), UiTheme.SIZE_SMALL, UiTheme.TEXT))
-	var detail := UiKit.label(
-		str(skill["description"]), UiTheme.SIZE_CAPTION, UiTheme.TEXT_DIM, PANEL_WIDTH - 80
+	var name_label := UiKit.label(
+		str(skill["name"]).capitalize(), UiTheme.SIZE_CAPTION, UiTheme.TEXT
 	)
-	detail.autowrap_mode = TextServer.AUTOWRAP_OFF
-	detail.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	detail.clip_text = true
-	text.add_child(detail)
-	var meta := UiKit.label(
-		"Lv %d   %ds" % [skill["unlock_level"], roundi(skill["cooldown"] / 60.0)],
-		UiTheme.SIZE_CAPTION,
-		UiTheme.ACCENT
+	name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	line.add_child(name_label)
+	line.add_child(
+		UiKit.label("Lv %d" % skill["unlock_level"], UiTheme.SIZE_CAPTION, UiTheme.ACCENT)
 	)
-	meta.tooltip_text = "Energy %d" % roundi(move.energy_cost)
-	line.add_child(meta)
 	return line
 
 

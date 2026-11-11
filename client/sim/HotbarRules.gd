@@ -60,7 +60,8 @@ static func allowed(profile: PlayerProfile, content: ContentDB, key: String) -> 
 		"attack":
 			return true
 		"skill":
-			return what["id"] in content.hero(profile.hero).get("skills", [])
+			var mine: bool = what["id"] in SkillRules.kit(content, profile.hero)
+			return mine and not SkillRules.is_passive(content.skills[what["id"]])
 		"item":
 			return content.item(what["id"]).get("type") == "consumable"
 	return false

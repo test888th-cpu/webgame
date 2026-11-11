@@ -1,12 +1,14 @@
 extends TestCase
 ## Skill pacing: heroes get their skills back quickly, while enemies and
 ## bosses must wait longer between their heavy blows than a hero waits for
-## any skill short of an ultimate, so they cannot chain them back to back.
+## any regular skill, so they cannot chain them back to back.
 
-## A hero's regular skills come back within this many ticks, ultimates within
-## ULTIMATE_MAX (60 ticks a second).
+## A hero's regular skills come back within this many ticks; a job may have
+## up to BIG_SKILLS slower ones, within BIG_MAX (60 ticks a second). An
+## ultimate waits for its gauge, not for a clock.
 const SKILL_MAX := 270
-const ULTIMATE_MAX := 780
+const BIG_MAX := 780
+const BIG_SKILLS := 2
 
 var content: ContentDB
 
@@ -17,21 +19,28 @@ func _content() -> ContentDB:
 	return content
 
 
-func _hero_skill_cooldowns(ultimate: bool) -> Array[int]:
+## The cooldowns of every hero's active skills: the regular ones (within
+## SKILL_MAX), or the big ones.
+func _hero_skill_cooldowns(big: bool) -> Array[int]:
 	var out: Array[int] = []
 	for hero_id: String in _content().hero_order:
-		var skills: Array = _content().heroes[hero_id]["skills"]
-		for i in skills.size():
-			if (i == skills.size() - 1) == ultimate:
-				out.append(int(_content().skills[str(skills[i])]["cooldown"]))
+		for skill_id in SkillRules.actives(_content(), hero_id):
+			var cooldown := int(_content().skills[skill_id]["cooldown"])
+			if (cooldown > SKILL_MAX) == big:
+				out.append(cooldown)
 	return out
 
 
 func test_hero_skills_come_back_quickly() -> void:
-	for cooldown in _hero_skill_cooldowns(false):
-		assert_true(cooldown <= SKILL_MAX, "a skill waits %d ticks" % cooldown)
 	for cooldown in _hero_skill_cooldowns(true):
-		assert_true(cooldown <= ULTIMATE_MAX, "an ultimate waits %d ticks" % cooldown)
+		assert_true(cooldown <= BIG_MAX, "a big skill waits %d ticks" % cooldown)
+	for hero_id: String in _content().hero_order:
+		var big := 0
+		for skill_id in SkillRules.actives(_content(), hero_id):
+			big += 1 if int(_content().skills[skill_id]["cooldown"]) > SKILL_MAX else 0
+		assert_true(big <= BIG_SKILLS, "%s has %d slow skills" % [hero_id, big])
+		var gauge: Dictionary = _content().skills[SkillRules.ultimate(_content(), hero_id)]
+		assert_true(int(gauge["cooldown"]) <= SKILL_MAX, hero_id + ": the gauge paces the ultimate")
 
 
 func test_enemy_heavies_wait_longer_than_hero_skills() -> void:

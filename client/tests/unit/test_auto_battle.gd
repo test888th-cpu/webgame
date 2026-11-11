@@ -113,24 +113,28 @@ func test_it_eats_when_hurt_and_not_when_well() -> void:
 
 
 func test_it_turns_area_skills_on_a_crowd() -> void:
-	var zone := _zone()
+	var zone := _zone("saltmarket", "kan", 40)
 	_foe(zone, "smogling", Vector2(620, 300))
 	_foe(zone, "smogling", Vector2(580, 300))
 	var input := AutoPilot.new(_content()).think(zone)
-	assert_eq(input.skill, "whirlwind_kick", "the kick that hits both sides")
+	assert_true(input.skill != "", "a skill for the crowd")
+	var move := _content().moves.get_move(str(_content().skills[input.skill]["move"]))
+	assert_true(move.reach_offset < 0.0, "%s hits both sides" % input.skill)
 
 
 func test_it_saves_the_big_skill_for_crowds_and_bosses() -> void:
-	var zone := _zone()
-	for skill_id: String in ["rising_uppercut", "whirlwind_kick", "shoulder_rush"]:
+	var zone := _zone("saltmarket", "kan", 50)
+	for skill_id in SkillRules.actives(_content(), "kan"):
 		zone.hero.cooldowns[skill_id] = 1000
 	var foe := _foe(zone, "smogling", Vector2(625, 300))
 	var pilot := AutoPilot.new(_content())
-	assert_true(pilot.think(zone).skill != "furnace_slam", "not on one street thug")
+	assert_eq(pilot.think(zone).skill, "", "no ultimate while the gauge is empty")
+	zone.hero.gauge = UltimateRules.FULL
+	assert_true(pilot.think(zone).skill != "street_carnage", "not on one street thug")
 	zone.fighters.erase(foe)
 	zone.brains.erase(foe.id)
 	_foe(zone, "sludge_foreman", Vector2(625, 300))
-	assert_eq(pilot.think(zone).skill, "furnace_slam", "but on a boss")
+	assert_eq(pilot.think(zone).skill, "street_carnage", "but on a boss")
 
 
 func test_it_dodges_what_guard_cannot_stop_and_parries_the_rest() -> void:
@@ -268,3 +272,59 @@ func test_the_equipment_screen_says_when_auto_battle_changes_gear() -> void:
 	assert_eq(str(game.profile.equipment["body"]), worn, "off: auto leaves the gear alone")
 	GameSession.set_setting("auto_gear", true)
 	_done(game)
+
+
+func test_it_answers_an_attack_with_a_counter_stance() -> void:
+	var zone := _zone("saltmarket", "dao", 3)
+	var thug := _foe(zone, "dock_thug", Vector2(626, 300))
+	thug.facing = -1
+	var jab := _content().moves.get_move(str(thug.moveset["light"]))
+	thug.enter(Fighter.State.ATTACK)
+	thug.move = jab
+	thug.state_tick = maxi(0, jab.startup - 6)
+	var input := AutoPilot.new(_content()).think(zone)
+	assert_eq(input.skill, "quick_counter", "a blow on its way: the stance, not a jab")
+	assert_eq(input.face, 1, "facing the attacker")
+	zone.hero.cooldowns["quick_counter"] = 500
+	input = AutoPilot.new(_content()).think(zone)
+	assert_true(input.skill != "quick_counter", "not while it cools down")
+
+
+func test_it_never_opens_with_a_stance() -> void:
+	var zone := _zone("saltmarket", "dao", 70)
+	_foe(zone, "smogling", Vector2(624, 300))
+	var input := AutoPilot.new(_content()).think(zone)
+	var skill: Dictionary = zone.hero.skills.get(input.skill, {})
+	assert_true(
+		input.skill == "" or not AutoSkills.is_stance(_content(), skill),
+		"with nobody attacking it strikes or punches (%s)" % input.skill
+	)
+
+
+func test_it_throws_what_it_grabs() -> void:
+	var zone := _zone("saltmarket", "oren", 3)
+	var foe := _foe(zone, "dock_thug", Vector2(618, 300))
+	var pilot := AutoPilot.new(_content())
+	var held := false
+	var thrown := false
+	for t in 200:
+		for event in zone.tick(pilot.think(zone)):
+			if event.type == "hit" and event.hit.move_id == "grappler_throw":
+				thrown = true
+		held = held or foe.state == Fighter.State.HELD
+		if thrown:
+			break
+	assert_true(held, "the Grappler's first skill seizes the thug")
+	assert_true(thrown, "and auto throws them")
+
+
+func test_it_braces_when_hurt_in_a_fight() -> void:
+	var zone := _zone("saltmarket", "dao", 70)
+	_foe(zone, "smogling", Vector2(640, 300))
+	for skill_id in SkillRules.actives(_content(), "dao"):
+		if skill_id != "defensive_stance":
+			zone.hero.cooldowns[skill_id] = 1000
+	var pilot := AutoPilot.new(_content())
+	assert_true(pilot.think(zone).skill != "defensive_stance", "not at full health")
+	zone.hero.hp = zone.hero.max_hp / 3
+	assert_eq(pilot.think(zone).skill, "defensive_stance", "hurt and close: brace")

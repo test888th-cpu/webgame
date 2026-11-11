@@ -53,6 +53,7 @@ var _title: Label
 var _name: Label
 var _hp: StatBar
 var _energy: StatBar
+var _gauge: StatBar
 var _xp: StatBar
 var _money: Label
 var _mini: MiniMap
@@ -226,6 +227,7 @@ func _process(delta: float) -> void:
 	_portrait.set_state(profile.level, float(hero.hp) / maxi(1, hero.max_hp))
 	_hp.set_values(hero.hp, hero.max_hp)
 	_energy.set_values(hero.energy, CombatRules.MAX_ENERGY)
+	_gauge.set_values(hero.gauge, UltimateRules.FULL)
 	_xp.set_values(profile.xp, profile.xp_to_next(content))
 	_money.text = str(profile.money)
 	_weapon.show_weapon(content, hero.weapon, hero.weapon_uses)
@@ -282,6 +284,10 @@ func _build_hero_card(root: Control) -> void:
 	bars.add_child(_energy)
 	_xp = _bar(UiTheme.XP, Vector2(BAR_WIDTH, 3), false)
 	bars.add_child(_xp)
+	# The ultimate gauge: fills as the hero fights (UltimateRules).
+	_gauge = _bar(UiTheme.GOLD, Vector2(BAR_WIDTH, 3), false)
+	_gauge.name = "Gauge"
+	bars.add_child(_gauge)
 	_weapon = WeaponBadge.new()
 	_weapon.name = "Weapon"
 	_weapon.position = Vector2(6, 62)

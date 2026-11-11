@@ -68,13 +68,12 @@ func refresh(zone: ZoneSim, profile: PlayerProfile) -> void:
 				var unlock := int(skill["unlock_level"])
 				slot.locked_level = unlock if profile.level < unlock else 0
 				var left := hero.cooldown_left(entry["id"])
-				var cost := _content.moves.get_move(str(skill["move"])).energy_cost
-				slot.set_state(
-					float(left) / int(skill["cooldown"]),
-					left * CombatRules.TICK_SECONDS,
-					hero.energy < cost,
-					-1
-				)
+				var cost := SkillRules.energy_cost(_content, str(entry["id"]))
+				var wait := float(left) / int(skill["cooldown"])
+				if SkillRules.is_ultimate(skill):
+					# An ultimate waits for its gauge, not for a clock.
+					wait = maxf(wait, 1.0 - hero.gauge / UltimateRules.FULL)
+				slot.set_state(wait, left * CombatRules.TICK_SECONDS, hero.energy < cost, -1)
 			"item":
 				var total := maxi(1, _content.item_cooldown)
 				slot.set_state(
@@ -110,14 +109,12 @@ static func tooltip(content: ContentDB, entry: Dictionary) -> String:
 	match entry["type"]:
 		"skill":
 			var skill: Dictionary = content.skills[entry["id"]]
-			var move := content.moves.get_move(str(skill["move"]))
 			return (
-				"%s\n%s\nEnergy %d   Cooldown %ss   Unlocks at Lv %d"
+				"%s\n%s\n%s   Unlocks at Lv %d"
 				% [
 					skill["name"],
 					skill["description"],
-					roundi(move.energy_cost),
-					str(snappedf(int(skill["cooldown"]) * CombatRules.TICK_SECONDS, 0.1)),
+					SkillRules.facts(content, str(entry["id"])),
 					int(skill["unlock_level"]),
 				]
 			)

@@ -101,7 +101,7 @@ static func tick(
 			and attacker.move.is_active_tick(attacker.state_tick)
 		):
 			swings.append([attacker, attacker.move])
-	var events: Array[CombatEvent] = []
+	var events := GrabRules.tick(fighters, inputs, library, rng)
 	for swing: Array in swings:
 		var attacker: Fighter = swing[0]
 		var move: MoveData = swing[1]
@@ -117,10 +117,14 @@ static func is_vulnerable(fighter: Fighter) -> bool:
 	if fighter.grace > 0:
 		return false
 	match fighter.state:
-		Fighter.State.KO, Fighter.State.DOWN:
+		Fighter.State.KO, Fighter.State.DOWN, Fighter.State.HELD:
 			return false
 		Fighter.State.DODGE:
 			return fighter.state_tick < DODGE_IFRAME_START or fighter.state_tick >= DODGE_IFRAME_END
+		Fighter.State.ATTACK:
+			# A slipping move cannot be hit until its own blow is through.
+			var move := fighter.move
+			return not (move.evade and fighter.state_tick < move.startup + move.active)
 	return true
 
 
@@ -134,6 +138,8 @@ static func in_reach(attacker: Fighter, defender: Fighter, move: MoveData) -> bo
 
 static func _step(f: Fighter, input: FighterInput, library: MoveLibrary, bounds: Rect2) -> void:
 	f.state_tick += 1
+	if not f.stacks.is_empty():
+		PassiveRules.tick(f)
 	if f.grace > 0:
 		f.grace -= 1
 	if f.armor > 0:
@@ -228,7 +234,10 @@ static func starter(f: Fighter, library: MoveLibrary, input: String) -> String:
 ## Damage a move deals before guard: scaled by the attacker's power, reduced
 ## by the defender's defense, never below 1.
 static func damage_for(move: MoveData, attacker: Fighter, defender: Fighter) -> int:
-	return maxi(1, roundi(move.damage * attacker.power) - defender.defense)
+	var scale := 1.0 + PassiveRules.bonus(attacker, "damage", move, defender)
+	if attacker.move == move or move.slam:
+		scale *= SkillSequence.scale(attacker, "damage")
+	return maxi(1, roundi(move.damage * attacker.power * scale) - defender.defense)
 
 
 ## Starts a skill if the fighter knows it, it is off cooldown and there is
@@ -237,9 +246,14 @@ static func start_skill(f: Fighter, skill_id: String, library: MoveLibrary) -> b
 	var skill: Dictionary = f.skills.get(skill_id, {})
 	if skill.is_empty() or f.cooldown_left(skill_id) > 0:
 		return false
+	if not UltimateRules.ready(f, skill):
+		return false
 	if not _start_move(f, library.get_move(str(skill["move"]))):
 		return false
+	UltimateRules.spend(f, skill)
 	f.cooldowns[skill_id] = int(skill["cooldown"])
+	f.skill_id = skill_id
+	PassiveRules.on_event(f, PassiveRules.SKILL_EVENT + skill_id)
 	return true
 
 
@@ -257,6 +271,8 @@ static func _step_attack(f: Fighter, input: FighterInput, library: MoveLibrary) 
 	# Chains open once the hitbox has closed, and only after a connected hit.
 	# A queued skill cancels the rest of any attack that connected.
 	var cancel_window := f.hit_landed and f.state_tick >= move.startup + move.active
+	# A skill of several blows runs to its last one before anything cancels it.
+	cancel_window = cancel_window and not SkillSequence.pending(f)
 	if cancel_window and f.queued_skill:
 		var skill_id := f.queued_skill
 		f.queued_skill = ""
@@ -266,7 +282,18 @@ static func _step_attack(f: Fighter, input: FighterInput, library: MoveLibrary) 
 		var next_id: String = move.chains.get(f.queued, "")
 		if next_id and _start_move(f, library.get_move(next_id)):
 			return
-	if f.state_tick >= move.total_ticks() - recovery_cut(f, move):
+	var ended := f.state_tick >= move.total_ticks() - recovery_cut(f, move)
+	if CounterRules.step(f, library, ended):
+		return
+	if ended and move.grab and not f.hit_landed:
+		# A grab that closed on nobody: whatever was to follow does not.
+		f.enter(Fighter.State.IDLE)
+		return
+	if ended:
+		if move.damage > 0 and not f.hit_landed:
+			PassiveRules.on_event(f, "miss")
+		if SkillSequence.advance(f, library):
+			return
 		var buffered := f.state_tick - f.queued_tick <= INPUT_BUFFER_TICKS
 		var skill_id := f.queued_skill
 		var button := f.queued
@@ -282,7 +309,8 @@ static func _step_attack(f: Fighter, input: FighterInput, library: MoveLibrary) 
 ## Ticks attack speed takes off (or, below 1.0, adds to) a move's recovery.
 ## Startup and hit timing never change, so combos and cancels stay readable.
 static func recovery_cut(f: Fighter, move: MoveData) -> int:
-	return roundi(move.recovery * (1.0 - 1.0 / maxf(0.1, f.attack_speed)))
+	var speed := f.attack_speed + PassiveRules.bonus(f, "attack_speed")
+	return roundi(move.recovery * (1.0 - 1.0 / maxf(0.1, speed)))
 
 
 ## Lunging moves carry the attacker forward until the hitbox closes.
@@ -292,6 +320,15 @@ static func _advance(f: Fighter, bounds: Rect2) -> void:
 	if move.advance > 0.0 and f.state_tick <= ticks:
 		var step := Vector2(f.facing * move.advance / ticks, 0)
 		f.position = LaneMovement.clamp_to(f.position + step, bounds)
+
+
+## Lands `move` from `attacker` on `defender` outside a swing (a throw, a
+## thrown body crashing into someone, a shove). The caller has checked reach
+## and vulnerability.
+static func strike(
+	attacker: Fighter, defender: Fighter, move: MoveData, rng: RandomNumberGenerator = null
+) -> CombatEvent:
+	return _apply_hit(attacker, defender, move, rng)
 
 
 ## Starts `move` from outside the input step (a throw). See _start_move.
@@ -351,6 +388,9 @@ static func _start_move(f: Fighter, move: MoveData) -> bool:
 	f.hit_ids = {}
 	f.queued = ""
 	f.queued_skill = ""
+	f.skill_id = ""
+	f.skill_step = 0
+	f.countered = false
 	return true
 
 
@@ -365,24 +405,35 @@ static func _apply_hit(
 	event.move_id = move.id
 	event.position = defender.position
 	var from_front := signf(attacker.position.x - defender.position.x) != -defender.facing
-	if is_perfect_guard(defender, from_front):
+	var countered := CounterRules.catches(defender, move, from_front)
+	if countered or is_perfect_guard(defender, from_front):
 		_parry(attacker, defender, event)
+		PassiveRules.on_event(defender, "parry")
+		if countered:
+			event.countered = true
+			CounterRules.caught(defender)
 		return event
+	var stun := roundi(move.hitstun * SkillSequence.scale(attacker, "hitstun"))
+	var push := move.knockback * SkillSequence.scale(attacker, "knockback")
 	event.blocked = (defender.state == Fighter.State.GUARD and not move.guard_break and from_front)
 	var full := damage_for(move, attacker, defender)
+	var crit := attacker.crit_chance + PassiveRules.bonus(attacker, "crit", move, defender)
+	if not event.blocked:
+		PassiveRules.spend(attacker, move, defender)
 	if defender.exposed > 0 and not event.blocked:
 		full = roundi(full * COUNTER_DAMAGE)
 		event.counter = true
 		defender.exposed = 0
 	# Rolled only for fighters who can crit, so enemy-only fights draw nothing.
-	if rng and attacker.crit_chance > 0.0 and not event.blocked:
-		if rng.randf() < attacker.crit_chance:
+	if rng and crit > 0.0 and not event.blocked:
+		if rng.randf() < crit:
 			full = roundi(full * CRIT_DAMAGE)
 			event.critical = true
+	full = maxi(1, roundi(full * (1.0 - PassiveRules.resist(defender))))
 	if event.blocked:
 		event.damage = maxi(1, roundi(full * GUARD_DAMAGE_FACTOR))
 		defender.energy -= full * GUARD_ENERGY_PER_DAMAGE
-		defender.knockback_remaining = attacker.facing * move.knockback * 0.5
+		defender.knockback_remaining = attacker.facing * push * 0.5
 		if defender.energy <= 0.0:
 			defender.energy = 0.0
 			event.guard_broken = true
@@ -393,9 +444,12 @@ static func _apply_hit(
 		var away := signf(defender.position.x - attacker.position.x)
 		if away == 0.0:
 			away = attacker.facing
-		defender.knockback_remaining = away * move.knockback
+		defender.knockback_remaining = away * push
 		defender.facing = -int(away)
+		PassiveRules.on_event(attacker, "hit")
+		PassiveRules.on_event(defender, "hurt")
 	defender.hp = maxi(0, defender.hp - event.damage)
+	UltimateRules.on_hit(attacker, defender, event)
 	if defender.hp == 0:
 		event.ko = true
 		defender.enter(Fighter.State.KO)
@@ -411,7 +465,7 @@ static func _apply_hit(
 			event.knocked_down = true
 			defender.enter(Fighter.State.DOWN)
 		else:
-			event.knocked_down = _stun(defender, move.hitstun)
+			event.knocked_down = _stun(defender, stun)
 			event.armored = defender.armor > 0 and not event.knocked_down
 	return event
 
@@ -436,7 +490,10 @@ static func is_perfect_guard(defender: Fighter, from_front: bool) -> bool:
 		defender.state == Fighter.State.GUARD
 		and defender.parry_open
 		and from_front
-		and defender.state_tick <= defender.parry_window
+		and (
+			defender.state_tick
+			<= defender.parry_window + roundi(PassiveRules.bonus(defender, "parry_window"))
+		)
 	)
 
 
@@ -455,10 +512,7 @@ static func _parry(attacker: Fighter, defender: Fighter, event: CombatEvent) -> 
 
 
 static func _is_skill(f: Fighter, move_id: String) -> bool:
-	for skill_id: String in f.skills:
-		if f.skills[skill_id]["move"] == move_id:
-			return true
-	return false
+	return f.skill_id != "" and f.move != null and f.move.id == move_id
 
 
 ## `damage` landed on an unshaken fighter (a boss): fills its break meter

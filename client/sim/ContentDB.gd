@@ -23,8 +23,9 @@ const EXIT_SIDES := ["west", "east"]
 const NPC_ROLES := ["shop", "quests", "travel", "workbench", "board"]
 const HOTBAR_TYPES := ["attack", "skill", "item"]
 const HOTBAR_SLOTS := 7
-## Skills each hero brings to the hotbar.
-const HERO_SKILLS := 4
+## Skill slots on the default hotbar: a hero's first active skills, in the
+## order their job lists them.
+const HOTBAR_SKILLS := 4
 const HERO_STATS := ["max_hp", "power", "defense", "speed"]
 
 var moves: MoveLibrary
@@ -52,6 +53,14 @@ var weapons: Dictionary = {}
 ## Hero skills (skill id -> definition) and the hotbar layout, from skills.json.
 var skills: Dictionary = {}
 var hotbar: Array = []
+## Jobs (job id -> definition), their order and the levels a job's skills
+## unlock at ({"active": [...], "passive": [...], "ultimate": [...]}), from
+## jobs.json. Each hero has one job (heroes.json "job"); see JobRules.
+var jobs: Dictionary = {}
+var job_order: Array = []
+var job_unlocks: Dictionary = {}
+## How the ultimate gauge fills (jobs.json "gauge"; UltimateRules).
+var job_gauge: Dictionary = {}
 ## Ticks between uses of consumables (shared by all of them).
 var item_cooldown := 0
 ## Imported art, from the asset manifest (asset id -> entry).
@@ -105,6 +114,11 @@ static func load_all(dir := DATA_DIR) -> ContentDB:
 	var skill_file := db._read(dir.path_join("skills.json"))
 	db.skills = skill_file.get("skills", {})
 	db.hotbar = skill_file.get("hotbar", [])
+	var job_file := db._read(dir.path_join("jobs.json"))
+	db.jobs = job_file.get("jobs", {})
+	db.job_order = job_file.get("order", [])
+	db.job_unlocks = job_file.get("unlocks", {})
+	db.job_gauge = job_file.get("gauge", {})
 	db.tutorial = db._read(dir.path_join("tutorial.json")).get("steps", [])
 	db.world_bosses = db._read(dir.path_join("world_boss.json")).get("world_bosses", {})
 	db.boss_fx = db._read(dir.path_join("boss_fx.json"))
@@ -171,7 +185,7 @@ func hero_art(profile: PlayerProfile) -> String:
 
 ## The hotbar for one hero: the template with its skill slots filled in.
 func hotbar_for(hero_id: String) -> Array[Dictionary]:
-	var hero_skills: Array = hero(hero_id).get("skills", [])
+	var hero_skills := SkillRules.actives(self, hero_id)
 	var result: Array[Dictionary] = []
 	for slot: Dictionary in hotbar:
 		var entry := slot.duplicate()
@@ -227,6 +241,7 @@ func validate() -> void:
 	errors.append_array(BossEnrage.content_problems(self))
 	errors.append_array(FarmSpawner.problems(self))
 	errors.append_array(ItemRules.problems(self))
+	errors.append_array(JobRules.problems(self))
 	_validate_progression()
 	_validate_weapons()
 	_validate_heroes()
@@ -793,14 +808,6 @@ func _validate_heroes() -> void:
 				)
 			for item_id: Variant in starter.get("items", {}):
 				_check(items.has(str(item_id)), "%s.starter: unknown item %s" % [where, item_id])
-		var hero_skills: Variant = h.get("skills")
-		_check(
-			hero_skills is Array and hero_skills.size() == HERO_SKILLS,
-			"%s.skills: expected %d skills" % [where, HERO_SKILLS]
-		)
-		if hero_skills is Array:
-			for skill_id: Variant in hero_skills:
-				_check(skills.has(str(skill_id)), "%s.skills: unknown skill %s" % [where, skill_id])
 	# Every item look (e.g. "armoured") must exist for every hero.
 	for item_id: String in items:
 		var look := str(items[item_id].get("look", ""))
@@ -847,12 +854,15 @@ func _validate_skills() -> void:
 		if not skill is Dictionary:
 			errors.append(where + ": expected an object")
 			continue
-		_check(moves.moves.has(str(skill.get("move"))), "%s.move: unknown move" % where)
-		_number(skill, "cooldown", where, 1)
 		_number(skill, "unlock_level", where, 1)
 		for field in ["name", "description"]:
 			_check(str(skill.get(field, "")) != "", "%s.%s: required" % [where, field])
 		_check(icons.has(str(skill.get("icon"))), "%s.icon: no such icon" % where)
+		if SkillRules.is_passive(skill):
+			errors.append_array(PassiveRules.problems(skill.get("passive"), where + ".passive"))
+			continue
+		errors.append_array(SkillSequence.problems(skill, moves, where))
+		_number(skill, "cooldown", where, 1)
 		_check(fx.get("effects", {}).has(str(skill.get("fx"))), "%s.fx: no such effect" % where)
 		_check(
 			audio.get("sounds", {}).has(str(skill.get("sound"))), "%s.sound: no such sound" % where
@@ -868,8 +878,8 @@ func _validate_skills() -> void:
 			"skill":
 				var index: Variant = slot.get("hero_skill")
 				_check(
-					(index is int or index is float) and index >= 0 and index < HERO_SKILLS,
-					where + ": hero_skill must be 0..%d" % (HERO_SKILLS - 1)
+					(index is int or index is float) and index >= 0 and index < HOTBAR_SKILLS,
+					where + ": hero_skill must be 0..%d" % (HOTBAR_SKILLS - 1)
 				)
 			"item":
 				var item_data := item(str(slot.get("id")))

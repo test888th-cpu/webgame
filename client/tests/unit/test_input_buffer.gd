@@ -51,14 +51,14 @@ func test_an_early_press_is_not_kept() -> void:
 func test_a_buffered_skill_comes_out_after_a_miss() -> void:
 	var content := ContentDB.load_all()
 	var fighters := _alone()
-	fighters[0].skills = SkillRules.unlocked(content, "mika", 1)
+	fighters[0].skills = SkillRules.unlocked(content, "mika", 70)
 	var jab := _lib().get_move("jab")
 	_tick(fighters, "light")
 	for i in jab.total_ticks() - 3:
 		_tick(fighters)
 	var input := FighterInput.new()
-	input.skill = "whirlwind_kick"
+	input.skill = "rising_fist"
 	CombatRules.tick(fighters, {1: input}, content.moves, BOUNDS)
 	for i in 3:
 		_tick(fighters)
-	assert_eq(fighters[0].move.id if fighters[0].move else "", "whirlwind_kick", "skill buffered")
+	assert_eq(fighters[0].move.id if fighters[0].move else "", "rising_fist", "skill buffered")

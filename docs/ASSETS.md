@@ -53,7 +53,7 @@ changes the hero's look). `ContentDB` fails if any of these names a missing asse
 | pit_champion | mini-boss | shirtless, buzzcut, thick headband, shorts | OGA-BY 3.0(+) |
 | hero_kan | playable hero (Basketball) | sleeveless jersey, shorts, white shoes, thick headband | OGA-BY 3.0(+) |
 | hero_dao | playable hero (Police) | female, high ponytail, khaki buttoned long sleeves, black pants, boots | OGA-BY 3.0 |
-| hero_pong | playable hero (Soldier) | buzzcut, trimmed beard, green long sleeves and pants, rim boots | OGA-BY 3.0(+) |
+| hero_pong | former playable hero (Soldier; off the roster since 2026-11-10, art kept) | buzzcut, trimmed beard, green long sleeves and pants, rim boots | OGA-BY 3.0(+) |
 | hero_riku | playable hero (Boxer) | light skin, plain hair under a code-drawn snapback (white, hot-pink brim, gold badge), hot-pink cardigan (own palette) over a white tee, gold chain, charcoal cuffed pants, white shoes | CC0, OGA-BY 3.0 |
 
 Two recipe options restyle LPC parts without inventing frames. A recolour may name
@@ -73,6 +73,14 @@ any character added later get it without extra work. Its six frames are:
    patched back from the wind-up frame. The left fist stays at the chest, as
    in the frames around it.
 3. to 6. the blow, the hit and the follow-through, from the half slash.
+
+**Grab, lift and throw** (`grab`, `lift`, `throw`) are built the same way for every
+LPC character: `grab` from LPC's thrust (the arm reaching out), `lift` from the spellcast
+(the arm going up, held on its last frame while a foe is carried), and `throw` from the
+slash, starting on the raised spellcast frame. Moves name them with `"anim": "grab"` or
+`"throw"`; `lift` plays while a fighter holds someone. A held fighter needs no art of
+their own: FighterView turns their `hurt` frame on its side above the holder. Art without
+these rows plays `light`, `idle` and `heavy` instead.
 
 The held weapon's angles come from `weapon_pose.swing`: up and back, then
 level with the ground at the hit. FighterView draws the fist over the handle,

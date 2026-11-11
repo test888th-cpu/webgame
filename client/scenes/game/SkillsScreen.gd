@@ -1,15 +1,20 @@
 class_name SkillsScreen
 extends RefCounted
 ## The Skills screen (V): what the hero can do, one card each (the attack
-## and the hero's four skills: icon, name, energy, cooldown, the level it
-## unlocks at and what it does), and the hotbar row at the foot to put them
-## on (HotbarEditor, skills only: food goes on from the Bag). A card's icon
-## drags onto a slot; pointing at a card and pressing 1-7 puts it there; a
+## and the job's nine skills, passives and the ultimate included: icon,
+## name, cost and the level it unlocks at), in two columns; what the card
+## last pointed at or pressed does is spelled out under them; and the hotbar
+## row at the foot to put them on (HotbarEditor, skills only: food goes on
+## from the Bag). A card's icon drags onto a slot; pointing at a card and
+## pressing 1-7 puts it there; a
 ## slot dragged back onto the list is emptied. Locked skills can go on the
 ## bar too (the bar shows the lock until the level is reached).
 
 const ICON := 26.0
-const TEXT_WIDTH := 500.0
+const TEXT_WIDTH := 560.0
+const COLUMNS := 2
+## Room for a card's name and numbers beside its icon.
+const CARD_TEXT := 236.0
 
 
 static func build(game: Game) -> Control:
@@ -22,24 +27,41 @@ static func build(game: Game) -> Control:
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	page.add_child(scroll)
-	var list := VBoxContainer.new()
+	var list := GridContainer.new()
 	list.name = "SkillList"
-	list.add_theme_constant_override("separation", 3)
+	list.columns = COLUMNS
+	list.add_theme_constant_override("h_separation", 4)
+	list.add_theme_constant_override("v_separation", 3)
 	list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	scroll.add_child(list)
+	var detail := UiKit.label("", UiTheme.SIZE_CAPTION, UiTheme.TEXT_DIM, TEXT_WIDTH)
+	detail.name = "SkillDetail"
+	detail.custom_minimum_size.y = 26
 	var keys: Array[String] = [HotbarRules.ATTACK]
-	for skill_id: String in content.hero(profile.hero).get("skills", []):
+	for skill_id: String in SkillRules.kit(content, profile.hero):
 		keys.append("skill:" + skill_id)
 	var bar := HotbarRules.layout(profile, content)
 	for key in keys:
-		list.add_child(_card(game, key, bar.find(key)))
+		list.add_child(_card(game, key, bar.find(key), detail))
+	detail.text = _help(content, keys[mini(1, keys.size() - 1)])
+	page.add_child(detail)
 	page.add_child(HotbarEditor.bar(game, HotbarEditor.SKILLS))
 	return page
 
 
-## One skill: its icon (dragged onto the bar), name, numbers and help, and
-## which key it is on now.
-static func _card(game: Game, key: String, on_slot: int) -> Control:
+## What a card's skill does, named, for the line under the cards.
+static func _help(content: ContentDB, key: String) -> String:
+	var entry := HotbarRules.entry_of(key)
+	if entry["type"] == "attack":
+		var attack := Hotbar.attack_entry(content)
+		return "%s: %s" % [attack.get("name", "Attack"), attack.get("description", "")]
+	var skill: Dictionary = content.skills[entry["id"]]
+	return "%s: %s" % [skill["name"], skill["description"]]
+
+
+## One skill: its icon (dragged onto the bar), name, numbers and which key it
+## is on now. Pointing at it or pressing it explains it in `detail`.
+static func _card(game: Game, key: String, on_slot: int, detail: Label) -> Control:
 	var content := game.content
 	var entry := HotbarRules.entry_of(key)
 	var card := PanelContainer.new()
@@ -52,6 +74,13 @@ static func _card(game: Game, key: String, on_slot: int) -> Control:
 	# Pointing anywhere at the card and pressing 1-7 puts it on that slot.
 	card.set_meta(HotbarEditor.KEY_META, key)
 	card.mouse_filter = Control.MOUSE_FILTER_PASS
+	card.tooltip_text = _help(content, key)
+	card.mouse_entered.connect(func() -> void: detail.text = _help(content, key))
+	card.gui_input.connect(
+		func(event: InputEvent) -> void:
+			if event is InputEventMouseButton or event is InputEventScreenTouch:
+				detail.text = _help(content, key)
+	)
 	var line := HBoxContainer.new()
 	line.add_theme_constant_override("separation", 6)
 	card.add_child(line)
@@ -69,42 +98,34 @@ static func _card(game: Game, key: String, on_slot: int) -> Control:
 	text.add_theme_constant_override("separation", 0)
 	text.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	line.add_child(text)
-	var head := HBoxContainer.new()
-	head.add_theme_constant_override("separation", 6)
-	text.add_child(head)
+	text.custom_minimum_size.x = CARD_TEXT
 	var name := ""
 	var facts := ""
-	var help := ""
 	var locked := 0
+	var passive := false
 	if entry["type"] == "attack":
-		var attack := Hotbar.attack_entry(content)
-		name = str(attack.get("name", "Attack"))
+		name = str(Hotbar.attack_entry(content).get("name", "Attack"))
 		facts = "No cooldown"
-		help = str(attack.get("description", ""))
 	else:
 		var skill: Dictionary = content.skills[entry["id"]]
-		var move := content.moves.get_move(str(skill["move"]))
-		name = str(skill["name"])
-		var seconds := snappedf(int(skill["cooldown"]) * CombatRules.TICK_SECONDS, 0.1)
-		facts = "Energy %d  ·  Cooldown %ss" % [roundi(move.energy_cost), str(seconds)]
-		help = str(skill["description"])
+		name = str(skill["name"]).capitalize()
+		facts = SkillRules.facts(content, str(entry["id"]), true)
+		passive = SkillRules.is_passive(skill)
 		var unlock := int(skill["unlock_level"])
 		locked = unlock if game.profile.level < unlock else 0
-	head.add_child(
+	text.add_child(
 		UiKit.label(name, UiTheme.SIZE_BODY, UiTheme.TEXT_DIM if locked else UiTheme.TEXT)
 	)
-	head.add_child(UiKit.label(facts, UiTheme.SIZE_CAPTION, UiTheme.TEXT_DIM))
+	# Under the name, short enough for half the window at 150% text: the
+	# level it unlocks at (while locked), its numbers, the key it is on.
+	var line2 := HBoxContainer.new()
+	line2.add_theme_constant_override("separation", 6)
+	text.add_child(line2)
 	if locked:
-		head.add_child(
-			UiKit.label("Unlocks at Lv %d" % locked, UiTheme.SIZE_CAPTION, UiTheme.DANGER)
-		)
-	var slot_text := "Key %d" % (on_slot + 1) if on_slot >= 0 else "Not on the bar"
-	head.add_child(
-		UiKit.label(
-			slot_text, UiTheme.SIZE_CAPTION, UiTheme.ACCENT if on_slot >= 0 else UiTheme.TEXT_FAINT
-		)
-	)
-	text.add_child(UiKit.label(help, UiTheme.SIZE_CAPTION, UiTheme.TEXT_DIM, TEXT_WIDTH))
+		line2.add_child(UiKit.label("Lv %d" % locked, UiTheme.SIZE_CAPTION, UiTheme.DANGER))
+	line2.add_child(UiKit.label(facts, UiTheme.SIZE_CAPTION, UiTheme.TEXT_DIM))
+	if not passive and on_slot >= 0:
+		line2.add_child(UiKit.label("Key %d" % (on_slot + 1), UiTheme.SIZE_CAPTION, UiTheme.ACCENT))
 	for child in text.find_children("*", "Control", true, false):
 		(child as Control).mouse_filter = Control.MOUSE_FILTER_IGNORE
 	return card

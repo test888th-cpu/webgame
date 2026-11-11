@@ -137,6 +137,7 @@ func _init(
 	var hero_data := content.hero(profile.hero)
 	hero.parry_window = int(hero_data.get("parry_window", CombatRules.PERFECT_GUARD_TICKS))
 	hero.skill_armor = bool(hero_data.get("skill_armor", false))
+	JobRules.equip(hero, content, profile.hero)
 	hero.throws = true
 	hero.facing = -1 if entry == "east" else 1
 	if area.get("heal_on_enter", false):
@@ -178,6 +179,7 @@ func refresh_hero() -> void:
 	hero.crit_chance = stats["crit"]
 	hero.attack_speed = stats["attack_speed"]
 	hero.skills = SkillRules.unlocked(content, profile.hero, profile.level)
+	hero.passives = SkillRules.passives(content, profile.hero, profile.level)
 
 
 func spawn_enemy(kind: String, position: Vector2) -> Fighter:
@@ -634,10 +636,7 @@ func _report_actions(events: Array[ZoneEvent]) -> void:
 		if f.state_tick != 0:
 			continue
 		if f.state == Fighter.State.ATTACK:
-			var data := {"id": f.id, "move": f.move.id, "skill": ""}
-			for skill_id: String in f.skills:
-				if f.skills[skill_id]["move"] == f.move.id:
-					data["skill"] = skill_id
+			var data := {"id": f.id, "move": f.move.id, "skill": f.skill_id, "step": f.skill_step}
 			events.append(ZoneEvent.make("swing", data))
 		elif f.state == Fighter.State.DODGE:
 			events.append(ZoneEvent.make("dodge", {"id": f.id}))

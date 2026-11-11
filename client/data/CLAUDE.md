@@ -1,7 +1,7 @@
 # client/data/: game content
 
 JSON is the source of truth for content: areas, enemies, items, moves, skills, quests,
-shops, heroes, weapons, obstacles, boss effects, the world bosses, progression and the
+shops, heroes, jobs, weapons, obstacles, boss effects, the world bosses, progression and the
 tutorial.
 
 - **Validated on load.** `ContentDB.load_all` checks every file; rule classes add their own

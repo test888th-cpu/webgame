@@ -27,6 +27,18 @@ var advance := 0.0
 var guard_break := false
 ## Leaves the defender on the ground (and briefly invulnerable).
 var knockdown := false
+## A grab: deals nothing itself; if it closes on a foe the attacker holds
+## them (GrabRules).
+var grab := false
+## A counter stance: deals nothing; a blow caught from the front while it is
+## active starts the skill's reply (CounterRules).
+var counter := false
+## A slipping move: its user cannot be hit until its blow is through (the
+## recovery is open).
+var evade := false
+## A throw, or a thrown body crashing into someone (for passives that
+## strengthen slams).
+var slam := false
 ## Shows a warning during startup. Used for slow, heavy enemy attacks so a
 ## player has time to react.
 var telegraph := false

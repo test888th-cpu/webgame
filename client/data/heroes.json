@@ -4,21 +4,21 @@
     "oren",
     "riku",
     "kan",
-    "dao",
-    "pong"
+    "dao"
   ],
   "heroes": {
     "mika": {
       "name": "Mika Tanabe",
       "default_name": "Mika",
-      "title": "The Footballer",
+      "title": "The Street Striker",
+      "job": "striker",
       "gender": "Female",
-      "tagline": "Quick feet, long combos, never stays down.",
-      "bio": "Striker of the Depot's factory-league team, who drives a dock crane by night. Mika fights the way she plays: always moving, sweeping kicks and charges that break a line, quick strikes chained into long combos, gone before trouble lands.",
+      "tagline": "Fast hands, long combos, never lets up.",
+      "bio": "Striker of the Depot's factory-league team, who drives a dock crane by night. Mika fights the way she plays: always moving, chaining quick punches into long combos that build speed as they land, and finishing before trouble can answer. Each punch is light; the flow is what hurts.",
       "style": [
+        "Speed",
         "Combos",
-        "Damage",
-        "Mobility"
+        "Pressure"
       ],
       "difficulty": 1,
       "color": "#f2a54a",
@@ -32,12 +32,6 @@
         "default": "hero_mika",
         "armoured": "hero_mika_armoured"
       },
-      "skills": [
-        "rising_uppercut",
-        "whirlwind_kick",
-        "shoulder_rush",
-        "furnace_slam"
-      ],
       "starter": {
         "money": 30,
         "items": {
@@ -53,14 +47,15 @@
     "oren": {
       "name": "Oren Vale",
       "default_name": "Oren",
-      "title": "The Street Brawler",
+      "title": "The Grappler",
+      "job": "grappler",
       "gender": "Male",
-      "tagline": "Slow to start, impossible to stop.",
-      "bio": "A former harbour wrestler who hauls freight for the Depot crew. Oren takes more punishment than anyone, and his skills hit wide and stun long, but every blow has weight behind it, so timing matters.",
+      "tagline": "Get a hand on them and it is over.",
+      "bio": "A former harbour wrestler who hauls freight for the Depot crew. Oren takes more punishment than anyone and fights at arm's length: he seizes a foe, slams them into the street or throws them into their friends. He has to get close first, and a missed grab leaves him open.",
       "style": [
-        "Tough",
-        "Crowd control",
-        "Stuns"
+        "Grabs",
+        "Throws",
+        "Tough"
       ],
       "difficulty": 2,
       "color": "#e0524a",
@@ -74,12 +69,6 @@
         "default": "hero_oren",
         "armoured": "hero_oren_armoured"
       },
-      "skills": [
-        "headbutt",
-        "clothesline",
-        "shoulder_charge",
-        "earthshaker"
-      ],
       "starter": {
         "money": 30,
         "items": {
@@ -96,13 +85,14 @@
       "name": "Riku Sato",
       "default_name": "Riku",
       "title": "The Boxer",
+      "job": "boxer",
       "gender": "Male",
-      "tagline": "Guard up, chin down, hands faster than trouble.",
-      "bio": "A night-shift courier who trained in a boxing gym above Saltmarket Street. Riku fights from a tight guard: a quick jab to open a foe up, then a cross to put them down. He is the all-rounder of the crew, with skills built on speed and stun.",
+      "tagline": "One clean punch is worth ten wild ones.",
+      "bio": "A night-shift courier who trained in a boxing gym above Saltmarket Street. Riku picks his moment and lands the punch that matters: heavy crosses, body blows and a counter for whoever swings first. Nobody hits one target harder; a crowd is harder work.",
       "style": [
-        "Balanced",
-        "Combos",
-        "Stuns"
+        "Burst damage",
+        "Criticals",
+        "Counters"
       ],
       "difficulty": 2,
       "color": "#5fc8d6",
@@ -117,12 +107,6 @@
         "default": "hero_riku",
         "armoured": "hero_riku"
       },
-      "skills": [
-        "liver_shot",
-        "one_two",
-        "dempsey_roll",
-        "knockout_blow"
-      ],
       "starter": {
         "money": 30,
         "items": {
@@ -138,14 +122,15 @@
     "kan": {
       "name": "Kan Srisuk",
       "default_name": "Kan",
-      "title": "The Basketball Player",
+      "title": "The Brawler",
+      "job": "brawler",
       "gender": "Male",
       "tagline": "Owns the court, owns the crowd.",
-      "bio": "Point guard of the night league on the market's back court, who delivers for the noodle shops by day. Kan reads a crowd like a defence: his skills reach wider than anyone's, and his slam dunk floors a whole gang at once.",
+      "bio": "Point guard of the night league on the market's back court, who delivers for the noodle shops by day. Kan reads a crowd like a defence and breaks it: wide swings, ground-shaking blows and a rush that ploughs through a line. He hits many at once, and less on any one of them.",
       "style": [
         "Crowds",
-        "Area control",
-        "Mobile"
+        "Area damage",
+        "Knockback"
       ],
       "difficulty": 2,
       "color": "#e05a3a",
@@ -161,12 +146,6 @@
         "default": "hero_kan",
         "armoured": "hero_kan"
       },
-      "skills": [
-        "crossover",
-        "elbow_clear",
-        "post_up",
-        "slam_dunk"
-      ],
       "starter": {
         "money": 30,
         "items": {
@@ -181,14 +160,15 @@
     "dao": {
       "name": "Dao Kittikun",
       "default_name": "Dao",
-      "title": "The Police Officer",
+      "title": "The Counter Fighter",
+      "job": "counter",
       "gender": "Female",
       "tagline": "Read it, block it, turn it around.",
-      "bio": "A sergeant suspended for chasing a case she was told to drop. Dao fights the way she was trained: guard first, then turn the attack back on whoever threw it. Her parry window is wider than anyone's, and her locks hold a foe longest.",
+      "bio": "A sergeant suspended for chasing a case she was told to drop. Dao waits, guards and answers: her skills catch an attack and turn it back harder. She parries from further out than anyone, but waiting alone never wins a fight.",
       "style": [
         "Defence",
         "Counters",
-        "Control"
+        "Parries"
       ],
       "difficulty": 3,
       "color": "#c8a050",
@@ -203,12 +183,6 @@
         "default": "hero_dao",
         "armoured": "hero_dao"
       },
-      "skills": [
-        "wrist_lock",
-        "leg_sweep",
-        "takedown",
-        "riot_shove"
-      ],
       "starter": {
         "money": 30,
         "items": {
@@ -221,50 +195,6 @@
         ]
       },
       "parry_window": 12
-    },
-    "pong": {
-      "name": "Pong Rattana",
-      "default_name": "Pong",
-      "title": "The Soldier",
-      "gender": "Male",
-      "tagline": "Slow to stop, impossible to stop.",
-      "bio": "A discharged army sergeant come home to South Street. Pong is the toughest of the crew and the slowest on his feet; his skills cannot be interrupted once they start, so he trades blows and walks through them.",
-      "style": [
-        "Tough",
-        "Unstoppable skills",
-        "Slow"
-      ],
-      "difficulty": 1,
-      "color": "#5a8a4a",
-      "stats": {
-        "max_hp": 140,
-        "power": 1.0,
-        "defense": 3,
-        "speed": 0.8,
-        "crit": 0.04
-      },
-      "sprites": {
-        "default": "hero_pong",
-        "armoured": "hero_pong"
-      },
-      "skills": [
-        "combat_elbow",
-        "breach_kick",
-        "shoulder_drive",
-        "ground_pound"
-      ],
-      "starter": {
-        "money": 30,
-        "items": {
-          "steamed_bun": 3,
-          "ginger_tea": 1
-        },
-        "equipment": [
-          "padded_vest",
-          "dock_beanie"
-        ]
-      },
-      "skill_armor": true
     }
   }
 }

@@ -1,16 +1,15 @@
 extends TestCase
-## The six classes of the brief, each with its own edge and none best at
-## everything: Kan reaches widest, Dao parries earliest, Pong's skills cannot
-## be interrupted, and the toughest is also the slowest.
+## The five heroes, each with their own edge and none best at everything: Kan
+## reaches widest, Dao parries earliest, and the toughest is also the slowest.
+## Skill armour (heroes.json `skill_armor`) stays a rule any hero may be given.
 
 const BOUNDS := Rect2(0, 200, 2000, 200)
 const CLASSES := [
 	"The Boxer",
-	"The Street Brawler",
-	"The Footballer",
-	"The Basketball Player",
-	"The Police Officer",
-	"The Soldier",
+	"The Brawler",
+	"The Grappler",
+	"The Counter Fighter",
+	"The Street Striker",
 ]
 
 var content: ContentDB
@@ -29,7 +28,7 @@ func _hero_fighter(hero_id: String) -> Fighter:
 	return zone.hero
 
 
-func test_all_six_classes_are_playable() -> void:
+func test_all_five_classes_are_playable() -> void:
 	var titles := []
 	for hero_id: String in _content().hero_order:
 		titles.append(str(_content().hero(hero_id)["title"]))
@@ -50,24 +49,30 @@ func test_no_hero_is_best_at_everything() -> void:
 		not (best["max_hp"] == best["power"] and best["power"] == best["speed"]),
 		"nobody tops health, power and speed together"
 	)
-	var pong: Dictionary = _content().hero("pong")["stats"]
+	assert_eq(_content().hero_order.size(), 5, "five heroes")
+	var oren: Dictionary = _content().hero("oren")["stats"]
 	for hero_id: String in _content().hero_order:
-		if hero_id != "pong":
+		if hero_id != "oren":
 			var other: Dictionary = _content().hero(hero_id)["stats"]
-			assert_true(pong["speed"] < other["speed"], "the Soldier is slower than %s" % hero_id)
-			assert_true(pong["max_hp"] > other["max_hp"], "and tougher than %s" % hero_id)
+			assert_true(oren["speed"] < other["speed"], "Oren is slower than %s" % hero_id)
+			assert_true(oren["max_hp"] > other["max_hp"], "and tougher than %s" % hero_id)
 
 
-func test_the_basketball_player_reaches_widest() -> void:
+func test_the_brawler_s_ultimate_covers_the_most_street() -> void:
 	var widest := ""
 	var reach := 0.0
 	for hero_id: String in _content().hero_order:
-		var skills: Array = _content().hero(hero_id)["skills"]
-		var move := _content().moves.get_move(str(_content().skills[skills[3]]["move"]))
-		if move.reach > reach:
-			reach = move.reach
-			widest = hero_id
-	assert_eq(widest, "kan", "Kan's slam dunk covers the most street")
+		var skill: Dictionary = _content().skills[SkillRules.ultimate(_content(), hero_id)]
+		for move_id in SkillSequence.moves(skill):
+			var move := _content().moves.get_move(move_id)
+			if move.reach_offset < 0.0 and move.reach > reach:
+				reach = move.reach
+				widest = hero_id
+	assert_eq(widest, "oren", "the Grappler's shockwave is the widest single blow")
+	var around := 0
+	for move_id in SkillSequence.moves(_content().skills["street_carnage"]):
+		around += 1 if _content().moves.get_move(move_id).reach_offset < 0.0 else 0
+	assert_true(around >= 4, "but Street Carnage hits all around again and again")
 
 
 func test_the_police_officer_parries_from_further_out() -> void:
@@ -99,9 +104,10 @@ func test_the_police_officer_parries_from_further_out() -> void:
 		assert_eq(events[0].parried, pair[1], "%s parries: %s" % [hero.kind, pair[1]])
 
 
-func test_the_soldier_cannot_be_interrupted_mid_skill() -> void:
-	for pair: Array in [["pong", true], ["oren", false]]:
+func test_skill_armour_cannot_be_interrupted_mid_skill() -> void:
+	for pair: Array in [["oren", true], ["oren", false]]:
 		var hero := _hero_fighter(pair[0])
+		hero.skill_armor = pair[1]
 		hero.position = Vector2(500, 300)
 		hero.facing = 1
 		hero.energy = 100.0
@@ -109,7 +115,8 @@ func test_the_soldier_cannot_be_interrupted_mid_skill() -> void:
 		foe.facing = 1  # behind the hero, jabbing its back
 		foe.moveset = {"light": "thug_jab"}
 		var fighters: Array[Fighter] = [hero, foe]
-		var skill_id := str(_content().hero(pair[0])["skills"][0])
+		var skill_id := "heavy_cross"
+		hero.skills = SkillRules.unlocked(_content(), "riku", 70)
 		var press := FighterInput.new()
 		press.skill = skill_id
 		CombatRules.tick(fighters, {hero.id: press}, _content().moves, BOUNDS)
@@ -119,4 +126,4 @@ func test_the_soldier_cannot_be_interrupted_mid_skill() -> void:
 		for t in _content().moves.get_move("thug_jab").startup + 2:
 			CombatRules.tick(fighters, {}, _content().moves, BOUNDS)
 		var still := hero.state == Fighter.State.ATTACK
-		assert_eq(still, pair[1], "%s keeps the skill going: %s" % [pair[0], pair[1]])
+		assert_eq(still, pair[1], "skill armour %s keeps the skill going" % pair[1])

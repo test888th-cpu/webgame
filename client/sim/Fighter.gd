@@ -4,7 +4,8 @@ extends RefCounted
 ## progression (level, equipment) lives in the backend and only seeds max_hp
 ## and similar values when a fighter enters a zone.
 
-enum State { IDLE, ATTACK, HITSTUN, DODGE, GUARD, DOWN, KO }
+## GRAB: holding a foe. HELD: in someone's hold (GrabRules).
+enum State { IDLE, ATTACK, HITSTUN, DODGE, GUARD, DOWN, KO, GRAB, HELD }
 
 var id := 0
 ## Fighters only hit fighters of other teams.
@@ -54,8 +55,39 @@ var weapon := ""
 var weapon_uses := 0
 var weapon_moveset := {}
 var weapon_speed := 1.0
-## Skills this fighter can use: skill id -> {"move": move id, "cooldown": ticks}.
+## Skills this fighter can use: skill id -> {"move": move id, "cooldown":
+## ticks, "then": later moves, "scale": balance multipliers} (SkillRules).
 var skills := {}
+## Grab and throw (GrabRules). `grab` is the job's profile ({} for fighters
+## who cannot grab): {"move", "release", "throw", "crash", "shove", "hold"}.
+## `holding` / `held_by` are the other fighter's id (0: nobody); grab_guard
+## the ticks in which this fighter cannot be grabbed again. A thrown body
+## remembers who threw it and whom it has already knocked into.
+var grab := {}
+var holding := 0
+var held_by := 0
+var grab_guard := 0
+var thrown_by := 0
+var thrown_hits := {}
+## The skill being used ("" outside one) and which of its moves is running
+## (SkillSequence). Cleared by any state but ATTACK, so a hit ends the skill.
+var skill_id := ""
+var skill_step := 0
+## The ultimate gauge (0..UltimateRules.FULL) and what fills it: points per
+## blow landed and per share of health lost ({} for fighters without one).
+var gauge := 0.0
+var gauge_rates := {}
+## The skill behind the current hold, if a skill's grab made it: its own
+## throw, crash, hold and squeeze, and where the skill continues after.
+var grab_plan := {}
+## The move a body thrown by this fighter crashes into others with.
+var crash_move := ""
+## A counter stance caught a blow: the reply starts next tick (CounterRules).
+var countered := false
+## Passive skills (id -> spec) and the stacks earned (id -> {"count",
+## "ticks"}); see PassiveRules.
+var passives := {}
+var stacks := {}
 ## Ticks until each skill can be used again (absent or 0: ready).
 var cooldowns := {}
 ## A skill pressed during an attack, used if the attack can be cancelled.
@@ -82,7 +114,7 @@ var armor := 0
 var unshaken := false
 var break_meter := 0.0
 var break_rest := 0
-## Skills cannot be interrupted once started (Pong the Soldier).
+## Skills cannot be interrupted once started (heroes.json `skill_armor`).
 var skill_armor := false
 ## Perfect guard (the hero only, so enemy guards never punish the player's
 ## combos): a guard raised just before a hit parries it. parry_open says
@@ -128,3 +160,6 @@ func enter(new_state: State, duration := 0) -> void:
 		move = null
 		queued = ""
 		queued_skill = ""
+		skill_id = ""
+		skill_step = 0
+		countered = false

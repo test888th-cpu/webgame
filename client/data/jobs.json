@@ -1,0 +1,207 @@
+{
+  "order": [
+    "boxer",
+    "brawler",
+    "grappler",
+    "counter",
+    "striker"
+  ],
+  "unlocks": {
+    "active": [
+      1,
+      2,
+      3,
+      5,
+      15,
+      30
+    ],
+    "passive": [
+      10,
+      25
+    ],
+    "ultimate": [
+      50
+    ]
+  },
+  "gauge": {
+    "per_hit": 1.5,
+    "per_hurt": 60
+  },
+  "jobs": {
+    "boxer": {
+      "name": "Boxer",
+      "role": "Precision and burst damage",
+      "description": "Heavy, exact punches. Reads the moment and lands the one blow that matters.",
+      "strengths": [
+        "Single-target damage",
+        "Critical hits",
+        "Counter punches"
+      ],
+      "weakness": "A miss costs the opening, and crowds are hard work.",
+      "combo": "Boxing Combination",
+      "moveset": {
+        "light": "boxer_jab",
+        "heavy": "haymaker"
+      },
+      "grab": {
+        "move": "grab_reach",
+        "release": "grab_release",
+        "throw": "boxer_throw",
+        "crash": "throw_crash",
+        "shove": "grab_shove",
+        "hold": 36
+      },
+      "skills": [
+        "power_jab",
+        "heavy_cross",
+        "uppercut",
+        "body_blow",
+        "counter_punch",
+        "knockout_combo",
+        "critical_focus",
+        "precision_impact",
+        "knockout_devastation"
+      ]
+    },
+    "brawler": {
+      "name": "Brawler",
+      "role": "Pressure and area damage",
+      "description": "Wide swings and ground-shaking blows that keep a whole crowd on the back foot.",
+      "strengths": [
+        "Many targets",
+        "Knockback",
+        "Relentless pressure"
+      ],
+      "weakness": "Long attacks need the right range and timing; less damage on one target than the Boxer.",
+      "combo": "Brutal Combination",
+      "moveset": {
+        "light": "brawler_left",
+        "heavy": "haymaker"
+      },
+      "grab": {
+        "move": "grab_reach",
+        "release": "grab_release",
+        "throw": "brawler_throw",
+        "crash": "throw_crash",
+        "shove": "grab_shove",
+        "hold": 45
+      },
+      "skills": [
+        "rapid_punch",
+        "double_smash",
+        "wide_swing",
+        "ground_pound",
+        "brutal_rush",
+        "backhand_smash",
+        "pain_resistance",
+        "berserk_momentum",
+        "street_carnage"
+      ]
+    },
+    "grappler": {
+      "name": "Grappler",
+      "role": "Grab, throw and control",
+      "description": "Seizes a foe, slams them down and throws them into the rest.",
+      "strengths": [
+        "Grabs and throws",
+        "Positioning",
+        "Impact damage"
+      ],
+      "weakness": "Must get close, and a missed grab leaves an opening.",
+      "combo": "Grappling Combination",
+      "moveset": {
+        "light": "grappler_short",
+        "heavy": "haymaker"
+      },
+      "grab": {
+        "move": "grappler_grab_reach",
+        "release": "grab_release",
+        "throw": "grappler_throw",
+        "crash": "grappler_crash",
+        "shove": "grab_shove",
+        "hold": 75
+      },
+      "skills": [
+        "iron_grip",
+        "power_throw",
+        "backbreaker",
+        "ground_slam",
+        "crowd_toss",
+        "crushing_hold",
+        "unbreakable_hold",
+        "heavy_impact",
+        "titan_destruction"
+      ]
+    },
+    "counter": {
+      "name": "Counter Fighter",
+      "role": "Defence and punishment",
+      "description": "Guards, slips and parries, then answers a mistimed attack with a harder one.",
+      "strengths": [
+        "Defence",
+        "Parries",
+        "Punishing counters"
+      ],
+      "weakness": "Has to read the opponent; waiting alone never wins.",
+      "combo": "Defensive Combination",
+      "moveset": {
+        "light": "counter_quick",
+        "heavy": "haymaker"
+      },
+      "grab": {
+        "move": "grab_reach",
+        "release": "grab_release",
+        "throw": "counter_throw",
+        "crash": "throw_crash",
+        "shove": "grab_shove",
+        "hold": 45
+      },
+      "skills": [
+        "quick_counter",
+        "slip_punch",
+        "precision_blow",
+        "defensive_stance",
+        "perfect_parry",
+        "reversal_strike",
+        "combat_awareness",
+        "retaliation",
+        "absolute_retribution"
+      ]
+    },
+    "striker": {
+      "name": "Street Striker",
+      "role": "Speed, combos and flow",
+      "description": "Fast hands and long chains of punches that never let a foe breathe.",
+      "strengths": [
+        "Attack speed",
+        "Long combos",
+        "Chasing pressure"
+      ],
+      "weakness": "Each punch is lighter than a Boxer's, and a dropped combo loses its edge.",
+      "combo": "Street Combo",
+      "moveset": {
+        "light": "striker_jab",
+        "heavy": "haymaker"
+      },
+      "grab": {
+        "move": "grab_reach",
+        "release": "grab_release",
+        "throw": "striker_throw",
+        "crash": "throw_crash",
+        "shove": "grab_shove",
+        "hold": 30
+      },
+      "skills": [
+        "quick_jab",
+        "triple_punch",
+        "rush_combo",
+        "rising_fist",
+        "dash_strike",
+        "chain_breaker",
+        "flow_state",
+        "combo_mastery",
+        "million_fist_onslaught"
+      ]
+    }
+  }
+}

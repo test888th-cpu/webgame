@@ -102,6 +102,10 @@ func think(zone: ZoneSim) -> FighterInput:
 	item = _pick_heal(zone)
 	if hero.state in [Fighter.State.HITSTUN, Fighter.State.DOWN, Fighter.State.DODGE]:
 		return input
+	if hero.state == Fighter.State.GRAB:
+		# A foe in hand: throw them at once (a skill's own hold throws itself).
+		input.light = true
+		return input
 	if hero.state == Fighter.State.GUARD and zone.tick_count < _guard_until:
 		input.guard = true
 		return input
@@ -271,6 +275,12 @@ func _defend(zone: ZoneSim, danger: Dictionary, input: FighterInput) -> bool:
 			# Plenty of warning (or no energy): walk out of its reach.
 			input.move = Vector2(away, 0.0)
 		return true
+	# A counter stance ready for this blow beats hitting first.
+	var stance := AutoSkills.stance(_content, hero, soonest)
+	if stance != "":
+		input.face = -away
+		input.skill = stance
+		return true
 	var jab := _light_move(zone)
 	if not _tough(threat) and jab and soonest > jab.startup + 1:
 		if _reaches(hero, jab, threat, -away):
@@ -363,6 +373,12 @@ func _fight(zone: ZoneSim, foes: Array[Fighter], target: Fighter, input: Fighter
 		input.face = _skill_facing(zone, foes, target, skill)
 		input.skill = skill
 		return true
+	# Hurt and in the thick of it: brace before going back in.
+	if hero.hp * 2 < hero.max_hp and hero.position.distance_to(target.position) < 80.0:
+		var brace := AutoSkills.brace(_content, hero)
+		if brace != "":
+			input.skill = brace
+			return true
 	var jab := _light_move(zone)
 	if jab == null:
 		return false
@@ -402,7 +418,9 @@ func _pick_skill(zone: ZoneSim, foes: Array[Fighter], target: Fighter) -> String
 			continue
 		var skill: Dictionary = hero.skills[skill_id]
 		var move := _content.moves.get_move(str(skill["move"]))
-		if move == null:
+		var power := AutoSkills.power(_content, hero, skill)
+		# Stances answer an attack (_defend); a skill with no blow braces (_fight).
+		if move == null or move.counter or power <= 0.0 or not UltimateRules.ready(hero, skill):
 			continue
 		var facing := _skill_facing(zone, foes, target, skill_id)
 		var hits := 0
@@ -421,9 +439,10 @@ func _pick_skill(zone: ZoneSim, foes: Array[Fighter], target: Fighter) -> String
 		var reserve := 0.0 if hits >= 3 else ENERGY_RESERVE
 		if hero.energy < move.energy_cost + reserve:
 			continue
-		if int(skill["cooldown"]) >= BIG_SKILL_COOLDOWN and weight < 3.0:
+		var big := int(skill["cooldown"]) >= BIG_SKILL_COOLDOWN or UltimateRules.cost(skill) > 0.0
+		if big and weight < 3.0:
 			continue
-		var score := weight * move.damage
+		var score := weight * power
 		if score > best_score:
 			best_score = score
 			best = skill_id

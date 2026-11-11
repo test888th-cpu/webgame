@@ -20,7 +20,16 @@ const HIT_FLASH_TICKS := 6
 ## Ticks over which the knock-down animation plays before holding its last frame.
 const DOWN_TICKS := 30
 ## What art without an animation plays instead (the rest fall back to idle).
-const FALLBACK := {"swing": "light"}
+const FALLBACK := {
+	"swing": "light", "grab": "light", "throw": "heavy", "lift": "idle", "stance": "idle"
+}
+## Ticks over which a holder raises the foe they grabbed.
+const LIFT_TICKS := 8
+## A held fighter is drawn lying across the holder's raised hands: turned on
+## their side, this far up, and this far past the holder (who stands
+## GrabRules.HOLD_GAP away) so the body is centred over the holder's head.
+const HELD_RISE := 44.0
+const HELD_REACH := 24.0
 const FLASH_SHADER := preload("res://scenes/fighter/flash.gdshader")
 ## The shadow under a fighter, in game pixels (scaled with a big one).
 const SHADOW_WIDTH := 24.0
@@ -51,6 +60,8 @@ var _last_position := Vector2.INF
 var _flash := 0.0
 var _flash_color := Color.WHITE
 var _freeze := 0.0
+## Where the sprite sits on this view (raised while the fighter is held).
+var _home := Vector2.ZERO
 var _hands := {}
 ## The art's frame size (LPC sheets are 64x64; custom art may be larger).
 var _frame := Vector2(64, 64)
@@ -227,7 +238,7 @@ func _process(delta: float) -> void:
 		var material := _sprite.material as ShaderMaterial
 		material.set_shader_parameter("flash", clampf(_flash / 0.12, 0.0, 0.85))
 		material.set_shader_parameter("flash_color", _flash_color)
-		_sprite.position.x = randf_range(-1.5, 1.5) if _freeze > 0.0 else 0.0
+		_sprite.position.x = _home.x + (randf_range(-1.5, 1.5) if _freeze > 0.0 else 0.0)
 
 
 ## The fighter's cast shadow (Shade): its own frames, flipped onto the street
@@ -271,6 +282,9 @@ func sync() -> void:
 	if _sprite:
 		_sprite.flip_h = fighter.facing < 0
 		_sprite.modulate = Color.WHITE
+		_sprite.rotation = 0.0
+		_home = Vector2.ZERO
+		_sprite.position = _home
 		if _freeze <= 0.0:
 			_animate_sprite(moved)
 	else:
@@ -373,6 +387,8 @@ func _animate_sprite(moved: bool) -> void:
 		Fighter.State.ATTACK:
 			var move := fighter.move
 			_warning.visible = move.telegraph and fighter.state_tick < move.startup
+			# The guard shows while a counter stance is open, so it can be read.
+			_shield.visible = CounterRules.open(fighter)
 			var anim := _pick(move.anim)
 			_show(anim)
 			var count := _sprite.sprite_frames.get_frame_count(anim)
@@ -396,6 +412,16 @@ func _animate_sprite(moved: bool) -> void:
 		Fighter.State.GUARD:
 			_set_frame_by_progress("idle", 0.0)
 			_shield.visible = true
+		Fighter.State.GRAB:
+			_set_frame_by_progress("lift", float(fighter.state_tick) / LIFT_TICKS)
+		Fighter.State.HELD:
+			# Carried over the holder's head, on their side, face up.
+			_set_frame_by_progress("hurt", 0.0)
+			var rise := minf(1.0, float(fighter.state_tick) / LIFT_TICKS)
+			_sprite.rotation = -PI / 2 * fighter.facing * rise
+			var reach := fighter.facing * (GrabRules.HOLD_GAP + HELD_REACH)
+			_home = Vector2(reach, -HELD_RISE) * rise
+			_sprite.position = _home
 		_:
 			_play("walk" if moved and _has("walk") else "idle")
 
@@ -468,6 +494,8 @@ func _pose_polygons() -> void:
 				_body.modulate.a = 0.45
 		Fighter.State.GUARD:
 			_shield.visible = true
+		Fighter.State.HELD:
+			_body.rotation = -PI / 2 * fighter.facing
 
 
 func _pose_attack() -> void:
