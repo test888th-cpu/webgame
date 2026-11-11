@@ -110,6 +110,7 @@ func enter_area(area_id: String, entry: String, start_x := -1.0) -> void:
 		area_id = AreaRules.hub(content)
 		entry = ""
 	if zone:
+		UltimateRules.carry(profile, zone.hero)
 		_street_weapons[zone.area_id] = zone.ground_weapons.duplicate(true)
 		if zone.collect_all() > 0:
 			_hud.toast("Picked up what was left on the ground")

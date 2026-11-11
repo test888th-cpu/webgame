@@ -5,7 +5,7 @@ extends RefCounted
 ## for the backend in Milestone 4, when the server becomes the only writer.
 ## Temporary combat state (position, energy, cooldowns) never lives here.
 
-const SAVE_VERSION := 11
+const SAVE_VERSION := 12
 ## The hero version 11 retired, and the one their saves continue as.
 const RETIRED_HERO := "pong"
 const RETIRED_HERO_HEIR := "kan"
@@ -58,6 +58,9 @@ var tutorial := 0
 ## How many times the current step's action was done. Not saved: a step is
 ## short enough to redo after a reload.
 var tutorial_progress := 0
+## The ultimate gauge as the hero left the last area (UltimateRules.carry):
+## kept between areas while playing, never saved.
+var gauge := 0.0
 ## Upgrade level per copy ("<item id>#<n>" key; EnhanceRules; it stays with
 ## the copy when taken off), and failed attempts since that copy's last
 ## success (each raises the next chance).
@@ -529,6 +532,13 @@ static func migrate(data: Dictionary) -> Dictionary:
 				migrated["name"] = "Pong"
 			migrated["hotbar"] = []
 		migrated["version"] = 11
+	if int(migrated["version"]) == 11:
+		# Version 12 teaches grabbing after the weapon throw: a save already
+		# past that point keeps its place (or stays finished).
+		var step: Variant = migrated.get("tutorial", 0)
+		if (step is int or step is float) and int(step) >= TutorialRules.GRAB_STEP:
+			migrated["tutorial"] = int(step) + 1
+		migrated["version"] = 12
 	return migrated
 
 

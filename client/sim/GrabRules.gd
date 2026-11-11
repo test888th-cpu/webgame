@@ -10,7 +10,8 @@ extends RefCounted
 ## Fair by rule: a hold ends by itself, a hit on the holder frees the foe, a
 ## held fighter with stun protection (a player) shakes free faster by
 ## pressing buttons, nobody can be grabbed again for REGRAB_TICKS, and what
-## cannot be held (a boss; anyone inside that window) is only shoved.
+## cannot be held (a boss or mini-boss; anyone inside that window) is only
+## shoved. Only ordinary monsters and players are ever held or thrown.
 ##
 ## A skill may open with a grab too (skills.json "grab": its own "throw",
 ## "crash", "shove" and "hold", and optionally a "squeeze" move dealt every
@@ -70,13 +71,14 @@ static func wants(f: Fighter, input: FighterInput) -> bool:
 	return not f.grab.is_empty() and (input.grab or (input.pick and f.weapon == ""))
 
 
-## Whether `defender` can be held (else a grab only shoves them).
+## Whether `defender` can be held (else a grab only shoves them): ordinary
+## monsters and players can; bosses and mini-bosses never.
 static func can_hold(defender: Fighter) -> bool:
-	return not defender.unshaken and defender.grab_guard == 0
+	return not (defender.ungrabbable or defender.unshaken) and defender.grab_guard == 0
 
 
 ## Ticks `holder` holds `defender`: its job's hold, halved on a foe with
-## poise (elites and mini-bosses).
+## poise (the tougher ordinary monsters).
 static func hold_ticks(holder: Fighter, defender: Fighter) -> int:
 	var ticks := int(holder.grab.get("hold", MIN_HOLD))
 	ticks = roundi(ticks * (1.0 + PassiveRules.bonus(holder, "hold")))

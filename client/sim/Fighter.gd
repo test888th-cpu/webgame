@@ -64,6 +64,9 @@ var skills := {}
 ## the ticks in which this fighter cannot be grabbed again. A thrown body
 ## remembers who threw it and whom it has already knocked into.
 var grab := {}
+## Never held or thrown: bosses and mini-bosses (enemies.json "boss" or
+## "elite"). A grab on them lands as a shove.
+var ungrabbable := false
 var holding := 0
 var held_by := 0
 var grab_guard := 0

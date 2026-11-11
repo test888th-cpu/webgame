@@ -64,8 +64,9 @@ func test_auto_plays_the_first_stage_from_a_new_game() -> void:
 	seed(11)
 	var game := _game()
 	var profile: PlayerProfile = game.profile
-	# A level's margin: this checks the quest flow, not the first boss's odds.
-	profile.level = 6
+	# A margin of levels: this checks the quest flow, not the first boss's odds
+	# (the Grappler's grabs only shove a boss, so his run to it is the closest).
+	profile.level = 8
 	game.enter_area("depot_yard", "west")
 	game.auto.toggle()
 	assert_true(game.auto.on, "auto starts where the first quest is given")

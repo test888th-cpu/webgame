@@ -36,6 +36,12 @@ static func on_hit(attacker: Fighter, defender: Fighter, event: CombatEvent) -> 
 		_fill(defender, share * float(defender.gauge_rates.get("per_hurt", 0.0)))
 
 
+## The hero leaves an area: the gauge goes with them to the next one. It is
+## not part of a save, so loading a game starts it empty.
+static func carry(profile: PlayerProfile, hero: Fighter) -> void:
+	profile.gauge = clampf(hero.gauge, 0.0, FULL)
+
+
 static func _fill(f: Fighter, amount: float) -> void:
 	f.gauge = clampf(f.gauge + amount, 0.0, FULL)
 

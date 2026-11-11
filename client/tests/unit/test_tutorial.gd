@@ -108,3 +108,39 @@ func _texts(root: Node) -> String:
 	for label: Label in root.find_children("*", "Label", true, false):
 		parts.append(label.text)
 	return " | ".join(parts)
+
+
+func test_grabbing_the_dummy_is_a_step_of_its_own() -> void:
+	var c := ContentDB.load_all()
+	var ids := []
+	for step: Dictionary in c.tutorial:
+		ids.append(str(step["id"]))
+	assert_eq(ids.find("grab"), TutorialRules.GRAB_STEP, "taught right after the weapon throw")
+	assert_eq(ids[TutorialRules.GRAB_STEP - 1], "throw", "when the hands are empty again")
+	var zone := ZoneSim.new(c, PlayerProfile.new_game(c, "riku"), "depot_yard", "", 1)
+	var dummy: Fighter = zone.enemies()[0]
+	zone.hero.position = dummy.position - Vector2(18, 0)
+	zone.hero.facing = 1
+	var seen := false
+	for t in 20:
+		var input := FighterInput.new()
+		input.grab = t == 0
+		var events := zone.tick(input)
+		seen = seen or "grab" in TutorialRules.signals_for(events, zone.hero, input, c.moves)
+	assert_true(seen, "holding the dummy is the grab signal")
+	assert_eq(dummy.state, Fighter.State.HELD, "the training dummy can be held")
+
+
+func test_older_saves_keep_their_place_around_the_new_step() -> void:
+	var c := ContentDB.load_all()
+	var base := PlayerProfile.new_game(c).to_dict()
+	base["version"] = 11
+	var cases := {3: 3, 7: 7, 8: 9, 9: 10}
+	for old: int in cases:
+		var data := base.duplicate(true)
+		data["tutorial"] = old
+		var loaded := PlayerProfile.from_dict(data, c)
+		assert_eq(loaded.tutorial, cases[old], "step %d of the old tutorial" % old)
+	var finished := base.duplicate(true)
+	finished["tutorial"] = 9
+	assert_true(TutorialRules.is_done(PlayerProfile.from_dict(finished, c), c), "finished stays so")
