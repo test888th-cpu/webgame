@@ -70,6 +70,7 @@ func test_a_thrown_body_flies_evenly_then_slams_down_once() -> void:
 	assert_true(away <= GrabRules.MAX_THROW_BODIES + 0.01, "no farther than 3 bodies (%.1f)" % away)
 	assert_eq(body.knockback_remaining, 0.0, "and stays where it fell")
 	assert_eq(body.state, Fighter.State.DOWN, "on the ground")
+	assert_eq(body.state_tick, 11, "down since it landed, not since it was thrown")
 
 
 func test_no_throw_sends_a_body_flying_far() -> void:

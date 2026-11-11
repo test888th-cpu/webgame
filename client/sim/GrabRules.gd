@@ -83,6 +83,10 @@ static func tick(
 			if f.airborne == 0:
 				f.landed = true
 				f.knockback_remaining = 0.0
+				# Floored from the moment it hits the street, not from the
+				# throw: the time in the air is no time spent down.
+				if f.state == Fighter.State.DOWN:
+					f.enter(Fighter.State.DOWN)
 	return events
 
 
