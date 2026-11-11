@@ -39,8 +39,9 @@ Owner's requests (2026-11-11).
   screen fits five cards.
 - Balance, measured: the Grappler (Oren) on auto battle, three minutes on the Core
   Overflow farming ground at its level, 16 seeds. Before: 5 knock-outs, 461 kills.
-  Short throws alone: 6 knock-outs, 414 kills; with the landing impact: 5 knock-outs,
-  412 kills (about 10% fewer kills, the same survival).
+  Short throws alone: 6 knock-outs, 414 kills. Final (landing impact, and a slammed foe
+  stays down for the full knockdown from the moment it lands, not from the throw):
+  5 knock-outs, 452 kills.
 
 ### Added: the tutorial teaches grabbing; the ultimate gauge follows the hero
 - **Tutorial:** a new step after the weapon throw has the player grab the training dummy
