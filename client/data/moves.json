@@ -1751,8 +1751,8 @@
     },
     "grab_release": {
       "startup": 2,
-      "active": 1,
-      "recovery": 14,
+      "active": 8,
+      "recovery": 7,
       "damage": 0,
       "hitstun": 0,
       "knockback": 0,

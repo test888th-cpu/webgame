@@ -7,6 +7,9 @@ const TEST_SAVE := "user://test_auto_home_save"
 
 
 func _game() -> Node2D:
+	# Game scatters each area's street weapons from the global generator, and
+	# auto may stop for one: fixed, so a run repeats exactly.
+	seed(7)
 	SaveStore.root = TEST_SAVE
 	SaveStore.delete_all()
 	GameSession.start_new_game("oren")
@@ -55,7 +58,7 @@ func test_home_rests_in_place_and_walks_next_door() -> void:
 
 func test_a_poor_hurt_hero_in_the_yard_is_not_sent_to_the_city() -> void:
 	var game := _game()
-	var seen := _auto(game, "depot_yard", 3000, true)
+	var seen := _auto(game, "depot_yard", 6000, true)
 	assert_true("main_city" not in seen, "no trip to the city: %s" % [seen])
 	assert_true(game.auto.on, "auto keeps going")
 	assert_true("saltmarket" in seen, "rested in the yard, then on east")
@@ -67,7 +70,7 @@ func test_from_the_city_auto_walks_into_the_yard_and_on() -> void:
 	var money: int = game.profile.money
 	var step := StoryAuto.step(game.profile, game.content, "main_city", true)
 	assert_eq(step["do"], StoryAuto.EAST, "the yard is next door: walk")
-	var seen := _auto(game, "main_city", 4000)
+	var seen := _auto(game, "main_city", 6000)
 	assert_eq(seen, ["main_city", "depot_yard", "saltmarket"] as Array[String], "on foot")
 	assert_true(game.profile.money >= money, "no fare paid")
 	_done(game)

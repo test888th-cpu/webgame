@@ -28,7 +28,10 @@ Owner's requests (2026-11-11).
     (`GrabRules.STEP_LENGTH` over `STEP_TICKS`; no throw before the step is taken,
     a throw pressed sooner waits for it), tossed forward (throw) flat as it was
     carried, landing face down with its head towards the thrower, lying there
-    1.5 s, then getting up. Every hold now lasts at least `READY_TICKS` + 1;
+    1.5 s, then getting up. Every hold now lasts at least `READY_TICKS` + 1. The
+    thrower's release (17 ticks, unchanged) holds the one-handed toss frame for the
+    first half of the flight, then LPC's thrust frame 5 (borrowed whole into the
+    throw row of every LPC character, `art/lpc/characters.json`; no edited frames);
   - *body slam* (Backbreaker, Crushing Hold): lifted to the chest, slammed down
     ahead;
   - *piledriver* (the Grappler's Ground Slam and Titan Destruction): hung upside down
