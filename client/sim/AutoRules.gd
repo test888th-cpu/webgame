@@ -30,7 +30,10 @@ static func problem(
 	if AreaRules.kind(content, area_id) == AreaRules.LAIR:
 		if not AreaRules.unlocked(profile, content, area_id):
 			return "This lair is not open yet."
+	# Fights to win, or a living field to hunt (a lair's camps and its mini-boss).
 	if not content.area(area_id).get("encounters", []).is_empty():
+		return ""
+	if FarmSpawner.active(content, area_id):
 		return ""
 	var world := bool(content.area(area_id).get("world_boss", false))
 	if story and not world:

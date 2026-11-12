@@ -443,8 +443,7 @@
         "hold": 12,
         "throw": "power_throw_hit",
         "crash": "power_throw_crash",
-        "shove": "power_throw_shove",
-        "pose": "overhead"
+        "shove": "power_throw_shove"
       },
       "profiles": {
         "pve": {},
@@ -470,8 +469,7 @@
       "grab": {
         "hold": 16,
         "throw": "backbreaker_hit",
-        "shove": "backbreaker_shove",
-        "pose": "body_slam"
+        "shove": "backbreaker_shove"
       },
       "profiles": {
         "pve": {},
@@ -500,8 +498,7 @@
       "grab": {
         "hold": 16,
         "throw": "ground_slam_hit",
-        "shove": "ground_slam_shove",
-        "pose": "piledriver"
+        "shove": "ground_slam_shove"
       },
       "profiles": {
         "pve": {},
@@ -528,8 +525,7 @@
         "hold": 10,
         "throw": "crowd_toss_hit",
         "crash": "crowd_toss_crash",
-        "shove": "crowd_toss_shove",
-        "pose": "overhead"
+        "shove": "crowd_toss_shove"
       },
       "profiles": {
         "pve": {},
@@ -557,8 +553,7 @@
         "squeeze": "crushing_hold_squeeze",
         "every": 12,
         "throw": "crushing_hold_drop",
-        "shove": "crushing_hold_shove",
-        "pose": "body_slam"
+        "shove": "crushing_hold_shove"
       },
       "profiles": {
         "pve": {},
@@ -625,8 +620,7 @@
         "hold": 30,
         "throw": "titan_slam",
         "crash": "titan_crash",
-        "shove": "titan_shove",
-        "pose": "piledriver"
+        "shove": "titan_shove"
       },
       "profiles": {
         "pve": {},

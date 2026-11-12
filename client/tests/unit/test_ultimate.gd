@@ -181,8 +181,13 @@ func test_a_skill_grab_throws_by_itself_and_the_skill_goes_on() -> void:
 	var moves := []
 	for hit in hits:
 		moves.append(hit.move_id)
-	assert_eq(moves, ["ground_slam_hit", "ground_slam_wave"], "the slam, then its wave")
-	assert_eq(hits[1].defender_id, 3, "the wave floors the foe standing behind")
+	moves.sort()
+	assert_eq(moves, ["ground_slam_hit", "ground_slam_wave"], "the slam and its wave")
+	for hit in hits:
+		# The slam lands when the thrown foe hits the street; the wave goes out
+		# from the Grappler's feet meanwhile and floors the foe behind.
+		var want := 2 if hit.move_id == "ground_slam_hit" else 3
+		assert_eq(hit.defender_id, want, hit.move_id + " lands on its foe")
 	assert_eq(fighters[0].state, Fighter.State.IDLE, "the Grappler is free again")
 	assert_eq(fighters[1].held_by, 0, "and the foe let go")
 

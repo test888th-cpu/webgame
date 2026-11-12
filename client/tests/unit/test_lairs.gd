@@ -154,6 +154,19 @@ func test_a_lair_mini_boss_is_beaten_at_the_lair_level() -> void:
 	assert_true(int(profile.defeated.get(boss.kind, 0)) > 0, "counted down")
 
 
+func test_auto_battle_hunts_a_lair_after_the_story() -> void:
+	var c := _content()
+	var profile := _hero(70)
+	for quest_id: String in c.quests:
+		profile.quests[quest_id] = {"state": "turned_in", "progress": 1}
+	for enemy_id: String in c.enemies:
+		if c.enemy(enemy_id).get("boss", false):
+			profile.defeated[enemy_id] = 1
+	assert_eq(StoryAuto.step(profile, c, "main_city", true)["do"], StoryAuto.DONE, "story over")
+	for lair_id in AreaRules.lairs(c):
+		assert_eq(AutoRules.problem(profile, c, lair_id), "", lair_id + ": its field to hunt")
+
+
 func test_the_validator_keeps_a_lair_a_field_with_a_mini_boss() -> void:
 	var copy := ContentDB.load_all()
 	var lair: Dictionary = copy.areas["spillway_gatehouse"]
