@@ -4,6 +4,11 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Docs: the lair mini-bosses stay hard (owner's decision D16, 2026-11-12)
+- `docs/BLUEPRINT.md` D16: the lairs' mini-bosses are not made easier. Measured against
+  all five heroes at the lair's level in shop gear with food, they win 0 to 6 fights in
+  10; that is intended: players buy potions, find better gear and upgrade it first.
+
 ### Changed: one standard throw, damage on landing; the Grappler's auto battle and damage
 Owner's requests (2026-11-11).
 - **One throw:** the shoulder toss for every grab and grab skill; the body slam and
