@@ -4,7 +4,11 @@ extends RefCounted
 ## them as a player would: how hard a skill hits in all (a grab on a boss or
 ## mini-boss only shoves, so it is worth only its shove), which skills are
 ## counter stances (answers to an attack, never openers), which only brace
-## the hero, and which need a full gauge. Reads the same data the rules use.
+## the hero, which need a full gauge, and how a combo route weighs a skill.
+## Reads the same data the rules use.
+
+const LINK_WEIGHT := 3.0
+const OPENER_WEIGHT := 1.3
 
 
 ## Damage of all of `skill`'s blows together on `target` (a Fighter.skills
@@ -69,3 +73,21 @@ static func brace(content: ContentDB, hero: Fighter) -> String:
 		if hero.energy >= first.energy_cost and not hero.stacks.has("buff:" + skill_id):
 			return skill_id
 	return ""
+
+
+## How much auto battle favours `skill_id` for combos (ComboRules): the next
+## skill of a route the hero is on counts LINK_WEIGHT times; the first skill
+## of a route whose other skills are ready, OPENER_WEIGHT times.
+static func combo_weight(hero: Fighter, skill_id: String) -> float:
+	if skill_id in ComboRules.next_links(hero):
+		return LINK_WEIGHT
+	for route: Dictionary in hero.combos:
+		var links: Array = route["links"]
+		if str(links[0]) != skill_id:
+			continue
+		var ready := true
+		for later: Variant in links.slice(1):
+			ready = ready and hero.skills.has(later) and hero.cooldown_left(str(later)) == 0
+		if ready:
+			return OPENER_WEIGHT
+	return 1.0

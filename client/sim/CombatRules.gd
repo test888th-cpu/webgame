@@ -142,6 +142,8 @@ static func _step(f: Fighter, input: FighterInput, library: MoveLibrary, bounds:
 	f.state_tick += 1
 	if not f.stacks.is_empty():
 		PassiveRules.tick(f)
+	if f.combo_timer > 0 or f.hit_chain_timer > 0:
+		ComboRules.tick(f)
 	if f.grace > 0:
 		f.grace -= 1
 	if f.armor > 0:
@@ -243,6 +245,7 @@ static func damage_for(move: MoveData, attacker: Fighter, defender: Fighter) -> 
 	var scale := 1.0 + PassiveRules.bonus(attacker, "damage", move, defender)
 	if attacker.move == move or move.slam:
 		scale *= SkillSequence.scale(attacker, "damage")
+	scale *= 1.0 + ComboRules.bonus(attacker, move)
 	return maxi(1, roundi(move.damage * attacker.power * scale) - defender.defense)
 
 
@@ -263,6 +266,7 @@ static func start_skill(f: Fighter, skill_id: String, library: MoveLibrary) -> b
 	f.cooldowns[skill_id] = int(skill["cooldown"])
 	f.skill_id = skill_id
 	PassiveRules.on_event(f, PassiveRules.SKILL_EVENT + skill_id)
+	ComboRules.on_skill(f, skill_id)
 	return true
 
 
@@ -457,6 +461,8 @@ static func _apply_hit(
 		defender.facing = -int(away)
 		PassiveRules.on_event(attacker, "hit")
 		PassiveRules.on_event(defender, "hurt")
+		ComboRules.on_hit(attacker, move)
+		ComboRules.on_hurt(defender)
 	defender.hp = maxi(0, defender.hp - event.damage)
 	UltimateRules.on_hit(attacker, defender, event)
 	if defender.hp == 0:

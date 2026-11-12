@@ -65,6 +65,10 @@ func on_event(event: ZoneEvent) -> void:
 			Sfx.play("dodge", -4.0)
 		"slam":
 			_slam(int(event.data["id"]), event.data["at"])
+		"combo":
+			if int(event.data["id"]) == ZoneSim.HERO_ID:
+				hud.show_combo(str(event.data["name"]))
+				Sfx.play("level_up", -10.0, 0.1)
 		"pickup":
 			# Quiet and short: coins are picked up all the time.
 			if event.data["kind"] == "money":

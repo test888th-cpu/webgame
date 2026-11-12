@@ -24,9 +24,13 @@ var cooldown := 0.0
 var seconds_left := 0.0
 var no_energy := false
 var locked_level := 0
+## The next skill of a combo route the hero is on (ComboRules.next_links):
+## a pulsing gold rim says "press me now".
+var linked := false
 ## Item count, or -1 for slots that are not items.
 var count := -1
 
+var _pulse := 0.0
 var _ready_flash := 0.0
 var _press_flash := 0.0
 var _deny_flash := 0.0
@@ -61,6 +65,9 @@ func flash(accepted: bool) -> void:
 
 
 func _process(delta: float) -> void:
+	if linked:
+		_pulse = fmod(_pulse + delta, 0.6)
+		queue_redraw()
 	if _ready_flash > 0.0 or _press_flash > 0.0 or _deny_flash > 0.0:
 		_ready_flash = maxf(0.0, _ready_flash - delta)
 		_press_flash = maxf(0.0, _press_flash - delta)
@@ -112,6 +119,9 @@ func _draw() -> void:
 		var color := UiTheme.TEXT if count > 0 else UiTheme.DANGER
 		_text(str(count), inner, HORIZONTAL_ALIGNMENT_RIGHT, 7, color, 1.0)
 	_text(key, Rect2(inner.position + Vector2(1, 0), inner.size), 0, 7, UiTheme.TEXT_DIM, 0.36)
+	if linked and not unusable and cooldown <= 0.0:
+		var glow := 0.55 + 0.45 * absf(sin(_pulse / 0.6 * PI))
+		draw_rect(rect.grow(-1), Color(UiTheme.GOLD, glow), false, 2.0)
 	if _ready_flash > 0.0:
 		draw_rect(rect.grow(-1), Color(1, 1, 1, _ready_flash / 0.35), false, 2.0)
 	if _press_flash > 0.0:

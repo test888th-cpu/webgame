@@ -186,6 +186,8 @@ static func _reach(
 		ticks = int(plan.get("hold", ticks))
 	# Always long enough to lift, step and throw.
 	ticks = maxi(ticks, READY_TICKS + 1)
+	ComboRules.on_hold(f)
+	ComboRules.on_hurt(target)
 	f.enter(Fighter.State.GRAB, ticks)
 	f.grab_plan = plan
 	f.holding = target.id

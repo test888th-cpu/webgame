@@ -443,6 +443,9 @@ func _pick_skill(zone: ZoneSim, foes: Array[Fighter], target: Fighter) -> String
 		var skill: Dictionary = hero.skills[skill_id]
 		var move := _content.moves.get_move(str(skill["move"]))
 		var power := AutoSkills.power(_content, hero, skill, target)
+		# The next skill of a combo route: worth it, whatever it holds or costs.
+		var combo := AutoSkills.combo_weight(hero, skill_id)
+		var link := combo >= AutoSkills.LINK_WEIGHT
 		# Stances answer an attack (_defend); a skill with no blow braces (_fight).
 		if move == null or move.counter or power <= 0.0 or not UltimateRules.ready(hero, skill):
 			continue
@@ -452,7 +455,10 @@ func _pick_skill(zone: ZoneSim, foes: Array[Fighter], target: Fighter) -> String
 		if GrabRules.barred(hero, move):  # No grab with a weapon in hand.
 			continue
 		# A hold costs time; on a foe who cannot be held a grab is a quick shove.
-		if move.grab and GrabRules.can_hold(target) and not _grab_pays(zone, foes, target):
+		# A route's first grab pays too, paced like any grab.
+		var opens := combo > 1.0 and zone.tick_count - _grab_at >= GRAB_GAP_TICKS
+		var pays := link or opens or _grab_pays(zone, foes, target)
+		if move.grab and GrabRules.can_hold(target) and not pays:
 			continue
 		var facing := _skill_facing(zone, foes, target, skill_id)
 		var hits := 0
@@ -472,9 +478,9 @@ func _pick_skill(zone: ZoneSim, foes: Array[Fighter], target: Fighter) -> String
 		if hero.energy < move.energy_cost + reserve:
 			continue
 		var big := int(skill["cooldown"]) >= BIG_SKILL_COOLDOWN or UltimateRules.cost(skill) > 0.0
-		if big and weight < 3.0:
+		if big and weight < 3.0 and not link:
 			continue
-		var score := weight * power
+		var score := weight * power * combo
 		if score > best_score:
 			best_score = score
 			best = skill_id

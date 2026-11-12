@@ -61,6 +61,47 @@
         "critical_focus",
         "precision_impact",
         "knockout_devastation"
+      ],
+      "skill_combos": [
+        {
+          "id": "one_two",
+          "name": "One-Two",
+          "description": "Power Jab, then Heavy Cross while the foe still reels.",
+          "links": [
+            "power_jab",
+            "heavy_cross"
+          ],
+          "unlock_level": 3,
+          "window": 120,
+          "bonus": 0.7,
+          "gauge": 8,
+          "profiles": {
+            "pve": {},
+            "pvp": {
+              "damage": 0.5
+            }
+          }
+        },
+        {
+          "id": "knockout_sequence",
+          "name": "Knockout Sequence",
+          "description": "Body Blow to drop the guard, Power Jab to set it up, then the Knockout Combo.",
+          "links": [
+            "body_blow",
+            "power_jab",
+            "knockout_combo"
+          ],
+          "unlock_level": 30,
+          "window": 120,
+          "bonus": 0.3,
+          "gauge": 15,
+          "profiles": {
+            "pve": {},
+            "pvp": {
+              "damage": 0.5
+            }
+          }
+        }
       ]
     },
     "brawler": {
@@ -96,6 +137,47 @@
         "pain_resistance",
         "berserk_momentum",
         "street_carnage"
+      ],
+      "skill_combos": [
+        {
+          "id": "hammer_time",
+          "name": "Hammer Time",
+          "description": "Rapid Punch to pin the foe, then Double Smash.",
+          "links": [
+            "rapid_punch",
+            "double_smash"
+          ],
+          "unlock_level": 3,
+          "window": 120,
+          "bonus": 0.6,
+          "gauge": 8,
+          "profiles": {
+            "pve": {},
+            "pvp": {
+              "damage": 0.5
+            }
+          }
+        },
+        {
+          "id": "street_riot",
+          "name": "Street Riot",
+          "description": "Rapid Punch, Brutal Rush through the line, then a Backhand Smash for whoever is left around you.",
+          "links": [
+            "rapid_punch",
+            "brutal_rush",
+            "backhand_smash"
+          ],
+          "unlock_level": 30,
+          "window": 120,
+          "bonus": 0.85,
+          "gauge": 15,
+          "profiles": {
+            "pve": {},
+            "pvp": {
+              "damage": 0.5
+            }
+          }
+        }
       ]
     },
     "grappler": {
@@ -131,6 +213,47 @@
         "unbreakable_hold",
         "heavy_impact",
         "titan_destruction"
+      ],
+      "skill_combos": [
+        {
+          "id": "lift_and_drop",
+          "name": "Lift and Drop",
+          "description": "Iron Grip and a throw, then Backbreaker when they are back on their feet.",
+          "links": [
+            "iron_grip",
+            "backbreaker"
+          ],
+          "unlock_level": 3,
+          "window": 180,
+          "bonus": 0.3,
+          "gauge": 8,
+          "profiles": {
+            "pve": {},
+            "pvp": {
+              "damage": 0.5
+            }
+          }
+        },
+        {
+          "id": "wrecking_crew",
+          "name": "Wrecking Crew",
+          "description": "Power Throw, Crowd Toss, then a Crushing Hold on whoever gets up first.",
+          "links": [
+            "power_throw",
+            "crowd_toss",
+            "crushing_hold"
+          ],
+          "unlock_level": 30,
+          "window": 180,
+          "bonus": 0.4,
+          "gauge": 15,
+          "profiles": {
+            "pve": {},
+            "pvp": {
+              "damage": 0.5
+            }
+          }
+        }
       ]
     },
     "counter": {
@@ -166,6 +289,47 @@
         "combat_awareness",
         "retaliation",
         "absolute_retribution"
+      ],
+      "skill_combos": [
+        {
+          "id": "slip_and_punish",
+          "name": "Slip and Punish",
+          "description": "Slip Punch past the attack, then a Precision Blow on the reeling foe.",
+          "links": [
+            "slip_punch",
+            "precision_blow"
+          ],
+          "unlock_level": 3,
+          "window": 120,
+          "bonus": 0.35,
+          "gauge": 8,
+          "profiles": {
+            "pve": {},
+            "pvp": {
+              "damage": 0.5
+            }
+          }
+        },
+        {
+          "id": "perfect_retort",
+          "name": "Perfect Retort",
+          "description": "Perfect Parry a blow, Slip Punch in, then a Precision Blow while they reel.",
+          "links": [
+            "perfect_parry",
+            "slip_punch",
+            "precision_blow"
+          ],
+          "unlock_level": 30,
+          "window": 120,
+          "bonus": 1.0,
+          "gauge": 15,
+          "profiles": {
+            "pve": {},
+            "pvp": {
+              "damage": 0.5
+            }
+          }
+        }
       ]
     },
     "striker": {
@@ -201,6 +365,47 @@
         "flow_state",
         "combo_mastery",
         "million_fist_onslaught"
+      ],
+      "skill_combos": [
+        {
+          "id": "flurry",
+          "name": "Flurry",
+          "description": "Quick Jab into Triple Punch without letting up.",
+          "links": [
+            "quick_jab",
+            "triple_punch"
+          ],
+          "unlock_level": 3,
+          "window": 120,
+          "bonus": 1.0,
+          "gauge": 8,
+          "profiles": {
+            "pve": {},
+            "pvp": {
+              "damage": 0.5
+            }
+          }
+        },
+        {
+          "id": "chain_reaction",
+          "name": "Chain Reaction",
+          "description": "Quick Jab, Dash Strike after them, then the Chain Breaker.",
+          "links": [
+            "quick_jab",
+            "dash_strike",
+            "chain_breaker"
+          ],
+          "unlock_level": 30,
+          "window": 120,
+          "bonus": 0.9,
+          "gauge": 15,
+          "profiles": {
+            "pve": {},
+            "pvp": {
+              "damage": 0.5
+            }
+          }
+        }
       ]
     }
   }

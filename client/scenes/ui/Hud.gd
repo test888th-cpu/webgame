@@ -26,6 +26,10 @@ signal quest_pressed
 
 ## How long "GO >>" blinks after a cleared fight.
 const GO_SECONDS := 4.0
+## A hit chain shows from this many blows; a completed combo's name stays up
+## this long.
+const CHAIN_SHOWN := 3
+const COMBO_SECONDS := 1.6
 const TOAST_SECONDS := 2.4
 const BAR_WIDTH := 118.0
 ## The menu bar's buttons: screen id, icon, tooltip.
@@ -78,6 +82,11 @@ var _hotbar: Hotbar
 var _weapon: WeaponBadge
 var _vignette: TextureRect
 var _hurt := 0.0
+## The hit chain ("12 HITS") and the name of a combo route just completed,
+## at the right edge under "GO".
+var _chain: Label
+var _combo: Label
+var _combo_left := 0.0
 var _banner: VBoxContainer
 var _banner_level: Label
 var _banner_detail: Label
@@ -110,6 +119,7 @@ func _ready() -> void:
 	_build_toast(root)
 	_build_banner(root)
 	_build_go(root)
+	_build_chain(root)
 	_build_hints(root)
 	_build_auto(root)
 	root.add_child(pickups)
@@ -178,10 +188,14 @@ func level_up(level: int, unlocked: Array) -> void:
 	var names: Array[String] = []
 	for skill_id: String in unlocked:
 		names.append(str(content.skills[skill_id]["name"]))
-	_banner_detail.text = (
-		"New skill: " + ", ".join(names) if names else "Max HP and damage increased"
-	)
-	_show_banner(2.6)
+	var lines: Array[String] = []
+	if names:
+		lines.append("New skill: " + ", ".join(names))
+	for route: Dictionary in ComboRules.routes(content, profile.hero):
+		if int(route["unlock_level"]) == level:
+			lines.append("New combo: %s (see Skills, V)" % route["name"])
+	_banner_detail.text = "\n".join(lines) if lines else "Max HP and damage increased"
+	_show_banner(3.2 if lines.size() > 1 else 2.6)
 
 
 func _show_banner(seconds: float) -> void:
@@ -205,6 +219,10 @@ func _process(delta: float) -> void:
 	if _go_left > 0.0:
 		_go_left -= delta
 		_go.visible = _go_left > 0.0 and fmod(_go_left, 0.6) > 0.2
+	if _combo_left > 0.0:
+		_combo_left -= delta
+		_combo.modulate.a = clampf(_combo_left / 0.4, 0.0, 1.0)
+		_combo.visible = _combo_left > 0.0
 	_hurt = maxf(0.0, _hurt - delta)
 	_vignette.modulate.a = clampf(_hurt / 0.35, 0.0, 1.0) * 0.8
 	if _banner_left > 0.0:
@@ -228,6 +246,9 @@ func _process(delta: float) -> void:
 	_hp.set_values(hero.hp, hero.max_hp)
 	_energy.set_values(hero.energy, CombatRules.MAX_ENERGY)
 	_gauge.set_values(hero.gauge, UltimateRules.FULL)
+	_chain.visible = hero.hit_chain >= CHAIN_SHOWN
+	if _chain.visible:
+		_chain.text = "%d HITS" % hero.hit_chain
 	_xp.set_values(profile.xp, profile.xp_to_next(content))
 	_money.text = str(profile.money)
 	_weapon.show_weapon(content, hero.weapon, hero.weapon_uses)
@@ -570,6 +591,36 @@ func _build_go(root: Control) -> void:
 func show_go(on := true) -> void:
 	_go_left = GO_SECONDS if on else 0.0
 	_go.visible = on
+
+
+func _build_chain(root: Control) -> void:
+	_chain = UiKit.overlay_label("", UiTheme.SIZE_H1, UiTheme.TEXT)
+	_chain.name = "HitChain"
+	_chain.add_theme_constant_override("outline_size", 5)
+	_chain.set_anchors_preset(Control.PRESET_CENTER_RIGHT)
+	_chain.offset_left = -150
+	_chain.offset_right = -14
+	_chain.offset_top = 24
+	_chain.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	_chain.visible = false
+	root.add_child(_chain)
+	_combo = UiKit.overlay_label("", UiTheme.SIZE_H1, UiTheme.GOLD)
+	_combo.name = "ComboName"
+	_combo.add_theme_constant_override("outline_size", 6)
+	_combo.set_anchors_preset(Control.PRESET_CENTER_RIGHT)
+	_combo.offset_left = -220
+	_combo.offset_right = -14
+	_combo.offset_top = 46
+	_combo.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	_combo.visible = false
+	root.add_child(_combo)
+
+
+## Names a combo route the hero just completed, for a moment.
+func show_combo(route_name: String) -> void:
+	_combo.text = "%s!" % route_name.to_upper()
+	_combo_left = COMBO_SECONDS
+	_combo.visible = true
 
 
 func _build_banner(root: Control) -> void:

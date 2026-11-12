@@ -4,6 +4,27 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added: skill combos for every job (owner's request, 2026-11-12)
+- **Two combo routes per job** (`client/data/jobs.json` `skill_combos`, `ComboRules`): one
+  of two skills from level 3, one of three from level 30. Use a route's skills in order,
+  each within 2 s of the last landing (3 s for the Grappler, whose thrown foes stay down
+  longer): the last skill hits harder and the ultimate gauge gains 8 or 15. A miss, a
+  stance nobody hits, a pause or a blow taken breaks the chain. Routes: One-Two and
+  Knockout Sequence (Boxer), Hammer Time and Street Riot (Brawler), Lift and Drop and
+  Wrecking Crew (Grappler), Slip and Punish and Perfect Retort (Counter Fighter), Flurry
+  and Chain Reaction (Street Striker).
+- **Balanced by the whole route's damage** (with each hero's power): 77 to 80 for the
+  first routes, 123 to 140 for the second; the bonus on the last skill differs per job
+  (30% to 100%) to get there. PvP profiles halve the bonus.
+- **Shown to the player:** the next skill of a route pulses gold on the hotbar; a hit
+  counter ("12 HITS") and the route's name when completed appear at the right; the Skills
+  screen lists the routes; the level-up banner names a new route.
+- **Auto battle** follows routes (the next skill weighs three times as much, a route's
+  opener 1.3 times) and may grab to open or continue one.
+- Measured with auto battle (4 farming grounds, 4 seeds, against main before): kills per
+  hour +4% to +12% for every hero, damage taken lower for four of five.
+- Design, architecture and measurements: `docs/SKILL_COMBO_DESIGN.md`.
+
 ### Changed: one standard throw, damage on landing; the Grappler's auto battle and damage
 Owner's requests (2026-11-11).
 - **One throw:** the shoulder toss for every grab and grab skill; the body slam and

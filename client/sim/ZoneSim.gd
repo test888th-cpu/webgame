@@ -173,6 +173,7 @@ func refresh_hero() -> void:
 	hero.attack_speed = stats["attack_speed"]
 	hero.skills = SkillRules.unlocked(content, profile.hero, profile.level)
 	hero.passives = SkillRules.passives(content, profile.hero, profile.level)
+	hero.combos = ComboRules.unlocked(content, profile.hero, profile.level)
 
 
 func spawn_enemy(kind: String, position: Vector2) -> Fighter:
@@ -630,6 +631,7 @@ func use_item(item_id: String) -> bool:
 ## hitting the street (for sounds and effects; they change nothing).
 func _report_actions(events: Array[ZoneEvent]) -> void:
 	for f in fighters:
+		ComboRules.report(f, events)
 		if f.landed:
 			events.append(ZoneEvent.make("slam", {"id": f.id, "at": f.position}))
 		if f.state_tick != 0:

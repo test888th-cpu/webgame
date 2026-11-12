@@ -172,6 +172,7 @@ static func _job_problems(content: ContentDB, id: String) -> PackedStringArray:
 			if hostile.has(move_id):
 				out.append("%s.moveset: %s is an enemy's move" % [where, move_id])
 	out.append_array(GrabRules.problems(job.get("grab"), content.moves, where + ".grab"))
+	out.append_array(ComboRules.problems(content, id))
 	for field: String in TEXT_FIELDS:
 		if str(job.get(field, "")) == "":
 			out.append("%s.%s: required" % [where, field])

@@ -33,7 +33,12 @@ static func build(game: Game) -> Control:
 	list.add_theme_constant_override("h_separation", 4)
 	list.add_theme_constant_override("v_separation", 3)
 	list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	scroll.add_child(list)
+	var column := VBoxContainer.new()
+	column.add_theme_constant_override("separation", UiTheme.GAP)
+	column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.add_child(column)
+	column.add_child(list)
+	column.add_child(_combos(content, profile))
 	var detail := UiKit.label("", UiTheme.SIZE_CAPTION, UiTheme.TEXT_DIM, TEXT_WIDTH)
 	detail.name = "SkillDetail"
 	detail.custom_minimum_size.y = 26
@@ -47,6 +52,41 @@ static func build(game: Game) -> Control:
 	page.add_child(detail)
 	page.add_child(HotbarEditor.bar(game, HotbarEditor.SKILLS))
 	return page
+
+
+## The job's combo routes (ComboRules), under the cards: name, the skills in
+## order, what completing it gives, and the level it opens at.
+static func _combos(content: ContentDB, profile: PlayerProfile) -> Control:
+	var box := VBoxContainer.new()
+	box.name = "ComboList"
+	box.add_theme_constant_override("separation", 1)
+	box.add_child(UiKit.label("Skill combos", UiTheme.SIZE_BODY, UiTheme.GOLD))
+	var hint := "Use them in order, each soon after the last lands; being hit breaks the chain."
+	box.add_child(UiKit.label(hint, UiTheme.SIZE_CAPTION, UiTheme.TEXT_DIM, TEXT_WIDTH))
+	for route: Dictionary in ComboRules.routes(content, profile.hero):
+		var names: Array[String] = []
+		for skill_id: Variant in route["links"]:
+			names.append(str(content.skills[str(skill_id)]["name"]).capitalize())
+		var level := int(route["unlock_level"])
+		var open := profile.level >= level
+		var text := (
+			"%s: %s.  +%d%% on the last, +%d gauge"
+			% [
+				route["name"],
+				" > ".join(names),
+				roundi(float(route["bonus"]) * 100.0),
+				roundi(float(route.get("gauge", 0.0)))
+			]
+		)
+		if not open:
+			text = "Lv %d  %s" % [level, text]
+		var line := UiKit.label(
+			text, UiTheme.SIZE_CAPTION, UiTheme.TEXT if open else UiTheme.TEXT_FAINT, TEXT_WIDTH
+		)
+		line.name = "Combo_" + str(route["id"])
+		line.tooltip_text = str(route["description"])
+		box.add_child(line)
+	return box
 
 
 ## What a card's skill does, named, for the line under the cards.

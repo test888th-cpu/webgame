@@ -94,6 +94,20 @@ var gauge_rates := {}
 var grab_plan := {}
 ## The move a body thrown by this fighter crashes into others with.
 var crash_move := ""
+## Skill combos (ComboRules): the routes this fighter knows, the skills of
+## the chain so far, whether its latest link has landed, ticks left to start
+## the next one, the route being finished ({} if none) and whether its
+## completion was counted; `combo_done` is a route just completed, for the
+## zone to report. The hit chain counts blows landed in a row.
+var combos: Array[Dictionary] = []
+var combo_chain: Array = []
+var combo_landed := false
+var combo_timer := 0
+var combo_finish := {}
+var combo_shown := false
+var combo_done := ""
+var hit_chain := 0
+var hit_chain_timer := 0
 ## A counter stance caught a blow: the reply starts next tick (CounterRules).
 var countered := false
 ## Passive skills (id -> spec) and the stacks earned (id -> {"count",
