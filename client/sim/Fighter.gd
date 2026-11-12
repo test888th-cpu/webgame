@@ -92,6 +92,9 @@ var gauge_rates := {}
 ## The skill behind the current hold, if a skill's grab made it: its own
 ## throw, crash, hold and squeeze, and where the skill continues after.
 var grab_plan := {}
+## The balance scale (BalanceProfile damage, PvE or PvP) of the skill behind
+## this fighter's last throw: its blow and crashes land after the skill ends.
+var throw_scale := 1.0
 ## The move a body thrown by this fighter crashes into others with.
 var crash_move := ""
 ## Skill combos (ComboRules): the routes this fighter knows, the skills of

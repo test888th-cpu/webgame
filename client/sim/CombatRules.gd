@@ -243,7 +243,9 @@ static func starter(f: Fighter, library: MoveLibrary, input: String) -> String:
 ## by the defender's defense, never below 1.
 static func damage_for(move: MoveData, attacker: Fighter, defender: Fighter) -> int:
 	var scale := 1.0 + PassiveRules.bonus(attacker, "damage", move, defender)
-	if attacker.move == move or move.slam:
+	if move.slam:
+		scale *= attacker.throw_scale
+	elif attacker.move == move:
 		scale *= SkillSequence.scale(attacker, "damage")
 	scale *= 1.0 + ComboRules.bonus(attacker, move)
 	return maxi(1, roundi(move.damage * attacker.power * scale) - defender.defense)

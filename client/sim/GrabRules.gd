@@ -254,6 +254,8 @@ static func _throw(f: Fighter, held: Fighter, library: MoveLibrary) -> void:
 	# flies; the throw's blow lands with it (_slam). Whatever scaled the
 	# throw, it lands at most MAX_THROW_BODIES away.
 	var push := throw.knockback * SkillSequence.scale(f, "knockback") if throw else 0.0
+	# The blow lands after the skill is over: keep its balance scale for it.
+	f.throw_scale = SkillSequence.scale(f, "damage")
 	held.enter(Fighter.State.DOWN)
 	held.knockback_remaining = clampf(f.facing * push, -MAX_THROW, MAX_THROW)
 	held.slam_by = f.id

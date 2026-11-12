@@ -4,6 +4,20 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Fixed: PvP balance now reaches a grab skill's throw; Added: 1 against 1 measurement
+- **A grab skill's throw lands after the skill is over, so no balance profile reached
+  it:** in PvP, Backbreaker's throw hit at full strength (153 instead of 92 at level 50)
+  and took over half a health bar. The skill's scale is now kept for its throw and the
+  body's crashes (`Fighter.throw_scale`). PvE is unchanged (every PvE profile is 1.0).
+- **PvP 1 against 1 harness** (`tests/harness/DuelSim.gd`, `DuelBot.gd`, `DuelCheck.gd`):
+  every pairing of the five heroes, PvP profiles, the same bot for every job. Baseline,
+  win rates and limits in `docs/GRAPPLER_AND_PVP_REPORT.md`.
+- **PvP safety rails tested** (`test_duel.gd`): nobody helpless over 3 s, no blow over
+  70% of a health bar, duels of 8 s or more on average, a held player struggles free.
+- **Grappler measured and compensation proposed, not applied:** he kills 39% slower than
+  the others because his six skills are grabs that auto battle paces to one per 5 s,
+  and thrown foes cannot be hit for 1.5 s. Options and numbers in the report.
+
 ### Added: skill combos for every job (owner's request, 2026-11-12)
 - **Two combo routes per job** (`client/data/jobs.json` `skill_combos`, `ComboRules`): one
   of two skills from level 3, one of three from level 30. Use a route's skills in order,
