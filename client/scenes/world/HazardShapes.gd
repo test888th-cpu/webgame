@@ -35,4 +35,3 @@ static func rounded(area: Rect2, grow: float, along := true) -> PackedVector2Arr
 			points.append(corner_end.lerp(next_start, float(k) / steps))
 	points.append(points[0])
 	return points
-
