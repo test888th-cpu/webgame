@@ -39,6 +39,28 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
   hour +4% to +12% for every hero, damage taken lower for four of five.
 - Design, architecture and measurements: `docs/SKILL_COMBO_DESIGN.md`.
 
+### Fixed: boss hazard marks left painted on the street (owner's report, 2026-11-12)
+- **Cause:** when a boss fell, the hero went down or a world boss left, its waiting
+  hazards were cleared in the sim without an event, so their warnings were never told to
+  land: they stayed on the ground, locked and glowing, for the rest of the area, and kept
+  redrawing every frame (part of the frame-rate drop in long boss fights). Warnings were
+  also matched to hits by order, so staggered waves could land on the wrong mark.
+- **Fix:** every hazard has an `id` (`BossMechanics`), carried on `hazard_warn`,
+  `hazard_hit` and the new `hazard_cancel` (`BossSkills._stop` reports each hazard it
+  clears). `GameFeedback` matches warnings by id; a called-off warning fades in 0.18 s
+  with no impact (`HazardView.dismiss`); a landed mark holds 0.2 s and fades in 0.3 s
+  (was 0.35 + 0.5 s). Safety net: a warning still up well past its time clears itself
+  (`HazardView.overdue`). Hits and damage are unchanged (decided in the sim only).
+- Tests: every boss's hazards each land or are called off exactly once; a fallen boss
+  calls off each waiting hazard by id; marks never outlive their hazard (scene test).
+- `HazardShapes`: the warning outline geometry moved out of `HazardView` (line limit);
+  the unused `_on_rim` was removed.
+
+### Docs: the lair mini-bosses stay hard (owner's decision D16, 2026-11-12)
+- `docs/BLUEPRINT.md` D16: the lairs' mini-bosses are not made easier. Measured against
+  all five heroes at the lair's level in shop gear with food, they win 0 to 6 fights in
+  10; that is intended: players buy potions, find better gear and upgrade it first.
+
 ### Changed: one standard throw, damage on landing; the Grappler's auto battle and damage
 Owner's requests (2026-11-11).
 - **One throw:** the shoulder toss for every grab and grab skill; the body slam and

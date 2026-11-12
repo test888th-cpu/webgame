@@ -7,8 +7,9 @@ extends RefCounted
 ## boss_shield, boss_enrage_warn and boss_enrage (BossEnrage), hero_down,
 ## exit, fights_back (a farming ground refilled, StreetMemory.refill),
 ## swing (an attack or skill began), dodge, slam (a thrown body hits the
-## street, GrabRules), hazard_warn and hazard_hit (a crane drop's shadow
-## appears, and it lands).
+## street, GrabRules), hazard_warn, hazard_hit and hazard_cancel (a hazard's
+## warning appears, it lands, or it is called off with its boss; all three
+## carry the hazard's "id").
 
 var type := ""
 var data := {}

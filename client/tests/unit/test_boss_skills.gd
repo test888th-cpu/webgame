@@ -269,23 +269,76 @@ func test_a_fallen_boss_leaves_no_hazard_behind() -> void:
 	brain.planned_skill = "WB_FOUNDERS_ENGINE_004"
 	brain.cooldown = 0
 	var warned := false
+	var marked := {}
 	for tick in 120:
 		_hold(zone)
 		for event in zone.tick(FighterInput.new()):
-			warned = warned or event.type == "hazard_warn"
+			if event.type == "hazard_warn":
+				warned = true
+				marked[int(event.data["id"])] = true
 		if warned:
 			break
 	assert_true(warned and not zone.hazards.is_empty(), "the quake is warned")
+	var waiting := {}
+	for drop: Dictionary in zone.hazards:
+		waiting[int(drop["id"])] = true
 	boss.hp = 0
 	boss.enter(Fighter.State.KO)
 	var landed := false
+	var called_off := {}
 	for tick in 120:
 		_hold(zone)
 		for event in zone.tick(FighterInput.new()):
 			landed = landed or event.type == "hazard_hit"
+			if event.type == "hazard_cancel":
+				called_off[int(event.data["id"])] = true
 	assert_true(zone.hazards.is_empty(), "its hazards go with it")
 	assert_true(not landed, "nothing lands after it falls")
+	# Every warning still on the street is called off by its own id, so the
+	# view clears it instead of leaving the mark painted on the ground.
+	assert_eq(called_off.keys(), waiting.keys(), "each waiting hazard is called off")
+	for id: int in called_off:
+		assert_true(marked.has(id), "a cancelled hazard is one that was warned")
 	assert_true(boss.skills.is_empty() and brain.boss_skills.is_empty(), "no skill left to use")
+
+
+## The owner's report, checked on every boss: each hazard warned on the street
+## ends exactly once, landing (hazard_hit) or called off when the boss falls
+## (hazard_cancel), by its own id, so no mark is ever left on the ground.
+func test_every_bosss_hazards_each_land_or_are_called_off_once() -> void:
+	for kind in _bosses():
+		var zone := _fight(kind, 60.0)
+		var warned := {}
+		var ended := {}
+		var twice := 0
+		var stray := 0
+		var felled := false
+		for tick in 1500:
+			_hold(zone)
+			var boss := zone.fighter(zone.boss_id) if zone.boss_id != 0 else null
+			# Fell it once hazards are waiting, so some are called off too.
+			if not felled and tick > 600 and boss and not zone.hazards.is_empty():
+				boss.hp = 0
+				boss.enter(Fighter.State.KO)
+				felled = true
+			for event in zone.tick(FighterInput.new()):
+				var id := int(event.data.get("id", 0))
+				if event.type == "hazard_warn":
+					warned[id] = true
+				elif event.type in ["hazard_hit", "hazard_cancel"]:
+					twice += int(ended.has(id))
+					stray += int(not warned.has(id))
+					ended[id] = true
+		var open := 0
+		for id: int in warned:
+			open += int(not ended.has(id) and not _waiting(zone, id))
+		assert_eq(twice, 0, kind + ": no hazard ends twice")
+		assert_eq(stray, 0, kind + ": every hazard that ends was warned")
+		assert_eq(open, 0, kind + ": every warned hazard lands, is called off or still waits")
+
+
+func _waiting(zone: ZoneSim, id: int) -> bool:
+	return zone.hazards.any(func(drop: Dictionary) -> bool: return int(drop["id"]) == id)
 
 
 func test_a_world_boss_that_escapes_stops_its_skills() -> void:

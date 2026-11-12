@@ -13,6 +13,17 @@ extends Node2D
 ## Presentation only; BossMechanics decides who it hits.
 
 const FALL_SECONDS := 0.25
+## After landing: the impact holds this long, then the mark fades out over
+## LAND_FADE (quick, so a busy fight never leaves the street painted).
+const LAND_HOLD := 0.2
+const LAND_FADE := 0.3
+## A warning called off (its boss fell or left) fades this fast, no impact.
+const DISMISS_FADE := 0.18
+## The safety net: a warning still on the street this long after it should
+## have landed goes by itself, whatever happened to its hazard (presentation
+## only; ZoneSim alone decides hits).
+const OVERDUE_SECONDS := 0.5
+const OVERDUE_SLACK := 1.5
 const DROP_HEIGHT := 260.0
 ## A container is as wide as what it hits, and this tall for its width.
 const BOX_HEIGHT := 0.62
@@ -109,6 +120,9 @@ var _left := 1.0
 var _total := 1.0
 var _landed := false
 var _since_landed := 0.0
+## Seconds since it appeared, and whether it is already on its way out.
+var _age := 0.0
+var _leaving := false
 var _bolts := RandomNumberGenerator.new()
 
 
@@ -130,14 +144,41 @@ func _ready() -> void:
 
 
 func land() -> void:
+	if _leaving:
+		return
+	_leaving = true
 	_landed = true
 	var tween := create_tween()
-	tween.tween_property(self, "modulate:a", 0.0, 0.5).set_delay(0.35)
+	tween.tween_property(self, "modulate:a", 0.0, LAND_FADE).set_delay(LAND_HOLD)
 	tween.tween_callback(queue_free)
 	queue_redraw()
 
 
+## Clears the warning without an impact: its hazard was called off.
+func dismiss() -> void:
+	if _leaving:
+		return
+	_leaving = true
+	_layers.hide_all()
+	var tween := create_tween()
+	tween.tween_property(self, "modulate:a", 0.0, DISMISS_FADE)
+	tween.tween_callback(queue_free)
+
+
+## True when the warning has outstayed its hazard: its countdown ran out
+## OVERDUE_SECONDS ago without landing, or it has been up far longer than it
+## was ever meant to be (its hazard went without a word).
+func overdue() -> bool:
+	if _leaving:
+		return false
+	var late := _left <= 0.0 and _age > _total + OVERDUE_SECONDS
+	return late or _age > _total * 1.5 + OVERDUE_SLACK
+
+
 func _process(delta: float) -> void:
+	_age += delta
+	if overdue():
+		dismiss()
 	if not source.is_empty() and not _landed:
 		_left = maxf(0.0, float(source.get("ticks", 0)) / CombatRules.TICK_RATE)
 	else:
@@ -487,7 +528,7 @@ func _telegraph(near: float) -> void:
 	var size := area.size * phase
 	if size.x >= 2.0 and size.y >= 2.0:
 		var pulse_area := Rect2(area.get_center() - size / 2.0, size)
-		var pulse_ring := _rounded(pulse_area, 2.0, false)
+		var pulse_ring := HazardShapes.rounded(pulse_area, 2.0, false)
 		draw_polyline(pulse_ring, Color(accent, 0.3 * (1.0 - phase) * appear), 1.0)
 	_seam(outline, area, hue, near, appear, lock, clock, true)
 	if lock:
@@ -537,13 +578,13 @@ func _seam(
 ## The danger shape, the light rings inside it and its seam (wandering only
 ## outward from the true edge), computed once.
 func _build_shape(area: Rect2) -> void:
-	_outline = _rounded(area, EDGE_GROW)
-	_fill = _rounded(area, EDGE_GROW, false)
+	_outline = HazardShapes.rounded(area, EDGE_GROW)
+	_fill = HazardShapes.rounded(area, EDGE_GROW, false)
 	for i in 2:
 		var inset := 1.0 + i * 2.5
 		if area.size.x <= inset * 2.0 + 1.0 or area.size.y <= inset * 2.0 + 1.0:
 			break
-		_rings.append(_rounded(area, EDGE_GROW - inset, false))
+		_rings.append(HazardShapes.rounded(area, EDGE_GROW - inset, false))
 	_bolts.seed = get_instance_id() * 13
 	var centre := area.get_center()
 	for point in _outline:
@@ -551,53 +592,6 @@ func _build_shape(area: Rect2) -> void:
 		out = Vector2(out.x / maxf(area.size.x, 1.0), out.y / maxf(area.size.y, 1.0)).normalized()
 		_seam_points.append(point + out * _bolts.randf_range(0.0, 1.8))
 	_seam_colors.resize(_seam_points.size())
-
-
-## `area` grown by `grow` px with corners rounded by the same radius (the
-## Minkowski sum with a disc): every point of `area` lies inside it. Points
-## about every 2 px along it.
-func _rounded(area: Rect2, grow: float, along := true) -> PackedVector2Array:
-	var radius := maxf(grow, 0.5)
-	var inner := area.grow(grow - radius)
-	var points := PackedVector2Array()
-	var centres := [
-		Vector2(inner.end.x, inner.position.y),
-		inner.end,
-		Vector2(inner.position.x, inner.end.y),
-		inner.position,
-	]
-	var start := [-PI / 2.0, 0.0, PI / 2.0, PI]
-	for c in 4:
-		var a: Vector2 = centres[c]
-		var b: Vector2 = centres[(c + 1) % 4]
-		for k in 4:
-			var angle: float = start[c] + PI / 2.0 * k / 3.0
-			points.append(a + Vector2(cos(angle), sin(angle)) * radius)
-		var corner_end: Vector2 = points[points.size() - 1]
-		var next_start: Vector2 = (
-			b + Vector2(cos(start[(c + 1) % 4]), sin(start[(c + 1) % 4])) * radius
-		)
-		var length := corner_end.distance_to(next_start)
-		# Points along the straight edge only when asked (the seam wanders on them).
-		var steps := int(length / 2.0) if along else 0
-		for k in range(1, steps):
-			points.append(corner_end.lerp(next_start, float(k) / steps))
-	points.append(points[0])
-	return points
-
-
-## A point `distance` px along the rim of `area`, clockwise from top-left.
-func _on_rim(area: Rect2, distance: float) -> Vector2:
-	var w := area.size.x
-	var h := area.size.y
-	var d := fmod(distance, 2.0 * (w + h))
-	if d < w:
-		return area.position + Vector2(d, 0)
-	if d < w + h:
-		return area.position + Vector2(w, d - w)
-	if d < 2.0 * w + h:
-		return area.position + Vector2(w - (d - w - h), h)
-	return area.position + Vector2(0, h - (d - 2.0 * w - h))
 
 
 ## Hairline fractures growing across the column from its middle, a hot seam
@@ -884,7 +878,7 @@ func _steam_large(area: Rect2, near: float, appear: float, lock: bool, clock: fl
 		var size := Vector2(area.size.x * 0.2, area.size.y * 0.2).lerp(area.size, phase)
 		var wave := Rect2(centre - size / 2.0, size)
 		var ring := Color(_heat(0.75 + 0.25 * near), (0.5 * (1.0 - phase)) * appear)
-		draw_polyline(_rounded(wave, 3.0, false), ring, 1.0)
+		draw_polyline(HazardShapes.rounded(wave, 3.0, false), ring, 1.0)
 	var joints := maxi(1, int(area.size.x / 28.0))
 	for j in joints:
 		var x := area.position.x + area.size.x * (j + 1) / (joints + 1)
