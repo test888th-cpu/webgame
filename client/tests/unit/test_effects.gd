@@ -196,19 +196,54 @@ func test_a_slam_stays_where_it_landed_and_a_charge_trail_follows() -> void:
 
 func test_every_hazard_draws_lands_and_sounds() -> void:
 	var game := _game()
+	var id := 0
 	for kind: String in ["crane", "steam", "sludge", "shock", "laser"]:
+		id += 1
 		var drop := HazardView.new()
 		drop.setup(0.2, kind, Vector2(60, 14))
 		game.view.effects.add_child(drop)
-		game._feedback._drops.append(drop)
+		game._feedback._drops[id] = drop
 		await tree.process_frame
 		game._feedback.on_event(
-			ZoneEvent.make("hazard_hit", {"at": Vector2(400, 300), "kind": kind})
+			ZoneEvent.make("hazard_hit", {"id": id, "at": Vector2(400, 300), "kind": kind})
 		)
 		for i in 3:
 			await tree.process_frame
 		assert_true(drop._landed, kind + ": landed")
 	assert_true(game.content.audio["sounds"].has("hazard_warn"), "a warning of its own")
+	_done(game)
+
+
+## The owner's report: a boss's marks stayed painted on the street long after
+## it fell. Each warning goes with its own hazard: it lands, is called off, or
+## (if its hazard went without a word) clears itself once it is overdue.
+func test_hazard_marks_never_outlive_their_hazard() -> void:
+	var game := _game()
+	var marks: Array[HazardView] = []
+	for id in [1, 2, 3]:
+		var warn := {"id": id, "at": Vector2(300 + id * 80, 300), "ticks": 30, "kind": "sludge"}
+		warn["half"] = Vector2(40, 12)
+		game._feedback.on_event(ZoneEvent.make("hazard_warn", warn))
+		marks.append(game._feedback._drops[id])
+	# Out of order: the third lands first, and only it lands.
+	game._feedback.on_event(ZoneEvent.make("hazard_hit", {"id": 3, "at": Vector2(540, 300)}))
+	assert_true(marks[2]._landed, "the hazard that landed is the one that shows it")
+	assert_true(not marks[0]._landed and not marks[1]._landed, "the others still warn")
+	# The boss falls: what is left is called off, quickly and without impact.
+	for id in [1, 2]:
+		game._feedback.on_event(ZoneEvent.make("hazard_cancel", {"id": id}))
+	assert_true(not marks[0]._landed, "a called-off hazard does not land")
+	await tree.create_timer(HazardView.LAND_HOLD + HazardView.LAND_FADE + 0.2).timeout
+	for mark in marks:
+		assert_true(not is_instance_valid(mark), "no mark left on the street")
+	assert_true(game._feedback._drops.is_empty(), "none still tracked")
+	# The safety net: a warning whose hazard vanished unannounced clears itself.
+	var stray := HazardView.new()
+	stray.setup(0.1, "quake", Vector2(40, 12))
+	game.view.ground.add_child(stray)
+	var by := 0.1 * 1.5 + HazardView.OVERDUE_SLACK + HazardView.DISMISS_FADE + 0.3
+	await tree.create_timer(by).timeout
+	assert_true(not is_instance_valid(stray), "an orphaned warning clears itself")
 	_done(game)
 
 

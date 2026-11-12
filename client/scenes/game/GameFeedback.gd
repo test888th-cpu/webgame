@@ -45,8 +45,9 @@ const MAX_FIT := 1.5
 var content: ContentDB
 var view: ZoneView
 var hud: Node
-## Hazards on screen, oldest first, matched to ZoneSim's by order.
-var _drops: Array[HazardView] = []
+## Hazard warnings on screen, by the hazard's id (ZoneSim's "id"): the one
+## that lands or is called off is exactly the one drawn for it.
+var _drops := {}
 
 
 func _init(p_content: ContentDB, p_hud: Node) -> void:
@@ -159,13 +160,17 @@ func on_event(event: ZoneEvent) -> void:
 				drop.theme = str(content.boss_fx.get("bosses", {}).get(caller.kind, "brawl"))
 			# On the street, under the fighters (its falling parts draw above).
 			view.ground.add_child(drop)
-			_drops.append(drop)
+			_drops[int(event.data.get("id", 0))] = drop
 			Sfx.play("hazard_warn", -8.0)
+		"hazard_cancel":
+			# Called off with its boss: the warning goes quietly, no impact.
+			var gone: HazardView = _take_drop(int(event.data.get("id", 0)))
+			if gone:
+				gone.dismiss()
 		"hazard_hit":
-			_drops = _drops.filter(func(d: HazardView) -> bool: return is_instance_valid(d))
 			var half := Vector2(30, 10)
-			if not _drops.is_empty():
-				var landed: HazardView = _drops.pop_front()
+			var landed: HazardView = _take_drop(int(event.data.get("id", 0)))
+			if landed:
 				half = landed.half
 				landed.land()
 			var sound := {
@@ -189,6 +194,17 @@ func on_event(event: ZoneEvent) -> void:
 			for spot in spots:
 				Fx.spawn(view.effects, content, effect, spot, false, fit(content, effect, each))
 			view.shake(6.0)
+
+
+## The warning drawn for hazard `id`, taken off the list (null when it is
+## already gone). Freed warnings are swept out on the way.
+func _take_drop(id: int) -> HazardView:
+	for key: int in _drops.keys():
+		if not is_instance_valid(_drops[key]):
+			_drops.erase(key)
+	var drop: HazardView = _drops.get(id)
+	_drops.erase(id)
+	return drop
 
 
 ## Every fight here won but the way on still shut (StreetMemory.gate): say

@@ -44,7 +44,7 @@ func channeling() -> bool:
 
 func tick(zone: ZoneSim, mechanics: BossMechanics, events: Array[ZoneEvent]) -> void:
 	if zone.boss_id != _boss_id:
-		_stop(zone)
+		_stop(zone, events)
 		_boss_id = zone.boss_id
 		_stopped = false
 		if _boss_id != 0:
@@ -54,7 +54,7 @@ func tick(zone: ZoneSim, mechanics: BossMechanics, events: Array[ZoneEvent]) -> 
 	_channel = maxi(0, _channel - 1)
 	var boss := zone.fighter(_boss_id)
 	if boss == null or boss.is_ko() or zone.hero.is_ko():
-		_stop(zone)
+		_stop(zone, events)
 		return
 	var brain: EnemyBrain = zone.brains.get(boss.id)
 	if brain:
@@ -181,14 +181,18 @@ func _arm(zone: ZoneSim) -> void:
 
 
 ## Ends every skill of the boss for good: none still under way, none to be
-## chosen, no hazard left to land.
-func _stop(zone: ZoneSim) -> void:
+## chosen, no hazard left to land. Each hazard taken off the street is
+## reported (hazard_cancel), so its warning is cleared with it and never lies
+## on the ground after the boss is gone.
+func _stop(zone: ZoneSim, events: Array[ZoneEvent]) -> void:
 	if _boss_id == 0 or _stopped:
 		return
 	_stopped = true
 	_reset()
 	_waves.clear()
 	_channel = 0
+	for drop: Dictionary in zone.hazards:
+		events.append(ZoneEvent.make("hazard_cancel", {"id": int(drop.get("id", 0))}))
 	zone.hazards.clear()
 	var boss := zone.fighter(_boss_id)
 	if boss:
