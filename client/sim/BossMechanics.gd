@@ -41,6 +41,10 @@ var _hazard_timer := 0
 var _hazard_turn := 0
 ## Counts hazard waves called, so each wave's drops share an id.
 var _wave := 0
+## Counts hazards called: each drop's own id, carried on its hazard_warn,
+## hazard_hit and hazard_cancel events, so the warning drawn for it is the one
+## that lands or goes (never another's, whatever order they land in).
+var _drop_id := 0
 ## The boss's own walking speed (its kind, level and phase) and the speed this
 ## class last gave it, so a phase change is noticed and not overwritten.
 var _walk_speed := 0.0
@@ -190,7 +194,9 @@ func _call_hazard(zone: ZoneSim, boss: Fighter, data: Dictionary, events: Array)
 	# its tiles touch them (_land_hazards).
 	_wave += 1
 	for i in spots.size():
+		_drop_id += 1
 		var drop := {
+			"id": _drop_id,
 			"at": spots[i],
 			"ticks": int(data["warn"]) + i * int(data.get("stagger", 0)),
 			"half": half,
@@ -201,7 +207,10 @@ func _call_hazard(zone: ZoneSim, boss: Fighter, data: Dictionary, events: Array)
 			"from": str(data.get("from", "")),
 		}
 		zone.hazards.append(drop)
-		var warn := {"at": drop["at"], "ticks": drop["ticks"], "kind": drop["kind"], "half": half}
+		var warn := {
+			"id": drop["id"], "at": drop["at"], "ticks": drop["ticks"], "kind": drop["kind"]
+		}
+		warn["half"] = half
 		events.append(ZoneEvent.make("hazard_warn", warn))
 
 
@@ -262,7 +271,8 @@ func _land_hazards(zone: ZoneSim, events: Array[ZoneEvent]) -> void:
 		zone.hazards.erase(drop)
 		var at: Vector2 = drop["at"]
 		var half: Vector2 = drop["half"]
-		events.append(ZoneEvent.make("hazard_hit", {"at": at, "kind": drop["kind"]}))
+		var landed := {"id": int(drop.get("id", 0)), "at": at, "kind": drop["kind"]}
+		events.append(ZoneEvent.make("hazard_hit", landed))
 		for f in zone.fighters:
 			var gap := (f.position - at).abs()
 			if f.id == zone.boss_id or not CombatRules.is_vulnerable(f):
