@@ -17,7 +17,7 @@ const SCREEN_KEYS := ["character", "bag", "skills", "quests", "map"]
 ## Screens that wait for a choice (Esc does not close them). Like every other
 ## screen, they never stop the street: it goes on whatever the player does,
 ## as it will online.
-const CHOICE_SCREENS: Array[String] = ["game_over", "world_boss", "epilogue"]
+const CHOICE_SCREENS: Array[String] = ["game_over", "world_boss", "epilogue", "arena_result"]
 
 var content: ContentDB
 var profile: PlayerProfile
@@ -40,6 +40,8 @@ var item_card: Control = null
 var auto: AutoBattle
 ## The world boss attempt under way (WorldBossRun), or null.
 var world_run: WorldBossRun = null
+## The arena ladder and its matches (ArenaFlow).
+var arena: ArenaFlow
 ## Unix time to use instead of the clock (tests); -1 for the real clock.
 var now_override := -1
 
@@ -98,6 +100,7 @@ func _ready() -> void:
 				open_screen(name)
 	)
 	_settle_world_boss()
+	arena = ArenaFlow.new(self)
 	enter_area(profile.area, "")
 	QuestFlow.run(self)  # bosses beaten before their quest count
 	auto = AutoBattle.new(self)
@@ -109,6 +112,7 @@ func enter_area(area_id: String, entry: String, start_x := -1.0, block := 1) -> 
 	if content.area(area_id).get("world_boss", false) and not _entering_world_boss:
 		area_id = AreaRules.hub(content)
 		entry = ""
+	area_id = AreaRules.hub(content) if arena.barred(area_id) else area_id  # matches only
 	if zone:
 		UltimateRules.carry(profile, zone.hero)
 		_street_weapons["%s#%d" % [zone.area_id, zone.block]] = zone.ground_weapons.duplicate(true)
@@ -245,10 +249,11 @@ func _use_hotbar_item(item_id: String) -> bool:
 
 ## Advances the zone one tick with the given hero input.
 func step(input: FighterInput) -> Array[ZoneEvent]:
-	var events := zone.tick(input)
+	var events := zone.tick(arena.filter(input))
 	for event in events:
 		_handle(event)
 		_feedback.on_event(event)
+	arena.after_step(events)
 	if world_run:
 		world_run.tick(zone, events, _now())
 		WorldBossRules.note_attempt(
@@ -264,7 +269,7 @@ func step(input: FighterInput) -> Array[ZoneEvent]:
 			tutorial_signal(action)
 	view.sync()
 	if world_run and world_run.ended and not world_run.banked:
-		_finish_world_boss()
+		WorldBossFlow.finish(self)
 	if _pending_exit:
 		var exit := _pending_exit
 		_pending_exit = {}
@@ -334,7 +339,7 @@ func _handle(event: ZoneEvent) -> void:
 			var boss := content.enemy(zone.fighter(event.data["id"]).kind)
 			_hud.toast("%s calls for backup!" % boss.get("name", "The boss"))
 		"hero_down":
-			if world_run == null:
+			if world_run == null and not arena.active():
 				open_game_over.call_deferred()
 		"exit":
 			_pending_exit = event.data
@@ -377,6 +382,8 @@ func try_interact() -> bool:
 		_show("travel", GameMenus.travel(self, npc))
 	elif npc["role"] == "workbench":
 		open_workbench()
+	elif npc["role"] == "arena":
+		arena.open_ladder(npc)
 	elif npc["role"] == "board":
 		_show("board", GameMenus.notice_board(self, npc))
 	else:
@@ -828,30 +835,6 @@ func _start_world_boss(boss: String) -> void:
 	_hud.toast("%s rises. %d seconds!" % [name, world_run.seconds_left()])
 
 
-## The attempt is over: bank its damage, pay new tiers (and the kill), show
-## what it won.
-func _finish_world_boss() -> void:
-	var run := world_run
-	run.banked = true  # once: the street (and step) goes on behind the result
-	var paid := WorldBossRules.award(
-		profile,
-		content,
-		run.boss,
-		run.round,
-		run.dealt,
-		run.total,
-		run.level,
-		_world_rng,
-		run.ended == "slain"
-	)
-	SaveStore.save(profile)
-	if run.ended == "left":
-		world_run = null
-		_hud.toast("You left the fight. Damage banked.")
-		return
-	_show("world_boss", GameMenus.world_boss_result(self, run, paid))
-
-
 ## From the results back to the hub (AreaRules.hub), rested.
 func _leave_world_boss() -> void:
 	world_run = null
@@ -885,6 +868,8 @@ func city_problem() -> String:
 		return "You are already there."
 	if world_run != null:
 		return "Finish the World Boss fight first."
+	if arena.active():
+		return "Finish the arena match first."
 	return zone.leave_problem()
 
 
@@ -928,7 +913,7 @@ func _update_world_boss(delta: float) -> void:
 	if world_run:
 		_hud.show_world_boss(world_run.hud_text())
 		return
-	_hud.show_world_boss("")
+	_hud.show_world_boss(arena.hud_text())
 	_clock_timer -= delta
 	if _clock_timer > 0.0:
 		return

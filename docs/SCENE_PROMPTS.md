@@ -86,6 +86,38 @@ Status: all 22 pieces above are painted, imported and in use (kit themes `fight_
 `junkyard`, `carpark`, `tunnels` and `gang_hq`), except `motorbike_row`, which shows a
 brand logo and waits for a repaint.
 
+## 6. The Pit Arena: the arena ladder's ring (`pvp_arena`, theme `arena`)
+
+Purpose: the arena borrows the Fight Club pieces for now. These pieces make it its own
+place: a bigger underground ring in an old warehouse behind Iron City Central, lit by
+floodlights, with a crowd on bleachers and a blank ranking board (the game draws the
+names). One 640 px wide stage, seen side-on like every street area. Story:
+[STORY_BIBLE.md](STORY_BIBLE.md) §5.5.1.
+
+| File | Height in game | Prompt (after the shared block) |
+|---|---|---|
+| `arena_back_wall.jpg` | 200 px | `very wide back wall of a large old Thai warehouse turned into an underground fight arena, rusted corrugated steel and concrete pillars, a high steel catwalk across the top, red and gold cloth banners hanging blank, big floodlights pointing down, dark and moody` |
+| `arena_ring.jpg` | 80 px | `side view of a raised boxing ring for a street fight arena, four red and white ropes, padded red corner posts, worn blue canvas apron with tape patches, steel steps at one side, seen straight from the side, long horizontal piece` |
+| `arena_bleachers.jpg` | 90 px | `steel scaffold bleachers packed with spectators as dark silhouettes only, no faces or details, many raising fists and phones, back-lit by warm floodlight, long horizontal strip` |
+| `arena_ranking_board.jpg` | 110 px | `large old wooden ranking board on a steel frame, rows of blank cream name plates with small brass number hooks, one gold plate at the top, lit by a single lamp, no letters or numbers` |
+| `arena_floodlight_rig.jpg` | 50 px | `steel truss with four big stage floodlights hanging from chains, warm white beams with light haze, long horizontal strip` |
+| `arena_entrance.jpg` | 140 px | `fighters' entrance tunnel in a concrete wall, heavy red curtain half open, a caged work lamp above, scuffed floor tape leading out, darkness inside` |
+| `arena_corner_stool.jpg` | 34 px | `boxing corner kit: a small red plastic stool, a water bucket with a sponge, a towel over the side, light 3/4 view` |
+| `arena_bell_table.jpg` | 40 px | `small wooden judges' table with a brass ring bell, an old stopwatch and a metal cash box, light 3/4 view` |
+
+Optional, for a full painted backdrop instead of pieces (the importer does not cut this
+one; it replaces the area's far layer):
+
+| File | Size | Prompt (shared block **without** the green backdrop line) |
+|---|---|---|
+| `arena_backdrop.jpg` | 1280 x 360 | `wide side-on view inside an underground fight arena in a huge old Bangkok warehouse at night, empty ring floor in the foreground left clear, bleachers with silhouette crowd behind, floodlight rig and catwalk above, blank red and gold banners, warm haze in the light beams, cool blue shadows, painted, no text, no logos, no people except silhouettes` |
+
+Ladder screen art (optional; Claude wires it in behind the Arena Ladder window once painted):
+
+| File | Size | Prompt |
+|---|---|---|
+| `arena_ladder_bg.jpg` | 1280 x 720 | `HD-2D painted illustration, dark empty underground boxing ring seen from ringside at night, a single floodlight on the empty canvas, a huge blank wooden ranking board on the far wall, warm haze, deep shadows, lots of dark empty space in the middle for a menu, no text, no logos, no people` |
+
 ## After painting
 
 1. Upload the files to `art/kit/src/` in a new PR, or send them to Claude in a cloud

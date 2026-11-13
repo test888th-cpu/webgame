@@ -61,7 +61,7 @@
 
 ## 3. PvP 1 ต่อ 1
 
-### เครื่องมือ (`client/tests/harness/DuelSim.gd`, `DuelBot.gd`, `DuelCheck.gd`)
+### เครื่องมือ (`client/tests/harness/DuelSim.gd`, `DuelCheck.gd`; บอทคือ `sim/ArenaBrain.gd` ตัวเดียวกับสนามประลอง)
 
 ฮีโร่ปะทะฮีโร่ในสนามโล่ง 600 px ทั้งสองฝั่งเลเวลเดียวกัน ของร้าน ใช้ชุดสกิลด้วย profile `pvp`
 มีการป้องกัน stun-lock, parry และการดิ้นหลุดจากการจับแบบผู้เล่น บอทแบบเดียวกันทุกอาชีพ: เดินเข้า ใช้สกิล

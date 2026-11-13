@@ -22,7 +22,9 @@ const CITY := "city"
 const WORLD_BOSS := "world_boss"
 const FARM := "farm"
 const LAIR := "lair"
-const KINDS := [STREET, CITY, WORLD_BOSS, FARM, LAIR]
+## The PvP arena (ArenaRules): entered only for a match.
+const ARENA := "arena"
+const KINDS := [STREET, CITY, WORLD_BOSS, FARM, LAIR, ARENA]
 ## The kinds opened by an unlock rule and reached by the field truck.
 const GATED := [FARM, LAIR]
 ## The two unlock rules a farming ground may use.
@@ -30,7 +32,7 @@ const REACHED := "reached"
 const DEFEATED := "defeated"
 
 
-## STREET, CITY, WORLD_BOSS, FARM or LAIR for `area_id`.
+## STREET, CITY, WORLD_BOSS, FARM, LAIR or ARENA for `area_id`.
 static func kind(content: ContentDB, area_id: String) -> String:
 	var area := content.area(area_id)
 	if area.has("kind"):
@@ -39,6 +41,8 @@ static func kind(content: ContentDB, area_id: String) -> String:
 		return CITY
 	if area.get("world_boss", false):
 		return WORLD_BOSS
+	if area.get("arena", false):
+		return ARENA
 	return STREET
 
 

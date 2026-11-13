@@ -5,7 +5,8 @@ extends RefCounted
 ## PvP balance profile (SkillRules.unlocked, ComboRules.unlocked with
 ## BalanceProfile.PVP), the player's stun-lock protection, parry and grab
 ## escape, and the same gear at the same level. A simple bot plays each side
-## (DuelBot); it is not a person, so the numbers compare jobs with each other,
+## (the arena's ArenaBrain at BOT_SKILL); it is not a person, so the numbers
+## compare jobs with each other,
 ## not with real play. Measures only: it changes no game data.
 
 ## The arena: a street 600 px long, the fighters 160 px apart to start.
@@ -14,6 +15,8 @@ const START_GAP := 160.0
 ## A match ends at a knock-out or after this many ticks (90 s), when the side
 ## with more of its health left wins.
 const MAX_TICKS := 5400
+## How well the bot plays both sides (ArenaBrain.skill): a fair player.
+const BOT_SKILL := 0.55
 
 
 ## One match: {"winner": 0 or 1 (-1 a draw), "ticks", "hp": [left, right]
@@ -24,11 +27,11 @@ static func duel(content: ContentDB, heroes: Array, level: int, seed_value: int)
 	var rng := RandomNumberGenerator.new()
 	rng.seed = seed_value
 	var fighters: Array[Fighter] = []
-	var bots: Array[DuelBot] = []
+	var bots: Array[ArenaBrain] = []
 	for side in 2:
 		var f := make_hero(content, str(heroes[side]), level, side)
 		fighters.append(f)
-		bots.append(DuelBot.new(content, rng))
+		bots.append(ArenaBrain.new(content, rng, BOT_SKILL))
 	var out := {"winner": -1, "ticks": 0, "hp": [1.0, 1.0], "dealt": [0, 0]}
 	out.merge({"lock": [0, 0], "biggest": [0.0, 0.0], "combos": [0, 0], "grabs": [0, 0]})
 	out["biggest_move"] = ["", ""]
@@ -37,7 +40,11 @@ static func duel(content: ContentDB, heroes: Array, level: int, seed_value: int)
 		out["ticks"] += 1
 		var inputs := {}
 		for side in 2:
-			inputs[fighters[side].id] = bots[side].think(fighters[side], fighters[1 - side])
+			var me := fighters[side]
+			var foe := fighters[1 - side]
+			inputs[me.id] = bots[side].think(
+				me, foe, true, content.moves, rng, Vector2.INF, out["ticks"]
+			)
 		for hit in CombatRules.tick(fighters, inputs, content.moves, BOUNDS, Callable(), rng):
 			var by := 0 if hit.attacker_id == fighters[0].id else 1
 			out["dealt"][by] += hit.damage

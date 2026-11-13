@@ -56,6 +56,8 @@ var passed := false
 var hero: Fighter
 var fighters: Array[Fighter] = []
 var brains := {}
+## The arena match played here (ArenaMatch), or null.
+var duel: ArenaMatch = null
 var pickups: Array[Dictionary] = []
 var tick_count := 0
 ## Id of the boss in the current fight, 0 if none.
@@ -174,6 +176,14 @@ func refresh_hero() -> void:
 	hero.skills = SkillRules.unlocked(content, profile.hero, profile.level)
 	hero.passives = SkillRules.passives(content, profile.hero, profile.level)
 	hero.combos = ComboRules.unlocked(content, profile.hero, profile.level)
+	if duel:
+		duel.apply_hero()
+
+
+## A new fighter id (the arena's rival takes one too).
+func next_id() -> int:
+	_next_id += 1
+	return _next_id - 1
 
 
 func spawn_enemy(kind: String, position: Vector2) -> Fighter:
@@ -263,7 +273,7 @@ func tick(hero_input: FighterInput) -> Array[ZoneEvent]:
 	for f in fighters:
 		_before[f.id] = f.position
 	var inputs := {HERO_ID: hero_input}
-	var allowed := _attack_tokens()
+	var allowed := AttackTokens.allowed(self)
 	for id: int in brains:
 		var enemy := fighter(id)
 		if enemy and not enemy.is_ko():
@@ -619,7 +629,7 @@ func enemy_level(id: int) -> int:
 ## Uses a consumable from the inventory on the hero. Consumables share a
 ## short cooldown so healing cannot be spammed mid-combo.
 func use_item(item_id: String) -> bool:
-	if item_cooldown > 0 or hero.is_ko():
+	if item_cooldown > 0 or hero.is_ko() or duel:  # No food in the arena.
 		return false
 	if not profile.use_item(item_id, hero, content):
 		return false
@@ -641,33 +651,6 @@ func _report_actions(events: Array[ZoneEvent]) -> void:
 			events.append(ZoneEvent.make("swing", data))
 		elif f.state == Fighter.State.DODGE:
 			events.append(ZoneEvent.make("dodge", {"id": f.id}))
-
-
-func _attack_tokens() -> Dictionary:
-	var allowed := {}
-	var attacking := 0
-	var ready: Array[Fighter] = []
-	for enemy in enemies():
-		if enemy.is_ko() or not brains.has(enemy.id):
-			continue
-		if enemy.state == Fighter.State.ATTACK:
-			attacking += 1
-		elif content.enemy(enemy.kind).get("boss", false):
-			allowed[enemy.id] = true
-		elif brains[enemy.id].wants_attack():
-			ready.append(enemy)
-	ready.sort_custom(
-		func(a: Fighter, b: Fighter) -> bool:
-			var da := absf(a.position.x - hero.position.x)
-			var db := absf(b.position.x - hero.position.x)
-			return da < db if da != db else a.id < b.id
-	)
-	for enemy in ready:
-		if attacking >= MAX_ATTACKERS:
-			break
-		allowed[enemy.id] = true
-		attacking += 1
-	return allowed
 
 
 func _update_encounter(events: Array[ZoneEvent]) -> void:
@@ -741,7 +724,7 @@ func _spawn_next(events: Array[ZoneEvent]) -> void:
 func _defeat(enemy: Fighter, events: Array[ZoneEvent]) -> void:
 	var data := content.enemy(enemy.kind)
 	_down_ticks[enemy.id] = 0
-	if data.get("training", false):
+	if data.get("training", false) or duel:  # No rewards in the arena but the ladder.
 		return
 	profile.defeated[enemy.kind] = int(profile.defeated.get(enemy.kind, 0)) + 1
 	var scaled: Dictionary = _enemy_level.get(enemy.id, {}).get("stats", {})

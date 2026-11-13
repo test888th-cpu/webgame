@@ -20,7 +20,7 @@ const EXIT_SIDES := ["west", "east"]
 ## NPC roles: people (shop, quests, travel) and things to use (a workbench
 ## that opens the upgrade screen, a notice board to read). A thing names the
 ## street-kit "piece" it is drawn as instead of a character sprite.
-const NPC_ROLES := ["shop", "quests", "travel", "workbench", "board"]
+const NPC_ROLES := ["shop", "quests", "travel", "workbench", "board", "arena"]
 const HOTBAR_TYPES := ["attack", "skill", "item"]
 const HOTBAR_SLOTS := 7
 ## Skill slots on the default hotbar: a hero's first active skills, in the
@@ -61,6 +61,8 @@ var job_order: Array = []
 var job_unlocks: Dictionary = {}
 ## How the ultimate gauge fills (jobs.json "gauge"; UltimateRules).
 var job_gauge: Dictionary = {}
+## The arena ladder (data/arena.json; ArenaRules).
+var arena: Dictionary = {}
 ## Ticks between uses of consumables (shared by all of them).
 var item_cooldown := 0
 ## Imported art, from the asset manifest (asset id -> entry).
@@ -123,6 +125,7 @@ static func load_all(dir := DATA_DIR) -> ContentDB:
 	db.job_order = job_file.get("order", [])
 	db.job_unlocks = job_file.get("unlocks", {})
 	db.job_gauge = job_file.get("gauge", {})
+	db.arena = db._read(dir.path_join("arena.json"))
 	db.tutorial = db._read(dir.path_join("tutorial.json")).get("steps", [])
 	db.world_bosses = db._read(dir.path_join("world_boss.json")).get("world_bosses", {})
 	db.boss_fx = db._read(dir.path_join("boss_fx.json"))
@@ -250,6 +253,7 @@ func validate() -> void:
 	errors.append_array(LairRules.problems(self))
 	errors.append_array(ItemRules.problems(self))
 	errors.append_array(JobRules.problems(self))
+	errors.append_array(ArenaRules.problems(self))
 	_validate_progression()
 	_validate_weapons()
 	_validate_heroes()

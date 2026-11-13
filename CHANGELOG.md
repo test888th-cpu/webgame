@@ -4,12 +4,38 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added: The Pit Arena, a 50-rival PvP ladder against AI heroes (owner's request, 2026-11-13)
+- **Khru Sombat in Iron City Central** (from level 10) opens the **Arena Ladder**: your
+  rank, best rank, combat power and record, and the five rivals ranked just above you,
+  each with rank, ring name, job, level, gear and power coloured against yours. Pick
+  any. A win over a rival above you swaps your ranks; a loss changes nothing. A new
+  challenger starts at #51; the champion defends against the rivals below.
+- **Rivals are player heroes played by the computer** (`ArenaBrain`: same inputs as a
+  player, combos, stances, dodges, grabs, ultimates; deterministic). Strength rises
+  with rank (`data/arena.json`): plain common gear at the bottom, the best gear
+  unupgraded by #21, then the best gear at +1 to +7 mixed by slot up to #1, with level
+  and AI skill rising alongside. All five jobs in every five ranks.
+- **Matches** (`ArenaMatch`): 3 s countdown, 90 s clock, PvP skill profile and health
+  x2 for both sides, no food, no auto battle, no leaving mid-match; knock-out or the
+  larger health share at time. Result screen, then straight back to the ladder.
+- **Best-rank rewards** paid once: 500 / 1,500 / 4,000 / 10,000 / 20,000 / 50,000 coins at
+  #40 / #30 / #20 / #10 / #5 / #1. Values, health x2 and names await owner approval.
+- **Design and numbers:** `docs/ARENA_DESIGN.md`. Art prompts for the arena's own scene
+  pieces: `docs/SCENE_PROMPTS.md` §6 (it uses the Fight Club pieces until then).
+- The PvP harness now uses the arena's `ArenaBrain` as its bot (`DuelBot.gd` removed).
+  `ZoneSim`'s attack tokens moved to `AttackTokens.gd`, and world-boss flow to
+  `WorldBossFlow.gd`, to keep both files under the size limit.
+
+### Fixed: a chapter card or match banner no longer reads "LEVEL UP!"
+- The HUD's chapter card reused the level-up banner and kept its "LEVEL UP!" heading.
+  It now shows its own title.
+
 ### Fixed: PvP balance now reaches a grab skill's throw; Added: 1 against 1 measurement
 - **A grab skill's throw lands after the skill is over, so no balance profile reached
   it:** in PvP, Backbreaker's throw hit at full strength (153 instead of 92 at level 50)
   and took over half a health bar. The skill's scale is now kept for its throw and the
   body's crashes (`Fighter.throw_scale`). PvE is unchanged (every PvE profile is 1.0).
-- **PvP 1 against 1 harness** (`tests/harness/DuelSim.gd`, `DuelBot.gd`, `DuelCheck.gd`):
+- **PvP 1 against 1 harness** (`tests/harness/DuelSim.gd`, `DuelCheck.gd`; the bot is the arena's `ArenaBrain`):
   every pairing of the five heroes, PvP profiles, the same bot for every job. Baseline,
   win rates and limits in `docs/GRAPPLER_AND_PVP_REPORT.md`.
 - **PvP safety rails tested** (`test_duel.gd`): nobody helpless over 3 s, no blow over

@@ -88,6 +88,8 @@ var _chain: Label
 var _combo: Label
 var _combo_left := 0.0
 var _banner: VBoxContainer
+## The banner's big line: "LEVEL UP!", or a chapter's or a match's title.
+var _banner_title: Label
 var _banner_level: Label
 var _banner_detail: Label
 var _banner_left := 0.0
@@ -177,13 +179,15 @@ func hurt(strength := 1.0) -> void:
 
 ## The end-of-chapter card: the same banner, held longer so it can be read.
 func chapter(title: String, subtitle: String) -> void:
-	_banner_level.text = title
-	_banner_detail.text = subtitle
+	_banner_title.text = title
+	_banner_level.text = subtitle
+	_banner_detail.text = ""
 	_show_banner(5.0)
 
 
 ## The big level-up announcement, naming any skills it unlocked.
 func level_up(level: int, unlocked: Array) -> void:
+	_banner_title.text = "LEVEL UP!"
 	_banner_level.text = "Level %d" % level
 	var names: Array[String] = []
 	for skill_id: String in unlocked:
@@ -265,7 +269,10 @@ func _process(delta: float) -> void:
 			"%s%s  Lv %d"
 			% [
 				"MINI-BOSS " if mini else "",
-				str(content.enemy(boss.kind).get("name", "")).to_upper(),
+				(
+					(boss.title if boss.title else str(content.enemy(boss.kind).get("name", "")))
+					. to_upper()
+				),
 				level
 			]
 		)
@@ -632,10 +639,10 @@ func _build_banner(root: Control) -> void:
 	_banner.grow_horizontal = Control.GROW_DIRECTION_BOTH
 	_banner.offset_top = 96
 	root.add_child(_banner)
-	var title := UiKit.overlay_label("LEVEL UP!", UiTheme.SIZE_LOGO - 6, UiTheme.GOLD)
-	title.add_theme_constant_override("outline_size", 6)
-	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_banner.add_child(title)
+	_banner_title = UiKit.overlay_label("LEVEL UP!", UiTheme.SIZE_LOGO - 6, UiTheme.GOLD)
+	_banner_title.add_theme_constant_override("outline_size", 6)
+	_banner_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_banner.add_child(_banner_title)
 	_banner_level = UiKit.overlay_label("", UiTheme.SIZE_H1, UiTheme.TEXT)
 	_banner_level.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_banner.add_child(_banner_level)

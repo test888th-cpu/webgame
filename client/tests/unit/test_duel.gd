@@ -1,5 +1,5 @@
 extends TestCase
-## PvP 1 against 1 (tests/harness/DuelSim.gd, DuelBot.gd): the safety rails
+## PvP 1 against 1 (tests/harness/DuelSim.gd, sim/ArenaBrain.gd): the safety rails
 ## every pairing of jobs must keep in the arena, whatever the balance numbers:
 ## nobody stays helpless for long, no single blow comes near a one-shot, a
 ## held player gets free, and the PvP balance profile reaches every blow of a
@@ -53,7 +53,7 @@ func test_a_held_player_mashing_gets_free_before_the_hold_ends() -> void:
 	for t in 200:
 		var inputs := {oren.id: grab if t == 0 else FighterInput.new()}
 		var mash := FighterInput.new()
-		mash.light = foe.state == Fighter.State.HELD and t % DuelBot.MASH_EVERY == 0
+		mash.light = foe.state == Fighter.State.HELD and t % ArenaBrain.MASH_BEST == 0
 		inputs[foe.id] = mash
 		CombatRules.tick(fighters, inputs, db.moves, DuelSim.BOUNDS)
 		held += 1 if foe.state == Fighter.State.HELD else 0

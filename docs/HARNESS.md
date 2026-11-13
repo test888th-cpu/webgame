@@ -69,7 +69,7 @@ profiles, plus boss-only runs (several minutes). It writes `report.json` and
 - `tests/harness/ItemBudgetQuery.gd` prints the `ItemRules` budget and score of the items
   in `--in=file.json`, so content tools price gear with the game's own rule.
 
-- `tests/harness/DuelCheck.gd` (with `DuelSim` and `DuelBot`) plays PvP 1 against 1: every
+- `tests/harness/DuelCheck.gd` (with `DuelSim`; both sides are played by the arena's `ArenaBrain`) plays PvP 1 against 1: every
   pairing of the heroes at `--levels`, `--seeds` matches each way round, PvP balance
   profiles, the same bot for every job. Prints win rates, the longest lock, the largest
   single blow and the mean match length. A bot does not feint, so it reads stances and

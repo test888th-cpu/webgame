@@ -168,6 +168,15 @@ func setup_enemy(data: Dictionary, art: Dictionary, level := 0) -> void:
 		set_art(str(data["sprite"]), art)
 
 
+## An arena rival: a player's hero (its own art), named overhead in the
+## danger colour; its health is on the HUD's big bar.
+func setup_rival(f: Fighter, art: Dictionary) -> void:
+	show_health_bar = false
+	_health.visible = false
+	_rank(f.title, "map_boss", UiTheme.DANGER)
+	set_art(f.look, art)
+
+
 ## A boss that waits before a district's end (MapRules.MINI_BOSS): the map's
 ## mini-boss mark and "Mini-boss" overhead, in the accent colour, not the skull.
 func mark_mini_boss(data: Dictionary) -> void:

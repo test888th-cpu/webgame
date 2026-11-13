@@ -12,6 +12,10 @@ var id := 0
 var team := 0
 ## Content id: "hero" or an enemy id from enemies.json.
 var kind := ""
+## A name to show instead of the kind's (an arena rival's ring name), and the
+## art it is drawn with ("" for its kind's own).
+var title := ""
+var look := ""
 ## A farming ground's elite (FarmSpawner): tougher, worth more, named in gold.
 var elite := false
 ## Input -> move id. Empty means the library's default starters (the hero).

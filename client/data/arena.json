@@ -1,0 +1,177 @@
+{
+  "_comment": "The arena ladder (ArenaRules, ArenaMatch, ArenaBrain): fifty rivals, each a player's hero played by the computer. A rival's strength comes from the rank it starts at: its band's level, gear grades, upgrade level (plus) and AI skill, each interpolated across the band. Names are ring names (docs/STORY_BIBLE.md, Arena).",
+  "area": "pvp_arena",
+  "entry_level": 10,
+  "choices": 5,
+  "hp_scale": 2.0,
+  "match_seconds": 90,
+  "countdown_ticks": 180,
+  "names": [
+    "Iron Abbot",
+    "Black Lotus",
+    "Thunder Naga",
+    "Silent Monsoon",
+    "Crimson Tuk-Tuk",
+    "Night Garuda",
+    "Steel Mango",
+    "Red Lantern",
+    "Harbour Ghost",
+    "Glass Tiger",
+    "Rust Queen",
+    "Neon Monk",
+    "Copper Hornet",
+    "Smog King",
+    "Dock Hammer",
+    "Rain Viper",
+    "Lucky Seven",
+    "Old Ferryman",
+    "Midnight Noodle",
+    "Concrete Crane",
+    "Jade Fist",
+    "Spark Plug",
+    "Rooftop Cat",
+    "Canal Rat King",
+    "Iron Bell",
+    "Tin Shark",
+    "Chili Bomb",
+    "Paper Dragon",
+    "Crowbar Joy",
+    "Scooter Saint",
+    "Pipe Wrench",
+    "Sticky Rice",
+    "Bamboo Wall",
+    "Stray Dog",
+    "Lamp Post",
+    "Market Bull",
+    "Hot Wok",
+    "Sleepy Buffalo",
+    "Little Typhoon",
+    "Rubber Band",
+    "Fish Sauce",
+    "Tuk-Tuk Kid",
+    "Plastic Stool",
+    "Wet Market",
+    "Busy Bee",
+    "Fresh Rookie",
+    "Paper Cup",
+    "Soft Pillow",
+    "Sweet Bun",
+    "Day One"
+  ],
+  "bands": [
+    {
+      "from": 50,
+      "to": 41,
+      "level": [
+        6,
+        20
+      ],
+      "grades": [
+        "common"
+      ],
+      "plus": [
+        0,
+        0
+      ],
+      "ai": [
+        0.0,
+        0.2
+      ]
+    },
+    {
+      "from": 40,
+      "to": 31,
+      "level": [
+        24,
+        40
+      ],
+      "grades": [
+        "common",
+        "uncommon",
+        "rare"
+      ],
+      "plus": [
+        0,
+        0
+      ],
+      "ai": [
+        0.25,
+        0.45
+      ]
+    },
+    {
+      "from": 30,
+      "to": 21,
+      "level": [
+        43,
+        70
+      ],
+      "grades": [
+        "common",
+        "uncommon",
+        "rare",
+        "epic",
+        "legendary",
+        "godforged"
+      ],
+      "plus": [
+        0,
+        0
+      ],
+      "ai": [
+        0.5,
+        0.65
+      ]
+    },
+    {
+      "from": 20,
+      "to": 1,
+      "level": [
+        70,
+        70
+      ],
+      "grades": [
+        "common",
+        "uncommon",
+        "rare",
+        "epic",
+        "legendary",
+        "godforged"
+      ],
+      "plus": [
+        1,
+        7
+      ],
+      "ai": [
+        0.7,
+        1.0
+      ]
+    }
+  ],
+  "rewards": [
+    {
+      "best": 40,
+      "money": 500
+    },
+    {
+      "best": 30,
+      "money": 1500
+    },
+    {
+      "best": 20,
+      "money": 4000
+    },
+    {
+      "best": 10,
+      "money": 10000
+    },
+    {
+      "best": 5,
+      "money": 20000
+    },
+    {
+      "best": 1,
+      "money": 50000
+    }
+  ]
+}

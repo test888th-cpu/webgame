@@ -2662,6 +2662,54 @@
         "depth": 9,
         "brim_length": 5
       }
+    },
+    "npc_khru": {
+      "role": "npc",
+      "body_type": "male",
+      "layers": [
+        {
+          "def": "body/body.json",
+          "recolor": {
+            "color": "ulpc.brown"
+          }
+        },
+        {
+          "def": "head/heads/human/heads_human_male_elderly.json",
+          "recolor": {
+            "color_1": "ulpc.brown"
+          }
+        },
+        {
+          "def": "feet/shoes/feet_shoes_basic.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        },
+        {
+          "def": "legs/pants/legs_pants.json",
+          "recolor": {
+            "color": "ulpc.red"
+          }
+        },
+        {
+          "def": "torso/shirts/sleeveless/torso_clothes_sleeveless2.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        },
+        {
+          "def": "hair/beards/beards_trimmed.json",
+          "recolor": {
+            "color": "ulpc.gray"
+          }
+        },
+        {
+          "def": "hair/bald/hair_balding.json",
+          "recolor": {
+            "color": "ulpc.gray"
+          }
+        }
+      ]
     }
   }
 }
