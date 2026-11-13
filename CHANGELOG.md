@@ -4,6 +4,19 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed: Grappler PvE damage ×1.3 (owner's approval, 2026-11-13)
+- The Grappler's six active skills deal ×1.3 damage in PvE (`profiles.pve.damage`); PvP
+  is unchanged. Oren: 185 → 221 kills in the standard 27-minute auto-battle measure,
+  inside the other jobs' range (201–284). Side effect for the owner: his Ultimate is now
+  1.67× his strongest skill in PvE, under the 2–3× design target (Ultimate ×1.2 would
+  restore 2.0×; not applied).
+- **PvP measured with mixed bots** (`ArenaBalance.gd --only=jobs_mixed`: AI skill and
+  personality drawn per match, time spent down or held, share of damage from throws).
+  Grappler 80%, Counter 69%, Boxer 49%, Striker 32%, Brawler 19% average win rate. Six
+  candidate fixes measured, none applied: no single change balances PvP. Findings and the
+  proposed PvP design pass: `docs/SKILL_FLOW_REPORT.md` §4–5 (also Dao PvE ×1.15
+  measured, awaiting approval).
+
 ### Changed: grab skills used normally, counter replies that land, combos that flow (owner's request, 2026-11-13)
 - **Auto battle uses grab skills like any other skill** (owner's rule, replacing "only
   when it pays, one every 5 s"): a ready grab skill is used when it is the best choice.

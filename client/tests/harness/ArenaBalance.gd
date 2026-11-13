@@ -4,7 +4,8 @@ extends SceneTree
 ## n * 7919. Prints one "ARENA " JSON line per comparison. Read-only.
 ##
 ##   godot --headless --path client --script res://tests/harness/ArenaBalance.gd -- \
-##     --seeds=200 [--only=gear,ai,builds,personality,jobs,tiers,cap]
+##     --seeds=200 [--only=gear,ai,builds,personality,jobs,jobs_mixed,tiers,cap]
+## (jobs_mixed: the job pairs with AI skill and personality drawn per match.)
 
 
 func _init() -> void:
@@ -21,7 +22,8 @@ func _init() -> void:
 	for group: String in only:
 		for row: Array in scenarios(content, group, top, job):
 			var started := Time.get_ticks_msec()
-			var result := ArenaSim.series(content, row[1], row[2], seeds, float(row[3]))
+			var mix := group.ends_with("_mixed")
+			var result := ArenaSim.series(content, row[1], row[2], seeds, float(row[3]), mix)
 			result["name"] = row[0]
 			result["group"] = group
 			result["seeds"] = seeds
@@ -83,7 +85,7 @@ static func scenarios(content: ContentDB, group: String, top: Dictionary, job: S
 						0.0
 					]
 				)
-		"jobs":
+		"jobs", "jobs_mixed":
 			for a: String in content.job_order:
 				for b: String in content.job_order:
 					if a < b:

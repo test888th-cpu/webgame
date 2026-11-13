@@ -13,10 +13,19 @@ extends RefCounted
 ## {"job": "boxer", "level": 70, "grades": ["godforged"], "plus": 7,
 ## "preset": "balanced", "personality": "balanced", "ai": 0.7}.
 ##
+## `mix` draws both sides' AI skill (MIX_AI) and personality (MIX_STYLES)
+## per match, deterministically from the match number.
+##
 ## `cap` (0 = off) is an EXPERIMENT, not a game rule: before the fight each
 ## side's power, defense and health are held to at most 1 + cap times the
 ## other side's, to see how a PvP gear cap would change the results.
 
+## Mixed mode: each match draws both sides' AI skill and personality from
+## these, so the numbers are not one bot playing itself.
+const MIX_AI: Array[float] = [0.3, 0.55, 0.8]
+const MIX_STYLES: Array[String] = [
+	"balanced", "aggressive", "defensive", "counter", "combo", "tactical"
+]
 const BOUNDS := Rect2(0, 200, 600, 200)
 const START_GAP := 160.0
 ## The rival id whose tier is neutral (level 70, +0) under the settings.
@@ -78,6 +87,7 @@ static func fight(
 	var out := {
 		"winner": -1, "ko": false, "dealt": [0, 0], "power": [sides[0]["power"], sides[1]["power"]]
 	}
+	out.merge({"thrown_dmg": [0, 0], "locked": [0, 0]})
 	var ticks := 0
 	while ticks < max_ticks and not fighters[0].is_ko() and not fighters[1].is_ko():
 		ticks += 1
@@ -88,7 +98,14 @@ static func fight(
 				fighters[side], fighters[1 - side], true, content.moves, rng, Vector2.INF, ticks
 			)
 		for hit in CombatRules.tick(fighters, inputs, content.moves, BOUNDS, Callable(), rng):
-			out["dealt"][0 if hit.attacker_id == fighters[0].id else 1] += hit.damage
+			var by := 0 if hit.attacker_id == fighters[0].id else 1
+			out["dealt"][by] += hit.damage
+			var hit_move := content.moves.get_move(hit.move_id)
+			if hit_move != null and hit_move.slam:
+				out["thrown_dmg"][by] += hit.damage
+		for side in 2:
+			if fighters[side].state in [Fighter.State.DOWN, Fighter.State.HELD]:
+				out["locked"][side] += 1
 	var shares := [ArenaMatch.share(fighters[0]), ArenaMatch.share(fighters[1])]
 	out["hp"] = shares
 	out["seconds"] = float(ticks) / CombatRules.TICK_RATE
@@ -108,14 +125,19 @@ static func fight(
 ## `seeds` matches of a against b, sides swapped every other match so neither
 ## start position favours one: totals from a's point of view.
 static func series(
-	content: ContentDB, a: Dictionary, b: Dictionary, seeds: int, cap := 0.0
+	content: ContentDB, a: Dictionary, b: Dictionary, seeds: int, cap := 0.0, mix := false
 ) -> Dictionary:
 	var out := {"matches": 0, "a_wins": 0, "b_wins": 0, "draws": 0, "kos": 0}
 	out.merge({"seconds": 0.0, "a_dealt": 0.0, "b_dealt": 0.0, "a_skills": 0.0, "b_skills": 0.0})
 	out.merge({"a_defends": 0.0, "b_defends": 0.0, "a_survived": 0, "b_survived": 0, "power": []})
 	for n in seeds:
 		var flip := n % 2 == 1
-		var run := fight(content, b if flip else a, a if flip else b, 1000 + n * 7919, cap)
+		var sa := a
+		var sb := b
+		if mix:
+			sa = _mixed(a, n * 5, n * 7)
+			sb = _mixed(b, n * 11 + 1, n * 13 + 2)
+		var run := fight(content, sb if flip else sa, sa if flip else sb, 1000 + n * 7919, cap)
 		if run.has("errors"):
 			return {"errors": run["errors"]}
 		var ai := 1 if flip else 0
@@ -136,6 +158,10 @@ static func series(
 		out["b_skills"] += run["skills"][bi]
 		out["a_defends"] += run["defends"][ai]
 		out["b_defends"] += run["defends"][bi]
+		out["a_thrown"] = float(out.get("a_thrown", 0.0)) + run["thrown_dmg"][ai]
+		out["b_thrown"] = float(out.get("b_thrown", 0.0)) + run["thrown_dmg"][bi]
+		out["a_locked"] = float(out.get("a_locked", 0.0)) + run["locked"][ai]
+		out["b_locked"] = float(out.get("b_locked", 0.0)) + run["locked"][bi]
 		out["a_survived"] += 1 if float(run["hp"][ai]) > 0.0 else 0
 		out["b_survived"] += 1 if float(run["hp"][bi]) > 0.0 else 0
 	var m := float(maxi(1, out["matches"]))
@@ -155,7 +181,20 @@ static func series(
 		"a_survival": snappedf(out["a_survived"] / m, 0.001),
 		"b_survival": snappedf(out["b_survived"] / m, 0.001),
 		"power": out["power"],
+		"a_thrown_share": snappedf(out.get("a_thrown", 0.0) / maxf(1.0, out["a_dealt"]), 0.01),
+		"b_thrown_share": snappedf(out.get("b_thrown", 0.0) / maxf(1.0, out["b_dealt"]), 0.01),
+		"a_locked_s": snappedf(out.get("a_locked", 0.0) / m / CombatRules.TICK_RATE, 0.1),
+		"b_locked_s": snappedf(out.get("b_locked", 0.0) / m / CombatRules.TICK_RATE, 0.1),
+		"mixed": mix,
 	}
+
+
+## `side` with its AI skill and personality drawn by `i` and `j`.
+static func _mixed(side: Dictionary, i: int, j: int) -> Dictionary:
+	var out := side.duplicate(true)
+	out["ai"] = MIX_AI[i % MIX_AI.size()]
+	out["personality"] = MIX_STYLES[j % MIX_STYLES.size()]
+	return out
 
 
 ## The cap experiment: each side's power, defense and health held to at

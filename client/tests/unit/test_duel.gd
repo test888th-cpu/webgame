@@ -80,10 +80,14 @@ func test_the_pvp_profile_reaches_a_grab_skill_s_throw() -> void:
 			for hit in CombatRules.tick(fighters, {hero.id: input}, db.moves, DuelSim.BOUNDS):
 				if hit.move_id == "backbreaker_hit":
 					dealt[mode] = hit.damage
-	var scale := float(db.skills["backbreaker"]["profiles"]["pvp"]["damage"])
+	# Each mode scales the same throw by its own profile (PvE x1.3 for the
+	# Grappler since 2026-11-13, PvP x0.6).
+	var pvp := BalanceProfile.scale(db.skills["backbreaker"], BalanceProfile.PVP, "damage")
+	var pve := BalanceProfile.scale(db.skills["backbreaker"], BalanceProfile.PVE, "damage")
 	assert_true(dealt.has(BalanceProfile.PVE) and dealt.has(BalanceProfile.PVP), "both throws land")
-	assert_eq(
-		dealt[BalanceProfile.PVP],
-		roundi(dealt[BalanceProfile.PVE] * scale),
-		"the throw lands after the skill, yet with its PvP scale"
+	assert_near(
+		float(dealt[BalanceProfile.PVP]),
+		dealt[BalanceProfile.PVE] * pvp / pve,
+		"the throw lands after the skill, yet with its PvP scale",
+		1.0
 	)

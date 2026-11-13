@@ -79,8 +79,10 @@ profiles, plus boss-only runs (several minutes). It writes `report.json` and
   built by the arena's own rules (`ArenaLoadout.resolve` with the harness's settings as
   one more layer, the PvP kit and the arena's health), each played by `ArenaBrain` with
   human reaction limits, judged as the arena judges (knock-out, else health shares with
-  the draw margin). Groups (`--only=`): gear, ai, builds, personality, jobs, tiers and
-  cap (a gear-cap experiment that is not a game rule). `--seeds` matches per comparison,
+  the draw margin). Groups (`--only=`): gear, ai, builds, personality, jobs, jobs_mixed
+  (the job pairs with AI skill and personality drawn per match, plus time spent down or
+  held and the share of damage from throws), tiers and cap (a gear-cap experiment that
+  is not a game rule). `--seeds` matches per comparison,
   sides swapped every other match, seeds 1000 + n × 7919. Both sides are AI. Results:
   `docs/ARENA_BALANCE.md`. The 1-against-1 bot in `DuelSim` is the same `ArenaBrain`, so
   its numbers moved when the brain got human timing and its skills were fixed.
