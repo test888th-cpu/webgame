@@ -3,7 +3,8 @@ extends TestCase
 ## a ladder of fifty AI-played heroes rising in level, gear, upgrades and
 ## skill; five rivals offered above the player; a win swaps ranks; matches
 ## at PvP strength with doubled health and no food; the city's arena master
-## opens it and a match leads straight back to the ladder.
+## opens it and a match leads straight back to the ladder. Configuration:
+## test_arena_config.gd; results, forfeits and the AI: test_arena_integrity.gd.
 
 const TEST_SAVE := "user://test_arena"
 
@@ -50,26 +51,27 @@ func test_the_ladder_rises_from_plain_gear_to_top_gear_plus_seven() -> void:
 	assert_true(db.is_valid(), "content loads: %s" % ", ".join(db.errors))
 	assert_eq(ArenaRules.size(db), 50, "fifty rivals")
 	var bottom := ArenaRules.rival(db, "r50")
+	assert_eq(bottom["gear"].size(), 5, "five slots: no common charm exists before level 53")
+	assert_true(not bottom["slots"].has("charm"), "so the bottom tier wears none, as configured")
 	for item_id: String in bottom["gear"]:
 		assert_eq(db.item(item_id)["rarity"], "common", "the bottom wears plain gear")
 		assert_eq(int(bottom["plus"][item_id]), 0, "not upgraded")
 	var top_plain := ArenaRules.rival(db, "r21")
 	assert_eq(int(top_plain["level"]), 70, "rank 21 is level 70")
-	assert_eq(top_plain["gear"], ArenaRules.best_gear(db, 70, ContentDB.RARITIES), "the best gear")
-	for item_id: String in top_plain["gear"]:
-		assert_eq(int(top_plain["plus"][item_id]), 0, "still +0")
-	var champion := ArenaRules.rival(db, "r1")
-	assert_eq(champion["gear"], top_plain["gear"], "the champion wears the same top gear")
-	var pluses := {}
-	for item_id: String in champion["gear"]:
-		pluses[int(champion["plus"][item_id])] = true
-	assert_true(pluses.size() > 1, "upgrades mixed across the slots: %s" % str(pluses.keys()))
-	assert_true(pluses.keys().max() == ArenaRules.MAX_PLUS, "up to +7")
-	var low := ArenaRules.rival(db, "r20")
-	var most := 0
-	for item_id: String in low["gear"]:
-		most = maxi(most, int(low["plus"][item_id]))
-	assert_true(most >= 1 and most <= 2, "rank 20 starts the upgrades at +1 to +2 (%d)" % most)
+	for slot: String in top_plain["slots"]:
+		assert_eq(top_plain["slots"][slot]["grade"], "godforged", "top grade: %s" % slot)
+		assert_eq(int(top_plain["slots"][slot]["plus"]), 0, "still +0")
+	# Each tier's upgrades, mixed across the slots within its range.
+	for pair: Array in [["r20", 1, 2], ["r15", 3, 4], ["r10", 5, 6], ["r5", 7, 7], ["r1", 7, 7]]:
+		var data := ArenaRules.rival(db, str(pair[0]))
+		for slot: String in data["slots"]:
+			var plus := int(data["slots"][slot]["plus"])
+			assert_true(plus >= pair[1] and plus <= pair[2], "%s %s +%d" % [pair[0], slot, plus])
+	var mixed := {}
+	for slot: String in ArenaRules.rival(db, "r8")["slots"]:
+		mixed[int(ArenaRules.rival(db, "r8")["slots"][slot]["plus"])] = true
+	assert_eq(mixed.size(), 2, "rank 8 mixes +5 and +6")
+	assert_eq(ArenaRules.rival(db, "r1")["slots"]["weapon"]["item"], "sovereign_fists", "r1 own")
 
 
 func test_power_level_and_skill_rise_up_the_ladder() -> void:
@@ -93,7 +95,7 @@ func test_power_level_and_skill_rise_up_the_ladder() -> void:
 	var player := ArenaRules.player_power(_profile(10), db)
 	var bottom := ArenaRules.rival_power(db, "r50")
 	assert_true(
-		bottom <= player and bottom >= player * 0.6,
+		bottom < player and bottom >= player * 0.3,
 		"the bottom: a gentle start (%d, %d)" % [bottom, player]
 	)
 
@@ -107,14 +109,25 @@ func test_every_five_ranks_hold_all_five_jobs() -> void:
 		assert_eq(jobs.size(), 5, "ranks %d to %d: every job" % [start, start + 4])
 
 
-func test_a_new_challenger_is_offered_the_five_above() -> void:
+func test_a_new_challenger_is_offered_five_spread_above() -> void:
 	var p := _profile()
 	assert_eq(ArenaRules.rank_of(p, _content()), 51, "unranked, below all fifty")
 	assert_eq(
 		ArenaRules.choices(p, _content()),
-		["r50", "r49", "r48", "r47", "r46"] as Array[String],
-		"five"
+		["r50", "r48", "r46", "r45", "r44"] as Array[String],
+		"five, from the nearest to the much stronger"
 	)
+	var labels: Array[String] = []
+	for id in ArenaRules.choices(p, _content()):
+		labels.append(
+			str(
+				(
+					ArenaRules
+					. difficulty(_content(), id, ArenaRules.player_power(p, _content()))["label"]
+				)
+			)
+		)
+	assert_eq(labels, ["Easy", "Easy", "Even", "Hard", "Very Hard"] as Array[String], "a spread")
 	assert_eq(ArenaRules.closed(_profile(9), _content()) != "", true, "closed below level 10")
 	assert_eq(ArenaRules.closed(p, _content()), "", "open from level 10")
 
@@ -122,9 +135,9 @@ func test_a_new_challenger_is_offered_the_five_above() -> void:
 func test_a_win_swaps_ranks_and_a_loss_changes_nothing() -> void:
 	var db := _content()
 	var p := _profile()
-	var lost := ArenaRules.record(p, db, "r47", false)
+	var lost := ArenaRules.record(p, db, "r47", ArenaRules.LOSS)
 	assert_eq([lost["old_rank"], lost["new_rank"]], [51, 51], "a loss keeps the rank")
-	var won := ArenaRules.record(p, db, "r47", true)
+	var won := ArenaRules.record(p, db, "r47", ArenaRules.WIN)
 	assert_eq([won["old_rank"], won["new_rank"]], [51, 47], "a win takes the rival's rank")
 	assert_eq(ArenaRules.rank_of(p, db, "r47"), 51, "the rival drops to the player's")
 	assert_true(won["new_best"], "a new best")
@@ -138,23 +151,37 @@ func test_climbing_pays_each_best_rank_reward_once() -> void:
 	var p := _profile()
 	var money := p.money
 	var paid := 0
-	while ArenaRules.rank_of(p, db) > 1:
-		var above: String = ArenaRules.choices(p, db)[-1]
-		paid += int(ArenaRules.record(p, db, above, true)["money"])
+	var steps := 0
+	while ArenaRules.rank_of(p, db) > 1 and steps < 60:
+		steps += 1
+		var above := _highest(p, ArenaRules.choices(p, db))
+		paid += int(ArenaRules.record(p, db, above, ArenaRules.WIN)["money"])
 	var expected := 0
 	for reward: Dictionary in db.arena["rewards"]:
 		expected += int(reward["money"])
+	assert_eq(ArenaRules.rank_of(p, db), 1, "the top in %d wins" % steps)
 	assert_eq(paid, expected, "every reward once on the way up")
 	assert_eq(p.money, money + expected, "paid in coins")
 	assert_eq(ArenaRules.choices(p, db)[0], ArenaRules.state(p, db)["order"][1], "defend below")
-	var defended := ArenaRules.record(p, db, ArenaRules.choices(p, db)[0], true)
+	var defended := ArenaRules.record(p, db, ArenaRules.choices(p, db)[0], ArenaRules.WIN)
 	assert_eq([defended["new_rank"], defended["money"]], [1, 0], "the champion stays, unpaid")
+	var arena := ArenaRules.state(p, db)
+	assert_eq([int(arena["defenses"]), int(arena["streak"])], [1, 1], "a title defense")
+
+
+## The best-ranked of `ids`.
+func _highest(p: PlayerProfile, ids: Array[String]) -> String:
+	var best := ids[0]
+	for id in ids:
+		if ArenaRules.rank_of(p, _content(), id) < ArenaRules.rank_of(p, _content(), best):
+			best = id
+	return best
 
 
 func test_the_ladder_is_saved_and_a_broken_one_starts_fresh() -> void:
 	var db := _content()
 	var p := _profile()
-	ArenaRules.record(p, db, "r48", true)
+	ArenaRules.record(p, db, "r48", ArenaRules.WIN)
 	var loaded := PlayerProfile.from_dict(JSON.parse_string(JSON.stringify(p.to_dict())), db)
 	assert_eq(ArenaRules.rank_of(loaded, db), 48, "rank kept")
 	var data := p.to_dict()
@@ -258,8 +285,15 @@ func test_the_arena_master_opens_the_ladder_and_a_match_returns_to_it() -> void:
 	assert_eq(game.menu_name, "arena", "the ladder opens")
 	var cards := game.menu.find_children("Rival_*", "PanelContainer", true, false)
 	assert_eq(cards.size(), 5, "five rivals to choose from")
+	var picked := str(cards[2].name).trim_prefix("Rival_")
+	var target := ArenaRules.rank_of(game.profile, game.content, picked)
 	var fight := cards[2].find_child("Fight", true, false) as Button
 	fight.pressed.emit()
+	await tree.process_frame
+	assert_eq(game.menu_name, "arena_details", "Fight shows the rival first")
+	assert_eq(game.zone.area_id, game.content.city_area, "nothing starts yet")
+	var challenge := game.menu.find_child("Challenge", true, false) as Button
+	challenge.pressed.emit()
 	await tree.process_frame
 	assert_eq(game.zone.area_id, "pvp_arena", "into the arena")
 	assert_true(game.arena.active(), "a match runs")
@@ -280,14 +314,15 @@ func test_the_arena_master_opens_the_ladder_and_a_match_returns_to_it() -> void:
 	var banner := game.find_child("LevelUp", true, false) as Control
 	var title := (banner.get_child(0) as Label).text
 	assert_eq(title, "FIGHT!", "the match's banner is its own, not a level-up")
-	assert_eq(ArenaRules.rank_of(game.profile, game.content), 48, "rank 48 taken")
+	assert_eq(ArenaRules.rank_of(game.profile, game.content), target, "its rank taken")
 	var again := game.menu.find_child("Again", true, false) as Button
 	again.pressed.emit()
 	await tree.process_frame
 	assert_eq(game.zone.area_id, game.content.city_area, "back in the city")
 	assert_eq(game.menu_name, "arena", "on the ladder again")
 	var saved := SaveStore.load_character(game.profile.id, game.content)
-	assert_eq(ArenaRules.rank_of(saved, game.content), 48, "saved")
+	assert_eq(ArenaRules.rank_of(saved, game.content), target, "saved")
+	assert_true(ArenaRules.state(saved, game.content)["pending"].is_empty(), "nothing pending")
 	game.free()
 	SaveStore.delete_all()
 	SaveStore.root = SaveStore.DEFAULT_ROOT

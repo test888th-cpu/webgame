@@ -38,16 +38,9 @@ const STATUS_ONWARD := "On to the next area"
 ## Skills with a cooldown this long are the big finishers: saved for a crowd
 ## of three or a boss.
 const BIG_SKILL_COOLDOWN := 600
-## A grab skill holds the hero for a lift, a step and a flight, time a player
-## spends on it only when it pays: a crowd for the body to crash into, or a
-## tough foe still fresh. At most one this often (ticks), so the grabs come
-## now and then and the hero's blows do the killing, as for any job.
-const GRAB_GAP_TICKS := 300
-## Foes this close around a grab's target are a crowd its body lands in.
-const GRAB_CROWD := GrabRules.MAX_THROW + GrabRules.LAND_HALF + GrabRules.HOLD_GAP
-## A tough foe (an elite, or one with poise) is worth a grab above this share
-## of its health.
-const GRAB_FRESH := 0.5
+## No grab hold below this share of health with another foe this close.
+const GRAB_RISK_HP := 0.5
+const GRAB_RISK_RANGE := 100.0
 ## Energy kept back for a dodge, unless a skill would hit a crowd.
 const ENERGY_RESERVE := CombatRules.DODGE_COST
 ## How far a wind-up is read: a little beyond the attack's own reach.
@@ -90,8 +83,8 @@ var _chasing := Vector2.INF
 var _chase_ticks := 0
 var _chase_best := INF
 var _zone_id := 0
-## The zone tick of the last grab skill started.
-var _grab_at := -GRAB_GAP_TICKS
+## The last foe this hero held and threw.
+var _thrown_id := 0
 
 
 func _init(content: ContentDB) -> void:
@@ -116,6 +109,7 @@ func think(zone: ZoneSim) -> FighterInput:
 		return input
 	if hero.state == Fighter.State.GRAB:
 		# A foe in hand: throw them at once (a skill's own hold throws itself).
+		_thrown_id = hero.holding
 		input.light = true
 		return input
 	if hero.state == Fighter.State.GUARD and zone.tick_count < _guard_until:
@@ -354,7 +348,8 @@ func _follow_up(zone: ZoneSim, foes: Array[Fighter], input: FighterInput) -> voi
 
 
 ## The foe to go for: close, hurt, and a thrower left alone counts as close.
-## Keeps its current target unless another is clearly better.
+## Keeps its current target unless another is clearly better, or the current
+## one is a foe this hero just threw, still down, and another can be hit.
 func _choose_target(zone: ZoneSim, foes: Array[Fighter]) -> Fighter:
 	var hero := zone.hero
 	var best: Fighter = null
@@ -377,8 +372,15 @@ func _choose_target(zone: ZoneSim, foes: Array[Fighter]) -> Fighter:
 		if score < best_score:
 			best_score = score
 			best = foe
-	if current_score < best_score + 30.0:
-		return zone.fighter(_target_id)
+	# A foe this hero has just thrown lies out of reach for a while: no reason
+	# to stand over it while another can be hit. (Other knock-downs are short,
+	# and leaving them lets them up behind the hero: keep those.)
+	var current := zone.fighter(_target_id)
+	var waiting := (
+		current != null and current.id == _thrown_id and not CombatRules.is_vulnerable(current)
+	)
+	if current_score < best_score + (0.0 if waiting else 30.0):
+		return current
 	_target_id = best.id if best else 0
 	return best
 
@@ -454,11 +456,11 @@ func _pick_skill(zone: ZoneSim, foes: Array[Fighter], target: Fighter) -> String
 			continue
 		if GrabRules.barred(hero, move):  # No grab with a weapon in hand.
 			continue
-		# A hold costs time; on a foe who cannot be held a grab is a quick shove.
-		# A route's first grab pays too, paced like any grab.
-		var opens := combo > 1.0 and zone.tick_count - _grab_at >= GRAB_GAP_TICKS
-		var pays := link or opens or _grab_pays(zone, foes, target)
-		if move.grab and GrabRules.can_hold(target) and not pays:
+		# A grab skill is chosen like any other (owner's rule, 2026-11-13): when it
+		# is ready, reaches and hits hardest. Only the game's own rules stop it: a
+		# foe who cannot be held (above) and a weapon in hand. And, as a player
+		# would, no hold while badly hurt with others close: a hold pins the hero.
+		if move.grab and GrabRules.can_hold(target) and _pinned_risk(zone, foes, target):
 			continue
 		var facing := _skill_facing(zone, foes, target, skill_id)
 		var hits := 0
@@ -484,24 +486,19 @@ func _pick_skill(zone: ZoneSim, foes: Array[Fighter], target: Fighter) -> String
 		if score > best_score:
 			best_score = score
 			best = skill_id
-	var first := _content.moves.get_move(str(hero.skills[best]["move"])) if best else null
-	if first and first.grab and GrabRules.can_hold(target):
-		_grab_at = zone.tick_count
 	return best
 
 
-## True when a grab skill on `target` is worth the time it holds the hero:
-## none in the last GRAB_GAP_TICKS, and either another foe stands where the
-## body will land (a crowd to crash into) or `target` is a tough foe still
-## fresh (an elite, or one with poise, above GRAB_FRESH of its health).
-func _grab_pays(zone: ZoneSim, foes: Array[Fighter], target: Fighter) -> bool:
-	if zone.tick_count - _grab_at < GRAB_GAP_TICKS:
+## Below GRAB_RISK_HP of its health with another foe within GRAB_RISK_RANGE:
+## a hold would pin the hero where that foe can hit it.
+func _pinned_risk(zone: ZoneSim, foes: Array[Fighter], target: Fighter) -> bool:
+	var hero := zone.hero
+	if float(hero.hp) / maxf(1.0, hero.max_hp) >= GRAB_RISK_HP:
 		return false
 	for foe in foes:
-		if foe != target and foe.position.distance_to(target.position) <= GRAB_CROWD:
+		if foe != target and foe.position.distance_to(hero.position) <= GRAB_RISK_RANGE:
 			return true
-	var tough := foe_is_tough(target)
-	return tough and float(target.hp) / maxf(1.0, target.max_hp) > GRAB_FRESH
+	return false
 
 
 ## An elite or a foe with poise: one a jab will not stop.

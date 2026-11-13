@@ -4,6 +4,77 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed: grab skills used normally, counter replies that land, combos that flow (owner's request, 2026-11-13)
+- **Auto battle uses grab skills like any other skill** (owner's rule, replacing "only
+  when it pays, one every 5 s"): a ready grab skill is used when it is the best choice.
+  The game's own rules still apply: no hold on a boss or mini-boss (a shove), no grab
+  with a weapon in hand. Auto no longer stands over a foe it has just thrown while
+  another foe can be hit (only foes it threw itself, so ordinary knock-downs are kept,
+  and other jobs are unchanged), and it does not start a hold below half health with
+  another foe within 100 px (a hold pins the hero; the level 50 ground's hunt survives
+  11 of 12 seeds, 10 before). Measured, auto battle 3 minutes × 3 seeds on the level 9,
+  29 and 50 grounds: Oren 138 → 185 kills, damage taken 13,461 → 10,206, completed
+  combos 108 → 157. The other jobs: Riku 284, Kan 239, Mika 237, Dao 201
+  (`docs/SKILL_FLOW_REPORT.md`).
+- **Counter replies reach what they catch:** a caught attacker reels 14 px back, and the
+  replies (reach 38) missed 41% of caught blows, which also broke Perfect Retort (it
+  could never be completed). The first move of every counter reply now steps in 24 px
+  (`advance`, `moves.json`: Counter Punch, Quick Counter, Perfect Parry, Reversal Strike,
+  Absolute Retribution). Measured: replies land on 100% of caught blows (was 59%).
+  Perfect Retort is completed against 12 of 20 attackers (the rest attack only with
+  guard breaks or grabs, which stances cannot catch).
+- **Auto battle goes on into the longer combo route** when its remaining skills are
+  ready (+50% per further link), instead of always taking the shorter route that shares
+  the same opener. It keeps a route's later skill for the route (×0.4) while the route's
+  opener will be ready within 1 s. Completed combos: Kan 63 → 121, Mika 71 → 132, Riku
+  94 → 105. Holding harder was measured worse and not kept.
+- Tests: `test_skill_flow.gd` (each fails on the old behaviour).
+
+### Changed: the arena's rivals are configured by data, play with human timing, and results are applied once (owner's request, 2026-11-13)
+- **Rival equipment is fully configurable in `client/data/arena.json` v2**
+  (`ArenaLoadout`): per slot item, grade, upgrade (+0 to the game's +10), weights or
+  empty; reusable presets (balanced, heavy, fast, critical, defensive, custom,
+  `sovereign_full`); nine tiers on the real items (Common, Common/Uncommon, Rare, Epic,
+  top grade +0, then Godforged +1/+2, +3/+4, +5/+6, +7); rank overrides and per-opponent
+  overrides. Precedence: opponent > rank > tier > preset > defaults, and a per-slot
+  setting beats a ladder-wide one. Everything is validated on load (unknown or misplaced
+  items, levels, grades, upgrades, typos). A rival with an error is never offered and
+  never patched with another item. `config_version` is recorded with each result, and a
+  running match keeps its rival when the configuration changes.
+- **Real data findings:** no Common charm exists below level 53, so tier 1 wears none
+  (the old code left the slot empty silently). Legendary has no body or feet, so a full
+  Legendary set is reported as an error.
+- **Personalities** (balanced, aggressive, defensive, counter, combo, tactical) set
+  approach, attack rate, defense, combo and grab preference, counter stances, spacing,
+  whiff punishing and low-health behaviour.
+- **Human timing:** a rival sees a blow only 400 ms (beginner) to 200 ms (best) after it
+  starts, decides every 100 to 50 ms and mashes at most 12 presses a second (it decided
+  every tick and reacted at once before). It may raise its guard in anticipation from
+  what is visible (at most 10% of decisions: at 20% the best AI over-defended and lost
+  to beginners).
+- **Five spread rivals:** the nearest, then the rivals closest to an easy, even, hard
+  and much harder difficulty in a window above you that grows with your rank, each
+  labelled Easy, Even, Hard or Very Hard from real power and AI. **New rivals** is free.
+- **Details and challenge:** Fight opens the rival's gear by slot with grade and upgrade,
+  style, AI level and reaction time, and power against yours. Challenge starts the match.
+  The ladder adds draws, win rate and the champion. The result adds draws, the duration,
+  the health left at time and Rematch.
+- **Results applied once:** every match has an id, and a result is applied only once.
+  Phases run forward only. Closing the game during a fight counts as one forfeit loss on
+  the next start (the countdown is free). At time, health shares within 2 points are a
+  draw (no rank change, no reward, recorded). A damaged ladder is repaired keeping the
+  player's rank. Champion title defenses and streak are counted. Health and the ultimate
+  gauge are restored after a match.
+- **Balance harness** `tests/harness/ArenaSim.gd` / `ArenaBalance.gd` and report
+  `docs/ARENA_BALANCE.md` (200 matches per comparison).
+
+### Fixed: arena rivals fought without their skills
+- The arena marks its rival as the zone's boss (for the HUD bar), and the boss-skill
+  system replaced the rival's job skills with an empty boss table. Rivals only punched.
+  `BossSkills` now leaves an arena rival's skills alone. With working skills, tier 1 moved
+  from levels 6–12 to 3–10 to keep a gentle start (a level-10 stand-in won 10 of 10
+  against #50).
+
 ### Added: The Pit Arena, a 50-rival PvP ladder against AI heroes (owner's request, 2026-11-13)
 - **Khru Sombat in Iron City Central** (from level 10) opens the **Arena Ladder**: your
   rank, best rank, combat power and record, and the five rivals ranked just above you,

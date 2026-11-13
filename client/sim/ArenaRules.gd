@@ -1,25 +1,35 @@
 class_name ArenaRules
 extends RefCounted
-## The arena ladder (data/arena.json). Fifty rivals, each a player's hero
-## played by the computer (ArenaBrain), ranked 1 (the champion) to 50; a new
-## challenger starts below them all. The arena offers the five rivals ranked
-## just above the player; beating one swaps their ranks, so the player climbs
-## and the rival drops to where the player stood. Losing changes nothing.
+## The arena ladder (data/arena.json). Rivals, each a player's hero played by
+## the computer (ArenaBrain), are ranked 1 (the champion) down; a new
+## challenger starts below them all. Beating a rival ranked above swaps the
+## two places, and nobody else moves. A loss, a draw, or a win over a rival
+## at or below the player's rank moves nobody.
 ##
-## A rival is defined by the rank it starts at: its band's level, gear grades,
-## upgrades (from plain gear at the bottom, through the best gear in the game
-## unupgraded, to the best gear at +1 to +7, mixed by slot) and AI skill all
-## rise with it. A rival keeps its strength as it moves on the ladder.
+## What each rival is (job, level, gear by slot and upgrade, AI, personality)
+## is configuration resolved by ArenaLoadout; a rival keeps it as it moves.
 ##
-## The ladder is kept per character (PlayerProfile.arena: "order" of rival
-## ids and "you", top first; "best" rank; "wins"; "losses"; "paid": reward
-## ranks already paid). Pure rules, shared with the server.
+## The ladder is kept per character (PlayerProfile.arena): "order" of rival
+## ids and "you", top first; "best" rank; "wins", "losses", "draws";
+## "defenses" and "streak" (won as champion); "paid" (reward ranks paid);
+## "refresh" (the "New rivals" count); "next_match" and "last_recorded"
+## (match ids: a result is applied once); "pending" (a match under way, a
+## forfeit if the game ends during it); "history" (latest results). Pure
+## rules, shared with the server.
 
 ## What an arena rival's Fighter.kind is (it is no enemy of enemies.json).
 const KIND := "arena_rival"
 const YOU := "you"
-const SLOT_SPREAD: Array[int] = [1, 0, -1, 1, 0, -1]
-const MAX_PLUS := 7
+const WIN := "win"
+const LOSS := "loss"
+const DRAW := "draw"
+const RESULTS := [WIN, LOSS, DRAW]
+const COUNTERS := ["best", "wins", "losses", "draws", "defenses", "streak", "refresh"]
+const IDS := ["next_match", "last_recorded"]
+## Resolved rivals kept at most (see rival()).
+const CACHE_LIMIT := 2000
+
+static var _resolved := {}
 
 
 static func spec(content: ContentDB) -> Dictionary:
@@ -42,7 +52,7 @@ static func start_rank(id: String) -> int:
 
 static func is_rival(content: ContentDB, id: String) -> bool:
 	var rank := start_rank(id)
-	return rank >= 1 and rank <= size(content)
+	return rank >= 1 and rank <= size(content) and id == rival_id(rank)
 
 
 ## "" when `profile` may enter the arena, else why not.
@@ -53,23 +63,28 @@ static func closed(profile: PlayerProfile, content: ContentDB) -> String:
 	return ""
 
 
-## The ladder of `profile`, made whole: every rival once and the player once,
-## top first (a missing or broken one starts fresh, the player at the bottom).
+## The ladder of `profile`, made whole. A damaged order is repaired keeping
+## every valid entry where it stood (duplicates and unknown ids dropped, a
+## missing rival put back at its starting rank, a missing player at the
+## bottom), so a legitimate rank is never thrown away.
 static func state(profile: PlayerProfile, content: ContentDB) -> Dictionary:
 	var arena: Dictionary = profile.arena
 	var order: Variant = arena.get("order", [])
 	if not _valid_order(content, order):
-		order = []
-		for rank in range(1, size(content) + 1):
-			order.append(rival_id(rank))
-		order.append(YOU)
-		arena["order"] = order
-	for field: String in ["best", "wins", "losses"]:
+		arena["order"] = _repair(content, order)
+	for field: String in COUNTERS + IDS:
 		arena[field] = maxi(0, int(arena.get(field, 0)))
-	if int(arena["best"]) == 0:
-		arena["best"] = size(content) + 1
+	var bottom := size(content) + 1
+	if int(arena["best"]) == 0 or int(arena["best"]) > bottom:
+		arena["best"] = bottom
+	arena["best"] = mini(int(arena["best"]), (arena["order"] as Array).find(YOU) + 1)
+	arena["next_match"] = maxi(int(arena["next_match"]), int(arena["last_recorded"]))
 	if not arena.get("paid") is Array:
 		arena["paid"] = []
+	if not arena.get("history") is Array:
+		arena["history"] = []
+	if not arena.get("pending") is Dictionary:
+		arena["pending"] = {}
 	profile.arena = arena
 	return arena
 
@@ -86,43 +101,283 @@ static func _valid_order(content: ContentDB, order: Variant) -> bool:
 	return true
 
 
+static func _repair(content: ContentDB, order: Variant) -> Array:
+	var kept: Array = []
+	var seen := {}
+	if order is Array:
+		for id: Variant in order:
+			var key := str(id)
+			if not seen.has(key) and (key == YOU or is_rival(content, key)):
+				kept.append(key)
+				seen[key] = true
+	for rank in range(1, size(content) + 1):
+		var id := rival_id(rank)
+		if not seen.has(id):
+			kept.insert(mini(rank - 1, kept.size()), id)
+	if not seen.has(YOU):
+		kept.append(YOU)
+	return kept
+
+
 ## The rank (1 = champion) of `who` ("you" or a rival id).
 static func rank_of(profile: PlayerProfile, content: ContentDB, who := YOU) -> int:
 	return (state(profile, content)["order"] as Array).find(who) + 1
 
 
-## The rivals the arena offers now: the CHOICES ranked just above the player,
-## nearest first; the champion is offered the ones just below, to defend.
+## The champion's id: a rival, or "you".
+static func champion(profile: PlayerProfile, content: ContentDB) -> String:
+	return str(state(profile, content)["order"][0])
+
+
+## Rival `id` resolved (ArenaLoadout.resolve). Resolutions are kept per
+## content and configuration (a changed configuration is a new key), so the
+## ladder screen can compare many rivals cheaply. Read-only: copy before
+## changing it (ArenaMatch keeps its own copy).
+static func rival(content: ContentDB, id: String) -> Dictionary:
+	var key := "%d|%d|%s" % [content.get_instance_id(), content.arena.hash(), id]
+	if not _resolved.has(key):
+		if _resolved.size() > CACHE_LIMIT:
+			_resolved.clear()
+		_resolved[key] = ArenaLoadout.resolve(content, id)
+	return _resolved[key]
+
+
+## Whether rival `id` may be offered: it resolves without an error.
+static func fit(content: ContentDB, id: String) -> bool:
+	return is_rival(content, id) and (rival(content, id)["errors"] as PackedStringArray).is_empty()
+
+
+static func rival_profile(content: ContentDB, id: String) -> PlayerProfile:
+	return ArenaLoadout.profile(content, rival(content, id))
+
+
+## The rivals offered now, nearest first. Below rank 5 they come from a
+## window above the player that widens with the rank (selection.window_share
+## of it, within window_min..window_max): the nearest fit rival, then for
+## each of selection.targets the rival in the window whose difficulty ratio
+## (difficulty()) is closest to it, so the five run from easy to much
+## stronger whatever the gaps in the ladder. "New rivals" (refresh) moves the
+## targets a little, deterministically, keeping the nearest. If even the
+## hardest pick is Easy, the window widens. With fewer rivals above than
+## choices, all of them are offered and the rest are the ranks just below,
+## to defend; the champion is offered the ranks below. Rivals whose
+## configuration has errors are never offered.
 static func choices(profile: PlayerProfile, content: ContentDB) -> Array[String]:
-	var order: Array = state(profile, content)["order"]
-	var mine := order.find(YOU)
-	var count := int(spec(content).get("choices", 5))
-	var out: Array[String] = []
-	var step := -1 if mine > 0 else 1
-	var at := mine + step
-	while out.size() < count and at >= 0 and at < order.size():
-		out.append(str(order[at]))
-		at += step
-	return out
-
-
-## Records a finished match against `id`: a win over a rival ranked above
-## swaps their places. Returns {"won", "old_rank", "new_rank", "best", "new_best",
-## "money"} (money: a reward for a best rank first reached).
-static func record(profile: PlayerProfile, content: ContentDB, id: String, won: bool) -> Dictionary:
 	var arena := state(profile, content)
 	var order: Array = arena["order"]
 	var mine := order.find(YOU)
+	var count := int(spec(content).get("choices", 5))
+	if mine < count:
+		return _nearest(content, order, mine, count)
+	var sel: Dictionary = spec(content).get("selection", {})
+	var window := clampi(
+		roundi(float(sel.get("window_share", 0.16)) * (mine + 1)),
+		int(sel.get("window_min", count)),
+		int(sel.get("window_max", 40))
+	)
+	window = clampi(window, count, mine)
+	var power := player_power(profile, content)
+	var out: Array[String] = []
+	for attempt in 4:
+		out = _pick(content, order, mine, count, window, power, int(arena["refresh"]))
+		if window >= mine or not _all_easy(content, out, power):
+			break
+		window = mini(mine, window * 2)
+	return out
+
+
+## The `count` fit rivals nearest above (then below) position `mine`.
+static func _nearest(content: ContentDB, order: Array, mine: int, count: int) -> Array[String]:
+	var out: Array[String] = []
+	for at in range(mine - 1, -1, -1):
+		if out.size() < count and fit(content, str(order[at])):
+			out.append(str(order[at]))
+	for at in range(mine + 1, order.size()):
+		if out.size() < count and fit(content, str(order[at])):
+			out.append(str(order[at]))
+	return out
+
+
+static func _pick(
+	content: ContentDB, order: Array, mine: int, count: int, window: int, power: int, refresh: int
+) -> Array[String]:
+	var targets: Array = spec(content).get("selection", {}).get("targets", [0.75, 1.0, 1.2, 1.5])
+	var rng := RandomNumberGenerator.new()
+	rng.seed = hash([mine, refresh])
+	var pool: Array[String] = []
+	var offset := 1
+	# The window, stretched past rivals that cannot be offered until `count`
+	# can be.
+	while offset <= mine and (offset <= window or pool.size() < count):
+		var id := str(order[mine - offset])
+		if fit(content, id):
+			pool.append(id)
+		offset += 1
+	var out: Array[String] = []
+	if pool.is_empty():
+		return out
+	out.append(pool[0])
+	for target: Variant in targets:
+		if out.size() >= count:
+			break
+		var want := float(target)
+		if refresh > 0:
+			want *= 1.0 + rng.randf_range(-0.15, 0.15)
+		var best := ""
+		var best_gap := INF
+		for id in pool:
+			if id in out:
+				continue
+			var gap := absf(log(maxf(0.01, _ratio(content, id, power)) / want))
+			if gap < best_gap:
+				best_gap = gap
+				best = id
+		if best != "":
+			out.append(best)
+	for id in pool:
+		if out.size() < count and id not in out:
+			out.append(id)
+	out.sort_custom(func(a: String, b: String) -> bool: return order.find(a) > order.find(b))
+	return out
+
+
+static func _ratio(content: ContentDB, id: String, power: int) -> float:
+	return float(difficulty(content, id, power)["ratio"])
+
+
+static func _all_easy(content: ContentDB, ids: Array[String], power: int) -> bool:
+	for id in ids:
+		if _ratio(content, id, power) >= _easy_below(content):
+			return false
+	return true
+
+
+static func _easy_below(content: ContentDB) -> float:
+	var labels: Array = spec(content).get("difficulty", [])
+	return float(labels[0]["below"]) if not labels.is_empty() else 0.85
+
+
+## "New rivals": a different spread of the same window, free and unlimited.
+static func refresh(profile: PlayerProfile, content: ContentDB) -> void:
+	var arena := state(profile, content)
+	arena["refresh"] = int(arena["refresh"]) + 1
+
+
+## How hard rival `id` is for a player of combat power `power`:
+## {"power", "ratio", "label"}. The ratio is the rival's power over the
+## player's, scaled by its AI (0.85 at skill 0 to 1.15 at skill 1), and the
+## label is the first of data's "difficulty" bands it is below.
+static func difficulty(content: ContentDB, id: String, power: int) -> Dictionary:
+	var data := rival(content, id)
+	var theirs := rival_power(content, id)
+	var ratio := float(theirs) / maxf(1.0, float(power)) * (0.85 + 0.3 * float(data["ai"]))
+	var label := ""
+	for band: Dictionary in spec(content).get("difficulty", []):
+		if label == "" and ratio < float(band["below"]):
+			label = str(band["label"])
+	return {"power": theirs, "ratio": ratio, "label": label}
+
+
+## The name of an AI skill level ("Beginner" .. "Master").
+static func ai_label(content: ContentDB, skill: float) -> String:
+	var label := ""
+	for level: Dictionary in spec(content).get("ai_levels", []):
+		if skill >= float(level["from"]) - 0.0001:
+			label = str(level["label"])
+	return label
+
+
+## A new match id, for a match against `id` about to start.
+static func begin(profile: PlayerProfile, content: ContentDB) -> int:
+	var arena := state(profile, content)
+	arena["next_match"] = int(arena["next_match"]) + 1
+	return int(arena["next_match"])
+
+
+## The match `match_id` has started fighting: kept so a game closed during
+## it counts as a forfeit (settle_pending). The countdown is not a match yet.
+static func mark_active(
+	profile: PlayerProfile, content: ContentDB, match_id: int, id: String
+) -> void:
+	var arena := state(profile, content)
+	arena["pending"] = {
+		"match": match_id, "rival": id, "version": int(spec(content).get("config_version", 1))
+	}
+
+
+## A match left under way (the game closed during it): recorded as a loss
+## by forfeit, once. Returns the record() result, or {} when none was left.
+static func settle_pending(profile: PlayerProfile, content: ContentDB) -> Dictionary:
+	var pending: Dictionary = state(profile, content)["pending"]
+	if pending.is_empty():
+		return {}
+	var id := str(pending.get("rival", ""))
+	var match_id := int(pending.get("match", 0))
+	if not is_rival(content, id) or match_id <= 0:
+		profile.arena["pending"] = {}
+		return {}
+	var details := {"reason": "forfeit", "version": int(pending.get("version", 0))}
+	return record(profile, content, id, LOSS, match_id, details)
+
+
+## Records the result of match `match_id` against `id`: `result` is WIN,
+## LOSS or DRAW. A win over a rival ranked above swaps their places. A match
+## id already recorded changes nothing (the result says "duplicate"), so a
+## result applied twice cannot move a rank or pay twice. `details` may give
+## "reason", "seconds" and "version" for the history. Returns {"result",
+## "won", "old_rank", "new_rank", "best", "new_best", "money", "match",
+## "duplicate"}; money is the reward for a best rank first reached.
+static func record(
+	profile: PlayerProfile,
+	content: ContentDB,
+	id: String,
+	result: String,
+	match_id := 0,
+	details := {}
+) -> Dictionary:
+	var arena := state(profile, content)
+	if match_id <= 0:
+		match_id = begin(profile, content)
+	var order: Array = arena["order"]
+	var mine := order.find(YOU)
+	var out := {
+		"result": result,
+		"won": result == WIN,
+		"old_rank": mine + 1,
+		"new_rank": mine + 1,
+		"best": int(arena["best"]),
+		"new_best": false,
+		"money": 0,
+		"match": match_id,
+		"duplicate": false,
+	}
+	if (
+		match_id <= int(arena["last_recorded"])
+		or result not in RESULTS
+		or not is_rival(content, id)
+	):
+		out["duplicate"] = match_id <= int(arena["last_recorded"])
+		return out
+	arena["last_recorded"] = match_id
+	arena["next_match"] = maxi(int(arena["next_match"]), match_id)
+	if int(arena["pending"].get("match", -1)) == match_id:
+		arena["pending"] = {}
 	var theirs := order.find(id)
-	var out := {"won": won, "old_rank": mine + 1, "new_rank": mine + 1, "money": 0}
-	if won:
-		arena["wins"] = int(arena["wins"]) + 1
-		if theirs >= 0 and theirs < mine:
-			order[mine] = id
-			order[theirs] = YOU
-			out["new_rank"] = theirs + 1
-	else:
-		arena["losses"] = int(arena["losses"]) + 1
+	match result:
+		WIN:
+			arena["wins"] = int(arena["wins"]) + 1
+			if theirs >= 0 and theirs < mine:
+				order[mine] = id
+				order[theirs] = YOU
+				out["new_rank"] = theirs + 1
+			elif mine == 0:
+				arena["defenses"] = int(arena["defenses"]) + 1
+				arena["streak"] = int(arena["streak"]) + 1
+		LOSS:
+			arena["losses"] = int(arena["losses"]) + 1
+			arena["streak"] = 0
+		DRAW:
+			arena["draws"] = int(arena["draws"]) + 1
 	out["new_best"] = int(out["new_rank"]) < int(arena["best"])
 	arena["best"] = mini(int(arena["best"]), int(out["new_rank"]))
 	out["best"] = arena["best"]
@@ -132,82 +387,38 @@ static func record(profile: PlayerProfile, content: ContentDB, id: String, won: 
 			arena["paid"].append(at)
 			out["money"] = int(out["money"]) + int(reward.get("money", 0))
 	profile.money += int(out["money"])
+	_remember(arena, content, id, out, details)
 	return out
 
 
-## Everything that makes rival `id`: {"id", "name", "hero", "level",
-## "gear": [item ids by slot], "plus": {item id: upgrade}, "ai": skill 0..1}.
-static func rival(content: ContentDB, id: String) -> Dictionary:
-	var rank := start_rank(id)
-	var band := _band(content, rank)
-	var t := _along(band, rank)
-	var level := roundi(lerpf(float(band["level"][0]), float(band["level"][1]), t))
-	var jobs: Array = content.job_order
-	var job := str(jobs[rank % jobs.size()])
-	var gear := best_gear(content, level, band["grades"])
-	var average := lerpf(float(band["plus"][0]), float(band["plus"][1]), t)
-	var plus := {}
-	for i in gear.size():
-		var spread := SLOT_SPREAD[(i + rank) % SLOT_SPREAD.size()] if average >= 1.0 else 0
-		plus[gear[i]] = clampi(roundi(average) + spread, 0, MAX_PLUS)
-	return {
-		"id": id,
-		"name": str(spec(content)["names"][rank - 1]),
-		"hero": JobRules.hero_of(content, job),
-		"level": level,
-		"gear": gear,
-		"plus": plus,
-		"ai": lerpf(float(band["ai"][0]), float(band["ai"][1]), t),
-	}
+static func _remember(
+	arena: Dictionary, content: ContentDB, id: String, out: Dictionary, details: Dictionary
+) -> void:
+	var history: Array = arena["history"]
+	(
+		history
+		. push_front(
+			{
+				"match": out["match"],
+				"rival": id,
+				"result": out["result"],
+				"reason": str(details.get("reason", "")),
+				"old_rank": out["old_rank"],
+				"new_rank": out["new_rank"],
+				"seconds": int(details.get("seconds", 0)),
+				"version": int(details.get("version", spec(content).get("config_version", 1))),
+			}
+		)
+	)
+	var keep := int(spec(content).get("history_size", 20))
+	while history.size() > keep:
+		history.pop_back()
 
 
-## The band of the ladder `rank` starts in.
-static func _band(content: ContentDB, rank: int) -> Dictionary:
-	for band: Dictionary in spec(content).get("bands", []):
-		if rank <= int(band["from"]) and rank >= int(band["to"]):
-			return band
-	return {}
-
-
-## 0 at the band's weakest rank, 1 at its strongest.
-static func _along(band: Dictionary, rank: int) -> float:
-	var weakest := int(band["from"])
-	var strongest := int(band["to"])
-	return 1.0 if weakest == strongest else float(weakest - rank) / (weakest - strongest)
-
-
-## The best equipment of each slot a hero of `level` may wear, among `grades`
-## (ItemRules.score), as a player would have collected it.
-static func best_gear(content: ContentDB, level: int, grades: Array) -> Array[String]:
-	var out: Array[String] = []
-	for slot: String in PlayerProfile.SLOTS:
-		var best := ""
-		for item_id: String in content.items:
-			var item := content.item(item_id)
-			if item.get("type") != "equipment" or str(item.get("slot")) != slot:
-				continue
-			if int(item.get("level", 1)) > level or str(item.get("rarity")) not in grades:
-				continue
-			if best == "" or ItemRules.score(item) > ItemRules.score(content.item(best)):
-				best = item_id
-		if best != "":
-			out.append(best)
-	return out
-
-
-## A character made for rival `id`: its hero at its level, its gear worn and
-## upgraded. Never saved.
-static func rival_profile(content: ContentDB, id: String) -> PlayerProfile:
-	var data := rival(content, id)
-	var profile := PlayerProfile.new_game(content, str(data["hero"]), str(data["name"]))
-	profile.level = int(data["level"])
-	for item_id: String in data["gear"]:
-		profile.add_item(item_id)
-		profile.equip(item_id, content)
-		var worn := str(profile.equipment[str(content.item(item_id)["slot"])])
-		if int(data["plus"][item_id]) > 0 and worn != "":
-			profile.enhance[worn] = int(data["plus"][item_id])
-	return profile
+## Wins over all recorded matches, 0..1 (0 before any).
+static func win_rate(arena: Dictionary) -> float:
+	var total := int(arena["wins"]) + int(arena["losses"]) + int(arena["draws"])
+	return float(arena["wins"]) / total if total > 0 else 0.0
 
 
 ## Combat power: one number for how strong a fighter's stats make it, as
@@ -223,9 +434,16 @@ static func player_power(profile: PlayerProfile, content: ContentDB) -> int:
 	return power(profile.stats(content), profile.level)
 
 
+static func power_of(content: ContentDB, data: Dictionary) -> int:
+	var made := ArenaLoadout.profile(content, data)
+	return power(made.stats(content), made.level)
+
+
 static func rival_power(content: ContentDB, id: String) -> int:
-	var profile := rival_profile(content, id)
-	return power(profile.stats(content), profile.level)
+	var data := rival(content, id)
+	if not data.has("_power"):
+		data["_power"] = power_of(content, data)
+	return int(data["_power"])
 
 
 ## What is wrong with data/arena.json.
@@ -245,33 +463,14 @@ static func problems(content: ContentDB) -> PackedStringArray:
 			out.append("arena.%s: at least 1" % field)
 	if float(data.get("hp_scale", 0)) < 1.0:
 		out.append("arena.hp_scale: at least 1")
-	var covered := {}
-	for band: Variant in data.get("bands", []):
-		out.append_array(_band_problems(band, covered))
-	for rank in range(1, count + 1):
-		if not covered.has(rank):
-			out.append("arena.bands: rank %d is in no band" % rank)
+	var margin := float(data.get("draw_margin", 0.02))
+	if margin < 0.0 or margin >= 0.5:
+		out.append("arena.draw_margin: from 0 to under 0.5")
 	for reward: Variant in data.get("rewards", []):
 		if not reward is Dictionary or int(reward.get("best", 0)) < 1:
 			out.append("arena.rewards: each needs a best rank")
-	return out
-
-
-static func _band_problems(band: Variant, covered: Dictionary) -> PackedStringArray:
-	var out: PackedStringArray = []
-	if not band is Dictionary:
-		out.append("arena.bands: expected objects")
-		return out
-	for rank in range(int(band.get("to", 1)), int(band.get("from", 0)) + 1):
-		if covered.has(rank):
-			out.append("arena.bands: rank %d in two bands" % rank)
-		covered[rank] = true
-	for field: String in ["level", "plus", "ai"]:
-		var pair: Variant = band.get(field)
-		if not pair is Array or (pair as Array).size() != 2 or pair[0] > pair[1]:
-			out.append("arena.bands.%s: [weakest, strongest], rising" % field)
-	if not band.get("grades") is Array or (band["grades"] as Array).is_empty():
-		out.append("arena.bands.grades: a list of rarities")
-	elif int(band.get("plus", [0, 0])[1]) > MAX_PLUS:
-		out.append("arena.bands.plus: at most %d" % MAX_PLUS)
+	var labels: Array = data.get("difficulty", [])
+	if labels.is_empty():
+		out.append("arena.difficulty: at least one band")
+	out.append_array(ArenaLoadout.problems(content))
 	return out

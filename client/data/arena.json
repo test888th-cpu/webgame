@@ -1,11 +1,594 @@
 {
-  "_comment": "The arena ladder (ArenaRules, ArenaMatch, ArenaBrain): fifty rivals, each a player's hero played by the computer. A rival's strength comes from the rank it starts at: its band's level, gear grades, upgrade level (plus) and AI skill, each interpolated across the band. Names are ring names (docs/STORY_BIBLE.md, Arena).",
+  "_comment": "The arena ladder (ArenaRules, ArenaLoadout, ArenaMatch, ArenaBrain). Rivals are player heroes played by the computer. Everything a rival wears and how it plays is configured here, never in code. A rival's settings are merged from four layers, later ones winning: defaults, its tier (ranges spread across the tier's ranks), any rank_overrides that cover its rank, and opponents[its id]. A per-slot setting (slots.<slot>.item / grade / plus) always beats a ladder-wide one (grades / plus) whatever its layer. Presets are named equipment bundles a layer selects with \"preset\". Ids are r<starting rank>. See docs/ARENA_DESIGN.md.",
+  "config_version": 2,
   "area": "pvp_arena",
   "entry_level": 10,
   "choices": 5,
   "hp_scale": 2.0,
   "match_seconds": 90,
   "countdown_ticks": 180,
+  "draw_margin": 0.02,
+  "history_size": 20,
+  "selection": {
+    "window_share": 0.16,
+    "window_min": 5,
+    "window_max": 40,
+    "targets": [
+      0.75,
+      1.0,
+      1.25,
+      1.6
+    ],
+    "_targets": "After the nearest rival, one pick per target difficulty ratio (rival power / player power, scaled by its AI): easy, even, hard, much harder."
+  },
+  "difficulty": [
+    {
+      "below": 0.85,
+      "label": "Easy"
+    },
+    {
+      "below": 1.1,
+      "label": "Even"
+    },
+    {
+      "below": 1.4,
+      "label": "Hard"
+    },
+    {
+      "below": 1000000,
+      "label": "Very Hard"
+    }
+  ],
+  "ai_levels": [
+    {
+      "from": 0.0,
+      "label": "Beginner"
+    },
+    {
+      "from": 0.3,
+      "label": "Intermediate"
+    },
+    {
+      "from": 0.55,
+      "label": "Advanced"
+    },
+    {
+      "from": 0.8,
+      "label": "Expert"
+    },
+    {
+      "from": 0.95,
+      "label": "Master"
+    }
+  ],
+  "timing": {
+    "reaction_ms": [
+      400,
+      200
+    ],
+    "decision_ms": [
+      100,
+      50
+    ],
+    "mash_ms": [
+      133,
+      83
+    ],
+    "min_reaction_ms": 200
+  },
+  "defaults": {
+    "preset": "balanced",
+    "personality": "balanced",
+    "ai": 0.0,
+    "level": 1,
+    "grades": [
+      "common"
+    ],
+    "plus": 0
+  },
+  "presets": {
+    "balanced": {
+      "weights": {}
+    },
+    "heavy": {
+      "weights": {
+        "power": 2.0,
+        "crit": 1.2
+      }
+    },
+    "fast": {
+      "weights": {
+        "attack_speed": 2.0,
+        "speed": 1.5
+      }
+    },
+    "critical": {
+      "weights": {
+        "crit": 2.5,
+        "power": 1.2
+      }
+    },
+    "defensive": {
+      "weights": {
+        "max_hp": 2.0,
+        "defense": 2.0
+      }
+    },
+    "custom": {
+      "weights": {}
+    },
+    "sovereign_full": {
+      "slots": {
+        "head": {
+          "item": "sovereign_crown"
+        },
+        "body": {
+          "item": "sovereign_mantle"
+        },
+        "hands": {
+          "item": "sovereign_grips"
+        },
+        "weapon": {
+          "item": "sovereign_fists"
+        },
+        "feet": {
+          "item": "sovereign_treads"
+        },
+        "charm": {
+          "item": "sovereign_seal"
+        }
+      }
+    }
+  },
+  "personalities": {
+    "balanced": {
+      "approach": 0.8,
+      "attack_rate": 0.85,
+      "defend_bias": 0.8,
+      "combo_bias": 1.0,
+      "grab_bias": 1.0,
+      "stance_bias": 1.0,
+      "spacing": 0,
+      "punish_whiff": 0.5,
+      "low_hp": "steady"
+    },
+    "aggressive": {
+      "approach": 1.0,
+      "attack_rate": 1.0,
+      "defend_bias": 0.5,
+      "combo_bias": 1.2,
+      "grab_bias": 1.2,
+      "stance_bias": 0.5,
+      "spacing": 0,
+      "punish_whiff": 0.4,
+      "low_hp": "press"
+    },
+    "defensive": {
+      "approach": 0.5,
+      "attack_rate": 0.6,
+      "defend_bias": 1.0,
+      "combo_bias": 0.9,
+      "grab_bias": 0.8,
+      "stance_bias": 1.3,
+      "spacing": 40,
+      "punish_whiff": 0.7,
+      "low_hp": "turtle"
+    },
+    "counter": {
+      "approach": 0.55,
+      "attack_rate": 0.55,
+      "defend_bias": 1.0,
+      "combo_bias": 1.0,
+      "grab_bias": 0.7,
+      "stance_bias": 2.0,
+      "spacing": 36,
+      "punish_whiff": 1.0,
+      "low_hp": "steady"
+    },
+    "combo": {
+      "approach": 0.85,
+      "attack_rate": 0.9,
+      "defend_bias": 0.7,
+      "combo_bias": 2.0,
+      "grab_bias": 1.0,
+      "stance_bias": 0.8,
+      "spacing": 0,
+      "punish_whiff": 0.6,
+      "low_hp": "press"
+    },
+    "tactical": {
+      "approach": 0.7,
+      "attack_rate": 0.75,
+      "defend_bias": 0.95,
+      "combo_bias": 1.3,
+      "grab_bias": 1.0,
+      "stance_bias": 1.2,
+      "spacing": 30,
+      "punish_whiff": 1.0,
+      "low_hp": "kite"
+    }
+  },
+  "tiers": [
+    {
+      "id": "t1",
+      "label": "Street",
+      "ranks": [
+        50,
+        46
+      ],
+      "level": [
+        3,
+        10
+      ],
+      "grades": [
+        "common"
+      ],
+      "plus": [
+        0,
+        0
+      ],
+      "ai": [
+        0.0,
+        0.1
+      ],
+      "presets": [
+        "balanced",
+        "heavy",
+        "fast",
+        "defensive",
+        "critical"
+      ],
+      "personalities": [
+        "aggressive",
+        "balanced",
+        "defensive",
+        "combo",
+        "aggressive"
+      ],
+      "slots": {
+        "charm": {
+          "empty": true,
+          "_why": "No common charm exists below level 53 (data/items.json); a new player wears none."
+        }
+      }
+    },
+    {
+      "id": "t2",
+      "label": "Contender",
+      "ranks": [
+        45,
+        41
+      ],
+      "level": [
+        12,
+        20
+      ],
+      "grades": [
+        "common",
+        "uncommon"
+      ],
+      "plus": [
+        0,
+        0
+      ],
+      "ai": [
+        0.12,
+        0.22
+      ],
+      "presets": [
+        "balanced",
+        "heavy",
+        "fast",
+        "defensive",
+        "critical"
+      ],
+      "personalities": [
+        "balanced",
+        "aggressive",
+        "combo",
+        "defensive",
+        "counter"
+      ]
+    },
+    {
+      "id": "t3",
+      "label": "Rare",
+      "ranks": [
+        40,
+        36
+      ],
+      "level": [
+        24,
+        32
+      ],
+      "grades": [
+        "uncommon",
+        "rare"
+      ],
+      "plus": [
+        0,
+        0
+      ],
+      "ai": [
+        0.25,
+        0.35
+      ],
+      "presets": [
+        "balanced",
+        "heavy",
+        "fast",
+        "defensive",
+        "critical"
+      ],
+      "personalities": [
+        "combo",
+        "balanced",
+        "counter",
+        "aggressive",
+        "defensive"
+      ]
+    },
+    {
+      "id": "t4",
+      "label": "Epic",
+      "ranks": [
+        35,
+        31
+      ],
+      "level": [
+        34,
+        42
+      ],
+      "grades": [
+        "epic"
+      ],
+      "plus": [
+        0,
+        0
+      ],
+      "ai": [
+        0.37,
+        0.47
+      ],
+      "presets": [
+        "balanced",
+        "heavy",
+        "fast",
+        "defensive",
+        "critical"
+      ],
+      "personalities": [
+        "counter",
+        "combo",
+        "balanced",
+        "tactical",
+        "aggressive"
+      ]
+    },
+    {
+      "id": "t5",
+      "label": "Top grade",
+      "ranks": [
+        30,
+        21
+      ],
+      "level": [
+        44,
+        70
+      ],
+      "grades": [
+        "epic",
+        "legendary",
+        "godforged"
+      ],
+      "plus": [
+        0,
+        0
+      ],
+      "ai": [
+        0.5,
+        0.66
+      ],
+      "presets": [
+        "balanced",
+        "heavy",
+        "fast",
+        "defensive",
+        "critical"
+      ],
+      "personalities": [
+        "tactical",
+        "counter",
+        "combo",
+        "aggressive",
+        "defensive"
+      ]
+    },
+    {
+      "id": "t6",
+      "label": "Godforged +1/+2",
+      "ranks": [
+        20,
+        16
+      ],
+      "level": [
+        70,
+        70
+      ],
+      "grades": [
+        "godforged"
+      ],
+      "plus": [
+        1,
+        2
+      ],
+      "ai": [
+        0.68,
+        0.76
+      ],
+      "presets": [
+        "balanced",
+        "heavy",
+        "fast",
+        "defensive",
+        "critical"
+      ],
+      "personalities": [
+        "combo",
+        "tactical",
+        "counter",
+        "aggressive",
+        "balanced"
+      ]
+    },
+    {
+      "id": "t7",
+      "label": "Godforged +3/+4",
+      "ranks": [
+        15,
+        11
+      ],
+      "level": [
+        70,
+        70
+      ],
+      "grades": [
+        "godforged"
+      ],
+      "plus": [
+        3,
+        4
+      ],
+      "ai": [
+        0.78,
+        0.84
+      ],
+      "presets": [
+        "balanced",
+        "heavy",
+        "fast",
+        "defensive",
+        "critical"
+      ],
+      "personalities": [
+        "tactical",
+        "counter",
+        "combo",
+        "balanced",
+        "aggressive"
+      ]
+    },
+    {
+      "id": "t8",
+      "label": "Godforged +5/+6",
+      "ranks": [
+        10,
+        6
+      ],
+      "level": [
+        70,
+        70
+      ],
+      "grades": [
+        "godforged"
+      ],
+      "plus": [
+        5,
+        6
+      ],
+      "ai": [
+        0.86,
+        0.92
+      ],
+      "presets": [
+        "balanced",
+        "heavy",
+        "fast",
+        "defensive",
+        "critical"
+      ],
+      "personalities": [
+        "counter",
+        "tactical",
+        "combo",
+        "aggressive",
+        "tactical"
+      ]
+    },
+    {
+      "id": "t9",
+      "label": "Godforged +7",
+      "ranks": [
+        5,
+        1
+      ],
+      "level": [
+        70,
+        70
+      ],
+      "grades": [
+        "godforged"
+      ],
+      "plus": [
+        7,
+        7
+      ],
+      "ai": [
+        0.94,
+        1.0
+      ],
+      "presets": [
+        "balanced",
+        "heavy",
+        "fast",
+        "defensive",
+        "critical"
+      ],
+      "personalities": [
+        "tactical",
+        "counter",
+        "combo",
+        "tactical",
+        "counter"
+      ]
+    }
+  ],
+  "rank_overrides": [
+    {
+      "ranks": [
+        3,
+        2
+      ],
+      "personality": "counter"
+    }
+  ],
+  "opponents": {
+    "r1": {
+      "preset": "sovereign_full",
+      "personality": "tactical",
+      "ai": 1.0,
+      "slots": {
+        "head": {
+          "plus": 7
+        },
+        "body": {
+          "plus": 7
+        },
+        "hands": {
+          "plus": 7
+        },
+        "weapon": {
+          "plus": 7
+        },
+        "feet": {
+          "plus": 7
+        },
+        "charm": {
+          "plus": 7
+        }
+      }
+    }
+  },
   "names": [
     "Iron Abbot",
     "Black Lotus",
@@ -57,96 +640,6 @@
     "Soft Pillow",
     "Sweet Bun",
     "Day One"
-  ],
-  "bands": [
-    {
-      "from": 50,
-      "to": 41,
-      "level": [
-        6,
-        20
-      ],
-      "grades": [
-        "common"
-      ],
-      "plus": [
-        0,
-        0
-      ],
-      "ai": [
-        0.0,
-        0.2
-      ]
-    },
-    {
-      "from": 40,
-      "to": 31,
-      "level": [
-        24,
-        40
-      ],
-      "grades": [
-        "common",
-        "uncommon",
-        "rare"
-      ],
-      "plus": [
-        0,
-        0
-      ],
-      "ai": [
-        0.25,
-        0.45
-      ]
-    },
-    {
-      "from": 30,
-      "to": 21,
-      "level": [
-        43,
-        70
-      ],
-      "grades": [
-        "common",
-        "uncommon",
-        "rare",
-        "epic",
-        "legendary",
-        "godforged"
-      ],
-      "plus": [
-        0,
-        0
-      ],
-      "ai": [
-        0.5,
-        0.65
-      ]
-    },
-    {
-      "from": 20,
-      "to": 1,
-      "level": [
-        70,
-        70
-      ],
-      "grades": [
-        "common",
-        "uncommon",
-        "rare",
-        "epic",
-        "legendary",
-        "godforged"
-      ],
-      "plus": [
-        1,
-        7
-      ],
-      "ai": [
-        0.7,
-        1.0
-      ]
-    }
   ],
   "rewards": [
     {

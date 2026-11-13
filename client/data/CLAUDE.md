@@ -11,6 +11,10 @@ progression and the tutorial.
 - **How loudly a hazard warns** is `boss_fx.json` "telegraph": `none`, `minimal` or
   `full` per source (`ultimate`, `skill`, `cycle`) or per skill id under `"skills"`;
   `BossFxRules.telegraph_problems` validates it.
+- **Arena rivals** are configured only in `arena.json` (tiers, presets, personalities,
+  rank and opponent overrides, per-slot item/grade/plus): `ArenaLoadout.problems`
+  validates every rival on load. Guide: `docs/ARENA_DESIGN.md`. Raise `config_version`
+  with a balance change.
 - **Adding content needs no code.** A new move, monster, item or area is a data change
   (CLAUDE.md "Boundaries"). If it seems to need code, the rule belongs in `client/sim/`.
 - **Keep the existing format.** Two-space JSON as the files already use; never rename or

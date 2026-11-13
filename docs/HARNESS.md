@@ -75,7 +75,17 @@ profiles, plus boss-only runs (several minutes). It writes `report.json` and
   single blow and the mean match length. A bot does not feint, so it reads stances and
   slow wind-ups worse than a person: compare jobs with it, not with real play.
 
-All six only read the data; anything they change lives in memory for one run.
+- `tests/harness/ArenaBalance.gd` (with `ArenaSim`) measures the arena: two fighters
+  built by the arena's own rules (`ArenaLoadout.resolve` with the harness's settings as
+  one more layer, the PvP kit and the arena's health), each played by `ArenaBrain` with
+  human reaction limits, judged as the arena judges (knock-out, else health shares with
+  the draw margin). Groups (`--only=`): gear, ai, builds, personality, jobs, tiers and
+  cap (a gear-cap experiment that is not a game rule). `--seeds` matches per comparison,
+  sides swapped every other match, seeds 1000 + n × 7919. Both sides are AI. Results:
+  `docs/ARENA_BALANCE.md`. The 1-against-1 bot in `DuelSim` is the same `ArenaBrain`, so
+  its numbers moved when the brain got human timing and its skills were fixed.
+
+All seven only read the data; anything they change lives in memory for one run.
 
 ## Limits
 

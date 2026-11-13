@@ -1956,7 +1956,8 @@
       "reach": 34,
       "depth_tolerance": 14,
       "knockdown": true,
-      "anim": "heavy"
+      "anim": "heavy",
+      "advance": 24
     },
     "ko_combo_1": {
       "startup": 4,
@@ -2664,7 +2665,8 @@
       "knockback": 30,
       "reach_offset": 4,
       "reach": 34,
-      "depth_tolerance": 14
+      "depth_tolerance": 14,
+      "advance": 24
     },
     "slip_punch": {
       "startup": 8,
@@ -2729,7 +2731,8 @@
       "knockback": 6,
       "reach_offset": 4,
       "reach": 34,
-      "depth_tolerance": 14
+      "depth_tolerance": 14,
+      "advance": 24
     },
     "reversal_stance": {
       "startup": 3,
@@ -2757,7 +2760,8 @@
       "depth_tolerance": 14,
       "guard_break": true,
       "knockdown": true,
-      "anim": "heavy"
+      "anim": "heavy",
+      "advance": 24
     },
     "retribution_stance": {
       "startup": 12,
@@ -2782,7 +2786,8 @@
       "knockback": 2,
       "reach_offset": 4,
       "reach": 34,
-      "depth_tolerance": 14
+      "depth_tolerance": 14,
+      "advance": 24
     },
     "retribution_2": {
       "startup": 3,

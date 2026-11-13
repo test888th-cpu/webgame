@@ -9,6 +9,11 @@ extends RefCounted
 
 const LINK_WEIGHT := 3.0
 const OPENER_WEIGHT := 1.3
+## A further ready link of the route a next skill leads into adds this share.
+const LONG_ROUTE_BONUS := 0.5
+## A route's later link alone, while its opener is ready within HOLD_TICKS.
+const HOLD_WEIGHT := 0.4
+const HOLD_TICKS := 60
 
 
 ## Damage of all of `skill`'s blows together on `target` (a Fighter.skills
@@ -75,19 +80,50 @@ static func brace(content: ContentDB, hero: Fighter) -> String:
 	return ""
 
 
-## How much auto battle favours `skill_id` for combos (ComboRules): the next
-## skill of a route the hero is on counts LINK_WEIGHT times; the first skill
-## of a route whose other skills are ready, OPENER_WEIGHT times.
+## How much auto battle favours `skill_id` for combos (ComboRules):
+## - the next skill of a route the hero is on counts LINK_WEIGHT times, and
+##   LONG_ROUTE_BONUS more for each further link of that route when all of
+##   them are ready (so a shared opener goes on into the longer route);
+## - the first skill of a route whose other skills are ready, OPENER_WEIGHT;
+## - a later link of a route, used on its own while its route is not under
+##   way and its opener will be ready within HOLD_TICKS, only HOLD_WEIGHT:
+##   it is kept for the route instead of being spent alone. (Holding harder,
+##   0.1 within 150 ticks, measured worse: more damage taken, fewer kills.)
 static func combo_weight(hero: Fighter, skill_id: String) -> float:
 	if skill_id in ComboRules.next_links(hero):
-		return LINK_WEIGHT
+		return LINK_WEIGHT * (1.0 + LONG_ROUTE_BONUS * _ready_beyond(hero, skill_id))
+	var opener := false
+	var held := false
 	for route: Dictionary in hero.combos:
 		var links: Array = route["links"]
-		if str(links[0]) != skill_id:
+		var at := links.find(skill_id)
+		if at == 0:
+			var ready := true
+			for later: Variant in links.slice(1):
+				ready = ready and hero.skills.has(later) and hero.cooldown_left(str(later)) == 0
+			opener = opener or ready
+		elif at > 0 and hero.cooldown_left(str(links[0])) <= HOLD_TICKS:
+			held = true
+	if opener:
+		return OPENER_WEIGHT
+	return HOLD_WEIGHT if held else 1.0
+
+
+## The most further links, all ready, of a route the hero is on whose next
+## skill is `skill_id`.
+static func _ready_beyond(hero: Fighter, skill_id: String) -> int:
+	var most := 0
+	var size := hero.combo_chain.size()
+	for route: Dictionary in hero.combos:
+		var links: Array = route["links"]
+		if links.size() <= size or links.slice(0, size) != hero.combo_chain:
 			continue
+		if str(links[size]) != skill_id:
+			continue
+		var beyond := links.slice(size + 1)
 		var ready := true
-		for later: Variant in links.slice(1):
+		for later: Variant in beyond:
 			ready = ready and hero.skills.has(later) and hero.cooldown_left(str(later)) == 0
 		if ready:
-			return OPENER_WEIGHT
-	return 1.0
+			most = maxi(most, beyond.size())
+	return most
