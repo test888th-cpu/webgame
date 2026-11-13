@@ -34,7 +34,8 @@ players sharing one simulated zone instance.
 |---|---|---|
 | City hub | 80 visible (more via additional instances) | 10 Hz |
 | Farming zone | 24 | 20 Hz |
-| Dungeon / boss | 4–5 / 10 | 20 Hz |
+| Story instance (every story area and its bosses) | 1, its owner (ARCHITECTURE D9; a rule, not an assumption) | 20 Hz |
+| World boss arena | 10 | 20 Hz |
 
 Bandwidth *estimate* (assumption): 30 entities in interest × ~12 B delta × 20 Hz ≈ 7 KB/s
 ≈ 58 kbit/s per player downstream. 4,000 CCU ≈ 230 Mbit/s egress before compression.

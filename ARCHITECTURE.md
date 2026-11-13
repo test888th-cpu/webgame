@@ -117,10 +117,31 @@ both places.
   saw, using the same rules. The client clock and client damage are never trusted for
   rewards online (CLAUDE.md).
 
+### D9. Story instances, shared areas and world boss/event areas are separate session types
+Owner's rule (2026-11-13, BLUEPRINT D17). `client/sim/SessionRules.gd` maps every area
+kind to one type, and the zone allocator and zone servers use it:
+
+| Type | Areas | Capacity | State |
+|---|---|---|---|
+| Story Instance (`STORY`) | the street (every story area) | 1: its owner | Enemies, boss HP and phase, encounters, quests, evidence and story events belong to one hero |
+| Shared Area (`SHARED`) | the city, farming grounds, boss lairs | allocator caps (PERFORMANCE.md) | Shared spawning (`FarmSpawner`, `LairRules`) |
+| World Boss/Event (`WORLD_BOSS`) | world boss arenas | allocator caps | One pool per boss per round (D8) |
+
+- Instance keys never collide across types: `story/<hero>/<area>`, `shared/<area>` (plus a
+  shard number when full), `world_boss/<boss>/<round>`. A story key always names its
+  owner, and `SessionRules.may_join` admits only that owner (a reconnect included).
+- Story progress reads only the hero's own record (`PlayerProfile`: quests, `defeated`,
+  `visited`), never shared enemy or boss state, and has no clock, daily cap, attempt cap
+  or wait. World boss rules neither gate nor are gated by the story.
+- Story bosses and mini-bosses can be fought again without limit once their area is
+  reached (`ReplayRules`, BLUEPRINT D18): each rematch is a fresh fight in the hero's own
+  instance and never resets the story or pays a first-clear reward again.
+
 ## 3. Join flow [planned M3]
 
 1. Client → API: log in, receive a short-lived access token and a rotating refresh token.
-2. Client → API: request to enter a zone. The API picks or starts an instance and returns
+2. Client → API: request to enter a zone. The API picks or starts an instance of the
+   area's session type (D9: a story area always gets the hero's own instance) and returns
    `{wss_url, ticket}`. The ticket is signed (Ed25519), expires in 30 s, is single use, and
    is bound to account, hero and instance.
 3. Client → zone server: `Hello{protocol, ticket}`. The zone server verifies the signature
@@ -152,3 +173,4 @@ here first.
 | 2026-10-27 | D7 recorded: auto battle produces player input only (`AutoPilot`, `AutoRules`). |
 | 2026-10-27 | D8 recorded: the world boss runs on the clock with a per-round pool (`WorldBossRules`). |
 | 2026-11-03 | D7 updated (owner's request): auto follows the story (`StoryAuto`) and fights any boss, world bosses included, with no first clear by hand. |
+| 2026-11-13 | D9 recorded (owner's rule): story instances, shared areas and world boss/event areas are separate session types (`SessionRules`); story boss fights stay replayable (`ReplayRules`). |

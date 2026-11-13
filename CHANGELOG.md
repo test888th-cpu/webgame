@@ -4,6 +4,32 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added: story instances, shared areas and world boss areas as separate session types (owner's rule, 2026-11-13)
+- `SessionRules` (new, `client/sim/`): every area runs as a **Story Instance** (the
+  street: one hero, private state, no caps or waits), a **Shared Area** (the city, farming
+  grounds, lairs) or a **World Boss/Event Area** (one pool per round). Instance keys
+  (`story/<hero>/<area>`, `shared/<area>`, `world_boss/<boss>/<round>`) and `may_join`
+  (a story instance admits only its owner) are ready for the zone allocator (M3/IL-7).
+- Docs: ARCHITECTURE D9, BLUEPRINT D17, PERFORMANCE capacity table (story instance = 1).
+- Tests (`test_session_rules`): every area kind has a type; two heroes never share a story
+  instance; shared and world boss instances are one for everyone; story gates ignore
+  world boss state.
+
+### Added: unlimited story boss and mini-boss rematches (owner's rule, 2026-11-13)
+- `ReplayRules` (new, `client/sim/`): once its area is reached, any story boss or
+  mini-boss fight can be fought again, without a cap or cooldown. A rematch is a fresh
+  fight in the hero's own instance, with the area's other fights standing down so the
+  hero goes straight to it; quests, evidence, areas reached and gates are untouched.
+  Drops roll the boss's table each time; first-clear rewards stay quest rewards, paid
+  once, and `ReplayRules.problems` (in `ContentDB.validate`) refuses an enemy that drops
+  evidence or a unique item. Nothing new is saved.
+- Ways in (`Rematch`, `GameMenus`): Win's taxi has a **Boss Fights** group (the 11 story
+  bosses, usual fare); the game menu has **Fight ... again** for the nearest boss or
+  mini-boss fight in the area; the knock-out screen has **Try again** after a lost boss
+  or mini-boss fight (same coins dropped as "Get back up", straight back in).
+- Docs: BLUEPRINT D18, ARCHITECTURE D9. Tests (`test_story_replay`); `test_taxi`
+  now expects the Boss Fights group.
+
 ### Fixed: boss hazard marks left painted on the street (owner's report, 2026-11-12)
 - **Cause:** when a boss fell, the hero went down or a world boss left, its waiting
   hazards were cleared in the sim without an event, so their warnings were never told to
