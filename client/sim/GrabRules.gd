@@ -58,6 +58,12 @@ const AIR_TICKS := 16
 ## Ticks a slammed body lies on the street before it gets up (1.5 s): the
 ## wind is knocked out of it, so a throw buys real room.
 const SLAM_DOWN_TICKS := 90
+## In PvP (a hero thrown by a hero) the body is down this long instead: a
+## throw still opens the foe up, but cannot keep them on the street half the
+## match (measured: 29-31 s of 55, docs/SKILL_FLOW_REPORT.md).
+const SLAM_DOWN_PVP_TICKS := 60
+## ...and once up again it cannot be grabbed for this long.
+const PVP_REGRAB_AFTER := 90
 ## Where a thrown body lands, it knocks down anyone within a body and a half.
 const LAND_HALF := BODY * 1.5
 
@@ -139,7 +145,12 @@ static func spent(input: FighterInput) -> FighterInput:
 ## Whether `defender` can be held (else a grab only shoves them): ordinary
 ## monsters and players can; bosses and mini-bosses never.
 static func can_hold(defender: Fighter) -> bool:
-	return not (defender.ungrabbable or defender.unshaken) and defender.grab_guard == 0
+	if defender.ungrabbable or defender.unshaken or defender.grab_guard > 0:
+		return false
+	# Planted in a heavy-armoured blow (a Brawler's committed heavy): no grip.
+	var move := defender.move
+	var planted := defender.state == Fighter.State.ATTACK and move != null and move.armor
+	return not (planted and defender.state_tick < move.startup + move.active)
 
 
 ## Ticks `holder` holds `defender`: its job's hold, halved on a foe with
@@ -286,7 +297,19 @@ static func _slam(
 		events.append(CombatRules.strike(thrower, body, move, rng))
 	body.knockback_remaining = 0.0
 	if not body.is_ko():
-		body.enter(Fighter.State.DOWN, SLAM_DOWN_TICKS)
+		var down := slam_down(thrower, body)
+		body.enter(Fighter.State.DOWN, down)
+		if down == SLAM_DOWN_PVP_TICKS:
+			# PvP: back on their feet, a thrown hero cannot be seized again
+			# at once (no throw, get up, throw loop).
+			body.grab_guard = maxi(body.grab_guard, down + PVP_REGRAB_AFTER)
+
+
+## How long `body`, slammed by `thrower`, stays down: shorter in PvP.
+static func slam_down(thrower: Fighter, body: Fighter) -> int:
+	if thrower != null and thrower.stun_limit > 0 and body.stun_limit > 0:
+		return SLAM_DOWN_PVP_TICKS
+	return SLAM_DOWN_TICKS
 
 
 ## A skill's hold that hurts: its "squeeze" move's damage every "every"

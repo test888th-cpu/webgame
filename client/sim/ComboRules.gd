@@ -18,6 +18,9 @@ extends RefCounted
 ## Ticks a hit chain stays alive without another blow landing.
 const HIT_CHAIN_TICKS := 120
 const MIN_LINKS := 2
+## A route's link may be the class's own light or heavy punch (its moveset
+## starter), not only a skill; a route always ends on a skill (its finisher).
+const BASIC_LINKS: Array[String] = ["light", "heavy"]
 const MAX_LINKS := 3
 const MIN_WINDOW := 30
 const MAX_WINDOW := 240
@@ -75,6 +78,25 @@ static func on_skill(f: Fighter, skill_id: String) -> void:
 		if route["links"] == chain:
 			f.combo_finish = route.duplicate()
 			f.combo_shown = false
+
+
+## `f` started its own `button` punch ("light" or "heavy"). It continues the
+## chain only when it is the route's next link, or opens one a route starts
+## with; any other punch leaves the chain as it was (a jab between two skills
+## of a route does not break it).
+static func on_basic(f: Fighter, button: String) -> void:
+	if f.combos.is_empty():
+		return
+	var going := not f.combo_chain.is_empty() and f.combo_landed and f.combo_timer > 0
+	if going and _is_prefix(f, f.combo_chain + [button]):
+		f.combo_chain = f.combo_chain + [button]
+	elif not going and _is_prefix(f, [button]):
+		f.combo_chain = [button]
+	else:
+		return
+	f.combo_landed = false
+	f.combo_timer = 0
+	f.combo_finish = {}
 
 
 ## A blow of `move` from `f` landed on someone (unblocked): the hit chain
@@ -186,7 +208,13 @@ static func route_damage(content: ContentDB, job_id: String, route: Dictionary) 
 	var sum := 0.0
 	var last := 0.0
 	for skill_id: Variant in route.get("links", []):
-		last = skill_damage(content, job_id, str(skill_id))
+		if str(skill_id) in BASIC_LINKS:
+			var punch := content.moves.get_move(
+				str(content.jobs.get(job_id, {}).get("moveset", {}).get(str(skill_id), ""))
+			)
+			last = float(punch.damage) if punch else 0.0
+		else:
+			last = skill_damage(content, job_id, str(skill_id))
 		sum += last
 	return sum + last * float(route.get("bonus", 0.0))
 
@@ -214,17 +242,35 @@ static func skill_damage(content: ContentDB, job_id: String, skill_id: String) -
 
 
 static func _land(f: Fighter) -> String:
-	if f.combo_chain.is_empty() or str(f.combo_chain[-1]) != f.skill_id:
+	if f.combo_chain.is_empty():
 		return ""
-	var first := not f.combo_landed
+	var link := str(f.combo_chain[-1])
+	var basic := link in BASIC_LINKS and f.skill_id == "" and f.move != null
+	basic = basic and str(f.moveset.get(link, "")) == f.move.id
+	if link != f.skill_id and not basic:
+		return ""
+	var first_land := not f.combo_landed
+	if first_land and f.combo_chain.size() > 1:
+		_refresh(f)
 	f.combo_landed = true
 	f.combo_timer = _window(f)
-	if first and not f.combo_finish.is_empty() and not f.combo_shown:
+	if first_land and not f.combo_finish.is_empty() and not f.combo_shown:
 		f.combo_shown = true
 		f.combo_done = str(f.combo_finish["id"])
 		UltimateRules.fill(f, float(f.combo_finish["gauge"]))
 		return f.combo_done
 	return ""
+
+
+## A "refresh" passive (the Boxer's): every link landed after the first
+## takes its ticks off every other skill's cooldown.
+static func _refresh(f: Fighter) -> void:
+	var ticks := roundi(PassiveRules.bonus(f, "refresh"))
+	if ticks <= 0:
+		return
+	for skill_id: String in f.cooldowns.keys():
+		if skill_id != f.skill_id:
+			f.cooldowns[skill_id] = maxi(1, int(f.cooldowns[skill_id]) - ticks)
 
 
 ## The longest window among the routes the chain is still on.
@@ -302,7 +348,12 @@ static func _link_problems(
 		return out
 	var highest := 1
 	var seen := {}
-	for skill_id: Variant in links:
+	for i in links.size():
+		var skill_id: Variant = links[i]
+		if str(skill_id) in BASIC_LINKS:
+			if i == links.size() - 1:
+				out.append("%s.links: a route ends on a skill, not a punch" % here)
+			continue
 		var skill: Dictionary = content.skills.get(str(skill_id), {})
 		if str(skill_id) not in kit or str(skill.get("type", "")) != "active":
 			out.append("%s.links: %s is not an active skill of this job" % [here, skill_id])

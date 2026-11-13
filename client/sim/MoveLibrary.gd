@@ -7,10 +7,21 @@ extends RefCounted
 const DEFAULT_PATH := "res://data/moves.json"
 
 const INT_FIELDS := ["startup", "active", "recovery", "damage", "hitstun"]
-const FLOAT_FIELDS := ["knockback", "reach", "depth_tolerance", "energy_cost", "advance"]
+const FLOAT_FIELDS := ["knockback", "reach", "depth_tolerance", "energy_cost", "energy_drain"]
 ## May be negative: a sweep whose hitbox starts behind the attacker.
-const SIGNED_FLOAT_FIELDS := ["reach_offset"]
-const BOOL_FIELDS := ["guard_break", "knockdown", "telegraph", "grab", "counter", "evade", "slam"]
+const SIGNED_FLOAT_FIELDS := ["reach_offset", "advance"]
+const BOOL_FIELDS := [
+	"guard_break",
+	"knockdown",
+	"telegraph",
+	"grab",
+	"counter",
+	"evade",
+	"slam",
+	"armor",
+	"otg",
+	"catch_all",
+]
 const CHAIN_INPUTS := ["light", "heavy"]
 ## Body animations a move can play: a one-arm swing, an overhead slash, a
 ## straight stab (knife), or a weapon brought down from beside the head
@@ -18,7 +29,34 @@ const CHAIN_INPUTS := ["light", "heavy"]
 ## "grab" reaches out with both hands and "throw" hurls what is held (art
 ## without them plays "light" and "heavy").
 ## "stance" is a counter stance: standing ready (art plays "idle").
-const ANIMS := ["light", "heavy", "stab", "swing", "grab", "throw", "stance"]
+const ANIMS := [
+	"light",
+	"heavy",
+	"stab",
+	"swing",
+	"grab",
+	"throw",
+	"stance",
+	# The five classes' own moves (hero sheets; others fall back, FighterView).
+	"boxer_overhand",
+	"boxer_weave",
+	"boxer_ultimate",
+	"brawler_hammer",
+	"brawler_pound",
+	"brawler_whirl",
+	"brawler_ultimate",
+	"grappler_clinch",
+	"grappler_slam",
+	"grappler_ultimate",
+	"counter_check",
+	"counter_whirl",
+	"counter_ultimate",
+	"striker_spin",
+	"striker_dash",
+	"striker_ultimate",
+]
+## A move steps back at most this far (a negative "advance").
+const MAX_BACKSTEP := 40.0
 
 var moves: Dictionary = {}
 ## The move each input starts from neutral, e.g. {"light": "jab"}.
@@ -102,6 +140,8 @@ func _parse_move(id: String, raw: Variant) -> MoveData:
 			errors.append("%s.%s: expected true or false" % [id, field])
 			continue
 		move.set(field, value)
+	if move.advance < -MAX_BACKSTEP:
+		errors.append("%s.advance: at most %d back" % [id, MAX_BACKSTEP])
 	var anim: Variant = raw.get("anim", "light")
 	if anim in ANIMS:
 		move.anim = anim

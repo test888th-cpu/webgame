@@ -378,7 +378,7 @@ func test_the_ai_closes_in_attacks_and_obeys_cooldowns_energy_and_reach() -> voi
 	for press: Dictionary in presses:
 		assert_eq(press["cooldown"], 0, "never a skill on cooldown")
 		assert_true(press["energy_ok"], "never without the energy")
-		assert_true(press["gap"] <= press["far"], "never from out of reach")
+		assert_true(press["gap"] <= press["far"], "never from out of reach: %s" % str(press))
 
 
 func test_a_rival_knocked_down_gets_up_and_fights_on() -> void:
@@ -401,36 +401,20 @@ func test_a_rival_knocked_down_gets_up_and_fights_on() -> void:
 
 
 func test_personalities_play_differently() -> void:
-	var db := _content()
+	# Three bouts each (one bout is too small a sample: who attacks whom how
+	# often swings with a single seed).
 	var styles := {}
 	for name: String in ["aggressive", "defensive", "counter"]:
-		var p := _profile(70)
-		var bout := _match(p, "r20", 7)
-		var settings: Dictionary = ArenaRules.rival(db, "r20")["brain"].duplicate()
-		var personality: Dictionary = db.arena["personalities"][name]
-		settings.merge(personality, true)
-		bout.brain.configure(settings)
-		bout.countdown = 1
-		var events: Array[ZoneEvent] = []
-		bout.tick(events)
-		var gap := 0.0
-		var ticks := 0
-		var foe := ArenaBrain.new(db, bout.zone.rng, 0.5)
-		for t in 1800:
-			var input := foe.think(
-				bout.zone.hero, bout.rival, true, db.moves, bout.zone.rng, Vector2.INF, 0
-			)
-			bout.zone.tick(bout.filter(input))
-			bout.tick(events)
-			if bout.over:
-				break
-			ticks += 1
-			gap += absf(bout.rival.position.x - bout.zone.hero.position.x)
-		var minutes := ticks / 3600.0
+		var totals := {"skills": 0.0, "defends": 0.0, "gap": 0.0, "ticks": 0}
+		for seed_value in [7, 8, 9]:
+			var bout := _personality_bout(name, seed_value)
+			for key: String in totals:
+				totals[key] += bout[key]
+		var minutes: float = totals["ticks"] / 3600.0
 		styles[name] = {
-			"skills_per_minute": snappedf(bout.brain.stats["skills"] / minutes, 0.1),
-			"guards_per_minute": snappedf(bout.brain.stats["defends"] / minutes, 0.1),
-			"gap": snappedf(gap / ticks, 0.1),
+			"skills_per_minute": snappedf(totals["skills"] / minutes, 0.1),
+			"guards_per_minute": snappedf(totals["defends"] / minutes, 0.1),
+			"gap": snappedf(totals["gap"] / totals["ticks"], 0.1),
 		}
 	var a: Dictionary = styles["aggressive"]
 	var d: Dictionary = styles["defensive"]
@@ -441,3 +425,35 @@ func test_personalities_play_differently() -> void:
 		d["guards_per_minute"] > a["guards_per_minute"], "defensive guards more: %s" % str(styles)
 	)
 	assert_true(styles["counter"] != a, "counter is its own style")
+
+
+## One 30 s bout of rival r20 played with personality `name` against an
+## average arena brain on Riku: its skills, defends, mean gap and ticks.
+func _personality_bout(name: String, seed_value: int) -> Dictionary:
+	var db := _content()
+	var bout := _match(_profile(70), "r20", seed_value)
+	var settings: Dictionary = ArenaRules.rival(db, "r20")["brain"].duplicate()
+	settings.merge(db.arena["personalities"][name], true)
+	bout.brain.configure(settings)
+	bout.countdown = 1
+	var events: Array[ZoneEvent] = []
+	bout.tick(events)
+	var gap := 0.0
+	var ticks := 0
+	var foe := ArenaBrain.new(db, bout.zone.rng, 0.5)
+	for t in 1800:
+		var input := foe.think(
+			bout.zone.hero, bout.rival, true, db.moves, bout.zone.rng, Vector2.INF, 0
+		)
+		bout.zone.tick(bout.filter(input))
+		bout.tick(events)
+		if bout.over:
+			break
+		ticks += 1
+		gap += absf(bout.rival.position.x - bout.zone.hero.position.x)
+	return {
+		"skills": float(bout.brain.stats["skills"]),
+		"defends": float(bout.brain.stats["defends"]),
+		"gap": gap,
+		"ticks": ticks,
+	}

@@ -340,6 +340,14 @@ func _follow_up(zone: ZoneSim, foes: Array[Fighter], input: FighterInput) -> voi
 		input.skill = skill
 		return
 	var heavy := _content.moves.get_move(CombatRules.starter(hero, _content.moves, "heavy"))
+	# A route whose next link is the class's own punch: press it.
+	var links := ComboRules.next_links(hero)
+	if "heavy" in links and heavy and hero.energy >= heavy.energy_cost and hero.weapon == "":
+		input.heavy = true
+		return
+	if "light" in links and hero.weapon == "":
+		input.light = true
+		return
 	var finisher := hero.move.chains.has("heavy") and hero.weapon == ""
 	if finisher and heavy and hero.energy >= heavy.energy_cost + ENERGY_RESERVE:
 		input.heavy = true
@@ -439,6 +447,15 @@ func _pick_skill(zone: ZoneSim, foes: Array[Fighter], target: Fighter) -> String
 	var best_score := 0.0
 	var ids: Array = hero.skills.keys()
 	ids.sort()
+	# A boss is never held (the game's rule): the hero's grab skills cannot
+	# complete a grab route on it, so no route with one is opened or waited
+	# for; the grabs themselves still shove it like any other blow.
+	var impossible: Array = []
+	if target != null and (target.ungrabbable or target.unshaken):
+		for skill_id: String in ids:
+			var first := _content.moves.get_move(str(hero.skills[skill_id]["move"]))
+			if first != null and first.grab:
+				impossible.append(skill_id)
 	for skill_id: String in ids:
 		if hero.cooldown_left(skill_id) > 0:
 			continue
@@ -446,7 +463,10 @@ func _pick_skill(zone: ZoneSim, foes: Array[Fighter], target: Fighter) -> String
 		var move := _content.moves.get_move(str(skill["move"]))
 		var power := AutoSkills.power(_content, hero, skill, target)
 		# The next skill of a combo route: worth it, whatever it holds or costs.
-		var combo := AutoSkills.combo_weight(hero, skill_id)
+		# Only a grab is kept back for a route its punch opens: a grab spent
+		# alone in a crowd is how heroes get pinned (farm_core_overflow).
+		var unheld := move != null and not move.grab
+		var combo := AutoSkills.combo_weight(hero, skill_id, unheld, impossible)
 		var link := combo >= AutoSkills.LINK_WEIGHT
 		# Stances answer an attack (_defend); a skill with no blow braces (_fight).
 		if move == null or move.counter or power <= 0.0 or not UltimateRules.ready(hero, skill):

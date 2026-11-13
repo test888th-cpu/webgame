@@ -87,6 +87,15 @@ func _player(zone: ZoneSim, route: Dictionary, foe: Fighter) -> FighterInput:
 		input.face = dir
 		if absf(gap.y) > 4.0:
 			input.move = Vector2(0, signf(gap.y))
+		elif want in ComboRules.BASIC_LINKS:
+			# A route's punch link: the class's own light or heavy.
+			if CombatRules.is_vulnerable(foe) and absf(gap.x) >= 12.0 and absf(gap.x) <= 24.0:
+				input.light = want == "light"
+				input.heavy = want == "heavy"
+			elif absf(gap.x) > 24.0:
+				input.move = Vector2(dir, 0)
+			elif absf(gap.x) < 12.0:
+				input.move = Vector2(-dir, 0)
 		elif _ready_for(zone, want, foe, absf(gap.x)):
 			input.skill = want
 		elif absf(gap.x) > 24.0:
@@ -116,15 +125,20 @@ func test_every_job_has_an_early_and_a_late_route() -> void:
 	assert_true(db.is_valid(), "content loads: %s" % ", ".join(db.errors))
 	for job_id: String in db.job_order:
 		var routes: Array = db.jobs[job_id]["skill_combos"]
-		assert_eq(routes.size(), 2, job_id + ": two routes")
+		assert_eq(routes.size(), 3, job_id + ": three routes")
 		assert_eq(int(routes[0]["unlock_level"]), 3, job_id + ": the first from Lv 3")
 		assert_eq((routes[0]["links"] as Array).size(), 2, job_id + ": of two skills")
 		assert_eq(int(routes[1]["unlock_level"]), 30, job_id + ": the second from Lv 30")
 		assert_eq((routes[1]["links"] as Array).size(), 3, job_id + ": of three skills")
+		var opener := str(routes[2]["links"][0])
+		assert_true(opener in ComboRules.BASIC_LINKS, job_id + ": a third opens on a punch")
+		var last := str(routes[2]["links"][-1])
+		assert_true(db.skills.has(last), job_id + ": and ends on a skill (its finisher)")
 		assert_eq(ComboRules.problems(db, job_id), PackedStringArray(), job_id + ": valid")
 	assert_eq(ComboRules.unlocked(db, "riku", 2).size(), 0, "none before Lv 3")
-	assert_eq(ComboRules.unlocked(db, "riku", 29).size(), 1, "one from Lv 3")
-	assert_eq(ComboRules.unlocked(db, "riku", 30).size(), 2, "both from Lv 30")
+	assert_eq(ComboRules.unlocked(db, "riku", 4).size(), 1, "one from Lv 3")
+	assert_eq(ComboRules.unlocked(db, "riku", 29).size(), 2, "the punch route from Lv 5")
+	assert_eq(ComboRules.unlocked(db, "riku", 30).size(), 3, "all three from Lv 30")
 
 
 func test_every_route_can_be_completed_by_a_player() -> void:
@@ -134,6 +148,8 @@ func test_every_route_can_be_completed_by_a_player() -> void:
 		for route: Dictionary in db.jobs[job]["skill_combos"]:
 			var stance := false
 			for skill_id: Variant in route["links"]:
+				if str(skill_id) in ComboRules.BASIC_LINKS:
+					continue
 				var move := db.moves.get_move(str(db.skills[str(skill_id)]["move"]))
 				stance = stance or move.counter
 			var zone := _zone(hero_id, stance)

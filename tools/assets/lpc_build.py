@@ -66,8 +66,17 @@ ANIMATIONS = {
     "1h_halfslash": ("halfslash", 4, [0, 1, 2, 3, 4, 5]),
 }
 # Direction rows in 4-row sheets: up, left, down, right. Side view uses right;
-# Godot flips it for left.
+# Godot flips it for left. An animation (or a borrowed frame) may name another
+# row ("up": the back, "down": the front) for a fighter turning on the spot.
 RIGHT_ROW = 3
+ROWS = {"up": 0, "left": 1, "down": 2, "right": 3}
+
+
+def row_of(row_count: int, row: str | None) -> int:
+    """The sheet row for direction `row` (default the side view)."""
+    if row_count != 4:
+        return 0
+    return ROWS.get(row or "right", RIGHT_ROW)
 LICENSE_ORDER = ["CC0", "OGA-BY", "CC-BY", "CC-BY-SA", "GPL"]
 
 
@@ -305,13 +314,14 @@ def hand_sockets(lpc: Lpc, body_type: str, game_anims: dict, poses: dict) -> tup
         angles = pose.get("angles", []) if pose.get("lpc") == anim["lpc"] else []
         if len(angles) != len(frames):
             angles = [DEFAULT_WEAPON_ANGLE] * len(frames)
-        row = RIGHT_ROW if row_count == 4 else 0
+        row = row_of(row_count, anim.get("row"))
         front = pose.get("hand") == "front" and pose.get("lpc") == anim["lpc"]
         cells = [hand_blobs(image.crop((f * FRAME, row * FRAME, (f + 1) * FRAME, (row + 1) * FRAME))) for f in frames]
         for index, spec in anim.get("borrow", {}).items():
-            name, frame = spec["from"] if isinstance(spec, dict) else spec
+            source_spec = list(spec["from"] if isinstance(spec, dict) else spec)
+            name, frame = source_spec[0], source_spec[1]
             source = lpc.image(sprite_path(layer[body_type], ANIMATIONS[name][0], None))
-            source_row = RIGHT_ROW if ANIMATIONS[name][1] == 4 else 0
+            source_row = row_of(ANIMATIONS[name][1], source_spec[2] if len(source_spec) > 2 else None)
             box = (frame * FRAME, source_row * FRAME, (frame + 1) * FRAME, (source_row + 1) * FRAME)
             cells[int(index)] = hand_blobs(source.crop(box))
         both = [i for i, blobs in enumerate(cells) if len(blobs) >= 2]
@@ -417,8 +427,9 @@ def borrowed_moves(anim: dict) -> list[str]:
 
 
 def borrowed_frame(compose, spec) -> Image.Image:
-    """A frame borrowed from another LPC move: [move, frame], or {"from":
-    [move, frame], "erase": [boxes], "patch": [{"from", "box", "to"}]}. Erased
+    """A frame borrowed from another LPC move: [move, frame] (or [move, frame,
+    row] for another direction), or {"from": [move, frame(, row)], "erase":
+    [boxes], "patch": [{"from", "box", "to"}]}. Erased
     edges are closed with the frame's own outline; `compose(move, frame)`
     gives a composited frame."""
     if not isinstance(spec, dict):
@@ -464,7 +475,7 @@ def compose_strip(
     body_type = recipe["body_type"]
     folder, row_count, cycle = ANIMATIONS[anim["lpc"]]
     frames = anim.get("frames", cycle)
-    row_index = RIGHT_ROW if row_count == 4 else 0
+    row_index = row_of(row_count, anim.get("row"))
     strip = Image.new("RGBA", (FRAME * len(frames), FRAME), (0, 0, 0, 0))
     hair_cells: list = [None] * len(frames)
     head_cells: list = [None] * len(frames)
@@ -497,7 +508,8 @@ def compose_strip(
             elif definition.get("type_name") == "head":
                 head_cells[i] = cell
     if recipe.get("cap"):
-        apply_cap(strip, hair_cells, head_cells, recipe["cap"], "side" if row_count == 4 else "front")
+        side = row_count == 4 and (anim.get("row") or "right") in ("right", "left")
+        apply_cap(strip, hair_cells, head_cells, recipe["cap"], "side" if side else "front")
     return strip, len(frames)
 
 
@@ -527,7 +539,12 @@ def build_character(
     for game_name, anim in game_anims.items():
         strip, count = compose_strip(lpc, char_id, recipe, layers, anim, used_paths)
         for index, spec in anim.get("borrow", {}).items():
-            frame = borrowed_frame(lambda m, f: compose_strip(lpc, char_id, recipe, layers, {"lpc": m, "frames": [f]}, used_paths)[0], spec)
+            frame = borrowed_frame(
+                lambda m, f, r=None: compose_strip(
+                    lpc, char_id, recipe, layers, {"lpc": m, "frames": [f], "row": r}, used_paths
+                )[0],
+                spec,
+            )
             strip.paste(frame, (int(index) * FRAME, 0))
         rows.append((game_name, strip, count, anim))
 

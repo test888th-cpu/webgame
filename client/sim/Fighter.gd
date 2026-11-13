@@ -134,6 +134,8 @@ var queued_tick := 0
 ## nothing can hit them.
 var stun_limit := 0
 var stun_meter := 0
+## Blows landed in a row on this hero while reeling (CombatRules.combo_scale).
+var combo_taken := 0
 var grace := 0
 ## Poise (elites and bosses): hitstun taken fills the same stun_meter; past
 ## poise_limit the fighter shrugs blows off for `armor` ticks (still taking
@@ -147,6 +149,9 @@ var armor := 0
 var unshaken := false
 var break_meter := 0.0
 var break_rest := 0
+## A heavy-armoured move (MoveData.armor) already shrugged off one hero's
+## blow: in PvP the next one gets through. Reset by every new move.
+var armor_spent := false
 ## Skills cannot be interrupted once started (heroes.json `skill_armor`).
 var skill_armor := false
 ## Perfect guard (the hero only, so enemy guards never punish the player's

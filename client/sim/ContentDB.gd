@@ -254,6 +254,7 @@ func validate() -> void:
 	errors.append_array(ItemRules.problems(self))
 	errors.append_array(JobRules.problems(self))
 	errors.append_array(ArenaRules.problems(self))
+	errors.append_array(SkillRegistry.problems(self))
 	_validate_progression()
 	_validate_weapons()
 	_validate_heroes()

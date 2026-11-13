@@ -124,13 +124,17 @@ func test_the_contact_frame_shows_when_the_blow_lands() -> void:
 	tree.root.add_child(view)
 	var hero := Fighter.new(1, 1, Vector2(100, 300))
 	view.fighter = hero
-	view.set_art("hero_mika", _art())
+	view.set_art("hero_riku", _art())
 	hero.enter(Fighter.State.ATTACK)
 	hero.move = haymaker
 	hero.state_tick = haymaker.startup
 	view.sync()
 	var sprite: AnimatedSprite2D = view.get_node("Sprite")
-	assert_eq([sprite.animation, sprite.frame], [&"heavy", 4], "Mika's haymaker lands fist out")
+	assert_eq(
+		[sprite.animation, sprite.frame],
+		[&"heavy", 4],
+		"Riku's haymaker lands fist out (base heavy clip)"
+	)
 	view.free()
 
 

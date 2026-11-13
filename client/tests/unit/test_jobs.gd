@@ -31,10 +31,12 @@ func _build_boxer_kit(db: ContentDB) -> void:
 			db.skills[id] = _job_skill(db, "boxer", type, level)
 			kit.append(id)
 	db.jobs["boxer"]["skills"] = kit
-	# The routes follow the new kit: two of its actives, then three.
+	# The routes follow the new kit: two of its actives, then three, and the
+	# route that opens on the heavy punch.
 	var routes: Array = db.jobs["boxer"]["skill_combos"]
 	routes[0]["links"] = ["boxer_active_0", "boxer_active_1"]
 	routes[1]["links"] = ["boxer_active_3", "boxer_active_4", "boxer_active_5"]
+	routes[2]["links"] = ["heavy", "boxer_active_2", "boxer_active_3"]
 
 
 func test_five_jobs_each_have_their_own_hero() -> void:

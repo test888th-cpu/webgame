@@ -34,7 +34,7 @@ var names := {}
 var buttons := {}
 var selected := ""
 var _stage: SpriteView
-var _anims: HBoxContainer
+var _anims: HFlowContainer
 var _info: VBoxContainer
 var _item_detail: VBoxContainer
 var _ground: Control
@@ -138,9 +138,11 @@ func _characters_tab() -> Control:
 	_stage = SpriteView.new()
 	_stage.name = "Stage"
 	stage.add_child(_stage)
-	_anims = HBoxContainer.new()
+	# Wraps: heroes have their class moves as well as the shared ones.
+	_anims = HFlowContainer.new()
 	_anims.name = "Animations"
-	_anims.add_theme_constant_override("separation", 3)
+	_anims.add_theme_constant_override("h_separation", 3)
+	_anims.add_theme_constant_override("v_separation", 3)
 	side.add_child(_anims)
 	_info = VBoxContainer.new()
 	_info.add_theme_constant_override("separation", 1)

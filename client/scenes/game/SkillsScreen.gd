@@ -66,7 +66,14 @@ static func _combos(content: ContentDB, profile: PlayerProfile) -> Control:
 	for route: Dictionary in ComboRules.routes(content, profile.hero):
 		var names: Array[String] = []
 		for skill_id: Variant in route["links"]:
-			names.append(str(content.skills[str(skill_id)]["name"]).capitalize())
+			if str(skill_id) in ComboRules.BASIC_LINKS:
+				# The class's own punch: its key, then what it throws.
+				var punch := str(
+					content.jobs[JobRules.job_of(content, profile.hero)]["moveset"][skill_id]
+				)
+				names.append("%s (%s)" % [str(skill_id).capitalize(), punch.capitalize()])
+			else:
+				names.append(str(content.skills[str(skill_id)]["name"]).capitalize())
 		var level := int(route["unlock_level"])
 		var open := profile.level >= level
 		var text := (

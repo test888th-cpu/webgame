@@ -35,6 +35,8 @@ const MASH_BEST := 5
 const ANTICIPATE_SHARE := 0.1
 const ANTICIPATE_RANGE := 60.0
 const ANTICIPATE_TICKS := 18
+## Share of chain finishes it ends with the class heavy where a light could follow.
+const HEAVY_FINISH := 0.35
 ## How it plays below LOW_HP_SHARE of its health.
 const LOW_HP := ["steady", "press", "turtle", "kite"]
 const LOW_HP_SHARE := 0.3
@@ -190,6 +192,17 @@ func _rival_free(me: Fighter, foe: Fighter, input: FighterInput) -> void:
 	var jab := _db.moves.get_move(CombatRules.starter(me, _db.moves, "light"))
 	var eager := punish or _gen.randf() < float(mood["attack"])
 	var gap := absf(foe.position.x - me.position.x)
+	var heavy := _db.moves.get_move(CombatRules.starter(me, _db.moves, "heavy"))
+	if (
+		foe.state == Fighter.State.GUARD
+		and heavy != null
+		and heavy.guard_break
+		and me.energy >= heavy.energy_cost
+		and _rival_reaches(me, heavy, foe, dir)
+	):
+		# A raised guard is what a guard-breaking heavy is for.
+		input.heavy = true
+		return
 	if CounterRules.open(foe) and not _rival_grabs(me, chosen):
 		# The raised guard of a stance shows: wait it out, or grab.
 		input.move = Vector2(-dir, 0)
@@ -235,11 +248,34 @@ func _rival_follow_up(me: Fighter, foe: Fighter, input: FighterInput) -> void:
 	if not me.hit_landed:
 		return
 	if skill >= COMBOS_FROM:
+		var dir := 1 if foe.position.x >= me.position.x else -1
 		for link in ComboRules.next_links(me):
-			if me.skills.has(link) and me.cooldown_left(link) == 0:
+			if not me.skills.has(link) or me.cooldown_left(link) > 0:
+				continue
+			# Only a link that reaches: the last blow may have knocked the foe away.
+			var link_move := _db.moves.get_move(str(me.skills[link]["move"]))
+			if link_move != null and (link_move.counter or _rival_reaches(me, link_move, foe, dir)):
 				input.skill = link
 				return
-	if me.move.chains.has("light") and CombatRules.is_vulnerable(foe):
+	if not CombatRules.is_vulnerable(foe):
+		return
+	var heavy := _db.moves.get_move(CombatRules.starter(me, _db.moves, "heavy"))
+	var route_links: Array[String] = []
+	if skill >= COMBOS_FROM:
+		route_links = ComboRules.next_links(me)
+	if "heavy" in route_links and heavy != null and me.energy >= heavy.energy_cost:
+		input.heavy = true
+		return
+	if "light" in route_links:
+		input.light = true
+		return
+	var can_heavy := me.move.chains.has("heavy") and heavy != null
+	can_heavy = can_heavy and me.energy >= heavy.energy_cost + CombatRules.DODGE_COST
+	# The class heavy finishes a chain: always where no light follows, else
+	# now and then (HEAVY_FINISH), so its timing is not read off the light.
+	if can_heavy and (not me.move.chains.has("light") or _gen.randf() < HEAVY_FINISH):
+		input.heavy = true
+	elif me.move.chains.has("light"):
 		input.light = true
 
 
@@ -258,10 +294,11 @@ func _rival_defend(me: Fighter, foe: Fighter, input: FighterInput, dir: int, wil
 		return false
 	stats["defends"] += 1
 	var wants_stance := skill >= STANCES_FROM and _gen.randf() < stance_bias
-	var stance := AutoSkills.stance(_db, me, due) if wants_stance else ""
+	var breaker := foe.move.guard_break
+	var stance := AutoSkills.stance(_db, me, due, breaker) if wants_stance else ""
 	var unstoppable := foe.move.guard_break or foe.move.grab
 	var can_dodge := skill >= DODGES_FROM and me.energy >= CombatRules.DODGE_COST
-	if stance != "" and not foe.move.guard_break:
+	if stance != "":
 		input.face = dir
 		input.skill = stance
 	elif unstoppable and due <= 10 and can_dodge:
@@ -305,7 +342,8 @@ func _rival_skill(me: Fighter, foe: Fighter, dir: int) -> String:
 			continue
 		var score := AutoSkills.power(_db, me, data, foe)
 		if skill >= COMBOS_FROM:
-			score *= 1.0 + (AutoSkills.combo_weight(me, skill_id) - 1.0) * combo_bias
+			var weight := AutoSkills.combo_weight(me, skill_id, true)
+			score *= 1.0 + (weight - 1.0) * combo_bias
 		if move.grab:
 			score *= grab_bias
 		if score > best_score:

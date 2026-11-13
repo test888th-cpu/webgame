@@ -58,6 +58,20 @@ const BREAK_REST := 1200
 ## COUNTER_DAMAGE times its damage. Letting go of guard closes the parry
 ## window for PARRY_LOCKOUT_TICKS so it rewards timing, not tapping.
 const PERFECT_GUARD_TICKS := 8
+## PvP combo scaling (combo_scale): blows past the PVP_COMBO_FREE-th in a row
+## on a reeling hero deal PVP_COMBO_DECAY less each, never under the floor.
+const PVP_COMBO_FREE := 3
+const PVP_COMBO_DECAY := 0.1
+const PVP_COMBO_FLOOR := 0.5
+## PvP (hero on hero): defense takes a share of each blow,
+## defense / (defense + PVP_DEFENSE_K), instead of a flat amount. Flat defense
+## between geared heroes wiped out light punches and many-blow skills (a jab
+## did 1, a Power Jab lost 60%, a Ground Pound 35%), so every fight was a race
+## of the biggest single hits and the Boxer and Striker could not compete. A
+## share keeps a light, fast class's many blows worth what they cost. With
+## the top gear's defense (about 70) it takes about as much off an average
+## skill as flat defense did. PvE keeps flat defense.
+const PVP_DEFENSE_K := 90.0
 const PARRY_LOCKOUT_TICKS := 24
 const PARRY_STUN := 30
 const PARRY_ENERGY := 15.0
@@ -110,7 +124,8 @@ static func tick(
 		for defender in fighters:
 			if defender.team == attacker.team or attacker.hit_ids.has(defender.id):
 				continue
-			if is_vulnerable(defender) and in_reach(attacker, defender, move):
+			var open := is_vulnerable(defender) or hits_down(move, defender)
+			if open and in_reach(attacker, defender, move):
 				events.append(_apply_hit(attacker, defender, move, rng))
 	return events
 
@@ -128,6 +143,18 @@ static func is_vulnerable(fighter: Fighter) -> bool:
 			var move := fighter.move
 			return not (move.evade and fighter.state_tick < move.startup + move.active)
 	return true
+
+
+## Whether `move` (an "otg" follow-up) can hit `defender` lying on the
+## street: down from a blow or a throw, landed, not knocked out, and not a
+## boss (who never lies down).
+static func hits_down(move: MoveData, defender: Fighter) -> bool:
+	return (
+		move.otg
+		and defender.state == Fighter.State.DOWN
+		and defender.airborne == 0
+		and not defender.unshaken
+	)
 
 
 static func in_reach(attacker: Fighter, defender: Fighter, move: MoveData) -> bool:
@@ -211,10 +238,8 @@ static func _step_idle(
 	f.facing = LaneMovement.facing(f.facing, input.move)
 	if input.face != 0:
 		f.facing = signi(input.face)
-	if input.dodge and f.energy >= DODGE_COST:
-		f.energy -= DODGE_COST
-		f.dodge_dir = f.facing
-		f.enter(Fighter.State.DODGE)
+	if input.dodge and f.energy >= dodge_cost(f):
+		_dodge(f)
 	elif input.skill and start_skill(f, input.skill, library):
 		pass
 	elif input.heavy and _start_move(f, library.get_move(starter(f, library, "heavy"))):
@@ -228,6 +253,17 @@ static func _step_idle(
 		f.position = LaneMovement.step(
 			f.position, input.move, TICK_SECONDS, bounds, f.speed * f.weapon_speed
 		)
+
+
+## What a dodge costs `f`: DODGE_COST, less a "dodge_cost" passive's share.
+static func dodge_cost(f: Fighter) -> float:
+	return DODGE_COST * (1.0 - clampf(PassiveRules.bonus(f, "dodge_cost"), 0.0, 0.8))
+
+
+static func _dodge(f: Fighter) -> void:
+	f.energy -= dodge_cost(f)
+	f.dodge_dir = f.facing
+	f.enter(Fighter.State.DODGE)
 
 
 ## The move a button starts from neutral for this fighter ("" if none).
@@ -248,7 +284,11 @@ static func damage_for(move: MoveData, attacker: Fighter, defender: Fighter) -> 
 	elif attacker.move == move:
 		scale *= SkillSequence.scale(attacker, "damage")
 	scale *= 1.0 + ComboRules.bonus(attacker, move)
-	return maxi(1, roundi(move.damage * attacker.power * scale) - defender.defense)
+	var raw := roundi(move.damage * attacker.power * scale)
+	if attacker.stun_limit > 0 and defender.stun_limit > 0:
+		var share := defender.defense / (defender.defense + PVP_DEFENSE_K)
+		return maxi(1, roundi(raw * (1.0 - share)))
+	return maxi(1, raw - defender.defense)
 
 
 ## Starts a skill if the fighter knows it, it is off cooldown and there is
@@ -288,6 +328,12 @@ static func _step_attack(f: Fighter, input: FighterInput, library: MoveLibrary) 
 	var cancel_window := f.hit_landed and f.state_tick >= move.startup + move.active
 	# A skill of several blows runs to its last one before anything cancels it.
 	cancel_window = cancel_window and not SkillSequence.pending(f)
+	# A "dodge_cost" passive (the Street Striker's) also lets a landed blow be
+	# cancelled into a dodge: hit, then slip away or round the foe.
+	var slips := PassiveRules.bonus(f, "dodge_cost") > 0.0
+	if cancel_window and slips and input.dodge and f.energy >= dodge_cost(f):
+		_dodge(f)
+		return
 	if cancel_window and f.queued_skill:
 		var skill_id := f.queued_skill
 		f.queued_skill = ""
@@ -328,12 +374,14 @@ static func recovery_cut(f: Fighter, move: MoveData) -> int:
 	return roundi(move.recovery * (1.0 - 1.0 / maxf(0.1, speed)))
 
 
-## Lunging moves carry the attacker forward until the hitbox closes.
+## Lunging moves carry the attacker forward until the hitbox closes; a
+## negative advance steps back instead (a check hook's retreat).
 static func _advance(f: Fighter, bounds: Rect2) -> void:
 	var move := f.move
 	var ticks := move.startup + move.active
-	if move.advance > 0.0 and f.state_tick <= ticks:
-		var step := Vector2(f.facing * move.advance / ticks, 0)
+	if move.advance != 0.0 and f.state_tick <= ticks:
+		# A skill's mode profile may shorten or lengthen its step.
+		var step := Vector2(f.facing * move.advance * SkillSequence.scale(f, "advance") / ticks, 0)
 		f.position = LaneMovement.clamp_to(f.position + step, bounds)
 
 
@@ -406,6 +454,12 @@ static func _start_move(f: Fighter, move: MoveData) -> bool:
 	f.skill_id = ""
 	f.skill_step = 0
 	f.countered = false
+	f.armor_spent = false
+	# A class's own light or heavy punch can be a combo route's link.
+	if f.weapon == "" and not f.moveset.is_empty():
+		for button: String in ComboRules.BASIC_LINKS:
+			if f.moveset.get(button, "") == move.id:
+				ComboRules.on_basic(f, button)
 	return true
 
 
@@ -420,7 +474,7 @@ static func _apply_hit(
 	event.move_id = move.id
 	event.position = defender.position
 	var from_front := signf(attacker.position.x - defender.position.x) != -defender.facing
-	var countered := CounterRules.catches(defender, move, from_front)
+	var countered := CounterRules.catches(defender, move, from_front, attacker)
 	if countered or is_perfect_guard(defender, from_front):
 		_parry(attacker, defender, event)
 		PassiveRules.on_event(defender, "parry")
@@ -428,6 +482,7 @@ static func _apply_hit(
 			event.countered = true
 			CounterRules.caught(defender)
 		return event
+	var was_down := defender.state == Fighter.State.DOWN
 	var stun := roundi(move.hitstun * SkillSequence.scale(attacker, "hitstun"))
 	var push := move.knockback * SkillSequence.scale(attacker, "knockback")
 	event.blocked = (defender.state == Fighter.State.GUARD and not move.guard_break and from_front)
@@ -445,9 +500,12 @@ static func _apply_hit(
 			full = roundi(full * CRIT_DAMAGE)
 			event.critical = true
 	full = maxi(1, roundi(full * (1.0 - PassiveRules.resist(defender))))
+	if not event.blocked:
+		full = maxi(1, roundi(full * combo_scale(attacker, defender)))
 	if event.blocked:
 		event.damage = maxi(1, roundi(full * GUARD_DAMAGE_FACTOR))
-		defender.energy -= full * GUARD_ENERGY_PER_DAMAGE
+		var crush := 1.0 + PassiveRules.bonus(attacker, "guard_drain", move, defender)
+		defender.energy -= full * GUARD_ENERGY_PER_DAMAGE * crush
 		defender.knockback_remaining = attacker.facing * push * 0.5
 		if defender.energy <= 0.0:
 			defender.energy = 0.0
@@ -461,6 +519,8 @@ static func _apply_hit(
 			away = attacker.facing
 		defender.knockback_remaining = away * push
 		defender.facing = -int(away)
+		if move.energy_drain > 0.0:
+			defender.energy = maxf(0.0, defender.energy - move.energy_drain)
 		PassiveRules.on_event(attacker, "hit")
 		PassiveRules.on_event(defender, "hurt")
 		ComboRules.on_hit(attacker, move)
@@ -470,12 +530,15 @@ static func _apply_hit(
 	if defender.hp == 0:
 		event.ko = true
 		defender.enter(Fighter.State.KO)
+	elif not event.blocked and was_down:
+		# An "otg" blow on a foe already down: damage only, the fall as it was.
+		defender.knockback_remaining = 0.0
 	elif not event.blocked:
 		if defender.unshaken:
 			event.knocked_down = _break(defender, event.damage)
 			event.broken = event.knocked_down
 			defender.knockback_remaining *= 0.25
-		elif is_unflinching(defender):
+		elif is_unflinching(defender) and not breaks_armor(defender, attacker, move):
 			event.armored = true
 			defender.knockback_remaining *= 0.25
 		elif move.knockdown:
@@ -494,11 +557,48 @@ static func is_unflinching(f: Fighter) -> bool:
 		return true
 	if f.skill_armor and f.state == Fighter.State.ATTACK and _is_skill(f, f.move.id):
 		return f.state_tick < f.move.startup + f.move.active
+	if f.state == Fighter.State.ATTACK and f.move != null and f.move.armor:
+		return f.state_tick < f.move.startup + f.move.active
 	if f.poise_limit <= 0:
 		return false
 	if f.armor > 0:
 		return true
 	return f.state == Fighter.State.ATTACK and f.move.telegraph and f.state_tick < f.move.startup
+
+
+## PvP combo scaling (both fighters heroes, who have stun_limit): each blow
+## landing on a hero who is still reeling, down or held from the last ones
+## counts on; from the PVP_COMBO_FREE-th on, each deals PVP_COMBO_DECAY less,
+## down to PVP_COMBO_FLOOR. A hero back on their feet starts afresh. So a long
+## combo still pays, but no loop can take a whole health bar. Monsters and
+## PvE are never scaled. Counts the blow as it goes (call once per hit).
+static func combo_scale(attacker: Fighter, defender: Fighter) -> float:
+	if attacker.stun_limit <= 0 or defender.stun_limit <= 0:
+		return 1.0
+	var reeling := defender.state in [Fighter.State.HITSTUN, Fighter.State.DOWN, Fighter.State.HELD]
+	defender.combo_taken = defender.combo_taken + 1 if reeling else 1
+	var extra := maxi(0, defender.combo_taken - PVP_COMBO_FREE)
+	return maxf(PVP_COMBO_FLOOR, 1.0 - PVP_COMBO_DECAY * extra)
+
+
+## Whether a blow breaks the heavy armour of the move `defender` is in: a
+## guard-breaking blow always does. Against a hero (PvP) the armour takes
+## one blow per swing and the second gets through, so a Brawler cannot walk
+## through a whole chain; monsters (PvE) never break it otherwise. Poise,
+## bosses and skill armour are not this armour.
+static func breaks_armor(defender: Fighter, attacker: Fighter, move: MoveData) -> bool:
+	var armoured := defender.state == Fighter.State.ATTACK and defender.move != null
+	if not (armoured and defender.move.armor) or defender.unshaken or defender.armor > 0:
+		return false
+	if defender.skill_armor and _is_skill(defender, defender.move.id):
+		return false
+	if move.guard_break:
+		return true
+	if attacker.stun_limit <= 0:
+		return false
+	var spent := defender.armor_spent
+	defender.armor_spent = true
+	return spent
 
 
 ## Whether a hit arriving now (from the front or not) is perfectly guarded.

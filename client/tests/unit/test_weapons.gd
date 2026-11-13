@@ -207,7 +207,7 @@ func test_knives_stab_and_the_rest_swing() -> void:
 		assert_eq(light.anim, expected, "%s attack motion" % weapon_id)
 	# The swing carries the weapon from up and back to forward and down.
 	for hands: Array in [
-		_content().art["hero_oren"]["hands"]["light"], _content().art["hero_riku"]["hands"]["swing"]
+		_content().art["hero_oren"]["hands"]["swing"], _content().art["hero_riku"]["hands"]["swing"]
 	]:
 		assert_true(float(hands[0][2]) < 0.0, "wind-up points up and back")
 		assert_true(float(hands[3][2]) > 90.0, "the blow comes down in front")

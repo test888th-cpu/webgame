@@ -1,6 +1,86 @@
-[gd_resource type="SpriteFrames" load_steps=65 format=3]
+[gd_resource type="SpriteFrames" load_steps=85 format=3]
 
 [ext_resource type="Texture2D" path="res://assets/characters/hero_riku/sheet.png" id="sheet"]
+
+[sub_resource type="AtlasTexture" id="boxer_overhand_0"]
+atlas = ExtResource("sheet")
+region = Rect2(0, 768, 64, 64)
+
+[sub_resource type="AtlasTexture" id="boxer_overhand_1"]
+atlas = ExtResource("sheet")
+region = Rect2(64, 768, 64, 64)
+
+[sub_resource type="AtlasTexture" id="boxer_overhand_2"]
+atlas = ExtResource("sheet")
+region = Rect2(128, 768, 64, 64)
+
+[sub_resource type="AtlasTexture" id="boxer_overhand_3"]
+atlas = ExtResource("sheet")
+region = Rect2(192, 768, 64, 64)
+
+[sub_resource type="AtlasTexture" id="boxer_overhand_4"]
+atlas = ExtResource("sheet")
+region = Rect2(256, 768, 64, 64)
+
+[sub_resource type="AtlasTexture" id="boxer_overhand_5"]
+atlas = ExtResource("sheet")
+region = Rect2(320, 768, 64, 64)
+
+[sub_resource type="AtlasTexture" id="boxer_overhand_6"]
+atlas = ExtResource("sheet")
+region = Rect2(384, 768, 64, 64)
+
+[sub_resource type="AtlasTexture" id="boxer_overhand_7"]
+atlas = ExtResource("sheet")
+region = Rect2(448, 768, 64, 64)
+
+[sub_resource type="AtlasTexture" id="boxer_ultimate_0"]
+atlas = ExtResource("sheet")
+region = Rect2(0, 896, 64, 64)
+
+[sub_resource type="AtlasTexture" id="boxer_ultimate_1"]
+atlas = ExtResource("sheet")
+region = Rect2(64, 896, 64, 64)
+
+[sub_resource type="AtlasTexture" id="boxer_ultimate_2"]
+atlas = ExtResource("sheet")
+region = Rect2(128, 896, 64, 64)
+
+[sub_resource type="AtlasTexture" id="boxer_ultimate_3"]
+atlas = ExtResource("sheet")
+region = Rect2(192, 896, 64, 64)
+
+[sub_resource type="AtlasTexture" id="boxer_ultimate_4"]
+atlas = ExtResource("sheet")
+region = Rect2(256, 896, 64, 64)
+
+[sub_resource type="AtlasTexture" id="boxer_ultimate_5"]
+atlas = ExtResource("sheet")
+region = Rect2(320, 896, 64, 64)
+
+[sub_resource type="AtlasTexture" id="boxer_weave_0"]
+atlas = ExtResource("sheet")
+region = Rect2(0, 832, 64, 64)
+
+[sub_resource type="AtlasTexture" id="boxer_weave_1"]
+atlas = ExtResource("sheet")
+region = Rect2(64, 832, 64, 64)
+
+[sub_resource type="AtlasTexture" id="boxer_weave_2"]
+atlas = ExtResource("sheet")
+region = Rect2(128, 832, 64, 64)
+
+[sub_resource type="AtlasTexture" id="boxer_weave_3"]
+atlas = ExtResource("sheet")
+region = Rect2(192, 832, 64, 64)
+
+[sub_resource type="AtlasTexture" id="boxer_weave_4"]
+atlas = ExtResource("sheet")
+region = Rect2(256, 832, 64, 64)
+
+[sub_resource type="AtlasTexture" id="boxer_weave_5"]
+atlas = ExtResource("sheet")
+region = Rect2(320, 832, 64, 64)
 
 [sub_resource type="AtlasTexture" id="dodge_0"]
 atlas = ExtResource("sheet")
@@ -256,6 +336,81 @@ region = Rect2(448, 64, 64, 64)
 
 [resource]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("boxer_overhand_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("boxer_overhand_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("boxer_overhand_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("boxer_overhand_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("boxer_overhand_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("boxer_overhand_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("boxer_overhand_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("boxer_overhand_7")
+}],
+"loop": false,
+"name": &"boxer_overhand",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("boxer_ultimate_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("boxer_ultimate_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("boxer_ultimate_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("boxer_ultimate_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("boxer_ultimate_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("boxer_ultimate_5")
+}],
+"loop": false,
+"name": &"boxer_ultimate",
+"speed": 14.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("boxer_weave_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("boxer_weave_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("boxer_weave_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("boxer_weave_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("boxer_weave_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("boxer_weave_5")
+}],
+"loop": false,
+"name": &"boxer_weave",
+"speed": 16.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("dodge_0")

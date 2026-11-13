@@ -41,7 +41,7 @@
       "combo": "Boxing Combination",
       "moveset": {
         "light": "boxer_jab",
-        "heavy": "haymaker"
+        "heavy": "boxer_overhand"
       },
       "grab": {
         "move": "grab_reach",
@@ -101,6 +101,26 @@
               "damage": 0.5
             }
           }
+        },
+        {
+          "id": "overhand_setup",
+          "name": "Overhand Setup",
+          "description": "Your heavy Overhand, Body Blow to wind them, then Uppercut to finish.",
+          "links": [
+            "heavy",
+            "body_blow",
+            "uppercut"
+          ],
+          "unlock_level": 5,
+          "window": 120,
+          "bonus": 0.5,
+          "gauge": 10,
+          "profiles": {
+            "pve": {},
+            "pvp": {
+              "damage": 0.5
+            }
+          }
         }
       ]
     },
@@ -117,7 +137,7 @@
       "combo": "Brutal Combination",
       "moveset": {
         "light": "brawler_left",
-        "heavy": "haymaker"
+        "heavy": "brawler_hammer"
       },
       "grab": {
         "move": "grab_reach",
@@ -177,6 +197,25 @@
               "damage": 0.5
             }
           }
+        },
+        {
+          "id": "hammer_and_anvil",
+          "name": "Hammer and Anvil",
+          "description": "Floor them with the Hammer Fist, then Ground Pound them where they lie.",
+          "links": [
+            "heavy",
+            "ground_pound"
+          ],
+          "unlock_level": 5,
+          "window": 120,
+          "bonus": 0.5,
+          "gauge": 8,
+          "profiles": {
+            "pve": {},
+            "pvp": {
+              "damage": 0.5
+            }
+          }
         }
       ]
     },
@@ -193,7 +232,7 @@
       "combo": "Grappling Combination",
       "moveset": {
         "light": "grappler_short",
-        "heavy": "haymaker"
+        "heavy": "grappler_collar_tie"
       },
       "grab": {
         "move": "grappler_grab_reach",
@@ -253,6 +292,25 @@
               "damage": 0.5
             }
           }
+        },
+        {
+          "id": "collar_and_throw",
+          "name": "Collar and Throw",
+          "description": "Collar Tie to hold them close, then Power Throw before they recover.",
+          "links": [
+            "heavy",
+            "power_throw"
+          ],
+          "unlock_level": 2,
+          "window": 120,
+          "bonus": 0.4,
+          "gauge": 8,
+          "profiles": {
+            "pve": {},
+            "pvp": {
+              "damage": 0.5
+            }
+          }
         }
       ]
     },
@@ -269,7 +327,7 @@
       "combo": "Defensive Combination",
       "moveset": {
         "light": "counter_quick",
-        "heavy": "haymaker"
+        "heavy": "counter_check_hook"
       },
       "grab": {
         "move": "grab_reach",
@@ -329,6 +387,26 @@
               "damage": 0.5
             }
           }
+        },
+        {
+          "id": "check_and_punish",
+          "name": "Check and Punish",
+          "description": "A quick check jab to test the guard, Slip Punch in under the reply, Precision Blow to finish.",
+          "links": [
+            "light",
+            "slip_punch",
+            "precision_blow"
+          ],
+          "unlock_level": 3,
+          "window": 120,
+          "bonus": 0.6,
+          "gauge": 10,
+          "profiles": {
+            "pve": {},
+            "pvp": {
+              "damage": 0.5
+            }
+          }
         }
       ]
     },
@@ -345,7 +423,7 @@
       "combo": "Street Combo",
       "moveset": {
         "light": "striker_jab",
-        "heavy": "haymaker"
+        "heavy": "striker_spin_backfist"
       },
       "grab": {
         "move": "grab_reach",
@@ -398,6 +476,26 @@
           "unlock_level": 30,
           "window": 120,
           "bonus": 0.9,
+          "gauge": 15,
+          "profiles": {
+            "pve": {},
+            "pvp": {
+              "damage": 0.5
+            }
+          }
+        },
+        {
+          "id": "rise_and_chase",
+          "name": "Rise and Chase",
+          "description": "A jab, Rising Fist to knock them down, then Chain Breaker to dive on them.",
+          "links": [
+            "light",
+            "rising_fist",
+            "chain_breaker"
+          ],
+          "unlock_level": 30,
+          "window": 120,
+          "bonus": 0.6,
           "gauge": 15,
           "profiles": {
             "pve": {},

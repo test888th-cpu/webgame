@@ -4,6 +4,86 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed: five distinct combat classes, a stronger combo engine, fair PvP (owner's request, 2026-11-13)
+- **Each class has its own heavy attack** instead of the shared `haymaker`:
+  - Boxer Overhand (breaks guard, chains into a Shovel Hook);
+  - Brawler Hammer Fist (slow, breaks guard, floors, armoured);
+  - Grappler Collar Tie (short, long hitstun to set up a grab);
+  - Counter Fighter Check Hook (steps back while hooking, cannot be hit until its blow
+    is through);
+  - Street Striker Spinning Backfist (hits both sides).
+
+  Every light chain ends in the class heavy.
+- **Own light and heavy animations per class.** The hero recipes' `animation_overrides`
+  compose each class's light and heavy swing from different LPC frames (the Boxer keeps
+  the base clips). There are also 13 class clips (overhand, weave, hammer, clinch,
+  check, whirl, spin, dash and five ultimates), plus Ground Pound (fists raised, a
+  crouching punch into the ground), Brawler Whirl (Backhand Smash and Street Carnage turn
+  all the way round), Oren's Ground Slam (a crouching slam) and a leaping slam for Street
+  Carnage's finish. Every class move that reaches behind plays a clip that turns, slams
+  or dashes through (tested, and checked on screen). `lpc_build.py` can take frames from the
+  back and front views. The asset test now accepts any LPC blow struck by the near arm
+  (half-slash, one-hand back-slash, thrust).
+- **Area attacks for every class** that really hit several foes, tested against two foes
+  each: Boxer Knockout Combo, Brawler Ground Pound / Wide Swing / Backhand Smash,
+  Grappler Ground Slam, Counter Fighter Reversal Strike, Street Striker Dash Strike.
+- **Mechanics that give each class its identity** (data fields, validated):
+  - `armor`: the Brawler's committed heavies and Street Carnage cannot be interrupted
+    by monsters. In PvP the armour takes one hero blow per swing; a guard breaker
+    always breaks it. An armoured swing cannot be grabbed while it lands.
+  - `otg`: Ground Pound, Ground Slam's wave and Chain Breaker also hit a foe lying on
+    the ground, for damage only.
+  - `catch_all`: the Counter Fighter's Perfect Parry catches guard breakers too, from
+    heroes and ordinary monsters; a boss's guard breakers stay unanswerable by any stance,
+    as before.
+  - `energy_drain`: the Boxer's Body Blow takes 35 energy.
+  - The Boxer's Slip Counter slips under a blow (untouchable) and answers. Heavy
+    Cross, Body Blow and Uppercut step in.
+  - Passives:
+    - Boxer Combination Puncher: each landed route link takes 0.75 s off the other
+      cooldowns.
+    - Brawler Crushing Momentum: each landed blow adds 4% damage and 15% guard drain,
+      up to five.
+    - Street Striker Slipstream: cheaper dodges, and a landed blow can be cancelled
+      into a dodge.
+  - Ultimates redesigned: Absolute Retribution (two pivoting area bursts, then the
+    blow), Million Fist Onslaught (dash through, a flurry, a spinning blow all
+    around).
+- **Combo engine:**
+  - a route link may be the class's own light or heavy punch (a third route per class
+    opens on one);
+  - skill → basic follow-ups (`chains` on a skill's last move);
+  - the auto battle and the arena AI press route punches and use Slip Counter as an
+    answer;
+  - against a boss (never grabbable: bosses never are) the auto battle opens and waits
+    for no combo route with a grab skill in it; on a grabbable foe its grab routes are as
+    before;
+  - a skill is held back for a route its punch opens only by the auto battle, and only
+    a grab (the arena AI holds none: measured, holding them gave the Street Striker
+    58%).
+- **PvP-only rules** (hero on hero; PvE untouched):
+  - combo scaling after the 3rd blow on a reeling hero, down to 50%;
+  - a thrown hero is down 60 ticks and cannot be grabbed again for 1.5 s;
+  - defense takes a share of each blow (defense / (defense + 90)) instead of a flat
+    amount. Flat defense wiped out light punches and many-blow skills between geared
+    heroes, which made fights a race of the biggest single hits;
+  - the Boxer's step-in skills step less far in PvE (skill profile `advance`, a new
+    profile field).
+- **`SkillRegistry`**, run on every content load, rejects:
+  - class moves shared or copied between classes;
+  - identical skill sequences;
+  - an ultimate without an animation of its own, or two ultimates sharing one.
+- **Balance, measured** (mixed bots, 200 matches per pair):
+  - classes 47–52%, every pair 42–58%; before the rebuild 19–80%;
+  - PvE kills (auto battle, 27 minutes per hero), before → after: Riku 284 → 284,
+    Mika 237 → 253, Kan 239 → 227, Oren 221 → 212, Dao 201 → 196 (Kan, Dao: their
+    own heavy ends the light chain instead of the shared Haymaker; Oren: the auto battle
+    keeps Power Throw for its route, which survives the hardest ground);
+  - Grappler PvE ×1.3 is kept.
+
+  Design, matrices and analysis: `docs/COMBAT_SYSTEM.md` and
+  `docs/COMBAT_REBUILD_REPORT.md`.
+
 ### Changed: Grappler PvE damage ×1.3 (owner's approval, 2026-11-13)
 - The Grappler's six active skills deal ×1.3 damage in PvE (`profiles.pve.damage`); PvP
   is unchanged. Oren: 185 → 221 kills in the standard 27-minute auto-battle measure,

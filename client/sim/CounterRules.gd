@@ -21,9 +21,19 @@ static func open(f: Fighter) -> bool:
 	)
 
 
-## Whether `defender`'s stance catches a blow of `move` (from the front or not).
-static func catches(defender: Fighter, move: MoveData, from_front: bool) -> bool:
-	return open(defender) and from_front and not move.guard_break
+## Whether `defender`'s stance catches a blow of `move` from `attacker` (from
+## the front or not). No stance catches a guard breaker, except a "catch_all"
+## stance (Perfect Parry) catching one from anyone but a boss: a boss's guard
+## breakers stay unanswerable by stances, as they always were.
+static func catches(
+	defender: Fighter, move: MoveData, from_front: bool, attacker: Fighter = null
+) -> bool:
+	if not (open(defender) and from_front):
+		return false
+	if not move.guard_break:
+		return true
+	var boss := attacker != null and attacker.unshaken
+	return defender.move.catch_all and not boss
 
 
 ## The stance caught a blow: the reply starts on the fighter's next tick.

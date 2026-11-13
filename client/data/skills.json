@@ -34,7 +34,9 @@
       "sound": "swing_heavy",
       "description": "A heavy cross with the whole body behind it. Staggers its target and breaks guard.",
       "profiles": {
-        "pve": {},
+        "pve": {
+          "advance": 0.6
+        },
         "pvp": {
           "damage": 0.6,
           "hitstun": 0.7,
@@ -55,7 +57,9 @@
       "sound": "skill_uppercut",
       "description": "A rising punch that lifts one foe off their feet.",
       "profiles": {
-        "pve": {},
+        "pve": {
+          "advance": 0.6
+        },
         "pvp": {
           "damage": 0.6,
           "hitstun": 0.7,
@@ -74,9 +78,11 @@
       "fx": "hit_heavy",
       "fx_at": "front",
       "sound": "swing_heavy",
-      "description": "A short punch to the body at close range. Heavy damage to one foe and a long stagger. Breaks guard.",
+      "description": "A short hook to the liver at close range: a long stagger, and it knocks the wind out of the foe (drains 35 energy, so no dodge or guard for a moment).",
       "profiles": {
-        "pve": {},
+        "pve": {
+          "advance": 0.6
+        },
         "pvp": {
           "damage": 0.6,
           "hitstun": 0.7,
@@ -85,10 +91,10 @@
       }
     },
     "counter_punch": {
-      "name": "Counter Punch",
+      "name": "Slip Counter",
       "job": "boxer",
       "type": "active",
-      "move": "boxer_counter_stance",
+      "move": "boxer_slip",
       "then": [
         "boxer_counter_hit"
       ],
@@ -98,7 +104,7 @@
       "fx": "block",
       "fx_at": "self",
       "sound": "hit_block",
-      "description": "Guard for a moment; a blow caught from the front is answered with a heavy punch. Nothing happens if nobody attacks.",
+      "description": "Slip in under the foe's punch, untouchable while you move, and answer at once with a heavy counter that floors them. Works whether or not they attack.",
       "profiles": {
         "pve": {},
         "pvp": {
@@ -124,7 +130,7 @@
       "fx": "rush",
       "fx_at": "trail",
       "sound": "swing_heavy",
-      "description": "Three quick punches and a heavy one that sends the foe flying.",
+      "description": "Weave left and right: a jab ahead, a hook behind, a pivot punch both ways, then a knockout blow that sends the foe flying.",
       "profiles": {
         "pve": {},
         "pvp": {
@@ -155,17 +161,16 @@
       }
     },
     "precision_impact": {
-      "name": "Precision Impact",
+      "name": "Combination Puncher",
       "job": "boxer",
       "type": "passive",
       "unlock_level": 25,
       "icon": "skill_knockout",
-      "description": "Heavy punches, skills and the last blow of a combination deal 12% more damage.",
+      "description": "Each link of a skill combo that lands takes 0.75 s off your other skills' cooldowns: long combinations keep the Boxer's tools coming.",
       "passive": {
         "always": true,
-        "when": "finisher",
         "effects": {
-          "damage": 0.12
+          "refresh": 45
         }
       },
       "profiles": {
@@ -222,7 +227,7 @@
       "profiles": {
         "pve": {},
         "pvp": {
-          "damage": 0.6,
+          "damage": 0.7,
           "hitstun": 0.7,
           "knockback": 0.8
         }
@@ -246,7 +251,7 @@
       "profiles": {
         "pve": {},
         "pvp": {
-          "damage": 0.6,
+          "damage": 0.7,
           "hitstun": 0.7,
           "knockback": 0.8
         }
@@ -267,7 +272,7 @@
       "profiles": {
         "pve": {},
         "pvp": {
-          "damage": 0.6,
+          "damage": 0.7,
           "hitstun": 0.7,
           "knockback": 0.8
         }
@@ -284,11 +289,11 @@
       "fx": "slam",
       "fx_at": "self",
       "sound": "skill_slam",
-      "description": "Punch the street itself. Damages and floors everyone around. Breaks guard.",
+      "description": "Pound the street with both fists: a shockwave all around that breaks guard and also catches foes already on the ground.",
       "profiles": {
         "pve": {},
         "pvp": {
-          "damage": 0.6,
+          "damage": 0.7,
           "hitstun": 0.7,
           "knockback": 0.8
         }
@@ -313,7 +318,7 @@
       "profiles": {
         "pve": {},
         "pvp": {
-          "damage": 0.6,
+          "damage": 0.7,
           "hitstun": 0.7,
           "knockback": 0.8
         }
@@ -334,7 +339,7 @@
       "profiles": {
         "pve": {},
         "pvp": {
-          "damage": 0.6,
+          "damage": 0.7,
           "hitstun": 0.7,
           "knockback": 0.8
         }
@@ -360,18 +365,19 @@
       }
     },
     "berserk_momentum": {
-      "name": "Berserk Momentum",
+      "name": "Crushing Momentum",
       "job": "brawler",
       "type": "passive",
       "unlock_level": 25,
       "icon": "skill_drive",
-      "description": "Each blow landed adds 4% damage for 4 seconds, up to 20%. Keep hitting to keep it.",
+      "description": "Each blow landed adds 4% damage and makes your blows on a raised guard drain 15% more of its energy, for 4 seconds, up to five times: once a Brawler gets going, guarding only delays the inevitable.",
       "passive": {
         "gain": "hit",
         "max": 5,
         "duration": 240,
         "effects": {
-          "damage": 0.04
+          "damage": 0.04,
+          "guard_drain": 0.15
         }
       },
       "profiles": {
@@ -396,7 +402,7 @@
       "fx": "slam",
       "fx_at": "self",
       "sound": "skill_slam",
-      "description": "Let it all out: three bursts of punches all around, a heavy punch forward, then a ground smash whose shockwave floors the whole street corner.",
+      "description": "Let it all out, unstoppable by punches: three bursts all around, a heavy punch forward, then a ground smash whose shockwave floors the whole street corner.",
       "profiles": {
         "pve": {},
         "pvp": {
@@ -657,7 +663,7 @@
       "fx": "block",
       "fx_at": "self",
       "sound": "hit_block",
-      "description": "Guard for an instant; a blow caught from the front is answered at once. Nothing happens if nobody attacks.",
+      "description": "Hold a loose guard for a moment; a normal blow from the front is answered with a quick punch. Guard breakers go through it.",
       "profiles": {
         "pve": {},
         "pvp": {
@@ -756,7 +762,7 @@
       "fx": "block",
       "fx_at": "self",
       "sound": "hit_block",
-      "description": "A very short parry. A blow it catches is answered with a punch that leaves the attacker staggered for a long time.",
+      "description": "A split-second perfect guard: the shortest window of any stance, but it catches everything from the front, guard breakers included, and answers with a stepping punch.",
       "profiles": {
         "pve": {},
         "pvp": {
@@ -780,7 +786,7 @@
       "fx": "block",
       "fx_at": "self",
       "sound": "hit_block",
-      "description": "Wait for the attack, then answer it with a heavy punch that floors the attacker. Breaks guard. Nothing happens if nobody attacks.",
+      "description": "Wait for the attack, then answer with a pivoting blow that floors the attacker and everyone close to you. Breaks guard. Nothing happens if nobody attacks.",
       "profiles": {
         "pve": {},
         "pvp": {
@@ -837,9 +843,6 @@
       "then": [
         "retribution_1",
         "retribution_2",
-        "retribution_3",
-        "retribution_4",
-        "retribution_5",
         "retribution_blow"
       ],
       "cooldown": 60,
@@ -848,7 +851,7 @@
       "fx": "block",
       "fx_at": "self",
       "sound": "hit_block",
-      "description": "Take the perfect guard for a second. A blow caught from the front is answered with five punches and a reversal that ends the fight. If nobody attacks, the gauge is wasted.",
+      "description": "Take the perfect guard for a second. A blow caught from the front sets off two pivoting bursts that stagger everyone around you, then a reversal that ends the fight. If nobody attacks, the gauge is wasted.",
       "profiles": {
         "pve": {},
         "pvp": {
@@ -873,7 +876,7 @@
       "profiles": {
         "pve": {},
         "pvp": {
-          "damage": 0.6,
+          "damage": 0.64,
           "hitstun": 0.7,
           "knockback": 0.8
         }
@@ -898,7 +901,7 @@
       "profiles": {
         "pve": {},
         "pvp": {
-          "damage": 0.6,
+          "damage": 0.64,
           "hitstun": 0.7,
           "knockback": 0.8
         }
@@ -924,7 +927,7 @@
       "profiles": {
         "pve": {},
         "pvp": {
-          "damage": 0.6,
+          "damage": 0.64,
           "hitstun": 0.7,
           "knockback": 0.8
         }
@@ -945,7 +948,7 @@
       "profiles": {
         "pve": {},
         "pvp": {
-          "damage": 0.6,
+          "damage": 0.64,
           "hitstun": 0.7,
           "knockback": 0.8
         }
@@ -962,11 +965,11 @@
       "fx": "rush",
       "fx_at": "trail",
       "sound": "skill_rush",
-      "description": "A short dash ending in a punch. Breaks guard.",
+      "description": "Dash straight through the crowd, striking everyone on the way and ending behind them. Breaks guard.",
       "profiles": {
         "pve": {},
         "pvp": {
-          "damage": 0.6,
+          "damage": 0.64,
           "hitstun": 0.7,
           "knockback": 0.8
         }
@@ -983,11 +986,11 @@
       "fx": "hit_heavy",
       "fx_at": "front",
       "sound": "swing_heavy",
-      "description": "The punch that ends a combo: heavy damage, and the foe is thrown back.",
+      "description": "Dive after the foe in a long rush and drive a punch through them, even if they are already on the ground: the Striker's follow-up to Rising Fist.",
       "profiles": {
         "pve": {},
         "pvp": {
-          "damage": 0.6,
+          "damage": 0.64,
           "hitstun": 0.7,
           "knockback": 0.8
         }
@@ -1014,20 +1017,16 @@
       }
     },
     "combo_mastery": {
-      "name": "Combo Mastery",
+      "name": "Slipstream",
       "job": "striker",
       "type": "passive",
       "unlock_level": 25,
       "icon": "skill_dempsey",
-      "description": "Each blow landed stores 5% damage (up to 20%, for 2.5 seconds) for your next skill.",
+      "description": "Dodges cost 40% less energy, and any blow that lands can be cancelled into a dodge: hit, then slip away or around the foe.",
       "passive": {
-        "gain": "hit",
-        "max": 4,
-        "duration": 150,
-        "when": "skill",
-        "consume": true,
+        "always": true,
         "effects": {
-          "damage": 0.05
+          "dodge_cost": 0.4
         }
       },
       "profiles": {
@@ -1047,12 +1046,6 @@
         "onslaught_4",
         "onslaught_5",
         "onslaught_6",
-        "onslaught_7",
-        "onslaught_8",
-        "onslaught_9",
-        "onslaught_10",
-        "onslaught_11",
-        "onslaught_12",
         "onslaught_blow"
       ],
       "cooldown": 60,
@@ -1061,7 +1054,7 @@
       "fx": "rush",
       "fx_at": "trail",
       "sound": "skill_rush",
-      "description": "Dash in and let fly a dozen punches too fast to count, then a heavy one that sends the foe away. A foe who gets out of reach escapes the rest.",
+      "description": "Dash straight through the crowd, then let fly punches too fast to count into whoever is left standing, and finish with a spinning blow that sends everyone around you flying.",
       "profiles": {
         "pve": {},
         "pvp": {

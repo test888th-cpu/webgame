@@ -76,7 +76,7 @@ or from item data with real trade-offs (a content decision for the owner).
 ## Jobs, at equal gear (Godforged +0) and AI
 
 **Superseded:** the combo weights changed after this run (2026-11-13), which moved several
-matchups a lot. Current numbers: [SKILL_FLOW_REPORT.md](SKILL_FLOW_REPORT.md) §4.
+matchups a lot, and so did the class rebuild. Current numbers: [COMBAT_SYSTEM.md](COMBAT_SYSTEM.md) "Balance".
 
 | A vs B | A win | B win | Draw |
 |---|---|---|---|

@@ -1,6 +1,70 @@
-[gd_resource type="SpriteFrames" load_steps=65 format=3]
+[gd_resource type="SpriteFrames" load_steps=79 format=3]
 
 [ext_resource type="Texture2D" path="res://assets/characters/hero_dao/sheet.png" id="sheet"]
+
+[sub_resource type="AtlasTexture" id="counter_check_0"]
+atlas = ExtResource("sheet")
+region = Rect2(0, 768, 64, 64)
+
+[sub_resource type="AtlasTexture" id="counter_check_1"]
+atlas = ExtResource("sheet")
+region = Rect2(64, 768, 64, 64)
+
+[sub_resource type="AtlasTexture" id="counter_check_2"]
+atlas = ExtResource("sheet")
+region = Rect2(128, 768, 64, 64)
+
+[sub_resource type="AtlasTexture" id="counter_check_3"]
+atlas = ExtResource("sheet")
+region = Rect2(192, 768, 64, 64)
+
+[sub_resource type="AtlasTexture" id="counter_check_4"]
+atlas = ExtResource("sheet")
+region = Rect2(256, 768, 64, 64)
+
+[sub_resource type="AtlasTexture" id="counter_ultimate_0"]
+atlas = ExtResource("sheet")
+region = Rect2(0, 896, 64, 64)
+
+[sub_resource type="AtlasTexture" id="counter_ultimate_1"]
+atlas = ExtResource("sheet")
+region = Rect2(64, 896, 64, 64)
+
+[sub_resource type="AtlasTexture" id="counter_ultimate_2"]
+atlas = ExtResource("sheet")
+region = Rect2(128, 896, 64, 64)
+
+[sub_resource type="AtlasTexture" id="counter_ultimate_3"]
+atlas = ExtResource("sheet")
+region = Rect2(192, 896, 64, 64)
+
+[sub_resource type="AtlasTexture" id="counter_whirl_0"]
+atlas = ExtResource("sheet")
+region = Rect2(0, 832, 64, 64)
+
+[sub_resource type="AtlasTexture" id="counter_whirl_1"]
+atlas = ExtResource("sheet")
+region = Rect2(64, 832, 64, 64)
+
+[sub_resource type="AtlasTexture" id="counter_whirl_2"]
+atlas = ExtResource("sheet")
+region = Rect2(128, 832, 64, 64)
+
+[sub_resource type="AtlasTexture" id="counter_whirl_3"]
+atlas = ExtResource("sheet")
+region = Rect2(192, 832, 64, 64)
+
+[sub_resource type="AtlasTexture" id="counter_whirl_4"]
+atlas = ExtResource("sheet")
+region = Rect2(256, 832, 64, 64)
+
+[sub_resource type="AtlasTexture" id="counter_whirl_5"]
+atlas = ExtResource("sheet")
+region = Rect2(320, 832, 64, 64)
+
+[sub_resource type="AtlasTexture" id="counter_whirl_6"]
+atlas = ExtResource("sheet")
+region = Rect2(384, 832, 64, 64)
 
 [sub_resource type="AtlasTexture" id="dodge_0"]
 atlas = ExtResource("sheet")
@@ -94,14 +158,6 @@ region = Rect2(256, 192, 64, 64)
 atlas = ExtResource("sheet")
 region = Rect2(320, 192, 64, 64)
 
-[sub_resource type="AtlasTexture" id="heavy_6"]
-atlas = ExtResource("sheet")
-region = Rect2(384, 192, 64, 64)
-
-[sub_resource type="AtlasTexture" id="heavy_7"]
-atlas = ExtResource("sheet")
-region = Rect2(448, 192, 64, 64)
-
 [sub_resource type="AtlasTexture" id="hurt_0"]
 atlas = ExtResource("sheet")
 region = Rect2(0, 256, 64, 64)
@@ -154,14 +210,6 @@ region = Rect2(128, 128, 64, 64)
 atlas = ExtResource("sheet")
 region = Rect2(192, 128, 64, 64)
 
-[sub_resource type="AtlasTexture" id="light_4"]
-atlas = ExtResource("sheet")
-region = Rect2(256, 128, 64, 64)
-
-[sub_resource type="AtlasTexture" id="light_5"]
-atlas = ExtResource("sheet")
-region = Rect2(320, 128, 64, 64)
-
 [sub_resource type="AtlasTexture" id="stab_0"]
 atlas = ExtResource("sheet")
 region = Rect2(0, 448, 64, 64)
@@ -181,6 +229,14 @@ region = Rect2(192, 448, 64, 64)
 [sub_resource type="AtlasTexture" id="stab_4"]
 atlas = ExtResource("sheet")
 region = Rect2(256, 448, 64, 64)
+
+[sub_resource type="AtlasTexture" id="stance_0"]
+atlas = ExtResource("sheet")
+region = Rect2(0, 960, 64, 64)
+
+[sub_resource type="AtlasTexture" id="stance_1"]
+atlas = ExtResource("sheet")
+region = Rect2(64, 960, 64, 64)
 
 [sub_resource type="AtlasTexture" id="swing_0"]
 atlas = ExtResource("sheet")
@@ -256,6 +312,69 @@ region = Rect2(448, 64, 64, 64)
 
 [resource]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("counter_check_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("counter_check_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("counter_check_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("counter_check_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("counter_check_4")
+}],
+"loop": false,
+"name": &"counter_check",
+"speed": 14.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("counter_ultimate_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("counter_ultimate_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("counter_ultimate_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("counter_ultimate_3")
+}],
+"loop": false,
+"name": &"counter_ultimate",
+"speed": 14.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("counter_whirl_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("counter_whirl_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("counter_whirl_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("counter_whirl_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("counter_whirl_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("counter_whirl_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("counter_whirl_6")
+}],
+"loop": false,
+"name": &"counter_whirl",
+"speed": 16.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("dodge_0")
@@ -340,12 +459,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("heavy_5")
-}, {
-"duration": 1.0,
-"texture": SubResource("heavy_6")
-}, {
-"duration": 1.0,
-"texture": SubResource("heavy_7")
 }],
 "loop": false,
 "name": &"heavy",
@@ -405,16 +518,10 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("light_3")
-}, {
-"duration": 1.0,
-"texture": SubResource("light_4")
-}, {
-"duration": 1.0,
-"texture": SubResource("light_5")
 }],
 "loop": false,
 "name": &"light",
-"speed": 16.0
+"speed": 18.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -435,6 +542,17 @@ animations = [{
 "loop": false,
 "name": &"stab",
 "speed": 14.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("stance_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("stance_1")
+}],
+"loop": false,
+"name": &"stance",
+"speed": 4.0
 }, {
 "frames": [{
 "duration": 1.0,

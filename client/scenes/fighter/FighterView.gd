@@ -21,7 +21,29 @@ const HIT_FLASH_TICKS := 6
 const DOWN_TICKS := 30
 ## What art without an animation plays instead (the rest fall back to idle).
 const FALLBACK := {
-	"swing": "light", "grab": "light", "throw": "heavy", "lift": "idle", "stance": "idle"
+	"swing": "light",
+	"grab": "light",
+	"throw": "heavy",
+	"lift": "idle",
+	"stance": "idle",
+	# The five classes' own moves (art/lpc/characters.json, hero sheets only):
+	# anyone else drawing one plays the plain heavy or light swing.
+	"boxer_overhand": "heavy",
+	"boxer_weave": "light",
+	"boxer_ultimate": "heavy",
+	"brawler_hammer": "heavy",
+	"brawler_pound": "heavy",
+	"brawler_whirl": "heavy",
+	"brawler_ultimate": "heavy",
+	"grappler_clinch": "light",
+	"grappler_slam": "heavy",
+	"grappler_ultimate": "heavy",
+	"counter_check": "light",
+	"counter_whirl": "heavy",
+	"counter_ultimate": "heavy",
+	"striker_spin": "heavy",
+	"striker_dash": "light",
+	"striker_ultimate": "light",
 }
 ## Ticks over which a holder raises the foe they grabbed (the rules' own).
 const LIFT_TICKS := GrabRules.LIFT_TICKS
@@ -439,7 +461,7 @@ func _animate_sprite(moved: bool) -> void:
 			)
 		Fighter.State.DOWN, Fighter.State.KO when fighter.airborne > 0:
 			_thrown_pose()
-		Fighter.State.DOWN when fighter.state_duration >= GrabRules.SLAM_DOWN_TICKS:
+		Fighter.State.DOWN when fighter.state_duration >= GrabRules.SLAM_DOWN_PVP_TICKS:
 			_slammed_pose()
 		Fighter.State.DOWN, Fighter.State.KO:
 			_set_frame_by_progress("down", float(fighter.state_tick) / DOWN_TICKS)

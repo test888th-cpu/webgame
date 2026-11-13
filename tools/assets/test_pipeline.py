@@ -26,6 +26,8 @@ import unitforge_import  # noqa: E402
 import validate  # noqa: E402
 
 ALLOWED = ["CC0", "OGA-BY", "CC-BY"]
+# LPC moves whose blow is struck by the near arm, the one a weapon is held in.
+NEAR_ARM_BLOWS = ("1h_halfslash", "1h_slash", "thrust")
 
 
 class ValidateTest(unittest.TestCase):
@@ -163,15 +165,16 @@ class HandSocketTest(unittest.TestCase):
     def test_the_weapon_stays_in_one_hand(self) -> None:
         # Standing and walking keep the weapon in the same hand: the socket
         # never jumps across the body between frames. Every blow is struck
-        # with the near (right) arm: LPC's half-slash, never its slash, whose
-        # far (left) arm strikes.
+        # with the near (right) arm, the one that holds the weapon: LPC's
+        # half-slash, one-hand back-slash or thrust (the classes' own light and
+        # heavy clips), never its two-hand slash, whose far (left) arm strikes.
         manifest = json.loads(lpc_build.MANIFEST.read_text())
         for char_id, asset in manifest["assets"].items():
             if asset.get("source") != "lpc":
                 continue
             for name in ("light", "heavy", "stab", "swing"):
                 if name in asset["animations"]:
-                    self.assertEqual(asset["animations"][name]["source"], "1h_halfslash", f"{char_id} {name}")
+                    self.assertIn(asset["animations"][name]["source"], NEAR_ARM_BLOWS, f"{char_id} {name}")
             for name in ("idle", "walk"):
                 frames = asset["hands"].get(name, [])
                 for a, b in zip(frames, frames[1:]):
