@@ -1,10 +1,10 @@
 class_name Rematch
 extends RefCounted
-## Presentation glue for story boss rematches (ReplayRules): Win's taxi
-## ("Rematches" rides), the game menu ("Fight ... again") and the knock-out
-## screen ("Try again"). The rules decide what is open and what the area holds;
-## this only charges what a player already pays (the fare, a knock-out's
-## dropped coins) and takes the hero there.
+## Presentation glue for story boss and story mini-boss replays (ReplayRules):
+## Win's taxi ("Boss Fights" rides), the game menu ("Fight ... again") and the
+## knock-out screen ("Try again"). The rules decide what is open and what the
+## area holds; this takes the hero there. A replay itself is free: only the
+## taxi charges, its usual fare for the ride.
 
 
 ## Takes the hero to boss fight `index` of `area_id`, fresh, in their own
@@ -44,10 +44,9 @@ static func here(game: Game) -> int:
 	)
 
 
-## The knock-out screen's "Try again": the same coins dropped and the same
-## full health as getting back up in the city (Game._recover), then straight
-## back into the fight that was lost. No wait and no limit.
+## The knock-out screen's "Try again": free (no coins dropped, unlike getting
+## back up in the city), at full health, straight back into the boss fight
+## that was lost. No wait and no limit.
 static func retry(game: Game, index: int) -> void:
-	EconomyRules.charge(game.profile, EconomyRules.defeat_loss(game.profile, game.content))
 	game.profile.hp = game.profile.stats(game.content)["max_hp"]
 	start(game, game.zone.area_id, index)

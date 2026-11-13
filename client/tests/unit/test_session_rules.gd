@@ -1,6 +1,6 @@
 extends TestCase
-## Story instances, shared areas and world boss/event areas are separate
-## session types (SessionRules, ARCHITECTURE.md D9).
+## Story instances, farming grounds, rematches (lairs), world boss areas and
+## the city hub are separate session types (SessionRules, ARCHITECTURE.md D9).
 
 ## A fixed Unix time, so the world boss rounds are the same on every run.
 const NOW := 1_790_000_000
@@ -20,19 +20,41 @@ func test_every_area_kind_has_a_session_type() -> void:
 		assert_true(SessionRules.BY_KIND.get(kind) in SessionRules.TYPES, kind + " maps to a type")
 
 
-func test_areas_run_as_the_three_session_types() -> void:
+func test_areas_run_as_their_session_types() -> void:
 	var c := _content()
 	for area_id in StreetMemory.street(c):
 		assert_eq(SessionRules.session_type(c, area_id), SessionRules.STORY, area_id)
 		assert_true(SessionRules.is_private(c, area_id), area_id + " is private")
-	assert_eq(SessionRules.session_type(c, c.city_area), SessionRules.SHARED, "the city")
-	for area_id in AreaRules.farms(c) + AreaRules.lairs(c):
-		assert_eq(SessionRules.session_type(c, area_id), SessionRules.SHARED, area_id)
-		assert_true(not SessionRules.is_private(c, area_id), area_id + " is not private")
+	assert_eq(SessionRules.session_type(c, c.city_area), SessionRules.HUB, "the city")
+	for area_id in AreaRules.farms(c):
+		assert_eq(SessionRules.session_type(c, area_id), SessionRules.FARMING, area_id)
+		assert_true(not SessionRules.is_private(c, area_id), area_id + " is shared")
+	for area_id in AreaRules.lairs(c):
+		assert_eq(SessionRules.session_type(c, area_id), SessionRules.REMATCH, area_id)
+		assert_true(not SessionRules.is_private(c, area_id), area_id + " is shared")
 	for boss: String in c.world_bosses:
 		var arena := str(c.world_bosses[boss]["area"])
 		assert_eq(SessionRules.session_type(c, arena), SessionRules.WORLD_BOSS, arena)
 		assert_eq(SessionRules.arena_boss(c, arena), boss, arena + " is fought by " + boss)
+	for type: String in SessionRules.SHARED_TYPES:
+		assert_true(type != SessionRules.STORY, type + " is not the story")
+
+
+## Farming grounds hold normal enemies and their elites, never a boss of any
+## kind (story, lair or world boss); the validator refuses one.
+func test_farming_grounds_hold_no_boss() -> void:
+	var c := _content()
+	assert_eq(SessionRules.problems(c), PackedStringArray(), "the shipped grounds")
+	for area_id in AreaRules.farms(c):
+		var pool: Dictionary = c.area(area_id)["spawning"]["pool"]
+		for kind: String in pool:
+			assert_true(not c.enemy(kind).get("boss", false), area_id + ": " + kind)
+		assert_true(not c.area(area_id).has("mini_boss"), area_id + ": no mini-boss")
+	var copy := ContentDB.load_all()
+	var ground := AreaRules.farms(copy)[0]
+	copy.areas[ground]["spawning"]["pool"]["sludge_foreman"] = 1
+	var said := "\n".join(SessionRules.problems(copy))
+	assert_true("a farming ground has no boss" in said, "a boss is refused: " + said)
 
 
 func test_each_hero_gets_their_own_story_instance() -> void:
@@ -51,6 +73,10 @@ func test_shared_and_world_boss_instances_are_one_for_everyone() -> void:
 	var c := _content()
 	var city_a := SessionRules.instance_key(c, c.city_area, "hero_a", NOW)
 	assert_eq(city_a, SessionRules.instance_key(c, c.city_area, "hero_b", NOW), "one city")
+	for area_id in AreaRules.farms(c) + AreaRules.lairs(c):
+		var a := SessionRules.instance_key(c, area_id, "hero_a", NOW)
+		assert_eq(a, SessionRules.instance_key(c, area_id, "hero_b", NOW), area_id + ": one")
+		assert_true(a.begins_with(SessionRules.session_type(c, area_id)), a + " says its type")
 	for boss: String in c.world_bosses:
 		var arena := str(c.world_bosses[boss]["area"])
 		var round := int(WorldBossRules.window(c, boss, NOW)["round"])
@@ -69,6 +95,8 @@ func test_a_story_instance_admits_its_owner_alone() -> void:
 	assert_true(not SessionRules.may_join(c, area, "a", "a", ["b"]), "never shared")
 	assert_true(not SessionRules.may_join(c, area, "", "", []), "no anonymous hero")
 	assert_true(SessionRules.may_join(c, c.city_area, "b", "", ["a"]), "the city is shared")
+	var lair := AreaRules.lairs(c)[0]
+	assert_true(SessionRules.may_join(c, lair, "b", "", ["a"]), "so is a lair")
 	assert_true(SessionRules.may_join(c, "great_drain", "b", "", ["a"]), "so is the world boss")
 
 

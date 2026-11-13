@@ -4,31 +4,51 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
-### Added: story instances, shared areas and world boss areas as separate session types (owner's rule, 2026-11-13)
-- `SessionRules` (new, `client/sim/`): every area runs as a **Story Instance** (the
-  street: one hero, private state, no caps or waits), a **Shared Area** (the city, farming
-  grounds, lairs) or a **World Boss/Event Area** (one pool per round). Instance keys
-  (`story/<hero>/<area>`, `shared/<area>`, `world_boss/<boss>/<round>`) and `may_join`
-  (a story instance admits only its owner) are ready for the zone allocator (M3/IL-7).
-- Docs: ARCHITECTURE D9, BLUEPRINT D17, PERFORMANCE capacity table (story instance = 1).
-- Tests (`test_session_rules`): every area kind has a type; two heroes never share a story
-  instance; shared and world boss instances are one for everyone; story gates ignore
-  world boss state.
-
-### Added: unlimited story boss and mini-boss rematches (owner's rule, 2026-11-13)
-- `ReplayRules` (new, `client/sim/`): once its area is reached, any story boss or
-  mini-boss fight can be fought again, without a cap or cooldown. A rematch is a fresh
-  fight in the hero's own instance, with the area's other fights standing down so the
-  hero goes straight to it; quests, evidence, areas reached and gates are untouched.
-  Drops roll the boss's table each time; first-clear rewards stay quest rewards, paid
-  once, and `ReplayRules.problems` (in `ContentDB.validate`) refuses an enemy that drops
-  evidence or a unique item. Nothing new is saved.
-- Ways in (`Rematch`, `GameMenus`): Win's taxi has a **Boss Fights** group (the 11 story
-  bosses, usual fare); the game menu has **Fight ... again** for the nearest boss or
-  mini-boss fight in the area; the knock-out screen has **Try again** after a lost boss
-  or mini-boss fight (same coins dropped as "Get back up", straight back in).
-- Docs: BLUEPRINT D18, ARCHITECTURE D9. Tests (`test_story_replay`); `test_taxi`
-  now expects the Boss Fights group.
+### Added: the world's area types, story boss replays, the lairs' shared mini-boss and world boss elite reinforcements (owner's rules, 2026-11-13)
+- **Area types** (`SessionRules`, new): Story Instance (the street: one hero, private
+  state, no caps or waits), Farming Ground, Rematch (lair), World Boss and Hub. Instance
+  keys and `may_join` (a story instance admits only its owner) for the zone allocator
+  (M3/IL-7). `SessionRules.problems` refuses a boss of any kind in a farming ground.
+- **Story boss and story mini-boss replays** (`ReplayRules`, new; `Rematch` UI helper):
+  the 11 story bosses (6 stage bosses, 5 story mini-bosses by `MapRules.kind_of`; elites
+  are not mini-bosses) can be fought again without limit once their area is reached. Each
+  replay is a fresh fight straight to the boss; quests, evidence, areas reached and gates
+  are untouched. Entry: Win's taxi **Boss Fights** (usual fare only), the game menu
+  **Fight ... again** (free), the knock-out screen **Try again** (free, no coins dropped).
+- **Reward integrity:** `LootRules.eligible` leaves out a once-only drop (evidence, a
+  unique item) the hero already owns, alone; the rest of the table still drops. Each drop
+  is still rolled, so seeds give the same rolls. First-clear rewards stay quest rewards.
+- **Lairs (the truck's Rematches)** (`LairRules`, rewritten): one shared mini-boss for
+  all ten blocks with an explicit lifecycle (waiting, active, respawn wait) and an
+  encounter number. It turns up in a random block (all ten eligible) at a random spot
+  clear of the block's ends (200 px, `mini_boss_spawn_margin`) and of the hero (was:
+  always the block's centre), the moment it is due, even into the block a hero is already
+  in (`LairRules.watch` after every zone tick, twice a second); a hero in another block is
+  told where it is. It stays until beaten. Its health and place are recorded twice a
+  second and on walking off, and written by the game's usual saves (every 20 s, leaving
+  the tab or closing, quitting to the title, at once on a defeat), so a reload finds it as
+  wounded. Its defeat is resolved once with one respawn wait (default 1800 s, confirmed by the
+  owner; per lair with `mini_boss_respawn_seconds`). A lair must be exactly ten blocks.
+  The field truck shows where it is out and its HP (once known), or when it is back.
+  **Save version 13** (v12's due times carry over). This is local single-player
+  persistence; the shared server-side record is IL-7.
+- **World boss reinforcements** (`BossMechanics`, `WorldBossRun`): a new optional
+  `elite_summon` next to the existing `summon` (unchanged). It names an existing elite
+  (`elite: true`), which arrives as itself (its own stats, moves, AI, loot), on its own
+  timer and cap, from an optional `below` health share; with both, each cap counts only
+  its own kind. Missing, empty or malformed data calls no elites (`elite_spec`) and is
+  reported by the validator. **Not active:** no world boss sets it (owner's decision).
+  In world boss arenas only, a reinforcement never arrives within 60 px of the hero
+  (`SUMMON_CLEARANCE`); every other caller keeps its original edges. When the boss
+  falls or escapes its remaining minions leave once (`despawn`). When a world boss calls
+  in an existing elite (through either field), the HUD says "An elite <name> joins the
+  battle!" once per call (`boss_summon` carries `elite`; `GameFeedback`); normal minions
+  and non-world-boss summons are not announced this way.
+- Docs: ARCHITECTURE D9, BLUEPRINT D17–D20, PERFORMANCE capacity table,
+  WORLD_BOSS_DESIGN §3b.
+- Tests: `test_session_rules`, `test_story_replay`, `test_rematch_spawns`,
+  `test_world_boss_reinforcements`, `test_minion_entry` (new); `test_taxi` expects the Boss Fights group;
+  `test_lairs` expects the ten-block rule.
 
 ### Fixed: boss hazard marks left painted on the street (owner's report, 2026-11-12)
 - **Cause:** when a boss fell, the hero went down or a world boss left, its waiting

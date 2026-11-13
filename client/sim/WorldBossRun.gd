@@ -37,6 +37,9 @@ var escaping := false
 ## damage banked) once: the street goes on behind the result screen.
 var banked := false
 
+## True once the boss's reinforcements have left at the encounter's end.
+var reinforcements_gone := false
+
 ## The round's enrage (world_boss.json "enrage", BossEnrage): "" before,
 ## "warned", then "enraged" for the round's last seconds.
 var rage := ""
@@ -77,6 +80,7 @@ func tick(zone: ZoneSim, events: Array[ZoneEvent], now := -1) -> void:
 		return
 	if escaping:
 		_tick_escape(zone)
+		_end_reinforcements(zone, events)
 		return
 	if _boss_id == 0 and zone.boss_id != 0:
 		_boss_id = zone.boss_id
@@ -100,6 +104,22 @@ func tick(zone: ZoneSim, events: Array[ZoneEvent], now := -1) -> void:
 		_tick_rage(zone)
 		if ticks_left <= 0:
 			_start_escape(zone)
+	_end_reinforcements(zone, events)
+
+
+## Once the boss has fallen or escaped, its reinforcements go with it (once):
+## they leave the arena ("despawn"), so none outlives the encounter or drops
+## anything after it. A hero who fell or left takes nothing away from them.
+func _end_reinforcements(zone: ZoneSim, events: Array[ZoneEvent]) -> void:
+	if ended not in ["slain", "time"] or reinforcements_gone:
+		return
+	reinforcements_gone = true
+	for enemy in zone.enemies():
+		if enemy.id == _boss_id or not zone.brains.has(enemy.id):
+			continue
+		zone.fighters.erase(enemy)
+		zone.brains.erase(enemy.id)
+		events.append(ZoneEvent.make("despawn", {"id": enemy.id}))
 
 
 ## The hour is up: the boss stops fighting and makes for the east edge.

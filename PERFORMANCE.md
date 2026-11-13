@@ -34,12 +34,20 @@ players sharing one simulated zone instance.
 |---|---|---|
 | City hub | 80 visible (more via additional instances) | 10 Hz |
 | Farming zone | 24 | 20 Hz |
+| Rematch (lair), all 10 blocks | 24, one mini-boss for all of them | 20 Hz |
 | Story instance (every story area and its bosses) | 1, its owner (ARCHITECTURE D9; a rule, not an assumption) | 20 Hz |
-| World boss arena | 10 | 20 Hz |
+| World boss arena | 10, plus at most the boss's reinforcement caps (`summon.max` + `elite_summon.max`) | 20 Hz |
 
 Bandwidth *estimate* (assumption): 30 entities in interest × ~12 B delta × 20 Hz ≈ 7 KB/s
 ≈ 58 kbit/s per player downstream. 4,000 CCU ≈ 230 Mbit/s egress before compression.
 To be measured in M3.
+
+Per-tick work added for the lairs and boss reinforcements (2026-11-13, reviewed, not
+profiled): `LairRules.watch` runs after every zone tick but returns at once outside a
+lair; in a lair it scans that tick's events for a defeat and, twice a second, looks for
+the mini-boss among the zone's enemies. Health is recorded in memory only; disk writes
+stay on the game's existing save schedule (every 20 s, on leaving the tab, on a defeat).
+Reinforcement caps (`summon.max`, `elite_summon.max`) bound the entities a world boss adds.
 
 ## Load-test plan (M8)
 Stages: 50 → 100 → 500 → 1,000 → 4,000 connections. Each stage runs twice: **idle

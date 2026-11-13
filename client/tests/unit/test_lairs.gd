@@ -180,7 +180,7 @@ func test_the_validator_keeps_a_lair_a_field_with_a_mini_boss() -> void:
 	assert_true("a lair is a living field" in said, "a field in a lair")
 	assert_true(".encounters: none" in said, "no fixed fight")
 	assert_true(".mini_boss: a boss enemy" in said, "a boss roams it")
-	assert_true("a lair is several blocks" in said, "several blocks")
+	assert_true("a lair is ten blocks" in said, "ten blocks")
 
 
 func test_auto_battle_never_takes_the_hero_to_a_lair_or_a_ground() -> void:

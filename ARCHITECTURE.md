@@ -117,25 +117,30 @@ both places.
   saw, using the same rules. The client clock and client damage are never trusted for
   rewards online (CLAUDE.md).
 
-### D9. Story instances, shared areas and world boss/event areas are separate session types
-Owner's rule (2026-11-13, BLUEPRINT D17). `client/sim/SessionRules.gd` maps every area
-kind to one type, and the zone allocator and zone servers use it:
+### D9. Story instances, farming grounds, rematches and world boss areas are separate session types
+Owner's rules (2026-11-13, BLUEPRINT D17–D20). `client/sim/SessionRules.gd` maps every
+area kind to one type, and the zone allocator and zone servers use it:
 
-| Type | Areas | Capacity | State |
-|---|---|---|---|
-| Story Instance (`STORY`) | the street (every story area) | 1: its owner | Enemies, boss HP and phase, encounters, quests, evidence and story events belong to one hero |
-| Shared Area (`SHARED`) | the city, farming grounds, boss lairs | allocator caps (PERFORMANCE.md) | Shared spawning (`FarmSpawner`, `LairRules`) |
-| World Boss/Event (`WORLD_BOSS`) | world boss arenas | allocator caps | One pool per boss per round (D8) |
+| Type | Areas | Capacity | Bosses | State and rules |
+|---|---|---|---|---|
+| Story Instance (`STORY`) | the street (every story area) | 1: its owner | story bosses and story mini-bosses, private | Enemies, boss HP and phase, encounters, quests, evidence and story events belong to one hero. Boss fights replay without limit (`ReplayRules`). |
+| Farming Ground (`FARMING`) | `kind: farm` | allocator caps (PERFORMANCE.md) | none (validated) | Normal enemies and the ground's elites (`FarmSpawner`). |
+| Rematch (`REMATCH`) | `kind: lair`, 10 blocks | allocator caps | ONE mini-boss for the whole lair | `LairRules`: random block and spot, out the moment it is due (even into an occupied block), there until beaten, health kept, one respawn timer per defeat (default 1800 s, per lair `mini_boss_respawn_seconds`). |
+| World Boss (`WORLD_BOSS`) | world boss arenas | allocator caps | one world boss, one pool per round | On its own clock (D8); escapes when its hour ends; normal reinforcements, plus optional elite ones reusing existing elites (`BossMechanics`, not active in content yet); reinforcements keep 60 px from the hero here only. |
+| Hub (`HUB`) | the city | allocator caps | none | Merchants and taxis. |
 
-- Instance keys never collide across types: `story/<hero>/<area>`, `shared/<area>` (plus a
-  shard number when full), `world_boss/<boss>/<round>`. A story key always names its
-  owner, and `SessionRules.may_join` admits only that owner (a reconnect included).
+- Instance keys never collide across types: `story_instance/...` is `story/<hero>/<area>`,
+  shared types are `<type>/<area>` (plus a shard number when full), world bosses
+  `world_boss/<boss>/<round>`. A story key always names its owner, and
+  `SessionRules.may_join` admits only that owner (a reconnect included).
 - Story progress reads only the hero's own record (`PlayerProfile`: quests, `defeated`,
   `visited`), never shared enemy or boss state, and has no clock, daily cap, attempt cap
-  or wait. World boss rules neither gate nor are gated by the story.
-- Story bosses and mini-bosses can be fought again without limit once their area is
-  reached (`ReplayRules`, BLUEPRINT D18): each rematch is a fresh fight in the hero's own
-  instance and never resets the story or pays a first-clear reward again.
+  or wait. World boss and lair schedules neither gate nor are gated by the story.
+- **What is shared today:** the game is single-player, so a lair's mini-boss state and a
+  world boss round's pool live in the hero's save. The rules are written for one shared
+  record per lair and per round (stable encounter numbers, idempotent defeat), so at IL-7
+  the zone server holds that record for everyone. No multiplayer consistency is claimed
+  until the server exists and is load-tested (PERFORMANCE.md).
 
 ## 3. Join flow [planned M3]
 
@@ -173,4 +178,4 @@ here first.
 | 2026-10-27 | D7 recorded: auto battle produces player input only (`AutoPilot`, `AutoRules`). |
 | 2026-10-27 | D8 recorded: the world boss runs on the clock with a per-round pool (`WorldBossRules`). |
 | 2026-11-03 | D7 updated (owner's request): auto follows the story (`StoryAuto`) and fights any boss, world bosses included, with no first clear by hand. |
-| 2026-11-13 | D9 recorded (owner's rule): story instances, shared areas and world boss/event areas are separate session types (`SessionRules`); story boss fights stay replayable (`ReplayRules`). |
+| 2026-11-13 | D9 recorded (owner's rules): story instances, farming grounds, rematches (lairs), world boss areas and the hub are separate session types (`SessionRules`); story boss fights replay without limit (`ReplayRules`); one shared mini-boss per lair (`LairRules`); world boss reinforcements in two categories. |

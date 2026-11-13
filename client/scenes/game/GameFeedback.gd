@@ -92,6 +92,10 @@ func on_event(event: ZoneEvent) -> void:
 			_arrival(event.data)
 		"boss_summon":
 			Sfx.play("arena_lock", -4.0)
+			if event.data.get("elite", false):
+				# A world boss called in an elite: said once per call, however many.
+				var name := str(content.enemy(str(event.data["kind"])).get("name", "An elite"))
+				hud.toast("An elite %s joins the battle!" % name)
 			for id: Variant in event.data.get("ids", []):
 				var called := view.zone.fighter(int(id))
 				if called:
@@ -110,6 +114,9 @@ func on_event(event: ZoneEvent) -> void:
 			_enrage(event)
 		"hero_down":
 			Sfx.play("ko")
+		"lair_status":
+			# The lair's mini-boss came out in another block (LairRules.watch).
+			hud.toast(str(event.data["text"]))
 		"weapon_eyed":
 			# A boss has set off for a weapon: "!" over its head, so the hero
 			# can race it there or get in the way.

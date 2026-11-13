@@ -1,6 +1,6 @@
 class_name SessionRules
 extends RefCounted
-## The three session types the world is split into (ARCHITECTURE.md D9), and
+## The session types the world is split into (ARCHITECTURE.md D9), and
 ## which one each area runs as. The zone allocator (M3) and the zone server
 ## (IL-7) read these rules so a story area can never be backed by shared
 ## state; today the single-player client reads them the same way.
@@ -9,13 +9,17 @@ extends RefCounted
 ##   enemies, boss HP and phase, encounters, quest steps, evidence and story
 ##   events belong to that hero alone. No other hero may enter, join, help or
 ##   interfere, and no daily cap, attempt cap or waiting time applies to it.
-##   Every street area (AreaRules.STREET) is one, cleared or not.
-## * SHARED: a Shared Area. The city, the farming grounds and the boss lairs
-##   (a farming ground with a roaming mini-boss), where many heroes meet and
-##   the shared spawning rules (FarmSpawner, LairRules) apply.
-## * WORLD_BOSS: a World Boss/Event Area. Many heroes against one boss and one
-##   health pool per round (WorldBossRules), on its own clock. It never gates
-##   and is never gated by story progress.
+##   Every street area (AreaRules.STREET) is one, cleared or not. Its boss
+##   fights can be replayed without limit (ReplayRules).
+## * FARMING: a Farming Ground, shared. Normal enemies and its elites
+##   (FarmSpawner); never a boss or a mini-boss (problems).
+## * REMATCH: a lair (the field truck's "Rematches"), shared, ten blocks with
+##   ONE mini-boss among them (LairRules) on top of the camps.
+## * WORLD_BOSS: a World Boss arena, shared: many heroes against one boss and
+##   one health pool per round (WorldBossRules), on its own clock, with its
+##   reinforcements (BossMechanics). It never gates and is never gated by the
+##   story.
+## * HUB: the city, shared: merchants, taxis, no fights.
 ##
 ## The instance key says which simulation a hero joins. Keys of different
 ## types never collide, and a story key always carries its owner, so two
@@ -23,23 +27,27 @@ extends RefCounted
 ## the server.
 
 const STORY := "story_instance"
-const SHARED := "shared_area"
+const FARMING := "farming_ground"
+const REMATCH := "rematch"
 const WORLD_BOSS := "world_boss_event"
-const TYPES := [STORY, SHARED, WORLD_BOSS]
+const HUB := "hub"
+const TYPES := [STORY, FARMING, REMATCH, WORLD_BOSS, HUB]
+## The shared types: one copy for everyone (sharded by the allocator when full).
+const SHARED_TYPES := [FARMING, REMATCH, WORLD_BOSS, HUB]
 ## A story instance holds its owner and nobody else.
 const STORY_CAPACITY := 1
 ## Every area kind and the session type it runs as. A new kind must be added
 ## here (test_session_rules checks every kind is covered).
 const BY_KIND := {
 	AreaRules.STREET: STORY,
-	AreaRules.CITY: SHARED,
-	AreaRules.FARM: SHARED,
-	AreaRules.LAIR: SHARED,
+	AreaRules.CITY: HUB,
+	AreaRules.FARM: FARMING,
+	AreaRules.LAIR: REMATCH,
 	AreaRules.WORLD_BOSS: WORLD_BOSS,
 }
 
 
-## STORY, SHARED or WORLD_BOSS for `area_id`.
+## The session type (one of TYPES) `area_id` runs as.
 static func session_type(content: ContentDB, area_id: String) -> String:
 	return str(BY_KIND[AreaRules.kind(content, area_id)])
 
@@ -51,7 +59,7 @@ static func is_private(content: ContentDB, area_id: String) -> bool:
 
 ## The instance `hero_id` joins in `area_id` at Unix time `now`:
 ## * a story area: "story/<hero>/<area>", the hero's own copy;
-## * a shared area: "shared/<area>" (the allocator adds a shard number when
+## * a shared area: "<type>/<area>" (the allocator adds a shard number when
 ##   one copy is full);
 ## * a world boss arena: "world_boss/<boss>/<round>", one per round of the
 ##   boss's clock, the same for everyone.
@@ -65,7 +73,7 @@ static func instance_key(content: ContentDB, area_id: String, hero_id: String, n
 			var boss := arena_boss(content, area_id)
 			var round := int(WorldBossRules.window(content, boss, now)["round"]) if boss else 0
 			return "world_boss/%s/%d" % [boss if boss else area_id, round]
-	return "shared/%s" % area_id
+	return "%s/%s" % [session_type(content, area_id), area_id]
 
 
 ## The world boss fought in arena `area_id`, or "" when none is.
@@ -94,3 +102,22 @@ static func may_join(
 		if str(other) != hero_id:
 			return false
 	return occupants.size() <= STORY_CAPACITY
+
+
+## What would mix the types up, one message each (empty when nothing): a
+## farming ground holding a boss (story, lair or world boss) in its pool,
+## camps, fights or placed enemies. ContentDB.validate adds these.
+static func problems(content: ContentDB) -> PackedStringArray:
+	var out: PackedStringArray = []
+	for area_id in AreaRules.farms(content):
+		var area := content.area(area_id)
+		var kinds: Array = area.get("spawning", {}).get("pool", {}).keys()
+		for placed: Dictionary in area.get("placed", []):
+			kinds.append(placed.get("enemy", ""))
+		for encounter: Dictionary in area.get("encounters", []):
+			for wave: Array in encounter.get("waves", []):
+				kinds.append_array(wave)
+		for kind: Variant in kinds:
+			if content.enemy(str(kind)).get("boss", false):
+				out.append("areas.%s: a farming ground has no boss (%s)" % [area_id, kind])
+	return out
