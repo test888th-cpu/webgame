@@ -248,6 +248,8 @@ func validate() -> void:
 	errors.append_array(FarmSpawner.problems(self))
 	errors.append_array(BlockRules.problems(self))
 	errors.append_array(LairRules.problems(self))
+	errors.append_array(SessionRules.problems(self))
+	errors.append_array(BossMechanics.summon_problems(self))
 	errors.append_array(ItemRules.problems(self))
 	errors.append_array(JobRules.problems(self))
 	_validate_progression()

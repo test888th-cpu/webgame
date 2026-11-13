@@ -87,8 +87,8 @@ static func screen(game: Game, name: String) -> Control:
 ## actions. The street does not stop behind it, nor behind any screen.
 static func pause_menu(game: Game) -> Control:
 	var tutorial := not TutorialRules.is_done(game.profile, game.content)
-	var tall := 232.0
-	var parts := UiKit.window("Menu", Vector2(PAUSE_WIDTH, tall + (18.0 if tutorial else 0.0)), "")
+	var tall := 232.0 + (18.0 if tutorial else 0.0) + (18.0 if Rematch.here(game) >= 0 else 0.0)
+	var parts := UiKit.window("Menu", Vector2(PAUSE_WIDTH, tall), "")
 	var body: VBoxContainer = parts["body"]
 	body.add_theme_constant_override("separation", 2)
 	body.add_child(_menu_item("Back to the game", "Esc", game.close_menu))
@@ -113,6 +113,19 @@ static func pause_menu(game: Game) -> Control:
 	recall.disabled = problem != ""
 	recall.tooltip_text = problem
 	body.add_child(recall)
+	var fight := Rematch.here(game)
+	if fight >= 0:
+		# A story boss fight here, again and fresh (ReplayRules), outside a fight.
+		var foe := ReplayRules.foe(content, game.zone.area_id, fight)
+		var again := _menu_item(
+			"Fight %s again" % content.enemy(foe).get("name", foe),
+			"",
+			Rematch.start.bind(game, game.zone.area_id, fight)
+		)
+		again.name = "Rematch"
+		again.disabled = game.zone.leave_problem() != ""
+		again.tooltip_text = game.zone.leave_problem()
+		body.add_child(again)
 	body.add_child(_menu_item("Save game", "", game._save_game))
 	body.add_child(_menu_item("Save and quit to title", "", game._quit_to_title))
 	if tutorial:
@@ -453,6 +466,27 @@ static func _ride_groups(game: Game, npc: Dictionary, fare: int) -> Array[Dictio
 			rides.append(ride)
 		if not rides.is_empty():
 			out.append({"name": str(district["name"]), "rides": rides, "columns": 2})
+	var fights := _rematch_rides(game, npc, broke)
+	if not fights.is_empty():
+		out.append({"name": "Boss Fights", "rides": fights, "columns": 2})
+	return out
+
+
+## Win's replays (ReplayRules): every story boss and story mini-boss in an
+## area reached, straight to the fight, fresh, as often as the hero likes, for
+## the ride's usual fare. Named "Rematch_<area>_<index>".
+static func _rematch_rides(game: Game, npc: Dictionary, broke: bool) -> Array[Button]:
+	var content := game.content
+	var out: Array[Button] = []
+	for fight: Dictionary in ReplayRules.rematches(game.profile, content):
+		var area_id := str(fight["area"])
+		var text := str(content.enemy(str(fight["foe"])).get("name", fight["foe"]))
+		if fight["rank"] == ReplayRules.MINI_BOSS:
+			text += "  (mini-boss)"
+		var ride := _choice(text, Rematch.ride.bind(game, npc, area_id, int(fight["index"])))
+		ride.name = "Rematch_%s_%d" % [area_id, int(fight["index"])]
+		ride.disabled = broke
+		out.append(ride)
 	return out
 
 
@@ -472,6 +506,10 @@ static func _hub_rides(game: Game, npc: Dictionary, fare: int) -> Array[Dictiona
 			var area := content.area(area_id)
 			# A suggestion for the fights there; no level is needed to ride in.
 			var text := "%s  (suggested Lv %d)" % [area["name"], int(area.get("level", 1))]
+			var status := LairRules.status_text(game.profile, content, area_id, game._now())
+			if status:
+				# The lair's one shared mini-boss: where it is out, or when it is back.
+				text += "  ·  " + status
 			if AreaRules.unlocked(game.profile, content, area_id):
 				var ride := _choice(text, game._ride.bind(npc, area_id))
 				ride.name = "Ride_" + area_id
@@ -527,7 +565,7 @@ static func _first_group(game: Game, groups: Array[Dictionary]) -> int:
 	for i in groups.size():
 		if groups[i]["name"] == here:
 			return i
-		if groups[i]["name"] not in ["City", "Farming", "Rematches", "World Bosses"]:
+		if groups[i]["name"] not in ["City", "Farming", "Rematches", "World Bosses", "Boss Fights"]:
 			last = i
 	return last
 
@@ -847,17 +885,31 @@ static func knocked_out(game: Game, loss: int, wake: String) -> Control:
 	var story := UiKit.label(kept, UiTheme.SIZE_BODY, UiTheme.TEXT_DIM)
 	story.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	column.add_child(story)
-	var cost := UiKit.label(
-		"You dropped %d coins in the street." % loss if loss else "You had no coins to lose.",
-		UiTheme.SIZE_BODY,
-		UiTheme.GOLD
+	# A lost story boss fight may be tried again at once, for free (ReplayRules).
+	var x := game.zone.hero.position.x
+	var fight := ReplayRules.at(game.content, game.zone.area_id, x)
+	var retry_open := (
+		game.zone.in_encounter()
+		and ReplayRules.unlocked(game.profile, game.content, game.zone.area_id, fight)
 	)
+	var lost := (
+		"You dropped %d coins in the street." % loss if loss else "You had no coins to lose."
+	)
+	if retry_open:
+		lost = "Get back up: drop %d coins. Try again: free." % loss
+	var cost := UiKit.label(lost, UiTheme.SIZE_BODY, UiTheme.GOLD)
 	cost.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	column.add_child(cost)
 	var again := UiKit.button("Get back up", game._recover)
 	again.custom_minimum_size = Vector2(140, 22)
 	again.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	column.add_child(again)
+	if retry_open:
+		var retry := UiKit.button("Try again", Rematch.retry.bind(game, fight))
+		retry.name = "TryAgain"
+		retry.custom_minimum_size = Vector2(140, 22)
+		retry.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		column.add_child(retry)
 	return root
 
 

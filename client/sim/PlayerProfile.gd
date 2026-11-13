@@ -5,7 +5,7 @@ extends RefCounted
 ## for the backend in Milestone 4, when the server becomes the only writer.
 ## Temporary combat state (position, energy, cooldowns) never lives here.
 
-const SAVE_VERSION := 12
+const SAVE_VERSION := 13
 ## The hero version 11 retired, and the one their saves continue as.
 const RETIRED_HERO := "pong"
 const RETIRED_HERO_HEIR := "kan"
@@ -79,7 +79,8 @@ var visited: Array[String] = []
 ## damage so far, "tiers": personal tiers paid, "killed": the kill paid}
 ## (WorldBossRules).
 var world_boss := {}
-## When each lair's next mini-boss is due, unix seconds by lair id (LairRules).
+## Each lair's shared mini-boss state by lair id (LairRules.clean): which
+## spawn, where, its health, when it fell and when the next is due.
 var lairs := {}
 
 
@@ -316,7 +317,7 @@ func to_dict() -> Dictionary:
 		"cleared": cleared.duplicate(true),
 		"visited": visited.duplicate(),
 		"world_boss": world_boss.duplicate(),
-		"lairs": lairs.duplicate(),
+		"lairs": lairs.duplicate(true),
 		"hotbar": hotbar.duplicate(),
 	}
 
@@ -393,7 +394,7 @@ static func from_dict(data: Variant, content: ContentDB) -> PlayerProfile:
 	if lairs is Dictionary:
 		for lair_id: Variant in lairs:
 			if AreaRules.kind(content, str(lair_id)) == AreaRules.LAIR:
-				p.lairs[str(lair_id)] = maxi(0, int(lairs[lair_id]))
+				p.lairs[str(lair_id)] = LairRules.clean(lairs[lair_id])
 	return p
 
 
@@ -547,6 +548,16 @@ static func migrate(data: Dictionary) -> Dictionary:
 		if (step is int or step is float) and int(step) >= TutorialRules.GRAB_STEP:
 			migrated["tutorial"] = int(step) + 1
 		migrated["version"] = 12
+	if int(migrated["version"]) == 12:
+		# Version 13 keeps each lair's whole mini-boss state (LairRules); 12 kept
+		# only when the next one was due.
+		var due: Variant = migrated.get("lairs", {})
+		var states := {}
+		if due is Dictionary:
+			for lair_id: Variant in due:
+				states[str(lair_id)] = {"next_at": maxi(0, int(due[lair_id]))}
+		migrated["lairs"] = states
+		migrated["version"] = 13
 	return migrated
 
 

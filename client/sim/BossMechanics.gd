@@ -15,6 +15,19 @@ extends RefCounted
 ##   side-step. A "cycle" of hazards is called in turn;
 ## * "summon": whistles in reinforcements every so often, one from each side
 ##   of the fight, while fewer than its "max" helpers stand.
+## * "elite_summon" (optional, same shape plus "below", a share of the boss's
+##   health under which it starts): elite reinforcements on their own timer
+##   and their own cap. With both, each counts only its own kind, so one
+##   never crowds out the other. Caps are how many stand at once (a load
+##   limit), never a limit on fights or entries; at the cap the call waits
+##   for room, and nobody standing is removed to make it.
+##   It reuses an existing elite (its own enemies.json entry: stats, skills,
+##   AI, loot), spawned like any other enemy; missing, empty or malformed data
+##   means no elites (elite_spec).
+## Reinforcements arrive at the fight's edges, in turn. In a world boss arena
+## (SessionRules.WORLD_BOSS) one never arrives within SUMMON_CLEARANCE of the
+## hero: it comes in from the other edge instead. Everywhere else (story
+## bosses and mini-bosses, lairs) the edges alternate as they always have.
 ## * "enrage": a fight timer (BossEnrage) after which the boss hits harder and
 ##   its hazards and summons come quicker, warned a few seconds before.
 ## A phase may quicken either ("hazard_every", "summon_every"), bring its own
@@ -34,6 +47,9 @@ const VOLLEY_TRIES := 12
 ## cannot simply outrun a slow boss and leave it calling skills from afar.
 const CATCH_UP_FROM := 150.0
 const CATCH_UP := 1.15
+## How close (px along the street) to the hero a world boss's reinforcement
+## may arrive: any closer and it comes in from the other edge.
+const SUMMON_CLEARANCE := 60.0
 
 ## The boss's own skills (BossSkills): combos, casts and their cleanup.
 var skills := BossSkills.new()
@@ -50,6 +66,7 @@ var _drop_id := 0
 var _walk_speed := 0.0
 var _set_walk := -1.0
 var _summon_timer := 0
+var _elite_timer := 0
 var _shield_timer := 0
 var _shield_up := false
 var _rage_id := 0
@@ -71,6 +88,7 @@ func tick(zone: ZoneSim, events: Array[ZoneEvent]) -> void:
 	if boss == null or boss.is_ko() or zone.hero.is_ko():
 		_hazard_timer = 0
 		_summon_timer = 0
+		_elite_timer = 0
 		_set_shield(zone, boss, false, events)
 		return
 	_tick_enrage(zone, boss, events)
@@ -93,11 +111,18 @@ func tick(zone: ZoneSim, events: Array[ZoneEvent]) -> void:
 			_call_hazard(zone, boss, cycle[_hazard_turn % cycle.size()], events)
 			_hazard_turn += 1
 	var summon: Dictionary = data.get("summon", {})
+	var elite := elite_spec(zone.content, data)
 	if summon and not skills.channeling():
 		_summon_timer += 1
 		if _summon_timer >= _every(zone, boss, summon, "summon_every"):
 			_summon_timer = 0
-			_summon(zone, boss, summon, events)
+			_summon(zone, boss, summon, events, str(elite.get("enemy", "")))
+	var below := float(elite.get("below", 1.0))
+	if elite and not skills.channeling() and boss.hp <= boss.max_hp * below:
+		_elite_timer += 1
+		if _elite_timer >= _every(zone, boss, elite, "elite_summon_every"):
+			_elite_timer = 0
+			_summon(zone, boss, elite, events, "", true)
 
 
 ## Lets `boss` stride after a hero who has run off (CATCH_UP_FROM), and walk
@@ -290,22 +315,84 @@ func _land_hazards(zone: ZoneSim, events: Array[ZoneEvent]) -> void:
 
 
 ## Reinforcements: up to "count" of "enemy", one from each edge of the fight
-## in turn, never past "max" helpers on their feet at once.
-func _summon(zone: ZoneSim, boss: Fighter, data: Dictionary, events: Array) -> void:
+## in turn, never past "max" helpers on their feet at once. `skip`: a kind not
+## counted against the cap (the other category's); `own`: count only "enemy".
+func _summon(
+	zone: ZoneSim, boss: Fighter, data: Dictionary, events: Array, skip := "", own := false
+) -> void:
+	var kind := str(data["enemy"])
 	var standing := 0
 	for enemy in zone.enemies():
-		if enemy != boss and not enemy.is_ko() and zone.brains.has(enemy.id):
-			standing += 1
+		if enemy == boss or enemy.is_ko() or not zone.brains.has(enemy.id):
+			continue
+		if enemy.kind == skip or (own and enemy.kind != kind):
+			continue
+		standing += 1
 	var room := mini(int(data["count"]), int(data["max"]) - standing)
 	if room <= 0:
 		return
-	var kind := str(data["enemy"])
 	var called: Array[int] = []
+	var world := SessionRules.session_type(zone.content, zone.area_id) == SessionRules.WORLD_BOSS
 	for i in room:
-		var x := zone.arena.position.x + 12.0 if i % 2 == 0 else zone.arena.end.x - 12.0
+		var west := i % 2 == 0
+		var x := zone.arena.position.x + 12.0 if west else zone.arena.end.x - 12.0
+		if world and absf(x - zone.hero.position.x) < SUMMON_CLEARANCE:
+			x = zone.arena.end.x - 12.0 if west else zone.arena.position.x + 12.0
 		var y := zone.arena.position.y + 15.0 + (i % 3) * 30.0
 		var at := Bodies.clear_spot(Vector2(x, y), zone.solids, zone.arena)
 		var enemy := zone.spawn_enemy(kind, at)
 		called.append(enemy.id)
 		events.append(ZoneEvent.make("spawn", {"id": enemy.id, "kind": kind, "boss": false}))
-	events.append(ZoneEvent.make("boss_summon", {"id": boss.id, "kind": kind, "ids": called}))
+	# "elite": a world boss called in an existing elite, for the HUD to announce
+	# once per call (GameFeedback). Presentation only: nothing above changes.
+	var elite := world and bool(zone.content.enemy(kind).get("elite", false))
+	events.append(
+		ZoneEvent.make("boss_summon", {"id": boss.id, "kind": kind, "ids": called, "elite": elite})
+	)
+
+
+## `data`'s (an enemies.json entry) "elite_summon" when it is usable, else {}:
+## an object naming an existing elite, with "every", "count" and "max" of at
+## least 1 and "below" (default 1.0) in (0, 1]. Anything else (missing, empty,
+## malformed) calls no elites, and summon_problems says why.
+static func elite_spec(content: ContentDB, data: Dictionary) -> Dictionary:
+	var spec: Variant = data.get("elite_summon", {})
+	if not spec is Dictionary or spec.is_empty():
+		return {}
+	if not content.enemy(str(spec.get("enemy", ""))).get("elite", false):
+		return {}
+	for field in ["every", "count", "max"]:
+		var value: Variant = spec.get(field)
+		if not (value is int or value is float) or int(value) < 1:
+			return {}
+	var below: Variant = spec.get("below", 1.0)
+	if not (below is int or below is float) or below <= 0.0 or below > 1.0:
+		return {}
+	return spec
+
+
+## What is wrong with the bosses' "elite_summon", one message each: like
+## "summon" (a known enemy, "every", "count", "max" at least 1), and the enemy
+## is an elite; "below" a share in (0, 1].
+static func summon_problems(content: ContentDB) -> PackedStringArray:
+	var out: PackedStringArray = []
+	for kind: String in content.enemies:
+		var spec: Variant = content.enemy(kind).get("elite_summon", {})
+		var where := "enemies.%s.elite_summon" % kind
+		if not spec is Dictionary:
+			out.append(where + ": an object")
+			continue
+		if spec.is_empty():
+			continue
+		if not content.enemy(kind).get("boss", false):
+			out.append(where + ": only bosses call reinforcements")
+		if not content.enemy(str(spec.get("enemy", ""))).get("elite", false):
+			out.append(where + ".enemy: an elite enemy")
+		for field in ["every", "count", "max"]:
+			var value: Variant = spec.get(field)
+			if not (value is int or value is float) or int(value) < 1:
+				out.append("%s.%s: at least 1" % [where, field])
+		var below: Variant = spec.get("below", 1.0)
+		if not (below is int or below is float) or below <= 0.0 or below > 1.0:
+			out.append(where + ".below: a share of health in (0, 1]")
+	return out
