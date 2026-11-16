@@ -4,7 +4,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
-### Changed: auto battle in the arena (owner's request, 2026-11-16)
+### Changed: auto battle in the arena, and the player keeps control (owner's request, 2026-11-16)
 - **The AUTO switch works during an arena match.** It used to refuse with "The arena is
   fought by hand." Auto now plays the match with the same buttons a player has. There is
   no food in the arena, and `ArenaMatch` still blanks all input during the countdown.
@@ -14,6 +14,15 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
   to the player.
 - Tests: `test_arena.gd` covers an auto-piloted match fought to a knock-out, and the HUD
   switch turning on in a match and off at its result.
+- **The player keeps control while auto is on (owner's request).** Walking, attacks,
+  skills, guard, dodge and grabs are played as pressed, and auto stays on. The pilot waits
+  half a second (`AutoBattle.MANUAL_HOLD_TICKS`, 30 ticks) after the player's last input
+  before it plays again, so a step or a combo is not undone on the next tick. Auto still
+  eats when hurt meanwhile.
+- **Walking into another area no longer turns auto off.** Auto farms the new area from
+  then on. It stops only where it cannot run, and says why (`AutoRules.problem`).
+- Tests: `test_auto_battle.gd` covers every kind of the player's input with auto staying
+  on, the pilot's pause after it, and auto following the hero into a new area.
 
 ### Changed: five distinct combat classes, a stronger combo engine, fair PvP (owner's request, 2026-11-13)
 - **Each class has its own heavy attack** instead of the shared `haymaker`:

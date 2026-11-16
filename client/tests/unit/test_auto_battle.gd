@@ -199,7 +199,39 @@ func test_auto_starts_only_where_allowed_and_the_player_takes_over() -> void:
 	assert_eq(game.auto.input(manual, true), manual, "the player's own input wins")
 	assert_true(game.auto.input(FighterInput.new(), false) != null, "otherwise the pilot plays")
 	game.enter_area("canal_works", "west")
-	assert_true(not game.auto.on, "the player walking on to another area turns it off")
+	assert_true(game.auto.on, "the player walking on to another area keeps it on")
+	assert_eq(game.auto.farm_area, "canal_works", "and it farms there now")
+	GameSession.settings["auto_story"] = false
+	game.enter_area("main_city", "west")
+	assert_true(not game.auto.on, "it stops only where it cannot run")
+	_done(game)
+
+
+func test_the_player_keeps_control_while_auto_stays_on() -> void:
+	var game := _game()
+	game.enter_area("saltmarket", "west")
+	game.auto.toggle()
+	assert_true(game.auto.on, "auto on")
+	var presses: Array[FighterInput] = []
+	for kind in ["move", "light", "heavy", "dodge", "guard", "grab", "skill"]:
+		var press := FighterInput.new()
+		match kind:
+			"move":
+				press.move = Vector2.RIGHT
+			"skill":
+				press.skill = "x"
+			_:
+				press.set(kind, true)
+		presses.append(press)
+	for press in presses:
+		assert_eq(game.auto.input(press, true), press, "the player's own input is played")
+		game.step(press)
+		assert_true(game.auto.on, "and auto stays on")
+	var idle := FighterInput.new()
+	for t in AutoBattle.MANUAL_HOLD_TICKS:
+		assert_eq(game.auto.input(idle, false), idle, "the pilot waits a moment after")
+	assert_true(game.auto.input(idle, false) != idle, "then plays on by itself")
+	assert_true(game.auto.on, "never having turned off")
 	_done(game)
 
 

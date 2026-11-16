@@ -1,7 +1,9 @@
 class_name AutoBattle
 extends RefCounted
 ## Auto battle for Game: the on/off switch, the player's own input taking
-## over whenever they touch the controls, a tally for the HUD, the story
+## over whenever they touch the controls (walking, attacks, skills, guard,
+## dodge) while auto stays on and picks up again a moment after they let
+## go, a tally for the HUD, the story
 ## (StoryAuto: take and hand in each stage's quest at its giver, fight
 ## through to the stage's boss, walk on east, ride the taxi to wherever the
 ## quest goes next), and the farm loop (area cleared, or out of food and hurt:
@@ -17,6 +19,10 @@ extends RefCounted
 const REST_DELAY_TICKS := 90
 ## Under a second at a quest giver before taking or handing in a quest.
 const QUEST_DELAY_TICKS := 45
+## Half a second after the player's own last input before the pilot plays
+## again, so a step, a combo or a skill the player starts is not undone by
+## the pilot on the very next tick.
+const MANUAL_HOLD_TICKS := 30
 ## Choices offered in the pause menu (GameSession settings).
 const HEAL_CHOICES := [0.3, 0.5, 0.7]
 const FOOD_CHOICES := [0.0, 5.0, 10.0, 20.0]
@@ -46,6 +52,8 @@ var _same_rides := 0
 var _noted := ""
 ## Gear came in (a drop, a quest's rewards): try it on once out of the fight.
 var _new_gear := false
+## Ticks left before the pilot plays again after the player's own input.
+var _manual_ticks := 0
 
 
 func _init(game: Game) -> void:
@@ -90,9 +98,10 @@ func toggle() -> void:
 	_story_run = false
 	_same_rides = 0
 	_new_gear = true
+	_manual_ticks = 0
 	pilot = AutoPilot.new(_game.content)
 	Sfx.play("ui_select", -4.0)
-	_game.hud_toast("Auto on. Move or attack to take back control.")
+	_game.hud_toast("Auto on. Your own moves still work; press AUTO again to stop.")
 
 
 func stop(reason := "") -> void:
@@ -105,14 +114,19 @@ func stop(reason := "") -> void:
 
 
 ## This tick's hero input: the player's own whenever they press anything,
-## otherwise the pilot's (eating included).
+## and for MANUAL_HOLD_TICKS after, otherwise the pilot's. Auto stays on
+## throughout, and keeps eating when hurt unless the player is eating now.
 func input(manual: FighterInput, manual_used: bool) -> FighterInput:
 	pilot.heal_below = float(GameSession.settings.get("auto_heal_at", 0.5))
 	var chosen := pilot.think(_game.zone)
 	if manual_used:
+		_manual_ticks = MANUAL_HOLD_TICKS
 		return manual
 	if pilot.item and _game.zone.use_item(pilot.item):
 		_game.healed_by(pilot.item)
+	if _manual_ticks > 0:
+		_manual_ticks -= 1
+		return manual
 	return chosen
 
 
@@ -153,16 +167,19 @@ func after_step(events: Array[ZoneEvent]) -> void:
 		_rest_and_return()
 
 
-## Another area: auto stops there when the player (not the loop) went, but
-## follows the story on when it was the pilot walking on east.
+## Another area: auto follows the hero there (the pilot walking on east for
+## the story, or the player walking in) and farms it from now on, stopping
+## only where it cannot run (AutoRules.problem says why).
 func entered(area_id: String) -> void:
 	if not on or _travelling or area_id == farm_area:
 		return
-	if pilot.status == AutoPilot.STATUS_ONWARD and _follows_story():
-		farm_area = area_id
-		pilot.heading = 0
+	var why := problem()
+	if why:
+		stop("%s Auto off." % why)
 		return
-	stop("New area. Auto off.")
+	farm_area = area_id
+	pilot.heading = 0
+	_manual_ticks = 0
 
 
 ## One story step (StoryAuto) after a tick. Returns true when it took this
