@@ -46,7 +46,9 @@ func test_shopping_at_the_vendor() -> void:
 	game.zone.hero.position = Vector2(520, 262) + Vector2(-20, 0)
 	assert_true(game.try_interact(), "talking to the vendor")
 	assert_eq(game.menu_name, "shop", "shop open")
-	game._buy(game.view.npc_near(game.zone.hero), "steamed_bun")
+	var shop := ShopScreen.of(game.menu)
+	shop.add(TradeCart.BUY, "steamed_bun")
+	shop.checkout(TradeCart.BUY)
 	assert_eq(game.profile.money, 40, "paid 10")
 	assert_eq(game.profile.count("steamed_bun"), 1, "bun bought")
 	var ticks_before: int = game.zone.tick_count

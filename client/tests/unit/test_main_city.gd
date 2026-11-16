@@ -469,7 +469,10 @@ func test_the_market_gets_each_traders_stock_with_their_chapter() -> void:
 	game._go_to_city()
 	game.profile.money = 50
 	var price := int(game.content.item("steamed_bun")["price"])
-	game._buy(_npc("vendor_ama"), "steamed_bun")
+	game.open_shop(_npc("vendor_ama"))
+	var shop := ShopScreen.of(game.menu)
+	shop.add(TradeCart.BUY, "steamed_bun")
+	shop.checkout(TradeCart.BUY)
 	assert_eq(game.profile.money, 50 - price, "Ama's Market is open from the start")
 	assert_eq(game.profile.count("steamed_bun"), 4, "bought one (3 in the starter kit)")
 	var market: Dictionary = game.content.shops["city_gear"]

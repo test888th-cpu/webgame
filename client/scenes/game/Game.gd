@@ -700,29 +700,6 @@ func _reopen_bag(focus: String) -> void:
 	open_inventory()
 
 
-func _buy(npc: Dictionary, item_id: String, amount := 1) -> void:
-	var error := ShopRules.buy(profile, npc["shop"], item_id, content, amount)
-	_trade_done(error, "Bought %s%s" % [content.item(item_id)["name"], _times(amount)])
-	if error == "not_enough_money":
-		_hud.toast("Not enough coins")
-	menu_focus = "buy:" + item_id
-	open_shop(npc)
-
-
-## Sells to the shop; the list then stays on the same item, or the next one
-## once the last is gone.
-func _sell(npc: Dictionary, item_id: String, amount := 1) -> void:
-	var before := ShopScreen.sellable(content, profile)
-	var error := ShopRules.sell(profile, item_id, content, amount)
-	var coins := ShopRules.sell_price(content, item_id) * amount
-	var name := str(content.item(item_id)["name"])
-	_trade_done(error, "Sold %s%s for %d coins" % [name, _times(amount), coins])
-	var left := ShopScreen.sellable(content, profile)
-	var index := mini(before.find(item_id), left.size() - 1)
-	menu_focus = "sell:" + (left[index] if index >= 0 else "")
-	open_shop(npc)
-
-
 func _trade_done(error: String, done: String) -> void:
 	if error:
 		Sfx.play("denied", -4.0)
@@ -730,10 +707,6 @@ func _trade_done(error: String, done: String) -> void:
 	_hud.toast(done)
 	Sfx.play("coin", -4.0)
 	SaveStore.save(profile)
-
-
-static func _times(amount: int) -> String:
-	return " x%d" % amount if amount > 1 else ""
 
 
 func _accept(npc: Dictionary, quest_id: String) -> void:

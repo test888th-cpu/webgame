@@ -4,6 +4,26 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed: a shopping cart at the shops (owner's request, 2026-11-16)
+- **Buying and selling many items at once is a cart now.** A click on a ware (or on an
+  item from the bag, on Sell) puts it in a cart beside the list. Shift+click or a right
+  click adds a stack. Each cart line has -, + and ×, and the cart shows the total and the
+  coins after. One Buy or Sell settles it all. The old one-item deal bar and the "tick
+  to sell" boxes are gone.
+- **New rule class `TradeCart` (`client/sim/`).** It checks the cart against every
+  `ShopRules` limit, including one deal's 99 (larger stacks are settled in several
+  deals), gear bought one at a time, and the shop's wares and opening. The checkout is
+  all or nothing: if anything fails, the coins and the bag are put back. A cart holds at
+  most 20 different items, a size limit the server can apply to the same request.
+- Sell's "Add all" fills the cart with everything the shop takes, except rare gear and
+  upgraded items. Those go in one by one, and the cart asks "Sure?" before selling them.
+- The screen refreshes in place instead of being rebuilt on every click, so the focus
+  and the list's place are kept. Keys: Enter adds one, Left/Right change the count, X
+  settles the cart, Q/E switch tabs.
+- `Game._buy`/`_sell` are gone; the shop screen settles through `TradeCart`.
+- Tests: `test_trade_cart.gd` (the rules) and `test_trade_ui.gd` (clicks, keys, checkout,
+  Add all, Sure?, and everything on screen at 640x360).
+
 ### Changed: auto battle in the arena, and the player keeps control (owner's request, 2026-11-16)
 - **The AUTO switch works during an arena match.** It used to refuse with "The arena is
   fought by hand." Auto now plays the match with the same buttons a player has. There is
