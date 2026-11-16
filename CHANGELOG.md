@@ -4,6 +4,17 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed: auto battle in the arena (owner's request, 2026-11-16)
+- **The AUTO switch works during an arena match.** It used to refuse with "The arena is
+  fought by hand." Auto now plays the match with the same buttons a player has. There is
+  no food in the arena, and `ArenaMatch` still blanks all input during the countdown.
+- In a match, auto goes after the rival at any distance instead of waiting for them to
+  come within reach. It never follows the story or goes home to rest from the arena, and
+  it turns off when the match ends ("Match over. Auto off."), leaving the result screen
+  to the player.
+- Tests: `test_arena.gd` covers an auto-piloted match fought to a knock-out, and the HUD
+  switch turning on in a match and off at its result.
+
 ### Changed: five distinct combat classes, a stronger combo engine, fair PvP (owner's request, 2026-11-13)
 - **Each class has its own heavy attack** instead of the shared `haymaker`:
   - Boxer Overhand (breaks guard, chains into a Shovel Hook);

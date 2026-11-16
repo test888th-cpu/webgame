@@ -7,7 +7,9 @@ extends RefCounted
 ## quest goes next), and the farm loop (area cleared, or out of food and hurt:
 ## home to rest, restock buns, ride the taxi back, go again). In a world boss
 ## arena it only fights, to the attempt's end. Every decision comes from sim/
-## (AutoPilot in the fight, StoryAuto and AutoRules for the rest); this only
+## (AutoPilot in the fight, StoryAuto and AutoRules for the rest); in an
+## arena match it fights the rival until the match ends, then turns off
+## (ArenaMatch filters its input outside the fight, as a player's); this only
 ## carries them out through the same actions a player has: buttons, eating,
 ## the quest giver, the shop, the taxi fare.
 
@@ -57,12 +59,13 @@ func problem() -> String:
 
 
 ## True when auto follows the story here: the setting is on, and this is
-## neither a farming ground, a lair nor a world boss arena.
+## neither a farming ground, a lair, a world boss arena nor the PvP arena.
 func _follows_story() -> bool:
 	var area_id := _game.zone.area_id
 	if AreaRules.kind(_game.content, area_id) in AreaRules.GATED:
 		return false
-	if _game.content.area(area_id).get("world_boss", false):
+	var area := _game.content.area(area_id)
+	if area.get("world_boss", false) or area.get("arena", false):
 		return false
 	return bool(GameSession.settings.get("auto_story", true))
 
@@ -128,6 +131,9 @@ func after_step(events: Array[ZoneEvent]) -> void:
 					_new_gear = true
 			"hero_down":
 				stop("Knocked out. Auto off.")
+				return
+			"arena_end":
+				stop("Match over. Auto off.")
 				return
 			"fights_back":
 				# A farming ground refilled: the next round, without a ride.

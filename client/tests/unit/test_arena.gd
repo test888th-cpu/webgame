@@ -7,6 +7,7 @@ extends TestCase
 ## test_arena_config.gd; results, forfeits and the AI: test_arena_integrity.gd.
 
 const TEST_SAVE := "user://test_arena"
+const GAME_SCENE := preload("res://scenes/game/Game.tscn")
 
 var content: ContentDB
 
@@ -270,7 +271,7 @@ func test_the_arena_master_opens_the_ladder_and_a_match_returns_to_it() -> void:
 	SaveStore.delete_all()
 	GameSession.start_new_game("riku")
 	tree.root.size = Vector2i(1280, 720)
-	var game: Game = load("res://scenes/game/Game.tscn").instantiate()
+	var game: Game = GAME_SCENE.instantiate()
 	tree.root.add_child(game)
 	game.set_physics_process(false)
 	game.profile.level = 12
@@ -323,6 +324,65 @@ func test_the_arena_master_opens_the_ladder_and_a_match_returns_to_it() -> void:
 	var saved := SaveStore.load_character(game.profile.id, game.content)
 	assert_eq(ArenaRules.rank_of(saved, game.content), target, "saved")
 	assert_true(ArenaRules.state(saved, game.content)["pending"].is_empty(), "nothing pending")
+	game.free()
+	SaveStore.delete_all()
+	SaveStore.root = SaveStore.DEFAULT_ROOT
+
+
+func test_auto_battle_may_fight_an_arena_match_to_its_end() -> void:
+	var db := _content()
+	var p := _profile(50)
+	assert_eq(AutoRules.problem(p, db, "pvp_arena"), "", "auto may fight in the arena")
+	var bout := _match(p, "r50")
+	var pilot := AutoPilot.new(db)
+	pilot.status = AutoPilot.STATUS_CLEAR
+	assert_true(not AutoRules.wants_rest(bout.zone, pilot), "never home mid-match")
+	# The rival backs far off: the pilot still goes after them.
+	bout.countdown = 1
+	bout.rival.position.x = bout.zone.bounds.end.x - 10.0
+	var result := {}
+	for t in 9000:
+		var events := bout.zone.tick(bout.filter(pilot.think(bout.zone)))
+		bout.tick(events)
+		for event in events:
+			if event.type == "arena_end":
+				result = event.data
+		if not result.is_empty():
+			break
+	assert_true(not result.is_empty(), "the match ends")
+	assert_eq(result.get("reason"), "ko", "by a knock-out, not by standing idle to the clock")
+
+
+func test_the_auto_switch_works_in_an_arena_match_and_turns_off_at_its_end() -> void:
+	SaveStore.root = TEST_SAVE
+	SaveStore.delete_all()
+	GameSession.start_new_game("riku")
+	tree.root.size = Vector2i(1280, 720)
+	var game: Game = GAME_SCENE.instantiate()
+	tree.root.add_child(game)
+	game.set_physics_process(false)
+	game.profile.level = 12
+	game.enter_area(game.content.city_area, "")
+	var id: String = ArenaRules.choices(game.profile, game.content)[0]
+	game.arena.start(id)
+	await tree.process_frame
+	assert_eq(game.zone.area_id, "pvp_arena", "into the arena")
+	var button := game.find_child("AutoButton", true, false) as Button
+	button.pressed.emit()
+	assert_true(game.auto.on, "AUTO turns on in a match")
+	game._process(0.016)
+	assert_eq(button.modulate.a, 1.0, "and is not shown as unavailable")
+	var bout := game.arena.bout
+	bout.countdown = 1
+	bout.rival.hp = 1
+	for t in 1200:
+		game.step(game.auto.input(FighterInput.new(), false))
+		if game.menu_name == "arena_result":
+			break
+	assert_eq(game.menu_name, "arena_result", "auto fought the match to its result")
+	assert_true(not game.auto.on, "auto turns off when the match ends")
+	assert_eq(game.zone.area_id, "pvp_arena", "and goes nowhere on its own")
+	game.arena.leave(true)
 	game.free()
 	SaveStore.delete_all()
 	SaveStore.root = SaveStore.DEFAULT_ROOT
