@@ -39,6 +39,18 @@ var evade := false
 ## A throw, or a thrown body crashing into someone (for passives that
 ## strengthen slams).
 var slam := false
+## Heavy armour: its user is not knocked out of this move by blows during
+## its startup and active ticks (the blows still deal their damage). Only for
+## a class's committed heavy moves (a Brawler's finisher), never every move.
+var armor := false
+## Hits a foe lying on the street (on the ground, "off the ground"): a
+## follow-up to a knockdown. Deals its damage only; the fall is not made
+## longer, so no loop can keep a foe down.
+var otg := false
+## A counter stance that also catches guard-breaking blows (a perfect read).
+var catch_all := false
+## Energy the blow takes from the foe it lands on (a body blow winds them).
+var energy_drain := 0.0
 ## Shows a warning during startup. Used for slow, heavy enemy attacks so a
 ## player has time to react.
 var telegraph := false

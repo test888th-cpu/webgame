@@ -25,7 +25,20 @@ extends RefCounted
 ## specs here. Stacks are combat state (Fighter.stacks), never saved.
 
 const EVENTS: Array[String] = ["hit", "miss", "parry", "hurt"]
-const EFFECTS: Array[String] = ["damage", "crit", "attack_speed", "resist", "hold", "parry_window"]
+const EFFECTS: Array[String] = [
+	"damage",
+	"crit",
+	"attack_speed",
+	"resist",
+	"hold",
+	"parry_window",
+	# Ticks taken off every other skill's cooldown when a combo link lands.
+	"refresh",
+	# Extra share of guard energy a blocked blow drains.
+	"guard_drain",
+	# Share off a dodge's cost; also opens a dodge-cancel of landed blows.
+	"dodge_cost",
+]
 const WHEN: Array[String] = [
 	"any", "finisher", "counter", "staggered", "slam", "skill", "attacking"
 ]

@@ -20,6 +20,9 @@ extends RefCounted
 ##   reinforcements (BossMechanics). It never gates and is never gated by the
 ##   story.
 ## * HUB: the city, shared: merchants, taxis, no fights.
+## * ARENA_MATCH: The Pit Arena (AreaRules.ARENA), private like a story
+##   instance: one hero against an AI rival, the ladder the hero's own
+##   (ArenaRules). No other hero may enter.
 ##
 ## The instance key says which simulation a hero joins. Keys of different
 ## types never collide, and a story key always carries its owner, so two
@@ -31,7 +34,10 @@ const FARMING := "farming_ground"
 const REMATCH := "rematch"
 const WORLD_BOSS := "world_boss_event"
 const HUB := "hub"
-const TYPES := [STORY, FARMING, REMATCH, WORLD_BOSS, HUB]
+const ARENA_MATCH := "arena_match"
+const TYPES := [STORY, FARMING, REMATCH, WORLD_BOSS, HUB, ARENA_MATCH]
+## The private types: one owner per instance, nobody else.
+const PRIVATE_TYPES := [STORY, ARENA_MATCH]
 ## The shared types: one copy for everyone (sharded by the allocator when full).
 const SHARED_TYPES := [FARMING, REMATCH, WORLD_BOSS, HUB]
 ## A story instance holds its owner and nobody else.
@@ -44,6 +50,7 @@ const BY_KIND := {
 	AreaRules.FARM: FARMING,
 	AreaRules.LAIR: REMATCH,
 	AreaRules.WORLD_BOSS: WORLD_BOSS,
+	AreaRules.ARENA: ARENA_MATCH,
 }
 
 
@@ -54,21 +61,24 @@ static func session_type(content: ContentDB, area_id: String) -> String:
 
 ## True when `area_id`'s state belongs to one hero alone.
 static func is_private(content: ContentDB, area_id: String) -> bool:
-	return session_type(content, area_id) == STORY
+	return session_type(content, area_id) in PRIVATE_TYPES
 
 
 ## The instance `hero_id` joins in `area_id` at Unix time `now`:
 ## * a story area: "story/<hero>/<area>", the hero's own copy;
+## * The Pit Arena: "arena/<hero>/<area>", the hero's own too;
 ## * a shared area: "<type>/<area>" (the allocator adds a shard number when
 ##   one copy is full);
 ## * a world boss arena: "world_boss/<boss>/<round>", one per round of the
 ##   boss's clock, the same for everyone.
-## "" when a story key is asked for without a hero, so no story instance is
-## ever opened without an owner.
+## "" when a private key is asked for without a hero, so no private instance
+## is ever opened without an owner.
 static func instance_key(content: ContentDB, area_id: String, hero_id: String, now: int) -> String:
 	match session_type(content, area_id):
 		STORY:
 			return "" if hero_id == "" else "story/%s/%s" % [hero_id, area_id]
+		ARENA_MATCH:
+			return "" if hero_id == "" else "arena/%s/%s" % [hero_id, area_id]
 		WORLD_BOSS:
 			var boss := arena_boss(content, area_id)
 			var round := int(WorldBossRules.window(content, boss, now)["round"]) if boss else 0
@@ -85,7 +95,8 @@ static func arena_boss(content: ContentDB, area_id: String) -> String:
 
 
 ## True when `hero_id` may join an instance of `area_id` that `occupants`
-## (hero ids) are already in. A story instance admits only its owner: it is
+## (hero ids) are already in. A private instance (a story's, The Pit
+## Arena's) admits only its owner: it is
 ## empty, or holds the owner alone (a reconnect within the grace period).
 ## Shared and world boss instances admit anyone; their population caps are
 ## the allocator's (PERFORMANCE.md), not a rule of the area.
@@ -94,7 +105,7 @@ static func may_join(
 ) -> bool:
 	if hero_id == "":
 		return false
-	if session_type(content, area_id) != STORY:
+	if not is_private(content, area_id):
 		return true
 	if hero_id != owner_id:
 		return false

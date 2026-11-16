@@ -23,6 +23,8 @@ const LOW_HEALTH := 0.35
 static func problem(
 	profile: PlayerProfile, content: ContentDB, area_id: String, story := true
 ) -> String:
+	if content.area(area_id).get("arena", false):
+		return "The arena is fought by hand."
 	if AreaRules.kind(content, area_id) == AreaRules.FARM:
 		return (
 			"" if AreaRules.unlocked(profile, content, area_id) else "This ground is not open yet."

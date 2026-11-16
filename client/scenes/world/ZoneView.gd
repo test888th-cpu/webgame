@@ -209,6 +209,9 @@ func _make_fighter_view(f: Fighter) -> FighterView:
 	view.ambient = ambient_light(content, zone.area_id)
 	_entities.add_child(view)
 	if f.team == ZoneSim.ENEMY_TEAM:
+		if f.kind == ArenaRules.KIND:
+			view.setup_rival(f, content.art)
+			return view
 		view.setup_enemy(content.enemy(f.kind), content.art, zone.enemy_level(f.id))
 		if f.elite:
 			view.mark_elite(content.enemy(f.kind))

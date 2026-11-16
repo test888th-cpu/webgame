@@ -50,7 +50,7 @@ static func unlocked(
 		if is_passive(skill) or level < int(skill["unlock_level"]):
 			continue
 		var scale := {}
-		for field: String in ["damage", "hitstun", "knockback"]:
+		for field: String in ["damage", "hitstun", "knockback", "advance"]:
 			scale[field] = BalanceProfile.scale(skill, mode, field)
 		result[id] = {
 			"move": str(skill["move"]),

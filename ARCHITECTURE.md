@@ -128,8 +128,10 @@ area kind to one type, and the zone allocator and zone servers use it:
 | Rematch (`REMATCH`) | `kind: lair`, 10 blocks | allocator caps | ONE mini-boss for the whole lair | `LairRules`: random block and spot, out the moment it is due (even into an occupied block), there until beaten, health kept, one respawn timer per defeat (default 1800 s, per lair `mini_boss_respawn_seconds`). |
 | World Boss (`WORLD_BOSS`) | world boss arenas | allocator caps | one world boss, one pool per round | On its own clock (D8); escapes when its hour ends; normal reinforcements, plus optional elite ones reusing existing elites (`BossMechanics`, not active in content yet); reinforcements keep 60 px from the hero here only. |
 | Hub (`HUB`) | the city | allocator caps | none | Merchants and taxis. |
+| Arena Match (`ARENA_MATCH`) | The Pit Arena (`arena: true`) | 1: its owner | none | One hero against an AI rival; the ladder and results are the hero's own (`ArenaRules`). Private like a story instance. |
 
 - Instance keys never collide across types: `story_instance/...` is `story/<hero>/<area>`,
+  an arena match `arena/<hero>/<area>`,
   shared types are `<type>/<area>` (plus a shard number when full), world bosses
   `world_boss/<boss>/<round>`. A story key always names its owner, and
   `SessionRules.may_join` admits only that owner (a reconnect included).

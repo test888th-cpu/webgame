@@ -10,8 +10,9 @@ const PVE := "pve"
 const PVP := "pvp"
 const MODES: Array[String] = [PVE, PVP]
 ## What a profile may scale: damage dealt, hitstun and knockback given, how
-## long a hold or stance lasts, and the cooldown.
-const FIELDS: Array[String] = ["damage", "hitstun", "knockback", "duration", "cooldown"]
+## far its moves step forward ("advance"), how long a hold or stance lasts,
+## and the cooldown.
+const FIELDS: Array[String] = ["damage", "hitstun", "knockback", "advance", "duration", "cooldown"]
 
 
 ## The multiplier on `field` of `skill` in `mode`.

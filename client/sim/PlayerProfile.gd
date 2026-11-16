@@ -82,6 +82,9 @@ var world_boss := {}
 ## Each lair's shared mini-boss state by lair id (LairRules.clean): which
 ## spawn, where, its health, when it fell and when the next is due.
 var lairs := {}
+## The arena ladder (ArenaRules.state): "order" of rival ids and "you", top
+## first, "best" rank, "wins", "losses" and "paid" reward ranks.
+var arena := {}
 
 
 ## A fresh profile for `hero_id` (the first hero if empty or unknown), named
@@ -318,6 +321,7 @@ func to_dict() -> Dictionary:
 		"visited": visited.duplicate(),
 		"world_boss": world_boss.duplicate(),
 		"lairs": lairs.duplicate(true),
+		"arena": arena.duplicate(true),
 		"hotbar": hotbar.duplicate(),
 	}
 
@@ -395,6 +399,10 @@ static func from_dict(data: Variant, content: ContentDB) -> PlayerProfile:
 		for lair_id: Variant in lairs:
 			if AreaRules.kind(content, str(lair_id)) == AreaRules.LAIR:
 				p.lairs[str(lair_id)] = LairRules.clean(lairs[lair_id])
+	var arena: Variant = migrated.get("arena", {})
+	if arena is Dictionary and not arena.is_empty():
+		p.arena = arena.duplicate(true)
+		ArenaRules.state(p, content)  # a broken ladder starts fresh
 	return p
 
 

@@ -59,9 +59,11 @@ func refresh(zone: ZoneSim, profile: PlayerProfile) -> void:
 	if keys != _keys:
 		_lay_out(keys)
 	var hero := zone.hero
+	var next := ComboRules.next_links(hero)
 	for i in slots.size():
 		var entry := entries[i]
 		var slot := slots[i]
+		slot.linked = entry["type"] == "skill" and str(entry["id"]) in next
 		match entry["type"]:
 			"skill":
 				var skill: Dictionary = _content.skills[entry["id"]]

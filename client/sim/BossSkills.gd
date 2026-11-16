@@ -47,7 +47,12 @@ func tick(zone: ZoneSim, mechanics: BossMechanics, events: Array[ZoneEvent]) -> 
 		_stop(zone, events)
 		_boss_id = zone.boss_id
 		_stopped = false
-		if _boss_id != 0:
+		var boss := zone.fighter(_boss_id)
+		if boss != null and boss.kind == ArenaRules.KIND:
+			# An arena rival is a hero: it keeps its job's skills, and the
+			# boss's skill table (it has none) must not replace them.
+			_stopped = true
+		elif _boss_id != 0:
 			_arm(zone)
 	if _boss_id == 0 or _stopped:
 		return

@@ -4288,6 +4288,17 @@
           "line": "My truck goes where the street doesn't: the farming grounds and whatever crawls out of the drains. Ten coins.",
           "sprite": "npc_thong",
           "service": "Field Truck"
+        },
+        {
+          "id": "arena_khru",
+          "name": "Khru Sombat",
+          "role": "arena",
+          "x": 1020,
+          "y": 262,
+          "color": "#c03030",
+          "line": "Fifty fighters on my ladder, and every one of them wants your spot. Pick one. Beat them, take their rank.",
+          "sprite": "npc_khru",
+          "service": "Arena"
         }
       ],
       "placed": [
@@ -7230,6 +7241,39 @@
         {
           "kind": "oil_drums",
           "x": 1000,
+          "y": 258
+        }
+      ]
+    },
+    "pvp_arena": {
+      "name": "The Pit Arena",
+      "level": 10,
+      "width": 640,
+      "safe": false,
+      "arena": true,
+      "theme": "canal",
+      "kit_theme": "arena",
+      "palette": {
+        "sky": "#140a10",
+        "buildings": [
+          "#2a1420",
+          "#24101a",
+          "#301822"
+        ],
+        "windows": "#ffb060",
+        "sidewalk": "#3a2e30",
+        "street": "#22181c"
+      },
+      "exits": {},
+      "obstacles": [
+        {
+          "kind": "oil_drums",
+          "x": 140,
+          "y": 258
+        },
+        {
+          "kind": "crates",
+          "x": 560,
           "y": 258
         }
       ]

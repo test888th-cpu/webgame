@@ -24,6 +24,7 @@ const SHOWN := {
 	AreaRules.LAIR: [FARMING],
 	AreaRules.WORLD_BOSS: [BOSSES],
 	AreaRules.CITY: [STORY, HUB, FARMING, BOSSES],
+	AreaRules.ARENA: [HUB],
 }
 
 ## Row titles in the colour of their part of the map.

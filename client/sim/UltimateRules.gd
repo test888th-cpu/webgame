@@ -42,6 +42,12 @@ static func carry(profile: PlayerProfile, hero: Fighter) -> void:
 	profile.gauge = clampf(hero.gauge, 0.0, FULL)
 
 
+## Adds `amount` to `f`'s gauge (a completed skill combo), if it has one.
+static func fill(f: Fighter, amount: float) -> void:
+	if not f.gauge_rates.is_empty():
+		_fill(f, amount)
+
+
 static func _fill(f: Fighter, amount: float) -> void:
 	f.gauge = clampf(f.gauge + amount, 0.0, FULL)
 

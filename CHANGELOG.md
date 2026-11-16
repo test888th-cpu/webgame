@@ -4,6 +4,234 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed: five distinct combat classes, a stronger combo engine, fair PvP (owner's request, 2026-11-13)
+- **Each class has its own heavy attack** instead of the shared `haymaker`:
+  - Boxer Overhand (breaks guard, chains into a Shovel Hook);
+  - Brawler Hammer Fist (slow, breaks guard, floors, armoured);
+  - Grappler Collar Tie (short, long hitstun to set up a grab);
+  - Counter Fighter Check Hook (steps back while hooking, cannot be hit until its blow
+    is through);
+  - Street Striker Spinning Backfist (hits both sides).
+
+  Every light chain ends in the class heavy.
+- **Own light and heavy animations per class.** The hero recipes' `animation_overrides`
+  compose each class's light and heavy swing from different LPC frames (the Boxer keeps
+  the base clips). There are also 13 class clips (overhand, weave, hammer, clinch,
+  check, whirl, spin, dash and five ultimates), plus Ground Pound (fists raised, a
+  crouching punch into the ground), Brawler Whirl (Backhand Smash and Street Carnage turn
+  all the way round), Oren's Ground Slam (a crouching slam) and a leaping slam for Street
+  Carnage's finish. Every class move that reaches behind plays a clip that turns, slams
+  or dashes through (tested, and checked on screen). `lpc_build.py` can take frames from the
+  back and front views. The asset test now accepts any LPC blow struck by the near arm
+  (half-slash, one-hand back-slash, thrust).
+- **Area attacks for every class** that really hit several foes, tested against two foes
+  each: Boxer Knockout Combo, Brawler Ground Pound / Wide Swing / Backhand Smash,
+  Grappler Ground Slam, Counter Fighter Reversal Strike, Street Striker Dash Strike.
+- **Mechanics that give each class its identity** (data fields, validated):
+  - `armor`: the Brawler's committed heavies and Street Carnage cannot be interrupted
+    by monsters. In PvP the armour takes one hero blow per swing; a guard breaker
+    always breaks it. An armoured swing cannot be grabbed while it lands.
+  - `otg`: Ground Pound, Ground Slam's wave and Chain Breaker also hit a foe lying on
+    the ground, for damage only.
+  - `catch_all`: the Counter Fighter's Perfect Parry catches guard breakers too, from
+    heroes and ordinary monsters; a boss's guard breakers stay unanswerable by any stance,
+    as before.
+  - `energy_drain`: the Boxer's Body Blow takes 35 energy.
+  - The Boxer's Slip Counter slips under a blow (untouchable) and answers. Heavy
+    Cross, Body Blow and Uppercut step in.
+  - Passives:
+    - Boxer Combination Puncher: each landed route link takes 0.75 s off the other
+      cooldowns.
+    - Brawler Crushing Momentum: each landed blow adds 4% damage and 15% guard drain,
+      up to five.
+    - Street Striker Slipstream: cheaper dodges, and a landed blow can be cancelled
+      into a dodge.
+  - Ultimates redesigned: Absolute Retribution (two pivoting area bursts, then the
+    blow), Million Fist Onslaught (dash through, a flurry, a spinning blow all
+    around).
+- **The Pit Arena is a session type of its own** (`SessionRules.ARENA_MATCH`): private
+  like a story instance, one hero against an AI rival, key `arena/<hero>/<area>`
+  (needed alongside the session types of D9).
+- **Combo engine:**
+  - a route link may be the class's own light or heavy punch (a third route per class
+    opens on one);
+  - skill → basic follow-ups (`chains` on a skill's last move);
+  - the auto battle and the arena AI press route punches and use Slip Counter as an
+    answer;
+  - against a boss (never grabbable: bosses never are) the auto battle opens and waits
+    for no combo route with a grab skill in it; on a grabbable foe its grab routes are as
+    before;
+  - a skill is held back for a route its punch opens only by the auto battle, and only
+    a grab (the arena AI holds none: measured, holding them gave the Street Striker
+    58%).
+- **PvP-only rules** (hero on hero; PvE untouched):
+  - combo scaling after the 3rd blow on a reeling hero, down to 50%;
+  - a thrown hero is down 60 ticks and cannot be grabbed again for 1.5 s;
+  - defense takes a share of each blow (defense / (defense + 90)) instead of a flat
+    amount. Flat defense wiped out light punches and many-blow skills between geared
+    heroes, which made fights a race of the biggest single hits;
+  - the Boxer's step-in skills step less far in PvE (skill profile `advance`, a new
+    profile field).
+- **`SkillRegistry`**, run on every content load, rejects:
+  - class moves shared or copied between classes;
+  - identical skill sequences;
+  - an ultimate without an animation of its own, or two ultimates sharing one.
+- **Balance, measured** (mixed bots, 200 matches per pair):
+  - classes 47–52%, every pair 42–58%; before the rebuild 19–80%;
+  - PvE kills (auto battle, 27 minutes per hero), before → after: Riku 284 → 284,
+    Mika 237 → 253, Kan 239 → 227, Oren 221 → 212, Dao 201 → 196 (Kan, Dao: their
+    own heavy ends the light chain instead of the shared Haymaker; Oren: the auto battle
+    keeps Power Throw for its route, which survives the hardest ground);
+  - Grappler PvE ×1.3 is kept.
+
+  Design, matrices and analysis: `docs/COMBAT_SYSTEM.md` and
+  `docs/COMBAT_REBUILD_REPORT.md`.
+
+### Changed: Grappler PvE damage ×1.3 (owner's approval, 2026-11-13)
+- The Grappler's six active skills deal ×1.3 damage in PvE (`profiles.pve.damage`); PvP
+  is unchanged. Oren: 185 → 221 kills in the standard 27-minute auto-battle measure,
+  inside the other jobs' range (201–284). Side effect for the owner: his Ultimate is now
+  1.67× his strongest skill in PvE, under the 2–3× design target (Ultimate ×1.2 would
+  restore 2.0×; not applied).
+- **PvP measured with mixed bots** (`ArenaBalance.gd --only=jobs_mixed`: AI skill and
+  personality drawn per match, time spent down or held, share of damage from throws).
+  Grappler 80%, Counter 69%, Boxer 49%, Striker 32%, Brawler 19% average win rate. Six
+  candidate fixes measured, none applied: no single change balances PvP. Findings and the
+  proposed PvP design pass: `docs/SKILL_FLOW_REPORT.md` §4–5 (also Dao PvE ×1.15
+  measured, awaiting approval).
+
+### Changed: grab skills used normally, counter replies that land, combos that flow (owner's request, 2026-11-13)
+- **Auto battle uses grab skills like any other skill** (owner's rule, replacing "only
+  when it pays, one every 5 s"): a ready grab skill is used when it is the best choice.
+  The game's own rules still apply: no hold on a boss or mini-boss (a shove), no grab
+  with a weapon in hand. Auto no longer stands over a foe it has just thrown while
+  another foe can be hit (only foes it threw itself, so ordinary knock-downs are kept,
+  and other jobs are unchanged), and it does not start a hold below half health with
+  another foe within 100 px (a hold pins the hero; the level 50 ground's hunt survives
+  11 of 12 seeds, 10 before). Measured, auto battle 3 minutes × 3 seeds on the level 9,
+  29 and 50 grounds: Oren 138 → 185 kills, damage taken 13,461 → 10,206, completed
+  combos 108 → 157. The other jobs: Riku 284, Kan 239, Mika 237, Dao 201
+  (`docs/SKILL_FLOW_REPORT.md`).
+- **Counter replies reach what they catch:** a caught attacker reels 14 px back, and the
+  replies (reach 38) missed 41% of caught blows, which also broke Perfect Retort (it
+  could never be completed). The first move of every counter reply now steps in 24 px
+  (`advance`, `moves.json`: Counter Punch, Quick Counter, Perfect Parry, Reversal Strike,
+  Absolute Retribution). Measured: replies land on 100% of caught blows (was 59%).
+  Perfect Retort is completed against 12 of 20 attackers (the rest attack only with
+  guard breaks or grabs, which stances cannot catch).
+- **Auto battle goes on into the longer combo route** when its remaining skills are
+  ready (+50% per further link), instead of always taking the shorter route that shares
+  the same opener. It keeps a route's later skill for the route (×0.4) while the route's
+  opener will be ready within 1 s. Completed combos: Kan 63 → 121, Mika 71 → 132, Riku
+  94 → 105. Holding harder was measured worse and not kept.
+- Tests: `test_skill_flow.gd` (each fails on the old behaviour).
+
+### Changed: the arena's rivals are configured by data, play with human timing, and results are applied once (owner's request, 2026-11-13)
+- **Rival equipment is fully configurable in `client/data/arena.json` v2**
+  (`ArenaLoadout`): per slot item, grade, upgrade (+0 to the game's +10), weights or
+  empty; reusable presets (balanced, heavy, fast, critical, defensive, custom,
+  `sovereign_full`); nine tiers on the real items (Common, Common/Uncommon, Rare, Epic,
+  top grade +0, then Godforged +1/+2, +3/+4, +5/+6, +7); rank overrides and per-opponent
+  overrides. Precedence: opponent > rank > tier > preset > defaults, and a per-slot
+  setting beats a ladder-wide one. Everything is validated on load (unknown or misplaced
+  items, levels, grades, upgrades, typos). A rival with an error is never offered and
+  never patched with another item. `config_version` is recorded with each result, and a
+  running match keeps its rival when the configuration changes.
+- **Real data findings:** no Common charm exists below level 53, so tier 1 wears none
+  (the old code left the slot empty silently). Legendary has no body or feet, so a full
+  Legendary set is reported as an error.
+- **Personalities** (balanced, aggressive, defensive, counter, combo, tactical) set
+  approach, attack rate, defense, combo and grab preference, counter stances, spacing,
+  whiff punishing and low-health behaviour.
+- **Human timing:** a rival sees a blow only 400 ms (beginner) to 200 ms (best) after it
+  starts, decides every 100 to 50 ms and mashes at most 12 presses a second (it decided
+  every tick and reacted at once before). It may raise its guard in anticipation from
+  what is visible (at most 10% of decisions: at 20% the best AI over-defended and lost
+  to beginners).
+- **Five spread rivals:** the nearest, then the rivals closest to an easy, even, hard
+  and much harder difficulty in a window above you that grows with your rank, each
+  labelled Easy, Even, Hard or Very Hard from real power and AI. **New rivals** is free.
+- **Details and challenge:** Fight opens the rival's gear by slot with grade and upgrade,
+  style, AI level and reaction time, and power against yours. Challenge starts the match.
+  The ladder adds draws, win rate and the champion. The result adds draws, the duration,
+  the health left at time and Rematch.
+- **Results applied once:** every match has an id, and a result is applied only once.
+  Phases run forward only. Closing the game during a fight counts as one forfeit loss on
+  the next start (the countdown is free). At time, health shares within 2 points are a
+  draw (no rank change, no reward, recorded). A damaged ladder is repaired keeping the
+  player's rank. Champion title defenses and streak are counted. Health and the ultimate
+  gauge are restored after a match.
+- **Balance harness** `tests/harness/ArenaSim.gd` / `ArenaBalance.gd` and report
+  `docs/ARENA_BALANCE.md` (200 matches per comparison).
+
+### Fixed: arena rivals fought without their skills
+- The arena marks its rival as the zone's boss (for the HUD bar), and the boss-skill
+  system replaced the rival's job skills with an empty boss table. Rivals only punched.
+  `BossSkills` now leaves an arena rival's skills alone. With working skills, tier 1 moved
+  from levels 6–12 to 3–10 to keep a gentle start (a level-10 stand-in won 10 of 10
+  against #50).
+
+### Added: The Pit Arena, a 50-rival PvP ladder against AI heroes (owner's request, 2026-11-13)
+- **Khru Sombat in Iron City Central** (from level 10) opens the **Arena Ladder**: your
+  rank, best rank, combat power and record, and the five rivals ranked just above you,
+  each with rank, ring name, job, level, gear and power coloured against yours. Pick
+  any. A win over a rival above you swaps your ranks; a loss changes nothing. A new
+  challenger starts at #51; the champion defends against the rivals below.
+- **Rivals are player heroes played by the computer** (`ArenaBrain`: same inputs as a
+  player, combos, stances, dodges, grabs, ultimates; deterministic). Strength rises
+  with rank (`data/arena.json`): plain common gear at the bottom, the best gear
+  unupgraded by #21, then the best gear at +1 to +7 mixed by slot up to #1, with level
+  and AI skill rising alongside. All five jobs in every five ranks.
+- **Matches** (`ArenaMatch`): 3 s countdown, 90 s clock, PvP skill profile and health
+  x2 for both sides, no food, no auto battle, no leaving mid-match; knock-out or the
+  larger health share at time. Result screen, then straight back to the ladder.
+- **Best-rank rewards** paid once: 500 / 1,500 / 4,000 / 10,000 / 20,000 / 50,000 coins at
+  #40 / #30 / #20 / #10 / #5 / #1. Values, health x2 and names await owner approval.
+- **Design and numbers:** `docs/ARENA_DESIGN.md`. Art prompts for the arena's own scene
+  pieces: `docs/SCENE_PROMPTS.md` §6 (it uses the Fight Club pieces until then).
+- The PvP harness now uses the arena's `ArenaBrain` as its bot (`DuelBot.gd` removed).
+  `ZoneSim`'s attack tokens moved to `AttackTokens.gd`, and world-boss flow to
+  `WorldBossFlow.gd`, to keep both files under the size limit.
+
+### Fixed: a chapter card or match banner no longer reads "LEVEL UP!"
+- The HUD's chapter card reused the level-up banner and kept its "LEVEL UP!" heading.
+  It now shows its own title.
+
+### Fixed: PvP balance now reaches a grab skill's throw; Added: 1 against 1 measurement
+- **A grab skill's throw lands after the skill is over, so no balance profile reached
+  it:** in PvP, Backbreaker's throw hit at full strength (153 instead of 92 at level 50)
+  and took over half a health bar. The skill's scale is now kept for its throw and the
+  body's crashes (`Fighter.throw_scale`). PvE is unchanged (every PvE profile is 1.0).
+- **PvP 1 against 1 harness** (`tests/harness/DuelSim.gd`, `DuelCheck.gd`; the bot is the arena's `ArenaBrain`):
+  every pairing of the five heroes, PvP profiles, the same bot for every job. Baseline,
+  win rates and limits in `docs/GRAPPLER_AND_PVP_REPORT.md`.
+- **PvP safety rails tested** (`test_duel.gd`): nobody helpless over 3 s, no blow over
+  70% of a health bar, duels of 8 s or more on average, a held player struggles free.
+- **Grappler measured and compensation proposed, not applied:** he kills 39% slower than
+  the others because his six skills are grabs that auto battle paces to one per 5 s,
+  and thrown foes cannot be hit for 1.5 s. Options and numbers in the report.
+
+### Added: skill combos for every job (owner's request, 2026-11-12)
+- **Two combo routes per job** (`client/data/jobs.json` `skill_combos`, `ComboRules`): one
+  of two skills from level 3, one of three from level 30. Use a route's skills in order,
+  each within 2 s of the last landing (3 s for the Grappler, whose thrown foes stay down
+  longer): the last skill hits harder and the ultimate gauge gains 8 or 15. A miss, a
+  stance nobody hits, a pause or a blow taken breaks the chain. Routes: One-Two and
+  Knockout Sequence (Boxer), Hammer Time and Street Riot (Brawler), Lift and Drop and
+  Wrecking Crew (Grappler), Slip and Punish and Perfect Retort (Counter Fighter), Flurry
+  and Chain Reaction (Street Striker).
+- **Balanced by the whole route's damage** (with each hero's power): 77 to 80 for the
+  first routes, 123 to 140 for the second; the bonus on the last skill differs per job
+  (30% to 100%) to get there. PvP profiles halve the bonus.
+- **Shown to the player:** the next skill of a route pulses gold on the hotbar; a hit
+  counter ("12 HITS") and the route's name when completed appear at the right; the Skills
+  screen lists the routes; the level-up banner names a new route.
+- **Auto battle** follows routes (the next skill weighs three times as much, a route's
+  opener 1.3 times) and may grab to open or continue one.
+- Measured with auto battle (4 farming grounds, 4 seeds, against main before): kills per
+  hour +4% to +12% for every hero, damage taken lower for four of five.
+- Design, architecture and measurements: `docs/SKILL_COMBO_DESIGN.md`.
+
 ### Added: the world's area types, story boss replays, the lairs' shared mini-boss and world boss elite reinforcements (owner's rules, 2026-11-13)
 - **Area types** (`SessionRules`, new): Story Instance (the street: one hero, private
   state, no caps or waits), Farming Ground, Rematch (lair), World Boss and Hub. Instance

@@ -107,6 +107,11 @@ equipment) is stored per hero. Temporary combat state is never persisted.
     target, warns before it strikes, and has an answer: the Boxer's must be aimed, the
     Brawler's is spread over an area, the Grappler's cannot lift a boss, the Counter
     Fighter's does nothing unless attacked, the Striker's is lost on a foe who gets away.
+  - **Skill combos**: each job has two routes (two skills from level 3, three from level
+    30). Using them in order, each within 2 s of the last landing, makes the last hit
+    harder and fills the ultimate gauge; missing or being hit breaks the chain. The next
+    skill glows on the hotbar; a hit counter shows blows in a row
+    ([docs/SKILL_COMBO_DESIGN.md](docs/SKILL_COMBO_DESIGN.md)).
   - **PvE and PvP are tuned apart**: every job skill carries two profiles of multipliers
     (`BalanceProfile`); PvP ones are placeholders until online play exists.
   `tests/unit/test_balance.gd`, `test_skill_pacing.gd` and `test_ultimate.gd` enforce these

@@ -12,6 +12,10 @@ var id := 0
 var team := 0
 ## Content id: "hero" or an enemy id from enemies.json.
 var kind := ""
+## A name to show instead of the kind's (an arena rival's ring name), and the
+## art it is drawn with ("" for its kind's own).
+var title := ""
+var look := ""
 ## A farming ground's elite (FarmSpawner): tougher, worth more, named in gold.
 var elite := false
 ## Input -> move id. Empty means the library's default starters (the hero).
@@ -92,8 +96,25 @@ var gauge_rates := {}
 ## The skill behind the current hold, if a skill's grab made it: its own
 ## throw, crash, hold and squeeze, and where the skill continues after.
 var grab_plan := {}
+## The balance scale (BalanceProfile damage, PvE or PvP) of the skill behind
+## this fighter's last throw: its blow and crashes land after the skill ends.
+var throw_scale := 1.0
 ## The move a body thrown by this fighter crashes into others with.
 var crash_move := ""
+## Skill combos (ComboRules): the routes this fighter knows, the skills of
+## the chain so far, whether its latest link has landed, ticks left to start
+## the next one, the route being finished ({} if none) and whether its
+## completion was counted; `combo_done` is a route just completed, for the
+## zone to report. The hit chain counts blows landed in a row.
+var combos: Array[Dictionary] = []
+var combo_chain: Array = []
+var combo_landed := false
+var combo_timer := 0
+var combo_finish := {}
+var combo_shown := false
+var combo_done := ""
+var hit_chain := 0
+var hit_chain_timer := 0
 ## A counter stance caught a blow: the reply starts next tick (CounterRules).
 var countered := false
 ## Passive skills (id -> spec) and the stacks earned (id -> {"count",
@@ -113,6 +134,8 @@ var queued_tick := 0
 ## nothing can hit them.
 var stun_limit := 0
 var stun_meter := 0
+## Blows landed in a row on this hero while reeling (CombatRules.combo_scale).
+var combo_taken := 0
 var grace := 0
 ## Poise (elites and bosses): hitstun taken fills the same stun_meter; past
 ## poise_limit the fighter shrugs blows off for `armor` ticks (still taking
@@ -126,6 +149,9 @@ var armor := 0
 var unshaken := false
 var break_meter := 0.0
 var break_rest := 0
+## A heavy-armoured move (MoveData.armor) already shrugged off one hero's
+## blow: in PvP the next one gets through. Reset by every new move.
+var armor_spent := false
 ## Skills cannot be interrupted once started (heroes.json `skill_armor`).
 var skill_armor := false
 ## Perfect guard (the hero only, so enemy guards never punish the player's

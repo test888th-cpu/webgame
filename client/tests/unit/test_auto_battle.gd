@@ -309,12 +309,17 @@ func test_it_throws_what_it_grabs() -> void:
 	var thrown := false
 	for t in 200:
 		for event in zone.tick(pilot.think(zone)):
-			if event.type == "hit" and event.hit.move_id == "grappler_throw":
+			# Any throw: the job's own, or a grab skill's (auto picks the
+			# best ready grab skill now, owner's rule 2026-11-13).
+			var move := (
+				_content().moves.get_move(event.hit.move_id) if event.type == "hit" else null
+			)
+			if move != null and move.slam and event.hit.attacker_id == zone.hero.id:
 				thrown = true
 		held = held or foe.state == Fighter.State.HELD
 		if thrown:
 			break
-	assert_true(held, "the Grappler's first skill seizes the thug")
+	assert_true(held, "a Grappler grab skill seizes the thug")
 	assert_true(thrown, "and auto throws them")
 
 

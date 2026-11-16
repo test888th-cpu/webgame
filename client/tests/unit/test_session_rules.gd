@@ -100,6 +100,23 @@ func test_a_story_instance_admits_its_owner_alone() -> void:
 	assert_true(SessionRules.may_join(c, "great_drain", "b", "", ["a"]), "so is the world boss")
 
 
+func test_the_pit_arena_is_each_heros_own() -> void:
+	var c := _content()
+	var arena := "pvp_arena"
+	assert_eq(AreaRules.kind(c, arena), AreaRules.ARENA, "The Pit Arena")
+	assert_eq(SessionRules.session_type(c, arena), SessionRules.ARENA_MATCH, "its type")
+	assert_true(SessionRules.is_private(c, arena), "private")
+	assert_eq(SessionRules.instance_key(c, arena, "a", 0), "arena/a/pvp_arena", "a's own")
+	assert_true(
+		SessionRules.instance_key(c, arena, "a", 0) != SessionRules.instance_key(c, arena, "b", 0),
+		"never the same as another hero's"
+	)
+	assert_eq(SessionRules.instance_key(c, arena, "", 0), "", "never opened without an owner")
+	assert_true(SessionRules.may_join(c, arena, "a", "a", []), "the owner enters")
+	assert_true(not SessionRules.may_join(c, arena, "b", "a", []), "nobody else enters")
+	assert_true(not SessionRules.may_join(c, arena, "b", "a", ["a"]), "nobody joins")
+
+
 ## The story's gates read only the hero's own record: a world boss round,
 ## fought or fallen, opens and shuts nothing on the street.
 func test_story_progress_ignores_world_boss_state() -> void:
