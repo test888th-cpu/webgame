@@ -76,7 +76,8 @@ func test_late_in_the_story_the_rides_come_in_groups() -> void:
 	var expected: Array[String] = []
 	for district in MapRules.districts(game.content):
 		expected.append(str(district["name"]).validate_node_name())
-	assert_eq(_tabs(game.menu), expected, "the six districts, nothing else")
+	expected.append("Boss Fights")  # Story boss rematches (ReplayRules).
+	assert_eq(_tabs(game.menu), expected, "the six districts and the boss rematches")
 	var all := game.menu.find_children("Ride_*", "Button", true, false).size()
 	assert_eq(all, 31, "the whole street")
 	var south: Button = game.menu.find_child("Heading_South Street", true, false)

@@ -88,6 +88,34 @@ for the boss's `players`.
 - It is built once and stays pressable while the street goes on behind it.
 - Before the fix it was rebuilt on every tick, which is why it could not be pressed.
 
+## 3b. Reinforcements: normal and elite (owner's rule D20, 2026-11-13)
+
+A world boss may call reinforcements for as long as its encounter runs, in two
+categories, each on the boss's enemies.json entry with its own timer and cap:
+
+| Field | Category | Shape |
+|---|---|---|
+| `summon` | normal minions (all eight world bosses have one; values unchanged) | `enemy`, `every` (ticks), `count`, `max` |
+| `elite_summon` | elite minions (new; **not active**: by the owner's decision of 2026-11-13 no world boss sets one yet) | as `summon`, `enemy` must be the id of an existing elite (`elite: true`), plus `below` (boss health share at which it starts, default 1.0) |
+
+- A phase may quicken either (`summon_every`, `elite_summon_every`).
+- `max` caps how many stand at once, for performance; at the cap the call waits. It is
+  never a limit on entries or attempts, and nobody standing is removed to make room.
+- An elite reinforcement is the existing elite itself: spawned through the usual enemy
+  spawn with its own enemies.json entry (stats at the arena's level, moves, skills, AI,
+  loot). No new enemy is defined for it, and no elite's definition is changed.
+- When a world boss calls in an existing elite (through `summon` or `elite_summon`),
+  the HUD says "An elite <name> joins the battle!" once per call. Today that is the
+  Core Sentinel of the Iron Colossus and the Slag Titan (their existing `summon`).
+- Missing, empty or malformed `elite_summon` data calls no elites
+  (`BossMechanics.elite_spec`); the content validator reports anything malformed.
+- Minions arrive at the arena's edges, alternating. In a world boss arena only, one
+  that would land within `BossMechanics.SUMMON_CLEARANCE` (60 px) of the hero comes in
+  from the other edge; story bosses, story mini-bosses and lairs keep the plain
+  alternation. Calling them never changes the boss's pool.
+- When the boss falls or escapes, `WorldBossRun` sends the remaining minions away once
+  (`despawn`), so none outlives the encounter or drops anything after it.
+
 ## 4. Target architecture: world bosses on the game server
 
 This is how famous online action RPGs run shared bosses, and how this code is laid out to

@@ -114,6 +114,7 @@ func enter_area(area_id: String, entry: String, start_x := -1.0, block := 1) -> 
 		entry = ""
 	area_id = AreaRules.hub(content) if arena.barred(area_id) else area_id  # matches only
 	if zone:
+		LairRules.depart(zone)  # A lair's mini-boss stays, wounded as it is, for the next.
 		UltimateRules.carry(profile, zone.hero)
 		_street_weapons["%s#%d" % [zone.area_id, zone.block]] = zone.ground_weapons.duplicate(true)
 		if zone.collect_all() > 0:
@@ -249,7 +250,8 @@ func _use_hotbar_item(item_id: String) -> bool:
 
 ## Advances the zone one tick with the given hero input.
 func step(input: FighterInput) -> Array[ZoneEvent]:
-	var events := zone.tick(arena.filter(input))
+	# A lair's mini-boss, live; in the arena, input only while the match runs.
+	var events := LairRules.watch(zone, _now(), zone.tick(arena.filter(input)))
 	for event in events:
 		_handle(event)
 		_feedback.on_event(event)
