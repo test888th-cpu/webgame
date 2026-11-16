@@ -4,6 +4,18 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Fixed: a boss's skills no longer kill its own crew (owner's request, 2026-11-16)
+- **A boss's hazards (its skills' blasts, drops, sweeps and domes) knock its own side
+  down but never hurt it.** They used to hit the crew and reinforcements for full damage,
+  so a boss could wipe out its own minions by accident.
+- New rule `CombatRules.crew_hit`: damage 0, no KO, no stun or poise meter. An ordinary
+  minion is floored and pushed out of the blast. One that does not flinch only stands
+  it, and one guarding from the front holds. The hero in the same footprint still takes
+  the full blow.
+- `CombatEvent.friendly` marks such a hit, so no damage number, shake or debris is shown
+  and it does not count as a hit in the session's stats.
+- Tests: `test_boss_crew_hits.gd`.
+
 ### Changed: a shopping cart at the shops (owner's request, 2026-11-16)
 - **Buying and selling many items at once is a cart now.** A click on a ware (or on an
   item from the bag, on Sell) puts it in a cart beside the list. Shift+click or a right

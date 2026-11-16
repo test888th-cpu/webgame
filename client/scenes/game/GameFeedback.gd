@@ -339,6 +339,7 @@ func _on_hit(hit: CombatEvent) -> void:
 		attacker.impact(Color.WHITE, 0.0, freeze)
 	var striker := view.zone.fighter(hit.attacker_id)
 	var boss_blow: bool = striker != null and content.enemy(striker.kind).get("boss", false)
+	boss_blow = boss_blow and not hit.friendly
 	if boss_blow and heavy and not hit.blocked and defender:
 		# A boss's heavy blow lands with a burst of debris at the target's feet.
 		var impact := BossFxRules.effect(content, "heavy_impact")

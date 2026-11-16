@@ -24,4 +24,7 @@ var knocked_down := false
 ## The blow that broke a boss: knocked down by an overwhelming beating.
 var broken := false
 var ko := false
+## A boss's own hazard landing on its own side (CombatRules.crew_hit): it may
+## floor them, never hurts them. No damage number, no credit to anyone.
+var friendly := false
 var position := Vector2.ZERO

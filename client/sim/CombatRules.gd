@@ -550,6 +550,34 @@ static func _apply_hit(
 	return event
 
 
+## A boss's hazard landing on a fighter of the boss's own side (its crew,
+## reinforcements, elites): the blast knocks an ordinary one off their feet
+## and out of it, but never takes health, so a boss never kills its own
+## people by accident (and the hero never farms them with it). A fighter who
+## does not flinch (poise, a boss's armor) only stands it; one guarding from
+## the front holds. Damage 0, no KO, no stun or poise meter touched.
+static func crew_hit(defender: Fighter, source_id: int, from_x: float, kind: String) -> CombatEvent:
+	var event := CombatEvent.new()
+	event.attacker_id = source_id
+	event.defender_id = defender.id
+	event.move_id = kind
+	event.position = defender.position
+	event.friendly = true
+	var away := signf(defender.position.x - from_x)
+	if away == 0.0:
+		away = -float(defender.facing)
+	var from_front := -away != -defender.facing
+	if defender.state == Fighter.State.GUARD and from_front:
+		event.blocked = true
+	elif is_unflinching(defender):
+		event.armored = true
+	else:
+		event.knocked_down = true
+		defender.knockback_remaining = away * THROWN_KNOCKBACK
+		defender.enter(Fighter.State.DOWN)
+	return event
+
+
 ## Blows land but do not interrupt: poise broken into armor, or winding up a
 ## telegraphed attack (fighters with poise only).
 static func is_unflinching(f: Fighter) -> bool:
