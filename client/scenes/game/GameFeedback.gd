@@ -6,6 +6,9 @@ extends RefCounted
 ## never changes game state.
 
 ## Damage at or above this reads as a heavy hit.
+## The shield dome art (shield_dome): the rim's half-width and the dome's
+## height above its origin, the rim's centre, in its own pixels.
+const DOME_ART := Vector2(47.0, 50.0)
 const HEAVY_DAMAGE := 15
 ## Hit sparks appear at chest height.
 const CHEST := Vector2(0, -26)
@@ -269,7 +272,9 @@ func _phase_burst(id: int) -> void:
 		boss_view.impact(Color(1.0, 0.35, 0.25), 0.35, 0.12)
 
 
-## Raises or drops the shield dome on fighter `id`'s view.
+## Raises or drops the shield dome on fighter `id`'s view, drawn to the
+## barrier's own size (BossBarrier): its rim on the footprint that blocks,
+## its top at the barrier's height, over the boss's head.
 func _show_shield(id: int, up: bool) -> void:
 	var fighter_view := view.view_of(id)
 	if fighter_view == null:
@@ -278,12 +283,23 @@ func _show_shield(id: int, up: bool) -> void:
 	if up and dome == null:
 		dome = Fx.spawn(fighter_view, content, BossFxRules.effect(content, "shield"), Vector2.ZERO)
 		dome.name = "ShieldDome"
+		dome.scale = dome_scale(view.zone, id) / fighter_view.scale
 		Sfx.play("arena_lock", -2.0)
 	elif not up and dome:
 		dome.queue_free()
 		var at := fighter_view.position + CHEST
 		Fx.spawn(view.effects, content, BossFxRules.effect(content, "shield_break"), at)
 		Sfx.play("break_metal", -4.0)
+
+
+## How much to stretch the shield dome art for fighter `id`'s raised barrier
+## (DOME_ART: the art's rim half-width and height above its origin).
+static func dome_scale(zone: ZoneSim, id: int) -> Vector2:
+	for barrier: Dictionary in zone.barriers:
+		if int(barrier["id"]) == id:
+			var half: Vector2 = barrier["half"]
+			return Vector2(half.x / DOME_ART.x, float(barrier["height"]) / DOME_ART.y)
+	return Vector2.ONE
 
 
 func level_up(level: int, skills: Array) -> void:
@@ -339,6 +355,7 @@ func _on_hit(hit: CombatEvent) -> void:
 		attacker.impact(Color.WHITE, 0.0, freeze)
 	var striker := view.zone.fighter(hit.attacker_id)
 	var boss_blow: bool = striker != null and content.enemy(striker.kind).get("boss", false)
+	boss_blow = boss_blow and not hit.friendly
 	if boss_blow and heavy and not hit.blocked and defender:
 		# A boss's heavy blow lands with a burst of debris at the target's feet.
 		var impact := BossFxRules.effect(content, "heavy_impact")

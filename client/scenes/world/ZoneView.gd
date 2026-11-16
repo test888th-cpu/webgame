@@ -136,6 +136,10 @@ func view_of(id: int) -> FighterView:
 
 
 func show_hit(event: CombatEvent) -> void:
+	if event.friendly or event.move_id == "barrier":
+		# The boss's own crew thrown by its blast, or a barrier putting
+		# someone out: no number, no shake (no damage was done).
+		return
 	var label := DamageNumber.new()
 	label.add_theme_font_size_override("font_size", 10)
 	label.add_theme_constant_override("outline_size", 4)

@@ -1975,7 +1975,9 @@
           "heavy_cooldown": 300,
           "shield": {
             "up": 420,
-            "down": 300
+            "down": 300,
+            "half": [55, 12],
+            "height": 93
           },
           "hazard": {
             "every": 100,
@@ -2223,7 +2225,9 @@
           "heavy_cooldown": 300,
           "shield": {
             "up": 360,
-            "down": 300
+            "down": 300,
+            "half": [72, 15],
+            "height": 122
           },
           "hazard": {
             "every": 120,
@@ -2419,7 +2423,9 @@
           "heavy_cooldown": 300,
           "shield": {
             "up": 300,
-            "down": 360
+            "down": 360,
+            "half": [83, 17],
+            "height": 142
           },
           "hazard": {
             "every": 100,
@@ -3647,7 +3653,9 @@
           "heavy_cooldown": 300,
           "shield": {
             "up": 360,
-            "down": 300
+            "down": 300,
+            "half": [72, 15],
+            "height": 122
           },
           "hazard": {
             "every": 120,
@@ -3840,7 +3848,9 @@
           "heavy_cooldown": 300,
           "shield": {
             "up": 300,
-            "down": 360
+            "down": 360,
+            "half": [83, 17],
+            "height": 142
           },
           "hazard": {
             "every": 100,
@@ -4020,7 +4030,9 @@
           "heavy_cooldown": 300,
           "shield": {
             "up": 420,
-            "down": 300
+            "down": 300,
+            "half": [55, 12],
+            "height": 93
           },
           "hazard": {
             "every": 100,
@@ -4493,7 +4505,9 @@
           "heavy_cooldown": 280,
           "shield": {
             "up": 280,
-            "down": 360
+            "down": 360,
+            "half": [91, 19],
+            "height": 155
           },
           "summon_every": 420,
           "moveset": {
@@ -4672,7 +4686,9 @@
           "heavy_cooldown": 260,
           "shield": {
             "up": 300,
-            "down": 340
+            "down": 340,
+            "half": [99, 20],
+            "height": 169
           },
           "summon_every": 400,
           "moveset": {
@@ -4865,7 +4881,9 @@
           "heavy_cooldown": 275,
           "shield": {
             "up": 300,
-            "down": 330
+            "down": 330,
+            "half": [84, 17],
+            "height": 143
           },
           "summon_every": 380,
           "moveset": {

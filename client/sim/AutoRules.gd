@@ -3,7 +3,9 @@ extends RefCounted
 ## Where auto battle is allowed: in any area with a fight in it, story areas
 ## not cleared yet and their bosses included (AutoPilot plays only the
 ## buttons a player has, so it can win nothing a player could not), every
-## world boss arena, and a farming ground once it is open
+## world boss arena, the PvP arena during a match (the same buttons, no
+## food there, ArenaMatch decides the result), and a farming ground once it
+## is open
 ## (AreaRules.unlocked). Following the story (StoryAuto), it also starts
 ## where there is no one to fight, such as the hub or a quest giver's rest
 ## point, as long as the story has a next step.
@@ -24,7 +26,8 @@ static func problem(
 	profile: PlayerProfile, content: ContentDB, area_id: String, story := true
 ) -> String:
 	if content.area(area_id).get("arena", false):
-		return "The arena is fought by hand."
+		# The arena is only ever entered for a match (ArenaFlow.barred).
+		return ""
 	if AreaRules.kind(content, area_id) == AreaRules.FARM:
 		return (
 			"" if AreaRules.unlocked(profile, content, area_id) else "This ground is not open yet."
@@ -65,9 +68,9 @@ static func is_beaten(profile: PlayerProfile, content: ContentDB, area_id: Strin
 
 ## True when a farming hero should go home to rest: the area is cleared, or
 ## health is low with nothing left to eat and no fight on to finish. Never
-## in a world boss arena: the attempt is fought to its end.
+## in a world boss arena or an arena match: those are fought to their end.
 static func wants_rest(zone: ZoneSim, pilot: AutoPilot) -> bool:
-	if zone.area.get("world_boss", false):
+	if zone.area.get("world_boss", false) or zone.duel != null:
 		return false
 	if pilot.status == AutoPilot.STATUS_CLEAR:
 		return true

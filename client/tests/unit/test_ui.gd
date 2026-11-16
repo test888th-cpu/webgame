@@ -222,12 +222,11 @@ func test_shop_fits_and_focuses_the_wares() -> void:
 	await _settle()
 	_check_layout(game.menu, "shop")
 	assert_true(_focus_in(game), "wares focused")
-	var buy: Array[Button] = []
-	for button: Button in game.menu.find_children("*", "Button", true, false):
-		if button.text.begins_with("Need"):
-			buy.append(button)
-	assert_eq(buy.size(), 1, "an unaffordable item says how much is missing")
-	assert_true(buy[0].disabled, "and cannot be bought")
+	ShopScreen.of(game.menu).add(TradeCart.BUY, "steamed_bun")
+	var after := game.menu.find_child("After", true, false) as Label
+	assert_eq(after.text, "5 coins short", "a cart beyond the purse says how much is missing")
+	var buy := game.menu.find_child("Checkout", true, false) as Button
+	assert_true(buy.disabled, "and cannot be bought")
 	_done(game)
 
 

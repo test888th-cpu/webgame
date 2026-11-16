@@ -397,7 +397,9 @@ func _choose_target(zone: ZoneSim, foes: Array[Fighter]) -> Fighter:
 ## Returns false when there is nothing to fight here and now.
 func _fight(zone: ZoneSim, foes: Array[Fighter], target: Fighter, input: FighterInput) -> bool:
 	var hero := zone.hero
-	if not zone.in_encounter() and hero.position.distance_to(target.position) > 160.0:
+	# In an arena match the rival is the only fight: go after them anywhere.
+	var far := hero.position.distance_to(target.position) > 160.0
+	if far and not zone.in_encounter() and zone.duel == null:
 		return false
 	var dir := signi(target.position.x - hero.position.x)
 	if dir == 0:

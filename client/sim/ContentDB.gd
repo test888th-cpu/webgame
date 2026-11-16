@@ -330,6 +330,19 @@ func _validate_enemy(id: String, e: Dictionary) -> void:
 			if shield is Dictionary and not shield.is_empty():
 				for field in ["up", "down"]:
 					_number(shield, field, where + ".phases.shield", 1)
+				if shield.has("height"):
+					_number(shield, "height", where + ".phases.shield", 1)
+				var half: Variant = shield.get("half", [1, 1])
+				_check(
+					(
+						half is Array
+						and half.size() == 2
+						and half.all(
+							func(n: Variant) -> bool: return (n is int or n is float) and n > 0
+						)
+					),
+					"%s.phases.shield.half: expected [along, depth], both above 0" % where
+				)
 	_validate_loot(e.get("loot", {}), where + ".loot")
 
 

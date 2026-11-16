@@ -1,10 +1,12 @@
 extends TestCase
-## The shop screen and the bag on the real screens: the deal bar stays on
-## screen, stacks are bought and sold back, rare gear asks before it goes,
-## and gear drags between the bag and the doll (docs/UI.md).
+## The shop screen and the bag on the real screens: the cart and its
+## checkout stay on screen, clicks fill the cart and one checkout settles it,
+## rare gear asks before it goes, and gear drags between the bag and the doll
+## (docs/UI.md). The cart's rules: test_trade_cart.gd.
 
 const TEST_SAVE := "user://test_save"
 const SCREEN := Rect2(0, 0, 640, 360)
+const NPC := {"name": "Ama", "shop": "city_market", "role": "shop"}
 
 
 func _game() -> Game:
@@ -54,7 +56,18 @@ func _scrolls(control: Control) -> bool:
 	return false
 
 
-func test_the_deal_bar_is_on_screen_for_every_ware() -> void:
+## A left click on row `index` of the `mode` tab's list (Shift held: `many`).
+func _click(game: Game, mode: String, index: int, button := MOUSE_BUTTON_LEFT) -> void:
+	var tabs := game.menu.find_child("Tabs", true, false) as TabContainer
+	var list := tabs.get_child(ShopScreen.TABS.find(mode)).find_child("List", true, false)
+	(list as ItemList).item_clicked.emit(index, Vector2.ZERO, button)
+
+
+func _row(game: Game, mode: String, item_id: String) -> int:
+	return ShopScreen.of(game.menu)._pages[mode]["ids"].find(item_id)
+
+
+func test_the_cart_and_checkout_are_on_screen_for_every_ware() -> void:
 	var game := _game()
 	game.profile.money = 100000
 	game.profile.level = 30
@@ -63,67 +76,116 @@ func test_the_deal_bar_is_on_screen_for_every_ware() -> void:
 	assert_true(game.try_interact(), "vendor in reach")
 	await _settle()
 	var list := game.menu.find_child("List", true, false) as ItemList
-	for i in list.item_count:
+	var shop := ShopScreen.of(game.menu)
+	for i in shop._pages[TradeCart.BUY]["ids"].size():
 		list.select(i)
 		list.item_selected.emit(i)
+		_click(game, TradeCart.BUY, i)
 		await _settle()
-		var trade := game.menu.find_child("Trade", true, false) as Button
-		assert_true(trade != null and trade.is_visible_in_tree(), "ware %d has a Buy button" % i)
-		assert_true(SCREEN.encloses(trade.get_global_rect()), "ware %d: Buy is on screen" % i)
-	_check_layout(game.menu, "shop with the longest card")
+		var checkout := game.menu.find_child("Checkout", true, false) as Button
+		assert_true(checkout.is_visible_in_tree(), "ware %d: a Buy button" % i)
+		assert_true(SCREEN.encloses(checkout.get_global_rect()), "ware %d: Buy is on screen" % i)
+	_check_layout(game.menu, "shop with the longest card and a full cart")
 	_done(game)
 
 
-func test_buying_a_stack_and_selling_it_back() -> void:
+func test_clicks_fill_the_cart_and_one_checkout_buys_it_all() -> void:
 	var game := _game()
 	game.profile.money = 100
-	game.enter_area("main_city", "west")
-	game.zone.hero.position = Vector2(500, 262)
-	assert_true(game.try_interact(), "vendor in reach")
+	game.open_shop(NPC)
 	await _settle()
-	var step := game.menu.find_child("Step+", true, false) as Button
-	step.pressed.emit()
-	step.pressed.emit()
-	assert_eq((game.menu.find_child("Total", true, false) as Label).text, "30", "3 buns: 30")
-	(game.menu.find_child("Trade", true, false) as Button).pressed.emit()
-	assert_eq(game.profile.count("steamed_bun"), 3, "bought three")
-	assert_eq(game.profile.money, 70, "for 30")
-	GameMenus.cycle_tab(game.menu, 1)
+	var bun := _row(game, TradeCart.BUY, "steamed_bun")
+	var tea := _row(game, TradeCart.BUY, "ginger_tea")
+	for i in 3:
+		_click(game, TradeCart.BUY, bun)
+	_click(game, TradeCart.BUY, tea)
+	assert_eq(game.profile.count("steamed_bun"), 0, "nothing bought before the checkout")
+	var line := game.menu.find_child("Line_steamed_bun", true, false)
+	assert_true(line != null, "a click puts the item in the cart")
+	assert_eq((line.find_child("Count", true, false) as Label).text, "3", "three clicks: three")
+	var price := 3 * 10 + int(game.content.item("ginger_tea")["price"])
+	assert_eq((game.menu.find_child("Total", true, false) as Label).text, str(price), "total")
+	(line.find_child("Step-", true, false) as Button).pressed.emit()
+	assert_eq(ShopScreen.of(game.menu).cart(TradeCart.BUY).amount("steamed_bun"), 2, "- takes one")
+	(game.menu.find_child("Checkout", true, false) as Button).pressed.emit()
+	assert_eq(game.profile.count("steamed_bun"), 2, "both lines bought in one go")
+	assert_eq(game.profile.count("ginger_tea"), 1, "tea too")
+	assert_eq(game.profile.money, 100 - price + 10, "paid once for all")
+	assert_true(ShopScreen.of(game.menu).cart(TradeCart.BUY).is_empty(), "the cart is emptied")
+	_done(game)
+
+
+func test_a_cart_beyond_the_purse_cannot_be_bought() -> void:
+	var game := _game()
+	game.profile.money = 25
+	game.open_shop(NPC)
+	await _settle()
+	_click(game, TradeCart.BUY, _row(game, TradeCart.BUY, "steamed_bun"), MOUSE_BUTTON_RIGHT)
+	var cart := ShopScreen.of(game.menu).cart(TradeCart.BUY)
+	assert_eq(cart.amount("steamed_bun"), ShopRules.MAX_AMOUNT, "a right click adds a stack")
+	var checkout := game.menu.find_child("Checkout", true, false) as Button
+	assert_true(checkout.disabled, "Buy is off while the cart costs more than the purse")
+	var after := game.menu.find_child("After", true, false) as Label
+	assert_true(after.text.ends_with("coins short"), after.text)
+	checkout.pressed.emit()
+	assert_eq(game.profile.money, 25, "nothing paid")
+	_done(game)
+
+
+func test_selling_many_items_at_once() -> void:
+	var game := _game()
+	game.profile.add_item("steamed_bun", 3)
+	game.profile.add_item("scrap_metal", 120)
+	game.profile.add_item("brass_knuckles")
+	game.content.items["brass_knuckles"]["rarity"] = "rare"
+	game.menu_focus = "sell:"
+	game.open_shop(NPC)
 	await _settle()
 	var tabs := game.menu.find_child("Tabs", true, false) as TabContainer
-	assert_eq(tabs.current_tab, 1, "Q/E reach the Sell tab")
-	var sell := tabs.get_child(1)
-	var trade := sell.find_child("Trade", true, false) as Button
-	(sell.find_child("StepMax", true, false) as Button).pressed.emit()
-	trade.pressed.emit()
-	assert_eq(game.profile.count("steamed_bun"), 0, "sold all three")
-	assert_eq(
-		game.profile.money, 70 + 3 * ShopRules.sell_price(game.content, "steamed_bun"), "paid"
-	)
+	assert_eq(tabs.current_tab, 1, "opens on Sell")
+	(game.menu.find_child("AddAll", true, false) as Button).pressed.emit()
+	var cart := ShopScreen.of(game.menu).cart(TradeCart.SELL)
+	assert_eq(cart.amount("steamed_bun"), 3, "Add all: every bun")
+	assert_eq(cart.amount("scrap_metal"), 120, "and all 120 scrap, past one deal's 99")
+	assert_eq(cart.amount("brass_knuckles"), 0, "but not rare gear")
+	_click(game, TradeCart.SELL, _row(game, TradeCart.SELL, "brass_knuckles"))
+	assert_eq(cart.amount("brass_knuckles"), 1, "which goes in by hand")
+	var money := game.profile.money
+	var paid := cart.total(game.content)
+	var sell := tabs.get_child(1).find_child("Checkout", true, false) as Button
+	sell.pressed.emit()
+	assert_eq(sell.text, "Sure?", "rare gear in the cart: it asks first")
+	assert_eq(game.profile.count("scrap_metal"), 120, "nothing sold yet")
+	sell.pressed.emit()
+	assert_eq(game.profile.count("steamed_bun"), 0, "every bun sold")
+	assert_eq(game.profile.count("scrap_metal"), 0, "all the scrap")
+	assert_eq(game.profile.count("brass_knuckles"), 0, "the knuckles")
+	assert_eq(game.profile.money, money + paid, "paid the total")
+	game.content.items["brass_knuckles"]["rarity"] = "uncommon"
 	await _settle()
-	tabs = game.menu.find_child("Tabs", true, false) as TabContainer
-	assert_eq(tabs.current_tab, 1, "the shop stays on Sell")
 	_check_layout(game.menu, "empty sell tab")
 	_done(game)
 
 
-func test_rare_gear_asks_before_it_is_sold() -> void:
+func test_keys_add_change_and_settle_the_cart() -> void:
 	var game := _game()
-	# Shops sell only Common and Uncommon gear: try it as a Rare one.
-	game.content.items["brass_knuckles"]["rarity"] = "rare"
-	game.profile.add_item("brass_knuckles")
-	game.menu_focus = "sell:brass_knuckles"
-	game.open_shop({"name": "Ama", "shop": "city_market", "role": "shop"})
+	game.profile.money = 100
+	game.open_shop(NPC)
 	await _settle()
-	var tabs := game.menu.find_child("Tabs", true, false) as TabContainer
-	assert_eq(tabs.current_tab, 1, "opens on Sell")
-	var trade := tabs.get_child(1).find_child("Trade", true, false) as Button
-	trade.pressed.emit()
-	assert_eq(game.profile.count("brass_knuckles"), 1, "not on the first press")
-	assert_eq(trade.text, "Sure?", "it asks")
-	trade.pressed.emit()
-	assert_eq(game.profile.count("brass_knuckles"), 0, "sold on the second")
-	game.content.items["brass_knuckles"]["rarity"] = "uncommon"
+	var shop := ShopScreen.of(game.menu)
+	var list := game.menu.find_child("List", true, false) as ItemList
+	var chosen := shop._chosen(TradeCart.BUY)
+	for action: String in ["ui_accept", "ui_right", "ui_right", "ui_left"]:
+		var key := InputEventAction.new()
+		key.action = action
+		key.pressed = true
+		list.gui_input.emit(key)
+	assert_eq(shop.cart(TradeCart.BUY).amount(chosen), 2, "Enter, Right, Right, Left: two")
+	var settle := InputEventAction.new()
+	settle.action = "attack_heavy"
+	settle.pressed = true
+	list.gui_input.emit(settle)
+	assert_eq(game.profile.count(chosen), 2, "X settles the cart")
 	_done(game)
 
 
@@ -180,38 +242,4 @@ func test_an_upgraded_copy_has_its_own_cell_in_the_bag() -> void:
 	assert_eq([stack.count, stack.upgrade], [2, 0], "the two plain wrenches: one +0 stack")
 	assert_eq([own.count, own.upgrade], [1, 10], "the +10 one on its own")
 	_check_layout(game.menu, "bag with copies")
-	_done(game)
-
-
-func test_ticking_several_items_sells_them_in_one_go() -> void:
-	var game := _game()
-	var npc := {"name": "Ama", "shop": "city_market", "role": "shop"}
-	game.profile.add_item("steamed_bun", 3)
-	game.profile.add_item("scrap_metal", 120)
-	game.profile.add_item("brass_knuckles")
-	game.menu_focus = "sell:steamed_bun"
-	game.open_shop(npc)
-	var tick := game.menu.find_child("Tick", true, false) as CheckBox
-	assert_true(tick != null and not tick.button_pressed, "each item can be ticked")
-	tick.button_pressed = true
-	game.menu_focus = "sell:scrap_metal"
-	game.open_shop(npc)
-	(game.menu.find_child("Tick", true, false) as CheckBox).button_pressed = true
-	var tabs := game.menu.find_child("Tabs", true, false) as TabContainer
-	var list := tabs.get_child(1).find_child("List", true, false) as ItemList
-	var marked := 0
-	for i in list.item_count:
-		marked += int(list.get_item_text(i).begins_with("[x] "))
-	assert_eq(marked, 2, "ticked rows are marked")
-	var bun := ShopRules.sell_price(game.content, "steamed_bun")
-	var scrap := ShopRules.sell_price(game.content, "scrap_metal")
-	var sell := game.menu.find_child("SellTicked", true, false) as Button
-	assert_true(sell.text.begins_with("Sell ticked (2)"), sell.text)
-	var money := game.profile.money
-	sell.pressed.emit()
-	assert_eq(game.profile.count("steamed_bun"), 0, "every bun sold")
-	assert_eq(game.profile.count("scrap_metal"), 0, "120 scrap sold, past one deal's 99")
-	assert_eq(game.profile.count("brass_knuckles"), 1, "an unticked item stays")
-	assert_eq(game.profile.money, money + bun * 3 + scrap * 120, "paid for all of it")
-	assert_true(ShopScreen.ticks(game).is_empty(), "the ticks are cleared")
 	_done(game)

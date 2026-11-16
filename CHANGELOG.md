@@ -4,6 +4,80 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Fixed: boss shields are solid barriers that fit the boss (owner's request, 2026-11-16)
+- **A raised shield is now a wall.** It applies to every shielded boss: Director Wiroj,
+  the Wiroj Protocol, the Iron Colossus, Subject Zero, the Slag Titan, the Iron
+  Sovereign, the Floodgate Marshal, the Crucible King and the Founder's Engine.
+- While the shield is up, its footprint (an ellipse round the boss's feet) blocks the
+  boss's foes: the hero cannot walk, dodge or be knocked into it. A hero inside when it
+  goes up is thrown out and floored, with no damage. If a wall is close behind them,
+  they are thrown out on the other side. One the barrier reaches later is shoved out
+  without being floored.
+- The boss's own side walks through it. The barrier goes when the shield drops or the
+  boss falls.
+- New rule class `BossBarrier` (`client/sim/`); `ZoneSim.barriers` and
+  `ZoneSim._solids_for` make it a wall, and `CombatRules.barrier_shove` puts fighters
+  out of it.
+- **The dome fits the boss.** It used to be drawn at one size, so heads and raised
+  weapons stuck out of it. Each shield in `enemies.json` now gives its footprint
+  (`"half": [along, depth]`) and the dome's `"height"`. Both were measured from each
+  boss's art in every standing pose. The dome is drawn to those same numbers, so what
+  is seen is what blocks.
+- Tests: `test_boss_barrier.gd`, including a check of every shielded boss's art against
+  its dome.
+
+### Fixed: a boss's skills no longer kill its own crew (owner's request, 2026-11-16)
+- **A boss's hazards (its skills' blasts, drops, sweeps and domes) knock its own side
+  down but never hurt it.** They used to hit the crew and reinforcements for full damage,
+  so a boss could wipe out its own minions by accident.
+- New rule `CombatRules.crew_hit`: damage 0, no KO, no stun or poise meter. An ordinary
+  minion is floored and pushed out of the blast. One that does not flinch only stands
+  it, and one guarding from the front holds. The hero in the same footprint still takes
+  the full blow.
+- `CombatEvent.friendly` marks such a hit, so no damage number, shake or debris is shown
+  and it does not count as a hit in the session's stats.
+- Tests: `test_boss_crew_hits.gd`.
+
+### Changed: a shopping cart at the shops (owner's request, 2026-11-16)
+- **Buying and selling many items at once is a cart now.** A click on a ware (or on an
+  item from the bag, on Sell) puts it in a cart beside the list. Shift+click or a right
+  click adds a stack. Each cart line has -, + and ×, and the cart shows the total and the
+  coins after. One Buy or Sell settles it all. The old one-item deal bar and the "tick
+  to sell" boxes are gone.
+- **New rule class `TradeCart` (`client/sim/`).** It checks the cart against every
+  `ShopRules` limit, including one deal's 99 (larger stacks are settled in several
+  deals), gear bought one at a time, and the shop's wares and opening. The checkout is
+  all or nothing: if anything fails, the coins and the bag are put back. A cart holds at
+  most 20 different items, a size limit the server can apply to the same request.
+- Sell's "Add all" fills the cart with everything the shop takes, except rare gear and
+  upgraded items. Those go in one by one, and the cart asks "Sure?" before selling them.
+- The screen refreshes in place instead of being rebuilt on every click, so the focus
+  and the list's place are kept. Keys: Enter adds one, Left/Right change the count, X
+  settles the cart, Q/E switch tabs.
+- `Game._buy`/`_sell` are gone; the shop screen settles through `TradeCart`.
+- Tests: `test_trade_cart.gd` (the rules) and `test_trade_ui.gd` (clicks, keys, checkout,
+  Add all, Sure?, and everything on screen at 640x360).
+
+### Changed: auto battle in the arena, and the player keeps control (owner's request, 2026-11-16)
+- **The AUTO switch works during an arena match.** It used to refuse with "The arena is
+  fought by hand." Auto now plays the match with the same buttons a player has. There is
+  no food in the arena, and `ArenaMatch` still blanks all input during the countdown.
+- In a match, auto goes after the rival at any distance instead of waiting for them to
+  come within reach. It never follows the story or goes home to rest from the arena, and
+  it turns off when the match ends ("Match over. Auto off."), leaving the result screen
+  to the player.
+- Tests: `test_arena.gd` covers an auto-piloted match fought to a knock-out, and the HUD
+  switch turning on in a match and off at its result.
+- **The player keeps control while auto is on (owner's request).** Walking, attacks,
+  skills, guard, dodge and grabs are played as pressed, and auto stays on. The pilot waits
+  half a second (`AutoBattle.MANUAL_HOLD_TICKS`, 30 ticks) after the player's last input
+  before it plays again, so a step or a combo is not undone on the next tick. Auto still
+  eats when hurt meanwhile.
+- **Walking into another area no longer turns auto off.** Auto farms the new area from
+  then on. It stops only where it cannot run, and says why (`AutoRules.problem`).
+- Tests: `test_auto_battle.gd` covers every kind of the player's input with auto staying
+  on, the pilot's pause after it, and auto following the hero into a new area.
+
 ### Changed: five distinct combat classes, a stronger combo engine, fair PvP (owner's request, 2026-11-13)
 - **Each class has its own heavy attack** instead of the shared `haymaker`:
   - Boxer Overhand (breaks guard, chains into a Shovel Hook);

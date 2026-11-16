@@ -8,7 +8,9 @@ extends RefCounted
 ##   step along the street, not across it, or a "rain" of slag, rivets or
 ##   debris: many small drops scattered around the hero). It warns first,
 ##   then hits every fighter in its footprint ("half": half its width and
-##   depth) but the boss, the boss's own crew included. A volley ("count",
+##   depth) but the boss. The boss's own side (crew, reinforcements, elites)
+##   is only knocked down, never hurt (CombatRules.crew_hit): a boss never
+##   kills its own people by accident. A volley ("count",
 ##   default 1) drops the first on the hero and the rest at random spots
 ##   within "spread" ([x, y]) of them, never stacked on one another, landing
 ##   "stagger" ticks apart: the hero must read the shadows and run, not just
@@ -173,6 +175,7 @@ func _tick_shield(
 		_set_shield(zone, boss, true, events)
 	elif _shield_up and _shield_timer > int(shield["up"]):
 		_set_shield(zone, boss, false, events)
+	BossBarrier.hold(zone, boss, shield if _shield_up else {}, _shield_timer == 1, events)
 	if _shield_up:
 		boss.grace = maxi(boss.grace, 2)
 		var brain: EnemyBrain = zone.brains.get(boss.id)
@@ -188,6 +191,7 @@ func _set_shield(zone: ZoneSim, boss: Fighter, up: bool, events: Array[ZoneEvent
 	_shield_timer = 1
 	if not up:
 		_hazard_timer = 0
+		BossBarrier.hold(zone, boss, {}, false, events)
 	var id := boss.id if boss else zone.boss_id
 	events.append(ZoneEvent.make("boss_shield", {"id": id, "up": up}))
 
@@ -298,6 +302,8 @@ func _land_hazards(zone: ZoneSim, events: Array[ZoneEvent]) -> void:
 		var half: Vector2 = drop["half"]
 		var landed := {"id": int(drop.get("id", 0)), "at": at, "kind": drop["kind"]}
 		events.append(ZoneEvent.make("hazard_hit", landed))
+		var boss := zone.fighter(zone.boss_id)
+		var side := boss.team if boss else ZoneSim.ENEMY_TEAM
 		for f in zone.fighters:
 			var gap := (f.position - at).abs()
 			if f.id == zone.boss_id or not CombatRules.is_vulnerable(f):
@@ -308,9 +314,13 @@ func _land_hazards(zone: ZoneSim, events: Array[ZoneEvent]) -> void:
 			if struck.has(key):
 				continue
 			struck[key] = true
-			var hit := CombatRules.thrown_hit(
-				f, zone.boss_id, at.x, int(drop["damage"]), true, str(drop["kind"])
-			)
+			var hit: CombatEvent
+			if f.team == side:
+				hit = CombatRules.crew_hit(f, zone.boss_id, at.x, str(drop["kind"]))
+			else:
+				hit = CombatRules.thrown_hit(
+					f, zone.boss_id, at.x, int(drop["damage"]), true, str(drop["kind"])
+				)
 			zone.apply_hit(hit, f, events)
 
 
