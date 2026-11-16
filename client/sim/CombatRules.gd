@@ -578,6 +578,24 @@ static func crew_hit(defender: Fighter, source_id: int, from_x: float, kind: Str
 	return event
 
 
+## A boss's barrier (BossBarrier) putting `defender` out of its footprint:
+## `push` pixels along the street, no damage. `floor` (the barrier going up
+## with them inside) throws them down as well; otherwise it only shoves.
+static func barrier_shove(
+	defender: Fighter, source_id: int, push: float, floor: bool
+) -> CombatEvent:
+	var event := CombatEvent.new()
+	event.attacker_id = source_id
+	event.defender_id = defender.id
+	event.move_id = "barrier"
+	event.position = defender.position
+	defender.knockback_remaining = push
+	if floor and defender.state != Fighter.State.DOWN:
+		event.knocked_down = true
+		defender.enter(Fighter.State.DOWN)
+	return event
+
+
 ## Blows land but do not interrupt: poise broken into armor, or winding up a
 ## telegraphed attack (fighters with poise only).
 static func is_unflinching(f: Fighter) -> bool:

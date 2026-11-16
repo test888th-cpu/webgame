@@ -81,6 +81,9 @@ var thrown: Array[Dictionary] = []
 ## "damage": int, "kind": "crane" | "steam" | "laser"}, called by the boss (see
 ## BossMechanics, which also whistles in a boss's reinforcements).
 var hazards: Array[Dictionary] = []
+## Raised boss barriers (BossBarrier): {"id", "team", "position", "half",
+## "height"}. A wall to every fighter not of its team.
+var barriers: Array[Dictionary] = []
 var _boss_mechanics := BossMechanics.new()
 var _farm := FarmSpawner.new()
 var _next_weapon := 1
@@ -837,10 +840,14 @@ func _resolve_bodies() -> void:
 			f.position = _detour(f, from, to, others)
 
 
-## What `f` may not walk into: the street's solids and, unless it is reeling
-## or down (or the hero in an area already passed), every fighter standing.
+## What `f` may not walk into: the street's solids, a raised barrier of the
+## other side (always) and, unless it is reeling or down (or the hero in an
+## area already passed), every fighter standing.
 func _solids_for(f: Fighter) -> Array:
 	var others: Array = solids.duplicate()
+	for barrier in barriers:
+		if int(barrier["team"]) != f.team:
+			others.append(barrier)
 	var free := passed and f == hero
 	if free or f.state == Fighter.State.HITSTUN or f.state == Fighter.State.DOWN:
 		return others

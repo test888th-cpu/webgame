@@ -175,6 +175,7 @@ func _tick_shield(
 		_set_shield(zone, boss, true, events)
 	elif _shield_up and _shield_timer > int(shield["up"]):
 		_set_shield(zone, boss, false, events)
+	BossBarrier.hold(zone, boss, shield if _shield_up else {}, _shield_timer == 1, events)
 	if _shield_up:
 		boss.grace = maxi(boss.grace, 2)
 		var brain: EnemyBrain = zone.brains.get(boss.id)
@@ -190,6 +191,7 @@ func _set_shield(zone: ZoneSim, boss: Fighter, up: bool, events: Array[ZoneEvent
 	_shield_timer = 1
 	if not up:
 		_hazard_timer = 0
+		BossBarrier.hold(zone, boss, {}, false, events)
 	var id := boss.id if boss else zone.boss_id
 	events.append(ZoneEvent.make("boss_shield", {"id": id, "up": up}))
 

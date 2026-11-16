@@ -288,7 +288,8 @@ func step(input: FighterInput) -> Array[ZoneEvent]:
 func _handle(event: ZoneEvent) -> void:
 	match event.type:
 		"hit":
-			hits += 0 if event.hit.friendly else 1  # not a boss blast on its own crew
+			# Not a boss's blast on its own crew, nor its barrier's shove.
+			hits += 0 if event.hit.friendly or event.hit.move_id == "barrier" else 1
 			if event.hit.attacker_id == ZoneSim.HERO_ID:
 				hero_hits += 1
 			view.show_hit(event.hit)

@@ -4,6 +4,28 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Fixed: boss shields are solid barriers that fit the boss (owner's request, 2026-11-16)
+- **A raised shield is now a wall.** It applies to every shielded boss: Director Wiroj,
+  the Wiroj Protocol, the Iron Colossus, Subject Zero, the Slag Titan, the Iron
+  Sovereign, the Floodgate Marshal, the Crucible King and the Founder's Engine.
+- While the shield is up, its footprint (an ellipse round the boss's feet) blocks the
+  boss's foes: the hero cannot walk, dodge or be knocked into it. A hero inside when it
+  goes up is thrown out and floored, with no damage. If a wall is close behind them,
+  they are thrown out on the other side. One the barrier reaches later is shoved out
+  without being floored.
+- The boss's own side walks through it. The barrier goes when the shield drops or the
+  boss falls.
+- New rule class `BossBarrier` (`client/sim/`); `ZoneSim.barriers` and
+  `ZoneSim._solids_for` make it a wall, and `CombatRules.barrier_shove` puts fighters
+  out of it.
+- **The dome fits the boss.** It used to be drawn at one size, so heads and raised
+  weapons stuck out of it. Each shield in `enemies.json` now gives its footprint
+  (`"half": [along, depth]`) and the dome's `"height"`. Both were measured from each
+  boss's art in every standing pose. The dome is drawn to those same numbers, so what
+  is seen is what blocks.
+- Tests: `test_boss_barrier.gd`, including a check of every shielded boss's art against
+  its dome.
+
 ### Fixed: a boss's skills no longer kill its own crew (owner's request, 2026-11-16)
 - **A boss's hazards (its skills' blasts, drops, sweeps and domes) knock its own side
   down but never hurt it.** They used to hit the crew and reinforcements for full damage,
