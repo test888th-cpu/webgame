@@ -99,7 +99,9 @@ func test_every_screen_has_its_own_window_and_fits() -> void:
 		assert_eq(game.menu_name, name, "%s reported" % name)
 		_check_layout(game.menu, name + " screen")
 		assert_true(
-			game.menu.find_child("Tabs", true, false) == null or name == "settings", "one job"
+			# Settings, and the Guide's four sections of one farming guide.
+			game.menu.find_child("Tabs", true, false) == null or name in ["settings", "guide"],
+			"one job"
 		)
 		assert_true(_texts(game.menu).contains(GameMenus.SCREENS[name][0]), "%s is titled" % name)
 		var close := game.menu.find_child("Close", true, false) as Button

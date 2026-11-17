@@ -22,6 +22,7 @@ const SCREENS := {
 	"skills": ["Skills", "menu_skills", "V", Vector2(580, 330)],
 	"quests": ["Quests", "menu_quests", "O", Vector2(500, 300)],
 	"map": ["Map", "menu_map", "M", Vector2(600, 318)],
+	"guide": ["Guide", "menu_quests", "N", Vector2(620, 336)],
 	"settings": ["Settings", "menu_settings", "", Vector2(520, 300)],
 }
 const PAUSE_WIDTH := 190.0
@@ -76,6 +77,8 @@ static func screen(game: Game, name: String) -> Control:
 			page = _quests(game)
 		"map":
 			page = MapTab.build(game)
+		"guide":
+			page = GuideScreen.build(game)
 		_:
 			page = _settings(game)
 	page.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -87,7 +90,7 @@ static func screen(game: Game, name: String) -> Control:
 ## actions. The street does not stop behind it, nor behind any screen.
 static func pause_menu(game: Game) -> Control:
 	var tutorial := not TutorialRules.is_done(game.profile, game.content)
-	var tall := 232.0 + (18.0 if tutorial else 0.0) + (18.0 if Rematch.here(game) >= 0 else 0.0)
+	var tall := 250.0 + (18.0 if tutorial else 0.0) + (18.0 if Rematch.here(game) >= 0 else 0.0)
 	var parts := UiKit.window("Menu", Vector2(PAUSE_WIDTH, tall), "")
 	var body: VBoxContainer = parts["body"]
 	body.add_theme_constant_override("separation", 2)
