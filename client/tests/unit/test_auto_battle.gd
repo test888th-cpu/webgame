@@ -228,9 +228,8 @@ func test_the_player_keeps_control_while_auto_stays_on() -> void:
 		game.step(press)
 		assert_true(game.auto.on, "and auto stays on")
 	var idle := FighterInput.new()
-	for t in AutoBattle.MANUAL_HOLD_TICKS:
-		assert_eq(game.auto.input(idle, false), idle, "the pilot waits a moment after")
-	assert_true(game.auto.input(idle, false) != idle, "then plays on by itself")
+	var next: FighterInput = game.auto.input(idle, false)
+	assert_true(next != idle, "let go: the pilot plays on at once, with no wait")
 	assert_true(game.auto.on, "never having turned off")
 	_done(game)
 
@@ -401,3 +400,21 @@ func test_it_never_tries_to_hold_a_boss_or_mini_boss() -> void:
 	thug.ungrabbable = true
 	var shoved := AutoSkills.power(_content(), oren, oren.skills["backbreaker"], thug)
 	assert_true(shoved < plain, "auto counts a grab on such a foe as its shove only")
+
+
+func test_auto_strikes_the_tick_after_the_player_lets_go() -> void:
+	var zone := _zone()
+	var pilot := AutoPilot.new(_content())
+	var foe := _foe(zone, "smogling", zone.hero.position + Vector2(22, 0))
+	zone.hero.facing = 1
+	var walk := FighterInput.new()
+	walk.move = Vector2.LEFT
+	for t in 10:
+		zone.tick(walk)
+		pilot.think(zone)
+	foe.position = zone.hero.position + Vector2(22, 0)
+	var next := pilot.think(zone)
+	assert_true(
+		next.light or next.skill != "" or next.heavy or next.grab,
+		"a foe in reach: the pilot strikes at once, no wait after the player's input"
+	)
