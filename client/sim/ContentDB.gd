@@ -96,6 +96,8 @@ var tutorial: Array = []
 ## what it pays (world_boss.json, see WorldBossRules).
 var world_bosses: Dictionary = {}
 var errors: PackedStringArray = []
+## The item ecosystem on top of items.json (ItemCatalog).
+var catalog: ItemCatalog
 
 
 static func load_all(dir := DATA_DIR) -> ContentDB:
@@ -105,6 +107,7 @@ static func load_all(dir := DATA_DIR) -> ContentDB:
 		db.errors.append("moves.json: " + error)
 	db.enemies = db._section(dir, "enemies.json", "enemies")
 	db.items = db._section(dir, "items.json", "items")
+	ItemCatalog.load_into(db, dir)  # the new items, drops, looks and test merchant
 	db.quests = db._section(dir, "quests.json", "quests")
 	db.shops = db._section(dir, "shops.json", "shops")
 	var area_file := db._read(dir.path_join("areas.json"))
@@ -234,6 +237,8 @@ func validate() -> void:
 	for id: String in enemies:
 		_validate_enemy(id, enemies[id])
 	_validate_world_boss()
+	if catalog:
+		errors.append_array(catalog.problems(self))
 	errors.append_array(BossFxRules.problems(self))
 	errors.append_array(BossSkillRules.problems(self))
 	for id: String in items:
@@ -935,9 +940,8 @@ func _validate_art() -> void:
 	var icons: Dictionary = ui.get("icons", {}).get("regions", {})
 	for id: String in items:
 		var icon := str(items[id].get("icon", ""))
-		_check(
-			icon == "" or icons.has(icon), "items.%s.icon: no icon %s in the UI sheet" % [id, icon]
-		)
+		var known := icons.has(icon) or (catalog != null and catalog.has_placeholder_icon(icon))
+		_check(icon == "" or known, "items.%s.icon: no icon %s" % [id, icon])
 	for sprite: String in wanted:
 		var entry: Dictionary = art.get(sprite, {})
 		_check(

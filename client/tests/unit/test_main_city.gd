@@ -561,7 +561,9 @@ func test_planned_services_are_marked_and_offer_nothing_to_press() -> void:
 		if "Trading Post" in text or "Guild Hall" in text:
 			assert_true("not open yet" in text, "%s says it is not open yet" % text)
 	var prompts := game.view.find_children("Prompt", "CenterContainer", true, false)
-	assert_eq(prompts.size(), _city()["npcs"].size(), "a prompt only where E does something")
+	# The game's own city (with the Item Testing Merchant while TEST_VENDOR_ENABLED).
+	var npcs: Array = game.content.area(CITY)["npcs"]
+	assert_eq(prompts.size(), npcs.size(), "a prompt only where E does something")
 	_done(game)
 
 

@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "note": "One test merchant for every new item. On only while TEST_VENDOR_ENABLED (project setting iron_legacy/test_vendor_enabled, or the environment variable of that name) is true; turn it off for production. It sells at a token price through the ordinary shop rules: coins are paid, nothing is free.",
+  "shop": "item_test_merchant",
+  "name": "Item Testing Merchant",
+  "price_each": 1,
+  "area": "main_city",
+  "npc": {
+    "id": "item_test_merchant",
+    "name": "Item Testing Merchant",
+    "role": "test_shop",
+    "shop": "item_test_merchant",
+    "piece": "crates",
+    "x": 1140,
+    "y": 262,
+    "color": "#7ef0ff",
+    "line": "Test stock only. Not part of the real economy."
+  },
+  "categories": [
+    [
+      "enhancement_material",
+      "Enhancement Materials"
+    ],
+    [
+      "ore",
+      "Ores & Minerals"
+    ],
+    [
+      "consumable",
+      "Consumables"
+    ],
+    [
+      "headgear",
+      "Headgear"
+    ],
+    [
+      "outfit",
+      "Outfits"
+    ],
+    [
+      "weapon",
+      "Weapons"
+    ],
+    [
+      "boss_material",
+      "Boss Materials"
+    ],
+    [
+      "special",
+      "Special Items"
+    ]
+  ]
+}

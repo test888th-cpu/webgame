@@ -15,14 +15,24 @@ uniform float height = 62.0;
 uniform float feet_light = 0.82;
 uniform float head_light = 1.06;
 
+// A rectangle (x0, y0, x1, y1, in the sprite's local pixels) where the
+// fighter's own art is not drawn: the top of the head under a worn hat
+// (EquipmentLayers), so the hat replaces the old headwear. Empty: none.
+uniform vec4 hide_rect = vec4(0.0);
+
 varying float rise;
+varying vec2 local;
 
 void vertex() {
 	rise = clamp(-VERTEX.y / max(height, 1.0), 0.0, 1.0);
+	local = VERTEX;
 }
 
 void fragment() {
 	vec4 base = texture(TEXTURE, UV) * COLOR;
+	if (local.x >= hide_rect.x && local.x < hide_rect.z && local.y >= hide_rect.y && local.y < hide_rect.w) {
+		base.a = 0.0;
+	}
 	float light = mix(feet_light, head_light, smoothstep(0.0, 0.8, rise));
 	vec3 lit = base.rgb * ambient.rgb * tint.rgb * light;
 	COLOR = vec4(mix(lit, flash_color.rgb, flash), base.a);
