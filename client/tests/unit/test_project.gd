@@ -41,9 +41,16 @@ func test_web_preset_is_single_threaded_release() -> void:
 				false,
 				"web export has threads disabled"
 			)
-			assert_eq(
-				presets.get_value(section, "exclude_filter"), "tests/*", "tests are not shipped"
-			)
+			# Tests are never shipped. The only other exclusions allowed are pixelfx
+			# effect sheets nothing uses yet (tools/assets/web_export_filter.py keeps
+			# the list; owner decision 7, 2026-11-17).
+			var excluded := str(presets.get_value(section, "exclude_filter")).split(", ")
+			assert_eq(excluded[0], "tests/*", "tests are not shipped")
+			for entry: String in excluded.slice(1):
+				assert_true(
+					entry.begins_with("assets/fx/pixelfx/") and entry.ends_with(".png"),
+					"only unused effect sheets are left out: " + entry
+				)
 	assert_true(found, "a Web export preset exists")
 
 

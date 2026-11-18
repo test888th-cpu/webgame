@@ -8,14 +8,15 @@ extends Node2D
 ## Prints the boot marker the browser smoke test waits for.
 
 const BOOT_MARKER := "BOOT_OK"
-const GAME_SCENE := "res://scenes/game/Game.tscn"
-const CREATE_SCENE := "res://scenes/create/CharacterCreate.tscn"
+## The game on the reference rules (owner order 2026-11-18).
+const CREATE_SCENE := "res://scenes/reference/ReferenceTrial.tscn"
+const WORLD_SCENE := "res://scenes/street/Street.tscn"
 const BACKDROP_AREA := "saltmarket"
 const PAN_SECONDS := 45.0
 
 var menu: Control
 var _modal: Control
-var _roster: Array[PlayerProfile] = []
+var _players: Array[Dictionary] = []
 var _probe_timer := 0.0
 
 @onready var _world: Node2D = $World
@@ -84,11 +85,12 @@ func _build_ui(content: ContentDB) -> void:
 	menu.position = Vector2(30, 150)
 	menu.add_theme_constant_override("separation", 3)
 	_ui.add_child(menu)
-	_roster = SaveStore.characters(content)
-	if SaveStore.has_characters():
-		if _roster:
-			menu.add_child(UiKit.menu_button("Continue", _continue))
-		menu.add_child(UiKit.menu_button("Characters", open_characters))
+	# Production characters (RpgSave v3, owner order 2026-11-18); the old heroes were
+	# test data and are gone (SaveStore.reset_legacy_player_data).
+	_players = SaveStore.players(content)
+	if not _players.is_empty():
+		menu.add_child(UiKit.menu_button("Continue", _continue))
+		menu.add_child(UiKit.menu_button("New character", _new_game))
 	else:
 		menu.add_child(UiKit.menu_button("New game", _new_game))
 	menu.add_child(UiKit.menu_button("Gallery", _gallery))
@@ -97,11 +99,8 @@ func _build_ui(content: ContentDB) -> void:
 
 	# The saved hero leads the line-up; otherwise the whole roster.
 	var heroes: Array = content.hero_order.duplicate()
-	var saved: PlayerProfile = _roster[0] if _roster else null
-	if saved:
-		heroes.erase(saved.hero)
-		heroes.push_front(saved.hero)
-		_save_card(content, saved)
+	if not _players.is_empty():
+		_player_card(_players[0])
 	# Back to front, so the leading hero is drawn last (on top).
 	for i in range(heroes.size() - 1, -1, -1):
 		var sprites: Dictionary = content.hero(heroes[i])["sprites"]
@@ -134,7 +133,7 @@ func _process(delta: float) -> void:
 	_probe_timer += delta
 	if _probe_timer >= 0.1:
 		_probe_timer = 0.0
-		GameSession.publish_probe({"scene": "title", "has_save": not _roster.is_empty()})
+		GameSession.publish_probe({"scene": "title", "has_save": not _players.is_empty()})
 
 
 ## Another tab of the game holds the saves: this one must not write, or the
@@ -159,11 +158,12 @@ func _another_tab() -> void:
 
 
 func _new_game() -> void:
+	GameSession.character_id = ""
 	get_tree().change_scene_to_file(CREATE_SCENE)
 
 
-## Who you continue as: portrait, name, hero, level and where.
-func _save_card(content: ContentDB, saved: PlayerProfile) -> void:
+## Who Continue plays: name, class, spec and level.
+func _player_card(state: Dictionary) -> void:
 	var card := PanelContainer.new()
 	card.name = "SaveCard"
 	var style := UiTheme.panel_style()
@@ -172,65 +172,21 @@ func _save_card(content: ContentDB, saved: PlayerProfile) -> void:
 	card.add_theme_stylebox_override("panel", style)
 	card.position = Vector2(190, 150)
 	_ui.add_child(card)
-	var line := HBoxContainer.new()
-	line.add_theme_constant_override("separation", 6)
-	card.add_child(line)
-	var hero := content.hero(saved.hero)
-	var picture := TextureRect.new()
-	picture.texture = UiKit.portrait(content, str(hero["sprites"]["default"]))
-	picture.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	picture.custom_minimum_size = Vector2(32, 32)
-	line.add_child(picture)
 	var text := VBoxContainer.new()
 	text.add_theme_constant_override("separation", 0)
-	line.add_child(text)
-	text.add_child(UiKit.label(saved.name, UiTheme.SIZE_H2, UiTheme.TEXT))
+	card.add_child(text)
+	text.add_child(UiKit.label(str(state["name"]), UiTheme.SIZE_H2, UiTheme.TEXT))
+	var spec := str(state.get("spec_id", ""))
+	var what := str(state["class_id"]).capitalize() + ("" if spec == "" else " (%s)" % spec)
 	text.add_child(
-		UiKit.label(
-			"%s  -  Level %d" % [hero["title"], saved.level], UiTheme.SIZE_SMALL, UiTheme.ACCENT
-		)
+		UiKit.label("%s  -  Level %d" % [what, state["level"]], UiTheme.SIZE_SMALL, UiTheme.ACCENT)
 	)
-	text.add_child(
-		UiKit.label(
-			str(content.area(saved.area).get("name", "")), UiTheme.SIZE_CAPTION, UiTheme.TEXT_DIM
-		)
-	)
-
-
-## The account's characters: play one, make another, or delete one.
-func open_characters() -> void:
-	var content := GameSession.content
-	_roster = SaveStore.characters(content)
-	var damaged := SaveStore.unreadable(content)
-	_open_modal(
-		CharacterSelect.build(content, _roster, damaged, _play, _new_game, _delete, _close_modal)
-	)
-
-
-func _play(id: String) -> void:
-	if GameSession.play(id):
-		get_tree().change_scene_to_file(GAME_SCENE)
-
-
-## Deleting rebuilds the whole title (the Continue card, the line-up and the
-## menu all name the characters), back on the Characters screen if any are
-## left.
-func _delete(id: String) -> void:
-	SaveStore.delete_character(id)
-	Sfx.play("break_metal", -6.0)
-	_modal = null
-	for child in _ui.get_children():
-		_ui.remove_child(child)
-		child.queue_free()
-	_build_ui(GameSession.content)
-	if _roster:
-		open_characters()
 
 
 func _continue() -> void:
-	if _roster:
-		_play(_roster[0].id)
+	if not _players.is_empty():
+		GameSession.character_id = str(_players[0]["id"])
+		get_tree().change_scene_to_file(WORLD_SCENE)
 
 
 func _gallery() -> void:

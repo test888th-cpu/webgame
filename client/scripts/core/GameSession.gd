@@ -29,6 +29,8 @@ const SAFE_AREA_JS := """
 
 var content: ContentDB
 var profile: PlayerProfile
+## The production character being played (SaveStore.players), "" for a new one.
+var character_id := ""
 ## Player preferences (not progression): kept in their own small file.
 ## Effect animations, built on first use by Fx.
 var fx_library := {}

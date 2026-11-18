@@ -87,6 +87,8 @@ var boss_fx: Dictionary = {}
 ## {"bosses": {boss: {"tier", "level", "skills"}}, "skills": {id: definition}}.
 ## A catalogue of its own, never the heroes' skills.json.
 var boss_skills: Dictionary = {}
+## Reference registries (Rpg* accessors): data only until their gameplay phase.
+var rpg: Dictionary = {}
 var audio: Dictionary = {}
 ## Bundled fonts: {"thai": {"file", "license", ...}}.
 var fonts: Dictionary = {}
@@ -133,6 +135,8 @@ static func load_all(dir := DATA_DIR) -> ContentDB:
 	db.world_bosses = db._read(dir.path_join("world_boss.json")).get("world_bosses", {})
 	db.boss_fx = db._read(dir.path_join("boss_fx.json"))
 	db.boss_skills = db._read(dir.path_join("boss_skills.json"))
+	# Phase B2 registries (docs/PHASE_B2_PLAN.md): validated, not used by gameplay.
+	db.rpg = RpgRegistryLoader.load_rpg(db._read, dir)
 	db.item_cooldown = int(skill_file.get("item_cooldown", 0))
 	var manifest := db._read(ART_MANIFEST)
 	db.art = manifest.get("assets", {})
@@ -262,6 +266,7 @@ func validate() -> void:
 	errors.append_array(JobRules.problems(self))
 	errors.append_array(ArenaRules.problems(self))
 	errors.append_array(SkillRegistry.problems(self))
+	errors.append_array(RpgRegistryLoader.problems(self))
 	_validate_progression()
 	_validate_weapons()
 	_validate_heroes()
@@ -970,6 +975,16 @@ func _section(dir: String, file: String, key: String) -> Dictionary:
 		errors.append('%s: expected {"%s": {...}}' % [file, key])
 		return {}
 	return section
+
+
+## A registry kept outside the game build (data/registry/), by absolute path; {} if
+## absent (an exported build has no data/registry). The one reader for those
+## registries: RpgRegistryLoader receives it as a Callable, so file access stays
+## in this reviewed loader (test_sim_purity).
+static func read_registry(path: String) -> Dictionary:
+	var text := FileAccess.get_file_as_string(path) if FileAccess.file_exists(path) else ""
+	var data: Variant = JSON.parse_string(text) if text else null
+	return data if data is Dictionary else {}
 
 
 func _read(path: String) -> Dictionary:

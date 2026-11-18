@@ -1,0 +1,8430 @@
+{
+ "_comment": "Index of World of ClaudeCraft ability records for traceability.",
+ "abilities": {
+  "abyssal_rift": {
+   "cast": "0",
+   "cd": "45",
+   "cls": "warlock",
+   "cost": "100",
+   "effects": [
+    "aoeDamage"
+   ],
+   "file": "src/sim/content/talent_abilities_v2_b.ts",
+   "learn": "20",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "shadow",
+   "specs": null,
+   "target": "false"
+  },
+  "adrenaline_rush": {
+   "cast": "0",
+   "cd": "90",
+   "cls": "rogue",
+   "cost": "0",
+   "effects": [
+    "gainResource"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "20",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "aegis_first_dawn": {
+   "cast": "0",
+   "cd": "180",
+   "cls": "paladin",
+   "cost": "150",
+   "effects": [
+    "paladinAegis"
+   ],
+   "file": "src/sim/content/paladin_core_abilities.ts",
+   "learn": "18",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "holy",
+   "specs": "['holy']",
+   "target": "false"
+  },
+  "aimed_shot": {
+   "cast": "2.5",
+   "cd": "0",
+   "cls": "hunter",
+   "cost": "35",
+   "effects": [
+    "directDamage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "11",
+   "min_range": null,
+   "passive": null,
+   "range": "35",
+   "ranks": [],
+   "school": "physical",
+   "specs": "['marksmanship']",
+   "target": "true"
+  },
+  "ambush": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "rogue",
+   "cost": "50",
+   "effects": [
+    "weaponStrike"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "4",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "ancestor_return": {
+   "cast": "7",
+   "cd": "0",
+   "cls": "shaman",
+   "cost": "250",
+   "effects": [
+    "massResurrectGroup"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "20",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "nature",
+   "specs": "['restoration']",
+   "target": "false"
+  },
+  "arcane_explosion": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "mage",
+   "cost": "60",
+   "effects": [
+    "aoeDamage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "7",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "arcane",
+   "specs": "['arcane']",
+   "target": "false"
+  },
+  "arcane_intellect": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "mage",
+   "cost": "25",
+   "effects": [
+    "buffTarget"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "3",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "arcane",
+   "specs": null,
+   "target": "false"
+  },
+  "arcane_missiles": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "mage",
+   "cost": "50",
+   "effects": [
+    "directDamage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     14
+    ],
+    [
+     3,
+     18
+    ],
+    [
+     4,
+     20
+    ]
+   ],
+   "school": "arcane",
+   "specs": "['arcane']",
+   "target": "true"
+  },
+  "arcane_power": {
+   "cast": "0",
+   "cd": "90",
+   "cls": "mage",
+   "cost": "0",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "arcane",
+   "specs": null,
+   "target": "false"
+  },
+  "arcane_shot": {
+   "cast": "0",
+   "cd": "6",
+   "cls": "hunter",
+   "cost": "25",
+   "effects": [
+    "directDamage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "2",
+   "min_range": null,
+   "passive": null,
+   "range": "35",
+   "ranks": [
+    [
+     2,
+     12
+    ],
+    [
+     3,
+     18
+    ]
+   ],
+   "school": "arcane",
+   "specs": null,
+   "target": "true"
+  },
+  "arcane_surge": {
+   "cast": "2",
+   "cd": "0",
+   "cls": "mage",
+   "cost": "14",
+   "effects": [
+    "directDamage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     10
+    ],
+    [
+     3,
+     15
+    ],
+    [
+     4,
+     20
+    ]
+   ],
+   "school": "arcane",
+   "specs": "['arcane']",
+   "target": "true"
+  },
+  "army_of_the_dead": {
+   "cast": "1.5",
+   "cd": "120",
+   "cls": "warlock",
+   "cost": "100",
+   "effects": [
+    "armyOfDead"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "16",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "shadow",
+   "specs": "['demonology']",
+   "target": "false"
+  },
+  "aspect_of_the_cheetah": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "hunter",
+   "cost": "20",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "nature",
+   "specs": null,
+   "target": "false"
+  },
+  "aspect_of_the_hawk": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "hunter",
+   "cost": "20",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "4",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [
+    [
+     2,
+     12
+    ],
+    [
+     3,
+     18
+    ]
+   ],
+   "school": "nature",
+   "specs": null,
+   "target": "false"
+  },
+  "aspect_of_the_monkey": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "hunter",
+   "cost": "20",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "nature",
+   "specs": null,
+   "target": "false"
+  },
+  "aspect_of_the_wild": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "hunter",
+   "cost": "50",
+   "effects": [
+    "aoeAllyAttackPower",
+    "aoeAllyHaste"
+   ],
+   "file": "src/sim/content/talent_abilities_v2_a.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "nature",
+   "specs": null,
+   "target": "false"
+  },
+  "aura_mastery": {
+   "cast": "0",
+   "cd": "120",
+   "cls": "paladin",
+   "cost": "0",
+   "effects": [
+    "buffTarget"
+   ],
+   "file": "src/sim/content/paladin_core_abilities.ts",
+   "learn": "20",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "holy",
+   "specs": null,
+   "target": "false"
+  },
+  "avatar": {
+   "cast": "0",
+   "cd": "180",
+   "cls": "warrior",
+   "cost": "0",
+   "effects": [
+    "breakControl",
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "17",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "avenging_wrath": {
+   "cast": "0",
+   "cd": "120",
+   "cls": "paladin",
+   "cost": "0",
+   "effects": [
+    "grantDevotion",
+    "selfBuff"
+   ],
+   "file": "src/sim/content/paladin_core_abilities.ts",
+   "learn": "14",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "holy",
+   "specs": null,
+   "target": "false"
+  },
+  "backstab": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "rogue",
+   "cost": "50",
+   "effects": [
+    "weaponStrike"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "3",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [
+    [
+     2,
+     12
+    ],
+    [
+     3,
+     18
+    ]
+   ],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "barkskin": {
+   "cast": "0",
+   "cd": "60",
+   "cls": "druid",
+   "cost": "30",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "16",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "nature",
+   "specs": null,
+   "target": "false"
+  },
+  "bash": {
+   "cast": "0",
+   "cd": "60",
+   "cls": "druid",
+   "cost": "10",
+   "effects": [
+    "stun"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "8",
+   "min_range": null,
+   "passive": null,
+   "range": "8",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "bastion_rite": {
+   "cast": "0",
+   "cd": "10",
+   "cls": "paladin",
+   "cost": "20",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/paladin_core_abilities.ts",
+   "learn": "7",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "holy",
+   "specs": "['protection']",
+   "target": "false"
+  },
+  "bastion_sweep": {
+   "cast": "0",
+   "cd": "6",
+   "cls": "paladin",
+   "cost": "0",
+   "effects": [
+    "aoeDamage"
+   ],
+   "file": "src/sim/content/paladin_core_abilities.ts",
+   "learn": "11",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "holy",
+   "specs": "['protection']",
+   "target": "false"
+  },
+  "battle_shout": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "warrior",
+   "cost": "0",
+   "effects": [
+    "buffTarget"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "1",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "battle_stance": {
+   "cast": "0",
+   "cd": "1",
+   "cls": "warrior",
+   "cost": "0",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "1",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "beacon_of_light": {
+   "cast": "0",
+   "cd": "7",
+   "cls": "paladin",
+   "cost": "60",
+   "effects": [
+    "beaconOfLight"
+   ],
+   "file": "src/sim/content/paladin_core_abilities.ts",
+   "learn": "16",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "holy",
+   "specs": "['holy']",
+   "target": "true"
+  },
+  "bear_charge": {
+   "cast": "0",
+   "cd": "15",
+   "cls": "druid",
+   "cost": "0",
+   "effects": [
+    "charge",
+    "stun"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": "8",
+   "passive": null,
+   "range": "25",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "bear_form": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "druid",
+   "cost": "30",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "8",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "bear_trap": {
+   "cast": "0",
+   "cd": "30",
+   "cls": "hunter",
+   "cost": "0",
+   "effects": [
+    "hunterBearTrap"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "16",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "berserk": {
+   "cast": "0",
+   "cd": "180",
+   "cls": "druid",
+   "cost": "0",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/talent_abilities_v2_b.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "berserker_rage": {
+   "cast": "0",
+   "cd": "30",
+   "cls": "warrior",
+   "cost": "0",
+   "effects": [
+    "gainResource"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "berserker_stance": {
+   "cast": "0",
+   "cd": "1",
+   "cls": "warrior",
+   "cost": "0",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": "['fury']",
+   "target": "false"
+  },
+  "bestial_wrath": {
+   "cast": "0",
+   "cd": "90",
+   "cls": "hunter",
+   "cost": "0",
+   "effects": [
+    "howlingRage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "nature",
+   "specs": null,
+   "target": "false"
+  },
+  "blade_flurry": {
+   "cast": "0",
+   "cd": "120",
+   "cls": "rogue",
+   "cost": "25",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "bladestorm": {
+   "cast": "0",
+   "cd": "90",
+   "cls": "warrior",
+   "cost": "25",
+   "effects": [
+    "aoeDamage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "20",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "blazing_barrier": {
+   "cast": "0",
+   "cd": "30",
+   "cls": "mage",
+   "cost": "45",
+   "effects": [
+    "absorb"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [
+    [
+     2,
+     12
+    ],
+    [
+     3,
+     18
+    ]
+   ],
+   "school": "fire",
+   "specs": "['fire']",
+   "target": "false"
+  },
+  "blessing_of_might": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "paladin",
+   "cost": "25",
+   "effects": [
+    "buffTarget"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "4",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "holy",
+   "specs": null,
+   "target": "true"
+  },
+  "blind": {
+   "cast": "0",
+   "cd": "60",
+   "cls": "rogue",
+   "cost": "50",
+   "effects": [
+    "incapacitate"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "20",
+   "min_range": null,
+   "passive": null,
+   "range": "5",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "blink": {
+   "cast": "0",
+   "cd": "15",
+   "cls": "mage",
+   "cost": "40",
+   "effects": [
+    "blinkForward"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "arcane",
+   "specs": null,
+   "target": "false"
+  },
+  "blizzard": {
+   "cast": "2",
+   "cd": "8",
+   "cls": "mage",
+   "cost": "70",
+   "effects": [
+    "groundAoE"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "frost",
+   "specs": "['frost']",
+   "target": "false"
+  },
+  "bloodhook": {
+   "cast": "0",
+   "cd": "10",
+   "cls": "hunter",
+   "cost": "0",
+   "effects": [
+    "hunterBloodhook"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "25",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "bloodlust": {
+   "cast": "0",
+   "cd": "300",
+   "cls": "shaman",
+   "cost": "85",
+   "effects": [
+    "aoeAllyHaste"
+   ],
+   "file": "src/sim/content/talent_abilities_v2_a.ts",
+   "learn": "20",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "nature",
+   "specs": null,
+   "target": "false"
+  },
+  "bloodrage": {
+   "cast": "0",
+   "cd": "60",
+   "cls": "warrior",
+   "cost": "0",
+   "effects": [
+    "gainResource",
+    "selfDamagePctMax"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "6",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": "['arms'",
+   "target": "false"
+  },
+  "bloodthirst": {
+   "cast": "0",
+   "cd": "6",
+   "cls": "warrior",
+   "cost": "0",
+   "effects": [
+    "enrageChance",
+    "gainResource",
+    "selfHealPctMax",
+    "weaponStrike"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "bloodtrail_assault": {
+   "cast": "0",
+   "cd": "90",
+   "cls": "hunter",
+   "cost": "0",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "17",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": "['survival']",
+   "target": "false"
+  },
+  "body_blow": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "rogue",
+   "cost": "35",
+   "effects": [
+    "weaponStrike"
+   ],
+   "file": "src/sim/content/talent_abilities_v2_a.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "bone_armor": {
+   "cast": "0",
+   "cd": "45",
+   "cls": "warlock",
+   "cost": "45",
+   "effects": [
+    "selfAbsorbPctMax"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "8",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "shadow",
+   "specs": "['demonology']",
+   "target": "false"
+  },
+  "brain_freeze": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "mage",
+   "cost": "0",
+   "effects": [],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": "true",
+   "range": "0",
+   "ranks": [],
+   "school": "frost",
+   "specs": "['frost']",
+   "target": "false"
+  },
+  "breachmaker": {
+   "cast": "0",
+   "cd": "45",
+   "cls": "warrior",
+   "cost": "10",
+   "effects": [
+    "debuffTargetSource",
+    "weaponStrike"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "12",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": "['arms']",
+   "target": "true"
+  },
+  "cat_form": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "druid",
+   "cost": "30",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "4",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "chain_heal": {
+   "cast": "2.5",
+   "cd": "0",
+   "cls": "shaman",
+   "cost": "60",
+   "effects": [
+    "chainHeal"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "nature",
+   "specs": null,
+   "target": "true"
+  },
+  "chain_lightning": {
+   "cast": "2.5",
+   "cd": "6",
+   "cls": "shaman",
+   "cost": "80",
+   "effects": [
+    "chainDamage"
+   ],
+   "file": "src/sim/content/talent_abilities_v2_a.ts",
+   "learn": "14",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "nature",
+   "specs": "['elemental']",
+   "target": "true"
+  },
+  "challenging_roar": {
+   "cast": "0",
+   "cd": "60",
+   "cls": "druid",
+   "cost": "10",
+   "effects": [
+    "aoeTaunt"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "12",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "chaos_bolt": {
+   "cast": "2.3",
+   "cd": "0",
+   "cls": "warlock",
+   "cost": "65",
+   "effects": [
+    "directDamage"
+   ],
+   "file": "src/sim/content/talent_abilities_v2_b.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "fire",
+   "specs": "['destruction']",
+   "target": "true"
+  },
+  "charge": {
+   "cast": "0",
+   "cd": "15",
+   "cls": "warrior",
+   "cost": "0",
+   "effects": [
+    "charge",
+    "stun"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "3",
+   "min_range": "8",
+   "passive": null,
+   "range": "25",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "cheap_shot": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "rogue",
+   "cost": "50",
+   "effects": [
+    "directDamage",
+    "stun"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "8",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "choir_of_deliverance": {
+   "cast": "0",
+   "cd": "180",
+   "cls": "priest",
+   "cost": "128",
+   "effects": [
+    "aoeHeal"
+   ],
+   "file": "src/sim/content/priest.ts",
+   "learn": "17",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "holy",
+   "specs": null,
+   "target": "false"
+  },
+  "cinderhide": {
+   "cast": "0",
+   "cd": "120",
+   "cls": "warlock",
+   "cost": "0",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "8",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "fire",
+   "specs": "['destruction']",
+   "target": "false"
+  },
+  "claw": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "druid",
+   "cost": "45",
+   "effects": [
+    "weaponStrike"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [
+    [
+     2,
+     18
+    ]
+   ],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "cleave": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "warrior",
+   "cost": "15",
+   "effects": [
+    "aoeDamage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "14",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": "['arms']",
+   "target": "false"
+  },
+  "cleaving_blows": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "warrior",
+   "cost": "0",
+   "effects": [],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": "true",
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": "['fury']",
+   "target": "false"
+  },
+  "cloak_of_shadows": {
+   "cast": "0",
+   "cd": "90",
+   "cls": "rogue",
+   "cost": "0",
+   "effects": [
+    "absorb"
+   ],
+   "file": "src/sim/content/talent_abilities_v2_a.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "clockwork_shock_bomb": {
+   "cast": "0",
+   "cd": "60",
+   "cls": "warrior",
+   "cost": "0",
+   "effects": [
+    "aoeDamage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "1",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "nature",
+   "specs": null,
+   "target": "false"
+  },
+  "cold_blood": {
+   "cast": "0",
+   "cd": "120",
+   "cls": "rogue",
+   "cost": "0",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "cold_focus": {
+   "cast": "0",
+   "cd": "90",
+   "cls": "hunter",
+   "cost": "0",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "cold_snap": {
+   "cast": "0",
+   "cd": "120",
+   "cls": "mage",
+   "cost": "0",
+   "effects": [
+    "clearCooldowns"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "17",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "frost",
+   "specs": null,
+   "target": "false"
+  },
+  "collective_reversal": {
+   "cast": "7",
+   "cd": "0",
+   "cls": "mage",
+   "cost": "250",
+   "effects": [
+    "massResurrectGroup"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "8",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "arcane",
+   "specs": "['arcane']",
+   "target": "false"
+  },
+  "combustion": {
+   "cast": "0",
+   "cd": "120",
+   "cls": "mage",
+   "cost": "100",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "12",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "fire",
+   "specs": "['fire']",
+   "target": "false"
+  },
+  "concussive_shot": {
+   "cast": "0",
+   "cd": "12",
+   "cls": "hunter",
+   "cost": "20",
+   "effects": [
+    "directDamage",
+    "slow"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "7",
+   "min_range": null,
+   "passive": null,
+   "range": "35",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "cone_of_cold": {
+   "cast": "0",
+   "cd": "20",
+   "cls": "mage",
+   "cost": "60",
+   "effects": [
+    "aoeDamage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "frost",
+   "specs": null,
+   "target": "false"
+  },
+  "conflagrate": {
+   "cast": "0",
+   "cd": "18",
+   "cls": "warlock",
+   "cost": "40",
+   "effects": [
+    "destructionConflagrate",
+    "directDamage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "fire",
+   "specs": "['destruction']",
+   "target": "true"
+  },
+  "conjure_food": {
+   "cast": "3",
+   "cd": "0",
+   "cls": "mage",
+   "cost": "45",
+   "effects": [],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [
+    [
+     2,
+     10
+    ],
+    [
+     3,
+     15
+    ],
+    [
+     4,
+     20
+    ]
+   ],
+   "school": "arcane",
+   "specs": null,
+   "target": "false"
+  },
+  "conjure_water": {
+   "cast": "3",
+   "cd": "0",
+   "cls": "mage",
+   "cost": "40",
+   "effects": [],
+   "file": "src/sim/content/classes.ts",
+   "learn": "4",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [
+    [
+     2,
+     8
+    ],
+    [
+     3,
+     12
+    ],
+    [
+     4,
+     16
+    ]
+   ],
+   "school": "arcane",
+   "specs": null,
+   "target": "false"
+  },
+  "consecration": {
+   "cast": "0",
+   "cd": "12",
+   "cls": "paladin",
+   "cost": "35",
+   "effects": [
+    "groundAoE"
+   ],
+   "file": "src/sim/content/paladin_core_abilities.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [
+    [
+     2,
+     11
+    ],
+    [
+     3,
+     16
+    ]
+   ],
+   "school": "holy",
+   "specs": "['protection'",
+   "target": "false"
+  },
+  "corpse_explosion": {
+   "cast": "0",
+   "cd": "8",
+   "cls": "warlock",
+   "cost": "30",
+   "effects": [
+    "aoeDamage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "11",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "shadow",
+   "specs": "['demonology']",
+   "target": "false"
+  },
+  "corruption": {
+   "cast": "2.0",
+   "cd": "0",
+   "cls": "warlock",
+   "cost": "35",
+   "effects": [
+    "dot"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "2",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     12
+    ],
+    [
+     3,
+     18
+    ]
+   ],
+   "school": "shadow",
+   "specs": null,
+   "target": "true"
+  },
+  "counter_shot": {
+   "cast": "0",
+   "cd": "15",
+   "cls": "hunter",
+   "cost": "35",
+   "effects": [
+    "interrupt"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "35",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "counterspell": {
+   "cast": "0",
+   "cd": "24",
+   "cls": "mage",
+   "cost": "45",
+   "effects": [
+    "interrupt"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "4",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "coven": {
+   "cast": "0",
+   "cd": "90",
+   "cls": "warlock",
+   "cost": "120",
+   "effects": [
+    "afflictionCoven"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "17",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "shadow",
+   "specs": "['affliction']",
+   "target": "true"
+  },
+  "crippling_poison": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "rogue",
+   "cost": "35",
+   "effects": [
+    "directDamage",
+    "slow"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "12",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "nature",
+   "specs": null,
+   "target": "true"
+  },
+  "cruel_pact": {
+   "cast": "0",
+   "cd": "20",
+   "cls": "warlock",
+   "cost": "0",
+   "effects": [
+    "afflictionCruelPact"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "9",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "shadow",
+   "specs": "['affliction']",
+   "target": "false"
+  },
+  "crusader_strike": {
+   "cast": "0",
+   "cd": "4",
+   "cls": "paladin",
+   "cost": "30",
+   "effects": [
+    "weaponStrike"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "holy",
+   "specs": null,
+   "target": "true"
+  },
+  "curse_of_agony": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "warlock",
+   "cost": "25",
+   "effects": [
+    "dot"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "8",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     14
+    ],
+    [
+     3,
+     20
+    ]
+   ],
+   "school": "shadow",
+   "specs": null,
+   "target": "true"
+  },
+  "curse_of_exhaustion": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "warlock",
+   "cost": "35",
+   "effects": [
+    "slow"
+   ],
+   "file": "src/sim/content/talent_abilities_v2_b.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "shadow",
+   "specs": null,
+   "target": "true"
+  },
+  "cursed_accomplice": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "warlock",
+   "cost": "40",
+   "effects": [
+    "afflictionAccomplice"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "7",
+   "min_range": null,
+   "passive": null,
+   "range": "40",
+   "ranks": [],
+   "school": "shadow",
+   "specs": "['affliction']",
+   "target": "true"
+  },
+  "dark_pact": {
+   "cast": "0",
+   "cd": "45",
+   "cls": "warlock",
+   "cost": "0",
+   "effects": [
+    "selfAbsorbPctMax",
+    "selfDamagePctCurrent"
+   ],
+   "file": "src/sim/content/talent_abilities_v2_b.ts",
+   "learn": "11",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "shadow",
+   "specs": null,
+   "target": "false"
+  },
+  "dash": {
+   "cast": "0",
+   "cd": "60",
+   "cls": "druid",
+   "cost": "0",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "12",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "dawn_devotion": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "paladin",
+   "cost": "35",
+   "effects": [
+    "buffTarget"
+   ],
+   "file": "src/sim/content/paladin_core_abilities.ts",
+   "learn": "3",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "holy",
+   "specs": null,
+   "target": "false"
+  },
+  "dawnfall": {
+   "cast": "0",
+   "cd": "12",
+   "cls": "paladin",
+   "cost": "35",
+   "effects": [
+    "aoeDamage"
+   ],
+   "file": "src/sim/content/paladin_core_abilities.ts",
+   "learn": "12",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "holy",
+   "specs": "['retribution']",
+   "target": "false"
+  },
+  "dawns_embrace": {
+   "cast": "2.5",
+   "cd": "0",
+   "cls": "paladin",
+   "cost": "90",
+   "effects": [
+    "heal"
+   ],
+   "file": "src/sim/content/paladin_core_abilities.ts",
+   "learn": "13",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "holy",
+   "specs": "['holy']",
+   "target": "true"
+  },
+  "deadly_poison": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "rogue",
+   "cost": "40",
+   "effects": [
+    "imbue"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "14",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "nature",
+   "specs": null,
+   "target": "false"
+  },
+  "death_coil": {
+   "cast": "0",
+   "cd": "120",
+   "cls": "warlock",
+   "cost": "70",
+   "effects": [
+    "directDamage",
+    "incapacitate"
+   ],
+   "file": "src/sim/content/talent_abilities_v2_b.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "20",
+   "ranks": [],
+   "school": "shadow",
+   "specs": null,
+   "target": "true"
+  },
+  "deep_freeze": {
+   "cast": "0",
+   "cd": "30",
+   "cls": "mage",
+   "cost": "60",
+   "effects": [
+    "directDamage",
+    "stun"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "frost",
+   "specs": null,
+   "target": "true"
+  },
+  "deep_wounds": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "warrior",
+   "cost": "0",
+   "effects": [],
+   "file": "src/sim/content/classes.ts",
+   "learn": "9",
+   "min_range": null,
+   "passive": "true",
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": "['arms']",
+   "target": "false"
+  },
+  "defensive_stance": {
+   "cast": "0",
+   "cd": "1",
+   "cls": "warrior",
+   "cost": "0",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": "['arms'",
+   "target": "false"
+  },
+  "defiant_bellow": {
+   "cast": "0",
+   "cd": "60",
+   "cls": "warrior",
+   "cost": "0",
+   "effects": [
+    "aoeTaunt"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "12",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": "['prot']",
+   "target": "false"
+  },
+  "demon_skin": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "warlock",
+   "cost": "20",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "1",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [
+    [
+     2,
+     12
+    ],
+    [
+     3,
+     20
+    ]
+   ],
+   "school": "shadow",
+   "specs": null,
+   "target": "false"
+  },
+  "demoralizing_roar": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "druid",
+   "cost": "10",
+   "effects": [
+    "aoeAttackPower"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [
+    [
+     2,
+     16
+    ]
+   ],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "demoralizing_shout": {
+   "cast": "0",
+   "cd": "45",
+   "cls": "warrior",
+   "cost": "10",
+   "effects": [
+    "aoeAttackPower"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "12",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": "['prot']",
+   "target": "false"
+  },
+  "desperate_prayer": {
+   "cast": "0",
+   "cd": "90",
+   "cls": "priest",
+   "cost": "0",
+   "effects": [
+    "selfHealPctMax"
+   ],
+   "file": "src/sim/content/talent_abilities_v2_a.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "holy",
+   "specs": null,
+   "target": "false"
+  },
+  "deterrence": {
+   "cast": "0",
+   "cd": "300",
+   "cls": "hunter",
+   "cost": "0",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/talent_abilities_v2_a.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "devotion_aura": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "paladin",
+   "cost": "0",
+   "effects": [
+    "buffTarget"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "1",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "holy",
+   "specs": null,
+   "target": "false"
+  },
+  "devotion_ward": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "paladin",
+   "cost": "30",
+   "effects": [
+    "buffTarget"
+   ],
+   "file": "src/sim/content/paladin_core_abilities.ts",
+   "learn": "4",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "holy",
+   "specs": null,
+   "target": "false"
+  },
+  "diabolical_twinstrike": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "warrior",
+   "cost": "0",
+   "effects": [],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": "true",
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": "['fury']",
+   "target": "false"
+  },
+  "die_by_sword": {
+   "cast": "0",
+   "cd": "120",
+   "cls": "warrior",
+   "cost": "0",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "8",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": "['arms']",
+   "target": "false"
+  },
+  "dismiss_pet": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "hunter",
+   "cost": "0",
+   "effects": [
+    "dismissPet"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "nature",
+   "specs": null,
+   "target": "false"
+  },
+  "divine_ascension": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "paladin",
+   "cost": "0",
+   "effects": [
+    "divineAscension"
+   ],
+   "file": "src/sim/content/paladin_core_abilities.ts",
+   "learn": "1",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "holy",
+   "specs": null,
+   "target": "false"
+  },
+  "divine_protection": {
+   "cast": "0",
+   "cd": "30",
+   "cls": "paladin",
+   "cost": "15",
+   "effects": [
+    "absorb"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "6",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "holy",
+   "specs": null,
+   "target": "false"
+  },
+  "dragons_breath": {
+   "cast": "2.4",
+   "cd": "20",
+   "cls": "mage",
+   "cost": "90",
+   "effects": [
+    "empoweredCone"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "14",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "fire",
+   "specs": "['fire']",
+   "target": "false"
+  },
+  "drain_life": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "warlock",
+   "cost": "25",
+   "effects": [
+    "drainTick"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "6",
+   "min_range": null,
+   "passive": null,
+   "range": "20",
+   "ranks": [
+    [
+     2,
+     14
+    ],
+    [
+     3,
+     20
+    ]
+   ],
+   "school": "shadow",
+   "specs": null,
+   "target": "true"
+  },
+  "earth_shock": {
+   "cast": "0",
+   "cd": "6",
+   "cls": "shaman",
+   "cost": "30",
+   "effects": [
+    "directDamage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "2",
+   "min_range": null,
+   "passive": null,
+   "range": "20",
+   "ranks": [
+    [
+     2,
+     10
+    ],
+    [
+     3,
+     16
+    ]
+   ],
+   "school": "nature",
+   "specs": null,
+   "target": "true"
+  },
+  "earthbind": {
+   "cast": "0",
+   "cd": "30",
+   "cls": "shaman",
+   "cost": "45",
+   "effects": [
+    "aoeRoot"
+   ],
+   "file": "src/sim/content/talent_abilities_v2_a.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "nature",
+   "specs": null,
+   "target": "false"
+  },
+  "earthquake": {
+   "cast": "0",
+   "cd": "12",
+   "cls": "shaman",
+   "cost": "80",
+   "effects": [
+    "groundAoE"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "18",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "nature",
+   "specs": "['elemental']",
+   "target": "false"
+  },
+  "elemental_mastery": {
+   "cast": "0",
+   "cd": "90",
+   "cls": "shaman",
+   "cost": "45",
+   "effects": [],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "nature",
+   "specs": null,
+   "target": "false"
+  },
+  "elemental_trance": {
+   "cast": "0",
+   "cd": "120",
+   "cls": "shaman",
+   "cost": "0",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "20",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "nature",
+   "specs": "['enhancement']",
+   "target": "false"
+  },
+  "emboldening_roar": {
+   "cast": "0",
+   "cd": "180",
+   "cls": "warrior",
+   "cost": "0",
+   "effects": [
+    "aoeAllySureCrit"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "16",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": "['fury']",
+   "target": "false"
+  },
+  "enrage": {
+   "cast": "0",
+   "cd": "60",
+   "cls": "druid",
+   "cost": "0",
+   "effects": [
+    "gainResource"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "16",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "enrage_passive": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "warrior",
+   "cost": "0",
+   "effects": [],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": "true",
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": "['fury']",
+   "target": "false"
+  },
+  "entangling_roots": {
+   "cast": "1.5",
+   "cd": "0",
+   "cls": "druid",
+   "cost": "35",
+   "effects": [
+    "dot",
+    "root"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "7",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     16
+    ]
+   ],
+   "school": "nature",
+   "specs": null,
+   "target": "true"
+  },
+  "evasion": {
+   "cast": "0",
+   "cd": "90",
+   "cls": "rogue",
+   "cost": "0",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "6",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "evil_eye": {
+   "cast": "0",
+   "cd": "1",
+   "cls": "warlock",
+   "cost": "15",
+   "effects": [
+    "afflictionEvilEye"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "shadow",
+   "specs": "['affliction']",
+   "target": "true"
+  },
+  "eviscerate": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "rogue",
+   "cost": "35",
+   "effects": [
+    "finisherDamage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "1",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [
+    [
+     2,
+     12
+    ],
+    [
+     3,
+     18
+    ]
+   ],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "evocation": {
+   "cast": "0",
+   "cd": "120",
+   "cls": "mage",
+   "cost": "0",
+   "effects": [
+    "gainResource",
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "arcane",
+   "specs": null,
+   "target": "false"
+  },
+  "execute": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "warrior",
+   "cost": "15",
+   "effects": [
+    "directDamage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "12",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "exorcism": {
+   "cast": "0",
+   "cd": "15",
+   "cls": "paladin",
+   "cost": "55",
+   "effects": [
+    "directDamage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "holy",
+   "specs": null,
+   "target": "true"
+  },
+  "expose_armor": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "rogue",
+   "cost": "25",
+   "effects": [
+    "sunder"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "14",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "faerie_fire": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "druid",
+   "cost": "30",
+   "effects": [
+    "faerieFire"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "18",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "nature",
+   "specs": null,
+   "target": "true"
+  },
+  "faithforged_guard": {
+   "cast": "0",
+   "cd": "60",
+   "cls": "paladin",
+   "cost": "20",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/paladin_core_abilities.ts",
+   "learn": "9",
+   "min_range": null,
+   "note": "transcribed from source line 305 (display name 'Debt of Light', offGcd, selfBuff paladin_debt_of_light value 140 for 8 s); the scan missed it because of a comment inside the record",
+   "passive": null,
+   "range": "0",
+   "ranks": null,
+   "school": "holy",
+   "specs": [
+    "retribution"
+   ],
+   "target": "false"
+  },
+  "faultline": {
+   "cast": "0",
+   "cd": "30",
+   "cls": "warrior",
+   "cost": "15",
+   "effects": [
+    "aoeDamage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "14",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": "['prot']",
+   "target": "false"
+  },
+  "fear": {
+   "cast": "1.5",
+   "cd": "0",
+   "cls": "warlock",
+   "cost": "40",
+   "effects": [
+    "incapacitate"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "20",
+   "ranks": [],
+   "school": "shadow",
+   "specs": null,
+   "target": "true"
+  },
+  "feral_charge": {
+   "cast": "0",
+   "cd": "90",
+   "cls": "druid",
+   "cost": "0",
+   "effects": [
+    "feralCharge"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "ferocious_bite": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "druid",
+   "cost": "35",
+   "effects": [
+    "finisherDamage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "6",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "fieldcraft_reentry": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "hunter",
+   "cost": "0",
+   "effects": [],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": "true",
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": "['survival']",
+   "target": "false"
+  },
+  "final_edict": {
+   "cast": "0",
+   "cd": "8",
+   "cls": "paladin",
+   "cost": "25",
+   "effects": [
+    "weaponStrike"
+   ],
+   "file": "src/sim/content/paladin_core_abilities.ts",
+   "learn": "8",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [
+    [
+     2,
+     13
+    ],
+    [
+     3,
+     17
+    ]
+   ],
+   "school": "physical",
+   "specs": "['retribution']",
+   "target": "true"
+  },
+  "fingers_of_frost": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "mage",
+   "cost": "0",
+   "effects": [],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": "true",
+   "range": "0",
+   "ranks": [],
+   "school": "frost",
+   "specs": "['frost']",
+   "target": "false"
+  },
+  "fire_blast": {
+   "cast": "0",
+   "cd": "30",
+   "cls": "mage",
+   "cost": "40",
+   "effects": [
+    "directDamage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "20",
+   "ranks": [
+    [
+     2,
+     12
+    ],
+    [
+     3,
+     18
+    ]
+   ],
+   "school": "fire",
+   "specs": "['fire']",
+   "target": "true"
+  },
+  "fireball": {
+   "cast": "1.5",
+   "cd": "0",
+   "cls": "mage",
+   "cost": "30",
+   "effects": [
+    "directDamage",
+    "dot"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "1",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     6
+    ],
+    [
+     3,
+     12
+    ],
+    [
+     4,
+     18
+    ]
+   ],
+   "school": "fire",
+   "specs": null,
+   "target": "true"
+  },
+  "fireball_form": {
+   "cast": "2",
+   "cd": "10",
+   "cls": "mage",
+   "cost": "50",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "11",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "fire",
+   "specs": null,
+   "target": "false"
+  },
+  "flame_shock": {
+   "cast": "0",
+   "cd": "6",
+   "cls": "shaman",
+   "cost": "35",
+   "effects": [
+    "directDamage",
+    "dot"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "4",
+   "min_range": null,
+   "passive": null,
+   "range": "20",
+   "ranks": [
+    [
+     2,
+     16
+    ]
+   ],
+   "school": "fire",
+   "specs": null,
+   "target": "true"
+  },
+  "flamestrike": {
+   "cast": "2",
+   "cd": "0",
+   "cls": "mage",
+   "cost": "80",
+   "effects": [
+    "aoeDamage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "12",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "fire",
+   "specs": "['fire']",
+   "target": "false"
+  },
+  "flametongue_weapon": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "shaman",
+   "cost": "25",
+   "effects": [
+    "imbue"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [
+    [
+     2,
+     18
+    ]
+   ],
+   "school": "fire",
+   "specs": "['elemental']",
+   "target": "false"
+  },
+  "flash_heal": {
+   "cast": "1.5",
+   "cd": "0",
+   "cls": "priest",
+   "cost": "75",
+   "effects": [
+    "heal"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "20",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "holy",
+   "specs": null,
+   "target": "true"
+  },
+  "flash_of_light": {
+   "cast": "1.5",
+   "cd": "0",
+   "cls": "paladin",
+   "cost": "35",
+   "effects": [
+    "heal"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "12",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     20
+    ]
+   ],
+   "school": "holy",
+   "specs": null,
+   "target": "true"
+  },
+  "flurry": {
+   "cast": "1.5",
+   "cd": "10",
+   "cls": "mage",
+   "cost": "30",
+   "effects": [
+    "directDamage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "8",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     16
+    ]
+   ],
+   "school": "frost",
+   "specs": "['frost']",
+   "target": "true"
+  },
+  "flurry_of_knives": {
+   "cast": "0",
+   "cd": "45",
+   "cls": "rogue",
+   "cost": "35",
+   "effects": [
+    "aoeDamage"
+   ],
+   "file": "src/sim/content/talent_abilities_v2_a.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "frenzied_regeneration": {
+   "cast": "0",
+   "cd": "60",
+   "cls": "druid",
+   "cost": "10",
+   "effects": [
+    "hot"
+   ],
+   "file": "src/sim/content/talent_abilities_v2_b.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "nature",
+   "specs": "['feral']",
+   "target": "false"
+  },
+  "frost_armor": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "mage",
+   "cost": "20",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "1",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [
+    [
+     2,
+     10
+    ],
+    [
+     3,
+     18
+    ]
+   ],
+   "school": "frost",
+   "specs": null,
+   "target": "false"
+  },
+  "frost_nova": {
+   "cast": "0",
+   "cd": "22",
+   "cls": "mage",
+   "cost": "35",
+   "effects": [
+    "aoeRoot"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "3",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [
+    [
+     2,
+     16
+    ]
+   ],
+   "school": "frost",
+   "specs": null,
+   "target": "false"
+  },
+  "frost_shock": {
+   "cast": "0",
+   "cd": "6",
+   "cls": "shaman",
+   "cost": "50",
+   "effects": [
+    "directDamage",
+    "slow"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "6",
+   "min_range": null,
+   "passive": null,
+   "range": "20",
+   "ranks": [],
+   "school": "frost",
+   "specs": null,
+   "target": "true"
+  },
+  "frost_trap": {
+   "cast": "0",
+   "cd": "30",
+   "cls": "hunter",
+   "cost": "35",
+   "effects": [
+    "aoeRoot"
+   ],
+   "file": "src/sim/content/talent_abilities_v2_a.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "frost",
+   "specs": null,
+   "target": "false"
+  },
+  "frostbolt": {
+   "cast": "1.5",
+   "cd": "0",
+   "cls": "mage",
+   "cost": "25",
+   "effects": [
+    "directDamage",
+    "slow"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "2",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     8
+    ],
+    [
+     3,
+     14
+    ],
+    [
+     4,
+     20
+    ]
+   ],
+   "school": "frost",
+   "specs": null,
+   "target": "true"
+  },
+  "frostbrand_weapon": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "shaman",
+   "cost": "25",
+   "effects": [
+    "imbue"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [
+    [
+     2,
+     20
+    ]
+   ],
+   "school": "frost",
+   "specs": null,
+   "target": "false"
+  },
+  "frostjaw_trap": {
+   "cast": "0",
+   "cd": "30",
+   "cls": "hunter",
+   "cost": "0",
+   "effects": [
+    "frostjawTrap"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "11",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "frost",
+   "specs": null,
+   "target": "false"
+  },
+  "frozen_orb": {
+   "cast": "0",
+   "cd": "45",
+   "cls": "mage",
+   "cost": "50",
+   "effects": [
+    "frozenOrb"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "15",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [
+    [
+     2,
+     18
+    ]
+   ],
+   "school": "frost",
+   "specs": "['frost']",
+   "target": "false"
+  },
+  "funeral_harvest": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "warlock",
+   "cost": "0",
+   "effects": [],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": "true",
+   "range": "0",
+   "ranks": [],
+   "school": "shadow",
+   "specs": "['demonology']",
+   "target": "false"
+  },
+  "furious_mending": {
+   "cast": "0",
+   "cd": "120",
+   "cls": "warrior",
+   "cost": "0",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": "['fury']",
+   "target": "false"
+  },
+  "galeheart_weapon": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "shaman",
+   "cost": "25",
+   "effects": [
+    "imbue"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "nature",
+   "specs": "['enhancement']",
+   "target": "false"
+  },
+  "garrote": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "rogue",
+   "cost": "50",
+   "effects": [
+    "directDamage",
+    "dot"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "1",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [
+    [
+     2,
+     14
+    ]
+   ],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "ghost_wolf": {
+   "cast": "2.0",
+   "cd": "0",
+   "cls": "shaman",
+   "cost": "35",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "nature",
+   "specs": null,
+   "target": "false"
+  },
+  "ghostly_strike": {
+   "cast": "0",
+   "cd": "20",
+   "cls": "rogue",
+   "cost": "40",
+   "effects": [
+    "selfBuff",
+    "weaponStrike"
+   ],
+   "file": "src/sim/content/talent_abilities_v2_a.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "glacial_front": {
+   "cast": "2.4",
+   "cd": "12",
+   "cls": "mage",
+   "cost": "80",
+   "effects": [
+    "empoweredCone"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "17",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "frost",
+   "specs": "['frost']",
+   "target": "false"
+  },
+  "glacial_spike": {
+   "cast": "2.7",
+   "cd": "0",
+   "cls": "mage",
+   "cost": "50",
+   "effects": [
+    "directDamage",
+    "root"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "16",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     20
+    ]
+   ],
+   "school": "frost",
+   "specs": "['frost']",
+   "target": "true"
+  },
+  "gouge": {
+   "cast": "0",
+   "cd": "10",
+   "cls": "rogue",
+   "cost": "45",
+   "effects": [
+    "directDamage",
+    "incapacitate"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [
+    [
+     2,
+     14
+    ]
+   ],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "grace_devotion": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "paladin",
+   "cost": "35",
+   "effects": [
+    "buffTarget"
+   ],
+   "file": "src/sim/content/paladin_core_abilities.ts",
+   "learn": "8",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "holy",
+   "specs": null,
+   "target": "false"
+  },
+  "greater_invisibility": {
+   "cast": "0",
+   "cd": "120",
+   "cls": "mage",
+   "cost": "60",
+   "effects": [
+    "greaterInvisibility"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "8",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "arcane",
+   "specs": null,
+   "target": "false"
+  },
+  "grove_awakening": {
+   "cast": "7",
+   "cd": "0",
+   "cls": "druid",
+   "cost": "250",
+   "effects": [
+    "massResurrectGroup"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "20",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "nature",
+   "specs": "['restoration']",
+   "target": "false"
+  },
+  "growl": {
+   "cast": "0",
+   "cd": "10",
+   "cls": "druid",
+   "cost": "0",
+   "effects": [
+    "taunt"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "8",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "guardian_covenant": {
+   "cast": "0",
+   "cd": "45",
+   "cls": "paladin",
+   "cost": "35",
+   "effects": [
+    "buffTarget",
+    "selfBuff"
+   ],
+   "file": "src/sim/content/paladin_core_abilities.ts",
+   "learn": "12",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "holy",
+   "specs": "['retribution']",
+   "target": "true"
+  },
+  "hammer_of_grace": {
+   "cast": "0",
+   "cd": "7",
+   "cls": "paladin",
+   "cost": "0",
+   "effects": [
+    "directDamage"
+   ],
+   "file": "src/sim/content/paladin_core_abilities.ts",
+   "learn": "1",
+   "min_range": null,
+   "passive": null,
+   "range": "20",
+   "ranks": [
+    [
+     2,
+     8
+    ],
+    [
+     3,
+     14
+    ]
+   ],
+   "school": "holy",
+   "specs": null,
+   "target": "true"
+  },
+  "hammer_of_justice": {
+   "cast": "0",
+   "cd": "60",
+   "cls": "paladin",
+   "cost": "30",
+   "effects": [
+    "stun"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "2",
+   "min_range": null,
+   "passive": null,
+   "range": "10",
+   "ranks": [],
+   "school": "holy",
+   "specs": null,
+   "target": "true"
+  },
+  "hammer_of_wrath": {
+   "cast": "0",
+   "cd": "6",
+   "cls": "paladin",
+   "cost": "0",
+   "effects": [
+    "directDamage"
+   ],
+   "file": "src/sim/content/paladin_core_abilities.ts",
+   "learn": "14",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "holy",
+   "specs": "['retribution']",
+   "target": "true"
+  },
+  "hamstring": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "warrior",
+   "cost": "10",
+   "effects": [
+    "directDamage",
+    "slow"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "4",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [
+    [
+     2,
+     16
+    ]
+   ],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "hamstring_bite": {
+   "cast": "0",
+   "cd": "20",
+   "cls": "druid",
+   "cost": "30",
+   "effects": [
+    "finisherStun"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "12",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "heal": {
+   "cast": "2.5",
+   "cd": "0",
+   "cls": "priest",
+   "cost": "95",
+   "effects": [
+    "heal"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "14",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     20
+    ]
+   ],
+   "school": "holy",
+   "specs": null,
+   "target": "true"
+  },
+  "healing_stream": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "shaman",
+   "cost": "45",
+   "effects": [
+    "hot"
+   ],
+   "file": "src/sim/content/talent_abilities_v2_a.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "nature",
+   "specs": null,
+   "target": "true"
+  },
+  "healing_touch": {
+   "cast": "2.5",
+   "cd": "0",
+   "cls": "druid",
+   "cost": "25",
+   "effects": [
+    "heal"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "1",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     8
+    ],
+    [
+     3,
+     14
+    ],
+    [
+     4,
+     20
+    ]
+   ],
+   "school": "nature",
+   "specs": null,
+   "target": "true"
+  },
+  "healing_wave": {
+   "cast": "1.5",
+   "cd": "0",
+   "cls": "shaman",
+   "cost": "MENDING_WATERS_MANA_COST",
+   "effects": [
+    "heal"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "1",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     6
+    ],
+    [
+     3,
+     12
+    ],
+    [
+     4,
+     18
+    ],
+    [
+     5,
+     20
+    ]
+   ],
+   "school": "nature",
+   "specs": null,
+   "target": "true"
+  },
+  "hemorrhage": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "rogue",
+   "cost": "35",
+   "effects": [
+    "applyDebuff",
+    "dot",
+    "weaponStrike"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "heroic_leap": {
+   "cast": "0",
+   "cd": "30",
+   "cls": "warrior",
+   "cost": "0",
+   "effects": [
+    "repositionToAim"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "6",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "heroic_strike": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "warrior",
+   "cost": "15",
+   "effects": [
+    "weaponDamage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "1",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [
+    [
+     2,
+     8
+    ],
+    [
+     3,
+     14
+    ],
+    [
+     4,
+     20
+    ]
+   ],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "hex_of_violence": {
+   "cast": "0",
+   "cd": "15",
+   "cls": "warlock",
+   "cost": "55",
+   "effects": [
+    "afflictionViolence"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "12",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "shadow",
+   "specs": "['affliction']",
+   "target": "true"
+  },
+  "hibernate": {
+   "cast": "1.5",
+   "cd": "0",
+   "cls": "druid",
+   "cost": "50",
+   "effects": [
+    "incapacitate"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "18",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "nature",
+   "specs": null,
+   "target": "true"
+  },
+  "holy_light": {
+   "cast": "1.5",
+   "cd": "0",
+   "cls": "paladin",
+   "cost": "25",
+   "effects": [
+    "heal"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "1",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     8
+    ],
+    [
+     3,
+     14
+    ],
+    [
+     4,
+     20
+    ]
+   ],
+   "school": "holy",
+   "specs": null,
+   "target": "true"
+  },
+  "holy_nova": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "priest",
+   "cost": "70",
+   "effects": [
+    "aoeDamage",
+    "aoeHeal"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [
+    [
+     2,
+     20
+    ]
+   ],
+   "school": "holy",
+   "specs": "['holy']",
+   "target": "false"
+  },
+  "holy_shield": {
+   "cast": "0",
+   "cd": "8",
+   "cls": "paladin",
+   "cost": "0",
+   "effects": [
+    "absorb",
+    "selfBuff",
+    "threatPulse"
+   ],
+   "file": "src/sim/content/paladin_core_abilities.ts",
+   "learn": "13",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "holy",
+   "specs": "['protection']",
+   "target": "false"
+  },
+  "holy_shock": {
+   "cast": "0",
+   "cd": "8",
+   "cls": "paladin",
+   "cost": "55",
+   "effects": [
+    "directDamage",
+    "heal"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     20
+    ]
+   ],
+   "school": "holy",
+   "specs": null,
+   "target": "true"
+  },
+  "holy_taunt": {
+   "cast": "0",
+   "cd": "10",
+   "cls": "paladin",
+   "cost": "0",
+   "effects": [
+    "taunt"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "holy",
+   "specs": "['protection']",
+   "target": "true"
+  },
+  "hot_streak": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "mage",
+   "cost": "0",
+   "effects": [],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": "true",
+   "range": "0",
+   "ranks": [],
+   "school": "fire",
+   "specs": "['fire']",
+   "target": "false"
+  },
+  "hour_of_judgment": {
+   "cast": "0",
+   "cd": "90",
+   "cls": "warlock",
+   "cost": "0",
+   "effects": [
+    "afflictionJudgment"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "20",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "shadow",
+   "specs": "['affliction']",
+   "target": "false"
+  },
+  "howl_of_terror": {
+   "cast": "0",
+   "cd": "40",
+   "cls": "warlock",
+   "cost": "55",
+   "effects": [
+    "aoeFear"
+   ],
+   "file": "src/sim/content/talent_abilities_v2_b.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "shadow",
+   "specs": null,
+   "target": "false"
+  },
+  "hunting_momentum": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "hunter",
+   "cost": "0",
+   "effects": [],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": "true",
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": "['survival']",
+   "target": "false"
+  },
+  "hurricane": {
+   "cast": "0",
+   "cd": "12",
+   "cls": "druid",
+   "cost": "90",
+   "effects": [
+    "aoeDamage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "18",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "nature",
+   "specs": null,
+   "target": "false"
+  },
+  "hushbrand": {
+   "cast": "0",
+   "cd": "15",
+   "cls": "paladin",
+   "cost": "0",
+   "effects": [
+    "interrupt"
+   ],
+   "file": "src/sim/content/paladin_core_abilities.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "5",
+   "ranks": [],
+   "school": "physical",
+   "specs": "['protection'",
+   "target": "true"
+  },
+  "ice_barrier": {
+   "cast": "0",
+   "cd": "30",
+   "cls": "mage",
+   "cost": "45",
+   "effects": [
+    "absorb"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [
+    [
+     2,
+     12
+    ],
+    [
+     3,
+     18
+    ]
+   ],
+   "school": "frost",
+   "specs": "['frost']",
+   "target": "false"
+  },
+  "ice_block": {
+   "cast": "0",
+   "cd": "240",
+   "cls": "mage",
+   "cost": "15",
+   "effects": [
+    "cleanseSelf",
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "12",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "frost",
+   "specs": null,
+   "target": "false"
+  },
+  "ice_floes": {
+   "cast": "0",
+   "cd": "25",
+   "cls": "mage",
+   "cost": "0",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "frost",
+   "specs": null,
+   "target": "false"
+  },
+  "ice_lance": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "mage",
+   "cost": "10",
+   "effects": [
+    "directDamage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     12
+    ],
+    [
+     3,
+     18
+    ]
+   ],
+   "school": "frost",
+   "specs": "['frost']",
+   "target": "true"
+  },
+  "icy_veins": {
+   "cast": "0",
+   "cd": "180",
+   "cls": "mage",
+   "cost": "0",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "12",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "frost",
+   "specs": "['frost']",
+   "target": "false"
+  },
+  "ignition": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "mage",
+   "cost": "0",
+   "effects": [],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": "true",
+   "range": "0",
+   "ranks": [],
+   "school": "fire",
+   "specs": "['fire']",
+   "target": "false"
+  },
+  "immolate": {
+   "cast": "2.0",
+   "cd": "0",
+   "cls": "warlock",
+   "cost": "25",
+   "effects": [
+    "directDamage",
+    "dot"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     10
+    ],
+    [
+     3,
+     16
+    ]
+   ],
+   "school": "fire",
+   "specs": "['destruction']",
+   "target": "true"
+  },
+  "inner_focus": {
+   "cast": "0",
+   "cd": "90",
+   "cls": "priest",
+   "cost": "0",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/talent_abilities_v2_a.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "holy",
+   "specs": null,
+   "target": "false"
+  },
+  "innervate": {
+   "cast": "0",
+   "cd": "90",
+   "cls": "druid",
+   "cost": "0",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/talent_abilities_v2_b.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "nature",
+   "specs": null,
+   "target": "false"
+  },
+  "insect_swarm": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "druid",
+   "cost": "45",
+   "effects": [
+    "dot"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "20",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "nature",
+   "specs": null,
+   "target": "true"
+  },
+  "instant_poison": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "rogue",
+   "cost": "40",
+   "effects": [
+    "imbue"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "14",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "nature",
+   "specs": null,
+   "target": "false"
+  },
+  "intervene": {
+   "cast": "0",
+   "cd": "30",
+   "cls": "warrior",
+   "cost": "0",
+   "effects": [
+    "absorb",
+    "charge"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": "8",
+   "passive": null,
+   "range": "25",
+   "ranks": [
+    [
+     2,
+     11
+    ],
+    [
+     3,
+     17
+    ]
+   ],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "intimidating_shout": {
+   "cast": "0",
+   "cd": "120",
+   "cls": "warrior",
+   "cost": "0",
+   "effects": [
+    "aoeFear"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "14",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "iron_resolve": {
+   "cast": "0",
+   "cd": "15",
+   "cls": "warrior",
+   "cost": "20",
+   "effects": [
+    "absorb"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "14",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": "['prot']",
+   "target": "false"
+  },
+  "kick": {
+   "cast": "0",
+   "cd": "10",
+   "cls": "rogue",
+   "cost": "25",
+   "effects": [
+    "interrupt"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "kidney_shot": {
+   "cast": "0",
+   "cd": "20",
+   "cls": "rogue",
+   "cost": "25",
+   "effects": [
+    "finisherStun"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "7",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "knockout_blow": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "rogue",
+   "cost": "30",
+   "effects": [
+    "finisherDamage",
+    "gainResource"
+   ],
+   "file": "src/sim/content/talent_abilities_v2_a.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "lava_burst": {
+   "cast": "2.0",
+   "cd": "8",
+   "cls": "shaman",
+   "cost": "45",
+   "effects": [
+    "directDamage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "12",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     20
+    ]
+   ],
+   "school": "fire",
+   "specs": "['elemental']",
+   "target": "true"
+  },
+  "lay_on_hands": {
+   "cast": "0",
+   "cd": "600",
+   "cls": "paladin",
+   "cost": "0",
+   "effects": [
+    "heal"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "8",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "holy",
+   "specs": null,
+   "target": "true"
+  },
+  "lesser_heal": {
+   "cast": "2.0",
+   "cd": "0",
+   "cls": "priest",
+   "cost": "30",
+   "effects": [
+    "heal"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "1",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     6
+    ],
+    [
+     3,
+     12
+    ],
+    [
+     4,
+     20
+    ]
+   ],
+   "school": "holy",
+   "specs": null,
+   "target": "true"
+  },
+  "life_covenant": {
+   "cast": "0",
+   "cd": "90",
+   "cls": "paladin",
+   "cost": "40",
+   "effects": [
+    "buffTarget"
+   ],
+   "file": "src/sim/content/paladin_core_abilities.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "holy",
+   "specs": "['holy']",
+   "target": "true"
+  },
+  "life_tap": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "warlock",
+   "cost": "0",
+   "effects": [
+    "lifeTap"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "4",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [
+    [
+     2,
+     14
+    ],
+    [
+     3,
+     20
+    ]
+   ],
+   "school": "shadow",
+   "specs": null,
+   "target": "false"
+  },
+  "lifespring_weapon": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "shaman",
+   "cost": "25",
+   "effects": [
+    "imbue"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "nature",
+   "specs": "['restoration']",
+   "target": "false"
+  },
+  "lightning_bolt": {
+   "cast": "1.5",
+   "cd": "0",
+   "cls": "shaman",
+   "cost": "15",
+   "effects": [
+    "directDamage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "1",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     8
+    ],
+    [
+     3,
+     14
+    ],
+    [
+     4,
+     20
+    ]
+   ],
+   "school": "nature",
+   "specs": null,
+   "target": "true"
+  },
+  "lightning_overload": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "shaman",
+   "cost": "0",
+   "effects": [],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": "true",
+   "range": "0",
+   "ranks": [],
+   "school": "nature",
+   "specs": "['elemental']",
+   "target": "false"
+  },
+  "lightning_shield": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "shaman",
+   "cost": "25",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "3",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [
+    [
+     2,
+     12
+    ],
+    [
+     3,
+     18
+    ]
+   ],
+   "school": "nature",
+   "specs": null,
+   "target": "false"
+  },
+  "litany_of_guilt": {
+   "cast": "0",
+   "cd": "20",
+   "cls": "warlock",
+   "cost": "35",
+   "effects": [
+    "afflictionLitany"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "8",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     11
+    ],
+    [
+     3,
+     20
+    ]
+   ],
+   "school": "shadow",
+   "specs": "['affliction']",
+   "target": "true"
+  },
+  "lunge": {
+   "cast": "0",
+   "cd": "12",
+   "cls": "druid",
+   "cost": "40",
+   "effects": [
+    "charge"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "7",
+   "min_range": "0",
+   "passive": null,
+   "range": "25",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "maledict_gaze": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "warlock",
+   "cost": "0",
+   "effects": [],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": "true",
+   "range": "30",
+   "ranks": [],
+   "school": "shadow",
+   "specs": "['affliction']",
+   "target": "false"
+  },
+  "mark_of_the_wild": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "druid",
+   "cost": "20",
+   "effects": [
+    "buffTarget"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "1",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "nature",
+   "specs": null,
+   "target": "true"
+  },
+  "marrowbreak": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "druid",
+   "cost": "15",
+   "effects": [
+    "directDamage",
+    "druidMarrowbreakGuard"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": "['feral']",
+   "target": "true"
+  },
+  "martyrs_aegis": {
+   "cast": "0",
+   "cd": "120",
+   "cls": "priest",
+   "cost": "80",
+   "effects": [
+    "buffTarget"
+   ],
+   "file": "src/sim/content/priest.ts",
+   "learn": "17",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "holy",
+   "specs": null,
+   "target": "true"
+  },
+  "mass_barrier": {
+   "cast": "0",
+   "cd": "90",
+   "cls": "mage",
+   "cost": "150",
+   "effects": [
+    "aoeAllyAbsorb"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "17",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "frost",
+   "specs": null,
+   "target": "false"
+  },
+  "maul": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "druid",
+   "cost": "15",
+   "effects": [
+    "weaponDamage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [
+    [
+     2,
+     16
+    ]
+   ],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "measured_fury": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "warrior",
+   "cost": "0",
+   "effects": [],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": "true",
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": "['arms']",
+   "target": "false"
+  },
+  "measured_shot": {
+   "cast": "1.5",
+   "cd": "0",
+   "cls": "hunter",
+   "cost": "0",
+   "effects": [
+    "directDamage",
+    "gainResource"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "35",
+   "ranks": [],
+   "school": "physical",
+   "specs": "['marksmanship']",
+   "target": "true"
+  },
+  "melting_acid": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "rogue",
+   "cost": "40",
+   "effects": [
+    "imbue"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "16",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "nature",
+   "specs": null,
+   "target": "false"
+  },
+  "mend_pet": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "hunter",
+   "cost": "45",
+   "effects": [
+    "hot"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "nature",
+   "specs": null,
+   "target": "true"
+  },
+  "mercy_lance": {
+   "cast": "1.75",
+   "cd": "0",
+   "cls": "paladin",
+   "cost": "20",
+   "effects": [
+    "directDamage"
+   ],
+   "file": "src/sim/content/paladin_core_abilities.ts",
+   "learn": "8",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "holy",
+   "specs": "['holy']",
+   "target": "true"
+  },
+  "metamorphosis": {
+   "cast": "0",
+   "cd": "180",
+   "cls": "warlock",
+   "cost": "0",
+   "effects": [
+    "empowerUndeadArmy",
+    "gainSoulFragments",
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "shadow",
+   "specs": "['demonology']",
+   "target": "false"
+  },
+  "meteor": {
+   "cast": "0",
+   "cd": "45",
+   "cls": "mage",
+   "cost": "120",
+   "effects": [
+    "groundAoE"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "16",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "fire",
+   "specs": "['fire']",
+   "target": "false"
+  },
+  "mind_blast": {
+   "cast": "1.5",
+   "cd": "8",
+   "cls": "priest",
+   "cost": "50",
+   "effects": [
+    "directDamage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "3",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     14
+    ],
+    [
+     3,
+     20
+    ]
+   ],
+   "school": "shadow",
+   "specs": null,
+   "target": "true"
+  },
+  "mind_flay": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "priest",
+   "cost": "45",
+   "effects": [
+    "drainTick"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "14",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "shadow",
+   "specs": null,
+   "target": "true"
+  },
+  "mind_sear": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "priest",
+   "cost": "95",
+   "effects": [
+    "aoeDamage"
+   ],
+   "file": "src/sim/content/talent_abilities_v2_a.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "shadow",
+   "specs": null,
+   "target": "false"
+  },
+  "mongoose_bite": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "hunter",
+   "cost": "30",
+   "effects": [
+    "weaponStrike"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [
+    [
+     2,
+     16
+    ]
+   ],
+   "school": "physical",
+   "specs": "['survival']",
+   "target": "true"
+  },
+  "moonfire": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "druid",
+   "cost": "25",
+   "effects": [
+    "directDamage",
+    "dot"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "2",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     10
+    ],
+    [
+     3,
+     16
+    ]
+   ],
+   "school": "arcane",
+   "specs": null,
+   "target": "true"
+  },
+  "moonkin_form": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "druid",
+   "cost": "55",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "arcane",
+   "specs": null,
+   "target": "false"
+  },
+  "moonlash": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "druid",
+   "cost": "80",
+   "effects": [
+    "directDamage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "arcane",
+   "specs": "['balance']",
+   "target": "true"
+  },
+  "moonseed": {
+   "cast": "0",
+   "cd": "8",
+   "cls": "druid",
+   "cost": "35",
+   "effects": [
+    "directDamage",
+    "extendDot"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "arcane",
+   "specs": "['balance']",
+   "target": "true"
+  },
+  "mortal_strike": {
+   "cast": "0",
+   "cd": "6",
+   "cls": "warrior",
+   "cost": "30",
+   "effects": [
+    "buffTarget",
+    "dot",
+    "weaponStrike"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "multi_shot": {
+   "cast": "0",
+   "cd": "8",
+   "cls": "hunter",
+   "cost": "55",
+   "effects": [
+    "aoeDamage"
+   ],
+   "file": "src/sim/content/talent_abilities_v2_a.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "35",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "natures_boon": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "druid",
+   "cost": "0",
+   "effects": [],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": "true",
+   "range": "0",
+   "ranks": [],
+   "school": "nature",
+   "specs": "['feral'",
+   "target": "false"
+  },
+  "needle_of_fate": {
+   "cast": "1.5",
+   "cd": "0",
+   "cls": "warlock",
+   "cost": "25",
+   "effects": [
+    "afflictionNeedle",
+    "directDamage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     12
+    ],
+    [
+     3,
+     20
+    ]
+   ],
+   "school": "shadow",
+   "specs": "['affliction']",
+   "target": "true"
+  },
+  "nightshade_coating": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "rogue",
+   "cost": "40",
+   "effects": [
+    "imbue"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "18",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "nature",
+   "specs": null,
+   "target": "false"
+  },
+  "oath_chain": {
+   "cast": "0",
+   "cd": "18",
+   "cls": "paladin",
+   "cost": "0",
+   "effects": [
+    "pullTarget"
+   ],
+   "file": "src/sim/content/paladin_core_abilities.ts",
+   "learn": "14",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "holy",
+   "specs": "['protection']",
+   "target": "true"
+  },
+  "ossuary_mark": {
+   "cast": "0",
+   "cd": "20",
+   "cls": "warlock",
+   "cost": "30",
+   "effects": [
+    "necromancyOssuaryMark"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "12",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "shadow",
+   "specs": "['demonology']",
+   "target": "true"
+  },
+  "overbloom": {
+   "cast": "0",
+   "cd": "8",
+   "cls": "druid",
+   "cost": "55",
+   "effects": [
+    "druidOverbloom"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "nature",
+   "specs": "['restoration']",
+   "target": "true"
+  },
+  "overload": {
+   "cast": "0",
+   "cd": "30",
+   "cls": "mage",
+   "cost": "0",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "14",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "arcane",
+   "specs": null,
+   "target": "false"
+  },
+  "overpower": {
+   "cast": "0",
+   "cd": "5",
+   "cls": "warrior",
+   "cost": "15",
+   "effects": [
+    "selfBuff",
+    "weaponStrike"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "2",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [
+    [
+     2,
+     16
+    ]
+   ],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "pack_command": {
+   "cast": "0",
+   "cd": "4",
+   "cls": "hunter",
+   "cost": "0",
+   "effects": [
+    "packCommand"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "35",
+   "ranks": [],
+   "school": "physical",
+   "specs": "['beast_mastery']",
+   "target": "true"
+  },
+  "pack_rally": {
+   "cast": "0",
+   "cd": "90",
+   "cls": "hunter",
+   "cost": "20",
+   "effects": [
+    "hunterPackRally",
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "17",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "nature",
+   "specs": null,
+   "target": "false"
+  },
+  "perfect_moment": {
+   "cast": "0",
+   "cd": "120",
+   "cls": "mage",
+   "cost": "0",
+   "effects": [
+    "perfectMoment"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "arcane",
+   "specs": "['arcane']",
+   "target": "false"
+  },
+  "phosphor_flask": {
+   "cast": "0",
+   "cd": "10",
+   "cls": "hunter",
+   "cost": "60",
+   "effects": [
+    "groundAoE"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "11",
+   "min_range": null,
+   "passive": null,
+   "range": "35",
+   "ranks": [],
+   "school": "fire",
+   "specs": "['survival']",
+   "target": "false"
+  },
+  "piercing_howl": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "warrior",
+   "cost": "10",
+   "effects": [
+    "aoeSlow"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "11",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "play_dead": {
+   "cast": "0",
+   "cd": "30",
+   "cls": "hunter",
+   "cost": "0",
+   "effects": [
+    "hunterPlayDead"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "polymorph": {
+   "cast": "1.5",
+   "cd": "0",
+   "cls": "mage",
+   "cost": "50",
+   "effects": [
+    "polymorph"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "6",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     18
+    ]
+   ],
+   "school": "arcane",
+   "specs": null,
+   "target": "true"
+  },
+  "possess_evil_eye": {
+   "cast": "0",
+   "cd": "45",
+   "cls": "warlock",
+   "cost": "75",
+   "effects": [
+    "afflictionPossession"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "13",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "shadow",
+   "specs": "['affliction']",
+   "target": "false"
+  },
+  "pounce": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "druid",
+   "cost": "50",
+   "effects": [
+    "stun"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "7",
+   "min_range": "0",
+   "passive": null,
+   "range": "25",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "power_echo": {
+   "cast": "0",
+   "cd": "30",
+   "cls": "mage",
+   "cost": "0",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "14",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "arcane",
+   "specs": null,
+   "target": "false"
+  },
+  "power_infusion": {
+   "cast": "0",
+   "cd": "120",
+   "cls": "priest",
+   "cost": "55",
+   "effects": [
+    "buffTarget"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "holy",
+   "specs": null,
+   "target": "true"
+  },
+  "power_word_fortitude": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "priest",
+   "cost": "30",
+   "effects": [
+    "buffTarget"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "1",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "holy",
+   "specs": null,
+   "target": "true"
+  },
+  "power_word_shield": {
+   "cast": "0",
+   "cd": "6",
+   "cls": "priest",
+   "cost": "45",
+   "effects": [
+    "absorb"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "4",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     12
+    ],
+    [
+     3,
+     18
+    ],
+    [
+     4,
+     20
+    ]
+   ],
+   "school": "holy",
+   "specs": null,
+   "target": "true"
+  },
+  "prayer_of_healing": {
+   "cast": "3",
+   "cd": "12",
+   "cls": "priest",
+   "cost": "130",
+   "effects": [
+    "aoeHeal"
+   ],
+   "file": "src/sim/content/talent_abilities_v2_a.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [
+    [
+     2,
+     20
+    ]
+   ],
+   "school": "holy",
+   "specs": "['holy']",
+   "target": "false"
+  },
+  "prayer_of_returning": {
+   "cast": "7",
+   "cd": "0",
+   "cls": "priest",
+   "cost": "250",
+   "effects": [
+    "massResurrectGroup"
+   ],
+   "file": "src/sim/content/priest.ts",
+   "learn": "20",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "holy",
+   "specs": "['holy'",
+   "target": "false"
+  },
+  "preparation": {
+   "cast": "0",
+   "cd": "300",
+   "cls": "rogue",
+   "cost": "0",
+   "effects": [
+    "clearCooldowns"
+   ],
+   "file": "src/sim/content/talent_abilities_v2_a.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "presence_of_mind": {
+   "cast": "0",
+   "cd": "60",
+   "cls": "mage",
+   "cost": "0",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "arcane",
+   "specs": null,
+   "target": "false"
+  },
+  "primal_exaltation": {
+   "cast": "0",
+   "cd": "120",
+   "cls": "shaman",
+   "cost": "0",
+   "effects": [],
+   "file": "src/sim/content/talent_abilities_v2_a.ts",
+   "learn": "17",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "nature",
+   "specs": null,
+   "target": "false"
+  },
+  "primal_reflexes": {
+   "cast": "0",
+   "cd": "60",
+   "cls": "druid",
+   "cost": "0",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "20",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "nature",
+   "specs": null,
+   "target": "false"
+  },
+  "prowl": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "druid",
+   "cost": "0",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "4",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "psychic_scream": {
+   "cast": "0",
+   "cd": "30",
+   "cls": "priest",
+   "cost": "45",
+   "effects": [
+    "aoeFear"
+   ],
+   "file": "src/sim/content/talent_abilities_v2_a.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "shadow",
+   "specs": null,
+   "target": "false"
+  },
+  "pummel": {
+   "cast": "0",
+   "cd": "10",
+   "cls": "warrior",
+   "cost": "0",
+   "effects": [
+    "interrupt"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "8",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "pyroblast": {
+   "cast": "6.0",
+   "cd": "0",
+   "cls": "mage",
+   "cost": "125",
+   "effects": [
+    "directDamage",
+    "dot"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "fire",
+   "specs": "['fire']",
+   "target": "true"
+  },
+  "radiant_chorus": {
+   "cast": "2",
+   "cd": "12",
+   "cls": "paladin",
+   "cost": "60",
+   "effects": [
+    "aoeHeal"
+   ],
+   "file": "src/sim/content/paladin_core_abilities.ts",
+   "learn": "14",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "holy",
+   "specs": "['holy']",
+   "target": "false"
+  },
+  "radiant_devotion": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "paladin",
+   "cost": "35",
+   "effects": [
+    "buffTarget"
+   ],
+   "file": "src/sim/content/paladin_core_abilities.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "holy",
+   "specs": null,
+   "target": "false"
+  },
+  "raging_gale": {
+   "cast": "0",
+   "cd": "8",
+   "cls": "warrior",
+   "cost": "0",
+   "effects": [
+    "gainResource",
+    "weaponStrike"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "7",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": "['fury']",
+   "target": "true"
+  },
+  "rain_of_fire": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "warlock",
+   "cost": "45",
+   "effects": [
+    "groundAoE"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "8",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     18
+    ]
+   ],
+   "school": "fire",
+   "specs": "['destruction']",
+   "target": "false"
+  },
+  "raise_bone_mage": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "warlock",
+   "cost": "35",
+   "effects": [
+    "summonUndead"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "8",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "shadow",
+   "specs": "['demonology']",
+   "target": "false"
+  },
+  "raise_graveguard": {
+   "cast": "2.5",
+   "cd": "3",
+   "cls": "warlock",
+   "cost": "0",
+   "effects": [
+    "summonUndead"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "shadow",
+   "specs": "['demonology']",
+   "target": "false"
+  },
+  "raise_gravewing": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "warlock",
+   "cost": "45",
+   "effects": [
+    "summonUndead"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "17",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "shadow",
+   "specs": "['demonology']",
+   "target": "false"
+  },
+  "raise_skeletal_warrior": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "warlock",
+   "cost": "20",
+   "effects": [
+    "summonUndead"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "shadow",
+   "specs": "['demonology']",
+   "target": "false"
+  },
+  "raised_guard": {
+   "cast": "0",
+   "cd": "12",
+   "cls": "warrior",
+   "cost": "15",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "8",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": "['prot']",
+   "target": "false"
+  },
+  "rake": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "druid",
+   "cost": "35",
+   "effects": [
+    "dot",
+    "weaponStrike"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [
+    [
+     2,
+     18
+    ]
+   ],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "rallying_cry": {
+   "cast": "0",
+   "cd": "180",
+   "cls": "warrior",
+   "cost": "0",
+   "effects": [
+    "aoeAllyMaxHp"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "18",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "rapid_fire": {
+   "cast": "0",
+   "cd": "12",
+   "cls": "hunter",
+   "cost": "0",
+   "effects": [
+    "directDamage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "14",
+   "min_range": null,
+   "passive": null,
+   "range": "35",
+   "ranks": [],
+   "school": "physical",
+   "specs": "['marksmanship']",
+   "target": "true"
+  },
+  "raptor_strike": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "hunter",
+   "cost": "0",
+   "effects": [
+    "weaponStrike"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "1",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [
+    [
+     2,
+     8
+    ],
+    [
+     3,
+     14
+    ],
+    [
+     4,
+     20
+    ]
+   ],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "reaping_command": {
+   "cast": "0",
+   "cd": "8",
+   "cls": "warlock",
+   "cost": "45",
+   "effects": [
+    "reapingCommand"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "14",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "shadow",
+   "specs": "['demonology']",
+   "target": "true"
+  },
+  "rebuke": {
+   "cast": "0",
+   "cd": "12",
+   "cls": "paladin",
+   "cost": "20",
+   "effects": [
+    "interrupt"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "recall_the_fallen": {
+   "cast": "8",
+   "cd": "0",
+   "cls": "paladin",
+   "cost": "60",
+   "effects": [
+    "resurrectAlly"
+   ],
+   "file": "src/sim/content/paladin_core_abilities.ts",
+   "learn": "6",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "holy",
+   "specs": null,
+   "target": "true"
+  },
+  "recklessness": {
+   "cast": "0",
+   "cd": "180",
+   "cls": "warrior",
+   "cost": "0",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "17",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "red_harvest": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "warrior",
+   "cost": "80",
+   "effects": [
+    "enrageChance",
+    "weaponStrike"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": "['fury']",
+   "target": "true"
+  },
+  "redharvest": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "druid",
+   "cost": "35",
+   "effects": [
+    "consumeDot",
+    "finisherDamage",
+    "gainResource"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [
+    [
+     2,
+     10
+    ],
+    [
+     3,
+     16
+    ]
+   ],
+   "school": "physical",
+   "specs": "['feral']",
+   "target": "true"
+  },
+  "regrowth": {
+   "cast": "2.0",
+   "cd": "0",
+   "cls": "druid",
+   "cost": "55",
+   "effects": [
+    "heal",
+    "hot"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "14",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     20
+    ]
+   ],
+   "school": "nature",
+   "specs": null,
+   "target": "true"
+  },
+  "rejuvenation": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "druid",
+   "cost": "25",
+   "effects": [
+    "hot"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "3",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     10
+    ],
+    [
+     3,
+     16
+    ],
+    [
+     4,
+     20
+    ]
+   ],
+   "school": "nature",
+   "specs": null,
+   "target": "true"
+  },
+  "renew": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "priest",
+   "cost": "30",
+   "effects": [
+    "hot"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "6",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     14
+    ],
+    [
+     3,
+     20
+    ]
+   ],
+   "school": "holy",
+   "specs": null,
+   "target": "true"
+  },
+  "retribution_aura": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "paladin",
+   "cost": "0",
+   "effects": [
+    "buffTarget"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "7",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [
+    [
+     2,
+     13
+    ],
+    [
+     3,
+     18
+    ]
+   ],
+   "school": "holy",
+   "specs": null,
+   "target": "false"
+  },
+  "revenge": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "warrior",
+   "cost": "20",
+   "effects": [
+    "aoeDamage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "7",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": "['prot']",
+   "target": "false"
+  },
+  "revive_pet": {
+   "cast": "3",
+   "cd": "0",
+   "cls": "hunter",
+   "cost": "0",
+   "effects": [],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "nature",
+   "specs": null,
+   "target": "false"
+  },
+  "righteous_fury": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "paladin",
+   "cost": "0",
+   "effects": [],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": "true",
+   "range": "0",
+   "ranks": [],
+   "school": "holy",
+   "specs": "['protection']",
+   "target": "false"
+  },
+  "rings_of_frost": {
+   "cast": "1.5",
+   "cd": "30",
+   "cls": "mage",
+   "cost": "60",
+   "effects": [
+    "aoeRoot"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "11",
+   "min_range": null,
+   "passive": null,
+   "range": "25",
+   "ranks": [],
+   "school": "frost",
+   "specs": null,
+   "target": "false"
+  },
+  "rip": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "druid",
+   "cost": "30",
+   "effects": [
+    "dot"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "14",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "rockbiter_weapon": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "shaman",
+   "cost": "20",
+   "effects": [
+    "imbue"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "1",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [
+    [
+     2,
+     8
+    ],
+    [
+     3,
+     16
+    ]
+   ],
+   "school": "nature",
+   "specs": null,
+   "target": "false"
+  },
+  "ruinous_brand": {
+   "cast": "0",
+   "cd": "20",
+   "cls": "warlock",
+   "cost": "35",
+   "effects": [
+    "ruinousBrand"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "fire",
+   "specs": "['destruction']",
+   "target": "true"
+  },
+  "rune_of_power": {
+   "cast": "1.5",
+   "cd": "45",
+   "cls": "mage",
+   "cost": "100",
+   "effects": [
+    "groundAoE"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "20",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "arcane",
+   "specs": null,
+   "target": "false"
+  },
+  "rupture": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "rogue",
+   "cost": "25",
+   "effects": [
+    "dot"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "14",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "sacred_bulwark": {
+   "cast": "0",
+   "cd": "180",
+   "cls": "paladin",
+   "cost": "15",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "20",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "holy",
+   "specs": null,
+   "target": "false"
+  },
+  "sacred_challenge": {
+   "cast": "0",
+   "cd": "10",
+   "cls": "paladin",
+   "cost": "0",
+   "effects": [
+    "taunt"
+   ],
+   "file": "src/sim/content/paladin_core_abilities.ts",
+   "learn": "6",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "holy",
+   "specs": "['protection']",
+   "target": "true"
+  },
+  "sacred_form": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "paladin",
+   "cost": "30",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/paladin_core_abilities.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "holy",
+   "specs": "['holy']",
+   "target": "false"
+  },
+  "sacrifice_undead": {
+   "cast": "0",
+   "cd": "30",
+   "cls": "warlock",
+   "cost": "0",
+   "effects": [
+    "sacrificeUndead"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "7",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "shadow",
+   "specs": "['demonology']",
+   "target": "false"
+  },
+  "sacrilegious_march": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "warlock",
+   "cost": "0",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/talent_abilities_v2_b.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "shadow",
+   "specs": null,
+   "target": "false"
+  },
+  "sanguine_aura": {
+   "cast": "0",
+   "cd": "180",
+   "cls": "warrior",
+   "cost": "0",
+   "effects": [
+    "partyMeleeBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "20",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "sap": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "rogue",
+   "cost": "0",
+   "effects": [
+    "incapacitate"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "10",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "scatterbolt": {
+   "cast": "0",
+   "cd": "15",
+   "cls": "hunter",
+   "cost": "0",
+   "effects": [
+    "hunterScatterbolt"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "12",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "scorch": {
+   "cast": "1.5",
+   "cd": "0",
+   "cls": "mage",
+   "cost": "35",
+   "effects": [
+    "directDamage",
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "fire",
+   "specs": "['fire']",
+   "target": "true"
+  },
+  "scouring_mercy": {
+   "cast": "0",
+   "cd": "8",
+   "cls": "priest",
+   "cost": "75",
+   "effects": [
+    "directDamage",
+    "heal"
+   ],
+   "file": "src/sim/content/priest.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "holy",
+   "specs": "['discipline']",
+   "target": "true"
+  },
+  "scratch": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "druid",
+   "cost": "45",
+   "effects": [
+    "weaponStrike"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "8",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [
+    [
+     2,
+     18
+    ]
+   ],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "seal_of_righteousness": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "paladin",
+   "cost": "25",
+   "effects": [
+    "imbue"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "1",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [
+    [
+     2,
+     10
+    ],
+    [
+     3,
+     16
+    ]
+   ],
+   "school": "holy",
+   "specs": null,
+   "target": "false"
+  },
+  "searing_pain": {
+   "cast": "1.5",
+   "cd": "0",
+   "cls": "warlock",
+   "cost": "35",
+   "effects": [
+    "directDamage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "7",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "fire",
+   "specs": null,
+   "target": "true"
+  },
+  "seasoned_soldier": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "warrior",
+   "cost": "0",
+   "effects": [],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": "true",
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": "['arms']",
+   "target": "false"
+  },
+  "sentence": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "warlock",
+   "cost": "40",
+   "effects": [
+    "afflictionSentence"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "shadow",
+   "specs": "['affliction']",
+   "target": "true"
+  },
+  "seraphic_vigil": {
+   "cast": "0",
+   "cd": "20",
+   "cls": "priest",
+   "cost": "80",
+   "effects": [
+    "buffTarget"
+   ],
+   "file": "src/sim/content/priest.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "holy",
+   "specs": "['holy']",
+   "target": "true"
+  },
+  "serpent_sting": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "hunter",
+   "cost": "15",
+   "effects": [
+    "dot"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "3",
+   "min_range": null,
+   "passive": null,
+   "range": "35",
+   "ranks": [
+    [
+     2,
+     10
+    ],
+    [
+     3,
+     16
+    ]
+   ],
+   "school": "nature",
+   "specs": null,
+   "target": "true"
+  },
+  "shadow_bolt": {
+   "cast": "1.7",
+   "cd": "0",
+   "cls": "warlock",
+   "cost": "25",
+   "effects": [
+    "directDamage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "1",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     8
+    ],
+    [
+     3,
+     14
+    ],
+    [
+     4,
+     20
+    ]
+   ],
+   "school": "shadow",
+   "specs": null,
+   "target": "true"
+  },
+  "shadow_word_pain": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "priest",
+   "cost": "25",
+   "effects": [
+    "dot"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "2",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     10
+    ],
+    [
+     3,
+     16
+    ]
+   ],
+   "school": "shadow",
+   "specs": null,
+   "target": "true"
+  },
+  "shadowburn": {
+   "cast": "0",
+   "cd": "12",
+   "cls": "warlock",
+   "cost": "35",
+   "effects": [
+    "directDamage",
+    "duskfireClaim"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "12",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "shadow",
+   "specs": "['destruction']",
+   "target": "true"
+  },
+  "shadowform": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "priest",
+   "cost": "60",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "shadow",
+   "specs": "['shadow']",
+   "target": "false"
+  },
+  "shadowstep": {
+   "cast": "0",
+   "cd": "24",
+   "cls": "rogue",
+   "cost": "0",
+   "effects": [
+    "blinkForward"
+   ],
+   "file": "src/sim/content/talent_abilities_v2_a.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "24",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "shatter": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "mage",
+   "cost": "0",
+   "effects": [],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": "true",
+   "range": "0",
+   "ranks": [],
+   "school": "frost",
+   "specs": "['frost']",
+   "target": "false"
+  },
+  "shellskin": {
+   "cast": "0",
+   "cd": "60",
+   "cls": "hunter",
+   "cost": "0",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "8",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "shield_slam": {
+   "cast": "0",
+   "cd": "6",
+   "cls": "warrior",
+   "cost": "0",
+   "effects": [
+    "gainResource",
+    "weaponStrike"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "shrapnel_charge": {
+   "cast": "0",
+   "cd": "10",
+   "cls": "hunter",
+   "cost": "0",
+   "effects": [
+    "hunterShrapnel"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "11",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": "['survival']",
+   "target": "false"
+  },
+  "silence": {
+   "cast": "0",
+   "cd": "30",
+   "cls": "priest",
+   "cost": "55",
+   "effects": [
+    "silence"
+   ],
+   "file": "src/sim/content/talent_abilities_v2_a.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "shadow",
+   "specs": null,
+   "target": "true"
+  },
+  "sinister_strike": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "rogue",
+   "cost": "45",
+   "effects": [
+    "weaponStrike"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "1",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [
+    [
+     2,
+     8
+    ],
+    [
+     3,
+     14
+    ],
+    [
+     4,
+     20
+    ]
+   ],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "siphon_life": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "warlock",
+   "cost": "45",
+   "effects": [
+    "dot"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "shadow",
+   "specs": null,
+   "target": "true"
+  },
+  "skull_bash": {
+   "cast": "0",
+   "cd": "15",
+   "cls": "druid",
+   "cost": "10",
+   "effects": [
+    "interrupt"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "8",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "slam": {
+   "cast": "0",
+   "cd": "4",
+   "cls": "warrior",
+   "cost": "0",
+   "effects": [
+    "gainResource",
+    "weaponStrike"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": "['arms']",
+   "target": "true"
+  },
+  "slice_and_dice": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "rogue",
+   "cost": "0",
+   "effects": [
+    "finisherHaste"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "smite": {
+   "cast": "2.0",
+   "cd": "0",
+   "cls": "priest",
+   "cost": "20",
+   "effects": [
+    "directDamage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "1",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     8
+    ],
+    [
+     3,
+     14
+    ],
+    [
+     4,
+     20
+    ]
+   ],
+   "school": "holy",
+   "specs": null,
+   "target": "true"
+  },
+  "smoke_screen": {
+   "cast": "0",
+   "cd": "30",
+   "cls": "rogue",
+   "cost": "25",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/talent_abilities_v2_a.ts",
+   "learn": "8",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "solar_invocation": {
+   "cast": "0",
+   "cd": "8",
+   "cls": "paladin",
+   "cost": "80",
+   "effects": [
+    "directDamage",
+    "heal"
+   ],
+   "file": "src/sim/content/paladin_core_abilities.ts",
+   "learn": "9",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "holy",
+   "specs": "['holy']",
+   "target": "true"
+  },
+  "solar_step": {
+   "cast": "0",
+   "cd": "30",
+   "cls": "paladin",
+   "cost": "20",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/paladin_core_abilities.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "holy",
+   "specs": null,
+   "target": "false"
+  },
+  "soul_harvest": {
+   "cast": "1.8",
+   "cd": "0",
+   "cls": "warlock",
+   "cost": "30",
+   "effects": [
+    "directDamage",
+    "gainSoulFragments"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     10
+    ],
+    [
+     3,
+     20
+    ]
+   ],
+   "school": "shadow",
+   "specs": "['demonology']",
+   "target": "true"
+  },
+  "soul_lance": {
+   "cast": "1.6",
+   "cd": "8",
+   "cls": "warlock",
+   "cost": "35",
+   "effects": [
+    "directDamage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "9",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     14
+    ],
+    [
+     3,
+     20
+    ]
+   ],
+   "school": "shadow",
+   "specs": "['demonology']",
+   "target": "true"
+  },
+  "soulwell": {
+   "cast": "3",
+   "cd": "300",
+   "cls": "warlock",
+   "cost": "80",
+   "effects": [
+    "summonSoulwell"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "8",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "shadow",
+   "specs": null,
+   "target": "false"
+  },
+  "spell_lock": {
+   "cast": "0",
+   "cd": "24",
+   "cls": "warlock",
+   "cost": "35",
+   "effects": [
+    "interrupt"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "shadow",
+   "specs": null,
+   "target": "true"
+  },
+  "spellsteal": {
+   "cast": "0",
+   "cd": "12",
+   "cls": "mage",
+   "cost": "40",
+   "effects": [
+    "dispel"
+   ],
+   "file": "src/sim/content/talent_abilities_v2_b.ts",
+   "learn": "8",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "arcane",
+   "specs": null,
+   "target": "true"
+  },
+  "spirit_bomb": {
+   "cast": "3",
+   "cd": "0",
+   "cls": "priest",
+   "cost": "0",
+   "effects": [
+    "aoeDamage"
+   ],
+   "file": "src/sim/content/priest.ts",
+   "learn": "20",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "shadow",
+   "specs": "['shadow']",
+   "target": "true"
+  },
+  "spore_burst": {
+   "cast": "0",
+   "cd": "30",
+   "cls": "druid",
+   "cost": "90",
+   "effects": [
+    "sporeBurst"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "40",
+   "ranks": [],
+   "school": "nature",
+   "specs": "['balance'",
+   "target": "false"
+  },
+  "sporemender_form": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "druid",
+   "cost": "55",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "nature",
+   "specs": "['restoration']",
+   "target": "false"
+  },
+  "sprint": {
+   "cast": "0",
+   "cd": "60",
+   "cls": "rogue",
+   "cost": "0",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "stampede": {
+   "cast": "0",
+   "cd": "90",
+   "cls": "hunter",
+   "cost": "0",
+   "effects": [
+    "hunterStampede"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "17",
+   "min_range": null,
+   "passive": null,
+   "range": "35",
+   "ranks": [],
+   "school": "physical",
+   "specs": "['beast_mastery']",
+   "target": "true"
+  },
+  "starfire": {
+   "cast": "3.0",
+   "cd": "0",
+   "cls": "druid",
+   "cost": "80",
+   "effects": [
+    "directDamage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "14",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "arcane",
+   "specs": null,
+   "target": "true"
+  },
+  "startle_shot": {
+   "cast": "0",
+   "cd": "20",
+   "cls": "hunter",
+   "cost": "25",
+   "effects": [
+    "incapacitate"
+   ],
+   "file": "src/sim/content/talent_abilities_v2_a.ts",
+   "learn": "8",
+   "min_range": null,
+   "passive": null,
+   "range": "35",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "stealth": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "rogue",
+   "cost": "0",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "2",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "stoneward": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "shaman",
+   "cost": "40",
+   "effects": [],
+   "file": "src/sim/content/talent_abilities_v2_a.ts",
+   "learn": "8",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "nature",
+   "specs": null,
+   "target": "true"
+  },
+  "storm_bolt": {
+   "cast": "0",
+   "cd": "30",
+   "cls": "warrior",
+   "cost": "10",
+   "effects": [
+    "directDamage",
+    "stun"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "11",
+   "min_range": null,
+   "passive": null,
+   "range": "20",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "stormstrike": {
+   "cast": "0",
+   "cd": "12",
+   "cls": "shaman",
+   "cost": "40",
+   "effects": [
+    "weaponStrike"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "20",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "stormsurge": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "shaman",
+   "cost": "0",
+   "effects": [],
+   "file": "src/sim/content/classes.ts",
+   "learn": "14",
+   "min_range": null,
+   "passive": "true",
+   "range": "0",
+   "ranks": [],
+   "school": "nature",
+   "specs": "['enhancement']",
+   "target": "false"
+  },
+  "sudden_death": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "warrior",
+   "cost": "0",
+   "effects": [],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": "true",
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": "['arms']",
+   "target": "false"
+  },
+  "summon_imp": {
+   "cast": "5",
+   "cd": "0",
+   "cls": "warlock",
+   "cost": "50",
+   "effects": [
+    "summonDemon"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "1",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [
+    [
+     2,
+     8
+    ],
+    [
+     3,
+     14
+    ],
+    [
+     4,
+     20
+    ]
+   ],
+   "school": "shadow",
+   "specs": null,
+   "target": "false"
+  },
+  "summon_infernal": {
+   "cast": "0",
+   "cd": "180",
+   "cls": "warlock",
+   "cost": "100",
+   "effects": [
+    "aoeDamage",
+    "summonPyreColossus"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "13",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "fire",
+   "specs": "['destruction']",
+   "target": "false"
+  },
+  "summon_tithefiend": {
+   "cast": "0",
+   "cd": "30",
+   "cls": "priest",
+   "cost": "60",
+   "effects": [],
+   "file": "src/sim/content/priest.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "shadow",
+   "specs": "['shadow']",
+   "target": "false"
+  },
+  "summon_voidwalker": {
+   "cast": "5",
+   "cd": "0",
+   "cls": "warlock",
+   "cost": "80",
+   "effects": [
+    "summonDemon"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "shadow",
+   "specs": null,
+   "target": "false"
+  },
+  "summon_water_elemental": {
+   "cast": "2",
+   "cd": "0",
+   "cls": "mage",
+   "cost": "150",
+   "effects": [
+    "summonDemon"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "12",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "frost",
+   "specs": "['frost']",
+   "target": "false"
+  },
+  "sun_gods_verdict": {
+   "cast": "0",
+   "cd": "60",
+   "cls": "paladin",
+   "cost": "0",
+   "effects": [
+    "sunGodVerdict"
+   ],
+   "file": "src/sim/content/paladin_core_abilities.ts",
+   "learn": "17",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "holy",
+   "specs": "['retribution']",
+   "target": "true"
+  },
+  "sunder_armor": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "warrior",
+   "cost": "15",
+   "effects": [
+    "sunder"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [
+    [
+     2,
+     16
+    ]
+   ],
+   "school": "physical",
+   "specs": "['prot']",
+   "target": "true"
+  },
+  "sunlance": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "druid",
+   "cost": "45",
+   "effects": [
+    "directDamage",
+    "dot",
+    "gainResource"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "nature",
+   "specs": "['balance']",
+   "target": "true"
+  },
+  "sunward_disc": {
+   "cast": "0",
+   "cd": "10",
+   "cls": "paladin",
+   "cost": "25",
+   "effects": [
+    "chainDamage",
+    "directDamage"
+   ],
+   "file": "src/sim/content/paladin_core_abilities.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "holy",
+   "specs": "['protection']",
+   "target": "true"
+  },
+  "sweeping_strikes": {
+   "cast": "0",
+   "cd": "30",
+   "cls": "warrior",
+   "cost": "0",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "18",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": "['arms']",
+   "target": "false"
+  },
+  "swiftmend": {
+   "cast": "0",
+   "cd": "8",
+   "cls": "druid",
+   "cost": "55",
+   "effects": [
+    "consumeAura"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "nature",
+   "specs": null,
+   "target": "true"
+  },
+  "swipe": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "druid",
+   "cost": "20",
+   "effects": [
+    "aoeDamage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "16",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "tactical_camo": {
+   "cast": "0",
+   "cd": "10",
+   "cls": "hunter",
+   "cost": "0",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": "['survival']",
+   "target": "false"
+  },
+  "tame_beast": {
+   "cast": "6",
+   "cd": "0",
+   "cls": "hunter",
+   "cost": "0",
+   "effects": [
+    "tamePet"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "20",
+   "ranks": [],
+   "school": "nature",
+   "specs": null,
+   "target": "true"
+  },
+  "taunt": {
+   "cast": "0",
+   "cd": "10",
+   "cls": "warrior",
+   "cost": "0",
+   "effects": [
+    "taunt"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "8",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "temporal_acceleration": {
+   "cast": "0",
+   "cd": "300",
+   "cls": "mage",
+   "cost": "120",
+   "effects": [
+    "aoeAllyHaste"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "20",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "arcane",
+   "specs": "['arcane']",
+   "target": "false"
+  },
+  "temporal_barrier": {
+   "cast": "0",
+   "cd": "12",
+   "cls": "mage",
+   "cost": "50",
+   "effects": [
+    "absorb"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     12
+    ],
+    [
+     3,
+     18
+    ],
+    [
+     4,
+     20
+    ]
+   ],
+   "school": "arcane",
+   "specs": "['arcane']",
+   "target": "true"
+  },
+  "temporal_cascade": {
+   "cast": "TEMPORAL_CASCADE_CAST_SECONDS",
+   "cd": "17",
+   "cls": "mage",
+   "cost": "90",
+   "effects": [
+    "massTemporalEcho"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "12",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     16
+    ],
+    [
+     3,
+     20
+    ]
+   ],
+   "school": "arcane",
+   "specs": "['arcane']",
+   "target": "true"
+  },
+  "temporal_echo": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "mage",
+   "cost": "40",
+   "effects": [
+    "heal",
+    "temporalEcho"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "8",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     12
+    ],
+    [
+     3,
+     18
+    ],
+    [
+     4,
+     20
+    ]
+   ],
+   "school": "arcane",
+   "specs": "['arcane']",
+   "target": "true"
+  },
+  "temporal_hourglass": {
+   "cast": "0",
+   "cd": "50",
+   "cls": "mage",
+   "cost": "110",
+   "effects": [
+    "temporalHourglass"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "14",
+   "min_range": null,
+   "passive": null,
+   "range": "28",
+   "ranks": [],
+   "school": "arcane",
+   "specs": "['arcane']",
+   "target": "false"
+  },
+  "temporal_mend": {
+   "cast": "2",
+   "cd": "0",
+   "cls": "mage",
+   "cost": "45",
+   "effects": [
+    "heal"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     12
+    ],
+    [
+     3,
+     18
+    ],
+    [
+     4,
+     20
+    ]
+   ],
+   "school": "arcane",
+   "specs": "['arcane']",
+   "target": "true"
+  },
+  "temporal_reversal": {
+   "cast": "2",
+   "cd": "600",
+   "cls": "mage",
+   "cost": "60",
+   "effects": [
+    "resurrectAlly"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "16",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "arcane",
+   "specs": "['arcane']",
+   "target": "true"
+  },
+  "temporal_rewind": {
+   "cast": "0",
+   "cd": "120",
+   "cls": "mage",
+   "cost": "150",
+   "effects": [
+    "rewind"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "14",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "arcane",
+   "specs": "['arcane']",
+   "target": "false"
+  },
+  "thieves_chorus": {
+   "cast": "0",
+   "cd": "90",
+   "cls": "rogue",
+   "cost": "25",
+   "effects": [
+    "aoeAllyHaste"
+   ],
+   "file": "src/sim/content/talent_abilities_v2_a.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "thorns": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "druid",
+   "cost": "20",
+   "effects": [
+    "buffTarget"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "6",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     14
+    ],
+    [
+     3,
+     20
+    ]
+   ],
+   "school": "nature",
+   "specs": null,
+   "target": "true"
+  },
+  "thunder_clap": {
+   "cast": "0",
+   "cd": "4",
+   "cls": "warrior",
+   "cost": "20",
+   "effects": [
+    "aoeAttackSpeed",
+    "aoeDamage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [
+    [
+     2,
+     14
+    ],
+    [
+     3,
+     20
+    ]
+   ],
+   "school": "physical",
+   "specs": "['prot']",
+   "target": "false"
+  },
+  "thunder_reservoir": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "shaman",
+   "cost": "0",
+   "effects": [],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": "true",
+   "range": "0",
+   "ranks": [],
+   "school": "nature",
+   "specs": "['elemental']",
+   "target": "false"
+  },
+  "thunderstorm": {
+   "cast": "0",
+   "cd": "45",
+   "cls": "shaman",
+   "cost": "0",
+   "effects": [
+    "aoeDamage",
+    "aoeSlow"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "16",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "nature",
+   "specs": "['elemental']",
+   "target": "false"
+  },
+  "tidecall": {
+   "cast": "0",
+   "cd": "12",
+   "cls": "shaman",
+   "cost": "TIDECALL_MANA_COST",
+   "effects": [
+    "heal"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "nature",
+   "specs": "['restoration']",
+   "target": "true"
+  },
+  "tigers_fury": {
+   "cast": "0",
+   "cd": "30",
+   "cls": "druid",
+   "cost": "0",
+   "effects": [
+    "gainResource",
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "20",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "trailbreak": {
+   "cast": "0",
+   "cd": "15",
+   "cls": "hunter",
+   "cost": "0",
+   "effects": [
+    "hunterTrailbreak"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "4",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "tranquility": {
+   "cast": "0",
+   "cd": "60",
+   "cls": "druid",
+   "cost": "240",
+   "effects": [
+    "aoeHeal"
+   ],
+   "file": "src/sim/content/talent_abilities_v2_b.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "nature",
+   "specs": null,
+   "target": "false"
+  },
+  "travel_form": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "druid",
+   "cost": "30",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "11",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "nature",
+   "specs": null,
+   "target": "false"
+  },
+  "trueshot_aura": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "hunter",
+   "cost": "40",
+   "effects": [
+    "aoeAllyAttackPower"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "nature",
+   "specs": null,
+   "target": "false"
+  },
+  "typhoon": {
+   "cast": "0",
+   "cd": "20",
+   "cls": "druid",
+   "cost": "30",
+   "effects": [
+    "aoeKnockback"
+   ],
+   "file": "src/sim/content/talent_abilities_v2_b.ts",
+   "learn": "8",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "nature",
+   "specs": null,
+   "target": "false"
+  },
+  "umbral_anchor": {
+   "cast": "0",
+   "cd": "45",
+   "cls": "warlock",
+   "cost": "25",
+   "effects": [
+    "warlockUmbralAnchor"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "3",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "shadow",
+   "specs": null,
+   "target": "false"
+  },
+  "unholy_command": {
+   "cast": "0",
+   "cd": "45",
+   "cls": "warlock",
+   "cost": "40",
+   "effects": [
+    "commandUndead"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "13",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "shadow",
+   "specs": "['demonology']",
+   "target": "false"
+  },
+  "unleash_beast": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "hunter",
+   "cost": "0",
+   "effects": [
+    "unleashBeast"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "35",
+   "ranks": [],
+   "school": "physical",
+   "specs": "['beast_mastery']",
+   "target": "true"
+  },
+  "unleash_weapon": {
+   "cast": "0",
+   "cd": "15",
+   "cls": "shaman",
+   "cost": "35",
+   "effects": [],
+   "file": "src/sim/content/classes.ts",
+   "learn": "14",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "nature",
+   "specs": null,
+   "target": "true"
+  },
+  "valkyrs_calling": {
+   "cast": "0",
+   "cd": "60",
+   "cls": "paladin",
+   "cost": "50",
+   "effects": [
+    "valkyrsCalling"
+   ],
+   "file": "src/sim/content/paladin_core_abilities.ts",
+   "learn": "13",
+   "min_range": null,
+   "passive": null,
+   "range": "20",
+   "ranks": [],
+   "school": "holy",
+   "specs": "['retribution']",
+   "target": "true"
+  },
+  "vampiric_touch": {
+   "cast": "1.5",
+   "cd": "0",
+   "cls": "priest",
+   "cost": "60",
+   "effects": [
+    "dot"
+   ],
+   "file": "src/sim/content/priest.ts",
+   "learn": "16",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "shadow",
+   "specs": "['shadow']",
+   "target": "true"
+  },
+  "vanish": {
+   "cast": "0",
+   "cd": "300",
+   "cls": "rogue",
+   "cost": "0",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "18",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "veilbound_march": {
+   "cast": "0",
+   "cd": "75",
+   "cls": "paladin",
+   "cost": "0",
+   "effects": [
+    "veilboundMarch"
+   ],
+   "file": "src/sim/content/paladin_core_abilities.ts",
+   "learn": "18",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "holy",
+   "specs": "['protection']",
+   "target": "false"
+  },
+  "veilstep": {
+   "cast": "0",
+   "cd": "18",
+   "cls": "priest",
+   "cost": "30",
+   "effects": [
+    "blinkForward"
+   ],
+   "file": "src/sim/content/priest.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "shadow",
+   "specs": null,
+   "target": "false"
+  },
+  "veilstrike": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "rogue",
+   "cost": "0",
+   "effects": [
+    "selfBuff"
+   ],
+   "file": "src/sim/content/talent_abilities_v2_a.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "shadow",
+   "specs": null,
+   "target": "false"
+  },
+  "venom_dart": {
+   "cast": "0",
+   "cd": "8",
+   "cls": "rogue",
+   "cost": "25",
+   "effects": [
+    "directDamage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "14",
+   "min_range": null,
+   "passive": null,
+   "range": "20",
+   "ranks": [],
+   "school": "nature",
+   "specs": null,
+   "target": "true"
+  },
+  "venomrend": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "rogue",
+   "cost": "30",
+   "effects": [
+    "consumeDot",
+    "dot",
+    "finisherDamage",
+    "gainResource"
+   ],
+   "file": "src/sim/content/talent_abilities_v2_a.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "vicarious_suffering": {
+   "cast": "0",
+   "cd": "30",
+   "cls": "warlock",
+   "cost": "50",
+   "effects": [
+    "afflictionVicarious"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "14",
+   "min_range": null,
+   "passive": null,
+   "range": "40",
+   "ranks": [],
+   "school": "shadow",
+   "specs": "['affliction']",
+   "target": "true"
+  },
+  "victory_rush": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "warrior",
+   "cost": "0",
+   "effects": [
+    "selfHealPctMax",
+    "weaponStrike"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "8",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "void_rupture": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "priest",
+   "cost": "0",
+   "effects": [
+    "directDamage"
+   ],
+   "file": "src/sim/content/priest.ts",
+   "learn": "16",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "shadow",
+   "specs": "['shadow']",
+   "target": "true"
+  },
+  "voidfeast": {
+   "cast": "0",
+   "cd": "15",
+   "cls": "warlock",
+   "cost": "35",
+   "effects": [
+    "dispel"
+   ],
+   "file": "src/sim/content/talent_abilities_v2_b.ts",
+   "learn": "8",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "shadow",
+   "specs": null,
+   "target": "true"
+  },
+  "volley": {
+   "cast": "0",
+   "cd": "10",
+   "cls": "hunter",
+   "cost": "60",
+   "effects": [
+    "groundAoE"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "11",
+   "min_range": null,
+   "passive": null,
+   "range": "35",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "false"
+  },
+  "vowkeeper_strike": {
+   "cast": "0",
+   "cd": "5",
+   "cls": "paladin",
+   "cost": "0",
+   "effects": [
+    "weaponStrike"
+   ],
+   "file": "src/sim/content/paladin_core_abilities.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": "['protection']",
+   "target": "true"
+  },
+  "warspirit_cadence": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "shaman",
+   "cost": "0",
+   "effects": [],
+   "file": "src/sim/content/classes.ts",
+   "learn": "5",
+   "min_range": null,
+   "passive": "true",
+   "range": "0",
+   "ranks": [],
+   "school": "nature",
+   "specs": "['enhancement']",
+   "target": "false"
+  },
+  "whirlwind": {
+   "cast": "0",
+   "cd": "10",
+   "cls": "warrior",
+   "cost": "0",
+   "effects": [
+    "aoeDamage",
+    "selfBuff"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": "['fury']",
+   "target": "true"
+  },
+  "wildheart": {
+   "cast": "0",
+   "cd": "45",
+   "cls": "hunter",
+   "cost": "0",
+   "effects": [
+    "selfHealPctMax"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "6",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "nature",
+   "specs": null,
+   "target": "false"
+  },
+  "wildwake": {
+   "cast": "2",
+   "cd": "300",
+   "cls": "druid",
+   "cost": "60",
+   "effects": [
+    "resurrectAlly"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "16",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "nature",
+   "specs": "['restoration']",
+   "target": "true"
+  },
+  "wing_clip": {
+   "cast": "0",
+   "cd": "0",
+   "cls": "hunter",
+   "cost": "20",
+   "effects": [
+    "directDamage",
+    "slow"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "0",
+   "ranks": [],
+   "school": "physical",
+   "specs": null,
+   "target": "true"
+  },
+  "wrath": {
+   "cast": "1.5",
+   "cd": "0",
+   "cls": "druid",
+   "cost": "20",
+   "effects": [
+    "directDamage"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "1",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [
+    [
+     2,
+     8
+    ],
+    [
+     3,
+     14
+    ],
+    [
+     4,
+     20
+    ]
+   ],
+   "school": "nature",
+   "specs": null,
+   "target": "true"
+  },
+  "wyvern_sting": {
+   "cast": "0",
+   "cd": "60",
+   "cls": "hunter",
+   "cost": "35",
+   "effects": [
+    "incapacitate"
+   ],
+   "file": "src/sim/content/classes.ts",
+   "learn": "10",
+   "min_range": null,
+   "passive": null,
+   "range": "30",
+   "ranks": [],
+   "school": "nature",
+   "specs": null,
+   "target": "true"
+  }
+ },
+ "source": {
+  "commit": "d2b91e0884cb269422c28d0b42d2a30a01de130a",
+  "files": [
+   "src/sim/content/classes.ts",
+   "src/sim/content/paladin_core_abilities.ts",
+   "src/sim/content/priest.ts",
+   "src/sim/content/talent_abilities_v2_a.ts",
+   "src/sim/content/talent_abilities_v2_b.ts"
+  ],
+  "licence": "MIT (code); names are the reference's and are never shipped as display names (docs/NAMING_FRAMEWORK.md)",
+  "method": "text scan of the TypeScript source, never executed; values are as written in source (a constant name stays a name); records built by code are not seen, so counts are lower bounds",
+  "repository": "https://github.com/levy-street/world-of-claudecraft"
+ }
+}

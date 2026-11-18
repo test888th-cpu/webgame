@@ -1,0 +1,1101 @@
+{
+  "_comment": "REFERENCE-EXACT class data parsed from World of ClaudeCraft src/sim/content/classes.ts (CLASSES) at commit d2b91e0884cb269422c28d0b42d2a30a01de130a, all nine classes. ap_rule and ranged_ap mirror src/sim/entity.ts recalcPlayerStats (apFromStats, rangedPower). abilities is the class kit in learn order (ids only; definitions are inventoried in docs/reference_audit/abilities.json). Read by the Rpg* tests only; not loaded by ContentDB or used in gameplay yet.",
+  "source": {
+    "repository": "https://github.com/levy-street/world-of-claudecraft",
+    "commit": "d2b91e0884cb269422c28d0b42d2a30a01de130a",
+    "file": "src/sim/content/classes.ts"
+  },
+  "classes": {
+    "warrior": {
+      "name": "Warrior",
+      "base_stats": {
+        "str": 23,
+        "agi": 20,
+        "sta": 22,
+        "int": 10,
+        "spi": 11,
+        "armor": 50
+      },
+      "stats_per_level": {
+        "str": 2,
+        "agi": 1,
+        "sta": 2,
+        "int": 0,
+        "spi": 0,
+        "armor": 12
+      },
+      "base_hp": 50,
+      "hp_per_level": 18,
+      "base_mana": 100,
+      "mana_per_level": 0,
+      "resource": "rage",
+      "ap_rule": "str2",
+      "start_weapon": "worn_sword",
+      "start_offhand": "eastbrook_buckler",
+      "abilities": [
+        "heroic_strike",
+        "revenge",
+        "battle_shout",
+        "charge",
+        "thunder_clap",
+        "hamstring",
+        "bloodrage",
+        "overpower",
+        "raging_gale",
+        "raised_guard",
+        "pummel",
+        "berserker_rage",
+        "execute",
+        "furious_mending",
+        "iron_resolve",
+        "slam",
+        "red_harvest",
+        "whirlwind",
+        "faultline",
+        "heroic_leap",
+        "cleave",
+        "rallying_cry",
+        "emboldening_roar",
+        "defiant_bellow",
+        "battle_stance",
+        "berserker_stance",
+        "defensive_stance",
+        "demoralizing_shout",
+        "intimidating_shout",
+        "sunder_armor",
+        "taunt",
+        "measured_fury",
+        "seasoned_soldier",
+        "sudden_death",
+        "diabolical_twinstrike",
+        "cleaving_blows",
+        "breachmaker",
+        "sweeping_strikes",
+        "deep_wounds",
+        "enrage_passive"
+      ],
+      "specs": [
+        {
+          "id": "arms",
+          "display_name": "Arms",
+          "display_name_status": "INTERIM: spec id; original name pending a naming batch",
+          "role": "dps",
+          "primary_stat": "str",
+          "signature": "mortal_strike",
+          "ref": {
+            "id": "arms",
+            "name": "Battlecraft",
+            "file": "src/sim/content/talents_warrior.ts",
+            "commit": "d2b91e0884cb269422c28d0b42d2a30a01de130a"
+          }
+        },
+        {
+          "id": "fury",
+          "display_name": "Fury",
+          "display_name_status": "INTERIM: spec id; original name pending a naming batch",
+          "role": "dps",
+          "primary_stat": "str",
+          "signature": "bloodthirst",
+          "ref": {
+            "id": "fury",
+            "name": "Bloodrush",
+            "file": "src/sim/content/talents_warrior.ts",
+            "commit": "d2b91e0884cb269422c28d0b42d2a30a01de130a"
+          }
+        },
+        {
+          "id": "prot",
+          "display_name": "Prot",
+          "display_name_status": "INTERIM: spec id; original name pending a naming batch",
+          "role": "tank",
+          "primary_stat": "str",
+          "signature": "shield_slam",
+          "ref": {
+            "id": "prot",
+            "name": "Ironguard",
+            "file": "src/sim/content/talents_warrior.ts",
+            "commit": "d2b91e0884cb269422c28d0b42d2a30a01de130a"
+          }
+        }
+      ],
+      "armor": "mail",
+      "weapon_groups": [
+        "warrior"
+      ],
+      "dual_wield": [
+        "fury"
+      ]
+    },
+    "paladin": {
+      "name": "Paladin",
+      "base_stats": {
+        "str": 22,
+        "agi": 17,
+        "sta": 22,
+        "int": 13,
+        "spi": 14,
+        "armor": 45
+      },
+      "stats_per_level": {
+        "str": 2,
+        "agi": 1,
+        "sta": 2,
+        "int": 1,
+        "spi": 1,
+        "armor": 12
+      },
+      "base_hp": 55,
+      "hp_per_level": 17,
+      "base_mana": 80,
+      "mana_per_level": 20,
+      "resource": "mana",
+      "ap_rule": "str2",
+      "start_weapon": "training_mace",
+      "start_offhand": "eastbrook_buckler",
+      "abilities": [
+        "seal_of_righteousness",
+        "holy_light",
+        "blessing_of_might",
+        "divine_protection",
+        "hammer_of_justice",
+        "lay_on_hands",
+        "flash_of_light",
+        "exorcism",
+        "consecration",
+        "righteous_fury",
+        "rebuke",
+        "sacred_bulwark",
+        "holy_shock",
+        "holy_shield",
+        "crusader_strike",
+        "divine_ascension",
+        "devotion_ward",
+        "radiant_devotion",
+        "dawn_devotion",
+        "grace_devotion",
+        "retribution_aura",
+        "hammer_of_grace",
+        "hushbrand",
+        "solar_step",
+        "solar_invocation",
+        "recall_the_fallen",
+        "beacon_of_light",
+        "final_edict",
+        "dawnfall",
+        "faithforged_guard",
+        "hammer_of_wrath",
+        "guardian_covenant",
+        "avenging_wrath",
+        "sun_gods_verdict",
+        "valkyrs_calling",
+        "mercy_lance",
+        "sacred_form",
+        "dawns_embrace",
+        "radiant_chorus",
+        "life_covenant",
+        "aegis_first_dawn",
+        "vowkeeper_strike",
+        "bastion_rite",
+        "sunward_disc",
+        "sacred_challenge",
+        "bastion_sweep",
+        "oath_chain",
+        "veilbound_march"
+      ],
+      "specs": [
+        {
+          "id": "holy",
+          "display_name": "Holy",
+          "display_name_status": "INTERIM: spec id; original name pending a naming batch",
+          "role": "healer",
+          "primary_stat": "int",
+          "signature": "mercy_lance",
+          "ref": {
+            "id": "holy",
+            "name": "Sunmender",
+            "file": "src/sim/content/talents_classic.ts",
+            "commit": "d2b91e0884cb269422c28d0b42d2a30a01de130a"
+          }
+        },
+        {
+          "id": "protection",
+          "display_name": "Protection",
+          "display_name_status": "INTERIM: spec id; original name pending a naming batch",
+          "role": "tank",
+          "primary_stat": "str",
+          "signature": "sunward_disc",
+          "ref": {
+            "id": "protection",
+            "name": "Faithwarden",
+            "file": "src/sim/content/talents_classic.ts",
+            "commit": "d2b91e0884cb269422c28d0b42d2a30a01de130a"
+          }
+        },
+        {
+          "id": "retribution",
+          "display_name": "Retribution",
+          "display_name_status": "INTERIM: spec id; original name pending a naming batch",
+          "role": "dps",
+          "primary_stat": "str",
+          "signature": "final_edict",
+          "ref": {
+            "id": "retribution",
+            "name": "Dawnreaver",
+            "file": "src/sim/content/talents_classic.ts",
+            "commit": "d2b91e0884cb269422c28d0b42d2a30a01de130a"
+          }
+        }
+      ],
+      "armor": "mail",
+      "weapon_groups": [
+        "caster",
+        "warrior"
+      ],
+      "dual_wield": []
+    },
+    "hunter": {
+      "name": "Hunter",
+      "base_stats": {
+        "str": 14,
+        "agi": 25,
+        "sta": 19,
+        "int": 13,
+        "spi": 14,
+        "armor": 45
+      },
+      "stats_per_level": {
+        "str": 1,
+        "agi": 3,
+        "sta": 2,
+        "int": 1,
+        "spi": 1,
+        "armor": 8
+      },
+      "base_hp": 50,
+      "hp_per_level": 15,
+      "base_mana": 100,
+      "mana_per_level": 0,
+      "resource": "focus",
+      "ap_rule": "str_agi",
+      "start_weapon": "rusty_hatchet",
+      "ranged_ap": true,
+      "ranged": {
+        "min": 5.0,
+        "max": 9.0,
+        "speed": 2.3,
+        "maxRange": 35.0,
+        "minRange": 0.0
+      },
+      "abilities": [
+        "raptor_strike",
+        "pack_command",
+        "stampede",
+        "measured_shot",
+        "aspect_of_the_hawk",
+        "serpent_sting",
+        "arcane_shot",
+        "concussive_shot",
+        "mongoose_bite",
+        "hunting_momentum",
+        "fieldcraft_reentry",
+        "wing_clip",
+        "trailbreak",
+        "wildheart",
+        "shellskin",
+        "frostjaw_trap",
+        "bear_trap",
+        "scatterbolt",
+        "tame_beast",
+        "dismiss_pet",
+        "revive_pet",
+        "aspect_of_the_monkey",
+        "aspect_of_the_cheetah",
+        "aimed_shot",
+        "rapid_fire",
+        "shrapnel_charge",
+        "bloodtrail_assault",
+        "tactical_camo",
+        "play_dead",
+        "volley",
+        "phosphor_flask",
+        "counter_shot"
+      ],
+      "specs": [
+        {
+          "id": "beast_mastery",
+          "display_name": "Beast Mastery",
+          "display_name_status": "INTERIM: spec id; original name pending a naming batch",
+          "role": "dps",
+          "primary_stat": "agi",
+          "signature": "bestial_wrath",
+          "ref": {
+            "id": "beast_mastery",
+            "name": "Packlord",
+            "file": "src/sim/content/talents_classic.ts",
+            "commit": "d2b91e0884cb269422c28d0b42d2a30a01de130a"
+          }
+        },
+        {
+          "id": "marksmanship",
+          "display_name": "Marksmanship",
+          "display_name_status": "INTERIM: spec id; original name pending a naming batch",
+          "role": "dps",
+          "primary_stat": "agi",
+          "signature": "cold_focus",
+          "ref": {
+            "id": "marksmanship",
+            "name": "Coldsight",
+            "file": "src/sim/content/talents_classic.ts",
+            "commit": "d2b91e0884cb269422c28d0b42d2a30a01de130a"
+          }
+        },
+        {
+          "id": "survival",
+          "display_name": "Survival",
+          "display_name_status": "INTERIM: spec id; original name pending a naming batch",
+          "role": "dps",
+          "primary_stat": "agi",
+          "signature": "bloodhook",
+          "ref": {
+            "id": "survival",
+            "name": "Fieldcraft",
+            "file": "src/sim/content/talents_classic.ts",
+            "commit": "d2b91e0884cb269422c28d0b42d2a30a01de130a"
+          }
+        }
+      ],
+      "armor": "leather",
+      "weapon_groups": [
+        "rogue",
+        "warrior"
+      ],
+      "dual_wield": []
+    },
+    "rogue": {
+      "name": "Rogue",
+      "base_stats": {
+        "str": 17,
+        "agi": 25,
+        "sta": 17,
+        "int": 11,
+        "spi": 12,
+        "armor": 40
+      },
+      "stats_per_level": {
+        "str": 1,
+        "agi": 3,
+        "sta": 2,
+        "int": 0,
+        "spi": 0,
+        "armor": 8
+      },
+      "base_hp": 45,
+      "hp_per_level": 15,
+      "base_mana": 100,
+      "mana_per_level": 0,
+      "resource": "energy",
+      "ap_rule": "str_agi",
+      "start_weapon": "rusty_dagger",
+      "start_offhand": "rusty_dagger",
+      "abilities": [
+        "sinister_strike",
+        "eviscerate",
+        "garrote",
+        "backstab",
+        "gouge",
+        "cheap_shot",
+        "evasion",
+        "sap",
+        "slice_and_dice",
+        "sprint",
+        "crippling_poison",
+        "kidney_shot",
+        "expose_armor",
+        "ambush",
+        "rupture",
+        "vanish",
+        "instant_poison",
+        "adrenaline_rush",
+        "deadly_poison",
+        "melting_acid",
+        "nightshade_coating",
+        "blind",
+        "stealth",
+        "kick",
+        "venom_dart"
+      ],
+      "specs": [
+        {
+          "id": "assassination",
+          "display_name": "Assassination",
+          "display_name_status": "INTERIM: spec id; original name pending a naming batch",
+          "role": "dps",
+          "primary_stat": "agi",
+          "signature": "cold_blood",
+          "ref": {
+            "id": "assassination",
+            "name": "Knifework",
+            "file": "src/sim/content/talents_classic.ts",
+            "commit": "d2b91e0884cb269422c28d0b42d2a30a01de130a"
+          }
+        },
+        {
+          "id": "combat",
+          "display_name": "Combat",
+          "display_name_status": "INTERIM: spec id; original name pending a naming batch",
+          "role": "dps",
+          "primary_stat": "agi",
+          "signature": "blade_flurry",
+          "ref": {
+            "id": "combat",
+            "name": "Thuggery",
+            "file": "src/sim/content/talents_classic.ts",
+            "commit": "d2b91e0884cb269422c28d0b42d2a30a01de130a"
+          }
+        },
+        {
+          "id": "subtlety",
+          "display_name": "Subtlety",
+          "display_name_status": "INTERIM: spec id; original name pending a naming batch",
+          "role": "dps",
+          "primary_stat": "agi",
+          "signature": "hemorrhage",
+          "ref": {
+            "id": "subtlety",
+            "name": "Skulduggery",
+            "file": "src/sim/content/talents_classic.ts",
+            "commit": "d2b91e0884cb269422c28d0b42d2a30a01de130a"
+          }
+        }
+      ],
+      "armor": "leather",
+      "weapon_groups": [
+        "rogue",
+        "warrior"
+      ],
+      "dual_wield": [
+        "all"
+      ]
+    },
+    "priest": {
+      "name": "Priest",
+      "base_stats": {
+        "str": 10,
+        "agi": 11,
+        "sta": 13,
+        "int": 22,
+        "spi": 24,
+        "armor": 20
+      },
+      "stats_per_level": {
+        "str": 0,
+        "agi": 0,
+        "sta": 2,
+        "int": 2,
+        "spi": 3,
+        "armor": 4
+      },
+      "base_hp": 38,
+      "hp_per_level": 15,
+      "base_mana": 110,
+      "mana_per_level": 26,
+      "resource": "mana",
+      "ap_rule": "str",
+      "start_weapon": "gnarled_staff",
+      "ranged": {
+        "min": 3.0,
+        "max": 6.0,
+        "speed": 1.8,
+        "maxRange": 30.0,
+        "minRange": 0.0,
+        "wand": true,
+        "school": "holy"
+      },
+      "abilities": [
+        "smite",
+        "lesser_heal",
+        "power_word_fortitude",
+        "shadow_word_pain",
+        "power_word_shield",
+        "renew",
+        "mind_blast",
+        "heal",
+        "mind_flay",
+        "flash_heal",
+        "veilstep",
+        "psychic_scream",
+        "scouring_mercy",
+        "prayer_of_healing",
+        "holy_nova",
+        "seraphic_vigil",
+        "shadowform",
+        "vampiric_touch",
+        "void_rupture",
+        "summon_tithefiend",
+        "prayer_of_returning",
+        "spirit_bomb"
+      ],
+      "specs": [
+        {
+          "id": "discipline",
+          "display_name": "Discipline",
+          "display_name_status": "INTERIM: spec id; original name pending a naming batch",
+          "role": "healer",
+          "primary_stat": "int",
+          "signature": "scouring_mercy",
+          "ref": {
+            "id": "discipline",
+            "name": "Doctrine",
+            "file": "src/sim/content/talents_classic.ts",
+            "commit": "d2b91e0884cb269422c28d0b42d2a30a01de130a"
+          }
+        },
+        {
+          "id": "holy",
+          "display_name": "Holy",
+          "display_name_status": "INTERIM: spec id; original name pending a naming batch",
+          "role": "healer",
+          "primary_stat": "int",
+          "signature": "seraphic_vigil",
+          "ref": {
+            "id": "holy",
+            "name": "Benison",
+            "file": "src/sim/content/talents_classic.ts",
+            "commit": "d2b91e0884cb269422c28d0b42d2a30a01de130a"
+          }
+        },
+        {
+          "id": "shadow",
+          "display_name": "Shadow",
+          "display_name_status": "INTERIM: spec id; original name pending a naming batch",
+          "role": "dps",
+          "primary_stat": "int",
+          "signature": "summon_tithefiend",
+          "ref": {
+            "id": "shadow",
+            "name": "Vespers",
+            "file": "src/sim/content/talents_classic.ts",
+            "commit": "d2b91e0884cb269422c28d0b42d2a30a01de130a"
+          }
+        }
+      ],
+      "armor": "cloth",
+      "weapon_groups": [
+        "caster"
+      ],
+      "dual_wield": []
+    },
+    "shaman": {
+      "name": "Shaman",
+      "base_stats": {
+        "str": 18,
+        "agi": 16,
+        "sta": 20,
+        "int": 18,
+        "spi": 18,
+        "armor": 40
+      },
+      "stats_per_level": {
+        "str": 1,
+        "agi": 1,
+        "sta": 2,
+        "int": 2,
+        "spi": 2,
+        "armor": 10
+      },
+      "base_hp": 48,
+      "hp_per_level": 15,
+      "base_mana": 90,
+      "mana_per_level": 22,
+      "resource": "mana",
+      "ap_rule": "str2",
+      "start_weapon": "training_mace",
+      "abilities": [
+        "lightning_bolt",
+        "thunder_reservoir",
+        "lightning_overload",
+        "lava_burst",
+        "thunderstorm",
+        "chain_lightning",
+        "rockbiter_weapon",
+        "galeheart_weapon",
+        "warspirit_cadence",
+        "stormsurge",
+        "lifespring_weapon",
+        "unleash_weapon",
+        "elemental_trance",
+        "healing_wave",
+        "tidecall",
+        "ancestor_return",
+        "earth_shock",
+        "lightning_shield",
+        "flame_shock",
+        "flametongue_weapon",
+        "frost_shock",
+        "ghost_wolf",
+        "earthquake",
+        "bloodlust"
+      ],
+      "specs": [
+        {
+          "id": "elemental",
+          "display_name": "Elemental",
+          "display_name_status": "INTERIM: spec id; original name pending a naming batch",
+          "role": "dps",
+          "primary_stat": "int",
+          "signature": "elemental_mastery",
+          "ref": {
+            "id": "elemental",
+            "name": "Thundercall",
+            "file": "src/sim/content/talents_classic.ts",
+            "commit": "d2b91e0884cb269422c28d0b42d2a30a01de130a"
+          }
+        },
+        {
+          "id": "enhancement",
+          "display_name": "Enhancement",
+          "display_name_status": "INTERIM: spec id; original name pending a naming batch",
+          "role": "dps",
+          "primary_stat": "str",
+          "signature": "stormstrike",
+          "ref": {
+            "id": "enhancement",
+            "name": "Warspirit",
+            "file": "src/sim/content/talents_classic.ts",
+            "commit": "d2b91e0884cb269422c28d0b42d2a30a01de130a"
+          }
+        },
+        {
+          "id": "restoration",
+          "display_name": "Restoration",
+          "display_name_status": "INTERIM: spec id; original name pending a naming batch",
+          "role": "healer",
+          "primary_stat": "int",
+          "signature": "chain_heal",
+          "ref": {
+            "id": "restoration",
+            "name": "Spiritcall",
+            "file": "src/sim/content/talents_classic.ts",
+            "commit": "d2b91e0884cb269422c28d0b42d2a30a01de130a"
+          }
+        }
+      ],
+      "armor": "mail",
+      "weapon_groups": [
+        "caster",
+        "warrior"
+      ],
+      "dual_wield": [
+        "enhancement"
+      ]
+    },
+    "mage": {
+      "name": "Mage",
+      "base_stats": {
+        "str": 10,
+        "agi": 12,
+        "sta": 14,
+        "int": 24,
+        "spi": 22,
+        "armor": 25
+      },
+      "stats_per_level": {
+        "str": 0,
+        "agi": 0,
+        "sta": 2,
+        "int": 3,
+        "spi": 2,
+        "armor": 4
+      },
+      "base_hp": 40,
+      "hp_per_level": 15,
+      "base_mana": 100,
+      "mana_per_level": 24,
+      "resource": "mana",
+      "ap_rule": "str",
+      "start_weapon": "gnarled_staff",
+      "ranged": {
+        "min": 3.0,
+        "max": 6.0,
+        "speed": 1.8,
+        "maxRange": 30.0,
+        "minRange": 0.0,
+        "wand": true,
+        "school": "arcane"
+      },
+      "abilities": [
+        "fireball",
+        "frost_armor",
+        "arcane_intellect",
+        "frostbolt",
+        "conjure_water",
+        "blink",
+        "ice_block",
+        "ignition",
+        "hot_streak",
+        "blazing_barrier",
+        "meteor",
+        "combustion",
+        "summon_water_elemental",
+        "ice_lance",
+        "fingers_of_frost",
+        "brain_freeze",
+        "shatter",
+        "conjure_food",
+        "counterspell",
+        "fire_blast",
+        "arcane_missiles",
+        "flurry",
+        "polymorph",
+        "frost_nova",
+        "frozen_orb",
+        "blizzard",
+        "icy_veins",
+        "glacial_spike",
+        "glacial_front",
+        "dragons_breath",
+        "arcane_explosion",
+        "scorch",
+        "ice_barrier",
+        "pyroblast",
+        "flamestrike",
+        "temporal_barrier",
+        "temporal_echo",
+        "arcane_surge",
+        "temporal_cascade",
+        "temporal_reversal",
+        "collective_reversal",
+        "temporal_rewind",
+        "temporal_hourglass",
+        "temporal_acceleration",
+        "perfect_moment",
+        "fireball_form"
+      ],
+      "specs": [
+        {
+          "id": "arcane",
+          "display_name": "Arcane",
+          "display_name_status": "INTERIM: spec id; original name pending a naming batch",
+          "role": "healer",
+          "primary_stat": "int",
+          "signature": "temporal_mend",
+          "ref": {
+            "id": "arcane",
+            "name": "Chronomancy",
+            "file": "src/sim/content/talents_classic.ts",
+            "commit": "d2b91e0884cb269422c28d0b42d2a30a01de130a"
+          }
+        },
+        {
+          "id": "fire",
+          "display_name": "Fire",
+          "display_name_status": "INTERIM: spec id; original name pending a naming batch",
+          "role": "dps",
+          "primary_stat": "int",
+          "signature": "pyroblast",
+          "ref": {
+            "id": "fire",
+            "name": "Pyromancy",
+            "file": "src/sim/content/talents_classic.ts",
+            "commit": "d2b91e0884cb269422c28d0b42d2a30a01de130a"
+          }
+        },
+        {
+          "id": "frost",
+          "display_name": "Frost",
+          "display_name_status": "INTERIM: spec id; original name pending a naming batch",
+          "role": "dps",
+          "primary_stat": "int",
+          "signature": "ice_lance",
+          "ref": {
+            "id": "frost",
+            "name": "Cryomancy",
+            "file": "src/sim/content/talents_classic.ts",
+            "commit": "d2b91e0884cb269422c28d0b42d2a30a01de130a"
+          }
+        }
+      ],
+      "armor": "cloth",
+      "weapon_groups": [
+        "caster"
+      ],
+      "dual_wield": []
+    },
+    "warlock": {
+      "name": "Warlock",
+      "base_stats": {
+        "str": 11,
+        "agi": 12,
+        "sta": 15,
+        "int": 21,
+        "spi": 21,
+        "armor": 22
+      },
+      "stats_per_level": {
+        "str": 0,
+        "agi": 0,
+        "sta": 2,
+        "int": 3,
+        "spi": 2,
+        "armor": 4
+      },
+      "base_hp": 42,
+      "hp_per_level": 15,
+      "base_mana": 105,
+      "mana_per_level": 25,
+      "resource": "mana",
+      "ap_rule": "str",
+      "start_weapon": "gnarled_staff",
+      "ranged": {
+        "min": 3.0,
+        "max": 6.0,
+        "speed": 1.8,
+        "maxRange": 30.0,
+        "minRange": 0.0,
+        "wand": true,
+        "school": "shadow"
+      },
+      "abilities": [
+        "shadow_bolt",
+        "summon_imp",
+        "demon_skin",
+        "immolate",
+        "corruption",
+        "evil_eye",
+        "maledict_gaze",
+        "needle_of_fate",
+        "sentence",
+        "life_tap",
+        "cursed_accomplice",
+        "summon_voidwalker",
+        "curse_of_agony",
+        "drain_life",
+        "searing_pain",
+        "soul_lance",
+        "litany_of_guilt",
+        "umbral_anchor",
+        "soulwell",
+        "chaos_bolt",
+        "hex_of_violence",
+        "ossuary_mark",
+        "fear",
+        "cruel_pact",
+        "shadowburn",
+        "ruinous_brand",
+        "cinderhide",
+        "vicarious_suffering",
+        "summon_infernal",
+        "rain_of_fire",
+        "spell_lock",
+        "possess_evil_eye",
+        "hour_of_judgment",
+        "coven",
+        "soul_harvest",
+        "raise_graveguard",
+        "raise_skeletal_warrior",
+        "raise_bone_mage",
+        "bone_armor",
+        "corpse_explosion",
+        "funeral_harvest",
+        "unholy_command",
+        "reaping_command",
+        "sacrifice_undead",
+        "raise_gravewing",
+        "army_of_the_dead"
+      ],
+      "specs": [
+        {
+          "id": "affliction",
+          "display_name": "Affliction",
+          "display_name_status": "INTERIM: spec id; original name pending a naming batch",
+          "role": "dps",
+          "primary_stat": "int",
+          "signature": "evil_eye",
+          "ref": {
+            "id": "affliction",
+            "name": "Hexcraft",
+            "file": "src/sim/content/talents_classic.ts",
+            "commit": "d2b91e0884cb269422c28d0b42d2a30a01de130a"
+          }
+        },
+        {
+          "id": "demonology",
+          "display_name": "Demonology",
+          "display_name_status": "INTERIM: spec id; original name pending a naming batch",
+          "role": "dps",
+          "primary_stat": "int",
+          "signature": "metamorphosis",
+          "ref": {
+            "id": "demonology",
+            "name": "Necromancy",
+            "file": "src/sim/content/talents_classic.ts",
+            "commit": "d2b91e0884cb269422c28d0b42d2a30a01de130a"
+          }
+        },
+        {
+          "id": "destruction",
+          "display_name": "Destruction",
+          "display_name_status": "INTERIM: spec id; original name pending a naming batch",
+          "role": "dps",
+          "primary_stat": "int",
+          "signature": "conflagrate",
+          "ref": {
+            "id": "destruction",
+            "name": "Ruination",
+            "file": "src/sim/content/talents_classic.ts",
+            "commit": "d2b91e0884cb269422c28d0b42d2a30a01de130a"
+          }
+        }
+      ],
+      "armor": "cloth",
+      "weapon_groups": [
+        "caster"
+      ],
+      "dual_wield": []
+    },
+    "druid": {
+      "name": "Druid",
+      "base_stats": {
+        "str": 15,
+        "agi": 15,
+        "sta": 17,
+        "int": 19,
+        "spi": 20,
+        "armor": 30
+      },
+      "stats_per_level": {
+        "str": 1,
+        "agi": 1,
+        "sta": 2,
+        "int": 2,
+        "spi": 2,
+        "armor": 6
+      },
+      "base_hp": 45,
+      "hp_per_level": 13,
+      "base_mana": 95,
+      "mana_per_level": 22,
+      "resource": "mana",
+      "ap_rule": "str2",
+      "start_weapon": "gnarled_staff",
+      "ranged": {
+        "min": 3.0,
+        "max": 6.0,
+        "speed": 1.8,
+        "maxRange": 30.0,
+        "minRange": 0.0,
+        "wand": true,
+        "school": "nature"
+      },
+      "abilities": [
+        "wrath",
+        "healing_touch",
+        "mark_of_the_wild",
+        "moonfire",
+        "moonseed",
+        "rejuvenation",
+        "thorns",
+        "entangling_roots",
+        "bear_form",
+        "bear_charge",
+        "maul",
+        "growl",
+        "challenging_roar",
+        "demoralizing_roar",
+        "frenzied_regeneration",
+        "cat_form",
+        "prowl",
+        "rake",
+        "claw",
+        "scratch",
+        "regrowth",
+        "ferocious_bite",
+        "barkskin",
+        "swipe",
+        "starfire",
+        "travel_form",
+        "enrage",
+        "bash",
+        "faerie_fire",
+        "hibernate",
+        "dash",
+        "pounce",
+        "hamstring_bite",
+        "insect_swarm",
+        "tigers_fury",
+        "rip",
+        "hurricane",
+        "skull_bash",
+        "primal_reflexes",
+        "wildwake",
+        "grove_awakening",
+        "sporemender_form",
+        "spore_burst",
+        "natures_boon"
+      ],
+      "specs": [
+        {
+          "id": "balance",
+          "display_name": "Balance",
+          "display_name_status": "INTERIM: spec id; original name pending a naming batch",
+          "role": "dps",
+          "primary_stat": "int",
+          "signature": "moonkin_form",
+          "ref": {
+            "id": "balance",
+            "name": "Moongrove",
+            "file": "src/sim/content/talents_classic.ts",
+            "commit": "d2b91e0884cb269422c28d0b42d2a30a01de130a"
+          }
+        },
+        {
+          "id": "feral",
+          "display_name": "Feral",
+          "display_name_status": "INTERIM: spec id; original name pending a naming batch",
+          "role": "tank",
+          "primary_stat": "str",
+          "signature": "feral_charge",
+          "ref": {
+            "id": "feral",
+            "name": "Wildfang",
+            "file": "src/sim/content/talents_classic.ts",
+            "commit": "d2b91e0884cb269422c28d0b42d2a30a01de130a"
+          }
+        },
+        {
+          "id": "restoration",
+          "display_name": "Restoration",
+          "display_name_status": "INTERIM: spec id; original name pending a naming batch",
+          "role": "healer",
+          "primary_stat": "int",
+          "signature": "swiftmend",
+          "ref": {
+            "id": "restoration",
+            "name": "Groveheart",
+            "file": "src/sim/content/talents_classic.ts",
+            "commit": "d2b91e0884cb269422c28d0b42d2a30a01de130a"
+          }
+        }
+      ],
+      "armor": "leather",
+      "weapon_groups": [
+        "caster"
+      ],
+      "dual_wield": []
+    }
+  },
+  "registry_source": {
+    "repository": "https://github.com/levy-street/world-of-claudecraft",
+    "commit": "d2b91e0884cb269422c28d0b42d2a30a01de130a",
+    "inputs": {
+      "src/sim/content/spec_primary_stat.ts": "0cb2464506acb70cf65f6c748eeb67ab966f5eefd1e2650f1c8299f6a3a91d3c",
+      "src/sim/content/talent_rows.ts": "0418d548117d678b8884841071eea9e9b1e2eaef27b78662b1e9121a743179b2",
+      "src/sim/content/talents.ts": "e29b4e549459ab8983de16ea3a6b63895432a1cacf5bdfe17abaca20d07c9c64",
+      "src/sim/content/talents_classic.ts": "f0f4eed5b67b460731a297103eecd6ac8cd1e10fdf743df610fbd873555609f2",
+      "src/sim/content/talents_warrior.ts": "f0c63a305cea28d4be82ae21f10bada69aeca43240b774fe89e05a1167315f65",
+      "src/sim/equipment_rules.ts": "2e55c2f5eebf29a0a3b0c0e1e354dc97f800440914bd1feb3a5ca4689e2cca48",
+      "src/sim/types.ts": "b1768cdfbe0f629489fbe658bd5ce9c34dbad5541b39cd44c4d8e6c4f16c4090"
+    },
+    "method": "pinned source read with git show (never executed); tools/content/build_reference_registries.py"
+  }
+}

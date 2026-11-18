@@ -166,6 +166,207 @@
       "source": "scifi/emp-blast",
       "end": 1.2,
       "stride": 2
+    },
+    "melee_sword_slash": {
+      "source": "melee/sword-slash",
+      "use": "PROPOSED: sword and axe basic attacks"
+    },
+    "melee_double_slash": {
+      "source": "melee/double-slash",
+      "use": "PROPOSED: two-hit weapon skills"
+    },
+    "melee_dagger_flurry": {
+      "source": "melee/dagger-flurry",
+      "use": "PROPOSED: dagger flurries (rogue)"
+    },
+    "melee_thrust": {
+      "source": "melee/thrust",
+      "use": "PROPOSED: stabs and spear thrusts"
+    },
+    "melee_spear_sweep": {
+      "source": "melee/spear-sweep",
+      "end": 0.6,
+      "use": "PROPOSED: wide low sweeps"
+    },
+    "melee_claw_swipe": {
+      "source": "melee/claw-swipe",
+      "use": "PROPOSED: beast and feral attacks (druid, pets, monsters)"
+    },
+    "melee_hammer_smash": {
+      "source": "melee/hammer-smash",
+      "end": 0.8,
+      "use": "PROPOSED: mace and hammer blows"
+    },
+    "proj_arrow": {
+      "source": "projectiles/arrow",
+      "loop": true,
+      "use": "PROPOSED: arrows in flight (hunter)"
+    },
+    "proj_magic_missile": {
+      "source": "projectiles/magic-missile",
+      "use": "PROPOSED: arcane missiles"
+    },
+    "proj_fireball": {
+      "source": "fire/fireball",
+      "loop": true,
+      "use": "PROPOSED: fireball in flight"
+    },
+    "proj_ice_lance": {
+      "source": "ice/ice-lance",
+      "loop": true,
+      "use": "PROPOSED: frost bolt in flight"
+    },
+    "fire_ring": {
+      "source": "fire/fire-ring",
+      "end": 1.6,
+      "stride": 2,
+      "use": "PROPOSED: fire area around the caster"
+    },
+    "fire_pillar": {
+      "source": "fire/flame-pillar",
+      "end": 2.0,
+      "stride": 2,
+      "use": "PROPOSED: targeted fire area, boss fire attacks"
+    },
+    "fire_meteor": {
+      "source": "fire/meteor",
+      "end": 2.2,
+      "stride": 2,
+      "use": "PROPOSED: boss or large fire impact"
+    },
+    "ice_frost_nova": {
+      "source": "ice/frost-nova",
+      "stride": 2,
+      "use": "PROPOSED: frost area around the caster"
+    },
+    "ice_spikes": {
+      "source": "ice/ice-spikes",
+      "stride": 2,
+      "use": "PROPOSED: ground ice line"
+    },
+    "ice_shatter": {
+      "source": "ice/ice-shatter",
+      "stride": 2,
+      "use": "PROPOSED: a frozen target shattering"
+    },
+    "lightning_chain": {
+      "source": "lightning/chain-lightning",
+      "use": "PROPOSED: chain lightning (shaman)"
+    },
+    "lightning_strike": {
+      "source": "lightning/lightning-strike",
+      "end": 1.6,
+      "stride": 2,
+      "use": "PROPOSED: targeted lightning, boss strikes"
+    },
+    "lightning_thunderclap": {
+      "source": "lightning/thunderclap",
+      "end": 0.9,
+      "use": "PROPOSED: thunder area around the caster"
+    },
+    "holy_smite": {
+      "source": "holy/smite",
+      "stride": 2,
+      "use": "PROPOSED: holy damage (priest, paladin)"
+    },
+    "holy_shield": {
+      "source": "holy/divine-shield",
+      "loop": true,
+      "use": "PROPOSED: holy shield aura on a character"
+    },
+    "holy_heal_area": {
+      "source": "holy/heal-aoe",
+      "stride": 2,
+      "use": "PROPOSED: area heals"
+    },
+    "holy_blessing": {
+      "source": "holy/blessing",
+      "loop": true,
+      "use": "PROPOSED: blessing buff aura"
+    },
+    "shadow_tendrils": {
+      "source": "shadow/shadow-tendrils",
+      "stride": 2,
+      "use": "PROPOSED: shadow area, roots of darkness"
+    },
+    "shadow_explosion": {
+      "source": "shadow/dark-explosion",
+      "end": 1.8,
+      "stride": 2,
+      "use": "PROPOSED: shadow burst, boss shadow attacks"
+    },
+    "shadow_drain": {
+      "source": "shadow/soul-drain",
+      "loop": true,
+      "stride": 2,
+      "use": "PROPOSED: drain channel (warlock)"
+    },
+    "nature_thorns": {
+      "source": "nature/thorns",
+      "stride": 2,
+      "use": "PROPOSED: ground thorns line"
+    },
+    "nature_root_snare": {
+      "source": "nature/root-snare",
+      "stride": 2,
+      "use": "PROPOSED: root or snare on a target"
+    },
+    "nature_healing_bloom": {
+      "source": "nature/healing-bloom",
+      "stride": 2,
+      "use": "PROPOSED: nature heals (druid, shaman)"
+    },
+    "nature_earth_spike": {
+      "source": "nature/earth-spike",
+      "end": 2.0,
+      "stride": 2,
+      "use": "PROPOSED: earth strike (shaman)"
+    },
+    "nature_poison_cloud": {
+      "source": "nature/poison-cloud",
+      "loop": true,
+      "stride": 2,
+      "use": "PROPOSED: poison ground area"
+    },
+    "arcane_burst": {
+      "source": "arcane/mana-burst",
+      "stride": 2,
+      "use": "PROPOSED: arcane burst"
+    },
+    "arcane_circle": {
+      "source": "arcane/magic-circle-cast",
+      "stride": 2,
+      "use": "PROPOSED: large cast circle, boss casts"
+    },
+    "status_stunned": {
+      "source": "status/stunned",
+      "loop": true,
+      "use": "PROPOSED: stunned marker over the head"
+    },
+    "status_asleep": {
+      "source": "status/sleep",
+      "loop": true,
+      "use": "PROPOSED: asleep marker over the head"
+    },
+    "spawn_poof": {
+      "source": "spawn/poof",
+      "use": "PROPOSED: an enemy vanishing or spawning"
     }
+  },
+  "_selection": {
+    "inspected": 244,
+    "pinned_commit_checked": "2026-11-17",
+    "rejected": {
+      "shadow/curse": "draws a body silhouette (PixelFX's stock character) even with --no-actor",
+      "shadow/life-steal": "draws the target's body outline",
+      "spawn/respawn-beam": "paints a body in",
+      "status/frozen": "ices over a stock body",
+      "status/poisoned": "draws a stock body",
+      "status/haste": "after-images of the stock body",
+      "status/burning": "flashes a white stock body",
+      "melee/heavy-cleave": "its arc depends on the actor; unreadable without one",
+      "explosions/small-explosion": "5.4 s of smoke; duplicates boss_impact / boss_defeat"
+    },
+    "not_rendered": "moves (whole attacks with the stock actor), critters, weather, transitions, ui, pickups (screen-wide or not combat), and the other scifi, water, explosion and arcane effects not needed now; the 25 effects already in use stay as they are"
   }
 }

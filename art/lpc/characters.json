@@ -3565,6 +3565,2668 @@
           }
         }
       ]
+    },
+    "class_warrior_m": {
+      "role": "hero",
+      "body_type": "male",
+      "layers": [
+        {
+          "def": "body/body.json",
+          "recolor": {
+            "color": "ulpc.light"
+          }
+        },
+        {
+          "def": "head/heads/human/heads_human_male.json",
+          "recolor": {
+            "color_1": "ulpc.light"
+          }
+        },
+        {
+          "def": "hair/short/hair_plain.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        },
+        {
+          "def": "feet/boots/feet_boots_rim.json",
+          "recolor": {
+            "color": "ulpc.brown"
+          }
+        },
+        {
+          "def": "legs/legs_armour.json"
+        },
+        {
+          "def": "torso/armour/torso_armour_plate.json"
+        },
+        {
+          "def": "headwear/helmets/helmets/hat_helmet_nasal.json"
+        }
+      ],
+      "animation_overrides": {
+        "idle": {
+          "lpc": "idle",
+          "fps": 4
+        },
+        "light": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            2,
+            4,
+            5
+          ],
+          "fps": 18,
+          "loop": false,
+          "contact": [
+            2,
+            3
+          ]
+        },
+        "heavy": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            1,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "fps": 12,
+          "loop": false,
+          "borrow": {
+            "1": [
+              "spellcast",
+              5
+            ],
+            "2": [
+              "spellcast",
+              5
+            ]
+          },
+          "contact": [
+            5,
+            6
+          ]
+        },
+        "stab": {
+          "lpc": "thrust",
+          "frames": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 14,
+          "loop": false,
+          "contact": [
+            3,
+            4
+          ]
+        },
+        "swing": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 16,
+          "loop": false,
+          "borrow": {
+            "1": [
+              "spellcast",
+              5
+            ]
+          },
+          "contact": [
+            4,
+            5
+          ]
+        },
+        "dodge": {
+          "lpc": "walk",
+          "frames": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 12,
+          "loop": false
+        }
+      }
+    },
+    "class_warrior_f": {
+      "role": "hero",
+      "body_type": "female",
+      "layers": [
+        {
+          "def": "body/body.json",
+          "recolor": {
+            "color": "ulpc.light"
+          }
+        },
+        {
+          "def": "head/heads/human/heads_human_female.json",
+          "recolor": {
+            "color_1": "ulpc.light"
+          }
+        },
+        {
+          "def": "hair/braids/hair_high_ponytail.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        },
+        {
+          "def": "feet/boots/feet_boots_rim.json",
+          "recolor": {
+            "color": "ulpc.brown"
+          }
+        },
+        {
+          "def": "legs/legs_armour.json"
+        },
+        {
+          "def": "torso/armour/torso_armour_plate.json"
+        },
+        {
+          "def": "headwear/helmets/helmets/hat_helmet_nasal.json"
+        }
+      ],
+      "animation_overrides": {
+        "idle": {
+          "lpc": "idle",
+          "fps": 4
+        },
+        "light": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            2,
+            4,
+            5
+          ],
+          "fps": 18,
+          "loop": false,
+          "contact": [
+            2,
+            3
+          ]
+        },
+        "heavy": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            1,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "fps": 12,
+          "loop": false,
+          "borrow": {
+            "1": [
+              "spellcast",
+              5
+            ],
+            "2": [
+              "spellcast",
+              5
+            ]
+          },
+          "contact": [
+            5,
+            6
+          ]
+        },
+        "stab": {
+          "lpc": "thrust",
+          "frames": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 14,
+          "loop": false,
+          "contact": [
+            3,
+            4
+          ]
+        },
+        "swing": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 16,
+          "loop": false,
+          "borrow": {
+            "1": [
+              "spellcast",
+              5
+            ]
+          },
+          "contact": [
+            4,
+            5
+          ]
+        },
+        "dodge": {
+          "lpc": "walk",
+          "frames": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 12,
+          "loop": false
+        }
+      }
+    },
+    "class_paladin_m": {
+      "role": "hero",
+      "body_type": "male",
+      "layers": [
+        {
+          "def": "body/body.json",
+          "recolor": {
+            "color": "ulpc.amber"
+          }
+        },
+        {
+          "def": "head/heads/human/heads_human_male.json",
+          "recolor": {
+            "color_1": "ulpc.amber"
+          }
+        },
+        {
+          "def": "hair/short/hair_plain.json",
+          "recolor": {
+            "color": "ulpc.dark_brown"
+          }
+        },
+        {
+          "def": "feet/boots/feet_boots_rim.json",
+          "recolor": {
+            "color": "ulpc.white"
+          }
+        },
+        {
+          "def": "legs/legs_armour.json",
+          "recolor": {
+            "color": "ulpc.gold"
+          }
+        },
+        {
+          "def": "torso/cape/cape_solid.json",
+          "recolor": {
+            "color": "ulpc.white"
+          }
+        },
+        {
+          "def": "torso/armour/torso_armour_plate.json",
+          "recolor": {
+            "color": "ulpc.gold"
+          }
+        }
+      ],
+      "animation_overrides": {
+        "idle": {
+          "lpc": "idle",
+          "fps": 4
+        },
+        "light": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            2,
+            4,
+            5
+          ],
+          "fps": 18,
+          "loop": false,
+          "contact": [
+            2,
+            3
+          ]
+        },
+        "heavy": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            1,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "fps": 12,
+          "loop": false,
+          "borrow": {
+            "1": [
+              "spellcast",
+              5
+            ],
+            "2": [
+              "spellcast",
+              5
+            ]
+          },
+          "contact": [
+            5,
+            6
+          ]
+        },
+        "stab": {
+          "lpc": "thrust",
+          "frames": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 14,
+          "loop": false,
+          "contact": [
+            3,
+            4
+          ]
+        },
+        "swing": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 16,
+          "loop": false,
+          "borrow": {
+            "1": [
+              "spellcast",
+              5
+            ]
+          },
+          "contact": [
+            4,
+            5
+          ]
+        },
+        "dodge": {
+          "lpc": "walk",
+          "frames": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 12,
+          "loop": false
+        }
+      }
+    },
+    "class_paladin_f": {
+      "role": "hero",
+      "body_type": "female",
+      "layers": [
+        {
+          "def": "body/body.json",
+          "recolor": {
+            "color": "ulpc.amber"
+          }
+        },
+        {
+          "def": "head/heads/human/heads_human_female.json",
+          "recolor": {
+            "color_1": "ulpc.amber"
+          }
+        },
+        {
+          "def": "hair/braids/hair_high_ponytail.json",
+          "recolor": {
+            "color": "ulpc.dark_brown"
+          }
+        },
+        {
+          "def": "feet/boots/feet_boots_rim.json",
+          "recolor": {
+            "color": "ulpc.white"
+          }
+        },
+        {
+          "def": "legs/legs_armour.json",
+          "recolor": {
+            "color": "ulpc.gold"
+          }
+        },
+        {
+          "def": "torso/cape/cape_solid.json",
+          "recolor": {
+            "color": "ulpc.white"
+          }
+        },
+        {
+          "def": "torso/armour/torso_armour_plate.json",
+          "recolor": {
+            "color": "ulpc.gold"
+          }
+        }
+      ],
+      "animation_overrides": {
+        "idle": {
+          "lpc": "idle",
+          "fps": 4
+        },
+        "light": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            2,
+            4,
+            5
+          ],
+          "fps": 18,
+          "loop": false,
+          "contact": [
+            2,
+            3
+          ]
+        },
+        "heavy": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            1,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "fps": 12,
+          "loop": false,
+          "borrow": {
+            "1": [
+              "spellcast",
+              5
+            ],
+            "2": [
+              "spellcast",
+              5
+            ]
+          },
+          "contact": [
+            5,
+            6
+          ]
+        },
+        "stab": {
+          "lpc": "thrust",
+          "frames": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 14,
+          "loop": false,
+          "contact": [
+            3,
+            4
+          ]
+        },
+        "swing": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 16,
+          "loop": false,
+          "borrow": {
+            "1": [
+              "spellcast",
+              5
+            ]
+          },
+          "contact": [
+            4,
+            5
+          ]
+        },
+        "dodge": {
+          "lpc": "walk",
+          "frames": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 12,
+          "loop": false
+        }
+      }
+    },
+    "class_hunter_m": {
+      "role": "hero",
+      "body_type": "male",
+      "layers": [
+        {
+          "def": "body/body.json",
+          "recolor": {
+            "color": "ulpc.olive"
+          }
+        },
+        {
+          "def": "head/heads/human/heads_human_male.json",
+          "recolor": {
+            "color_1": "ulpc.olive"
+          }
+        },
+        {
+          "def": "feet/boots/feet_boots_fold.json",
+          "recolor": {
+            "color": "ulpc.brown"
+          }
+        },
+        {
+          "def": "legs/leggings/legs_leggings.json",
+          "recolor": {
+            "color": "ulpc.forest"
+          }
+        },
+        {
+          "def": "torso/armour/torso_armour_leather.json"
+        },
+        {
+          "def": "headwear/coverings/hoods/hat_hood_cloth.json",
+          "recolor": {
+            "color": "ulpc.forest"
+          }
+        }
+      ],
+      "animation_overrides": {
+        "idle": {
+          "lpc": "idle",
+          "fps": 4
+        },
+        "light": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            2,
+            4,
+            5
+          ],
+          "fps": 18,
+          "loop": false,
+          "contact": [
+            2,
+            3
+          ]
+        },
+        "heavy": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            1,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "fps": 12,
+          "loop": false,
+          "borrow": {
+            "1": [
+              "spellcast",
+              5
+            ],
+            "2": [
+              "spellcast",
+              5
+            ]
+          },
+          "contact": [
+            5,
+            6
+          ]
+        },
+        "stab": {
+          "lpc": "thrust",
+          "frames": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 14,
+          "loop": false,
+          "contact": [
+            3,
+            4
+          ]
+        },
+        "swing": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 16,
+          "loop": false,
+          "borrow": {
+            "1": [
+              "spellcast",
+              5
+            ]
+          },
+          "contact": [
+            4,
+            5
+          ]
+        },
+        "dodge": {
+          "lpc": "walk",
+          "frames": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 12,
+          "loop": false
+        }
+      }
+    },
+    "class_hunter_f": {
+      "role": "hero",
+      "body_type": "female",
+      "layers": [
+        {
+          "def": "body/body.json",
+          "recolor": {
+            "color": "ulpc.olive"
+          }
+        },
+        {
+          "def": "head/heads/human/heads_human_female.json",
+          "recolor": {
+            "color_1": "ulpc.olive"
+          }
+        },
+        {
+          "def": "feet/boots/feet_boots_fold.json",
+          "recolor": {
+            "color": "ulpc.brown"
+          }
+        },
+        {
+          "def": "legs/leggings/legs_leggings.json",
+          "recolor": {
+            "color": "ulpc.forest"
+          }
+        },
+        {
+          "def": "torso/armour/torso_armour_leather.json"
+        },
+        {
+          "def": "headwear/coverings/hoods/hat_hood_cloth.json",
+          "recolor": {
+            "color": "ulpc.forest"
+          }
+        }
+      ],
+      "animation_overrides": {
+        "idle": {
+          "lpc": "idle",
+          "fps": 4
+        },
+        "light": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            2,
+            4,
+            5
+          ],
+          "fps": 18,
+          "loop": false,
+          "contact": [
+            2,
+            3
+          ]
+        },
+        "heavy": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            1,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "fps": 12,
+          "loop": false,
+          "borrow": {
+            "1": [
+              "spellcast",
+              5
+            ],
+            "2": [
+              "spellcast",
+              5
+            ]
+          },
+          "contact": [
+            5,
+            6
+          ]
+        },
+        "stab": {
+          "lpc": "thrust",
+          "frames": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 14,
+          "loop": false,
+          "contact": [
+            3,
+            4
+          ]
+        },
+        "swing": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 16,
+          "loop": false,
+          "borrow": {
+            "1": [
+              "spellcast",
+              5
+            ]
+          },
+          "contact": [
+            4,
+            5
+          ]
+        },
+        "dodge": {
+          "lpc": "walk",
+          "frames": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 12,
+          "loop": false
+        }
+      }
+    },
+    "class_rogue_m": {
+      "role": "hero",
+      "body_type": "male",
+      "layers": [
+        {
+          "def": "body/body.json",
+          "recolor": {
+            "color": "ulpc.taupe"
+          }
+        },
+        {
+          "def": "head/heads/human/heads_human_male.json",
+          "recolor": {
+            "color_1": "ulpc.taupe"
+          }
+        },
+        {
+          "def": "hair/short/hair_plain.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        },
+        {
+          "def": "feet/boots/feet_boots_basic.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        },
+        {
+          "def": "legs/pants/legs_pants.json",
+          "recolor": {
+            "color": "ulpc.charcoal"
+          }
+        },
+        {
+          "def": "torso/armour/torso_armour_leather.json",
+          "recolor": {
+            "color_1": "ulpc.black"
+          }
+        },
+        {
+          "def": "headwear/coverings/bandana/hat_bandana.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        }
+      ],
+      "animation_overrides": {
+        "idle": {
+          "lpc": "idle",
+          "fps": 4
+        },
+        "light": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            2,
+            4,
+            5
+          ],
+          "fps": 18,
+          "loop": false,
+          "contact": [
+            2,
+            3
+          ]
+        },
+        "heavy": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            1,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "fps": 12,
+          "loop": false,
+          "borrow": {
+            "1": [
+              "spellcast",
+              5
+            ],
+            "2": [
+              "spellcast",
+              5
+            ]
+          },
+          "contact": [
+            5,
+            6
+          ]
+        },
+        "stab": {
+          "lpc": "thrust",
+          "frames": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 14,
+          "loop": false,
+          "contact": [
+            3,
+            4
+          ]
+        },
+        "swing": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 16,
+          "loop": false,
+          "borrow": {
+            "1": [
+              "spellcast",
+              5
+            ]
+          },
+          "contact": [
+            4,
+            5
+          ]
+        },
+        "dodge": {
+          "lpc": "walk",
+          "frames": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 12,
+          "loop": false
+        }
+      }
+    },
+    "class_rogue_f": {
+      "role": "hero",
+      "body_type": "female",
+      "layers": [
+        {
+          "def": "body/body.json",
+          "recolor": {
+            "color": "ulpc.taupe"
+          }
+        },
+        {
+          "def": "head/heads/human/heads_human_female.json",
+          "recolor": {
+            "color_1": "ulpc.taupe"
+          }
+        },
+        {
+          "def": "hair/braids/hair_high_ponytail.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        },
+        {
+          "def": "feet/boots/feet_boots_basic.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        },
+        {
+          "def": "legs/pants/legs_pants.json",
+          "recolor": {
+            "color": "ulpc.charcoal"
+          }
+        },
+        {
+          "def": "torso/armour/torso_armour_leather.json",
+          "recolor": {
+            "color_1": "ulpc.black"
+          }
+        },
+        {
+          "def": "headwear/coverings/bandana/hat_bandana.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        }
+      ],
+      "animation_overrides": {
+        "idle": {
+          "lpc": "idle",
+          "fps": 4
+        },
+        "light": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            2,
+            4,
+            5
+          ],
+          "fps": 18,
+          "loop": false,
+          "contact": [
+            2,
+            3
+          ]
+        },
+        "heavy": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            1,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "fps": 12,
+          "loop": false,
+          "borrow": {
+            "1": [
+              "spellcast",
+              5
+            ],
+            "2": [
+              "spellcast",
+              5
+            ]
+          },
+          "contact": [
+            5,
+            6
+          ]
+        },
+        "stab": {
+          "lpc": "thrust",
+          "frames": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 14,
+          "loop": false,
+          "contact": [
+            3,
+            4
+          ]
+        },
+        "swing": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 16,
+          "loop": false,
+          "borrow": {
+            "1": [
+              "spellcast",
+              5
+            ]
+          },
+          "contact": [
+            4,
+            5
+          ]
+        },
+        "dodge": {
+          "lpc": "walk",
+          "frames": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 12,
+          "loop": false
+        }
+      }
+    },
+    "class_priest_m": {
+      "role": "hero",
+      "body_type": "male",
+      "layers": [
+        {
+          "def": "body/body.json",
+          "recolor": {
+            "color": "ulpc.light"
+          }
+        },
+        {
+          "def": "head/heads/human/heads_human_male.json",
+          "recolor": {
+            "color_1": "ulpc.light"
+          }
+        },
+        {
+          "def": "hair/short/hair_plain.json",
+          "recolor": {
+            "color": "ulpc.blonde"
+          }
+        },
+        {
+          "def": "feet/shoes/feet_shoes_basic.json",
+          "recolor": {
+            "color": "ulpc.tan"
+          }
+        },
+        {
+          "def": "legs/skirts/legs_skirts_plain.json",
+          "recolor": {
+            "color": "ulpc.white"
+          }
+        },
+        {
+          "def": "torso/shirts/longsleeve/torso_clothes_longsleeve2.json",
+          "recolor": {
+            "color": "ulpc.white"
+          }
+        },
+        {
+          "def": "headwear/neck/charms/neck_amulet_star.json",
+          "variant": "brass_yellow"
+        }
+      ],
+      "animation_overrides": {
+        "idle": {
+          "lpc": "idle",
+          "fps": 4
+        },
+        "light": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            2,
+            4,
+            5
+          ],
+          "fps": 18,
+          "loop": false,
+          "contact": [
+            2,
+            3
+          ]
+        },
+        "heavy": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            1,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "fps": 12,
+          "loop": false,
+          "borrow": {
+            "1": [
+              "spellcast",
+              5
+            ],
+            "2": [
+              "spellcast",
+              5
+            ]
+          },
+          "contact": [
+            5,
+            6
+          ]
+        },
+        "stab": {
+          "lpc": "thrust",
+          "frames": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 14,
+          "loop": false,
+          "contact": [
+            3,
+            4
+          ]
+        },
+        "swing": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 16,
+          "loop": false,
+          "borrow": {
+            "1": [
+              "spellcast",
+              5
+            ]
+          },
+          "contact": [
+            4,
+            5
+          ]
+        },
+        "dodge": {
+          "lpc": "walk",
+          "frames": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 12,
+          "loop": false
+        }
+      }
+    },
+    "class_priest_f": {
+      "role": "hero",
+      "body_type": "female",
+      "layers": [
+        {
+          "def": "body/body.json",
+          "recolor": {
+            "color": "ulpc.light"
+          }
+        },
+        {
+          "def": "head/heads/human/heads_human_female.json",
+          "recolor": {
+            "color_1": "ulpc.light"
+          }
+        },
+        {
+          "def": "hair/braids/hair_high_ponytail.json",
+          "recolor": {
+            "color": "ulpc.blonde"
+          }
+        },
+        {
+          "def": "feet/shoes/feet_shoes_basic.json",
+          "recolor": {
+            "color": "ulpc.tan"
+          }
+        },
+        {
+          "def": "legs/skirts/legs_skirts_plain.json",
+          "recolor": {
+            "color": "ulpc.white"
+          }
+        },
+        {
+          "def": "torso/shirts/longsleeve/torso_clothes_longsleeve2.json",
+          "recolor": {
+            "color": "ulpc.white"
+          }
+        },
+        {
+          "def": "headwear/neck/charms/neck_amulet_star.json",
+          "variant": "brass_yellow"
+        }
+      ],
+      "animation_overrides": {
+        "idle": {
+          "lpc": "idle",
+          "fps": 4
+        },
+        "light": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            2,
+            4,
+            5
+          ],
+          "fps": 18,
+          "loop": false,
+          "contact": [
+            2,
+            3
+          ]
+        },
+        "heavy": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            1,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "fps": 12,
+          "loop": false,
+          "borrow": {
+            "1": [
+              "spellcast",
+              5
+            ],
+            "2": [
+              "spellcast",
+              5
+            ]
+          },
+          "contact": [
+            5,
+            6
+          ]
+        },
+        "stab": {
+          "lpc": "thrust",
+          "frames": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 14,
+          "loop": false,
+          "contact": [
+            3,
+            4
+          ]
+        },
+        "swing": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 16,
+          "loop": false,
+          "borrow": {
+            "1": [
+              "spellcast",
+              5
+            ]
+          },
+          "contact": [
+            4,
+            5
+          ]
+        },
+        "dodge": {
+          "lpc": "walk",
+          "frames": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 12,
+          "loop": false
+        }
+      }
+    },
+    "class_shaman_m": {
+      "role": "hero",
+      "body_type": "male",
+      "layers": [
+        {
+          "def": "body/body.json",
+          "recolor": {
+            "color": "ulpc.bronze"
+          }
+        },
+        {
+          "def": "head/heads/human/heads_human_male.json",
+          "recolor": {
+            "color_1": "ulpc.bronze"
+          }
+        },
+        {
+          "def": "hair/short/hair_plain.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        },
+        {
+          "def": "feet/boots/feet_boots_fold.json",
+          "recolor": {
+            "color": "ulpc.leather"
+          }
+        },
+        {
+          "def": "legs/pants/legs_pants.json",
+          "recolor": {
+            "color": "ulpc.teal"
+          }
+        },
+        {
+          "def": "torso/torso_chainmail.json"
+        },
+        {
+          "def": "arms/shoulders/shoulders_mantal.json",
+          "recolor": {
+            "color": "ulpc.teal"
+          }
+        },
+        {
+          "def": "headwear/coverings/headbands/hat_headband_thick_rune.json",
+          "recolor": {
+            "color": "ulpc.teal"
+          }
+        }
+      ],
+      "animation_overrides": {
+        "idle": {
+          "lpc": "idle",
+          "fps": 4
+        },
+        "light": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            2,
+            4,
+            5
+          ],
+          "fps": 18,
+          "loop": false,
+          "contact": [
+            2,
+            3
+          ]
+        },
+        "heavy": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            1,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "fps": 12,
+          "loop": false,
+          "borrow": {
+            "1": [
+              "spellcast",
+              5
+            ],
+            "2": [
+              "spellcast",
+              5
+            ]
+          },
+          "contact": [
+            5,
+            6
+          ]
+        },
+        "stab": {
+          "lpc": "thrust",
+          "frames": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 14,
+          "loop": false,
+          "contact": [
+            3,
+            4
+          ]
+        },
+        "swing": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 16,
+          "loop": false,
+          "borrow": {
+            "1": [
+              "spellcast",
+              5
+            ]
+          },
+          "contact": [
+            4,
+            5
+          ]
+        },
+        "dodge": {
+          "lpc": "walk",
+          "frames": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 12,
+          "loop": false
+        }
+      }
+    },
+    "class_shaman_f": {
+      "role": "hero",
+      "body_type": "female",
+      "layers": [
+        {
+          "def": "body/body.json",
+          "recolor": {
+            "color": "ulpc.bronze"
+          }
+        },
+        {
+          "def": "head/heads/human/heads_human_female.json",
+          "recolor": {
+            "color_1": "ulpc.bronze"
+          }
+        },
+        {
+          "def": "hair/braids/hair_high_ponytail.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        },
+        {
+          "def": "feet/boots/feet_boots_fold.json",
+          "recolor": {
+            "color": "ulpc.leather"
+          }
+        },
+        {
+          "def": "legs/pants/legs_pants.json",
+          "recolor": {
+            "color": "ulpc.teal"
+          }
+        },
+        {
+          "def": "torso/torso_chainmail.json"
+        },
+        {
+          "def": "arms/shoulders/shoulders_mantal.json",
+          "recolor": {
+            "color": "ulpc.teal"
+          }
+        },
+        {
+          "def": "headwear/coverings/headbands/hat_headband_thick_rune.json",
+          "recolor": {
+            "color": "ulpc.teal"
+          }
+        }
+      ],
+      "animation_overrides": {
+        "idle": {
+          "lpc": "idle",
+          "fps": 4
+        },
+        "light": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            2,
+            4,
+            5
+          ],
+          "fps": 18,
+          "loop": false,
+          "contact": [
+            2,
+            3
+          ]
+        },
+        "heavy": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            1,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "fps": 12,
+          "loop": false,
+          "borrow": {
+            "1": [
+              "spellcast",
+              5
+            ],
+            "2": [
+              "spellcast",
+              5
+            ]
+          },
+          "contact": [
+            5,
+            6
+          ]
+        },
+        "stab": {
+          "lpc": "thrust",
+          "frames": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 14,
+          "loop": false,
+          "contact": [
+            3,
+            4
+          ]
+        },
+        "swing": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 16,
+          "loop": false,
+          "borrow": {
+            "1": [
+              "spellcast",
+              5
+            ]
+          },
+          "contact": [
+            4,
+            5
+          ]
+        },
+        "dodge": {
+          "lpc": "walk",
+          "frames": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 12,
+          "loop": false
+        }
+      }
+    },
+    "class_mage_m": {
+      "role": "hero",
+      "body_type": "male",
+      "layers": [
+        {
+          "def": "body/body.json",
+          "recolor": {
+            "color": "ulpc.olive"
+          }
+        },
+        {
+          "def": "head/heads/human/heads_human_male.json",
+          "recolor": {
+            "color_1": "ulpc.olive"
+          }
+        },
+        {
+          "def": "hair/short/hair_plain.json",
+          "recolor": {
+            "color": "ulpc.gray"
+          }
+        },
+        {
+          "def": "feet/shoes/feet_shoes_basic.json",
+          "recolor": {
+            "color": "ulpc.navy"
+          }
+        },
+        {
+          "def": "legs/skirts/legs_skirts_plain.json",
+          "recolor": {
+            "color": "ulpc.navy"
+          }
+        },
+        {
+          "def": "torso/shirts/longsleeve/torso_clothes_longsleeve2.json",
+          "recolor": {
+            "color": "ulpc.navy"
+          }
+        },
+        {
+          "def": "torso/cape/cape_solid.json",
+          "recolor": {
+            "color": "ulpc.blue"
+          }
+        },
+        {
+          "def": "headwear/hats/magic/hat_magic_celestial.json",
+          "variant": "navy"
+        }
+      ],
+      "animation_overrides": {
+        "idle": {
+          "lpc": "idle",
+          "fps": 4
+        },
+        "light": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            2,
+            4,
+            5
+          ],
+          "fps": 18,
+          "loop": false,
+          "contact": [
+            2,
+            3
+          ]
+        },
+        "heavy": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            1,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "fps": 12,
+          "loop": false,
+          "borrow": {
+            "1": [
+              "spellcast",
+              5
+            ],
+            "2": [
+              "spellcast",
+              5
+            ]
+          },
+          "contact": [
+            5,
+            6
+          ]
+        },
+        "stab": {
+          "lpc": "thrust",
+          "frames": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 14,
+          "loop": false,
+          "contact": [
+            3,
+            4
+          ]
+        },
+        "swing": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 16,
+          "loop": false,
+          "borrow": {
+            "1": [
+              "spellcast",
+              5
+            ]
+          },
+          "contact": [
+            4,
+            5
+          ]
+        },
+        "dodge": {
+          "lpc": "walk",
+          "frames": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 12,
+          "loop": false
+        }
+      }
+    },
+    "class_mage_f": {
+      "role": "hero",
+      "body_type": "female",
+      "layers": [
+        {
+          "def": "body/body.json",
+          "recolor": {
+            "color": "ulpc.olive"
+          }
+        },
+        {
+          "def": "head/heads/human/heads_human_female.json",
+          "recolor": {
+            "color_1": "ulpc.olive"
+          }
+        },
+        {
+          "def": "hair/braids/hair_high_ponytail.json",
+          "recolor": {
+            "color": "ulpc.gray"
+          }
+        },
+        {
+          "def": "feet/shoes/feet_shoes_basic.json",
+          "recolor": {
+            "color": "ulpc.navy"
+          }
+        },
+        {
+          "def": "legs/skirts/legs_skirts_plain.json",
+          "recolor": {
+            "color": "ulpc.navy"
+          }
+        },
+        {
+          "def": "torso/shirts/longsleeve/torso_clothes_longsleeve2.json",
+          "recolor": {
+            "color": "ulpc.navy"
+          }
+        },
+        {
+          "def": "torso/cape/cape_solid.json",
+          "recolor": {
+            "color": "ulpc.blue"
+          }
+        },
+        {
+          "def": "headwear/hats/magic/hat_magic_celestial.json",
+          "variant": "navy"
+        }
+      ],
+      "animation_overrides": {
+        "idle": {
+          "lpc": "idle",
+          "fps": 4
+        },
+        "light": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            2,
+            4,
+            5
+          ],
+          "fps": 18,
+          "loop": false,
+          "contact": [
+            2,
+            3
+          ]
+        },
+        "heavy": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            1,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "fps": 12,
+          "loop": false,
+          "borrow": {
+            "1": [
+              "spellcast",
+              5
+            ],
+            "2": [
+              "spellcast",
+              5
+            ]
+          },
+          "contact": [
+            5,
+            6
+          ]
+        },
+        "stab": {
+          "lpc": "thrust",
+          "frames": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 14,
+          "loop": false,
+          "contact": [
+            3,
+            4
+          ]
+        },
+        "swing": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 16,
+          "loop": false,
+          "borrow": {
+            "1": [
+              "spellcast",
+              5
+            ]
+          },
+          "contact": [
+            4,
+            5
+          ]
+        },
+        "dodge": {
+          "lpc": "walk",
+          "frames": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 12,
+          "loop": false
+        }
+      }
+    },
+    "class_warlock_m": {
+      "role": "hero",
+      "body_type": "male",
+      "layers": [
+        {
+          "def": "body/body.json",
+          "recolor": {
+            "color": "ulpc.brown"
+          }
+        },
+        {
+          "def": "head/heads/human/heads_human_male.json",
+          "recolor": {
+            "color_1": "ulpc.brown"
+          }
+        },
+        {
+          "def": "feet/shoes/feet_shoes_basic.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        },
+        {
+          "def": "legs/skirts/legs_skirts_plain.json",
+          "recolor": {
+            "color": "ulpc.maroon"
+          }
+        },
+        {
+          "def": "torso/shirts/longsleeve/torso_clothes_longsleeve2.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        },
+        {
+          "def": "torso/cape/cape_solid.json",
+          "recolor": {
+            "color": "ulpc.maroon"
+          }
+        },
+        {
+          "def": "headwear/coverings/hoods/hat_hood_cloth.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        }
+      ],
+      "animation_overrides": {
+        "idle": {
+          "lpc": "idle",
+          "fps": 4
+        },
+        "light": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            2,
+            4,
+            5
+          ],
+          "fps": 18,
+          "loop": false,
+          "contact": [
+            2,
+            3
+          ]
+        },
+        "heavy": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            1,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "fps": 12,
+          "loop": false,
+          "borrow": {
+            "1": [
+              "spellcast",
+              5
+            ],
+            "2": [
+              "spellcast",
+              5
+            ]
+          },
+          "contact": [
+            5,
+            6
+          ]
+        },
+        "stab": {
+          "lpc": "thrust",
+          "frames": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 14,
+          "loop": false,
+          "contact": [
+            3,
+            4
+          ]
+        },
+        "swing": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 16,
+          "loop": false,
+          "borrow": {
+            "1": [
+              "spellcast",
+              5
+            ]
+          },
+          "contact": [
+            4,
+            5
+          ]
+        },
+        "dodge": {
+          "lpc": "walk",
+          "frames": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 12,
+          "loop": false
+        }
+      }
+    },
+    "class_warlock_f": {
+      "role": "hero",
+      "body_type": "female",
+      "layers": [
+        {
+          "def": "body/body.json",
+          "recolor": {
+            "color": "ulpc.brown"
+          }
+        },
+        {
+          "def": "head/heads/human/heads_human_female.json",
+          "recolor": {
+            "color_1": "ulpc.brown"
+          }
+        },
+        {
+          "def": "feet/shoes/feet_shoes_basic.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        },
+        {
+          "def": "legs/skirts/legs_skirts_plain.json",
+          "recolor": {
+            "color": "ulpc.maroon"
+          }
+        },
+        {
+          "def": "torso/shirts/longsleeve/torso_clothes_longsleeve2.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        },
+        {
+          "def": "torso/cape/cape_solid.json",
+          "recolor": {
+            "color": "ulpc.maroon"
+          }
+        },
+        {
+          "def": "headwear/coverings/hoods/hat_hood_cloth.json",
+          "recolor": {
+            "color": "ulpc.black"
+          }
+        }
+      ],
+      "animation_overrides": {
+        "idle": {
+          "lpc": "idle",
+          "fps": 4
+        },
+        "light": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            2,
+            4,
+            5
+          ],
+          "fps": 18,
+          "loop": false,
+          "contact": [
+            2,
+            3
+          ]
+        },
+        "heavy": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            1,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "fps": 12,
+          "loop": false,
+          "borrow": {
+            "1": [
+              "spellcast",
+              5
+            ],
+            "2": [
+              "spellcast",
+              5
+            ]
+          },
+          "contact": [
+            5,
+            6
+          ]
+        },
+        "stab": {
+          "lpc": "thrust",
+          "frames": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 14,
+          "loop": false,
+          "contact": [
+            3,
+            4
+          ]
+        },
+        "swing": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 16,
+          "loop": false,
+          "borrow": {
+            "1": [
+              "spellcast",
+              5
+            ]
+          },
+          "contact": [
+            4,
+            5
+          ]
+        },
+        "dodge": {
+          "lpc": "walk",
+          "frames": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 12,
+          "loop": false
+        }
+      }
+    },
+    "class_druid_m": {
+      "role": "hero",
+      "body_type": "male",
+      "layers": [
+        {
+          "def": "body/body.json",
+          "recolor": {
+            "color": "ulpc.amber"
+          }
+        },
+        {
+          "def": "head/heads/human/heads_human_male.json",
+          "recolor": {
+            "color_1": "ulpc.amber"
+          }
+        },
+        {
+          "def": "hair/short/hair_plain.json",
+          "recolor": {
+            "color": "ulpc.red"
+          }
+        },
+        {
+          "def": "feet/boots/feet_boots_fold.json",
+          "recolor": {
+            "color": "ulpc.walnut"
+          }
+        },
+        {
+          "def": "legs/leggings/legs_leggings.json",
+          "recolor": {
+            "color": "ulpc.brown"
+          }
+        },
+        {
+          "def": "torso/armour/torso_armour_leather.json",
+          "recolor": {
+            "color_1": "ulpc.green"
+          }
+        },
+        {
+          "def": "arms/shoulders/shoulders_mantal.json",
+          "recolor": {
+            "color": "ulpc.forest"
+          }
+        },
+        {
+          "def": "headwear/neck/charms/neck_gem_natural.json"
+        }
+      ],
+      "animation_overrides": {
+        "idle": {
+          "lpc": "idle",
+          "fps": 4
+        },
+        "light": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            2,
+            4,
+            5
+          ],
+          "fps": 18,
+          "loop": false,
+          "contact": [
+            2,
+            3
+          ]
+        },
+        "heavy": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            1,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "fps": 12,
+          "loop": false,
+          "borrow": {
+            "1": [
+              "spellcast",
+              5
+            ],
+            "2": [
+              "spellcast",
+              5
+            ]
+          },
+          "contact": [
+            5,
+            6
+          ]
+        },
+        "stab": {
+          "lpc": "thrust",
+          "frames": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 14,
+          "loop": false,
+          "contact": [
+            3,
+            4
+          ]
+        },
+        "swing": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 16,
+          "loop": false,
+          "borrow": {
+            "1": [
+              "spellcast",
+              5
+            ]
+          },
+          "contact": [
+            4,
+            5
+          ]
+        },
+        "dodge": {
+          "lpc": "walk",
+          "frames": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 12,
+          "loop": false
+        }
+      }
+    },
+    "class_druid_f": {
+      "role": "hero",
+      "body_type": "female",
+      "layers": [
+        {
+          "def": "body/body.json",
+          "recolor": {
+            "color": "ulpc.amber"
+          }
+        },
+        {
+          "def": "head/heads/human/heads_human_female.json",
+          "recolor": {
+            "color_1": "ulpc.amber"
+          }
+        },
+        {
+          "def": "hair/braids/hair_high_ponytail.json",
+          "recolor": {
+            "color": "ulpc.red"
+          }
+        },
+        {
+          "def": "feet/boots/feet_boots_fold.json",
+          "recolor": {
+            "color": "ulpc.walnut"
+          }
+        },
+        {
+          "def": "legs/leggings/legs_leggings.json",
+          "recolor": {
+            "color": "ulpc.brown"
+          }
+        },
+        {
+          "def": "torso/armour/torso_armour_leather.json",
+          "recolor": {
+            "color_1": "ulpc.green"
+          }
+        },
+        {
+          "def": "arms/shoulders/shoulders_mantal.json",
+          "recolor": {
+            "color": "ulpc.forest"
+          }
+        },
+        {
+          "def": "headwear/neck/charms/neck_gem_natural.json"
+        }
+      ],
+      "animation_overrides": {
+        "idle": {
+          "lpc": "idle",
+          "fps": 4
+        },
+        "light": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            2,
+            4,
+            5
+          ],
+          "fps": 18,
+          "loop": false,
+          "contact": [
+            2,
+            3
+          ]
+        },
+        "heavy": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            1,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "fps": 12,
+          "loop": false,
+          "borrow": {
+            "1": [
+              "spellcast",
+              5
+            ],
+            "2": [
+              "spellcast",
+              5
+            ]
+          },
+          "contact": [
+            5,
+            6
+          ]
+        },
+        "stab": {
+          "lpc": "thrust",
+          "frames": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 14,
+          "loop": false,
+          "contact": [
+            3,
+            4
+          ]
+        },
+        "swing": {
+          "lpc": "thrust",
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 16,
+          "loop": false,
+          "borrow": {
+            "1": [
+              "spellcast",
+              5
+            ]
+          },
+          "contact": [
+            4,
+            5
+          ]
+        },
+        "dodge": {
+          "lpc": "walk",
+          "frames": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fps": 12,
+          "loop": false
+        }
+      }
     }
   }
 }

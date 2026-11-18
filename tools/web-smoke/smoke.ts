@@ -1,8 +1,8 @@
 // Serves a Godot web export over HTTP, opens it in headless Chromium, waits
 // for the client's boot marker on the console, then holds real keys and checks
-// that the game plays: title -> new game -> hero creation, movement, a combo on the training
-// dummy, the pause menu, walking to the next area and fighting its enemies
-// (all via the read-only window.ironboundProbe).
+// that the game plays: title -> new game -> name and class (the new character
+// system) -> the street, walking, an auto fight to a kill, then a reload and
+// Continue to the same saved character (all via the read-only window.ironboundProbe).
 //
 //   node smoke.ts <export-dir> [--timeout-ms=60000] [--screenshot=path.png]
 //   node smoke.ts --url=https://example.org/game/ [...]   (a deployed build)
@@ -34,34 +34,20 @@ const timeoutMs = timeoutArg ? Number(timeoutArg.split("=")[1]) : 60_000;
 const screenshot = args.find((a) => a.startsWith("--screenshot="))?.split("=")[1];
 const remoteUrl = args.find((a) => a.startsWith("--url="))?.slice("--url=".length);
 
-interface Foe {
-  x: number;
-  y: number;
-  hp: number;
-  kind: string;
-}
-
 interface Probe {
   scene: string;
-  area: string;
-  menu: string;
-  x: number;
-  y: number;
-  facing: number;
-  hp: number;
-  energy: number;
-  state: string;
-  level: number;
-  money: number;
-  fighting: boolean;
-  enemies: Foe[];
-  hits: number;
-  hero_hits: number;
-  cooldowns: Record<string, number>;
-  weapon?: string;
-  street_weapons?: [number, number][];
-  hero?: string;
+  has_save?: boolean;
+  has_character?: boolean;
   name?: string;
+  class?: string;
+  level?: number;
+  kills?: number;
+  focus?: string;
+  area?: string;
+  x?: number;
+  hp?: number;
+  dead?: boolean;
+  monsters?: number;
 }
 
 // A deployed build is tested where it is; an export directory is served
@@ -133,12 +119,6 @@ try {
     if (!value) throw new Error("window.ironboundProbe was never published");
     return value;
   };
-  const hold = async (key: string, ms: number): Promise<void> => {
-    await page.keyboard.down(key);
-    await page.waitForTimeout(ms);
-    await page.keyboard.up(key);
-  };
-
   const waitFor = async (what: string, ok: (p: Probe) => boolean, ms: number): Promise<Probe> => {
     const until = Date.now() + ms;
     let last = await probe();
@@ -148,192 +128,74 @@ try {
     }
     return last;
   };
-  const nearest = (p: Probe): Foe | undefined =>
-    [...p.enemies].sort((a, b) => Math.abs(a.x - p.x) - Math.abs(b.x - p.x))[0];
-  // Steps toward `foe` (lane first, then along the street) and swings once.
-  // The jab reaches 12 px of lane depth and about 40 px along the street.
-  const engage = async (p: Probe, foe: Foe, swing = true): Promise<void> => {
-    if (Math.abs(p.y - foe.y) > 8) {
-      await hold(p.y > foe.y ? "ArrowUp" : "ArrowDown", 60);
-    } else if (Math.abs(foe.x - p.x) > 34) {
-      await hold(foe.x > p.x ? "ArrowRight" : "ArrowLeft", 80);
-    } else {
-      if ((foe.x > p.x ? 1 : -1) !== p.facing) await hold(foe.x > p.x ? "ArrowRight" : "ArrowLeft", 30);
-      if (swing) await page.keyboard.press("KeyJ");
+  // Moves keyboard focus with Tab until the focused control's name matches.
+  const focusOn = async (what: string, ok: (name: string) => boolean): Promise<void> => {
+    for (let i = 0; i < 40; i++) {
+      if (ok((await probe()).focus ?? "")) return;
+      await page.keyboard.press("Tab");
     }
+    throw new Error(`could not reach ${what} with Tab`);
   };
 
-  // Title screen -> New game (focused by default).
+  // A fresh browser: the title offers New game (focused by default).
   await waitFor("the title screen", (p) => p.scene === "title", 10_000);
   await page.keyboard.press("Enter");
-  // Hero creation: pick the second hero with the keyboard, type a name, start.
-  await waitFor("hero creation", (p) => p.scene === "create", 10_000);
-  await page.keyboard.press("ArrowDown");
-  const chosen = await waitFor("the second hero", (p) => p.hero !== undefined && p.hero !== "mika", 3_000);
-  await page.keyboard.press("Enter");
-  await page.keyboard.press("Control+A");
+  // The new character system: type a name, then choose a class.
+  await waitFor("character creation", (p) => p.scene === "rpg" && !p.has_character, 10_000);
+  await focusOn("the name field", (n) => n === "NameEdit");
   await page.keyboard.type("Smoke Test");
-  await waitFor("the typed name", (p) => p.name === "Smoke Test", 3_000);
+  await focusOn("the warrior class", (n) => n === "Class_warrior");
   await page.keyboard.press("Enter");
-  const start = await waitFor("the game to start", (p) => p.scene === "game", 15_000);
-  if (start.hero !== chosen.hero || start.name !== "Smoke Test") {
-    problems.push(`started as ${start.hero}/${start.name}, expected ${chosen.hero}/Smoke Test`);
+  // Creating the character opens the city: the street, on the new engine.
+  const made = await waitFor("the street", (p) => p.scene === "street", 15_000);
+  if (made.name !== "Smoke Test" || made.class !== "warrior" || made.level !== 1) {
+    problems.push(`created ${made.name}/${made.class}/${made.level}, expected Smoke Test/warrior/1`);
   }
-  console.log(`new game: ${start.hero} "${start.name}" in ${start.area}, level ${start.level}, ${start.enemies.length} enemy`);
+  console.log(`new character: "${made.name}", ${made.class}, level ${made.level}, in ${made.area}`);
 
-  // Movement.
-  await hold("ArrowRight", 800);
-  const right = await probe();
-  if (!(right.x > start.x + 20)) problems.push(`ArrowRight did not move right: ${start.x} -> ${right.x}`);
-  await hold("KeyW", 500);
-  const up = await probe();
-  if (!(up.y < right.y - 5)) problems.push(`W did not move into the lane: ${right.y} -> ${up.y}`);
-  await hold("ArrowLeft", 300);
-  const left = await probe();
-  if (left.facing !== -1) problems.push(`ArrowLeft did not turn the character (facing ${left.facing})`);
-  console.log(
-    `input: start (${start.x.toFixed(1)}, ${start.y.toFixed(1)}) -> right x=${right.x.toFixed(1)}` +
-      ` -> up y=${up.y.toFixed(1)} -> left facing=${left.facing}`,
-  );
+  // Walking: held keys move the character along the street.
+  const before = await probe();
+  await page.keyboard.down("ArrowRight");
+  await page.waitForTimeout(700);
+  await page.keyboard.up("ArrowRight");
+  const walked = await probe();
+  if (!((walked.x ?? 0) > (before.x ?? 0))) problems.push(`walking right did not move: ${before.x} -> ${walked.x}`);
+  console.log(`walk: x ${before.x} -> ${walked.x} in ${walked.area}`);
 
-  // Training dummy: line up, then a three-hit combo.
-  const lineUp = async (): Promise<Probe> => {
-    let near = await probe();
-    for (let i = 0; i < 60; i++) {
-      const dummy = nearest(near);
-      if (!dummy || (Math.abs(near.y - dummy.y) <= 3 && dummy.x - near.x <= 26 && near.facing === 1)) break;
-      // Line up without swinging, so the combo below starts on a fresh dummy.
-      if (Math.abs(near.y - dummy.y) > 3) await hold(near.y > dummy.y ? "ArrowUp" : "ArrowDown", 50);
-      else await hold("ArrowRight", 70);
-      near = await probe();
-    }
-    return near;
-  };
-  const before = await lineUp();
-  for (let i = 0; i < 3; i++) {
-    await page.keyboard.press("KeyJ");
-    await page.waitForTimeout(140);
-  }
-  const fought = await probe();
-  const dummyBefore = nearest(before)?.hp ?? 0;
-  const dummyAfter = nearest(fought)?.hp ?? 0;
-  if (!(fought.hero_hits > before.hero_hits && dummyAfter < dummyBefore)) {
-    problems.push(
-      `attacks did not land on the dummy: hits ${before.hero_hits} -> ${fought.hero_hits}, ` +
-        `dummy hp ${dummyBefore} -> ${dummyAfter}`,
-    );
-  }
-  console.log(`combat: ${fought.hero_hits - before.hero_hits} hit(s), dummy hp ${dummyBefore} -> ${dummyAfter}`);
-
-  // Hotbar slot 2 (number key) casts the hero's first skill, the one a new
-  // hero has at level 1, which reaches the dummy in front and starts its
-  // cooldown. A skill that grabs (the Grappler's) holds the dummy; the attack
-  // key then throws it, which is the hit.
-  await page.waitForTimeout(900); // the dummy gets back up
-  const preSkill = await lineUp();
-  await page.keyboard.press("Digit2");
-  const cooling = (p: Probe): string[] => Object.keys(p.cooldowns ?? {}).filter((id) => p.cooldowns[id] > 0);
-  const cast = await waitFor("a skill cooldown", (p) => cooling(p).length > 0, 3_000);
-  await page.waitForTimeout(400);
-  await page.keyboard.press("KeyJ");
-  await page.waitForTimeout(600);
-  const afterSkill = await probe();
-  if (!(afterSkill.hero_hits > preSkill.hero_hits)) {
-    problems.push(`the skill did not hit: hits ${preSkill.hero_hits} -> ${afterSkill.hero_hits}`);
-  }
-  const skill = cooling(cast)[0];
-  console.log(`skill: ${skill} cast (cooldown ${cast.cooldowns[skill]} ticks), hits ${preSkill.hero_hits} -> ${afterSkill.hero_hits}`);
-
-  // A weapon from the yard: walk onto it, E picks it up, Z swings it.
-  let armed = await probe();
-  const yardWeapon = (armed.street_weapons ?? [])[0];
-  if (!yardWeapon) {
-    problems.push("no weapon lying in the yard");
-  } else {
-    for (let i = 0; i < 160 && !armed.weapon; i++) {
-      const [wx, wy] = (armed.street_weapons ?? [])[0] ?? yardWeapon;
-      const x = armed.x;
-      // Along the street first, then into the lane: lining up in depth first
-      // walked straight back behind whatever had just been gone round (a
-      // weapon lying past a power pole at the top of the lane).
-      // Long steps while far, short ones to line up: 40 ms steps alone used
-      // up the step budget crossing the yard on a slow software renderer.
-      if (Math.abs(armed.x - wx) > 10) {
-        await hold(armed.x < wx ? "ArrowRight" : "ArrowLeft", Math.abs(armed.x - wx) > 60 ? 250 : 40);
-        armed = await probe();
-        // Bodies are solid (the dummy, a crate): go round below or above.
-        if (Math.abs(armed.x - x) < 1) {
-          const y = armed.y;
-          await hold(armed.y < 320 ? "ArrowDown" : "ArrowUp", 300);
-          armed = await probe();
-          if (Math.abs(armed.y - y) < 1) await hold(armed.y < 320 ? "ArrowUp" : "ArrowDown", 400);
-          await hold(armed.x < wx ? "ArrowRight" : "ArrowLeft", 400);
-        }
-      } else if (Math.abs(armed.y - wy) > 6) {
-        // Long steps while far: a 40 ms tap barely moves the hero on a slow
-        // software renderer, so a weapon 25 px down the lane (after going
-        // round the dummy) used up the whole step budget.
-        await hold(armed.y > wy ? "ArrowUp" : "ArrowDown", Math.min(250, Math.max(40, Math.abs(armed.y - wy) * 6)));
-      }
-      else await page.keyboard.press("KeyE");
-      armed = await probe();
-    }
-    if (!armed.weapon) problems.push(`could not pick up the weapon at ${yardWeapon}`);
-    console.log(`weapon: picked up ${armed.weapon || "nothing"} at (${yardWeapon.map((v) => v.toFixed(0)).join(", ")})`);
-  }
-
-  // Pause menu opens and closes.
-  await page.keyboard.press("Escape");
-  await waitFor("the pause menu", (p) => p.menu === "pause", 3_000);
-  await page.keyboard.press("Escape");
-  await waitFor("the pause menu to close", (p) => p.menu === "", 3_000);
-  console.log("pause menu: opened and closed");
-
-  // Walk east into the next area, then into its first fight. Lamp posts, bins,
-  // crates, NPCs and the dummy are solid, so step down or up the lane to get
-  // round whatever stops the hero.
-  const walkEast = async (what: string, done: (p: Probe) => boolean): Promise<Probe> => {
-    const until = Date.now() + 40_000;
-    let p = await probe();
-    let side = "ArrowDown";
-    while (!done(p)) {
-      if (Date.now() > until) throw new Error(`timed out walking east to ${what}, stuck at (${p.x.toFixed(0)}, ${p.y.toFixed(0)}) in ${p.area}`);
-      const x = p.x;
-      await hold("ArrowRight", 300);
-      p = await probe();
-      if (done(p) || p.x > x + 2) continue;
-      if (p.y >= 336) side = "ArrowUp";
-      if (p.y <= 254) side = "ArrowDown";
-      const y = p.y;
-      await hold(side, 250);
-      p = await probe();
-      // Blocked that way too: go round the other side.
-      if (Math.abs(p.y - y) < 1) {
-        side = side === "ArrowDown" ? "ArrowUp" : "ArrowDown";
-        await hold(side, 400);
-        p = await probe();
-      }
-    }
-    return p;
-  };
-  const street = await walkEast("the next area", (p) => p.area !== start.area);
-  const fight = await walkEast("an encounter", (p) => p.fighting && p.enemies.length > 0);
-  if (street.weapon) problems.push(`carried ${street.weapon} into ${street.area}; weapons must stay in their area`);
-  console.log(`travelled: ${start.area} -> ${street.area}; encounter with ${fight.enemies.map((e) => e.kind).join(", ")}`);
-  let state = fight;
+  // Into the first street with monsters, then auto (T) fights until a kill.
+  let street = walked;
   const until = Date.now() + 30_000;
-  while (state.hero_hits - fight.hero_hits < 3 && Date.now() < until && state.hp > 0) {
-    const foe = nearest(state);
-    if (foe) await engage(state, foe);
-    state = await probe();
+  while (street.monsters === 0 && Date.now() < until) {
+    await page.keyboard.down("ArrowRight");
+    await page.waitForTimeout(500);
+    await page.keyboard.up("ArrowRight");
+    street = await probe();
   }
-  if (state.hero_hits - fight.hero_hits < 3) {
-    problems.push(`could not land 3 hits on real enemies (landed ${state.hero_hits - fight.hero_hits}, hero hp ${state.hp})`);
+  if (street.monsters === 0) throw new Error(`no street with monsters reached: ${JSON.stringify(street)}`);
+  await page.keyboard.press("KeyT");
+  const fought = await waitFor("a kill on auto", (p) => (p.kills ?? 0) >= 1 || p.dead === true, 120_000);
+  if ((fought.kills ?? 0) < 1) problems.push(`no kill on auto: ${JSON.stringify(fought)}`);
+  console.log(`street fight in ${fought.area}: kills ${fought.kills}, hp ${fought.hp}, level ${fought.level}`);
+  await page.keyboard.press("Escape"); // the menu saves and returns to the title
+  await waitFor("the title", (p) => p.scene === "title", 10_000);
+  // The web build writes user:// to IndexedDB asynchronously after each save; a
+  // reload in the same instant would abort that write.
+  await page.waitForTimeout(2_000);
+
+  // Reload the page: the title offers Continue, and it is the same character.
+  await page.reload();
+  // The reloaded page publishes the probe again once the game has booted.
+  await page.waitForFunction(() => (window as { ironboundProbe?: unknown }).ironboundProbe, null, {
+    timeout: timeoutMs,
+  });
+  await waitFor("the title after reload", (p) => p.scene === "title" && p.has_save === true, timeoutMs);
+  await canvas.first().click();
+  await page.keyboard.press("Enter");
+  const back = await waitFor("the saved character", (p) => p.scene === "street", 15_000);
+  if (back.name !== "Smoke Test" || (back.kills ?? 0) < (fought.kills ?? 0) || back.area !== fought.area) {
+    problems.push(`after reload: ${back.name}, kills ${back.kills}, in ${back.area}`);
   }
-  console.log(
-    `street fight: ${state.hero_hits - fight.hero_hits} hero hit(s), hero hp ${state.hp}, ` +
-      `total hits ${state.hits - fight.hits}, coins ${state.money}`,
-  );
+  console.log(`continue: "${back.name}", kills ${back.kills}, in ${back.area}`);
   if (screenshot) await page.screenshot({ path: screenshot });
 } catch (err) {
   problems.push(String(err));

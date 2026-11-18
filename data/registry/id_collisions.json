@@ -1,0 +1,26 @@
+{
+ "_comment": "B2 id collision audit. Reference records are addressed as reference:<id> and the game's own as iron_legacy:<id>; a bare id shared by both is listed here and never merged. Generated; do not edit.",
+ "items": {
+  "iron_legacy_count": 305,
+  "reference_count": 2263,
+  "shared_bare_ids": []
+ },
+ "loot_table_ids_unique": true,
+ "monsters": {
+  "iron_legacy_count": 64,
+  "reference_count": 379,
+  "shared_bare_ids": [
+   {
+    "id": "training_dummy",
+    "iron_legacy": "iron_legacy:training_dummy",
+    "reference": "reference:training_dummy",
+    "resolution": "each side keeps its own record; adopting the reference record needs a mapped id"
+   }
+  ]
+ },
+ "namespaces": {
+  "iron_legacy": "The Iron Legacy's own records (client/data)",
+  "reference": "World of ClaudeCraft records at the pinned commit (data/registry)"
+ },
+ "reference_monsters_vs_reference_items": []
+}
