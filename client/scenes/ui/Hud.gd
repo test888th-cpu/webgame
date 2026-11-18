@@ -41,6 +41,9 @@ const MENU_BAR := [
 	["map", "menu_map", "Map (M)"],
 	["settings", "menu_settings", "Settings"],
 ]
+## The menus the street has (the rest are not ported to the reference rules yet).
+const RPG_MENUS := ["character", "bag", "skills"]
+const RPG_HIDDEN_TOUCH := ["Heavy", "Dodge", "Guard", "Item"]
 const MENU_BUTTON := Vector2(20, 20)
 ## Degrees a second the AUTO arrows turn while auto battle runs.
 const AUTO_SPIN := 180.0
@@ -48,6 +51,10 @@ const AUTO_SPIN := 180.0
 var zone: ZoneSim
 var profile: PlayerProfile
 var content: ContentDB
+## The street on the reference rules (scenes/street): the engine and the saved
+## character this HUD reads instead of a ZoneSim and a PlayerProfile.
+var fight: RpgEncounter
+var rpg_state: Dictionary = {}
 ## What was just picked up, small at the left (PickupFeed).
 var pickups := PickupFeed.new()
 
@@ -160,6 +167,90 @@ func attach(p_zone: ZoneSim, p_profile: PlayerProfile, p_content: ContentDB) -> 
 	apply_layout(GameSession.layout)
 
 
+## The street (scenes/street): the same HUD, read from the reference engine. The
+## gauge, weapon badge, quest card, route card and the menus not ported yet stay
+## hidden.
+func attach_rpg(p_fight: RpgEncounter, state: Dictionary, p_content: ContentDB) -> void:
+	fight = p_fight
+	rpg_state = state
+	content = p_content
+	_name.text = str(state["name"])
+	_title.text = str(state["class_id"]).to_upper()
+	_title.add_theme_color_override("font_color", UiTheme.ACCENT)
+	_portrait.color = UiTheme.ACCENT
+	_money_icon_once()
+	for hidden: Control in [_gauge, _weapon, _quest_card, _mini, _chain]:
+		hidden.visible = false
+	if _hotbar == null:
+		_hotbar = Hotbar.new()
+		_hotbar.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
+		_hotbar.grow_horizontal = Control.GROW_DIRECTION_BOTH
+		_hotbar.grow_vertical = Control.GROW_DIRECTION_BEGIN
+		_hotbar.offset_bottom = -4
+		_hotbar.offset_top = -4
+		_hotbar.slot_pressed.connect(slot_pressed.emit)
+		get_node("Root").add_child(_hotbar)
+	_hotbar.build_rpg(content, fight)
+	if _menu_bar == null:
+		_build_menu_bar(get_node("Root"))
+		_auto_spin.texture = UiKit.icon(content, "menu_auto")
+	_rpg_hints()
+	apply_layout(GameSession.layout)
+
+
+## The street's controls: the reference rules have no heavy attack, dodge, guard,
+## grab or food, so their hints and touch buttons go.
+func _rpg_hints() -> void:
+	for row: HBoxContainer in [_hints, _hints_right]:
+		for child: Node in row.get_children():
+			row.remove_child(child)
+			child.queue_free()
+	_hints.add_child(UiKit.key_hint("Esc", "Menu"))
+	_hints.add_child(UiKit.key_hint("J", "Attack"))
+	_hints.add_child(UiKit.key_hint("T", "Auto"))
+	_hints_right.add_child(UiKit.key_hint("E", "Loot / Resurrect"))
+	_hints_right.add_child(UiKit.key_hint("C", "Character"))
+
+
+func _rpg_hide_legacy() -> void:
+	if _menu_bar:
+		for entry: Array in MENU_BAR:
+			if not entry[0] in RPG_MENUS:
+				_menu_bar.get_node("Menu_" + str(entry[0])).visible = false
+	for button: String in RPG_HIDDEN_TOUCH:
+		_touch.get_node(button).visible = false
+
+
+## The ability in hotbar slot `index` on the street ("" for the attack).
+func ability_at(index: int) -> String:
+	return _hotbar.ability_at(index) if _hotbar else ""
+
+
+func _show_rpg() -> void:
+	var p := fight.player
+	_portrait.set_art(content, "class_%s_m" % rpg_state["class_id"])
+	_portrait.set_state(int(rpg_state["level"]), float(p["hp"]) / maxf(1.0, float(p["max_hp"])))
+	_hp.set_values(float(p["hp"]), float(p["max_hp"]))
+	_energy.visible = float(p["max_resource"]) > 0.0
+	_energy.set_values(float(p["resource"]), maxf(1.0, float(p["max_resource"])))
+	_xp.set_values(
+		float(rpg_state["xp"]), float(RpgProgression.xp_for_level(int(rpg_state["level"])))
+	)
+	_money.text = str(rpg_state["copper"])
+	_style_auto(fight.auto_mode)
+	_hotbar.refresh_rpg(fight)
+	# The target's bar: the boss bar's place, for whatever the player fights.
+	var t := fight.mob
+	_boss.visible = not t.is_empty() and not t["dead"]
+	if _boss.visible:
+		var m := RpgPack.monster(fight.pack, str(t["template_id"]))
+		_boss_icon.texture = UiKit.icon(content, "star")
+		_boss_name.text = "%s  Lv %d" % [str(m.get("display_name", "")).to_upper(), t["level"]]
+		var threat := LevelRules.threat(int(t["level"]), int(rpg_state["level"]))
+		_boss_name.add_theme_color_override("font_color", UiTheme.THREAT[threat])
+		_boss_bar.set_values(float(t["hp"]), float(t["max_hp"]))
+
+
 ## Flashes hotbar slot `index`: used (accepted) or refused.
 func flash_slot(index: int, accepted: bool) -> void:
 	if _hotbar:
@@ -242,6 +333,9 @@ func _process(delta: float) -> void:
 	_fps.visible = GameSession.settings.get("show_fps", false)
 	if _fps.visible:
 		_fps.text = "%d fps" % Engine.get_frames_per_second()
+	if fight != null:
+		_show_rpg()
+		return
 	if zone == null:
 		return
 	var hero := zone.hero
@@ -790,6 +884,8 @@ func apply_layout(layout: ScreenLayout) -> void:
 	_place_auto(layout)
 	_place_menu_bar(layout)
 	_place_hotbar(layout)
+	if fight != null:
+		_rpg_hide_legacy()
 
 
 func _place_auto(layout: ScreenLayout) -> void:

@@ -25,6 +25,7 @@ const RPG_FILES := {
 	"quality": ["rpg/quality.json", ""],
 	"runtime": ["rpg/runtime_pack.json", ""],
 	"placement": ["rpg/placement.json", ""],
+	"ability_icons": ["rpg/ability_icons.json", ""],
 }
 ## Reference registries in data/registry, by name.
 const REGISTRY_FILES := {

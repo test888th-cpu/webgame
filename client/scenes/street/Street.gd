@@ -15,6 +15,7 @@ extends Node2D
 
 const TITLE_SCENE := "res://scenes/title/Title.tscn"
 const SHEET_SCENE := "res://scenes/reference/ReferenceTrial.tscn"
+const HUD_SCENE := preload("res://scenes/ui/Hud.tscn")
 const LANE_Y := 300.0
 const SAVE_EVERY := 5.0
 const VIEW_HEIGHT := 360.0
@@ -25,7 +26,8 @@ var state: Dictionary = {}
 var fight: RpgEncounter
 var area_id := ""
 var area: Dictionary = {}
-var hud: StreetHud
+## The game's own HUD (scenes/ui/Hud.tscn), read from the engine (Hud.attach_rpg).
+var hud: CanvasLayer
 var px_per_yard := 16.0
 ## Tests turn scene changes off and read where the street would go.
 var navigate := true
@@ -40,6 +42,8 @@ var _save_timer := 0.0
 var _probe_timer := 0.0
 var _seed := 1
 var _travel_cooldown := 0.0
+var _loot_button: Button
+var _revive_button: Button
 
 
 func _ready() -> void:
@@ -52,10 +56,12 @@ func _ready() -> void:
 	if state.is_empty():
 		get_tree().call_deferred("change_scene_to_file", TITLE_SCENE)
 		return
-	hud = StreetHud.new()
+	hud = HUD_SCENE.instantiate()
 	add_child(hud)
-	hud.cast_pressed.connect(_cast)
-	hud.action_pressed.connect(_action)
+	hud.slot_pressed.connect(_slot)
+	hud.auto_pressed.connect(_action.bind("auto"))
+	hud.menu_pressed.connect(func(_menu: String) -> void: _action("character"))
+	_build_actions()
 	var start := str(state.get("area", ""))
 	if not content.areas.has(start):
 		start = content.start_area
@@ -104,8 +110,8 @@ func enter_area(id: String, side: String) -> void:
 	_camera.limit_bottom = int(VIEW_HEIGHT)
 	_world.add_child(_camera)
 	_camera.make_current()
-	hud.set_abilities(pack, fight.known())
-	hud.say("%s. Monsters here: level %s." % [area.get("name", id), _levels_here(id)])
+	hud.attach_rpg(fight, state, content)
+	hud.toast("%s: monsters level %s" % [area.get("name", id), _levels_here(id)])
 	_travel_cooldown = 0.5
 	_save()
 
@@ -196,7 +202,8 @@ func _process(delta: float) -> void:
 	if fight == null:
 		return
 	_sync_views(delta)
-	hud.show_state(fight, state, str(area.get("name", area_id)))
+	_loot_button.visible = _has_loot() and not fight.player["dead"]
+	_revive_button.visible = fight.outcome == "defeat"
 	_probe_timer += delta
 	if _probe_timer >= 0.1:
 		_probe_timer = 0.0
@@ -218,13 +225,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	for slot in range(1, InputSetup.HOTBAR_SLOTS + 1):
 		if event.is_action_pressed("slot_%d" % slot):
-			_cast(hud.slot_ability(slot))
+			_slot(slot - 1)
 	if event.is_action_pressed("attack_light"):
 		_attack()
 	elif event.is_action_pressed("auto_battle"):
 		_action("auto")
 	elif event.is_action_pressed("interact"):
-		_action("loot")
+		_action("revive" if fight.outcome == "defeat" else "loot")
 	elif event.is_action_pressed("character"):
 		_action("character")
 	elif event.is_action_pressed("pause"):
@@ -270,9 +277,44 @@ func _leave(scene: String) -> void:
 		get_tree().change_scene_to_file(scene)
 
 
+## Hotbar slot `index` (0-based): the first is the auto attack, the rest abilities.
+func _slot(index: int) -> void:
+	if index == 0:
+		_attack()
+	else:
+		_cast(hud.ability_at(index))
+
+
+## Loot and Resurrect: buttons over the hotbar, so touch and mouse reach them too.
+func _build_actions() -> void:
+	var layer := CanvasLayer.new()
+	layer.layer = 6
+	add_child(layer)
+	var row := HBoxContainer.new()
+	row.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
+	row.position.y -= 52
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	layer.add_child(row)
+	_loot_button = UiKit.button("Take loot (E)", _action.bind("loot"))
+	_loot_button.name = "TakeLoot"
+	_loot_button.focus_mode = Control.FOCUS_NONE
+	row.add_child(_loot_button)
+	_revive_button = UiKit.button("Resurrect (E)", _action.bind("revive"))
+	_revive_button.name = "Resurrect"
+	_revive_button.focus_mode = Control.FOCUS_NONE
+	row.add_child(_revive_button)
+
+
+func _has_loot() -> bool:
+	for c: Dictionary in state.get("corpses", []):
+		if int(c["loot"]["copper"]) > 0 or not c["loot"]["items"].is_empty():
+			return true
+	return false
+
+
 func _say(text: String) -> void:
 	if text != "" and not text.begins_with(RpgEncounter.SILENT):
-		hud.say(text)
+		hud.toast(text)
 		Sfx.play("denied", -8.0)
 
 
@@ -288,12 +330,11 @@ func _read_events() -> void:
 				_float_text(int(e["target"]), "+%d" % e["amount"], UiTheme.GOOD)
 			"reward":
 				var name := str(RpgPack.monster(pack, str(e["monster"])).get("display_name"))
-				hud.say("%s defeated: %d XP." % [name, e["xp"]])
+				hud.toast("%s defeated: %d XP" % [name, e["xp"]])
 				Sfx.play("coin", -6.0)
 				if int(e["levels"]) > 0:
 					Sfx.play("level_up")
-					hud.say("Level %d!" % state["level"])
-					hud.set_abilities(pack, fight.known())
+					hud.chapter("LEVEL UP!", "Level %d" % state["level"])
 				_save()
 			"respawn":
 				_respawned(int(e["unit"]))
@@ -301,7 +342,7 @@ func _read_events() -> void:
 				_say(str(e.get("text", "")))
 			"death":
 				if int(e["unit"]) == int(fight.player["id"]):
-					hud.say("You died. Resurrect at your corpse.")
+					hud.chapter("YOU DIED", "Resurrect at your corpse (E)")
 					Sfx.play("ko")
 					_save()
 	fight.events.clear()
@@ -313,6 +354,8 @@ func _show_damage(e: Dictionary) -> void:
 	if amount <= 0:
 		_float_text(int(e["target"]), str(e.get("kind", "miss")), UiTheme.TEXT_DIM)
 		return
+	if to_player:
+		hud.hurt(0.6)
 	var text := str(amount) + ("!" if e.get("crit", false) else "")
 	_float_text(int(e["target"]), text, UiTheme.DANGER if to_player else UiTheme.GOLD)
 	Sfx.play("hero_hurt" if to_player else ("hit_heavy" if e.get("crit") else "hit_light"), -6.0)

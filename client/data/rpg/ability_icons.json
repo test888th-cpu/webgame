@@ -1,0 +1,19 @@
+{
+  "_comment": "Temporary hotbar icons for the reference abilities (owner order 2026-11-18: free art for now, the owner's own art later). Presentation only: an ability's first effect type picks one of the existing UI icons (assets/manifest.json ui.icons). No rule reads this file.",
+  "by_effect": {
+    "weaponStrike": "skill_slam",
+    "directDamage": "skill_charge",
+    "aoeDamage": "skill_whirlwind",
+    "dot": "skill_liver",
+    "heal": "heart",
+    "hot": "heart",
+    "absorb": "star",
+    "selfBuff": "star",
+    "buffTarget": "star",
+    "control": "skill_wristlock",
+    "stun": "skill_wristlock",
+    "root": "skill_wristlock",
+    "slow": "skill_sweep",
+    "gainResource": "skill_rush"
+  }
+}

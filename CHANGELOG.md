@@ -17,6 +17,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
   the reference engine (`RpgEncounter` in zone mode). It has walking, targeting (J),
   the auto attack, the hotbar of known abilities (1-7), Auto (T), loot (E), death and
   resurrection, and travel at the street ends.
+- **The game's own HUD on the street.** The street uses the existing hero card,
+  bars, hotbar (slot icons and cooldown sweeps), touch controls, banners and the
+  boss bar (here, the target's bar), fed by the engine (`Hud.attach_rpg`,
+  `Hotbar.build_rpg`). The menus that are not ported yet (quests, map, settings)
+  and the old gauge, weapon badge and route card stay hidden. Hotbar icons are
+  temporary art chosen by each ability's first effect (`data/rpg/ability_icons.json`).
 - **Monsters by level, in the old order.** `tools/content/build_placement.py` writes
   `data/rpg/placement.json` (PROPOSED). The old area levels 2-70 map onto the
   reference's 1-20 and keep their order. Each area gets its old enemy count, with the

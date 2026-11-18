@@ -106,3 +106,43 @@ func test_walking_off_the_east_end_enters_the_next_area() -> void:
 	assert_true(float(street.get("fight").player["x"]) < 5.0, "entered from the west end")
 	street.free()
 	_teardown(state)
+
+
+func test_the_street_uses_the_games_own_hud_and_hotbar() -> void:
+	var state := _setup("saltmarket")
+	var street := await _open()
+	var hud: CanvasLayer = street.get("hud")
+	assert_eq(hud.scene_file_path, "res://scenes/ui/Hud.tscn", "the game's HUD")
+	var bar: Hotbar = hud.find_children("Hotbar", "Hotbar", true, false)[0]
+	assert_eq(bar.entries[0]["type"], "attack", "slot 1 is the auto attack")
+	for i in range(1, bar.entries.size()):
+		var doc: Dictionary = RpgPack.of(GameSession.content)["abilities"][bar.entries[i]["id"]]
+		assert_true(str(doc["status"]).begins_with("IMPLEMENTED"), "only runnable abilities")
+	var fight: RpgEncounter = street.get("fight")
+	fight.mobs[0]["x"] = float(fight.player["x"]) + 2.0
+	street._slot(0)
+	assert_true(fight.player["auto_attack"], "slot 1 targets and starts the attack")
+	assert_true(not fight.mob.is_empty(), "a target chosen")
+	await tree.process_frame
+	assert_true(hud.get_node("Root/Boss").visible, "the target's bar shows")
+	street.free()
+	_teardown(state)
+
+
+func test_the_street_shows_no_removed_mechanics() -> void:
+	var state := _setup("saltmarket")
+	var street := await _open()
+	var hud: CanvasLayer = street.get("hud")
+	await tree.process_frame
+	var hints := ""
+	for label: Label in hud.get_node("Root").find_children("*", "Label", true, false):
+		if label.is_visible_in_tree():
+			hints += label.text + " "
+	for gone: String in ["Heavy", "Dodge", "Guard", "Grab"]:
+		assert_true(not gone in hints, gone + ": no hint for a removed mechanic")
+	for button: String in ["Heavy", "Dodge", "Guard", "Item"]:
+		assert_true(not hud.get_node("Root/Touch/" + button).visible, button + ": no touch button")
+	for menu: String in ["quests", "map", "settings"]:
+		assert_true(not hud.get_node("Root/MenuBar/Menu_" + menu).visible, menu + ": not ported")
+	street.free()
+	_teardown(state)

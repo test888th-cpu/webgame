@@ -53,6 +53,85 @@ func _lay_out(keys: Array[String]) -> void:
 		slots.append(slot)
 
 
+## The street's bar (reference rules): slot 1 the auto attack, then the known
+## abilities the engine runs, in spellbook order. Icons are temporary art chosen
+## by the ability's first effect (data/rpg/ability_icons.json).
+func build_rpg(content: ContentDB, fight: RpgEncounter) -> void:
+	_content = content
+	if _row == null:
+		name = "Hotbar"
+		var style := UiTheme.panel_style()
+		style.bg_color = Color(0.04, 0.04, 0.07, 0.72)
+		style.set_content_margin_all(3)
+		style.shadow_size = 0
+		add_theme_stylebox_override("panel", style)
+		_row = HBoxContainer.new()
+		_row.add_theme_constant_override("separation", 3)
+		add_child(_row)
+	var keys: Array[String] = ["attack"]
+	for k: Dictionary in fight.known():
+		var doc: Dictionary = fight.pack["abilities"].get(k["id"], {})
+		if str(doc.get("status", "")).begins_with("IMPLEMENTED"):
+			keys.append(str(k["id"]))
+	keys = keys.slice(0, InputSetup.HOTBAR_SLOTS)
+	if keys == _keys:
+		return
+	_keys = keys
+	for child in _row.get_children():
+		_row.remove_child(child)
+		child.queue_free()
+	slots.clear()
+	entries.clear()
+	var icons: Dictionary = content.rpg.get("ability_icons", {}).get("by_effect", {})
+	for i in keys.size():
+		var slot := HotbarSlot.new()
+		slot.name = "Slot%d" % (i + 1)
+		slot.key = str(i + 1)
+		var entry := {"type": "attack"} if i == 0 else {"type": "ability", "id": keys[i]}
+		entries.append(entry)
+		var icon := "skill_attack"
+		var tip := "Auto attack (J)"
+		if i > 0:
+			var doc: Dictionary = fight.pack["abilities"][keys[i]]
+			var first: Array = doc["def"].get("effects", [])
+			if not first.is_empty():
+				icon = str(icons.get(str(first[0].get("type", "")), icon))
+			tip = (
+				"%s\nCost %s, cooldown %ss"
+				% [doc["display_name"], doc["def"].get("cost", 0), doc["def"].get("cooldown", 0)]
+			)
+		slot.kind = "attack" if i == 0 else "skill"
+		slot.icon = UiKit.icon(content, icon)
+		slot.tooltip_text = tip
+		slot.pressed.connect(func() -> void: slot_pressed.emit(i))
+		_row.add_child(slot)
+		slots.append(slot)
+
+
+## The street's bar state: each ability's cooldown and whether the resource
+## covers its cost, as the engine has them.
+func refresh_rpg(fight: RpgEncounter) -> void:
+	build_rpg(_content, fight)
+	var p := fight.player
+	for i in slots.size():
+		var entry := entries[i]
+		if entry["type"] != "ability":
+			slots[i].set_state(0.0, 0.0, false, -1)
+			continue
+		var def: Dictionary = fight.pack["abilities"][entry["id"]]["def"]
+		var left := float(p["cooldowns"].get(entry["id"], 0.0))
+		var total := maxf(0.001, float(def.get("cooldown", 0)))
+		var short := float(p["resource"]) < float(def.get("cost", 0))
+		slots[i].set_state(clampf(left / total, 0.0, 1.0), left, short, -1)
+
+
+## The id of the ability in slot `index` ("" for the attack or an empty slot).
+func ability_at(index: int) -> String:
+	if index < 0 or index >= entries.size() or entries[index]["type"] != "ability":
+		return ""
+	return str(entries[index]["id"])
+
+
 ## Mirrors the hero's state onto the slots.
 func refresh(zone: ZoneSim, profile: PlayerProfile) -> void:
 	var keys := HotbarRules.layout(profile, _content)

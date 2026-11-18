@@ -141,7 +141,7 @@ Every item below is tested in `client/tests/unit/test_rpg_combat_engine.gd`, `te
 
   Settings and all non-player data are kept.
 - **New character system.** The flow is Title → New game → name and class (`ReferenceTrial.tscn`, now creation and the character sheet) → the street. Continue opens the street.
-- **The street** (`scenes/street/Street.tscn`, `StreetHud`, `UnitSprite`).
+- **The street** (`scenes/street/Street.tscn`, `UnitSprite`; the game's own HUD, hotbar and touch controls through `Hud.attach_rpg`).
   - It draws the existing areas with `Scenery.build` and the existing LPC sprites.
   - The engine is the one `RpgEncounter`, in zone mode with respawn.
   - Controls: walk (arrows or A/D); J to target and attack; 1-7 for the known abilities the engine runs; T for Auto; E to loot; C for the character screen; Esc for the title.
