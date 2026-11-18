@@ -1,0 +1,5 @@
+{
+  "_comment": "How each AI-generated asset group was made (docs/ASSET_PIPELINE_POLICY.md §3). Filled in by the project owner; tools/assets/provenance.py copies it into the inventory and prints UNKNOWN for anything missing. Never fill a field from memory or guesswork. Keys: 'kit' (street kit), 'weapons' (weapon paintings), 'custom.<asset_id>' (painted enemies). Fields: tool, model, date (YYYY-MM-DD), prompt (or a link to it), references (list of reference images used, with their rights), edited_after_generation (what was changed by hand).",
+  "version": 1,
+  "records": {}
+}

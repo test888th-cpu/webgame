@@ -34,6 +34,7 @@ const KEYS := {
 	"pause": [KEY_ESCAPE, KEY_P],
 	"auto_battle": [KEY_T],
 	"map": [KEY_M],
+	"guide": [KEY_N],
 	"character": [KEY_C],
 	"bag": [KEY_B],
 	"skills": [KEY_V],
@@ -65,6 +66,8 @@ const PAD_BUTTONS := {
 	"pause": JOY_BUTTON_START,
 	"auto_battle": JOY_BUTTON_BACK,
 	"map": JOY_BUTTON_RIGHT_STICK,
+	# The Guide: the share / capture button, the one face of a pad left.
+	"guide": JOY_BUTTON_MISC1,
 	"quest_action": JOY_BUTTON_LEFT_STICK,
 	"menu_prev": JOY_BUTTON_LEFT_SHOULDER,
 	"menu_next": JOY_BUTTON_RIGHT_SHOULDER,

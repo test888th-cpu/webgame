@@ -56,6 +56,17 @@ jobs:
         run: python3 -m unittest tools/assets/test_pipeline.py -v
       - name: Validate every asset (files, frames, transparency, licences, SpriteFrames up to date)
         run: python3 tools/assets/validate.py
+      - name: Asset provenance inventory (records complete, outputs current, no image files in gameplay data)
+        run: |
+          python3 -m unittest tools/assets/test_provenance.py -v
+          python3 tools/assets/provenance.py check
+          python3 tools/assets/web_export_filter.py check
+      - name: Reference registry tooling (static evaluator tests, matrix generated from the committed registries)
+        run: |
+          python3 -m unittest tools/content/test_ts_eval.py -v
+          python3 -m unittest tools/content/test_reward_models.py -v
+          python3 tools/content/render_monster_matrix.py --check
+          python3 tools/content/build_placement.py --check
 
   godot-tests:
     name: Godot project opens and tests pass

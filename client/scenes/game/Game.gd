@@ -12,7 +12,7 @@ const UPGRADE_GAP_MS := 400
 ## that matters, so a closed tab or a crash never costs more than this.
 const AUTOSAVE_SECONDS := 20.0
 ## The screens with a key of their own (input action = screen id).
-const SCREEN_KEYS := ["character", "bag", "skills", "quests", "map"]
+const SCREEN_KEYS := ["character", "bag", "skills", "quests", "map", "guide"]
 
 ## Screens that wait for a choice (Esc does not close them). Like every other
 ## screen, they never stop the street: it goes on whatever the player does,
@@ -148,7 +148,8 @@ func enter_area(area_id: String, entry: String, start_x := -1.0, block := 1) -> 
 
 func _physics_process(_delta: float) -> void:
 	if menu:
-		if menu_name in CHOICE_SCREENS:
+		# Typing (the Guide's search): the letters are text, not hotkeys.
+		if menu_name in CHOICE_SCREENS or get_viewport().gui_get_focus_owner() is LineEdit:
 			pass
 		elif item_card and is_instance_valid(item_card):
 			if Input.is_action_just_pressed("pause"):
@@ -318,8 +319,8 @@ func _handle(event: ZoneEvent) -> void:
 				view.show_text(
 					"+" + str(item.get("name")), zone.hero.position, ItemText.rarity_color(item)
 				)
-				if item.get("rarity") == "legendary":
-					_hud.toast("LEGENDARY! %s" % item["name"])
+				if ItemText.grade_rank(item) >= ContentDB.RARITIES.find("legendary"):
+					_hud.toast("%s! %s" % [str(item["rarity"]).to_upper(), item["name"]])
 					Sfx.play("level_up", -2.0)
 				elif item.get("rarity") == "epic":
 					_hud.toast("Epic find: %s" % item["name"])
@@ -374,7 +375,7 @@ func try_interact() -> bool:
 	var npc := view.npc_near(zone.hero)
 	if npc.is_empty():
 		return false
-	if npc["role"] == "shop":
+	if npc["role"] in ["shop", "test_shop"]:  # test_shop: the Item Testing Merchant
 		var closed := ShopRules.closed_text(profile, content, str(npc["shop"]))
 		if closed:
 			_hud.toast("%s: %s" % [npc["name"], closed])

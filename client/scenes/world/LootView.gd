@@ -9,7 +9,7 @@ extends Node2D
 const POP_SECONDS := 0.45
 const BOB_PIXELS := 2.0
 ## Beam height by rarity (no beam for common items).
-const BEAMS := {"uncommon": 34.0, "rare": 54.0, "epic": 74.0, "legendary": 96.0}
+const BEAMS := {"uncommon": 34.0, "rare": 54.0, "epic": 74.0, "legendary": 96.0, "godforged": 110.0}
 ## Items show at twice their icon size (whole pixels, so they stay sharp);
 ## coins at 1x with their amount.
 const ITEM_ZOOM := 2.0
@@ -54,7 +54,7 @@ func setup(content: ContentDB, p_pickup: Dictionary, from: Vector2) -> void:
 	label.size = Vector2(90, 10)
 	label.position = Vector2(-45, _rest - 22.0 if money else _rest - 30.0)
 	add_child(label)
-	if item.get("rarity") in ["epic", "legendary"]:
+	if ItemText.grade_rank(item) >= ContentDB.RARITIES.find("epic"):  # Epic and up
 		_add_sparkles()
 	# Pop out of the enemy in an arc, then settle.
 	var start := from - position

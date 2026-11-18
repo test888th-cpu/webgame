@@ -314,6 +314,7 @@
       }
     },
     "floodgate_marshal": {
+      "raid": true,
       "enemy": "floodgate_marshal",
       "area": "floodgate_barracks",
       "level": 56,
@@ -377,6 +378,7 @@
       }
     },
     "crucible_king": {
+      "raid": true,
       "enemy": "crucible_king",
       "area": "crucible_pit",
       "level": 64,
@@ -440,6 +442,7 @@
       }
     },
     "founders_engine": {
+      "raid": true,
       "enemy": "founders_engine",
       "area": "founders_floor",
       "level": 70,

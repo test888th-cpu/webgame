@@ -17,6 +17,8 @@ extends Node2D
 ## Pixels the fist travels out during an attack's active ticks (polygon art).
 const ARM_REACH := 14.0
 const HIT_FLASH_TICKS := 6
+## The slowest the walk animation plays (a slow step still reads as walking).
+const MIN_WALK_PACE := 0.35
 ## Ticks over which the knock-down animation plays before holding its last frame.
 const DOWN_TICKS := 30
 ## What art without an animation plays instead (the rest fall back to idle).
@@ -102,6 +104,8 @@ var enemy_level := 0
 
 var _sprite: AnimatedSprite2D
 var _last_position := Vector2.INF
+## The walk animation's speed for the last step (see sync).
+var _walk_pace := 1.0
 ## Impact feedback (presentation only): a colour flash fading out, and a
 ## short freeze of the sprite's pose with a shiver.
 var _flash := 0.0
@@ -117,6 +121,7 @@ var _rows := {}
 var _contact := {}
 var _hand_sheet: Texture2D
 var _held: Sprite2D
+var _gear: EquipmentLayers
 var _cast: AnimatedSprite2D
 var _fist: Sprite2D
 var _held_id := ""
@@ -327,10 +332,15 @@ func _make_cast(origin: Vector2) -> void:
 func sync() -> void:
 	if fighter == null:
 		return
-	var moved := (
-		_last_position != Vector2.INF and fighter.position.distance_to(_last_position) > 0.05
+	var step := (
+		0.0 if _last_position == Vector2.INF else fighter.position.distance_to(_last_position)
 	)
+	var moved := step > 0.05
 	_last_position = fighter.position
+	# The walk keeps pace with the feet: a slow, deliberate step (an arena
+	# rival sizing the hero up) plays the walk slower instead of sliding.
+	var full := LaneMovement.WALK_SPEED_X * CombatRules.TICK_SECONDS * maxf(fighter.speed, 0.5)
+	_walk_pace = clampf(step / full, MIN_WALK_PACE, 1.0) if moved else 1.0
 	position = fighter.position
 	_body.scale.x = fighter.facing
 	_body.rotation = 0.0
@@ -361,6 +371,23 @@ func sync() -> void:
 	if show_health_bar:
 		_health_fill.size.x = 24.0 * fighter.hp / fighter.max_hp
 	_update_held()
+	_update_gear()
+
+
+## Draws the worn gear's appearance on the body (EquipmentLayers), made the
+## first time a fighter wears something that shows.
+func _update_gear() -> void:
+	if _gear == null:
+		if fighter.appearance.is_empty() or content == null or content.catalog == null:
+			return
+		_gear = EquipmentLayers.new()
+		add_child(_gear)
+	_gear.update(fighter, content, _sprite)
+
+
+## The gear drawn on the body, or null (for tests and the probe).
+func gear() -> EquipmentLayers:
+	return _gear
 
 
 ## Draws the held weapon (if any) in the hand of the frame on screen.
@@ -491,6 +518,7 @@ func _animate_sprite(moved: bool) -> void:
 			_sprite.position = _home
 		_:
 			_play("walk" if moved and _has("walk") else "idle")
+			_sprite.speed_scale = _walk_pace if _sprite.animation == &"walk" else 1.0
 
 
 ## A thrown body in the air: from the holder's shoulders down onto the

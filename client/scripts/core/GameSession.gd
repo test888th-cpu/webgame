@@ -29,9 +29,13 @@ const SAFE_AREA_JS := """
 
 var content: ContentDB
 var profile: PlayerProfile
+## The production character being played (SaveStore.players), "" for a new one.
+var character_id := ""
 ## Player preferences (not progression): kept in their own small file.
 ## Effect animations, built on first use by Fx.
 var fx_library := {}
+## Temporary item art drawn by PlaceholderArt, built once.
+var placeholder_art := {}
 ## Where everything goes on screen now (ScreenLayout). Set by relayout().
 var layout: ScreenLayout
 var settings := {
@@ -55,11 +59,24 @@ var _street_shown := false
 var _screen_open := false
 
 
+## TEST_VENDOR_ENABLED: whether the Item Testing Merchant (test_vendor.json)
+## stands in the city. The environment variable of that name ("1"/"0") wins;
+## otherwise the project setting iron_legacy/test_vendor_enabled. Turn it off
+## for production: the item data stays, only the merchant goes.
+static func test_vendor_enabled() -> bool:
+	var env := OS.get_environment("TEST_VENDOR_ENABLED")
+	if env != "":
+		return env in ["1", "true", "yes"]
+	return bool(ProjectSettings.get_setting("iron_legacy/test_vendor_enabled", false))
+
+
 func _ready() -> void:
 	SaveStore.claim_web_lock()
 	content = ContentDB.load_all()
 	for error in content.errors:
 		push_error("content: " + error)
+	if test_vendor_enabled():
+		content.catalog.enable_vendor(content)
 	# The project theme (an empty base_theme.tres set in project.godot) is
 	# filled at startup, so every Control, including those under CanvasLayers
 	# where a node theme would not reach, uses UiTheme.

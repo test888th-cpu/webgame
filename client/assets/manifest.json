@@ -476,6 +476,8392 @@
       "source": "lpc",
       "status": "imported"
     },
+    "class_druid_f": {
+      "animations": {
+        "dodge": {
+          "fps": 12,
+          "frames": 5,
+          "loop": false,
+          "row": 6,
+          "source": "walk"
+        },
+        "down": {
+          "fps": 10,
+          "frames": 6,
+          "loop": false,
+          "row": 5,
+          "source": "hurt"
+        },
+        "grab": {
+          "contact": [
+            2,
+            4
+          ],
+          "fps": 14,
+          "frames": 6,
+          "loop": false,
+          "row": 9,
+          "source": "thrust"
+        },
+        "heavy": {
+          "contact": [
+            5,
+            6
+          ],
+          "fps": 12,
+          "frames": 8,
+          "loop": false,
+          "row": 3,
+          "source": "thrust"
+        },
+        "hurt": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 4,
+          "source": "hurt"
+        },
+        "idle": {
+          "fps": 4,
+          "frames": 3,
+          "loop": true,
+          "row": 0,
+          "source": "idle"
+        },
+        "lift": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 10,
+          "source": "spellcast"
+        },
+        "light": {
+          "contact": [
+            2,
+            3
+          ],
+          "fps": 18,
+          "frames": 4,
+          "loop": false,
+          "row": 2,
+          "source": "thrust"
+        },
+        "stab": {
+          "contact": [
+            3,
+            4
+          ],
+          "fps": 14,
+          "frames": 5,
+          "loop": false,
+          "row": 7,
+          "source": "thrust"
+        },
+        "swing": {
+          "contact": [
+            4,
+            5
+          ],
+          "fps": 16,
+          "frames": 6,
+          "loop": false,
+          "row": 8,
+          "source": "thrust"
+        },
+        "throw": {
+          "contact": [
+            2,
+            2
+          ],
+          "fps": 14,
+          "frames": 4,
+          "loop": false,
+          "row": 11,
+          "source": "slash"
+        },
+        "walk": {
+          "fps": 10,
+          "frames": 8,
+          "loop": true,
+          "row": 1,
+          "source": "walk"
+        }
+      },
+      "credits": "res://assets/characters/class_druid_f/credits.json",
+      "facing": "right",
+      "frame_size": [
+        64,
+        64
+      ],
+      "generator": {
+        "recipe": "art/lpc/characters.json#class_druid_f",
+        "repo": "LPC"
+      },
+      "hand_sheet": "res://assets/characters/class_druid_f/hands.png",
+      "hands": {
+        "dodge": [
+          [
+            31,
+            48,
+            45
+          ],
+          [
+            28,
+            48,
+            45
+          ],
+          [
+            23,
+            48,
+            45
+          ],
+          [
+            21,
+            47,
+            45
+          ],
+          [
+            20,
+            47,
+            45
+          ]
+        ],
+        "down": [
+          [
+            21,
+            46,
+            45
+          ],
+          [
+            23,
+            51,
+            45
+          ],
+          [
+            24,
+            57,
+            45
+          ],
+          [
+            24,
+            57,
+            45
+          ],
+          [
+            24,
+            57,
+            45
+          ],
+          [
+            20,
+            55,
+            45
+          ]
+        ],
+        "grab": [
+          [
+            26,
+            46,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ]
+        ],
+        "heavy": [
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            18,
+            31,
+            45
+          ],
+          [
+            18,
+            31,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ]
+        ],
+        "hurt": [
+          [
+            21,
+            46,
+            40
+          ],
+          [
+            23,
+            51,
+            50
+          ],
+          [
+            24,
+            57,
+            60
+          ]
+        ],
+        "idle": [
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            24,
+            46,
+            45
+          ]
+        ],
+        "lift": [
+          [
+            22,
+            43,
+            45
+          ],
+          [
+            17,
+            38,
+            45
+          ],
+          [
+            18,
+            31,
+            45
+          ]
+        ],
+        "light": [
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ]
+        ],
+        "stab": [
+          [
+            26,
+            46,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ]
+        ],
+        "swing": [
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            18,
+            31,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ]
+        ],
+        "throw": [
+          [
+            18,
+            31,
+            45
+          ],
+          [
+            23,
+            46,
+            45
+          ],
+          [
+            23,
+            46,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ]
+        ],
+        "walk": [
+          [
+            31,
+            48,
+            55
+          ],
+          [
+            28,
+            48,
+            50
+          ],
+          [
+            23,
+            48,
+            45
+          ],
+          [
+            21,
+            47,
+            40
+          ],
+          [
+            20,
+            47,
+            40
+          ],
+          [
+            21,
+            47,
+            45
+          ],
+          [
+            23,
+            48,
+            50
+          ],
+          [
+            27,
+            48,
+            55
+          ]
+        ]
+      },
+      "licenses": [
+        "CC0",
+        "OGA-BY 3.0",
+        "OGA-BY 3.0+"
+      ],
+      "origin": [
+        32,
+        62
+      ],
+      "role": "hero",
+      "sheet": "res://assets/characters/class_druid_f/sheet.png",
+      "source": "lpc",
+      "status": "imported"
+    },
+    "class_druid_m": {
+      "animations": {
+        "dodge": {
+          "fps": 12,
+          "frames": 5,
+          "loop": false,
+          "row": 6,
+          "source": "walk"
+        },
+        "down": {
+          "fps": 10,
+          "frames": 6,
+          "loop": false,
+          "row": 5,
+          "source": "hurt"
+        },
+        "grab": {
+          "contact": [
+            2,
+            4
+          ],
+          "fps": 14,
+          "frames": 6,
+          "loop": false,
+          "row": 9,
+          "source": "thrust"
+        },
+        "heavy": {
+          "contact": [
+            5,
+            6
+          ],
+          "fps": 12,
+          "frames": 8,
+          "loop": false,
+          "row": 3,
+          "source": "thrust"
+        },
+        "hurt": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 4,
+          "source": "hurt"
+        },
+        "idle": {
+          "fps": 4,
+          "frames": 3,
+          "loop": true,
+          "row": 0,
+          "source": "idle"
+        },
+        "lift": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 10,
+          "source": "spellcast"
+        },
+        "light": {
+          "contact": [
+            2,
+            3
+          ],
+          "fps": 18,
+          "frames": 4,
+          "loop": false,
+          "row": 2,
+          "source": "thrust"
+        },
+        "stab": {
+          "contact": [
+            3,
+            4
+          ],
+          "fps": 14,
+          "frames": 5,
+          "loop": false,
+          "row": 7,
+          "source": "thrust"
+        },
+        "swing": {
+          "contact": [
+            4,
+            5
+          ],
+          "fps": 16,
+          "frames": 6,
+          "loop": false,
+          "row": 8,
+          "source": "thrust"
+        },
+        "throw": {
+          "contact": [
+            2,
+            2
+          ],
+          "fps": 14,
+          "frames": 4,
+          "loop": false,
+          "row": 11,
+          "source": "slash"
+        },
+        "walk": {
+          "fps": 10,
+          "frames": 8,
+          "loop": true,
+          "row": 1,
+          "source": "walk"
+        }
+      },
+      "credits": "res://assets/characters/class_druid_m/credits.json",
+      "facing": "right",
+      "frame_size": [
+        64,
+        64
+      ],
+      "generator": {
+        "recipe": "art/lpc/characters.json#class_druid_m",
+        "repo": "LPC"
+      },
+      "hand_sheet": "res://assets/characters/class_druid_m/hands.png",
+      "hands": {
+        "dodge": [
+          [
+            30,
+            48,
+            45
+          ],
+          [
+            28,
+            48,
+            45
+          ],
+          [
+            22,
+            48,
+            45
+          ],
+          [
+            21,
+            48,
+            45
+          ],
+          [
+            19,
+            48,
+            45
+          ]
+        ],
+        "down": [
+          [
+            20,
+            46,
+            45
+          ],
+          [
+            21,
+            51,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            21,
+            56,
+            45
+          ]
+        ],
+        "grab": [
+          [
+            26,
+            46,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ]
+        ],
+        "heavy": [
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            17,
+            30,
+            45
+          ],
+          [
+            17,
+            30,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ]
+        ],
+        "hurt": [
+          [
+            20,
+            46,
+            40
+          ],
+          [
+            21,
+            51,
+            50
+          ],
+          [
+            23,
+            58,
+            60
+          ]
+        ],
+        "idle": [
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            25,
+            46,
+            45
+          ]
+        ],
+        "lift": [
+          [
+            21,
+            42,
+            45
+          ],
+          [
+            16,
+            37,
+            45
+          ],
+          [
+            17,
+            30,
+            45
+          ]
+        ],
+        "light": [
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ]
+        ],
+        "stab": [
+          [
+            26,
+            46,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ]
+        ],
+        "swing": [
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            17,
+            30,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ]
+        ],
+        "throw": [
+          [
+            17,
+            30,
+            45
+          ],
+          [
+            22,
+            47,
+            45
+          ],
+          [
+            23,
+            47,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ]
+        ],
+        "walk": [
+          [
+            30,
+            48,
+            55
+          ],
+          [
+            28,
+            48,
+            50
+          ],
+          [
+            22,
+            48,
+            45
+          ],
+          [
+            21,
+            48,
+            40
+          ],
+          [
+            19,
+            48,
+            40
+          ],
+          [
+            21,
+            48,
+            45
+          ],
+          [
+            24,
+            48,
+            50
+          ],
+          [
+            26,
+            48,
+            55
+          ]
+        ]
+      },
+      "licenses": [
+        "CC0",
+        "OGA-BY 3.0",
+        "OGA-BY 3.0+"
+      ],
+      "origin": [
+        32,
+        63
+      ],
+      "role": "hero",
+      "sheet": "res://assets/characters/class_druid_m/sheet.png",
+      "source": "lpc",
+      "status": "imported"
+    },
+    "class_hunter_f": {
+      "animations": {
+        "dodge": {
+          "fps": 12,
+          "frames": 5,
+          "loop": false,
+          "row": 6,
+          "source": "walk"
+        },
+        "down": {
+          "fps": 10,
+          "frames": 6,
+          "loop": false,
+          "row": 5,
+          "source": "hurt"
+        },
+        "grab": {
+          "contact": [
+            2,
+            4
+          ],
+          "fps": 14,
+          "frames": 6,
+          "loop": false,
+          "row": 9,
+          "source": "thrust"
+        },
+        "heavy": {
+          "contact": [
+            5,
+            6
+          ],
+          "fps": 12,
+          "frames": 8,
+          "loop": false,
+          "row": 3,
+          "source": "thrust"
+        },
+        "hurt": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 4,
+          "source": "hurt"
+        },
+        "idle": {
+          "fps": 4,
+          "frames": 3,
+          "loop": true,
+          "row": 0,
+          "source": "idle"
+        },
+        "lift": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 10,
+          "source": "spellcast"
+        },
+        "light": {
+          "contact": [
+            2,
+            3
+          ],
+          "fps": 18,
+          "frames": 4,
+          "loop": false,
+          "row": 2,
+          "source": "thrust"
+        },
+        "stab": {
+          "contact": [
+            3,
+            4
+          ],
+          "fps": 14,
+          "frames": 5,
+          "loop": false,
+          "row": 7,
+          "source": "thrust"
+        },
+        "swing": {
+          "contact": [
+            4,
+            5
+          ],
+          "fps": 16,
+          "frames": 6,
+          "loop": false,
+          "row": 8,
+          "source": "thrust"
+        },
+        "throw": {
+          "contact": [
+            2,
+            2
+          ],
+          "fps": 14,
+          "frames": 4,
+          "loop": false,
+          "row": 11,
+          "source": "slash"
+        },
+        "walk": {
+          "fps": 10,
+          "frames": 8,
+          "loop": true,
+          "row": 1,
+          "source": "walk"
+        }
+      },
+      "credits": "res://assets/characters/class_hunter_f/credits.json",
+      "facing": "right",
+      "frame_size": [
+        64,
+        64
+      ],
+      "generator": {
+        "recipe": "art/lpc/characters.json#class_hunter_f",
+        "repo": "LPC"
+      },
+      "hand_sheet": "res://assets/characters/class_hunter_f/hands.png",
+      "hands": {
+        "dodge": [
+          [
+            31,
+            48,
+            45
+          ],
+          [
+            28,
+            48,
+            45
+          ],
+          [
+            23,
+            48,
+            45
+          ],
+          [
+            21,
+            47,
+            45
+          ],
+          [
+            20,
+            47,
+            45
+          ]
+        ],
+        "down": [
+          [
+            21,
+            46,
+            45
+          ],
+          [
+            23,
+            51,
+            45
+          ],
+          [
+            24,
+            57,
+            45
+          ],
+          [
+            24,
+            57,
+            45
+          ],
+          [
+            24,
+            57,
+            45
+          ],
+          [
+            20,
+            55,
+            45
+          ]
+        ],
+        "grab": [
+          [
+            26,
+            46,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ]
+        ],
+        "heavy": [
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            18,
+            31,
+            45
+          ],
+          [
+            18,
+            31,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ]
+        ],
+        "hurt": [
+          [
+            21,
+            46,
+            40
+          ],
+          [
+            23,
+            51,
+            50
+          ],
+          [
+            24,
+            57,
+            60
+          ]
+        ],
+        "idle": [
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            24,
+            46,
+            45
+          ]
+        ],
+        "lift": [
+          [
+            22,
+            43,
+            45
+          ],
+          [
+            17,
+            38,
+            45
+          ],
+          [
+            18,
+            31,
+            45
+          ]
+        ],
+        "light": [
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ]
+        ],
+        "stab": [
+          [
+            26,
+            46,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ]
+        ],
+        "swing": [
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            18,
+            31,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ]
+        ],
+        "throw": [
+          [
+            18,
+            31,
+            45
+          ],
+          [
+            23,
+            46,
+            45
+          ],
+          [
+            23,
+            46,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ]
+        ],
+        "walk": [
+          [
+            31,
+            48,
+            55
+          ],
+          [
+            28,
+            48,
+            50
+          ],
+          [
+            23,
+            48,
+            45
+          ],
+          [
+            21,
+            47,
+            40
+          ],
+          [
+            20,
+            47,
+            40
+          ],
+          [
+            21,
+            47,
+            45
+          ],
+          [
+            23,
+            48,
+            50
+          ],
+          [
+            27,
+            48,
+            55
+          ]
+        ]
+      },
+      "licenses": [
+        "OGA-BY 3.0",
+        "OGA-BY 3.0+"
+      ],
+      "origin": [
+        32,
+        62
+      ],
+      "role": "hero",
+      "sheet": "res://assets/characters/class_hunter_f/sheet.png",
+      "source": "lpc",
+      "status": "imported"
+    },
+    "class_hunter_m": {
+      "animations": {
+        "dodge": {
+          "fps": 12,
+          "frames": 5,
+          "loop": false,
+          "row": 6,
+          "source": "walk"
+        },
+        "down": {
+          "fps": 10,
+          "frames": 6,
+          "loop": false,
+          "row": 5,
+          "source": "hurt"
+        },
+        "grab": {
+          "contact": [
+            2,
+            4
+          ],
+          "fps": 14,
+          "frames": 6,
+          "loop": false,
+          "row": 9,
+          "source": "thrust"
+        },
+        "heavy": {
+          "contact": [
+            5,
+            6
+          ],
+          "fps": 12,
+          "frames": 8,
+          "loop": false,
+          "row": 3,
+          "source": "thrust"
+        },
+        "hurt": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 4,
+          "source": "hurt"
+        },
+        "idle": {
+          "fps": 4,
+          "frames": 3,
+          "loop": true,
+          "row": 0,
+          "source": "idle"
+        },
+        "lift": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 10,
+          "source": "spellcast"
+        },
+        "light": {
+          "contact": [
+            2,
+            3
+          ],
+          "fps": 18,
+          "frames": 4,
+          "loop": false,
+          "row": 2,
+          "source": "thrust"
+        },
+        "stab": {
+          "contact": [
+            3,
+            4
+          ],
+          "fps": 14,
+          "frames": 5,
+          "loop": false,
+          "row": 7,
+          "source": "thrust"
+        },
+        "swing": {
+          "contact": [
+            4,
+            5
+          ],
+          "fps": 16,
+          "frames": 6,
+          "loop": false,
+          "row": 8,
+          "source": "thrust"
+        },
+        "throw": {
+          "contact": [
+            2,
+            2
+          ],
+          "fps": 14,
+          "frames": 4,
+          "loop": false,
+          "row": 11,
+          "source": "slash"
+        },
+        "walk": {
+          "fps": 10,
+          "frames": 8,
+          "loop": true,
+          "row": 1,
+          "source": "walk"
+        }
+      },
+      "credits": "res://assets/characters/class_hunter_m/credits.json",
+      "facing": "right",
+      "frame_size": [
+        64,
+        64
+      ],
+      "generator": {
+        "recipe": "art/lpc/characters.json#class_hunter_m",
+        "repo": "LPC"
+      },
+      "hand_sheet": "res://assets/characters/class_hunter_m/hands.png",
+      "hands": {
+        "dodge": [
+          [
+            30,
+            48,
+            45
+          ],
+          [
+            28,
+            48,
+            45
+          ],
+          [
+            22,
+            48,
+            45
+          ],
+          [
+            21,
+            48,
+            45
+          ],
+          [
+            19,
+            48,
+            45
+          ]
+        ],
+        "down": [
+          [
+            20,
+            46,
+            45
+          ],
+          [
+            21,
+            51,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            21,
+            56,
+            45
+          ]
+        ],
+        "grab": [
+          [
+            26,
+            46,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ]
+        ],
+        "heavy": [
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            17,
+            30,
+            45
+          ],
+          [
+            17,
+            30,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ]
+        ],
+        "hurt": [
+          [
+            20,
+            46,
+            40
+          ],
+          [
+            21,
+            51,
+            50
+          ],
+          [
+            23,
+            58,
+            60
+          ]
+        ],
+        "idle": [
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            25,
+            46,
+            45
+          ]
+        ],
+        "lift": [
+          [
+            21,
+            42,
+            45
+          ],
+          [
+            16,
+            37,
+            45
+          ],
+          [
+            17,
+            30,
+            45
+          ]
+        ],
+        "light": [
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ]
+        ],
+        "stab": [
+          [
+            26,
+            46,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ]
+        ],
+        "swing": [
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            17,
+            30,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ]
+        ],
+        "throw": [
+          [
+            17,
+            30,
+            45
+          ],
+          [
+            22,
+            47,
+            45
+          ],
+          [
+            23,
+            47,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ]
+        ],
+        "walk": [
+          [
+            30,
+            48,
+            55
+          ],
+          [
+            28,
+            48,
+            50
+          ],
+          [
+            22,
+            48,
+            45
+          ],
+          [
+            21,
+            48,
+            40
+          ],
+          [
+            19,
+            48,
+            40
+          ],
+          [
+            21,
+            48,
+            45
+          ],
+          [
+            24,
+            48,
+            50
+          ],
+          [
+            26,
+            48,
+            55
+          ]
+        ]
+      },
+      "licenses": [
+        "OGA-BY 3.0",
+        "OGA-BY 3.0+"
+      ],
+      "origin": [
+        32,
+        63
+      ],
+      "role": "hero",
+      "sheet": "res://assets/characters/class_hunter_m/sheet.png",
+      "source": "lpc",
+      "status": "imported"
+    },
+    "class_mage_f": {
+      "animations": {
+        "dodge": {
+          "fps": 12,
+          "frames": 5,
+          "loop": false,
+          "row": 6,
+          "source": "walk"
+        },
+        "down": {
+          "fps": 10,
+          "frames": 6,
+          "loop": false,
+          "row": 5,
+          "source": "hurt"
+        },
+        "grab": {
+          "contact": [
+            2,
+            4
+          ],
+          "fps": 14,
+          "frames": 6,
+          "loop": false,
+          "row": 9,
+          "source": "thrust"
+        },
+        "heavy": {
+          "contact": [
+            5,
+            6
+          ],
+          "fps": 12,
+          "frames": 8,
+          "loop": false,
+          "row": 3,
+          "source": "thrust"
+        },
+        "hurt": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 4,
+          "source": "hurt"
+        },
+        "idle": {
+          "fps": 4,
+          "frames": 3,
+          "loop": true,
+          "row": 0,
+          "source": "idle"
+        },
+        "lift": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 10,
+          "source": "spellcast"
+        },
+        "light": {
+          "contact": [
+            2,
+            3
+          ],
+          "fps": 18,
+          "frames": 4,
+          "loop": false,
+          "row": 2,
+          "source": "thrust"
+        },
+        "stab": {
+          "contact": [
+            3,
+            4
+          ],
+          "fps": 14,
+          "frames": 5,
+          "loop": false,
+          "row": 7,
+          "source": "thrust"
+        },
+        "swing": {
+          "contact": [
+            4,
+            5
+          ],
+          "fps": 16,
+          "frames": 6,
+          "loop": false,
+          "row": 8,
+          "source": "thrust"
+        },
+        "throw": {
+          "contact": [
+            2,
+            2
+          ],
+          "fps": 14,
+          "frames": 4,
+          "loop": false,
+          "row": 11,
+          "source": "slash"
+        },
+        "walk": {
+          "fps": 10,
+          "frames": 8,
+          "loop": true,
+          "row": 1,
+          "source": "walk"
+        }
+      },
+      "credits": "res://assets/characters/class_mage_f/credits.json",
+      "facing": "right",
+      "frame_size": [
+        64,
+        64
+      ],
+      "generator": {
+        "recipe": "art/lpc/characters.json#class_mage_f",
+        "repo": "LPC"
+      },
+      "hand_sheet": "res://assets/characters/class_mage_f/hands.png",
+      "hands": {
+        "dodge": [
+          [
+            31,
+            48,
+            45
+          ],
+          [
+            28,
+            48,
+            45
+          ],
+          [
+            23,
+            48,
+            45
+          ],
+          [
+            21,
+            47,
+            45
+          ],
+          [
+            20,
+            47,
+            45
+          ]
+        ],
+        "down": [
+          [
+            21,
+            46,
+            45
+          ],
+          [
+            23,
+            51,
+            45
+          ],
+          [
+            24,
+            57,
+            45
+          ],
+          [
+            24,
+            57,
+            45
+          ],
+          [
+            24,
+            57,
+            45
+          ],
+          [
+            20,
+            55,
+            45
+          ]
+        ],
+        "grab": [
+          [
+            26,
+            46,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ]
+        ],
+        "heavy": [
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            18,
+            31,
+            45
+          ],
+          [
+            18,
+            31,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ]
+        ],
+        "hurt": [
+          [
+            21,
+            46,
+            40
+          ],
+          [
+            23,
+            51,
+            50
+          ],
+          [
+            24,
+            57,
+            60
+          ]
+        ],
+        "idle": [
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            24,
+            46,
+            45
+          ]
+        ],
+        "lift": [
+          [
+            22,
+            43,
+            45
+          ],
+          [
+            17,
+            38,
+            45
+          ],
+          [
+            18,
+            31,
+            45
+          ]
+        ],
+        "light": [
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ]
+        ],
+        "stab": [
+          [
+            26,
+            46,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ]
+        ],
+        "swing": [
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            18,
+            31,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ]
+        ],
+        "throw": [
+          [
+            18,
+            31,
+            45
+          ],
+          [
+            23,
+            46,
+            45
+          ],
+          [
+            23,
+            46,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ]
+        ],
+        "walk": [
+          [
+            31,
+            48,
+            55
+          ],
+          [
+            28,
+            48,
+            50
+          ],
+          [
+            23,
+            48,
+            45
+          ],
+          [
+            21,
+            47,
+            40
+          ],
+          [
+            20,
+            47,
+            40
+          ],
+          [
+            21,
+            47,
+            45
+          ],
+          [
+            23,
+            48,
+            50
+          ],
+          [
+            27,
+            48,
+            55
+          ]
+        ]
+      },
+      "licenses": [
+        "CC-BY 3.0",
+        "OGA-BY 3.0"
+      ],
+      "origin": [
+        32,
+        62
+      ],
+      "role": "hero",
+      "sheet": "res://assets/characters/class_mage_f/sheet.png",
+      "source": "lpc",
+      "status": "imported"
+    },
+    "class_mage_m": {
+      "animations": {
+        "dodge": {
+          "fps": 12,
+          "frames": 5,
+          "loop": false,
+          "row": 6,
+          "source": "walk"
+        },
+        "down": {
+          "fps": 10,
+          "frames": 6,
+          "loop": false,
+          "row": 5,
+          "source": "hurt"
+        },
+        "grab": {
+          "contact": [
+            2,
+            4
+          ],
+          "fps": 14,
+          "frames": 6,
+          "loop": false,
+          "row": 9,
+          "source": "thrust"
+        },
+        "heavy": {
+          "contact": [
+            5,
+            6
+          ],
+          "fps": 12,
+          "frames": 8,
+          "loop": false,
+          "row": 3,
+          "source": "thrust"
+        },
+        "hurt": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 4,
+          "source": "hurt"
+        },
+        "idle": {
+          "fps": 4,
+          "frames": 3,
+          "loop": true,
+          "row": 0,
+          "source": "idle"
+        },
+        "lift": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 10,
+          "source": "spellcast"
+        },
+        "light": {
+          "contact": [
+            2,
+            3
+          ],
+          "fps": 18,
+          "frames": 4,
+          "loop": false,
+          "row": 2,
+          "source": "thrust"
+        },
+        "stab": {
+          "contact": [
+            3,
+            4
+          ],
+          "fps": 14,
+          "frames": 5,
+          "loop": false,
+          "row": 7,
+          "source": "thrust"
+        },
+        "swing": {
+          "contact": [
+            4,
+            5
+          ],
+          "fps": 16,
+          "frames": 6,
+          "loop": false,
+          "row": 8,
+          "source": "thrust"
+        },
+        "throw": {
+          "contact": [
+            2,
+            2
+          ],
+          "fps": 14,
+          "frames": 4,
+          "loop": false,
+          "row": 11,
+          "source": "slash"
+        },
+        "walk": {
+          "fps": 10,
+          "frames": 8,
+          "loop": true,
+          "row": 1,
+          "source": "walk"
+        }
+      },
+      "credits": "res://assets/characters/class_mage_m/credits.json",
+      "facing": "right",
+      "frame_size": [
+        64,
+        64
+      ],
+      "generator": {
+        "recipe": "art/lpc/characters.json#class_mage_m",
+        "repo": "LPC"
+      },
+      "hand_sheet": "res://assets/characters/class_mage_m/hands.png",
+      "hands": {
+        "dodge": [
+          [
+            30,
+            48,
+            45
+          ],
+          [
+            28,
+            48,
+            45
+          ],
+          [
+            22,
+            48,
+            45
+          ],
+          [
+            21,
+            48,
+            45
+          ],
+          [
+            19,
+            48,
+            45
+          ]
+        ],
+        "down": [
+          [
+            20,
+            46,
+            45
+          ],
+          [
+            21,
+            51,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            21,
+            56,
+            45
+          ]
+        ],
+        "grab": [
+          [
+            26,
+            46,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ]
+        ],
+        "heavy": [
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            17,
+            30,
+            45
+          ],
+          [
+            17,
+            30,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ]
+        ],
+        "hurt": [
+          [
+            20,
+            46,
+            40
+          ],
+          [
+            21,
+            51,
+            50
+          ],
+          [
+            23,
+            58,
+            60
+          ]
+        ],
+        "idle": [
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            25,
+            46,
+            45
+          ]
+        ],
+        "lift": [
+          [
+            21,
+            42,
+            45
+          ],
+          [
+            16,
+            37,
+            45
+          ],
+          [
+            17,
+            30,
+            45
+          ]
+        ],
+        "light": [
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ]
+        ],
+        "stab": [
+          [
+            26,
+            46,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ]
+        ],
+        "swing": [
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            17,
+            30,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ]
+        ],
+        "throw": [
+          [
+            17,
+            30,
+            45
+          ],
+          [
+            22,
+            47,
+            45
+          ],
+          [
+            23,
+            47,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ]
+        ],
+        "walk": [
+          [
+            30,
+            48,
+            55
+          ],
+          [
+            28,
+            48,
+            50
+          ],
+          [
+            22,
+            48,
+            45
+          ],
+          [
+            21,
+            48,
+            40
+          ],
+          [
+            19,
+            48,
+            40
+          ],
+          [
+            21,
+            48,
+            45
+          ],
+          [
+            24,
+            48,
+            50
+          ],
+          [
+            26,
+            48,
+            55
+          ]
+        ]
+      },
+      "licenses": [
+        "CC-BY 3.0",
+        "OGA-BY 3.0"
+      ],
+      "origin": [
+        32,
+        62
+      ],
+      "role": "hero",
+      "sheet": "res://assets/characters/class_mage_m/sheet.png",
+      "source": "lpc",
+      "status": "imported"
+    },
+    "class_paladin_f": {
+      "animations": {
+        "dodge": {
+          "fps": 12,
+          "frames": 5,
+          "loop": false,
+          "row": 6,
+          "source": "walk"
+        },
+        "down": {
+          "fps": 10,
+          "frames": 6,
+          "loop": false,
+          "row": 5,
+          "source": "hurt"
+        },
+        "grab": {
+          "contact": [
+            2,
+            4
+          ],
+          "fps": 14,
+          "frames": 6,
+          "loop": false,
+          "row": 9,
+          "source": "thrust"
+        },
+        "heavy": {
+          "contact": [
+            5,
+            6
+          ],
+          "fps": 12,
+          "frames": 8,
+          "loop": false,
+          "row": 3,
+          "source": "thrust"
+        },
+        "hurt": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 4,
+          "source": "hurt"
+        },
+        "idle": {
+          "fps": 4,
+          "frames": 3,
+          "loop": true,
+          "row": 0,
+          "source": "idle"
+        },
+        "lift": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 10,
+          "source": "spellcast"
+        },
+        "light": {
+          "contact": [
+            2,
+            3
+          ],
+          "fps": 18,
+          "frames": 4,
+          "loop": false,
+          "row": 2,
+          "source": "thrust"
+        },
+        "stab": {
+          "contact": [
+            3,
+            4
+          ],
+          "fps": 14,
+          "frames": 5,
+          "loop": false,
+          "row": 7,
+          "source": "thrust"
+        },
+        "swing": {
+          "contact": [
+            4,
+            5
+          ],
+          "fps": 16,
+          "frames": 6,
+          "loop": false,
+          "row": 8,
+          "source": "thrust"
+        },
+        "throw": {
+          "contact": [
+            2,
+            2
+          ],
+          "fps": 14,
+          "frames": 4,
+          "loop": false,
+          "row": 11,
+          "source": "slash"
+        },
+        "walk": {
+          "fps": 10,
+          "frames": 8,
+          "loop": true,
+          "row": 1,
+          "source": "walk"
+        }
+      },
+      "credits": "res://assets/characters/class_paladin_f/credits.json",
+      "facing": "right",
+      "frame_size": [
+        64,
+        64
+      ],
+      "generator": {
+        "recipe": "art/lpc/characters.json#class_paladin_f",
+        "repo": "LPC"
+      },
+      "hand_sheet": "res://assets/characters/class_paladin_f/hands.png",
+      "hands": {
+        "dodge": [
+          [
+            31,
+            48,
+            45
+          ],
+          [
+            28,
+            48,
+            45
+          ],
+          [
+            23,
+            48,
+            45
+          ],
+          [
+            21,
+            47,
+            45
+          ],
+          [
+            20,
+            47,
+            45
+          ]
+        ],
+        "down": [
+          [
+            21,
+            46,
+            45
+          ],
+          [
+            23,
+            51,
+            45
+          ],
+          [
+            24,
+            57,
+            45
+          ],
+          [
+            24,
+            57,
+            45
+          ],
+          [
+            24,
+            57,
+            45
+          ],
+          [
+            20,
+            55,
+            45
+          ]
+        ],
+        "grab": [
+          [
+            26,
+            46,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ]
+        ],
+        "heavy": [
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            18,
+            31,
+            45
+          ],
+          [
+            18,
+            31,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ]
+        ],
+        "hurt": [
+          [
+            21,
+            46,
+            40
+          ],
+          [
+            23,
+            51,
+            50
+          ],
+          [
+            24,
+            57,
+            60
+          ]
+        ],
+        "idle": [
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            24,
+            46,
+            45
+          ]
+        ],
+        "lift": [
+          [
+            22,
+            43,
+            45
+          ],
+          [
+            17,
+            38,
+            45
+          ],
+          [
+            18,
+            31,
+            45
+          ]
+        ],
+        "light": [
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ]
+        ],
+        "stab": [
+          [
+            26,
+            46,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ]
+        ],
+        "swing": [
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            18,
+            31,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ]
+        ],
+        "throw": [
+          [
+            18,
+            31,
+            45
+          ],
+          [
+            23,
+            46,
+            45
+          ],
+          [
+            23,
+            46,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ]
+        ],
+        "walk": [
+          [
+            31,
+            48,
+            55
+          ],
+          [
+            28,
+            48,
+            50
+          ],
+          [
+            23,
+            48,
+            45
+          ],
+          [
+            21,
+            47,
+            40
+          ],
+          [
+            20,
+            47,
+            40
+          ],
+          [
+            21,
+            47,
+            45
+          ],
+          [
+            23,
+            48,
+            50
+          ],
+          [
+            27,
+            48,
+            55
+          ]
+        ]
+      },
+      "licenses": [
+        "OGA-BY 3.0",
+        "OGA-BY 3.0+"
+      ],
+      "origin": [
+        32,
+        62
+      ],
+      "role": "hero",
+      "sheet": "res://assets/characters/class_paladin_f/sheet.png",
+      "source": "lpc",
+      "status": "imported"
+    },
+    "class_paladin_m": {
+      "animations": {
+        "dodge": {
+          "fps": 12,
+          "frames": 5,
+          "loop": false,
+          "row": 6,
+          "source": "walk"
+        },
+        "down": {
+          "fps": 10,
+          "frames": 6,
+          "loop": false,
+          "row": 5,
+          "source": "hurt"
+        },
+        "grab": {
+          "contact": [
+            2,
+            4
+          ],
+          "fps": 14,
+          "frames": 6,
+          "loop": false,
+          "row": 9,
+          "source": "thrust"
+        },
+        "heavy": {
+          "contact": [
+            5,
+            6
+          ],
+          "fps": 12,
+          "frames": 8,
+          "loop": false,
+          "row": 3,
+          "source": "thrust"
+        },
+        "hurt": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 4,
+          "source": "hurt"
+        },
+        "idle": {
+          "fps": 4,
+          "frames": 3,
+          "loop": true,
+          "row": 0,
+          "source": "idle"
+        },
+        "lift": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 10,
+          "source": "spellcast"
+        },
+        "light": {
+          "contact": [
+            2,
+            3
+          ],
+          "fps": 18,
+          "frames": 4,
+          "loop": false,
+          "row": 2,
+          "source": "thrust"
+        },
+        "stab": {
+          "contact": [
+            3,
+            4
+          ],
+          "fps": 14,
+          "frames": 5,
+          "loop": false,
+          "row": 7,
+          "source": "thrust"
+        },
+        "swing": {
+          "contact": [
+            4,
+            5
+          ],
+          "fps": 16,
+          "frames": 6,
+          "loop": false,
+          "row": 8,
+          "source": "thrust"
+        },
+        "throw": {
+          "contact": [
+            2,
+            2
+          ],
+          "fps": 14,
+          "frames": 4,
+          "loop": false,
+          "row": 11,
+          "source": "slash"
+        },
+        "walk": {
+          "fps": 10,
+          "frames": 8,
+          "loop": true,
+          "row": 1,
+          "source": "walk"
+        }
+      },
+      "credits": "res://assets/characters/class_paladin_m/credits.json",
+      "facing": "right",
+      "frame_size": [
+        64,
+        64
+      ],
+      "generator": {
+        "recipe": "art/lpc/characters.json#class_paladin_m",
+        "repo": "LPC"
+      },
+      "hand_sheet": "res://assets/characters/class_paladin_m/hands.png",
+      "hands": {
+        "dodge": [
+          [
+            30,
+            48,
+            45
+          ],
+          [
+            28,
+            48,
+            45
+          ],
+          [
+            22,
+            48,
+            45
+          ],
+          [
+            21,
+            48,
+            45
+          ],
+          [
+            19,
+            48,
+            45
+          ]
+        ],
+        "down": [
+          [
+            20,
+            46,
+            45
+          ],
+          [
+            21,
+            51,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            21,
+            56,
+            45
+          ]
+        ],
+        "grab": [
+          [
+            26,
+            46,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ]
+        ],
+        "heavy": [
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            17,
+            30,
+            45
+          ],
+          [
+            17,
+            30,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ]
+        ],
+        "hurt": [
+          [
+            20,
+            46,
+            40
+          ],
+          [
+            21,
+            51,
+            50
+          ],
+          [
+            23,
+            58,
+            60
+          ]
+        ],
+        "idle": [
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            25,
+            46,
+            45
+          ]
+        ],
+        "lift": [
+          [
+            21,
+            42,
+            45
+          ],
+          [
+            16,
+            37,
+            45
+          ],
+          [
+            17,
+            30,
+            45
+          ]
+        ],
+        "light": [
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ]
+        ],
+        "stab": [
+          [
+            26,
+            46,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ]
+        ],
+        "swing": [
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            17,
+            30,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ]
+        ],
+        "throw": [
+          [
+            17,
+            30,
+            45
+          ],
+          [
+            22,
+            47,
+            45
+          ],
+          [
+            23,
+            47,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ]
+        ],
+        "walk": [
+          [
+            30,
+            48,
+            55
+          ],
+          [
+            28,
+            48,
+            50
+          ],
+          [
+            22,
+            48,
+            45
+          ],
+          [
+            21,
+            48,
+            40
+          ],
+          [
+            19,
+            48,
+            40
+          ],
+          [
+            21,
+            48,
+            45
+          ],
+          [
+            24,
+            48,
+            50
+          ],
+          [
+            26,
+            48,
+            55
+          ]
+        ]
+      },
+      "licenses": [
+        "OGA-BY 3.0",
+        "OGA-BY 3.0+"
+      ],
+      "origin": [
+        32,
+        63
+      ],
+      "role": "hero",
+      "sheet": "res://assets/characters/class_paladin_m/sheet.png",
+      "source": "lpc",
+      "status": "imported"
+    },
+    "class_priest_f": {
+      "animations": {
+        "dodge": {
+          "fps": 12,
+          "frames": 5,
+          "loop": false,
+          "row": 6,
+          "source": "walk"
+        },
+        "down": {
+          "fps": 10,
+          "frames": 6,
+          "loop": false,
+          "row": 5,
+          "source": "hurt"
+        },
+        "grab": {
+          "contact": [
+            2,
+            4
+          ],
+          "fps": 14,
+          "frames": 6,
+          "loop": false,
+          "row": 9,
+          "source": "thrust"
+        },
+        "heavy": {
+          "contact": [
+            5,
+            6
+          ],
+          "fps": 12,
+          "frames": 8,
+          "loop": false,
+          "row": 3,
+          "source": "thrust"
+        },
+        "hurt": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 4,
+          "source": "hurt"
+        },
+        "idle": {
+          "fps": 4,
+          "frames": 3,
+          "loop": true,
+          "row": 0,
+          "source": "idle"
+        },
+        "lift": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 10,
+          "source": "spellcast"
+        },
+        "light": {
+          "contact": [
+            2,
+            3
+          ],
+          "fps": 18,
+          "frames": 4,
+          "loop": false,
+          "row": 2,
+          "source": "thrust"
+        },
+        "stab": {
+          "contact": [
+            3,
+            4
+          ],
+          "fps": 14,
+          "frames": 5,
+          "loop": false,
+          "row": 7,
+          "source": "thrust"
+        },
+        "swing": {
+          "contact": [
+            4,
+            5
+          ],
+          "fps": 16,
+          "frames": 6,
+          "loop": false,
+          "row": 8,
+          "source": "thrust"
+        },
+        "throw": {
+          "contact": [
+            2,
+            2
+          ],
+          "fps": 14,
+          "frames": 4,
+          "loop": false,
+          "row": 11,
+          "source": "slash"
+        },
+        "walk": {
+          "fps": 10,
+          "frames": 8,
+          "loop": true,
+          "row": 1,
+          "source": "walk"
+        }
+      },
+      "credits": "res://assets/characters/class_priest_f/credits.json",
+      "facing": "right",
+      "frame_size": [
+        64,
+        64
+      ],
+      "generator": {
+        "recipe": "art/lpc/characters.json#class_priest_f",
+        "repo": "LPC"
+      },
+      "hand_sheet": "res://assets/characters/class_priest_f/hands.png",
+      "hands": {
+        "dodge": [
+          [
+            31,
+            48,
+            45
+          ],
+          [
+            28,
+            48,
+            45
+          ],
+          [
+            23,
+            48,
+            45
+          ],
+          [
+            21,
+            47,
+            45
+          ],
+          [
+            20,
+            47,
+            45
+          ]
+        ],
+        "down": [
+          [
+            21,
+            46,
+            45
+          ],
+          [
+            23,
+            51,
+            45
+          ],
+          [
+            24,
+            57,
+            45
+          ],
+          [
+            24,
+            57,
+            45
+          ],
+          [
+            24,
+            57,
+            45
+          ],
+          [
+            20,
+            55,
+            45
+          ]
+        ],
+        "grab": [
+          [
+            26,
+            46,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ]
+        ],
+        "heavy": [
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            18,
+            31,
+            45
+          ],
+          [
+            18,
+            31,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ]
+        ],
+        "hurt": [
+          [
+            21,
+            46,
+            40
+          ],
+          [
+            23,
+            51,
+            50
+          ],
+          [
+            24,
+            57,
+            60
+          ]
+        ],
+        "idle": [
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            24,
+            46,
+            45
+          ]
+        ],
+        "lift": [
+          [
+            22,
+            43,
+            45
+          ],
+          [
+            17,
+            38,
+            45
+          ],
+          [
+            18,
+            31,
+            45
+          ]
+        ],
+        "light": [
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ]
+        ],
+        "stab": [
+          [
+            26,
+            46,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ]
+        ],
+        "swing": [
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            18,
+            31,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ]
+        ],
+        "throw": [
+          [
+            18,
+            31,
+            45
+          ],
+          [
+            23,
+            46,
+            45
+          ],
+          [
+            23,
+            46,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ]
+        ],
+        "walk": [
+          [
+            31,
+            48,
+            55
+          ],
+          [
+            28,
+            48,
+            50
+          ],
+          [
+            23,
+            48,
+            45
+          ],
+          [
+            21,
+            47,
+            40
+          ],
+          [
+            20,
+            47,
+            40
+          ],
+          [
+            21,
+            47,
+            45
+          ],
+          [
+            23,
+            48,
+            50
+          ],
+          [
+            27,
+            48,
+            55
+          ]
+        ]
+      },
+      "licenses": [
+        "CC0",
+        "OGA-BY 3.0"
+      ],
+      "origin": [
+        32,
+        62
+      ],
+      "role": "hero",
+      "sheet": "res://assets/characters/class_priest_f/sheet.png",
+      "source": "lpc",
+      "status": "imported"
+    },
+    "class_priest_m": {
+      "animations": {
+        "dodge": {
+          "fps": 12,
+          "frames": 5,
+          "loop": false,
+          "row": 6,
+          "source": "walk"
+        },
+        "down": {
+          "fps": 10,
+          "frames": 6,
+          "loop": false,
+          "row": 5,
+          "source": "hurt"
+        },
+        "grab": {
+          "contact": [
+            2,
+            4
+          ],
+          "fps": 14,
+          "frames": 6,
+          "loop": false,
+          "row": 9,
+          "source": "thrust"
+        },
+        "heavy": {
+          "contact": [
+            5,
+            6
+          ],
+          "fps": 12,
+          "frames": 8,
+          "loop": false,
+          "row": 3,
+          "source": "thrust"
+        },
+        "hurt": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 4,
+          "source": "hurt"
+        },
+        "idle": {
+          "fps": 4,
+          "frames": 3,
+          "loop": true,
+          "row": 0,
+          "source": "idle"
+        },
+        "lift": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 10,
+          "source": "spellcast"
+        },
+        "light": {
+          "contact": [
+            2,
+            3
+          ],
+          "fps": 18,
+          "frames": 4,
+          "loop": false,
+          "row": 2,
+          "source": "thrust"
+        },
+        "stab": {
+          "contact": [
+            3,
+            4
+          ],
+          "fps": 14,
+          "frames": 5,
+          "loop": false,
+          "row": 7,
+          "source": "thrust"
+        },
+        "swing": {
+          "contact": [
+            4,
+            5
+          ],
+          "fps": 16,
+          "frames": 6,
+          "loop": false,
+          "row": 8,
+          "source": "thrust"
+        },
+        "throw": {
+          "contact": [
+            2,
+            2
+          ],
+          "fps": 14,
+          "frames": 4,
+          "loop": false,
+          "row": 11,
+          "source": "slash"
+        },
+        "walk": {
+          "fps": 10,
+          "frames": 8,
+          "loop": true,
+          "row": 1,
+          "source": "walk"
+        }
+      },
+      "credits": "res://assets/characters/class_priest_m/credits.json",
+      "facing": "right",
+      "frame_size": [
+        64,
+        64
+      ],
+      "generator": {
+        "recipe": "art/lpc/characters.json#class_priest_m",
+        "repo": "LPC"
+      },
+      "hand_sheet": "res://assets/characters/class_priest_m/hands.png",
+      "hands": {
+        "dodge": [
+          [
+            30,
+            48,
+            45
+          ],
+          [
+            28,
+            48,
+            45
+          ],
+          [
+            22,
+            48,
+            45
+          ],
+          [
+            21,
+            48,
+            45
+          ],
+          [
+            19,
+            48,
+            45
+          ]
+        ],
+        "down": [
+          [
+            20,
+            46,
+            45
+          ],
+          [
+            21,
+            51,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            21,
+            56,
+            45
+          ]
+        ],
+        "grab": [
+          [
+            26,
+            46,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ]
+        ],
+        "heavy": [
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            17,
+            30,
+            45
+          ],
+          [
+            17,
+            30,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ]
+        ],
+        "hurt": [
+          [
+            20,
+            46,
+            40
+          ],
+          [
+            21,
+            51,
+            50
+          ],
+          [
+            23,
+            58,
+            60
+          ]
+        ],
+        "idle": [
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            25,
+            46,
+            45
+          ]
+        ],
+        "lift": [
+          [
+            21,
+            42,
+            45
+          ],
+          [
+            16,
+            37,
+            45
+          ],
+          [
+            17,
+            30,
+            45
+          ]
+        ],
+        "light": [
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ]
+        ],
+        "stab": [
+          [
+            26,
+            46,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ]
+        ],
+        "swing": [
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            17,
+            30,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ]
+        ],
+        "throw": [
+          [
+            17,
+            30,
+            45
+          ],
+          [
+            22,
+            47,
+            45
+          ],
+          [
+            23,
+            47,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ]
+        ],
+        "walk": [
+          [
+            30,
+            48,
+            55
+          ],
+          [
+            28,
+            48,
+            50
+          ],
+          [
+            22,
+            48,
+            45
+          ],
+          [
+            21,
+            48,
+            40
+          ],
+          [
+            19,
+            48,
+            40
+          ],
+          [
+            21,
+            48,
+            45
+          ],
+          [
+            24,
+            48,
+            50
+          ],
+          [
+            26,
+            48,
+            55
+          ]
+        ]
+      },
+      "licenses": [
+        "CC0",
+        "OGA-BY 3.0"
+      ],
+      "origin": [
+        32,
+        62
+      ],
+      "role": "hero",
+      "sheet": "res://assets/characters/class_priest_m/sheet.png",
+      "source": "lpc",
+      "status": "imported"
+    },
+    "class_rogue_f": {
+      "animations": {
+        "dodge": {
+          "fps": 12,
+          "frames": 5,
+          "loop": false,
+          "row": 6,
+          "source": "walk"
+        },
+        "down": {
+          "fps": 10,
+          "frames": 6,
+          "loop": false,
+          "row": 5,
+          "source": "hurt"
+        },
+        "grab": {
+          "contact": [
+            2,
+            4
+          ],
+          "fps": 14,
+          "frames": 6,
+          "loop": false,
+          "row": 9,
+          "source": "thrust"
+        },
+        "heavy": {
+          "contact": [
+            5,
+            6
+          ],
+          "fps": 12,
+          "frames": 8,
+          "loop": false,
+          "row": 3,
+          "source": "thrust"
+        },
+        "hurt": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 4,
+          "source": "hurt"
+        },
+        "idle": {
+          "fps": 4,
+          "frames": 3,
+          "loop": true,
+          "row": 0,
+          "source": "idle"
+        },
+        "lift": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 10,
+          "source": "spellcast"
+        },
+        "light": {
+          "contact": [
+            2,
+            3
+          ],
+          "fps": 18,
+          "frames": 4,
+          "loop": false,
+          "row": 2,
+          "source": "thrust"
+        },
+        "stab": {
+          "contact": [
+            3,
+            4
+          ],
+          "fps": 14,
+          "frames": 5,
+          "loop": false,
+          "row": 7,
+          "source": "thrust"
+        },
+        "swing": {
+          "contact": [
+            4,
+            5
+          ],
+          "fps": 16,
+          "frames": 6,
+          "loop": false,
+          "row": 8,
+          "source": "thrust"
+        },
+        "throw": {
+          "contact": [
+            2,
+            2
+          ],
+          "fps": 14,
+          "frames": 4,
+          "loop": false,
+          "row": 11,
+          "source": "slash"
+        },
+        "walk": {
+          "fps": 10,
+          "frames": 8,
+          "loop": true,
+          "row": 1,
+          "source": "walk"
+        }
+      },
+      "credits": "res://assets/characters/class_rogue_f/credits.json",
+      "facing": "right",
+      "frame_size": [
+        64,
+        64
+      ],
+      "generator": {
+        "recipe": "art/lpc/characters.json#class_rogue_f",
+        "repo": "LPC"
+      },
+      "hand_sheet": "res://assets/characters/class_rogue_f/hands.png",
+      "hands": {
+        "dodge": [
+          [
+            31,
+            48,
+            45
+          ],
+          [
+            28,
+            48,
+            45
+          ],
+          [
+            23,
+            48,
+            45
+          ],
+          [
+            21,
+            47,
+            45
+          ],
+          [
+            20,
+            47,
+            45
+          ]
+        ],
+        "down": [
+          [
+            21,
+            46,
+            45
+          ],
+          [
+            23,
+            51,
+            45
+          ],
+          [
+            24,
+            57,
+            45
+          ],
+          [
+            24,
+            57,
+            45
+          ],
+          [
+            24,
+            57,
+            45
+          ],
+          [
+            20,
+            55,
+            45
+          ]
+        ],
+        "grab": [
+          [
+            26,
+            46,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ]
+        ],
+        "heavy": [
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            18,
+            31,
+            45
+          ],
+          [
+            18,
+            31,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ]
+        ],
+        "hurt": [
+          [
+            21,
+            46,
+            40
+          ],
+          [
+            23,
+            51,
+            50
+          ],
+          [
+            24,
+            57,
+            60
+          ]
+        ],
+        "idle": [
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            24,
+            46,
+            45
+          ]
+        ],
+        "lift": [
+          [
+            22,
+            43,
+            45
+          ],
+          [
+            17,
+            38,
+            45
+          ],
+          [
+            18,
+            31,
+            45
+          ]
+        ],
+        "light": [
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ]
+        ],
+        "stab": [
+          [
+            26,
+            46,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ]
+        ],
+        "swing": [
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            18,
+            31,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ]
+        ],
+        "throw": [
+          [
+            18,
+            31,
+            45
+          ],
+          [
+            23,
+            46,
+            45
+          ],
+          [
+            23,
+            46,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ]
+        ],
+        "walk": [
+          [
+            31,
+            48,
+            55
+          ],
+          [
+            28,
+            48,
+            50
+          ],
+          [
+            23,
+            48,
+            45
+          ],
+          [
+            21,
+            47,
+            40
+          ],
+          [
+            20,
+            47,
+            40
+          ],
+          [
+            21,
+            47,
+            45
+          ],
+          [
+            23,
+            48,
+            50
+          ],
+          [
+            27,
+            48,
+            55
+          ]
+        ]
+      },
+      "licenses": [
+        "OGA-BY 3.0"
+      ],
+      "origin": [
+        32,
+        62
+      ],
+      "role": "hero",
+      "sheet": "res://assets/characters/class_rogue_f/sheet.png",
+      "source": "lpc",
+      "status": "imported"
+    },
+    "class_rogue_m": {
+      "animations": {
+        "dodge": {
+          "fps": 12,
+          "frames": 5,
+          "loop": false,
+          "row": 6,
+          "source": "walk"
+        },
+        "down": {
+          "fps": 10,
+          "frames": 6,
+          "loop": false,
+          "row": 5,
+          "source": "hurt"
+        },
+        "grab": {
+          "contact": [
+            2,
+            4
+          ],
+          "fps": 14,
+          "frames": 6,
+          "loop": false,
+          "row": 9,
+          "source": "thrust"
+        },
+        "heavy": {
+          "contact": [
+            5,
+            6
+          ],
+          "fps": 12,
+          "frames": 8,
+          "loop": false,
+          "row": 3,
+          "source": "thrust"
+        },
+        "hurt": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 4,
+          "source": "hurt"
+        },
+        "idle": {
+          "fps": 4,
+          "frames": 3,
+          "loop": true,
+          "row": 0,
+          "source": "idle"
+        },
+        "lift": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 10,
+          "source": "spellcast"
+        },
+        "light": {
+          "contact": [
+            2,
+            3
+          ],
+          "fps": 18,
+          "frames": 4,
+          "loop": false,
+          "row": 2,
+          "source": "thrust"
+        },
+        "stab": {
+          "contact": [
+            3,
+            4
+          ],
+          "fps": 14,
+          "frames": 5,
+          "loop": false,
+          "row": 7,
+          "source": "thrust"
+        },
+        "swing": {
+          "contact": [
+            4,
+            5
+          ],
+          "fps": 16,
+          "frames": 6,
+          "loop": false,
+          "row": 8,
+          "source": "thrust"
+        },
+        "throw": {
+          "contact": [
+            2,
+            2
+          ],
+          "fps": 14,
+          "frames": 4,
+          "loop": false,
+          "row": 11,
+          "source": "slash"
+        },
+        "walk": {
+          "fps": 10,
+          "frames": 8,
+          "loop": true,
+          "row": 1,
+          "source": "walk"
+        }
+      },
+      "credits": "res://assets/characters/class_rogue_m/credits.json",
+      "facing": "right",
+      "frame_size": [
+        64,
+        64
+      ],
+      "generator": {
+        "recipe": "art/lpc/characters.json#class_rogue_m",
+        "repo": "LPC"
+      },
+      "hand_sheet": "res://assets/characters/class_rogue_m/hands.png",
+      "hands": {
+        "dodge": [
+          [
+            30,
+            48,
+            45
+          ],
+          [
+            28,
+            48,
+            45
+          ],
+          [
+            22,
+            48,
+            45
+          ],
+          [
+            21,
+            48,
+            45
+          ],
+          [
+            19,
+            48,
+            45
+          ]
+        ],
+        "down": [
+          [
+            20,
+            46,
+            45
+          ],
+          [
+            21,
+            51,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            21,
+            56,
+            45
+          ]
+        ],
+        "grab": [
+          [
+            26,
+            46,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ]
+        ],
+        "heavy": [
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            17,
+            30,
+            45
+          ],
+          [
+            17,
+            30,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ]
+        ],
+        "hurt": [
+          [
+            20,
+            46,
+            40
+          ],
+          [
+            21,
+            51,
+            50
+          ],
+          [
+            23,
+            58,
+            60
+          ]
+        ],
+        "idle": [
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            25,
+            46,
+            45
+          ]
+        ],
+        "lift": [
+          [
+            21,
+            42,
+            45
+          ],
+          [
+            16,
+            37,
+            45
+          ],
+          [
+            17,
+            30,
+            45
+          ]
+        ],
+        "light": [
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ]
+        ],
+        "stab": [
+          [
+            26,
+            46,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ]
+        ],
+        "swing": [
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            17,
+            30,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ]
+        ],
+        "throw": [
+          [
+            17,
+            30,
+            45
+          ],
+          [
+            22,
+            47,
+            45
+          ],
+          [
+            23,
+            47,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ]
+        ],
+        "walk": [
+          [
+            30,
+            48,
+            55
+          ],
+          [
+            28,
+            48,
+            50
+          ],
+          [
+            22,
+            48,
+            45
+          ],
+          [
+            21,
+            48,
+            40
+          ],
+          [
+            19,
+            48,
+            40
+          ],
+          [
+            21,
+            48,
+            45
+          ],
+          [
+            24,
+            48,
+            50
+          ],
+          [
+            26,
+            48,
+            55
+          ]
+        ]
+      },
+      "licenses": [
+        "OGA-BY 3.0"
+      ],
+      "origin": [
+        32,
+        62
+      ],
+      "role": "hero",
+      "sheet": "res://assets/characters/class_rogue_m/sheet.png",
+      "source": "lpc",
+      "status": "imported"
+    },
+    "class_shaman_f": {
+      "animations": {
+        "dodge": {
+          "fps": 12,
+          "frames": 5,
+          "loop": false,
+          "row": 6,
+          "source": "walk"
+        },
+        "down": {
+          "fps": 10,
+          "frames": 6,
+          "loop": false,
+          "row": 5,
+          "source": "hurt"
+        },
+        "grab": {
+          "contact": [
+            2,
+            4
+          ],
+          "fps": 14,
+          "frames": 6,
+          "loop": false,
+          "row": 9,
+          "source": "thrust"
+        },
+        "heavy": {
+          "contact": [
+            5,
+            6
+          ],
+          "fps": 12,
+          "frames": 8,
+          "loop": false,
+          "row": 3,
+          "source": "thrust"
+        },
+        "hurt": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 4,
+          "source": "hurt"
+        },
+        "idle": {
+          "fps": 4,
+          "frames": 3,
+          "loop": true,
+          "row": 0,
+          "source": "idle"
+        },
+        "lift": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 10,
+          "source": "spellcast"
+        },
+        "light": {
+          "contact": [
+            2,
+            3
+          ],
+          "fps": 18,
+          "frames": 4,
+          "loop": false,
+          "row": 2,
+          "source": "thrust"
+        },
+        "stab": {
+          "contact": [
+            3,
+            4
+          ],
+          "fps": 14,
+          "frames": 5,
+          "loop": false,
+          "row": 7,
+          "source": "thrust"
+        },
+        "swing": {
+          "contact": [
+            4,
+            5
+          ],
+          "fps": 16,
+          "frames": 6,
+          "loop": false,
+          "row": 8,
+          "source": "thrust"
+        },
+        "throw": {
+          "contact": [
+            2,
+            2
+          ],
+          "fps": 14,
+          "frames": 4,
+          "loop": false,
+          "row": 11,
+          "source": "slash"
+        },
+        "walk": {
+          "fps": 10,
+          "frames": 8,
+          "loop": true,
+          "row": 1,
+          "source": "walk"
+        }
+      },
+      "credits": "res://assets/characters/class_shaman_f/credits.json",
+      "facing": "right",
+      "frame_size": [
+        64,
+        64
+      ],
+      "generator": {
+        "recipe": "art/lpc/characters.json#class_shaman_f",
+        "repo": "LPC"
+      },
+      "hand_sheet": "res://assets/characters/class_shaman_f/hands.png",
+      "hands": {
+        "dodge": [
+          [
+            31,
+            48,
+            45
+          ],
+          [
+            28,
+            48,
+            45
+          ],
+          [
+            23,
+            48,
+            45
+          ],
+          [
+            21,
+            47,
+            45
+          ],
+          [
+            20,
+            47,
+            45
+          ]
+        ],
+        "down": [
+          [
+            21,
+            46,
+            45
+          ],
+          [
+            23,
+            51,
+            45
+          ],
+          [
+            24,
+            57,
+            45
+          ],
+          [
+            24,
+            57,
+            45
+          ],
+          [
+            24,
+            57,
+            45
+          ],
+          [
+            20,
+            55,
+            45
+          ]
+        ],
+        "grab": [
+          [
+            26,
+            46,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ]
+        ],
+        "heavy": [
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            18,
+            31,
+            45
+          ],
+          [
+            18,
+            31,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ]
+        ],
+        "hurt": [
+          [
+            21,
+            46,
+            40
+          ],
+          [
+            23,
+            51,
+            50
+          ],
+          [
+            24,
+            57,
+            60
+          ]
+        ],
+        "idle": [
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            24,
+            46,
+            45
+          ]
+        ],
+        "lift": [
+          [
+            22,
+            43,
+            45
+          ],
+          [
+            17,
+            38,
+            45
+          ],
+          [
+            18,
+            31,
+            45
+          ]
+        ],
+        "light": [
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ]
+        ],
+        "stab": [
+          [
+            26,
+            46,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ]
+        ],
+        "swing": [
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            18,
+            31,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ]
+        ],
+        "throw": [
+          [
+            18,
+            31,
+            45
+          ],
+          [
+            23,
+            46,
+            45
+          ],
+          [
+            23,
+            46,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ]
+        ],
+        "walk": [
+          [
+            31,
+            48,
+            55
+          ],
+          [
+            28,
+            48,
+            50
+          ],
+          [
+            23,
+            48,
+            45
+          ],
+          [
+            21,
+            47,
+            40
+          ],
+          [
+            20,
+            47,
+            40
+          ],
+          [
+            21,
+            47,
+            45
+          ],
+          [
+            23,
+            48,
+            50
+          ],
+          [
+            27,
+            48,
+            55
+          ]
+        ]
+      },
+      "licenses": [
+        "OGA-BY 3.0",
+        "OGA-BY 3.0+"
+      ],
+      "origin": [
+        32,
+        62
+      ],
+      "role": "hero",
+      "sheet": "res://assets/characters/class_shaman_f/sheet.png",
+      "source": "lpc",
+      "status": "imported"
+    },
+    "class_shaman_m": {
+      "animations": {
+        "dodge": {
+          "fps": 12,
+          "frames": 5,
+          "loop": false,
+          "row": 6,
+          "source": "walk"
+        },
+        "down": {
+          "fps": 10,
+          "frames": 6,
+          "loop": false,
+          "row": 5,
+          "source": "hurt"
+        },
+        "grab": {
+          "contact": [
+            2,
+            4
+          ],
+          "fps": 14,
+          "frames": 6,
+          "loop": false,
+          "row": 9,
+          "source": "thrust"
+        },
+        "heavy": {
+          "contact": [
+            5,
+            6
+          ],
+          "fps": 12,
+          "frames": 8,
+          "loop": false,
+          "row": 3,
+          "source": "thrust"
+        },
+        "hurt": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 4,
+          "source": "hurt"
+        },
+        "idle": {
+          "fps": 4,
+          "frames": 3,
+          "loop": true,
+          "row": 0,
+          "source": "idle"
+        },
+        "lift": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 10,
+          "source": "spellcast"
+        },
+        "light": {
+          "contact": [
+            2,
+            3
+          ],
+          "fps": 18,
+          "frames": 4,
+          "loop": false,
+          "row": 2,
+          "source": "thrust"
+        },
+        "stab": {
+          "contact": [
+            3,
+            4
+          ],
+          "fps": 14,
+          "frames": 5,
+          "loop": false,
+          "row": 7,
+          "source": "thrust"
+        },
+        "swing": {
+          "contact": [
+            4,
+            5
+          ],
+          "fps": 16,
+          "frames": 6,
+          "loop": false,
+          "row": 8,
+          "source": "thrust"
+        },
+        "throw": {
+          "contact": [
+            2,
+            2
+          ],
+          "fps": 14,
+          "frames": 4,
+          "loop": false,
+          "row": 11,
+          "source": "slash"
+        },
+        "walk": {
+          "fps": 10,
+          "frames": 8,
+          "loop": true,
+          "row": 1,
+          "source": "walk"
+        }
+      },
+      "credits": "res://assets/characters/class_shaman_m/credits.json",
+      "facing": "right",
+      "frame_size": [
+        64,
+        64
+      ],
+      "generator": {
+        "recipe": "art/lpc/characters.json#class_shaman_m",
+        "repo": "LPC"
+      },
+      "hand_sheet": "res://assets/characters/class_shaman_m/hands.png",
+      "hands": {
+        "dodge": [
+          [
+            30,
+            48,
+            45
+          ],
+          [
+            28,
+            48,
+            45
+          ],
+          [
+            22,
+            48,
+            45
+          ],
+          [
+            21,
+            48,
+            45
+          ],
+          [
+            19,
+            48,
+            45
+          ]
+        ],
+        "down": [
+          [
+            20,
+            46,
+            45
+          ],
+          [
+            21,
+            51,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            21,
+            56,
+            45
+          ]
+        ],
+        "grab": [
+          [
+            26,
+            46,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ]
+        ],
+        "heavy": [
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            17,
+            30,
+            45
+          ],
+          [
+            17,
+            30,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ]
+        ],
+        "hurt": [
+          [
+            20,
+            46,
+            40
+          ],
+          [
+            21,
+            51,
+            50
+          ],
+          [
+            23,
+            58,
+            60
+          ]
+        ],
+        "idle": [
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            25,
+            46,
+            45
+          ]
+        ],
+        "lift": [
+          [
+            21,
+            42,
+            45
+          ],
+          [
+            16,
+            37,
+            45
+          ],
+          [
+            17,
+            30,
+            45
+          ]
+        ],
+        "light": [
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ]
+        ],
+        "stab": [
+          [
+            26,
+            46,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ]
+        ],
+        "swing": [
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            17,
+            30,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ]
+        ],
+        "throw": [
+          [
+            17,
+            30,
+            45
+          ],
+          [
+            22,
+            47,
+            45
+          ],
+          [
+            23,
+            47,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ]
+        ],
+        "walk": [
+          [
+            30,
+            48,
+            55
+          ],
+          [
+            28,
+            48,
+            50
+          ],
+          [
+            22,
+            48,
+            45
+          ],
+          [
+            21,
+            48,
+            40
+          ],
+          [
+            19,
+            48,
+            40
+          ],
+          [
+            21,
+            48,
+            45
+          ],
+          [
+            24,
+            48,
+            50
+          ],
+          [
+            26,
+            48,
+            55
+          ]
+        ]
+      },
+      "licenses": [
+        "OGA-BY 3.0",
+        "OGA-BY 3.0+"
+      ],
+      "origin": [
+        32,
+        63
+      ],
+      "role": "hero",
+      "sheet": "res://assets/characters/class_shaman_m/sheet.png",
+      "source": "lpc",
+      "status": "imported"
+    },
+    "class_warlock_f": {
+      "animations": {
+        "dodge": {
+          "fps": 12,
+          "frames": 5,
+          "loop": false,
+          "row": 6,
+          "source": "walk"
+        },
+        "down": {
+          "fps": 10,
+          "frames": 6,
+          "loop": false,
+          "row": 5,
+          "source": "hurt"
+        },
+        "grab": {
+          "contact": [
+            2,
+            4
+          ],
+          "fps": 14,
+          "frames": 6,
+          "loop": false,
+          "row": 9,
+          "source": "thrust"
+        },
+        "heavy": {
+          "contact": [
+            5,
+            6
+          ],
+          "fps": 12,
+          "frames": 8,
+          "loop": false,
+          "row": 3,
+          "source": "thrust"
+        },
+        "hurt": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 4,
+          "source": "hurt"
+        },
+        "idle": {
+          "fps": 4,
+          "frames": 3,
+          "loop": true,
+          "row": 0,
+          "source": "idle"
+        },
+        "lift": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 10,
+          "source": "spellcast"
+        },
+        "light": {
+          "contact": [
+            2,
+            3
+          ],
+          "fps": 18,
+          "frames": 4,
+          "loop": false,
+          "row": 2,
+          "source": "thrust"
+        },
+        "stab": {
+          "contact": [
+            3,
+            4
+          ],
+          "fps": 14,
+          "frames": 5,
+          "loop": false,
+          "row": 7,
+          "source": "thrust"
+        },
+        "swing": {
+          "contact": [
+            4,
+            5
+          ],
+          "fps": 16,
+          "frames": 6,
+          "loop": false,
+          "row": 8,
+          "source": "thrust"
+        },
+        "throw": {
+          "contact": [
+            2,
+            2
+          ],
+          "fps": 14,
+          "frames": 4,
+          "loop": false,
+          "row": 11,
+          "source": "slash"
+        },
+        "walk": {
+          "fps": 10,
+          "frames": 8,
+          "loop": true,
+          "row": 1,
+          "source": "walk"
+        }
+      },
+      "credits": "res://assets/characters/class_warlock_f/credits.json",
+      "facing": "right",
+      "frame_size": [
+        64,
+        64
+      ],
+      "generator": {
+        "recipe": "art/lpc/characters.json#class_warlock_f",
+        "repo": "LPC"
+      },
+      "hand_sheet": "res://assets/characters/class_warlock_f/hands.png",
+      "hands": {
+        "dodge": [
+          [
+            31,
+            48,
+            45
+          ],
+          [
+            28,
+            48,
+            45
+          ],
+          [
+            23,
+            48,
+            45
+          ],
+          [
+            21,
+            47,
+            45
+          ],
+          [
+            20,
+            47,
+            45
+          ]
+        ],
+        "down": [
+          [
+            21,
+            46,
+            45
+          ],
+          [
+            23,
+            51,
+            45
+          ],
+          [
+            24,
+            57,
+            45
+          ],
+          [
+            24,
+            57,
+            45
+          ],
+          [
+            24,
+            57,
+            45
+          ],
+          [
+            20,
+            55,
+            45
+          ]
+        ],
+        "grab": [
+          [
+            26,
+            46,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ]
+        ],
+        "heavy": [
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            18,
+            31,
+            45
+          ],
+          [
+            18,
+            31,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ]
+        ],
+        "hurt": [
+          [
+            21,
+            46,
+            40
+          ],
+          [
+            23,
+            51,
+            50
+          ],
+          [
+            24,
+            57,
+            60
+          ]
+        ],
+        "idle": [
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            24,
+            46,
+            45
+          ]
+        ],
+        "lift": [
+          [
+            22,
+            43,
+            45
+          ],
+          [
+            17,
+            38,
+            45
+          ],
+          [
+            18,
+            31,
+            45
+          ]
+        ],
+        "light": [
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ]
+        ],
+        "stab": [
+          [
+            26,
+            46,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ]
+        ],
+        "swing": [
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            18,
+            31,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ]
+        ],
+        "throw": [
+          [
+            18,
+            31,
+            45
+          ],
+          [
+            23,
+            46,
+            45
+          ],
+          [
+            23,
+            46,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ]
+        ],
+        "walk": [
+          [
+            31,
+            48,
+            55
+          ],
+          [
+            28,
+            48,
+            50
+          ],
+          [
+            23,
+            48,
+            45
+          ],
+          [
+            21,
+            47,
+            40
+          ],
+          [
+            20,
+            47,
+            40
+          ],
+          [
+            21,
+            47,
+            45
+          ],
+          [
+            23,
+            48,
+            50
+          ],
+          [
+            27,
+            48,
+            55
+          ]
+        ]
+      },
+      "licenses": [
+        "OGA-BY 3.0"
+      ],
+      "origin": [
+        32,
+        62
+      ],
+      "role": "hero",
+      "sheet": "res://assets/characters/class_warlock_f/sheet.png",
+      "source": "lpc",
+      "status": "imported"
+    },
+    "class_warlock_m": {
+      "animations": {
+        "dodge": {
+          "fps": 12,
+          "frames": 5,
+          "loop": false,
+          "row": 6,
+          "source": "walk"
+        },
+        "down": {
+          "fps": 10,
+          "frames": 6,
+          "loop": false,
+          "row": 5,
+          "source": "hurt"
+        },
+        "grab": {
+          "contact": [
+            2,
+            4
+          ],
+          "fps": 14,
+          "frames": 6,
+          "loop": false,
+          "row": 9,
+          "source": "thrust"
+        },
+        "heavy": {
+          "contact": [
+            5,
+            6
+          ],
+          "fps": 12,
+          "frames": 8,
+          "loop": false,
+          "row": 3,
+          "source": "thrust"
+        },
+        "hurt": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 4,
+          "source": "hurt"
+        },
+        "idle": {
+          "fps": 4,
+          "frames": 3,
+          "loop": true,
+          "row": 0,
+          "source": "idle"
+        },
+        "lift": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 10,
+          "source": "spellcast"
+        },
+        "light": {
+          "contact": [
+            2,
+            3
+          ],
+          "fps": 18,
+          "frames": 4,
+          "loop": false,
+          "row": 2,
+          "source": "thrust"
+        },
+        "stab": {
+          "contact": [
+            3,
+            4
+          ],
+          "fps": 14,
+          "frames": 5,
+          "loop": false,
+          "row": 7,
+          "source": "thrust"
+        },
+        "swing": {
+          "contact": [
+            4,
+            5
+          ],
+          "fps": 16,
+          "frames": 6,
+          "loop": false,
+          "row": 8,
+          "source": "thrust"
+        },
+        "throw": {
+          "contact": [
+            2,
+            2
+          ],
+          "fps": 14,
+          "frames": 4,
+          "loop": false,
+          "row": 11,
+          "source": "slash"
+        },
+        "walk": {
+          "fps": 10,
+          "frames": 8,
+          "loop": true,
+          "row": 1,
+          "source": "walk"
+        }
+      },
+      "credits": "res://assets/characters/class_warlock_m/credits.json",
+      "facing": "right",
+      "frame_size": [
+        64,
+        64
+      ],
+      "generator": {
+        "recipe": "art/lpc/characters.json#class_warlock_m",
+        "repo": "LPC"
+      },
+      "hand_sheet": "res://assets/characters/class_warlock_m/hands.png",
+      "hands": {
+        "dodge": [
+          [
+            30,
+            48,
+            45
+          ],
+          [
+            28,
+            48,
+            45
+          ],
+          [
+            22,
+            48,
+            45
+          ],
+          [
+            21,
+            48,
+            45
+          ],
+          [
+            19,
+            48,
+            45
+          ]
+        ],
+        "down": [
+          [
+            20,
+            46,
+            45
+          ],
+          [
+            21,
+            51,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            21,
+            56,
+            45
+          ]
+        ],
+        "grab": [
+          [
+            26,
+            46,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ]
+        ],
+        "heavy": [
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            17,
+            30,
+            45
+          ],
+          [
+            17,
+            30,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ]
+        ],
+        "hurt": [
+          [
+            20,
+            46,
+            40
+          ],
+          [
+            21,
+            51,
+            50
+          ],
+          [
+            23,
+            58,
+            60
+          ]
+        ],
+        "idle": [
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            25,
+            46,
+            45
+          ]
+        ],
+        "lift": [
+          [
+            21,
+            42,
+            45
+          ],
+          [
+            16,
+            37,
+            45
+          ],
+          [
+            17,
+            30,
+            45
+          ]
+        ],
+        "light": [
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ]
+        ],
+        "stab": [
+          [
+            26,
+            46,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ]
+        ],
+        "swing": [
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            17,
+            30,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ]
+        ],
+        "throw": [
+          [
+            17,
+            30,
+            45
+          ],
+          [
+            22,
+            47,
+            45
+          ],
+          [
+            23,
+            47,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ]
+        ],
+        "walk": [
+          [
+            30,
+            48,
+            55
+          ],
+          [
+            28,
+            48,
+            50
+          ],
+          [
+            22,
+            48,
+            45
+          ],
+          [
+            21,
+            48,
+            40
+          ],
+          [
+            19,
+            48,
+            40
+          ],
+          [
+            21,
+            48,
+            45
+          ],
+          [
+            24,
+            48,
+            50
+          ],
+          [
+            26,
+            48,
+            55
+          ]
+        ]
+      },
+      "licenses": [
+        "OGA-BY 3.0"
+      ],
+      "origin": [
+        32,
+        62
+      ],
+      "role": "hero",
+      "sheet": "res://assets/characters/class_warlock_m/sheet.png",
+      "source": "lpc",
+      "status": "imported"
+    },
+    "class_warrior_f": {
+      "animations": {
+        "dodge": {
+          "fps": 12,
+          "frames": 5,
+          "loop": false,
+          "row": 6,
+          "source": "walk"
+        },
+        "down": {
+          "fps": 10,
+          "frames": 6,
+          "loop": false,
+          "row": 5,
+          "source": "hurt"
+        },
+        "grab": {
+          "contact": [
+            2,
+            4
+          ],
+          "fps": 14,
+          "frames": 6,
+          "loop": false,
+          "row": 9,
+          "source": "thrust"
+        },
+        "heavy": {
+          "contact": [
+            5,
+            6
+          ],
+          "fps": 12,
+          "frames": 8,
+          "loop": false,
+          "row": 3,
+          "source": "thrust"
+        },
+        "hurt": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 4,
+          "source": "hurt"
+        },
+        "idle": {
+          "fps": 4,
+          "frames": 3,
+          "loop": true,
+          "row": 0,
+          "source": "idle"
+        },
+        "lift": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 10,
+          "source": "spellcast"
+        },
+        "light": {
+          "contact": [
+            2,
+            3
+          ],
+          "fps": 18,
+          "frames": 4,
+          "loop": false,
+          "row": 2,
+          "source": "thrust"
+        },
+        "stab": {
+          "contact": [
+            3,
+            4
+          ],
+          "fps": 14,
+          "frames": 5,
+          "loop": false,
+          "row": 7,
+          "source": "thrust"
+        },
+        "swing": {
+          "contact": [
+            4,
+            5
+          ],
+          "fps": 16,
+          "frames": 6,
+          "loop": false,
+          "row": 8,
+          "source": "thrust"
+        },
+        "throw": {
+          "contact": [
+            2,
+            2
+          ],
+          "fps": 14,
+          "frames": 4,
+          "loop": false,
+          "row": 11,
+          "source": "slash"
+        },
+        "walk": {
+          "fps": 10,
+          "frames": 8,
+          "loop": true,
+          "row": 1,
+          "source": "walk"
+        }
+      },
+      "credits": "res://assets/characters/class_warrior_f/credits.json",
+      "facing": "right",
+      "frame_size": [
+        64,
+        64
+      ],
+      "generator": {
+        "recipe": "art/lpc/characters.json#class_warrior_f",
+        "repo": "LPC"
+      },
+      "hand_sheet": "res://assets/characters/class_warrior_f/hands.png",
+      "hands": {
+        "dodge": [
+          [
+            31,
+            48,
+            45
+          ],
+          [
+            28,
+            48,
+            45
+          ],
+          [
+            23,
+            48,
+            45
+          ],
+          [
+            21,
+            47,
+            45
+          ],
+          [
+            20,
+            47,
+            45
+          ]
+        ],
+        "down": [
+          [
+            21,
+            46,
+            45
+          ],
+          [
+            23,
+            51,
+            45
+          ],
+          [
+            24,
+            57,
+            45
+          ],
+          [
+            24,
+            57,
+            45
+          ],
+          [
+            24,
+            57,
+            45
+          ],
+          [
+            20,
+            55,
+            45
+          ]
+        ],
+        "grab": [
+          [
+            26,
+            46,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ]
+        ],
+        "heavy": [
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            18,
+            31,
+            45
+          ],
+          [
+            18,
+            31,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ]
+        ],
+        "hurt": [
+          [
+            21,
+            46,
+            40
+          ],
+          [
+            23,
+            51,
+            50
+          ],
+          [
+            24,
+            57,
+            60
+          ]
+        ],
+        "idle": [
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            24,
+            46,
+            45
+          ]
+        ],
+        "lift": [
+          [
+            22,
+            43,
+            45
+          ],
+          [
+            17,
+            38,
+            45
+          ],
+          [
+            18,
+            31,
+            45
+          ]
+        ],
+        "light": [
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ]
+        ],
+        "stab": [
+          [
+            26,
+            46,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ]
+        ],
+        "swing": [
+          [
+            24,
+            47,
+            45
+          ],
+          [
+            18,
+            31,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            32,
+            44,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ]
+        ],
+        "throw": [
+          [
+            18,
+            31,
+            45
+          ],
+          [
+            23,
+            46,
+            45
+          ],
+          [
+            23,
+            46,
+            45
+          ],
+          [
+            34,
+            45,
+            45
+          ]
+        ],
+        "walk": [
+          [
+            31,
+            48,
+            55
+          ],
+          [
+            28,
+            48,
+            50
+          ],
+          [
+            23,
+            48,
+            45
+          ],
+          [
+            21,
+            47,
+            40
+          ],
+          [
+            20,
+            47,
+            40
+          ],
+          [
+            21,
+            47,
+            45
+          ],
+          [
+            23,
+            48,
+            50
+          ],
+          [
+            27,
+            48,
+            55
+          ]
+        ]
+      },
+      "licenses": [
+        "OGA-BY 3.0",
+        "OGA-BY 3.0+"
+      ],
+      "origin": [
+        32,
+        62
+      ],
+      "role": "hero",
+      "sheet": "res://assets/characters/class_warrior_f/sheet.png",
+      "source": "lpc",
+      "status": "imported"
+    },
+    "class_warrior_m": {
+      "animations": {
+        "dodge": {
+          "fps": 12,
+          "frames": 5,
+          "loop": false,
+          "row": 6,
+          "source": "walk"
+        },
+        "down": {
+          "fps": 10,
+          "frames": 6,
+          "loop": false,
+          "row": 5,
+          "source": "hurt"
+        },
+        "grab": {
+          "contact": [
+            2,
+            4
+          ],
+          "fps": 14,
+          "frames": 6,
+          "loop": false,
+          "row": 9,
+          "source": "thrust"
+        },
+        "heavy": {
+          "contact": [
+            5,
+            6
+          ],
+          "fps": 12,
+          "frames": 8,
+          "loop": false,
+          "row": 3,
+          "source": "thrust"
+        },
+        "hurt": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 4,
+          "source": "hurt"
+        },
+        "idle": {
+          "fps": 4,
+          "frames": 3,
+          "loop": true,
+          "row": 0,
+          "source": "idle"
+        },
+        "lift": {
+          "fps": 10,
+          "frames": 3,
+          "loop": false,
+          "row": 10,
+          "source": "spellcast"
+        },
+        "light": {
+          "contact": [
+            2,
+            3
+          ],
+          "fps": 18,
+          "frames": 4,
+          "loop": false,
+          "row": 2,
+          "source": "thrust"
+        },
+        "stab": {
+          "contact": [
+            3,
+            4
+          ],
+          "fps": 14,
+          "frames": 5,
+          "loop": false,
+          "row": 7,
+          "source": "thrust"
+        },
+        "swing": {
+          "contact": [
+            4,
+            5
+          ],
+          "fps": 16,
+          "frames": 6,
+          "loop": false,
+          "row": 8,
+          "source": "thrust"
+        },
+        "throw": {
+          "contact": [
+            2,
+            2
+          ],
+          "fps": 14,
+          "frames": 4,
+          "loop": false,
+          "row": 11,
+          "source": "slash"
+        },
+        "walk": {
+          "fps": 10,
+          "frames": 8,
+          "loop": true,
+          "row": 1,
+          "source": "walk"
+        }
+      },
+      "credits": "res://assets/characters/class_warrior_m/credits.json",
+      "facing": "right",
+      "frame_size": [
+        64,
+        64
+      ],
+      "generator": {
+        "recipe": "art/lpc/characters.json#class_warrior_m",
+        "repo": "LPC"
+      },
+      "hand_sheet": "res://assets/characters/class_warrior_m/hands.png",
+      "hands": {
+        "dodge": [
+          [
+            30,
+            48,
+            45
+          ],
+          [
+            28,
+            48,
+            45
+          ],
+          [
+            22,
+            48,
+            45
+          ],
+          [
+            21,
+            48,
+            45
+          ],
+          [
+            19,
+            48,
+            45
+          ]
+        ],
+        "down": [
+          [
+            20,
+            46,
+            45
+          ],
+          [
+            21,
+            51,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            23,
+            58,
+            45
+          ],
+          [
+            21,
+            56,
+            45
+          ]
+        ],
+        "grab": [
+          [
+            26,
+            46,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ]
+        ],
+        "heavy": [
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            17,
+            30,
+            45
+          ],
+          [
+            17,
+            30,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ]
+        ],
+        "hurt": [
+          [
+            20,
+            46,
+            40
+          ],
+          [
+            21,
+            51,
+            50
+          ],
+          [
+            23,
+            58,
+            60
+          ]
+        ],
+        "idle": [
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            25,
+            46,
+            45
+          ]
+        ],
+        "lift": [
+          [
+            21,
+            42,
+            45
+          ],
+          [
+            16,
+            37,
+            45
+          ],
+          [
+            17,
+            30,
+            45
+          ]
+        ],
+        "light": [
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ]
+        ],
+        "stab": [
+          [
+            26,
+            46,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ]
+        ],
+        "swing": [
+          [
+            25,
+            47,
+            45
+          ],
+          [
+            17,
+            30,
+            45
+          ],
+          [
+            24,
+            45,
+            45
+          ],
+          [
+            23,
+            43,
+            45
+          ],
+          [
+            33,
+            44,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ]
+        ],
+        "throw": [
+          [
+            17,
+            30,
+            45
+          ],
+          [
+            22,
+            47,
+            45
+          ],
+          [
+            23,
+            47,
+            45
+          ],
+          [
+            35,
+            45,
+            45
+          ]
+        ],
+        "walk": [
+          [
+            30,
+            48,
+            55
+          ],
+          [
+            28,
+            48,
+            50
+          ],
+          [
+            22,
+            48,
+            45
+          ],
+          [
+            21,
+            48,
+            40
+          ],
+          [
+            19,
+            48,
+            40
+          ],
+          [
+            21,
+            48,
+            45
+          ],
+          [
+            24,
+            48,
+            50
+          ],
+          [
+            26,
+            48,
+            55
+          ]
+        ]
+      },
+      "licenses": [
+        "OGA-BY 3.0",
+        "OGA-BY 3.0+"
+      ],
+      "origin": [
+        32,
+        63
+      ],
+      "role": "hero",
+      "sheet": "res://assets/characters/class_warrior_m/sheet.png",
+      "source": "lpc",
+      "status": "imported"
+    },
     "commander_arthit": {
       "animations": {
         "dodge": {
@@ -37084,6 +45470,46 @@
       "Copyright (c) 2026 Hugo Duprez"
     ],
     "effects": {
+      "arcane_burst": {
+        "authors": [
+          "Patch",
+          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
+        ],
+        "blend": "mix",
+        "columns": 11,
+        "fps": 15,
+        "frames": 22,
+        "origin": [
+          86,
+          122
+        ],
+        "sheet": "res://assets/fx/pixelfx/arcane_burst.png",
+        "size": [
+          172,
+          148
+        ],
+        "source": "arcane/mana-burst"
+      },
+      "arcane_circle": {
+        "authors": [
+          "Patch",
+          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
+        ],
+        "blend": "mix",
+        "columns": 10,
+        "fps": 15,
+        "frames": 50,
+        "origin": [
+          97,
+          192
+        ],
+        "sheet": "res://assets/fx/pixelfx/arcane_circle.png",
+        "size": [
+          194,
+          220
+        ],
+        "source": "arcane/magic-circle-cast"
+      },
       "block": {
         "authors": [
           "Patch",
@@ -37352,6 +45778,66 @@
         ],
         "source": "arcane/blink-in"
       },
+      "fire_meteor": {
+        "authors": [
+          "Patch",
+          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
+        ],
+        "blend": "mix",
+        "columns": 7,
+        "fps": 15,
+        "frames": 33,
+        "origin": [
+          149,
+          189
+        ],
+        "sheet": "res://assets/fx/pixelfx/fire_meteor.png",
+        "size": [
+          259,
+          213
+        ],
+        "source": "fire/meteor"
+      },
+      "fire_pillar": {
+        "authors": [
+          "Patch",
+          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
+        ],
+        "blend": "mix",
+        "columns": 11,
+        "fps": 15,
+        "frames": 30,
+        "origin": [
+          85,
+          198
+        ],
+        "sheet": "res://assets/fx/pixelfx/fire_pillar.png",
+        "size": [
+          171,
+          222
+        ],
+        "source": "fire/flame-pillar"
+      },
+      "fire_ring": {
+        "authors": [
+          "Patch",
+          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
+        ],
+        "blend": "mix",
+        "columns": 9,
+        "fps": 15,
+        "frames": 24,
+        "origin": [
+          107,
+          88
+        ],
+        "sheet": "res://assets/fx/pixelfx/fire_ring.png",
+        "size": [
+          214,
+          124
+        ],
+        "source": "fire/fire-ring"
+      },
       "heal": {
         "authors": [
           "Patch"
@@ -37411,6 +45897,143 @@
         ],
         "source": "impacts/blunt-hit"
       },
+      "holy_blessing": {
+        "authors": [
+          "Patch"
+        ],
+        "blend": "mix",
+        "columns": 37,
+        "fps": 30,
+        "frames": 90,
+        "loop": true,
+        "origin": [
+          27,
+          108
+        ],
+        "sheet": "res://assets/fx/pixelfx/holy_blessing.png",
+        "size": [
+          54,
+          127
+        ],
+        "source": "holy/blessing"
+      },
+      "holy_heal_area": {
+        "authors": [
+          "Patch"
+        ],
+        "blend": "mix",
+        "columns": 8,
+        "fps": 15,
+        "frames": 33,
+        "origin": [
+          118,
+          85
+        ],
+        "sheet": "res://assets/fx/pixelfx/holy_heal_area.png",
+        "size": [
+          236,
+          117
+        ],
+        "source": "holy/heal-aoe"
+      },
+      "holy_shield": {
+        "authors": [
+          "Patch"
+        ],
+        "blend": "mix",
+        "columns": 27,
+        "fps": 30,
+        "frames": 72,
+        "loop": true,
+        "origin": [
+          37,
+          63
+        ],
+        "sheet": "res://assets/fx/pixelfx/holy_shield.png",
+        "size": [
+          74,
+          78
+        ],
+        "source": "holy/divine-shield"
+      },
+      "holy_smite": {
+        "authors": [
+          "Patch"
+        ],
+        "blend": "mix",
+        "columns": 11,
+        "fps": 15,
+        "frames": 33,
+        "origin": [
+          91,
+          147
+        ],
+        "sheet": "res://assets/fx/pixelfx/holy_smite.png",
+        "size": [
+          181,
+          175
+        ],
+        "source": "holy/smite"
+      },
+      "ice_frost_nova": {
+        "authors": [
+          "Patch"
+        ],
+        "blend": "mix",
+        "columns": 8,
+        "fps": 15,
+        "frames": 46,
+        "origin": [
+          126,
+          99
+        ],
+        "sheet": "res://assets/fx/pixelfx/ice_frost_nova.png",
+        "size": [
+          256,
+          141
+        ],
+        "source": "ice/frost-nova"
+      },
+      "ice_shatter": {
+        "authors": [
+          "Patch",
+          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
+        ],
+        "blend": "mix",
+        "columns": 10,
+        "fps": 15,
+        "frames": 36,
+        "origin": [
+          59,
+          88
+        ],
+        "sheet": "res://assets/fx/pixelfx/ice_shatter.png",
+        "size": [
+          189,
+          110
+        ],
+        "source": "ice/ice-shatter"
+      },
+      "ice_spikes": {
+        "authors": [
+          "Patch",
+          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
+        ],
+        "blend": "mix",
+        "columns": 7,
+        "fps": 15,
+        "frames": 39,
+        "origin": [
+          21,
+          85
+        ],
+        "sheet": "res://assets/fx/pixelfx/ice_spikes.png",
+        "size": [
+          259,
+          101
+        ],
+        "source": "ice/ice-spikes"
+      },
       "levelup": {
         "authors": [
           "Patch"
@@ -37429,6 +46052,306 @@
           231
         ],
         "source": "holy/holy-pillar"
+      },
+      "lightning_chain": {
+        "authors": [
+          "Patch",
+          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
+        ],
+        "blend": "mix",
+        "columns": 9,
+        "fps": 30,
+        "frames": 45,
+        "origin": [
+          23,
+          79
+        ],
+        "sheet": "res://assets/fx/pixelfx/lightning_chain.png",
+        "size": [
+          224,
+          101
+        ],
+        "source": "lightning/chain-lightning"
+      },
+      "lightning_strike": {
+        "authors": [
+          "Patch",
+          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
+        ],
+        "blend": "mix",
+        "columns": 8,
+        "fps": 15,
+        "frames": 24,
+        "origin": [
+          116,
+          228
+        ],
+        "sheet": "res://assets/fx/pixelfx/lightning_strike.png",
+        "size": [
+          233,
+          264
+        ],
+        "source": "lightning/lightning-strike"
+      },
+      "lightning_thunderclap": {
+        "authors": [
+          "Patch",
+          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
+        ],
+        "blend": "mix",
+        "columns": 8,
+        "fps": 30,
+        "frames": 27,
+        "origin": [
+          126,
+          121
+        ],
+        "sheet": "res://assets/fx/pixelfx/lightning_thunderclap.png",
+        "size": [
+          252,
+          153
+        ],
+        "source": "lightning/thunderclap"
+      },
+      "melee_claw_swipe": {
+        "authors": [
+          "Patch",
+          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
+        ],
+        "blend": "mix",
+        "columns": 21,
+        "fps": 30,
+        "frames": 21,
+        "origin": [
+          7,
+          50
+        ],
+        "sheet": "res://assets/fx/pixelfx/melee_claw_swipe.png",
+        "size": [
+          78,
+          62
+        ],
+        "source": "melee/claw-swipe"
+      },
+      "melee_dagger_flurry": {
+        "authors": [
+          "Patch",
+          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
+        ],
+        "blend": "mix",
+        "columns": 18,
+        "fps": 30,
+        "frames": 25,
+        "origin": [
+          10,
+          72
+        ],
+        "sheet": "res://assets/fx/pixelfx/melee_dagger_flurry.png",
+        "size": [
+          111,
+          90
+        ],
+        "source": "melee/dagger-flurry"
+      },
+      "melee_double_slash": {
+        "authors": [
+          "Patch",
+          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
+        ],
+        "blend": "mix",
+        "columns": 16,
+        "fps": 30,
+        "frames": 17,
+        "origin": [
+          16,
+          84
+        ],
+        "sheet": "res://assets/fx/pixelfx/melee_double_slash.png",
+        "size": [
+          128,
+          100
+        ],
+        "source": "melee/double-slash"
+      },
+      "melee_hammer_smash": {
+        "authors": [
+          "Patch",
+          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
+        ],
+        "blend": "mix",
+        "columns": 14,
+        "fps": 30,
+        "frames": 24,
+        "origin": [
+          52,
+          82
+        ],
+        "sheet": "res://assets/fx/pixelfx/melee_hammer_smash.png",
+        "size": [
+          144,
+          102
+        ],
+        "source": "melee/hammer-smash"
+      },
+      "melee_spear_sweep": {
+        "authors": [
+          "Patch",
+          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
+        ],
+        "blend": "mix",
+        "columns": 12,
+        "fps": 30,
+        "frames": 18,
+        "origin": [
+          73,
+          61
+        ],
+        "sheet": "res://assets/fx/pixelfx/melee_spear_sweep.png",
+        "size": [
+          164,
+          75
+        ],
+        "source": "melee/spear-sweep"
+      },
+      "melee_sword_slash": {
+        "authors": [
+          "Patch",
+          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
+        ],
+        "blend": "mix",
+        "columns": 15,
+        "fps": 30,
+        "frames": 15,
+        "origin": [
+          44,
+          91
+        ],
+        "sheet": "res://assets/fx/pixelfx/melee_sword_slash.png",
+        "size": [
+          125,
+          103
+        ],
+        "source": "melee/sword-slash"
+      },
+      "melee_thrust": {
+        "authors": [
+          "Patch",
+          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
+        ],
+        "blend": "mix",
+        "columns": 13,
+        "fps": 30,
+        "frames": 14,
+        "origin": [
+          9,
+          59
+        ],
+        "sheet": "res://assets/fx/pixelfx/melee_thrust.png",
+        "size": [
+          149,
+          73
+        ],
+        "source": "melee/thrust"
+      },
+      "nature_earth_spike": {
+        "authors": [
+          "Patch",
+          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
+        ],
+        "blend": "mix",
+        "columns": 8,
+        "fps": 15,
+        "frames": 30,
+        "origin": [
+          115,
+          125
+        ],
+        "sheet": "res://assets/fx/pixelfx/nature_earth_spike.png",
+        "size": [
+          246,
+          143
+        ],
+        "source": "nature/earth-spike"
+      },
+      "nature_healing_bloom": {
+        "authors": [
+          "Patch",
+          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
+        ],
+        "blend": "mix",
+        "columns": 16,
+        "fps": 15,
+        "frames": 48,
+        "origin": [
+          60,
+          107
+        ],
+        "sheet": "res://assets/fx/pixelfx/nature_healing_bloom.png",
+        "size": [
+          121,
+          119
+        ],
+        "source": "nature/healing-bloom"
+      },
+      "nature_poison_cloud": {
+        "authors": [
+          "Patch"
+        ],
+        "blend": "mix",
+        "columns": 9,
+        "fps": 15,
+        "frames": 60,
+        "loop": true,
+        "origin": [
+          114,
+          72
+        ],
+        "sheet": "res://assets/fx/pixelfx/nature_poison_cloud.png",
+        "size": [
+          221,
+          86
+        ],
+        "source": "nature/poison-cloud"
+      },
+      "nature_root_snare": {
+        "authors": [
+          "Patch",
+          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
+        ],
+        "blend": "mix",
+        "columns": 18,
+        "fps": 15,
+        "frames": 40,
+        "origin": [
+          57,
+          44
+        ],
+        "sheet": "res://assets/fx/pixelfx/nature_root_snare.png",
+        "size": [
+          113,
+          62
+        ],
+        "source": "nature/root-snare"
+      },
+      "nature_thorns": {
+        "authors": [
+          "Patch",
+          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
+        ],
+        "blend": "mix",
+        "columns": 10,
+        "fps": 15,
+        "frames": 34,
+        "origin": [
+          21,
+          64
+        ],
+        "sheet": "res://assets/fx/pixelfx/nature_thorns.png",
+        "size": [
+          195,
+          78
+        ],
+        "source": "nature/thorns"
       },
       "parry": {
         "authors": [
@@ -37469,6 +46392,147 @@
           170
         ],
         "source": "explosions/implosion"
+      },
+      "proj_arrow": {
+        "authors": [
+          "Patch"
+        ],
+        "blend": "mix",
+        "columns": 18,
+        "fps": 30,
+        "frames": 18,
+        "loop": true,
+        "origin": [
+          89,
+          11
+        ],
+        "sheet": "res://assets/fx/pixelfx/proj_arrow.png",
+        "size": [
+          96,
+          20
+        ],
+        "source": "projectiles/arrow"
+      },
+      "proj_fireball": {
+        "authors": [
+          "Patch",
+          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
+        ],
+        "blend": "mix",
+        "columns": 17,
+        "fps": 30,
+        "frames": 36,
+        "loop": true,
+        "origin": [
+          95,
+          28
+        ],
+        "sheet": "res://assets/fx/pixelfx/proj_fireball.png",
+        "size": [
+          119,
+          56
+        ],
+        "source": "fire/fireball"
+      },
+      "proj_ice_lance": {
+        "authors": [
+          "Patch",
+          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
+        ],
+        "blend": "mix",
+        "columns": 14,
+        "fps": 30,
+        "frames": 24,
+        "loop": true,
+        "origin": [
+          130,
+          26
+        ],
+        "sheet": "res://assets/fx/pixelfx/proj_ice_lance.png",
+        "size": [
+          144,
+          52
+        ],
+        "source": "ice/ice-lance"
+      },
+      "proj_magic_missile": {
+        "authors": [
+          "Patch",
+          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
+        ],
+        "blend": "mix",
+        "columns": 11,
+        "fps": 30,
+        "frames": 51,
+        "origin": [
+          19,
+          75
+        ],
+        "sheet": "res://assets/fx/pixelfx/proj_magic_missile.png",
+        "size": [
+          180,
+          83
+        ],
+        "source": "projectiles/magic-missile"
+      },
+      "shadow_drain": {
+        "authors": [
+          "Patch"
+        ],
+        "blend": "mix",
+        "columns": 10,
+        "fps": 15,
+        "frames": 48,
+        "loop": true,
+        "origin": [
+          38,
+          95
+        ],
+        "sheet": "res://assets/fx/pixelfx/shadow_drain.png",
+        "size": [
+          196,
+          86
+        ],
+        "source": "shadow/soul-drain"
+      },
+      "shadow_explosion": {
+        "authors": [
+          "Patch",
+          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
+        ],
+        "blend": "mix",
+        "columns": 8,
+        "fps": 15,
+        "frames": 27,
+        "origin": [
+          125,
+          179
+        ],
+        "sheet": "res://assets/fx/pixelfx/shadow_explosion.png",
+        "size": [
+          249,
+          221
+        ],
+        "source": "shadow/dark-explosion"
+      },
+      "shadow_tendrils": {
+        "authors": [
+          "Patch"
+        ],
+        "blend": "mix",
+        "columns": 13,
+        "fps": 15,
+        "frames": 44,
+        "origin": [
+          74,
+          90
+        ],
+        "sheet": "res://assets/fx/pixelfx/shadow_tendrils.png",
+        "size": [
+          149,
+          114
+        ],
+        "source": "shadow/shadow-tendrils"
       },
       "shield_break": {
         "authors": [
@@ -37570,6 +46634,68 @@
           77
         ],
         "source": "nature/acid-splash"
+      },
+      "spawn_poof": {
+        "authors": [
+          "Patch",
+          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
+        ],
+        "blend": "mix",
+        "columns": 22,
+        "fps": 30,
+        "frames": 35,
+        "origin": [
+          44,
+          66
+        ],
+        "sheet": "res://assets/fx/pixelfx/spawn_poof.png",
+        "size": [
+          93,
+          78
+        ],
+        "source": "spawn/poof"
+      },
+      "status_asleep": {
+        "authors": [
+          "Patch",
+          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
+        ],
+        "blend": "mix",
+        "columns": 37,
+        "fps": 30,
+        "frames": 72,
+        "loop": true,
+        "origin": [
+          22,
+          73
+        ],
+        "sheet": "res://assets/fx/pixelfx/status_asleep.png",
+        "size": [
+          55,
+          67
+        ],
+        "source": "status/sleep"
+      },
+      "status_stunned": {
+        "authors": [
+          "Patch",
+          "Hugo Duprez (adapted from Sprite Fusion's pixel art VFX)"
+        ],
+        "blend": "mix",
+        "columns": 38,
+        "fps": 30,
+        "frames": 60,
+        "loop": true,
+        "origin": [
+          26,
+          56
+        ],
+        "sheet": "res://assets/fx/pixelfx/status_stunned.png",
+        "size": [
+          53,
+          41
+        ],
+        "source": "status/stunned"
       },
       "steam_burst": {
         "authors": [

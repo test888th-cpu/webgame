@@ -4,13 +4,17 @@ extends RefCounted
 ## colours, slot names, and stat lines in player terms ("+15 Attack"), not
 ## data terms ("power: 0.15").
 
+## The grade colours (owner's standard): white, green, blue, gold, red, and
+## Godforged's light blue, kept far from Rare's blue. Only the look: sorting
+## and comparing go by the grade's place in ContentDB.RARITIES (grade_rank),
+## never by colour.
 const RARITY_COLORS := {
 	"common": Color("d9d6cc"),
 	"uncommon": Color("7bd389"),
 	"rare": Color("5fa8f0"),
-	"epic": Color("c08af5"),
-	"legendary": Color("f2a54a"),
-	"godforged": Color("7ef0ff"),
+	"epic": Color("ffcf3d"),
+	"legendary": Color("ff4f4a"),
+	"godforged": Color("a8f6ff"),
 }
 const SLOT_NAMES := {
 	"head": "Head",
@@ -42,6 +46,12 @@ const STAT_HELP := {
 
 static func rarity_color(item: Dictionary) -> Color:
 	return RARITY_COLORS.get(str(item.get("rarity", "common")), UiTheme.TEXT)
+
+
+## The item's grade by its place in ContentDB.RARITIES (0 Common to 5
+## Godforged; -1 without one), for comparing grades.
+static func grade_rank(item: Dictionary) -> int:
+	return ContentDB.RARITIES.find(str(item.get("rarity", "")))
 
 
 ## e.g. "Uncommon Weapon", "Common Consumable".

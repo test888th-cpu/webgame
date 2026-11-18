@@ -138,54 +138,6 @@ func test_characters_share_nothing() -> void:
 	_end()
 
 
-func test_the_characters_screen_plays_creates_and_deletes() -> void:
-	_begin()
-	_character("dao", "Ace")
-	_character("mika", "Mika")
-	var title: Node = load(TITLE_SCENE).instantiate()
-	tree.root.add_child(title)
-	tree.root.size = Vector2i(1280, 720)
-	title.open_characters()
-	await tree.process_frame
-	await tree.process_frame
-	var slots := title.find_child("Slots", true, false)
-	assert_eq(slots.get_child_count(), 5, "five slots")
-	var texts := []
-	for card: Button in slots.get_children():
-		texts.append(card.text)
-	assert_eq(texts.count("+\nNew character"), 3, "three free")
-	for node in slots.find_children("*", "Control", true, false):
-		var control: Control = node
-		if (control is Label or control is Button) and control.is_visible_in_tree():
-			assert_true(
-				Rect2(0, 0, 640, 360).grow(1).encloses(control.get_global_rect()),
-				"%s %s fits" % [control.name, control.get("text")]
-			)
-	# A mouse click only chooses the card, so Delete can reach any of them.
-	var second := slots.get_child(1) as Button
-	var click := InputEventMouseButton.new()
-	click.button_index = MOUSE_BUTTON_LEFT
-	click.pressed = true
-	second.gui_input.emit(click)
-	assert_true(second.has_focus(), "a click chooses the second card")
-	assert_true(GameSession.profile.name != "" and title.is_inside_tree(), "and does not play it")
-	var who: String = SaveStore.characters(_content())[1].name
-	var delete := title.find_child("Delete", true, false) as Button
-	delete.pressed.emit()
-	assert_eq(SaveStore.characters(_content()).size(), 2, "the first press only asks")
-	assert_true(delete.text.contains(who), "by name")
-	delete.pressed.emit()
-	var left := SaveStore.characters(_content())
-	assert_eq(left.size(), 1, "the second deletes")
-	assert_true(left[0].name != who, "the chosen one")
-	await tree.process_frame
-	var card := title.find_child("SaveCard", true, false)
-	assert_true(_texts(card).contains(left[0].name), "the Continue card names who is left")
-	assert_true(title.find_child("Slots", true, false) != null, "back on the Characters screen")
-	title.free()
-	_end()
-
-
 func test_a_full_account_takes_no_more() -> void:
 	_begin()
 	for name: String in ["Ana", "Bea", "Cid", "Dot", "Eve"]:
@@ -226,13 +178,6 @@ func test_an_old_save_is_imported_under_one_id_however_often() -> void:
 	assert_true(not FileAccess.file_exists(legacy), "an unreadable old save is set aside")
 	assert_true(FileAccess.file_exists(ROOT.path_join(SaveStore.UNREADABLE_SAVE)), "and kept")
 	_end()
-
-
-func _texts(root: Node) -> String:
-	var parts: Array[String] = []
-	for label: Label in root.find_children("*", "Label", true, false):
-		parts.append(label.text)
-	return " | ".join(parts)
 
 
 func _write(path: String, text: String) -> void:

@@ -168,9 +168,12 @@ static func _slot_items(content: ContentDB, slot: String) -> Array:
 		_by_slot = {"key": key}
 		var ids: Array = content.items.keys()
 		ids.sort()
+		# Rivals wear the arena's own gear set: the item catalog's additions
+		# (ItemCatalog) never change a rival's loadout or the arena's balance.
+		var added: Array = content.catalog.added if content.catalog else []
 		for item_id: String in ids:
 			var item := content.item(item_id)
-			if item.get("type") == "equipment":
+			if item.get("type") == "equipment" and item_id not in added:
 				var list: Array = _by_slot.get(str(item.get("slot")), [])
 				list.append(item_id)
 				_by_slot[str(item.get("slot"))] = list

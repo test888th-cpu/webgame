@@ -166,7 +166,8 @@ static func icon(content: ContentDB, id: String) -> Texture2D:
 	var icons: Dictionary = content.ui.get("icons", {})
 	var region: Array = icons.get("regions", {}).get(id, [])
 	if region.is_empty():
-		return null
+		# Not in the UI sheet: a temporary placeholder icon, if it is one.
+		return PlaceholderArt.icon(content, id) if content.catalog else null
 	var atlas := AtlasTexture.new()
 	atlas.atlas = load(icons["sheet"])
 	atlas.region = Rect2(region[0], region[1], region[2], region[3])

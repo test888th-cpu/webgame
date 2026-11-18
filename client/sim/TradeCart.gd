@@ -26,11 +26,11 @@ func _init(p_mode: String, p_shop_id: String) -> void:
 	shop_id = p_shop_id
 
 
-## What one `item_id` costs (buying) or pays (selling) at this shop.
-static func unit_price(content: ContentDB, p_mode: String, item_id: String) -> int:
+## What one `item_id` costs (buying) or pays (selling) at shop `shop`.
+static func unit_price(content: ContentDB, p_mode: String, item_id: String, shop := "") -> int:
 	if p_mode == SELL:
 		return ShopRules.sell_price(content, item_id)
-	return int(content.item(item_id).get("price", 0))
+	return ShopRules.buy_price(content, shop, item_id)
 
 
 ## The most of `item_id` this cart may hold: buying, one deal's worth of a
@@ -92,7 +92,7 @@ func count_items() -> int:
 func total(content: ContentDB) -> int:
 	var sum := 0
 	for item_id: String in lines:
-		sum += unit_price(content, mode, item_id) * amount(item_id)
+		sum += unit_price(content, mode, item_id, shop_id) * amount(item_id)
 	return sum
 
 

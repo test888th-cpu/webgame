@@ -1,0 +1,600 @@
+{
+  "version": 1,
+  "note": "TEMPORARY / PLACEHOLDER art, all of it: drawn at runtime by scenes/ui/PlaceholderArt.gd, or (the owner's temporary hats) sprites from tools/assets/import_placeholder_hats.py. Final art replaces an asset or icon entry here under the same id, with \"status\": \"final\"; item ids, appearance ids and saves stay as they are.",
+  "icons": {
+    "ph_enhance_stone_basic": {
+      "shape": "stone",
+      "grade": "common",
+      "status": "placeholder"
+    },
+    "ph_enhance_stone_refined": {
+      "shape": "stone",
+      "grade": "uncommon",
+      "status": "placeholder"
+    },
+    "ph_enhance_stone_advanced": {
+      "shape": "stone",
+      "grade": "rare",
+      "status": "placeholder"
+    },
+    "ph_enhance_catalyst_rare": {
+      "shape": "stone",
+      "grade": "epic",
+      "status": "placeholder"
+    },
+    "ph_enhance_catalyst_special": {
+      "shape": "stone",
+      "grade": "legendary",
+      "status": "placeholder"
+    },
+    "ph_ore_iron": {
+      "shape": "ore",
+      "grade": "common",
+      "status": "placeholder"
+    },
+    "ph_ore_copper": {
+      "shape": "ore",
+      "grade": "common",
+      "status": "placeholder"
+    },
+    "ph_ore_refined": {
+      "shape": "ore",
+      "grade": "uncommon",
+      "status": "placeholder"
+    },
+    "ph_mineral_rare": {
+      "shape": "ore",
+      "grade": "uncommon",
+      "status": "placeholder"
+    },
+    "ph_mineral_azure": {
+      "shape": "ore",
+      "grade": "rare",
+      "status": "placeholder"
+    },
+    "ph_mineral_gilded": {
+      "shape": "ore",
+      "grade": "epic",
+      "status": "placeholder"
+    },
+    "ph_mineral_crimson": {
+      "shape": "ore",
+      "grade": "legendary",
+      "status": "placeholder"
+    },
+    "ph_energy_drink_ironworks": {
+      "shape": "bottle",
+      "grade": "uncommon",
+      "status": "placeholder"
+    },
+    "ph_canvas_work_shirt": {
+      "shape": "shirt",
+      "grade": "common",
+      "status": "placeholder"
+    },
+    "ph_padded_street_jacket": {
+      "shape": "shirt",
+      "grade": "uncommon",
+      "status": "placeholder"
+    },
+    "ph_riveted_dock_coat": {
+      "shape": "shirt",
+      "grade": "rare",
+      "status": "placeholder"
+    },
+    "ph_gilded_fight_robe": {
+      "shape": "shirt",
+      "grade": "epic",
+      "status": "placeholder"
+    },
+    "ph_crimson_warlord_mantle": {
+      "shape": "shirt",
+      "grade": "legendary",
+      "status": "placeholder"
+    },
+    "ph_wrapped_iron_knuckles": {
+      "shape": "knuckle",
+      "grade": "common",
+      "status": "placeholder"
+    },
+    "ph_copper_plated_knuckles": {
+      "shape": "knuckle",
+      "grade": "uncommon",
+      "status": "placeholder"
+    },
+    "ph_azure_steel_knuckles": {
+      "shape": "knuckle",
+      "grade": "rare",
+      "status": "placeholder"
+    },
+    "ph_gilded_crusher_gauntlets": {
+      "shape": "knuckle",
+      "grade": "epic",
+      "status": "placeholder"
+    },
+    "ph_crimson_warlord_fists": {
+      "shape": "knuckle",
+      "grade": "legendary",
+      "status": "placeholder"
+    },
+    "ph_wiroj_protocol_chip": {
+      "shape": "core",
+      "grade": "epic",
+      "status": "placeholder"
+    },
+    "ph_baron_furnace_core": {
+      "shape": "core",
+      "grade": "epic",
+      "status": "placeholder"
+    },
+    "ph_chen_anchor_link": {
+      "shape": "core",
+      "grade": "rare",
+      "status": "placeholder"
+    },
+    "ph_k7_reactor_cell": {
+      "shape": "core",
+      "grade": "epic",
+      "status": "placeholder"
+    },
+    "ph_iron_legacy_relic": {
+      "shape": "sigil",
+      "grade": "epic",
+      "status": "placeholder"
+    },
+    "ph_founders_crimson_sigil": {
+      "shape": "sigil",
+      "grade": "legendary",
+      "status": "placeholder"
+    },
+    "ph_focus_gum": {
+      "shape": "bottle",
+      "grade": "common",
+      "status": "placeholder"
+    },
+    "ph_adrenal_shot": {
+      "shape": "bottle",
+      "grade": "rare",
+      "status": "placeholder"
+    },
+    "ph_second_wind_tonic": {
+      "shape": "bottle",
+      "grade": "epic",
+      "status": "placeholder"
+    },
+    "hat_icon_arcane_wizard_hat": {
+      "image": "res://assets/placeholder/hats/arcane_wizard_hat_icon.png",
+      "status": "placeholder"
+    },
+    "hat_icon_golden_lion_helm": {
+      "image": "res://assets/placeholder/hats/golden_lion_helm_icon.png",
+      "status": "placeholder"
+    },
+    "hat_icon_sakura_wizard_hat": {
+      "image": "res://assets/placeholder/hats/sakura_wizard_hat_icon.png",
+      "status": "placeholder"
+    },
+    "hat_icon_frost_fur_hood": {
+      "image": "res://assets/placeholder/hats/frost_fur_hood_icon.png",
+      "status": "placeholder"
+    },
+    "hat_icon_dragonscale_hood": {
+      "image": "res://assets/placeholder/hats/dragonscale_hood_icon.png",
+      "status": "placeholder"
+    },
+    "hat_icon_starlight_wizard_hat": {
+      "image": "res://assets/placeholder/hats/starlight_wizard_hat_icon.png",
+      "status": "placeholder"
+    },
+    "hat_icon_lion_king_crown": {
+      "image": "res://assets/placeholder/hats/lion_king_crown_icon.png",
+      "status": "placeholder"
+    },
+    "hat_icon_crystal_tiara": {
+      "image": "res://assets/placeholder/hats/crystal_tiara_icon.png",
+      "status": "placeholder"
+    },
+    "hat_icon_sakura_straw_hat": {
+      "image": "res://assets/placeholder/hats/sakura_straw_hat_icon.png",
+      "status": "placeholder"
+    },
+    "hat_icon_midnight_wizard_hat": {
+      "image": "res://assets/placeholder/hats/midnight_wizard_hat_icon.png",
+      "status": "placeholder"
+    },
+    "hat_icon_glacier_crown": {
+      "image": "res://assets/placeholder/hats/glacier_crown_icon.png",
+      "status": "placeholder"
+    },
+    "hat_icon_emerald_feather_hat": {
+      "image": "res://assets/placeholder/hats/emerald_feather_hat_icon.png",
+      "status": "placeholder"
+    },
+    "hat_icon_horned_crown": {
+      "image": "res://assets/placeholder/hats/horned_crown_icon.png",
+      "status": "placeholder"
+    },
+    "hat_icon_ice_crown": {
+      "image": "res://assets/placeholder/hats/ice_crown_icon.png",
+      "status": "placeholder"
+    },
+    "hat_icon_officer_cap": {
+      "image": "res://assets/placeholder/hats/officer_cap_icon.png",
+      "status": "placeholder"
+    },
+    "hat_icon_phoenix_feather_hat": {
+      "image": "res://assets/placeholder/hats/phoenix_feather_hat_icon.png",
+      "status": "placeholder"
+    },
+    "hat_icon_obsidian_crown": {
+      "image": "res://assets/placeholder/hats/obsidian_crown_icon.png",
+      "status": "placeholder"
+    },
+    "hat_icon_crested_knight_helm": {
+      "image": "res://assets/placeholder/hats/crested_knight_helm_icon.png",
+      "status": "placeholder"
+    },
+    "hat_icon_rising_sun_headband": {
+      "image": "res://assets/placeholder/hats/rising_sun_headband_icon.png",
+      "status": "placeholder"
+    },
+    "hat_icon_jewelled_crown": {
+      "image": "res://assets/placeholder/hats/jewelled_crown_icon.png",
+      "status": "placeholder"
+    },
+    "hat_icon_dragon_bandana": {
+      "image": "res://assets/placeholder/hats/dragon_bandana_icon.png",
+      "status": "placeholder"
+    },
+    "hat_icon_tiger_hood": {
+      "image": "res://assets/placeholder/hats/tiger_hood_icon.png",
+      "status": "placeholder"
+    },
+    "hat_icon_phoenix_tiara": {
+      "image": "res://assets/placeholder/hats/phoenix_tiara_icon.png",
+      "status": "placeholder"
+    },
+    "hat_icon_cyber_visor": {
+      "image": "res://assets/placeholder/hats/cyber_visor_icon.png",
+      "status": "placeholder"
+    }
+  },
+  "appearance_assets": {
+    "ph_look_body_shirt": {
+      "slot": "body",
+      "style": "shirt",
+      "grade": "common",
+      "status": "placeholder"
+    },
+    "ph_look_body_jacket": {
+      "slot": "body",
+      "style": "jacket",
+      "grade": "uncommon",
+      "status": "placeholder"
+    },
+    "ph_look_body_coat": {
+      "slot": "body",
+      "style": "coat",
+      "grade": "rare",
+      "status": "placeholder"
+    },
+    "ph_look_body_robe": {
+      "slot": "body",
+      "style": "robe",
+      "grade": "epic",
+      "status": "placeholder"
+    },
+    "ph_look_body_mantle": {
+      "slot": "body",
+      "style": "mantle",
+      "grade": "legendary",
+      "status": "placeholder"
+    },
+    "ph_look_weapon_wrap": {
+      "slot": "weapon",
+      "style": "wrap",
+      "grade": "common",
+      "status": "placeholder"
+    },
+    "ph_look_weapon_plate": {
+      "slot": "weapon",
+      "style": "plate",
+      "grade": "uncommon",
+      "status": "placeholder"
+    },
+    "ph_look_weapon_steel": {
+      "slot": "weapon",
+      "style": "steel",
+      "grade": "rare",
+      "status": "placeholder"
+    },
+    "ph_look_weapon_gauntlet": {
+      "slot": "weapon",
+      "style": "gauntlet",
+      "grade": "epic",
+      "status": "placeholder"
+    },
+    "ph_look_weapon_fist": {
+      "slot": "weapon",
+      "style": "fist",
+      "grade": "legendary",
+      "status": "placeholder"
+    },
+    "hat_arcane_wizard_hat": {
+      "slot": "head",
+      "image": "res://assets/placeholder/hats/arcane_wizard_hat.png",
+      "fit": "cover",
+      "anchor": [
+        14,
+        17,
+        10
+      ],
+      "status": "placeholder"
+    },
+    "hat_golden_lion_helm": {
+      "slot": "head",
+      "image": "res://assets/placeholder/hats/golden_lion_helm.png",
+      "fit": "cover",
+      "anchor": [
+        14,
+        23,
+        12
+      ],
+      "status": "placeholder"
+    },
+    "hat_sakura_wizard_hat": {
+      "slot": "head",
+      "image": "res://assets/placeholder/hats/sakura_wizard_hat.png",
+      "fit": "cover",
+      "anchor": [
+        14,
+        20,
+        12
+      ],
+      "status": "placeholder"
+    },
+    "hat_frost_fur_hood": {
+      "slot": "head",
+      "image": "res://assets/placeholder/hats/frost_fur_hood.png",
+      "fit": "hood",
+      "anchor": [
+        14,
+        26,
+        14
+      ],
+      "opening": [
+        17,
+        14
+      ],
+      "status": "placeholder"
+    },
+    "hat_dragonscale_hood": {
+      "slot": "head",
+      "image": "res://assets/placeholder/hats/dragonscale_hood.png",
+      "fit": "hood",
+      "anchor": [
+        14,
+        27,
+        14
+      ],
+      "opening": [
+        19,
+        20
+      ],
+      "status": "placeholder"
+    },
+    "hat_starlight_wizard_hat": {
+      "slot": "head",
+      "image": "res://assets/placeholder/hats/starlight_wizard_hat.png",
+      "fit": "cover",
+      "anchor": [
+        15,
+        20,
+        12
+      ],
+      "status": "placeholder"
+    },
+    "hat_lion_king_crown": {
+      "slot": "head",
+      "image": "res://assets/placeholder/hats/lion_king_crown.png",
+      "fit": "cover",
+      "anchor": [
+        14,
+        19,
+        11
+      ],
+      "status": "placeholder"
+    },
+    "hat_crystal_tiara": {
+      "slot": "head",
+      "image": "res://assets/placeholder/hats/crystal_tiara.png",
+      "fit": "band",
+      "row": 7,
+      "anchor": [
+        15,
+        13,
+        10
+      ],
+      "status": "placeholder"
+    },
+    "hat_sakura_straw_hat": {
+      "slot": "head",
+      "image": "res://assets/placeholder/hats/sakura_straw_hat.png",
+      "fit": "cover",
+      "anchor": [
+        16,
+        14,
+        9
+      ],
+      "status": "placeholder"
+    },
+    "hat_midnight_wizard_hat": {
+      "slot": "head",
+      "image": "res://assets/placeholder/hats/midnight_wizard_hat.png",
+      "fit": "cover",
+      "anchor": [
+        15,
+        18,
+        12
+      ],
+      "status": "placeholder"
+    },
+    "hat_glacier_crown": {
+      "slot": "head",
+      "image": "res://assets/placeholder/hats/glacier_crown.png",
+      "fit": "cover",
+      "anchor": [
+        14,
+        20,
+        14
+      ],
+      "status": "placeholder"
+    },
+    "hat_emerald_feather_hat": {
+      "slot": "head",
+      "image": "res://assets/placeholder/hats/emerald_feather_hat.png",
+      "fit": "cover",
+      "anchor": [
+        14,
+        14,
+        8
+      ],
+      "status": "placeholder"
+    },
+    "hat_horned_crown": {
+      "slot": "head",
+      "image": "res://assets/placeholder/hats/horned_crown.png",
+      "fit": "cover",
+      "anchor": [
+        13,
+        23,
+        15
+      ],
+      "status": "placeholder"
+    },
+    "hat_ice_crown": {
+      "slot": "head",
+      "image": "res://assets/placeholder/hats/ice_crown.png",
+      "fit": "cover",
+      "anchor": [
+        14,
+        20,
+        14
+      ],
+      "status": "placeholder"
+    },
+    "hat_officer_cap": {
+      "slot": "head",
+      "image": "res://assets/placeholder/hats/officer_cap.png",
+      "fit": "cover",
+      "anchor": [
+        16,
+        18,
+        10
+      ],
+      "status": "placeholder"
+    },
+    "hat_phoenix_feather_hat": {
+      "slot": "head",
+      "image": "res://assets/placeholder/hats/phoenix_feather_hat.png",
+      "fit": "cover",
+      "anchor": [
+        14,
+        22,
+        14
+      ],
+      "status": "placeholder"
+    },
+    "hat_obsidian_crown": {
+      "slot": "head",
+      "image": "res://assets/placeholder/hats/obsidian_crown.png",
+      "fit": "cover",
+      "anchor": [
+        14,
+        20,
+        13
+      ],
+      "status": "placeholder"
+    },
+    "hat_crested_knight_helm": {
+      "slot": "head",
+      "image": "res://assets/placeholder/hats/crested_knight_helm.png",
+      "fit": "cover",
+      "anchor": [
+        14,
+        19,
+        10
+      ],
+      "status": "placeholder"
+    },
+    "hat_rising_sun_headband": {
+      "slot": "head",
+      "image": "res://assets/placeholder/hats/rising_sun_headband.png",
+      "fit": "band",
+      "row": 9,
+      "anchor": [
+        16,
+        8,
+        4
+      ],
+      "status": "placeholder"
+    },
+    "hat_jewelled_crown": {
+      "slot": "head",
+      "image": "res://assets/placeholder/hats/jewelled_crown.png",
+      "fit": "cover",
+      "anchor": [
+        13,
+        15,
+        10
+      ],
+      "status": "placeholder"
+    },
+    "hat_dragon_bandana": {
+      "slot": "head",
+      "image": "res://assets/placeholder/hats/dragon_bandana.png",
+      "fit": "cover",
+      "anchor": [
+        15,
+        12,
+        6
+      ],
+      "status": "placeholder"
+    },
+    "hat_tiger_hood": {
+      "slot": "head",
+      "image": "res://assets/placeholder/hats/tiger_hood.png",
+      "fit": "cover",
+      "anchor": [
+        14,
+        17,
+        10
+      ],
+      "status": "placeholder"
+    },
+    "hat_phoenix_tiara": {
+      "slot": "head",
+      "image": "res://assets/placeholder/hats/phoenix_tiara.png",
+      "fit": "band",
+      "row": 7,
+      "anchor": [
+        15,
+        14,
+        10
+      ],
+      "status": "placeholder"
+    },
+    "hat_cyber_visor": {
+      "slot": "head",
+      "image": "res://assets/placeholder/hats/cyber_visor.png",
+      "fit": "band",
+      "row": 12,
+      "anchor": [
+        13,
+        13,
+        6
+      ],
+      "status": "placeholder"
+    }
+  }
+}

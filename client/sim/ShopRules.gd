@@ -128,12 +128,22 @@ static func buy(
 		return "not_sold"
 	if amount < 1 or amount > max_amount(content, item_id):
 		return "bad_amount"
-	var price := int(content.item(item_id).get("price", 0)) * amount
+	var price := buy_price(content, shop_id, item_id) * amount
 	if profile.money < price:
 		return "not_enough_money"
 	profile.money -= price
 	profile.add_item(item_id, amount)
 	return ""
+
+
+## What `shop_id` asks for one `item_id`: the item's price, or the shop's own
+## "price_each" (the test merchant's token price), never below what a shop
+## pays back for it plus one coin, so buying to sell back never makes money.
+static func buy_price(content: ContentDB, shop_id: String, item_id: String) -> int:
+	var shop: Dictionary = content.shops.get(shop_id, {})
+	if not shop.has("price_each"):
+		return int(content.item(item_id).get("price", 0))
+	return maxi(int(shop["price_each"]), sell_price(content, item_id) + 1)
 
 
 ## What a shop pays for one `item_id`; 0 when it will not buy it.

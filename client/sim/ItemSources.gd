@@ -23,12 +23,13 @@ static func of(content: ContentDB, key: String) -> Array[Dictionary]:
 	random.append_array(_drops(content, item_id))
 	random.append_array(_elites(content, item_id))
 	random.append_array(_world_bosses(content, item_id))
+	random.append_array(_catalog_drops(content, item_id))
 	random.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["chance"] > b["chance"])
 	var found: Array[Dictionary] = []
 	found.append_array(random)
 	for shop_id: String in content.shops:
 		if item_id in ShopRules.all_items(content.shops[shop_id]):
-			var price := int(content.item(item_id)["price"])
+			var price := ShopRules.buy_price(content, shop_id, item_id)
 			var text := "%s, %d coins" % [content.shops[shop_id]["name"], price]
 			found.append({"kind": SHOP, "text": text})
 	for quest_id: String in content.quests:
@@ -74,6 +75,31 @@ static func _elites(content: ContentDB, item_id: String) -> Array[Dictionary]:
 				var chance := float(prize["chance"])
 				var text := "Field elites, %s (%s)" % [name, _percent(chance)]
 				out.append({"kind": ELITE, "chance": chance, "text": text})
+	return out
+
+
+## The catalog's drop tables (DropTables): any enemy rolling a table, and a
+## boss's own list.
+static func _catalog_drops(content: ContentDB, item_id: String) -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	if content.catalog == null or item_id not in content.catalog.added:
+		return out
+	var drops: Dictionary = content.catalog.drops
+	var who := {"monster": "Any street enemy", "boss": "Any story boss"}
+	for source: String in drops.get("defaults", {}):
+		var table: Dictionary = drops.get("tables", {}).get(str(drops["defaults"][source]), {})
+		var chance := float(DropTables.table_chances(content, table).get(item_id, 0.0))
+		if chance > 0.0:
+			var text := "%s (%s)" % [who.get(source, source), _percent(chance)]
+			out.append({"kind": DROP, "chance": chance, "text": text})
+	for boss: String in drops.get("bosses", {}):
+		for entry: Dictionary in drops["bosses"][boss]:
+			if entry["item"] == item_id:
+				var chance := float(entry["chance"])
+				var where := first_area_of(content, boss)
+				var name := str(content.enemy(boss).get("name", boss))
+				var text := "%s (%s)%s" % [name, _percent(chance), "  -  " + where if where else ""]
+				out.append({"kind": DROP, "chance": chance, "text": text})
 	return out
 
 

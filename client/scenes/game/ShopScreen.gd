@@ -40,6 +40,8 @@ var carts := {}
 ## "chosen"}.
 var _pages := {}
 var _coins: Label
+## The wares' category on show ("" for all; shops with "categories").
+var _category := ""
 ## The Sell button has asked "Sure?" once.
 var _sure := false
 
@@ -129,6 +131,9 @@ func _page(mode: String, chosen: String) -> Control:
 	page.add_child(left)
 	var heading := "WARES" if mode == TradeCart.BUY else "YOUR BAG"
 	left.add_child(UiKit.label(heading, UiTheme.SIZE_CAPTION, UiTheme.TEXT_DIM))
+	var sections: Array = game.content.shops[npc["shop"]].get("categories", [])
+	if mode == TradeCart.BUY and not sections.is_empty():
+		left.add_child(_category_picker(sections))
 	var list := ItemList.new()
 	list.name = "List"
 	list.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -362,8 +367,74 @@ func refresh() -> void:
 
 func _ids(mode: String) -> Array:
 	if mode == TradeCart.BUY:
-		return ShopRules.wares(game.profile, game.content, str(npc["shop"]))
+		var wares := ShopRules.wares(game.profile, game.content, str(npc["shop"]))
+		if _category == "":
+			return wares
+		return wares.filter(
+			func(id: String) -> bool:
+				return ItemCatalog.category(game.content.item(id)) == _category
+		)
 	return sellable(game.content, game.profile)
+
+
+## A shop with sections (the Item Testing Merchant): a picker above its wares,
+## "All" or one category ("categories": [[id, label], ...]).
+func _category_picker(sections: Array) -> OptionButton:
+	var picker := OptionButton.new()
+	picker.name = "Category"
+	picker.focus_mode = Control.FOCUS_NONE
+	picker.add_theme_font_size_override("font_size", UiTheme.SIZE_SMALL)
+	picker.add_item("All")
+	picker.set_item_metadata(0, "")
+	for section: Array in sections:
+		picker.add_item(str(section[1]))
+		picker.set_item_metadata(picker.item_count - 1, str(section[0]))
+	picker.item_selected.connect(
+		func(index: int) -> void: show_category(str(picker.get_item_metadata(index)))
+	)
+	return picker
+
+
+## Shows only category `id` of the wares ("" for all).
+func show_category(id: String) -> void:
+	_category = id
+	var list: ItemList = _pages[TradeCart.BUY]["list"]
+	var picker := list.get_parent().find_child("Category", false, false) as OptionButton
+	if picker:
+		for i in picker.item_count:
+			if str(picker.get_item_metadata(i)) == id:
+				picker.select(i)
+	_pages[TradeCart.BUY]["chosen"] = ""
+	Sfx.play("ui_move", -6.0)
+	refresh()
+
+
+## Wears `item_id` from the bag (the same rules as the Bag's Equip), to try it
+## on without leaving the shop.
+func try_on(item_id: String) -> void:
+	var profile := game.profile
+	if profile.equip_problem(item_id, game.content) != "":
+		var need := int(game.content.item(item_id).get("level", 1))
+		game.hud_toast("Requires level %d" % need)
+		Sfx.play("denied", -4.0)
+		return
+	profile.equip(item_id, game.content)
+	_worn_changed("Equipped " + str(game.content.item(item_id)["name"]))
+
+
+## Takes off what is worn in `slot`, back into the bag.
+func take_off(slot: String) -> void:
+	var name := str(game.content.item(game.profile.equipment[slot]).get("name", ""))
+	game.profile.unequip(slot, game.content)
+	_worn_changed("Took off " + name)
+
+
+func _worn_changed(said: String) -> void:
+	game.zone.refresh_hero()
+	SaveStore.save(game.profile)
+	game.hud_toast(said)
+	Sfx.play("ui_select", -4.0)
+	refresh()
 
 
 ## The list: name, upgrade, how many are left to add (selling) or are in the
@@ -384,7 +455,7 @@ func _refresh_list(mode: String) -> void:
 		var item := content.item(key)
 		var plus := EnhanceRules.item_level(profile, key)
 		var name := "%s +%d" % [item["name"], plus] if plus else str(item["name"])
-		var price := TradeCart.unit_price(content, mode, key)
+		var price := TradeCart.unit_price(content, mode, key, str(npc["shop"]))
 		var text := "%s   %d" % [name, price]
 		if mode == TradeCart.SELL:
 			text = "%s  x%d   %d" % [name, profile.count(key) - basket.amount(key), price]
@@ -429,6 +500,19 @@ func _show_detail(mode: String) -> void:
 	detail.add_child(ItemCard.details(game.content, profile, key, "", mode == TradeCart.BUY))
 	var owned := profile.owned(ContentDB.base_id(key))
 	detail.add_child(UiKit.row("You own", UiKit.label(str(owned))))
+	var item := game.content.item(key)
+	if item.get("type") == "equipment" and owned > 0:
+		# Try it on here: the hero shows it at once (EquipmentLayers).
+		var slot := str(item["slot"])
+		var worn := (
+			ContentDB.base_id(str(profile.equipment.get(slot, ""))) == ContentDB.base_id(key)
+		)
+		var wear := UiKit.button(
+			"Take off" if worn else "Equip", take_off.bind(slot) if worn else try_on.bind(key)
+		)
+		wear.name = "Wear"
+		wear.focus_mode = Control.FOCUS_NONE
+		detail.add_child(wear)
 	if mode == TradeCart.SELL and EnhanceRules.item_level(profile, key) > 0:
 		detail.add_child(
 			UiKit.label("Its upgrades are lost when sold.", UiTheme.SIZE_SMALL, UiTheme.DANGER)
@@ -491,7 +575,7 @@ func _line(mode: String, key: String) -> Control:
 		% [
 			item["name"],
 			cart(mode).amount(key),
-			TradeCart.unit_price(content, mode, key) * cart(mode).amount(key),
+			TradeCart.unit_price(content, mode, key, str(npc["shop"])) * cart(mode).amount(key),
 		]
 	)
 	row.add_child(name)

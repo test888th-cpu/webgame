@@ -25,6 +25,16 @@ const SUFFIXES := [".json", ".json.bak", ".json.tmp"]
 ## originals are left in place, never deleted.
 const FORMER_NAMES := ["Ironbound Streets"]
 const CARRIED_FILES := ["save.json", "settings.json"]
+## The playable reference slice's save (RpgSave), a file of its own beside the
+## characters, written as save() writes a character (temp file, read back, the
+## previous save kept as .bak).
+const REFERENCE_SAVE := "reference_slice.json"
+## The production characters (owner order 2026-11-18: one save format, RpgSave v3, one
+## file per character under <root>/player/).
+const PLAYER_DIR := "player"
+## Written once the old test player data is gone (owner order 2026-11-18: a full player
+## data reset, no migration). Settings are not player data and are kept.
+const RESET_MARKER := "player_data_reset_v3"
 
 var root := DEFAULT_ROOT
 ## Set when another browser tab holds the saves (see claim_web_lock): this
@@ -44,6 +54,109 @@ func _init() -> void:
 		files.erase(LEGACY_SAVE)
 	for former: String in FORMER_NAMES:
 		carry_over(here.get_base_dir().path_join(former), here, files)
+	reset_legacy_player_data(DEFAULT_ROOT)
+
+
+## The one-time player data reset: every old character (characters/, with its .bak,
+## .tmp and deleted/ copies), the single save of older builds and its imported and
+## unreadable copies, and the trial's save. Nothing else is touched (settings, the
+## new player/ folder). Returns the files removed; does nothing once done.
+static func reset_legacy_player_data(at: String) -> Array[String]:
+	var removed: Array[String] = []
+	if FileAccess.file_exists(at.path_join(RESET_MARKER)):
+		return removed
+	for dir: String in [
+		at.path_join("characters").path_join("deleted"), at.path_join("characters")
+	]:
+		if not DirAccess.dir_exists_absolute(dir):
+			continue
+		for file in DirAccess.get_files_at(dir):
+			if DirAccess.remove_absolute(dir.path_join(file)) == OK:
+				removed.append(dir.path_join(file))
+		DirAccess.remove_absolute(dir)
+	for name: String in [LEGACY_SAVE, IMPORTED_SAVE, UNREADABLE_SAVE, REFERENCE_SAVE]:
+		for suffix: String in ["", ".bak", ".tmp"]:
+			var path := at.path_join(name + suffix)
+			if FileAccess.file_exists(path) and DirAccess.remove_absolute(path) == OK:
+				removed.append(path)
+	var marker := FileAccess.open(at.path_join(RESET_MARKER), FileAccess.WRITE)
+	if marker:
+		marker.store_string("%d files removed\n" % removed.size())
+		marker.close()
+	return removed
+
+
+# -- production characters (RpgSave v3) ----------------------------------------------
+
+
+func player_folder() -> String:
+	return root.path_join(PLAYER_DIR)
+
+
+## Save character `state` (it carries its own "id"), as save() saves: temp file, read
+## back, the previous save kept as .bak.
+func save_player(state: Dictionary) -> bool:
+	if read_only or not RosterRules.is_id(str(state.get("id", ""))):
+		return false
+	DirAccess.make_dir_recursive_absolute(player_folder())
+	state["saved_at"] = int(Time.get_unix_time_from_system())
+	var target := player_folder().path_join(str(state["id"]) + ".json")
+	var temp := target + ".tmp"
+	var text := JSON.stringify(RpgSave.to_dict(state), "", true, true)
+	var file := FileAccess.open(temp, FileAccess.WRITE)
+	if file == null:
+		return false
+	var written := file.store_string(text) and file.get_error() == OK
+	file.close()
+	if not written or FileAccess.get_file_as_string(temp) != text:
+		DirAccess.remove_absolute(temp)
+		return false
+	if FileAccess.file_exists(target):
+		DirAccess.copy_absolute(target, target + ".bak")
+	return DirAccess.rename_absolute(temp, target) == OK
+
+
+## Character `id`, validated by RpgSave ({} when it cannot be used).
+func load_player(id: String, content: ContentDB) -> Dictionary:
+	if not RosterRules.is_id(id):
+		return {}
+	for suffix: String in ["", ".bak"]:
+		var path := player_folder().path_join(id + ".json" + suffix)
+		if not FileAccess.file_exists(path):
+			continue
+		var data: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
+		var loaded := RpgSave.from_dict(data, content, RpgPack.of(content))
+		if not loaded["state"].is_empty() and loaded["state"].get("id") == id:
+			return loaded["state"]
+	return {}
+
+
+## Every playable production character, last played first.
+func players(content: ContentDB) -> Array[Dictionary]:
+	var found: Array[Dictionary] = []
+	if not DirAccess.dir_exists_absolute(player_folder()):
+		return found
+	for file in DirAccess.get_files_at(player_folder()):
+		if file.ends_with(".json"):
+			var state := load_player(file.trim_suffix(".json"), content)
+			if not state.is_empty():
+				found.append(state)
+	found.sort_custom(
+		func(a: Dictionary, b: Dictionary) -> bool:
+			return int(a.get("saved_at", 0)) > int(b.get("saved_at", 0))
+	)
+	return found
+
+
+func delete_player(id: String) -> bool:
+	if read_only or not RosterRules.is_id(id):
+		return false
+	var removed := false
+	for suffix: String in ["", ".bak", ".tmp"]:
+		var path := player_folder().path_join(id + ".json" + suffix)
+		if FileAccess.file_exists(path):
+			removed = DirAccess.remove_absolute(path) == OK or removed
+	return removed
 
 
 ## Copies each of `files` from `from_dir` to `to_dir` when it exists there
@@ -152,6 +265,39 @@ func save(profile: PlayerProfile) -> bool:
 	if FileAccess.file_exists(target):
 		DirAccess.copy_absolute(target, target + ".bak")
 	return DirAccess.rename_absolute(temp, target) == OK
+
+
+func save_reference(data: Dictionary) -> bool:
+	if read_only:
+		return false
+	var target := root.path_join(REFERENCE_SAVE)
+	var temp := target + ".tmp"
+	var text := JSON.stringify(data, "", true, true)  # full precision: rage is fractional
+	var file := FileAccess.open(temp, FileAccess.WRITE)
+	if file == null:
+		push_warning("save failed: %s" % error_string(FileAccess.get_open_error()))
+		return false
+	var written := file.store_string(text) and file.get_error() == OK
+	file.close()
+	if not written or FileAccess.get_file_as_string(temp) != text:
+		push_warning("save failed: the file did not read back as written")
+		DirAccess.remove_absolute(temp)
+		return false
+	if FileAccess.file_exists(target):
+		DirAccess.copy_absolute(target, target + ".bak")
+	return DirAccess.rename_absolute(temp, target) == OK
+
+
+## The reference slice's saved data ({} when there is none): the save, else its
+## last good copy.
+func load_reference() -> Variant:
+	for suffix: String in ["", ".bak"]:
+		var path := root.path_join(REFERENCE_SAVE + suffix)
+		if FileAccess.file_exists(path):
+			var data: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
+			if data is Dictionary:
+				return data
+	return {}
 
 
 ## Character `id`: its save, else a complete save left by an interrupted

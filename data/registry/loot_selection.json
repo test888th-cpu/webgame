@@ -1,0 +1,1671 @@
+{
+ "_comment": "B2 R7 loot adoption status, separate from the data. A table's adoption follows its owner monster's selection: PENDING_REVIEW, DEFERRED, EXCLUDED, or NOT_APPLICABLE for a non-enemy. Nothing is adopted: no table drops in the game, every item decision stays pending, and the game's own (legacy) loot is unchanged (its file hashes are below).",
+ "items": {
+  "note": "Every item decision stays pending (PENDING_SELECTION); this registry selects nothing.",
+  "selection_counts": {
+   "DEFERRED": 24,
+   "EXCLUDED": 42,
+   "PENDING_SELECTION": 2197
+  }
+ },
+ "legacy_loot": {
+  "note": "The game's drop data is not read or changed by the reference registries.",
+  "sha256": {
+   "client/data/areas.json": "7e94647dd71c51854adc97d51ad869663b0d13fd34a05cffb38ab693ecc61aa6",
+   "client/data/drop_tables.json": "7cb0f605c42fd0f7ce41a45ab534d4ea987e886de1e6585beceadc15f71c14f2",
+   "client/data/enemies.json": "f4cd25b72cc4464ddef4b7811a9457c21bd2f0f0f4349639de99eb0bccb77651",
+   "client/data/item_catalog.json": "9664f3d59a04b4ec1a355bd99d992661cbaba3118e40e63f2b86b86f12685840",
+   "client/data/items.json": "5212ecc1b655ed4b082ed6a0998bd51ce911eca81d7769e3bc8d138e5e327f54",
+   "client/data/world_boss.json": "b468cbe02337a428f2d9ee9c4ec8d9e613522003041d70bb1bdbd068d09817ed"
+  },
+  "status": "UNCHANGED"
+ },
+ "reward_sources": {
+  "buddy_boss_drops": {
+   "adoption": "DEFERRED",
+   "reason": "adopted with the buddies system"
+  },
+  "drowned_litany_chest": {
+   "adoption": "DEFERRED",
+   "reason": "adopted with the delves system"
+  },
+  "hoard_boss_loot": {
+   "adoption": "DEFERRED",
+   "reason": "adopted with the treasure-map hoards system"
+  },
+  "rift_clear_pools": {
+   "adoption": "DEFERRED",
+   "reason": "adopted with the the Rift system"
+  },
+  "rift_first_clear": {
+   "adoption": "DEFERRED",
+   "reason": "adopted with the the Rift system"
+  },
+  "treasure_vault_payouts": {
+   "adoption": "DEFERRED",
+   "reason": "adopted with the treasure-map hoards system"
+  },
+  "weekly_boss_tables": {
+   "adoption": "DEFERRED",
+   "reason": "adopted with the weekly rewards system"
+  },
+  "world_quest_class_loot": {
+   "adoption": "DEFERRED",
+   "reason": "adopted with the world quests system"
+  }
+ },
+ "status_values": {
+  "DEFERRED": "waits for its system (the Rift, seasonal events, buddies, delves, weekly rewards, world quests, treasure maps)",
+  "EXCLUDED": "outside the game by owner decision (Scorching Wastes, Studio overlay)",
+  "NOT_APPLICABLE": "the owner is not an enemy (pet, practice target, objective, ambient)",
+  "PENDING_REVIEW": "the owner monster may be adopted; its table is a candidate, not active"
+ },
+ "table_counts": {
+  "DEFERRED": 49,
+  "EXCLUDED": 14,
+  "NOT_APPLICABLE": 37,
+  "PENDING_REVIEW": 300
+ },
+ "tables": {
+  "heroic_append:cantor_ilvane": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "heroic_append:choirmother_selthe": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "heroic_append:gaol_turnkey": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "heroic_append:gaoler_ossick": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "heroic_append:grand_necromancer_velkhar": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "heroic_append:ignivar_herald_of_the_last_flame": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "heroic_append:knight_commander_olen": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "heroic_append:korgath_the_bound": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "heroic_append:korzul_the_gravewyrm": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "heroic_append:mere_hydra_head_center": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "heroic_append:morthen": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "heroic_append:nythraxis_scourge_of_thornpeak": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "heroic_append:rimeweb": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "heroic_append:sexton_marrow": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "heroic_append:the_gorgebloom": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "heroic_append:tideglass_colossus": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "heroic_append:vael_the_mistcaller": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "heroic_append:varkhul_forgefather_of_the_last_flame": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "heroic_append:wildheart_beastmaster": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "heroic_append:wildheart_high_priest": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "heroic_append:ysolei": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:acolyte_tessa": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:ancient_guardian": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:apprentice_wren": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:ashbone_raider": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:ashbone_warcaller": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:ashen_courtier": {
+   "adoption": "EXCLUDED",
+   "owner_selection": "EXCLUDED: Scorching Wastes, a custom-map desert (owner decision 2026-11-17)"
+  },
+  "mob:aurelhorn": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:balgath_cyclops": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:barnacle_crawler": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:barrow_king": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:barrow_wight": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:basin_raptor": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:bastion_drowned_anchor": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:bastion_gaol_cage": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:bastion_revenant": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:bastion_warhound": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:bog_bloat": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:bogtoad": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:bonechill_widow": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:boneclad_revenant": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:bound_guardian": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:bound_soul": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:brakka_wallbreaker": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:breach_wretch": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:broodsworn_goadsmith": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:broodsworn_pyre_tender": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:broodsworn_thawcaller": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:brutok_skullsmasher": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:buddy_crystal_lich": {
+   "adoption": "NOT_APPLICABLE",
+   "owner_selection": "NOT_AN_ENEMY: a buddy follower, spawned non-hostile (buddy_mobs.ts header)"
+  },
+  "mob:buddy_forgemaw": {
+   "adoption": "NOT_APPLICABLE",
+   "owner_selection": "NOT_AN_ENEMY: a buddy follower, spawned non-hostile (buddy_mobs.ts header)"
+  },
+  "mob:buddy_horse": {
+   "adoption": "NOT_APPLICABLE",
+   "owner_selection": "NOT_AN_ENEMY: a buddy follower, spawned non-hostile (buddy_mobs.ts header)"
+  },
+  "mob:buddy_sprites": {
+   "adoption": "NOT_APPLICABLE",
+   "owner_selection": "NOT_AN_ENEMY: a buddy follower, spawned non-hostile (buddy_mobs.ts header)"
+  },
+  "mob:candlewright_acolyte": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:canopy_weaver": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:cantor_ilvane": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:captain_verlan": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:castaway_navigator": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:choir_thrall": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:choirmother_selthe": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:cinder_elemental": {
+   "adoption": "EXCLUDED",
+   "owner_selection": "EXCLUDED: Scorching Wastes, a custom-map desert (owner decision 2026-11-17)"
+  },
+  "mob:cinder_wisp": {
+   "adoption": "EXCLUDED",
+   "owner_selection": "EXCLUDED: Scorching Wastes, a custom-map desert (owner decision 2026-11-17)"
+  },
+  "mob:cindraleth_maw_matriarch": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:corrupted_priest_malric": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:corrupted_sporeling": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:crypt_bone_brute": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:crypt_bone_minion": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:crypt_bone_pile": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:crypt_carrion_crow": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:crypt_chapel_gargoyle": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:crypt_crow_caller": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:crypt_gravecaller_adept": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:crypt_gravecaller_necromancer": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:crypt_knellwyrm": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:crypt_ossuary_cutthroat": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:crypt_ossuary_drake": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:crypt_ossuary_warrior": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:crypt_remembrance_candle": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:crypt_shambler": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:deacon_varric": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:deacon_voss": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:deathstalker_voss": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:deepfen_murloc": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:deepfen_spearjaw": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:deeprock_kobold": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:derelict_mech": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:downs_bandit": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:dragonkin_broodguard": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:dragonkin_egg": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:dragonkin_whelp": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:drakemaw_broodlord": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:drowned_cantor": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:drowned_dead": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:drowned_deckhand": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:drowned_pilgrim": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:drowned_sergeant": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:drowned_templeguard": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:drowned_thrall": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:drowned_votary": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:drowned_warlord": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:drowned_watchman": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:drowsy_croaker": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:dune_troll": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:duneblade_marauder": {
+   "adoption": "EXCLUDED",
+   "owner_selection": "EXCLUDED: Scorching Wastes, a custom-map desert (owner decision 2026-11-17)"
+  },
+  "mob:duskmane_prowler": {
+   "adoption": "EXCLUDED",
+   "owner_selection": "EXCLUDED: Scorching Wastes, a custom-map desert (owner decision 2026-11-17)"
+  },
+  "mob:duskwisp": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:eastbrook_freight_caravan": {
+   "adoption": "NOT_APPLICABLE",
+   "owner_selection": "NOT_AN_ENEMY: a world-quest escort caravan (objective type 'escort' in world_quests.ts)"
+  },
+  "mob:edda_reedhand": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:ember_of_korzul": {
+   "adoption": "EXCLUDED",
+   "owner_selection": "EXCLUDED: Scorching Wastes, a custom-map desert (owner decision 2026-11-17)"
+  },
+  "mob:emberkin": {
+   "adoption": "NOT_APPLICABLE",
+   "owner_selection": "NOT_AN_ENEMY: a player pet or summon (created at its owner's level)"
+  },
+  "mob:emberveil_pyromancer": {
+   "adoption": "EXCLUDED",
+   "owner_selection": "EXCLUDED: Scorching Wastes, a custom-map desert (owner decision 2026-11-17)"
+  },
+  "mob:emberveil_zealot": {
+   "adoption": "EXCLUDED",
+   "owner_selection": "EXCLUDED: Scorching Wastes, a custom-map desert (owner decision 2026-11-17)"
+  },
+  "mob:emberwing_drake": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:fallen_captain_aldren": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:fanglord_jaguar": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:fen_sprite": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:fen_troll": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:fenbridge_infiltrator": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:fisher_bram": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:fogbound_arbalest": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:forest_wolf": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:friendly_player_dummy": {
+   "adoption": "NOT_APPLICABLE",
+   "owner_selection": "NOT_AN_ENEMY: a practice target (source flag dummy)"
+  },
+  "mob:frostmane_yeti": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:frostveil_supply_caravan": {
+   "adoption": "NOT_APPLICABLE",
+   "owner_selection": "NOT_AN_ENEMY: a world-quest escort caravan (objective type 'escort' in world_quests.ts)"
+  },
+  "mob:gale_wisp": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:gaol_turnkey": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:gaoler_ossick": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:gilded_stag": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:glacier_splinter": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:glasscarab": {
+   "adoption": "EXCLUDED",
+   "owner_selection": "EXCLUDED: Scorching Wastes, a custom-map desert (owner decision 2026-11-17)"
+  },
+  "mob:gleamstag": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:glimmermere_wader": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:glimmerscale_lurker": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:glimmerwisp": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:gloam_fox": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:gloam_strider": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:gloomshade": {
+   "adoption": "NOT_APPLICABLE",
+   "owner_selection": "NOT_AN_ENEMY: a player pet or summon (created at its owner's level)"
+  },
+  "mob:gorrak": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:gourdlight_crow": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Gourdlight Eve seasonal event content; adopted with the event system"
+  },
+  "mob:gourdlight_strawling": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Gourdlight Eve seasonal event content; adopted with the event system"
+  },
+  "mob:gourdlight_swelling_gourd": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Gourdlight Eve seasonal event content; adopted with the event system"
+  },
+  "mob:gourdlight_thatchgrin": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Gourdlight Eve seasonal event content; adopted with the event system"
+  },
+  "mob:grand_necromancer_velkhar": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:grave_silt_bulwark": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:gravecaller_cultist": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:gravecaller_mender": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:gravecaller_summoner": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:gravedigger_mosley": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:graveguard": {
+   "adoption": "NOT_APPLICABLE",
+   "owner_selection": "NOT_AN_ENEMY: a player pet or summon (created at its owner's level)"
+  },
+  "mob:gravenbark_shambler": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:great_saurian": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:grix_the_tunnelking": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:grubjaw": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:harvest_sprite": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:healing_dummy_caster": {
+   "adoption": "NOT_APPLICABLE",
+   "owner_selection": "NOT_AN_ENEMY: a practice target (source flag dummy)"
+  },
+  "mob:healing_dummy_ranger": {
+   "adoption": "NOT_APPLICABLE",
+   "owner_selection": "NOT_AN_ENEMY: a practice target (source flag dummy)"
+  },
+  "mob:healing_dummy_scout": {
+   "adoption": "NOT_APPLICABLE",
+   "owner_selection": "NOT_AN_ENEMY: a practice target (source flag dummy)"
+  },
+  "mob:healing_dummy_soldier": {
+   "adoption": "NOT_APPLICABLE",
+   "owner_selection": "NOT_AN_ENEMY: a practice target (source flag dummy)"
+  },
+  "mob:healing_dummy_tank": {
+   "adoption": "NOT_APPLICABLE",
+   "owner_selection": "NOT_AN_ENEMY: a practice target (source flag dummy)"
+  },
+  "mob:hedge_gnome": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:hedge_knight": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:heroic_boss_dummy": {
+   "adoption": "NOT_APPLICABLE",
+   "owner_selection": "NOT_AN_ENEMY: a practice target (source flag dummy)"
+  },
+  "mob:hoard_abyssal_tentacle": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:hoard_bat_swarmling": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:hoard_bloat_cap": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:hoard_boss_bat": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:hoard_boss_mimic": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:hoard_boss_mole": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:hoard_boss_mushroom": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:hoard_bound_pulsar": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:hoard_brood_cocoon": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:hoard_brood_egg": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:hoard_brood_hatchling": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:hoard_coinsack_scurrier": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:hoard_healing_tide_totem": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:hoard_silk_cocoon": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:hoard_sporeling": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:hollow_acolyte": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:hollow_chorister": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:hollow_gravedigger": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:howdah_hexcaller": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:hub_healing_dummy": {
+   "adoption": "NOT_APPLICABLE",
+   "owner_selection": "NOT_AN_ENEMY: a practice target (source flag dummy)"
+  },
+  "mob:hub_training_dummy": {
+   "adoption": "NOT_APPLICABLE",
+   "owner_selection": "NOT_AN_ENEMY: a practice target (source flag dummy)"
+  },
+  "mob:ice_wisp": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:ice_wraith": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:idol_guardian": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:ignivar_cinder_artificer": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:ignivar_crucible_warden": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:ignivar_ember_sentinel": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:ignivar_heart_of_the_end": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:ignivar_herald_of_the_last_flame": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:ironvein_foreman": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:ironvein_sapper": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:karesh_the_parched": {
+   "adoption": "EXCLUDED",
+   "owner_selection": "EXCLUDED: Scorching Wastes, a custom-map desert (owner decision 2026-11-17)"
+  },
+  "mob:knight_commander_olen": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:korgath_the_bound": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:korzul_the_gravewyrm": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:lagoon_snapper": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:lily_wisp": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:marrow_restless_bones": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:marrowlord_varkas": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:mere_hydra_head_center": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:mere_hydra_head_left": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:mere_hydra_head_right": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:mere_lurker": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:mire_prowler": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:mire_widow": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:mirefen_broodmother": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:mirefen_widowling": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:mirejaw_frenzy": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:mirejaw_the_ravenous": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:mister_crabs": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:mistweaver": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:mogger": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:mogger_lackey": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:moltenheart_colossus": {
+   "adoption": "EXCLUDED",
+   "owner_selection": "EXCLUDED: Scorching Wastes, a custom-map desert (owner decision 2026-11-17)"
+  },
+  "mob:moonfleece_grazer": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:moonlit_siren": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:moonspawn": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:moor_ram": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:morthen": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:mudfin_murloc": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:mushroom_pixie": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:muster_chaplain": {
+   "adoption": "NOT_APPLICABLE",
+   "owner_selection": "NOT_AN_ENEMY: a muster soldier, never hostile (source flag musterSoldier)"
+  },
+  "mob:muster_drillmaster": {
+   "adoption": "NOT_APPLICABLE",
+   "owner_selection": "NOT_AN_ENEMY: a muster soldier, never hostile (source flag musterSoldier)"
+  },
+  "mob:muster_effigy": {
+   "adoption": "NOT_APPLICABLE",
+   "owner_selection": "NOT_AN_ENEMY: a practice target (source flag dummy)"
+  },
+  "mob:muster_footman": {
+   "adoption": "NOT_APPLICABLE",
+   "owner_selection": "NOT_AN_ENEMY: a muster soldier, never hostile (source flag musterSoldier)"
+  },
+  "mob:muster_sergeant": {
+   "adoption": "NOT_APPLICABLE",
+   "owner_selection": "NOT_AN_ENEMY: a muster soldier, never hostile (source flag musterSoldier)"
+  },
+  "mob:necromancy_bone_mage": {
+   "adoption": "NOT_APPLICABLE",
+   "owner_selection": "NOT_AN_ENEMY: a player pet or summon (created at its owner's level)"
+  },
+  "mob:necromancy_gravewing": {
+   "adoption": "NOT_APPLICABLE",
+   "owner_selection": "NOT_AN_ENEMY: a player pet or summon (created at its owner's level)"
+  },
+  "mob:necromancy_skeletal_warrior": {
+   "adoption": "NOT_APPLICABLE",
+   "owner_selection": "NOT_AN_ENEMY: a player pet or summon (created at its owner's level)"
+  },
+  "mob:nhalia_mourner": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:nightkin_stargazer": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:normal_boss_dummy": {
+   "adoption": "NOT_APPLICABLE",
+   "owner_selection": "NOT_AN_ENEMY: a practice target (source flag dummy)"
+  },
+  "mob:nythraxis_bone_spike": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:nythraxis_heroic_priest_add": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:nythraxis_heroic_rogue_add": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:nythraxis_heroic_warrior_add": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:nythraxis_scourge_of_thornpeak": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:nythraxis_skeleton_warrior": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:objective_practice_champion": {
+   "adoption": "NOT_APPLICABLE",
+   "owner_selection": "NOT_AN_ENEMY: an authored-map (Studio) record outside the base world"
+  },
+  "mob:ogre_crusher": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:ogre_sledge_hauler": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:old_cragmaw": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:old_greyjaw": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:old_marrowshell": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:orchard_treant": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:ossuary_sentinel": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:pale_choir_acolyte": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:pale_huntsman": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:pearlguard_sentinel": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:pyre_colossus": {
+   "adoption": "NOT_APPLICABLE",
+   "owner_selection": "NOT_AN_ENEMY: a player pet or summon (created at its owner's level)"
+  },
+  "mob:raised_bonewalker": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:reedbound_acolyte": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:reliquary_bonewalker": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:reliquary_funeral_ringer": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:reliquary_gravecall_acolyte": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:reliquary_ledger_wraith": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:reliquary_saintless_effigy": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:restless_bones": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:ridge_stalker": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:rift_boneclad": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:rift_bonewalker": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:rift_boss_arcane": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:rift_boss_brute": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:rift_boss_ember": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:rift_boss_frost": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:rift_boss_necro": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:rift_boss_pitlord": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:rift_boss_ritualist": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:rift_boss_storm": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:rift_boss_tide": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:rift_boss_venom": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:rift_deep_lurker": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:rift_dread_stalker": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:rift_ember_fiend": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:rift_frost_revenant": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:rift_hellguard": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:rift_magma_brute": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:rift_marrow_golem": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:rift_marrow_troll": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:rift_pact_acolyte": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:rift_rime_elemental": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:rift_spawnling": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:rift_stone_ogre": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:rift_storm_caller": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:rift_stormscale": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:rift_thornback": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:rift_tide_thrall": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:rift_venom_weaver": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:rift_void_acolyte": {
+   "adoption": "DEFERRED",
+   "owner_selection": "DEFERRED: Rift enemy; level 23 (S rank) only once the Rift is implemented and validated"
+  },
+  "mob:riftspawn": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:rime_egg_sac": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:rime_elemental": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:rime_whelp": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:rimeweb": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:rimeweb_hatchling": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:rimeweb_spinner": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:sanctum_boneguard": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:sanctum_drakonid": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:sanctum_shackle_anvil": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:sanctum_shackle_bellows": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:sanctum_shackle_hammer": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:sanctum_shackle_tongs": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:sethrael_palecoil": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:sexton_marrow": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:shackled_prisoner": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:shardlord_kazzix": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:shoal_scuttler": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:shore_scuttler": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:sister_nhalia": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:sister_nhalia_drowned_canticle": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:sledge_tusker": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:sloomtooth_the_drowned": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:snowdrift_wolf": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:soul_brazier": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:spider_egg": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:spider_egg_sac": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:spore_toad": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:sporeling_gatherer": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:stable_horse": {
+   "adoption": "NOT_APPLICABLE",
+   "owner_selection": "NOT_AN_ENEMY: ambient decoration, never hostile and un-attackable (source flag ambient)"
+  },
+  "mob:stormcrag_elemental": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:sump_troll_devourer": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:sunbaked_revenant": {
+   "adoption": "EXCLUDED",
+   "owner_selection": "EXCLUDED: Scorching Wastes, a custom-map desert (owner decision 2026-11-17)"
+  },
+  "mob:sunbone_dread_totem": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:sunbone_totem": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:sunbone_totem_binder": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:sundered_horror": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:sunspeaker_atharis": {
+   "adoption": "EXCLUDED",
+   "owner_selection": "EXCLUDED: Scorching Wastes, a custom-map desert (owner decision 2026-11-17)"
+  },
+  "mob:terrace_howler": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:the_gorgebloom": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:the_meredark": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:the_topiary_bull": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:the_wreck_warden": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:thicket_boar": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:thorn_sprout": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:thornpeak_ogre": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:threnos_first_voice": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:thunzharr_stormling": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:thunzharr_waking_peak": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:tide_scuttler": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:tidebound_acolyte": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:tideglass_colossus": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:tideglass_reflection": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:tideglass_reflection_druid": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:tideglass_reflection_hunter": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:tideglass_reflection_mage": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:tideglass_reflection_paladin": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:tideglass_reflection_priest": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:tideglass_reflection_rogue": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:tideglass_reflection_shaman": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:tideglass_reflection_warlock": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:tideglass_reflection_warrior": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:tidewisp": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:tolling_bell": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:topiary_stag": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:topiary_wolf": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:training_dummy": {
+   "adoption": "NOT_APPLICABLE",
+   "owner_selection": "NOT_AN_ENEMY: a practice target (source flag dummy)"
+  },
+  "mob:training_effigy": {
+   "adoption": "NOT_APPLICABLE",
+   "owner_selection": "NOT_AN_ENEMY: a practice target (source flag dummy)"
+  },
+  "mob:treant_elder": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:tunnel_rat": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:turretback_hermit": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:vael_fog_shade": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:vael_the_mistcaller": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:vale_bandit": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:varkas_boneguard": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:varkhul_forgefather_of_the_last_flame": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:veiled_doe": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:veiled_stag": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:vigil_sentinel": {
+   "adoption": "EXCLUDED",
+   "owner_selection": "EXCLUDED: Scorching Wastes, a custom-map desert (owner decision 2026-11-17)"
+  },
+  "mob:vine_lasher": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:vision_aldren_warrior": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:vision_deathstalker_voss": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:vision_malric_mage": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:void_stalker": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:voskar_emberwing": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:waking_warden": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:warlock_imp": {
+   "adoption": "NOT_APPLICABLE",
+   "owner_selection": "NOT_AN_ENEMY: a player pet or summon (created at its owner's level)"
+  },
+  "mob:warlock_voidwalker": {
+   "adoption": "NOT_APPLICABLE",
+   "owner_selection": "NOT_AN_ENEMY: a player pet or summon (created at its owner's level)"
+  },
+  "mob:warlord_drogmar": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:water_elemental": {
+   "adoption": "NOT_APPLICABLE",
+   "owner_selection": "NOT_AN_ENEMY: a player pet or summon (created at its owner's level)"
+  },
+  "mob:webwood_spider": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:widow_hatchling": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:widowsilk_spinner": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:wild_boar": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:wildheart_beastmaster": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:wildheart_hexcaller": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:wildheart_high_priest": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:wildheart_hunting_spear": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:wildheart_ravager": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:wildheart_stalker": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:willow_sprite": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:willowfen_remedy_caravan": {
+   "adoption": "NOT_APPLICABLE",
+   "owner_selection": "NOT_AN_ENEMY: a world-quest escort caravan (objective type 'escort' in world_quests.ts)"
+  },
+  "mob:wood_wraith": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:wraithbinder_maldrec": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:wreck_thief": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:wyrmcult_necromancer": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:wyrmcult_zealot": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:ysolei": {
+   "adoption": "PENDING_REVIEW",
+   "owner_selection": "PENDING_REVIEW"
+  },
+  "mob:yumi_cat": {
+   "adoption": "NOT_APPLICABLE",
+   "owner_selection": "NOT_AN_ENEMY: the Protect Yumi! team objective (yumi.ts header)"
+  }
+ }
+}

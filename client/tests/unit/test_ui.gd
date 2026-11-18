@@ -76,15 +76,17 @@ func test_title_menu_without_a_save() -> void:
 
 func test_title_menu_offers_continue_first_with_a_save() -> void:
 	SaveStore.root = TEST_SAVE
-	var saved := PlayerProfile.new_game(GameSession.content)
-	saved.id = SaveStore.new_id()
-	SaveStore.save(saved)
+	var state := RpgCharacter.create(GameSession.content, RpgPack.of(GameSession.content), "mage")
+	state["id"] = SaveStore.new_id()
+	state["name"] = "Saved"
+	assert_true(SaveStore.save_player(state), "saved")
 	var title: Node = load(TITLE_SCENE).instantiate()
 	tree.root.add_child(title)
 	await _settle()
 	var buttons := title.find_children("*", "Button", true, false)
 	assert_eq((buttons[0] as Button).text, "Continue", "Continue first")
-	assert_eq((buttons[1] as Button).text, "Characters", "then the account's characters")
+	assert_eq((buttons[1] as Button).text, "New character", "then a new character")
+	SaveStore.delete_player(str(state["id"]))
 	_done(title)
 
 
@@ -99,7 +101,9 @@ func test_every_screen_has_its_own_window_and_fits() -> void:
 		assert_eq(game.menu_name, name, "%s reported" % name)
 		_check_layout(game.menu, name + " screen")
 		assert_true(
-			game.menu.find_child("Tabs", true, false) == null or name == "settings", "one job"
+			# Settings, and the Guide's four sections of one farming guide.
+			game.menu.find_child("Tabs", true, false) == null or name in ["settings", "guide"],
+			"one job"
 		)
 		assert_true(_texts(game.menu).contains(GameMenus.SCREENS[name][0]), "%s is titled" % name)
 		var close := game.menu.find_child("Close", true, false) as Button

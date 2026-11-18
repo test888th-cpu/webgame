@@ -1,0 +1,2222 @@
+{
+ "_comment": "The game's own items (client/data/items.json, item_catalog.json), all LEGACY. Godforged maps to legendary as an ADAPTED compatibility rule and charms keep the interim Charm slot (owner decisions 4 and 5). Their stats are kept as they are: no conversion to reference stats. Data only; the live files are unchanged.",
+ "count": 305,
+ "items": {
+  "adrenal_shot": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "rare",
+   "slot": null,
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "alloy_knuckles": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "altered_manifest": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": null,
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "arcane_wizard_hat": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "rare",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "arthit_baton": {
+   "file": "client/data/items.json",
+   "rarity": "legendary",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "azure_steel_knuckles": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "rare",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "baron_furnace_core": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "epic",
+   "slot": null,
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "baron_knuckledusters": {
+   "file": "client/data/items.json",
+   "rarity": "legendary",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "baron_ledger": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": null,
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "brass_knuckles": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "brass_whistle": {
+   "file": "client/data/items.json",
+   "rarity": "rare",
+   "slot": "charm",
+   "slot_note": "interim legacy Charm slot (owner decision 5); a per-charm mapping proposal comes later",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "canvas_sneakers": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "feet",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "canvas_work_shirt": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "common",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "cargo_gloves": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "hands",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "chais_deck_shoes": {
+   "file": "client/data/items.json",
+   "rarity": "rare",
+   "slot": "feet",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "champion_headband": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "champion_wraps": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "hands",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "chen_anchor_link": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "rare",
+   "slot": null,
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "chiefs_baton": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "chiefs_gloves": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "hands",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "colossus_core": {
+   "adaptation": "ADAPTED: Godforged is not a reference tier; mapped to legendary as legacy compatibility (owner decision 4). Applies when items move to the new rules; the live data keeps 'godforged' until then.",
+   "adapted_rarity": "legendary",
+   "file": "client/data/items.json",
+   "rarity": "godforged",
+   "slot": "charm",
+   "slot_note": "interim legacy Charm slot (owner decision 5); a per-charm mapping proposal comes later",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "commander_greaves": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "feet",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "coolant_epic_body": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "coolant_epic_charm": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "charm",
+   "slot_note": "interim legacy Charm slot (owner decision 5); a per-charm mapping proposal comes later",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "coolant_epic_feet": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "feet",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "coolant_epic_hands": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "hands",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "coolant_epic_head": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "coolant_epic_weapon": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "coolant_rare_body": {
+   "file": "client/data/items.json",
+   "rarity": "rare",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "coolant_rare_charm": {
+   "file": "client/data/items.json",
+   "rarity": "rare",
+   "slot": "charm",
+   "slot_note": "interim legacy Charm slot (owner decision 5); a per-charm mapping proposal comes later",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "coolant_rare_feet": {
+   "file": "client/data/items.json",
+   "rarity": "rare",
+   "slot": "feet",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "coolant_rare_hands": {
+   "file": "client/data/items.json",
+   "rarity": "rare",
+   "slot": "hands",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "coolant_rare_head": {
+   "file": "client/data/items.json",
+   "rarity": "rare",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "coolant_rare_weapon": {
+   "file": "client/data/items.json",
+   "rarity": "rare",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "coolant_uncommon_body": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "coolant_uncommon_charm": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "charm",
+   "slot_note": "interim legacy Charm slot (owner decision 5); a per-charm mapping proposal comes later",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "coolant_uncommon_feet": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "feet",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "coolant_uncommon_hands": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "hands",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "coolant_uncommon_head": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "coolant_uncommon_weapon": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "copper_plated_knuckles": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "uncommon",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "core_guard_helm": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "core_source_data": {
+   "file": "client/data/items.json",
+   "rarity": "legendary",
+   "slot": null,
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "crimson_warlord_fists": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "legendary",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "crimson_warlord_helm": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "legendary",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "crimson_warlord_mantle": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "legendary",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "crucible_gauntlets": {
+   "adaptation": "ADAPTED: Godforged is not a reference tier; mapped to legendary as legacy compatibility (owner decision 4). Applies when items move to the new rules; the live data keeps 'godforged' until then.",
+   "adapted_rarity": "legendary",
+   "file": "client/data/items.json",
+   "rarity": "godforged",
+   "slot": "hands",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "crucible_heart": {
+   "adaptation": "ADAPTED: Godforged is not a reference tier; mapped to legendary as legacy compatibility (owner decision 4). Applies when items move to the new rules; the live data keeps 'godforged' until then.",
+   "adapted_rarity": "legendary",
+   "file": "client/data/items.json",
+   "rarity": "godforged",
+   "slot": "charm",
+   "slot_note": "interim legacy Charm slot (owner decision 5); a per-charm mapping proposal comes later",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "crucible_maul": {
+   "adaptation": "ADAPTED: Godforged is not a reference tier; mapped to legendary as legacy compatibility (owner decision 4). Applies when items move to the new rules; the live data keeps 'godforged' until then.",
+   "adapted_rarity": "legendary",
+   "file": "client/data/items.json",
+   "rarity": "godforged",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "crystal_tiara": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "rare",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "cyber_visor": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "rare",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "deck_boots": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "feet",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "director_coat": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "director_crown": {
+   "file": "client/data/items.json",
+   "rarity": "legendary",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "director_signet": {
+   "file": "client/data/items.json",
+   "rarity": "legendary",
+   "slot": "charm",
+   "slot_note": "interim legacy Charm slot (owner decision 5); a per-charm mapping proposal comes later",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "dock_beanie": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "dock_hook": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "dockers_cap": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "dockmaster_boots": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "feet",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "dragonscale_hood": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "epic",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "emerald_feather_hat": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "uncommon",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "energy_drink_ironworks": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "uncommon",
+   "slot": null,
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "enhance_catalyst_rare": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "epic",
+   "slot": null,
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "enhance_catalyst_special": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "legendary",
+   "slot": null,
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "enhance_stone_advanced": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "rare",
+   "slot": null,
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "enhance_stone_basic": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "common",
+   "slot": null,
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "enhance_stone_refined": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "uncommon",
+   "slot": null,
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "experiment_log": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": null,
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "exposure_report": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": null,
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "facility_boots": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "feet",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "facility_helmet": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "facility_pass": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": null,
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "fight_gloves": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "hands",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "fingerless_gloves": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "hands",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "focus_gum": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "common",
+   "slot": null,
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "foreman_boots": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "feet",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "foreman_wrench": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "forged_note": {
+   "file": "client/data/items.json",
+   "rarity": "rare",
+   "slot": null,
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "founders_crimson_sigil": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "legendary",
+   "slot": null,
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "founders_edge": {
+   "adaptation": "ADAPTED: Godforged is not a reference tier; mapped to legendary as legacy compatibility (owner decision 4). Applies when items move to the new rules; the live data keeps 'godforged' until then.",
+   "adapted_rarity": "legendary",
+   "file": "client/data/items.json",
+   "rarity": "godforged",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "founders_engine_core": {
+   "adaptation": "ADAPTED: Godforged is not a reference tier; mapped to legendary as legacy compatibility (owner decision 4). Applies when items move to the new rules; the live data keeps 'godforged' until then.",
+   "adapted_rarity": "legendary",
+   "file": "client/data/items.json",
+   "rarity": "godforged",
+   "slot": "charm",
+   "slot_note": "interim legacy Charm slot (owner decision 5); a per-charm mapping proposal comes later",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "founders_halo": {
+   "adaptation": "ADAPTED: Godforged is not a reference tier; mapped to legendary as legacy compatibility (owner decision 4). Applies when items move to the new rules; the live data keeps 'godforged' until then.",
+   "adapted_rarity": "legendary",
+   "file": "client/data/items.json",
+   "rarity": "godforged",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "founders_plate": {
+   "adaptation": "ADAPTED: Godforged is not a reference tier; mapped to legendary as legacy compatibility (owner decision 4). Applies when items move to the new rules; the live data keeps 'godforged' until then.",
+   "adapted_rarity": "legendary",
+   "file": "client/data/items.json",
+   "rarity": "godforged",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "foundry_epic_body": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "foundry_epic_charm": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "charm",
+   "slot_note": "interim legacy Charm slot (owner decision 5); a per-charm mapping proposal comes later",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "foundry_epic_feet": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "feet",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "foundry_epic_hands": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "hands",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "foundry_epic_head": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "foundry_epic_weapon": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "foundry_rare_body": {
+   "file": "client/data/items.json",
+   "rarity": "rare",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "foundry_rare_charm": {
+   "file": "client/data/items.json",
+   "rarity": "rare",
+   "slot": "charm",
+   "slot_note": "interim legacy Charm slot (owner decision 5); a per-charm mapping proposal comes later",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "foundry_rare_feet": {
+   "file": "client/data/items.json",
+   "rarity": "rare",
+   "slot": "feet",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "foundry_rare_hands": {
+   "file": "client/data/items.json",
+   "rarity": "rare",
+   "slot": "hands",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "foundry_rare_head": {
+   "file": "client/data/items.json",
+   "rarity": "rare",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "foundry_rare_weapon": {
+   "file": "client/data/items.json",
+   "rarity": "rare",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "foundry_uncommon_body": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "foundry_uncommon_charm": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "charm",
+   "slot_note": "interim legacy Charm slot (owner decision 5); a per-charm mapping proposal comes later",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "foundry_uncommon_feet": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "feet",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "foundry_uncommon_hands": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "hands",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "foundry_uncommon_head": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "foundry_uncommon_weapon": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "frost_fur_hood": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "uncommon",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "gilded_brawler_helm": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "epic",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "gilded_crusher_gauntlets": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "epic",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "gilded_fight_robe": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "epic",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "ginger_tea": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": null,
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "glacier_crown": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "epic",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "grip_gloves": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "hands",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "harbour_hook": {
+   "file": "client/data/items.json",
+   "rarity": "legendary",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "harbourmaster_cap": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "hard_hat": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "hazmat_hood": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "heart_epic_body": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "heart_epic_charm": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "charm",
+   "slot_note": "interim legacy Charm slot (owner decision 5); a per-charm mapping proposal comes later",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "heart_epic_feet": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "feet",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "heart_epic_hands": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "hands",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "heart_epic_head": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "heart_epic_weapon": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "heart_of_iron_city": {
+   "file": "client/data/items.json",
+   "rarity": "legendary",
+   "slot": "charm",
+   "slot_note": "interim legacy Charm slot (owner decision 5); a per-charm mapping proposal comes later",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "heart_rare_body": {
+   "file": "client/data/items.json",
+   "rarity": "rare",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "heart_rare_charm": {
+   "file": "client/data/items.json",
+   "rarity": "rare",
+   "slot": "charm",
+   "slot_note": "interim legacy Charm slot (owner decision 5); a per-charm mapping proposal comes later",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "heart_rare_feet": {
+   "file": "client/data/items.json",
+   "rarity": "rare",
+   "slot": "feet",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "heart_rare_hands": {
+   "file": "client/data/items.json",
+   "rarity": "rare",
+   "slot": "hands",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "heart_rare_head": {
+   "file": "client/data/items.json",
+   "rarity": "rare",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "heart_rare_weapon": {
+   "file": "client/data/items.json",
+   "rarity": "rare",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "heart_uncommon_body": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "heart_uncommon_charm": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "charm",
+   "slot_note": "interim legacy Charm slot (owner decision 5); a per-charm mapping proposal comes later",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "heart_uncommon_feet": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "feet",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "heart_uncommon_hands": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "hands",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "heart_uncommon_head": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "heart_uncommon_weapon": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "herbal_tonic": {
+   "file": "client/data/items.json",
+   "rarity": "rare",
+   "slot": null,
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "ice_crown": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "rare",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "inspectors_gloves": {
+   "file": "client/data/items.json",
+   "rarity": "rare",
+   "slot": "hands",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "insulated_gauntlets": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "hands",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "insulated_gloves": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "hands",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "iron_helm": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "iron_legacy": {
+   "adaptation": "ADAPTED: Godforged is not a reference tier; mapped to legendary as legacy compatibility (owner decision 4). Applies when items move to the new rules; the live data keeps 'godforged' until then.",
+   "adapted_rarity": "legendary",
+   "file": "client/data/items.json",
+   "rarity": "godforged",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "iron_legacy_relic": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "epic",
+   "slot": null,
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "iron_wraps": {
+   "file": "client/data/items.json",
+   "rarity": "rare",
+   "slot": "hands",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "jade_charm": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "charm",
+   "slot_note": "interim legacy Charm slot (owner decision 5); a per-charm mapping proposal comes later",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "jewelled_crown": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "epic",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "k7_core_plate": {
+   "file": "client/data/items.json",
+   "rarity": "legendary",
+   "slot": "charm",
+   "slot_note": "interim legacy Charm slot (owner decision 5); a per-charm mapping proposal comes later",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "k7_plating": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "k7_reactor_cell": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "epic",
+   "slot": null,
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "kenjis_lucky_charm": {
+   "file": "client/data/items.json",
+   "rarity": "rare",
+   "slot": "charm",
+   "slot_note": "interim legacy Charm slot (owner decision 5); a per-charm mapping proposal comes later",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "kevlar_jacket": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "lab_boots": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "feet",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "leks_lab_boots": {
+   "file": "client/data/items.json",
+   "rarity": "rare",
+   "slot": "feet",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "lion_king_crown": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "legendary",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "lucky_coin": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "charm",
+   "slot_note": "interim legacy Charm slot (owner decision 5); a per-charm mapping proposal comes later",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "marshal_greatcoat": {
+   "adaptation": "ADAPTED: Godforged is not a reference tier; mapped to legendary as legacy compatibility (owner decision 4). Applies when items move to the new rules; the live data keeps 'godforged' until then.",
+   "adapted_rarity": "legendary",
+   "file": "client/data/items.json",
+   "rarity": "godforged",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "marshal_sabatons": {
+   "adaptation": "ADAPTED: Godforged is not a reference tier; mapped to legendary as legacy compatibility (owner decision 4). Applies when items move to the new rules; the live data keeps 'godforged' until then.",
+   "adapted_rarity": "legendary",
+   "file": "client/data/items.json",
+   "rarity": "godforged",
+   "slot": "feet",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "marshal_visor": {
+   "adaptation": "ADAPTED: Godforged is not a reference tier; mapped to legendary as legacy compatibility (owner decision 4). Applies when items move to the new rules; the live data keeps 'godforged' until then.",
+   "adapted_rarity": "legendary",
+   "file": "client/data/items.json",
+   "rarity": "godforged",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "midnight_wizard_hat": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "uncommon",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "mineral_azure": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "rare",
+   "slot": null,
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "mineral_crimson": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "legendary",
+   "slot": null,
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "mineral_gilded": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "epic",
+   "slot": null,
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "mineral_rare": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "uncommon",
+   "slot": null,
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "money_trail": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": null,
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "mothers_fang": {
+   "adaptation": "ADAPTED: Godforged is not a reference tier; mapped to legendary as legacy compatibility (owner decision 4). Applies when items move to the new rules; the live data keeps 'godforged' until then.",
+   "adapted_rarity": "legendary",
+   "file": "client/data/items.json",
+   "rarity": "godforged",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "mothers_heart": {
+   "adaptation": "ADAPTED: Godforged is not a reference tier; mapped to legendary as legacy compatibility (owner decision 4). Applies when items move to the new rules; the live data keeps 'godforged' until then.",
+   "adapted_rarity": "legendary",
+   "file": "client/data/items.json",
+   "rarity": "godforged",
+   "slot": "charm",
+   "slot_note": "interim legacy Charm slot (owner decision 5); a per-charm mapping proposal comes later",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "night_market_jacket": {
+   "file": "client/data/items.json",
+   "rarity": "rare",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "night_shift_crowbar": {
+   "file": "client/data/items.json",
+   "rarity": "rare",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "obsidian_crown": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "epic",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "odos_old_gloves": {
+   "file": "client/data/items.json",
+   "rarity": "rare",
+   "slot": "hands",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "ore_copper": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "common",
+   "slot": null,
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "ore_iron": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "common",
+   "slot": null,
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "ore_refined": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "uncommon",
+   "slot": null,
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "padded_street_jacket": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "uncommon",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "padded_vest": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "patched_street_cap": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "common",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "phoenix_feather_hat": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "epic",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "phoenix_tiara": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "epic",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "pims_field_vest": {
+   "file": "client/data/items.json",
+   "rarity": "rare",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "piston_gauntlets": {
+   "adaptation": "ADAPTED: Godforged is not a reference tier; mapped to legendary as legacy compatibility (owner decision 4). Applies when items move to the new rules; the live data keeps 'godforged' until then.",
+   "adapted_rarity": "legendary",
+   "file": "client/data/items.json",
+   "rarity": "godforged",
+   "slot": "hands",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "plant_vest": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "port_jacket": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "reactor_plate": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "rebar_pipe": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "refined_alloy": {
+   "file": "client/data/items.json",
+   "rarity": "rare",
+   "slot": null,
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "reinforced_bandana": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "uncommon",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "rice_box": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": null,
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "ringmaster_topper": {
+   "file": "client/data/items.json",
+   "rarity": "legendary",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "ringmaster_wraps": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "riot_baton": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "rising_sun_headband": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "common",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "riveted_dock_coat": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "rare",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "riveted_jacket": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "riveted_work_helmet": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "rare",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "runner_sneakers": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "feet",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "runners_cap": {
+   "file": "client/data/items.json",
+   "rarity": "rare",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "sak_loafers": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "feet",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "sak_signet": {
+   "file": "client/data/items.json",
+   "rarity": "legendary",
+   "slot": "charm",
+   "slot_note": "interim legacy Charm slot (owner decision 5); a per-charm mapping proposal comes later",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "sakura_straw_hat": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "common",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "sakura_wizard_hat": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "rare",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "scrap_metal": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": null,
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "second_wind_tonic": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "epic",
+   "slot": null,
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "sentinel_gauntlets": {
+   "file": "client/data/items.json",
+   "rarity": "rare",
+   "slot": "hands",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "shock_baton": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "smelter_apron": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "sovereign_crown": {
+   "adaptation": "ADAPTED: Godforged is not a reference tier; mapped to legendary as legacy compatibility (owner decision 4). Applies when items move to the new rules; the live data keeps 'godforged' until then.",
+   "adapted_rarity": "legendary",
+   "file": "client/data/items.json",
+   "rarity": "godforged",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "sovereign_fists": {
+   "adaptation": "ADAPTED: Godforged is not a reference tier; mapped to legendary as legacy compatibility (owner decision 4). Applies when items move to the new rules; the live data keeps 'godforged' until then.",
+   "adapted_rarity": "legendary",
+   "file": "client/data/items.json",
+   "rarity": "godforged",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "sovereign_grips": {
+   "adaptation": "ADAPTED: Godforged is not a reference tier; mapped to legendary as legacy compatibility (owner decision 4). Applies when items move to the new rules; the live data keeps 'godforged' until then.",
+   "adapted_rarity": "legendary",
+   "file": "client/data/items.json",
+   "rarity": "godforged",
+   "slot": "hands",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "sovereign_mantle": {
+   "adaptation": "ADAPTED: Godforged is not a reference tier; mapped to legendary as legacy compatibility (owner decision 4). Applies when items move to the new rules; the live data keeps 'godforged' until then.",
+   "adapted_rarity": "legendary",
+   "file": "client/data/items.json",
+   "rarity": "godforged",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "sovereign_seal": {
+   "adaptation": "ADAPTED: Godforged is not a reference tier; mapped to legendary as legacy compatibility (owner decision 4). Applies when items move to the new rules; the live data keeps 'godforged' until then.",
+   "adapted_rarity": "legendary",
+   "file": "client/data/items.json",
+   "rarity": "godforged",
+   "slot": "charm",
+   "slot_note": "interim legacy Charm slot (owner decision 5); a per-charm mapping proposal comes later",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "sovereign_treads": {
+   "adaptation": "ADAPTED: Godforged is not a reference tier; mapped to legendary as legacy compatibility (owner decision 4). Applies when items move to the new rules; the live data keeps 'godforged' until then.",
+   "adapted_rarity": "legendary",
+   "file": "client/data/items.json",
+   "rarity": "godforged",
+   "slot": "feet",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "spillway_epic_body": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "spillway_epic_head": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "starlight_wizard_hat": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "rare",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "steamed_bun": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": null,
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "steel_toe_boots": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "feet",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "street_runners": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "feet",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "subject_band": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "charm",
+   "slot_note": "interim legacy Charm slot (owner decision 5); a per-charm mapping proposal comes later",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "subject_grips": {
+   "file": "client/data/items.json",
+   "rarity": "legendary",
+   "slot": "hands",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "taped_knuckles": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "tiger_hood": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "uncommon",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "titan_core": {
+   "adaptation": "ADAPTED: Godforged is not a reference tier; mapped to legendary as legacy compatibility (owner decision 4). Applies when items move to the new rules; the live data keeps 'godforged' until then.",
+   "adapted_rarity": "legendary",
+   "file": "client/data/items.json",
+   "rarity": "godforged",
+   "slot": "charm",
+   "slot_note": "interim legacy Charm slot (owner decision 5); a per-charm mapping proposal comes later",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "titan_grip": {
+   "adaptation": "ADAPTED: Godforged is not a reference tier; mapped to legendary as legacy compatibility (owner decision 4). Applies when items move to the new rules; the live data keeps 'godforged' until then.",
+   "adapted_rarity": "legendary",
+   "file": "client/data/items.json",
+   "rarity": "godforged",
+   "slot": "hands",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "titan_slagfist": {
+   "adaptation": "ADAPTED: Godforged is not a reference tier; mapped to legendary as legacy compatibility (owner decision 4). Applies when items move to the new rules; the live data keeps 'godforged' until then.",
+   "adapted_rarity": "legendary",
+   "file": "client/data/items.json",
+   "rarity": "godforged",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "torn_label": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": null,
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "trooper_vest": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "underworks_epic_body": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "underworks_epic_charm": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "charm",
+   "slot_note": "interim legacy Charm slot (owner decision 5); a per-charm mapping proposal comes later",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "underworks_epic_feet": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "feet",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "underworks_epic_hands": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "hands",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "underworks_epic_head": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "underworks_epic_weapon": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "underworks_rare_body": {
+   "file": "client/data/items.json",
+   "rarity": "rare",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "underworks_rare_charm": {
+   "file": "client/data/items.json",
+   "rarity": "rare",
+   "slot": "charm",
+   "slot_note": "interim legacy Charm slot (owner decision 5); a per-charm mapping proposal comes later",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "underworks_rare_feet": {
+   "file": "client/data/items.json",
+   "rarity": "rare",
+   "slot": "feet",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "underworks_rare_hands": {
+   "file": "client/data/items.json",
+   "rarity": "rare",
+   "slot": "hands",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "underworks_rare_head": {
+   "file": "client/data/items.json",
+   "rarity": "rare",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "underworks_rare_weapon": {
+   "file": "client/data/items.json",
+   "rarity": "rare",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "underworks_uncommon_body": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "underworks_uncommon_charm": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "charm",
+   "slot_note": "interim legacy Charm slot (owner decision 5); a per-charm mapping proposal comes later",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "underworks_uncommon_feet": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "feet",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "underworks_uncommon_hands": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "hands",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "underworks_uncommon_head": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "underworks_uncommon_weapon": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_alloy_knuckles": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_brass_knuckles": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_cargo_gloves": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "hands",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_coolant_uncommon_body": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_coolant_uncommon_charm": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "charm",
+   "slot_note": "interim legacy Charm slot (owner decision 5); a per-charm mapping proposal comes later",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_coolant_uncommon_feet": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "feet",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_coolant_uncommon_hands": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "hands",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_coolant_uncommon_head": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_coolant_uncommon_weapon": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_core_guard_helm": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_deck_boots": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "feet",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_dock_hook": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_dockers_cap": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_facility_boots": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "feet",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_facility_helmet": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_fight_gloves": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "hands",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_foundry_uncommon_body": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_foundry_uncommon_charm": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "charm",
+   "slot_note": "interim legacy Charm slot (owner decision 5); a per-charm mapping proposal comes later",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_foundry_uncommon_feet": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "feet",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_foundry_uncommon_hands": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "hands",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_foundry_uncommon_head": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_foundry_uncommon_weapon": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_grip_gloves": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "hands",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_hard_hat": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_hazmat_hood": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_heart_uncommon_body": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_heart_uncommon_charm": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "charm",
+   "slot_note": "interim legacy Charm slot (owner decision 5); a per-charm mapping proposal comes later",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_heart_uncommon_feet": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "feet",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_heart_uncommon_hands": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "hands",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_heart_uncommon_head": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_heart_uncommon_weapon": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_insulated_gauntlets": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "hands",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_insulated_gloves": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "hands",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_iron_helm": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_kevlar_jacket": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_lab_boots": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "feet",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_plant_vest": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_port_jacket": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_reactor_plate": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_riot_baton": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_riveted_jacket": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_runner_sneakers": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "feet",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_shock_baton": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_steel_toe_boots": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "feet",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_street_runners": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "feet",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_trooper_vest": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_underworks_uncommon_body": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_underworks_uncommon_charm": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "charm",
+   "slot_note": "interim legacy Charm slot (owner decision 5); a per-charm mapping proposal comes later",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_underworks_uncommon_feet": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "feet",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_underworks_uncommon_hands": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "hands",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_underworks_uncommon_head": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_underworks_uncommon_weapon": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_walkway_boots": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "feet",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_watch_cap": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_weighted_knuckles": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "used_work_jacket": {
+   "file": "client/data/items.json",
+   "rarity": "common",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "walkway_boots": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "feet",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "waste_sample": {
+   "file": "client/data/items.json",
+   "rarity": "epic",
+   "slot": null,
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "watch_cap": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "watchmans_cap": {
+   "file": "client/data/items.json",
+   "rarity": "rare",
+   "slot": "head",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "weighted_knuckles": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "wiroj_protocol_chip": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "epic",
+   "slot": null,
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "work_jacket": {
+   "file": "client/data/items.json",
+   "rarity": "uncommon",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "wrapped_iron_knuckles": {
+   "file": "client/data/item_catalog.json",
+   "rarity": "common",
+   "slot": "weapon",
+   "stats_kept": true,
+   "status": "LEGACY"
+  },
+  "zeros_mantle": {
+   "adaptation": "ADAPTED: Godforged is not a reference tier; mapped to legendary as legacy compatibility (owner decision 4). Applies when items move to the new rules; the live data keeps 'godforged' until then.",
+   "adapted_rarity": "legendary",
+   "file": "client/data/items.json",
+   "rarity": "godforged",
+   "slot": "body",
+   "stats_kept": true,
+   "status": "LEGACY"
+  }
+ }
+}

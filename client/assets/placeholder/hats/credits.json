@@ -1,0 +1,7 @@
+{
+  "status": "TEMPORARY / PLACEHOLDER",
+  "purpose": "Temporary hats supplied by the game's owner to build and test the equipment appearance system. Not production art: their look, style and resolution are not final, and no production licensing or approval is sought for them.",
+  "source": "art/placeholder/hats/sheet_1.jpg to sheet_4.jpg (the owner's magenta sheets, six hats each).",
+  "processing": "tools/assets/import_placeholder_hats.py",
+  "replacement": "Final hats come from the owner's own Blender 5.2 pipeline and replace these under the same appearance ids (client/data/appearances.json -> placeholder_art.json asset entries); item ids, appearance ids, equipment slots and saves do not change."
+}

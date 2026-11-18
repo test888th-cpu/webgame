@@ -4,6 +4,637 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Changed: the game now runs on the new system (2026-11-18, owner order)
+- **Old player data reset.** On first start in each browser, every old hero save
+  and roster file is deleted once (`SaveStore.reset_legacy_player_data`, marker
+  `player_data_reset_v3`). Settings are kept. There is no migration: old saves never
+  load (`RpgSave` version 3 only).
+- **New character system.** Title → New game → name and one of the nine reference
+  classes. Continue resumes the last character, in the area where it was saved.
+  The character screen (C) holds spec, talents, gear and bags.
+- **The street.** `scenes/street/Street.tscn` draws the existing city areas (their
+  scenery, furniture and exits) and the existing LPC sprites. The street is run by
+  the reference engine (`RpgEncounter` in zone mode). It has walking, targeting (J),
+  the auto attack, the hotbar of known abilities (1-7), Auto (T), loot (E), death and
+  resurrection, and travel at the street ends.
+- **The game's own HUD on the street.** The street uses the existing hero card,
+  bars, hotbar (slot icons and cooldown sweeps), touch controls, banners and the
+  boss bar (here, the target's bar), fed by the engine (`Hud.attach_rpg`,
+  `Hotbar.build_rpg`). The menus that are not ported yet (quests, map, settings)
+  and the old gauge, weapon badge and route card stay hidden. Hotbar icons are
+  temporary art chosen by each ability's first effect (`data/rpg/ability_icons.json`).
+- **Monsters by level, in the old order.** `tools/content/build_placement.py` writes
+  `data/rpg/placement.json` (PROPOSED). The old area levels 2-70 map onto the
+  reference's 1-20 and keep their order. Each area gets its old enemy count, with the
+  old enemies' sprites. Farming grounds keep their camps. Boss and mini-boss slots stay
+  on their maps as BLOCKED (no boss engine yet).
+- **Respawn.** A slain monster rises at its spawn point after the template's
+  `respawnSeconds`, else `TRASH_RESPAWN_SECONDS` (60 s, `respawn_policy.ts`). Corpses
+  decay in world time.
+- **More monsters.** 14 more reference monsters can now fight (34 in all): their only
+  extra was a quest-gated loot row. That row drops only for a player on the quest, and
+  this build has no quests. The loot parity cases rose from 720 to 1,056.
+- **Removed.** The old hero roster screen is no longer reachable from the title.
+
+### Added: the reference combat engine (2026-11-18)
+- **The trial world runs at the reference's 20 Hz** in `Sim.tick` order, with real
+  distances, monster pursuit and reach, idle aggro, projectiles, cast bars and spell
+  resists (`RpgEncounter`, `RpgCast`, `RpgEffects`, `RpgCombat`, `RpgUnit`).
+- **All nine classes fight with their own source attack**: melee (dual wield, shield
+  block), wands (mage, priest, warlock, druid) and auto shot (hunter).
+- **Specs and talents.** `RpgTalents` ports `computeTalentModifiers`,
+  `abilitiesKnownAt` and `applyTalentMods`. It matches the source on 216 random
+  allocations (`rpg_talent_parity.json`). All 27 specs and every talent row apply to the
+  runtime and save.
+- **Abilities.** All 424 are classified with evidence in `runtime_pack.json`:
+  - 22 implemented, through 14 general effect handlers and the aura lifecycle;
+  - 365 BLOCKED, mostly by bespoke class-engine code in the reference, named per ability;
+  - 24 UNKNOWN (no acquisition path);
+  - 12 not for players.
+- **Corrected adaptations.**
+  - New characters start as the source does (rage, energy and focus at 0).
+  - Death and resurrecting at the corpse follow `reviveAt`.
+  - Corpse loot persists in the save (save v2).
+- **Evaluator.** It gains `obj.fn?.()` short-circuiting.
+- **Migration register.** `docs/GAME_MIGRATION_REGISTER.md` starts the production-game
+  migration (Stage 1: inventory and classification). No production system is migrated yet.
+
+### Added: the playable reference slice (2026-11-17)
+- **Reference trial** on the title screen. A real single-player loop by World of
+  ClaudeCraft's rules: class (9), spec (from level 5), a reference world mob (20 offered),
+  combat with auto-combat on by default, manual commands, XP, corpse loot, bags, equip,
+  unequip, sell, rest. It keeps its own save (`user://reference_slice.json`); hero saves
+  are not touched. See `docs/PLAYABLE_SLICE.md` for what is partial.
+- **Runtime (`client/sim`).** `RpgRng` (mulberry32), `RpgSwing` (`meleeSwing`,
+  `mobSwing`), `RpgLootRoll` (`rollLoot`), `RpgCharacter`, `RpgGear` (equipment rules),
+  `RpgEncounter` (one command pipeline for auto and manual), `RpgPack` and `RpgSave`.
+- **Data.** `client/data/rpg/runtime_pack.json` comes from
+  `tools/content/build_runtime_pack.py`. It contains every class, spec and level's known
+  abilities as the source computes them, with each of the 424 abilities' entries marked
+  EXECUTABLE (1) or NOT_EXECUTABLE with a reason.
+- **Parity.** `tools/content/runtime_parity_fixtures.py` runs the reference's own `Rng`,
+  `rollLoot` and `meleeSwing`. The Godot runtime matches it bit for bit: 5 seeds,
+  720 loot rolls and 400 swings.
+- **Evaluator.** `tools/content/ts_eval.py` gains `switch`, whole-chain optional
+  short-circuiting (`a?.b.c`, `o.f?.()`) and `Object.getPrototypeOf` for plain records,
+  with tests. The 12 reference registries are unchanged by it (`--check`).
+- **Milestone A.** The eighth reward source, `rift_first_clear`
+  (`addRiftProgressionLoot`), is modelled and verified: 840 scenarios, 0 mismatches. The
+  world-quest cycle parser and rotation (A2) and the weekly-vault candidate construction
+  (A3) now run as source-verified steps. The eight sources together cover 16,939
+  scenarios, all PASS.
+- **Not done (stated in game and in the doc).**
+  - Ranged auto attacks: hunter, mage, priest, warlock and druid cannot fight yet.
+  - 423 of 424 abilities do not run yet.
+  - Spec modifiers, talents, auras, bosses, quests and upgrades are not applied.
+  - No area placement.
+  - No desktop build: it is blocked because there are no desktop export templates or
+    preset.
+
+### Added: reference reward-source execution models (2026-11-17)
+- **Seven execution models.** The seven non-LootEntry reward sources (buddy drops,
+  world-quest loot, hoard bosses, treasure vaults, Rift clear pools, the Drowned
+  Litany chest, the weekly vault) now have execution models in
+  `reference_loot_tables.json`. Each records:
+  - its entry point, triggers and eligibility;
+  - ownership, duplicate handling, reset, quantity and currency;
+  - the ordered steps (draws, branches, loops, rewards), each citing `file:line`;
+  - the source data it reads.
+
+  `tools/content/reward_models.py` holds the models and a runner with `rng.ts`
+  semantics, plus shared quality sub-models. `createLootQuality` makes five extra
+  weight draws from tier 1 up.
+- **Verified against the source.** `tools/content/verify_reward_models.py` runs each
+  model against the real source function (static evaluator, a real `rng.ts` `Rng`
+  with scripted values, side effects recorded) over 15,484 scenarios.
+  - **Result:** 0 mismatches in rewards, owners, quantities and every draw.
+  - **Reference test goldens:** `world_quest_item_slots.test.ts:89`, `:107` and
+    `hoard_reward_roll.test.ts:56` all pass.
+  - **Negative controls:** each mutated model is caught.
+  - **Coverage:** every draw step is exercised.
+- **Source findings:**
+  - `rollHoardReward` never reads `guestCapped`, despite its comment; the reference's
+    own test pins this, and the model follows the code.
+  - Buddy rolls are drawn even for an owned companion.
+  - The vault mount and next-map chances are drawn even when they cannot pay.
+- **Evaluator additions:** classes with `this`, `Math.imul`, regular expressions with
+  JavaScript semantics, `splice`, `Set`/`Map` `delete`, `Number()`, and a
+  verification-only override of side-effecting collaborators.
+- **Monster count reconciliation.** It is generated in `reference_monsters.json`
+  `count_reconciliation`: the earlier text match is reproduced (316 = 302 + 14), and
+  each of the 63 records it missed is classified from the syntax tree.
+  - **Correction:** the earlier "53 missing" was 62 in `MOBS`; it left out the 9
+    Tideglass Reflections.
+- **Loot relationship graph.** It is validated in the manifest (`loot_graph`):
+  monster → table → entry → item, quest gates (9 resolve in the Studio overlay's own
+  quests), and reward sources → monsters, items, tables and models. 0 problems.
+- **Tests:**
+  - **New:** `test_rpg_reward_models.gd`, `tools/content/test_reward_models.py` (in
+    CI) and more evaluator tests.
+  - **Updated:** `test_rpg_loot_registry.gd`. Reward sources now read MODELLED, and
+    must still be labelled "not Iron Legacy loot logic".
+- **No gameplay, data, save, scene or art change.**
+
+### Changed: final reference fidelity audit (2026-11-17)
+- **Approximated Math audit.** The evaluator now traces every Math call and `**`
+  operation:
+  - 2,896 operations examined: 2,670 exact and 226 implementation-approximated, at 27
+    sites;
+  - every approximated result is tagged through data flow;
+  - every decision on a tagged result is recorded.
+
+  **Result:** 0 tagged values reach any registry, so all 226 are
+  NON_GAMEPLAY_LAYOUT_ONLY. All 27 sites compute spatial data (spawn facings,
+  positions, the Sledge Tusker's patrol loop).
+  - The 62 decisions all stay inside `TUSKER_ROAD`. Its confinement is re-verified on
+    every build.
+  - A tagged value in a registry is written as UNKNOWN.
+  - An unconfined decision fails the build.
+  - **New tool:** `tools/content/audit_math_perturbation.py`. It found every registry
+    byte-identical when each site moves one ulp up, one ulp down or grossly, and when
+    all sites move together (83 rebuilds).
+- **Evaluator fixes:**
+  - `**` and `Math.pow` are counted as approximated, except for exact integer powers;
+  - a negative base to a fractional power is now NaN, as in JavaScript; Python
+    returned a complex number.
+- **Owner decisions F1–F6 applied** and recorded in
+  `ADOPTION_DECISIONS_IMPLEMENTATION.md`:
+  - **Rare spawns stay `rare`:** `proposed_role` / mini-boss is removed from the
+    registry, `RpgMonsterRegistry` and the matrix, whose slot is now `rare`.
+  - **Level 21:** the level-21 ground stays empty.
+  - **Matrix:** stays PROPOSED.
+  - **Loot:** stays data only.
+- **The owner's visual-overhaul deferral directive** is recorded; no visual content
+  changed.
+- **Tests:**
+  - **Status totals:** items 2,197 + 42 + 24 = 2,263; monsters 118 + 126 + 28 + 7 + 49
+    + 14 + 37 = 379.
+  - **No mini-boss** anywhere.
+  - **Level-21 invariant.**
+  - **Loot semantics:** `heroicCopper`, `maxPlayerLevel`, `unlessOwned`, quest gates,
+    fall-forward, world-boss personal loot, procedural labels, and group sums 49/46.
+  - **Approximated Math isolation.**
+  - **Evaluator taint tests.**
+- **Docs updated:**
+  - `REFERENCE_UNKNOWN_REPORT.md`, with the per-site table;
+  - `REFERENCE_LOOT_REGISTRY.md`, with the semantic audit;
+  - `REFERENCE_MONSTER_REGISTRY.md`, `ADAPTATION_REGISTER.md` and
+    `REFERENCE_TRACEABILITY_MATRIX.md`;
+  - `PHASE_B2_PLAN.md` and `REFERENCE_REGISTRY_BUILDER.md`;
+  - the matrix, regenerated.
+
+### Changed: Phase B2 monster registry validated; reference-locked loot registry (2026-11-17)
+- **Correction to the entry below.** The monster registry did not hold every
+  template. "None missing" was wrong: a text match cannot see records built by
+  helpers, added when a module loads, or keyed by constants.
+- **Evaluated registries.** The builder now reads the reference's own tables:
+  - `MOBS`, `ITEMS` and the Studio overlay;
+  - every loot table.
+
+  It uses `tools/content/ts_eval.py`, a static evaluator for the data subset of
+  TypeScript. It never runs reference code, and an unsupported construct is recorded
+  as UNKNOWN with its file and line.
+  - **Monsters:** 379 = 364 `MOBS` + 15 Studio overlay (was 316). 53 were missing,
+    among them the hydra heads, the per-class Tideglass Reflections and the muster
+    soldiers. The 14 Scorching Wastes templates are now labelled as the Studio
+    overlay.
+  - **Items:** 2,263 (was 1,948), including 116 heroic variants added at load.
+  - **Other fixes:**
+    - one non-item (a quartermaster offer) removed;
+    - 19 trinkets corrected from an invented `trinket` kind to the source's `armor`.
+  - **Mechanics:** all 68 UNKNOWN nested values resolved; 0 UNKNOWN remain.
+  - **Fields:** every source field is kept in `source_fields`.
+  - **Flags:** boss 34, elite 182, rare 26, worldBoss 3.
+- **Classification.** `RpgMonsterRegistry.role()` returned "mini_boss" for rare
+  spawns; the reference has no such flag. It is replaced by:
+  - `classification()`: the source flags (VERIFIED);
+  - `proposed_role()`: mini-boss for rares only (PROPOSED).
+- **Loot registry (new, data only).** Three files in `data/registry/`:
+  - `reference_loot_tables.json`: 400 tables (379 monster tables + 21 heroic
+    appends), roller rules each citing `file:line`, 7 non-LootEntry reward sources,
+    and a coverage list;
+  - `reference_loot_entries.json`: 1,190 entries with exact chances, roll groups,
+    quest gates and copper bands; 661 items, all resolving;
+  - `loot_selection.json`: adoption separate from the data. Nothing is adopted, every
+    item decision is pending (2,197), and the legacy loot file hashes are recorded.
+
+  Roll-group sums are kept as computed, never normalised. The previous 744 entries
+  missed every table built by a helper or a constant, and every heroic append.
+- **Namespaces.**
+  - Reference records are `reference:<id>`; the game's own are `iron_legacy:<id>`.
+  - `data/registry/id_collisions.json` lists one shared bare id, `training_dummy`;
+    each side keeps its own record.
+- **Loading helper.** `client/sim/RpgRegistryLoader.gd` now loads and validates the
+  registries, and `ContentDB.gd` is 996 lines. File access stays in `ContentDB`'s
+  reviewed reader, so `test_sim_purity.gd` is unchanged.
+- **New accessor:** `client/sim/RpgLootRegistry.gd`, pure and read-only.
+- **Builder.** It now:
+  - verifies that the reference checkout is at the pinned commit;
+  - fails if a load-time effect cannot be evaluated;
+  - writes a source manifest (`reference_registry_manifest.json`) with input and
+    output hashes and an evaluator report;
+  - lists any record defined in source but not registered.
+- **Matrix audit.**
+  - **Levels:** source and placement levels are separate fields.
+  - **Heroic level 22:** used only for areas at exactly 22, through one recorded
+    adaptation (ADAPT-HEROIC-22).
+  - **Level 21:** the area at 21 is empty instead of silently taking level-22
+    enemies.
+  - **Themes:** a poor theme fit is DEFERRED_THEME, not dropped.
+  - **Empty slots** are listed (57), with no promotions.
+  - **Statuses:** every monster has one status.
+  - **History:** the previous matrix is kept in `docs/history/`.
+- **New docs:**
+  - `REFERENCE_MONSTER_REGISTRY.md`;
+  - `REFERENCE_LOOT_REGISTRY.md`;
+  - `REFERENCE_REGISTRY_BUILDER.md`;
+  - `REFERENCE_UNKNOWN_REPORT.md`;
+  - `ADAPTATION_REGISTER.md`.
+- **Updated docs:** the traceability matrix, the B2 plan status and corrections in
+  `CONTENT_COMPLETENESS_AUDIT.md`.
+- **Tests:**
+  - **New:** `test_rpg_loot_registry.gd`, `test_rpg_registry_loader.gd` and
+    `tools/content/test_ts_eval.py`.
+  - **Updated:** the monster and item registry tests.
+  - **CI** runs the evaluator tests and the matrix freshness check.
+- **No gameplay change:** live enemies, items, loot, areas and levels are as before.
+
+### Added: Phase B2 monster registry, boss and elite metadata, area selection matrix; fidelity rule (2026-11-17)
+- **Monster registry.** `data/registry/reference_monsters.json` holds all **316**
+  MobTemplate records at `d2b91e08` (the same count as the scan; none missing). Each has:
+  - levels and stats as in source;
+  - flags: boss 30, elite 155, rare 26, worldBoss 2, and others;
+  - context: 157 world, 86 dungeon, 45 Rift, 18 delve, 10 player pets;
+  - heroic level 22 for dungeon enemies;
+  - 86 mechanic kinds keyed by their MobTemplate field ids (68 nested values marked
+    UNKNOWN);
+  - 744 loot entries, whose 516 item references all resolve.
+
+  **Selection:** 245 PENDING_REVIEW, 45 DEFERRED (Rift, seasonal), 14 EXCLUDED
+  (Scorching Wastes), 12 NOT_AN_ENEMY (pets, practice targets).
+- **Accessor.** `RpgMonsterRegistry` is pure. `ContentDB.read_registry` reads registries
+  kept outside the game build. `ContentDB.gd` is now at gdlint's 1,000-line limit:
+  further loading goes in a helper.
+- **Selection matrix.** `tools/content/render_monster_matrix.py` writes
+  `docs/MONSTER_SELECTION_MATRIX.md` and `data/registry/monster_area_candidates.json`:
+  PROPOSED candidates per area by reference level, source role and theme fit.
+  - 114 monsters are proposed somewhere; 202 are not, each with its reason.
+  - Deep farming grounds above 20 use dungeon enemies (heroic 22), labelled ADAPTED.
+- `tools/content/area_level_proposal.py` exposes `area_rows()`. Its output is
+  unchanged.
+- **The owner's non-negotiable reference-fidelity rule** is recorded in
+  `docs/REFERENCE_FIDELITY_RULE.md` and in `CLAUDE.md`.
+- **New test** `test_rpg_monster_registry.gd`.
+
+### Added: Phase B2 item and per-copy quality registries; level mapping approved; spec naming proposal (2026-11-17)
+- **Quality.** `client/data/rpg/quality.json` and `RpgQuality` hold the six reference
+  tiers (poor to legendary) and the per-copy quality from `createLootQuality`:
+  - draws: plain 9,000; tier 1 900; tier 2 90; tier 3 9; tier 4 1, out of 10,000;
+  - so 90 / 9 / 0.9 / 0.09 / 0.01%, summing to exactly 100%;
+  - +2 item levels per tier.
+- **Reference items.** `data/registry/reference_items.json` has 1,948 records, kept
+  outside the Godot project so the browser build does not carry them:
+  - each with kind, slot, quality, armour type, hand, required level (when set),
+    stats, weapon, class restriction (all 695 constants resolved) and sell value;
+  - the reference id, name (internal only) and file, with the SHA-256 of all 189
+    inputs;
+  - selection: 1,882 PENDING_SELECTION, 42 EXCLUDED (Scorching Wastes), 24 DEFERRED
+    (Rift).
+  - Item level is not a static field in the reference: it is derived at drop time,
+    and it is not invented here.
+- **Legacy items.** `data/registry/legacy_items.json` lists all 305 legacy items:
+  - the 25 Godforged items map to legendary (ADAPTED);
+  - the 31 charms keep the interim slot;
+  - the live files are unchanged.
+- **Level mapping v2 approved** by the owner, with boundaries. Not applied. The
+  Scorching Wastes are recorded as excluded in the traceability matrix.
+- **`docs/SPEC_NAMING_PROPOSAL.md`:** 27 original specialisation names, checked against
+  the reference content and our data (0 collisions). PROPOSED, not active.
+- **New test** `test_rpg_items_registry.gd`.
+
+### Added: Phase B2.1 class registry and B2.2 equipment slot registry (2026-11-17)
+- **Builder.** `tools/content/build_reference_registries.py` reads World of ClaudeCraft
+  with `git show d2b91e08:<path>` (text, never executed) and records the SHA-256 of
+  every input. `--check` reports stale outputs.
+- **B2.1 classes.**
+  - `client/data/rpg_reference.json` gains, per class: 3 specs (27 in all, with role,
+    primary stat, signature ability and reference id), armour type, weapon groups and
+    dual-wield rules.
+  - Spec display names are INTERIM (the spec id) until a naming batch; the reference
+    names are kept only as `ref.name`.
+  - `client/data/rpg/talent_structure.json`: spec at level 5; talent rows at 5, 8, 11,
+    14, 17 and 20 with 3 options each.
+- **B2.2 slots.** `client/data/rpg/equipment_slots.json` holds the 13 reference slots,
+  armour ranks, weapon groups, dual wield, the rogue two-hand ban, ring order and the
+  legendary-unique rule. The interim Charm slot and the old-slot map sit in a separate
+  `legacy` section marked ADAPTED.
+- **Accessors.** `RpgClassRegistry` and `RpgEquipmentRules` are loaded and validated
+  through `ContentDB`. **Gameplay does not use them yet:** the live slots are still the
+  six legacy ones.
+- **Level mapping v2:** evidence for enemies above 22 added. The Rift's S rank (23) is
+  deferred until the Rift is adopted; the Scorching Wastes (to 24, a custom map) are
+  not adopted.
+- **New test** `test_rpg_registry.gd`.
+
+### Added: Level 20 / 60 investigation, level proposal v2, Phase B2 plan (2026-11-17)
+- **Verified in reference source:**
+  - the player cap is 20;
+  - "Level 60" is only Goldcrest's zone display band and the map schema's clamp
+    (1–60);
+  - pets are created at their owner's level;
+  - heroic mobs are pinned to 22, the Rift caps at 22 with S at 23, and the Scorching
+    Wastes reach 24;
+  - Prestige and post-cap levels are cosmetic.
+- **`docs/AREA_LEVEL_MAPPING_PROPOSAL.md` is v2,** with enemy levels from reference
+  analogues: lairs 22, deep farming grounds 20–22, both ADAPTED. v1 is kept in
+  `docs/history/`. Nothing is applied.
+- **New `docs/PHASE_B2_PLAN.md`:** the registry architecture, dependency map, files,
+  test plan and save-migration safety plan.
+- `docs/ADOPTION_DECISIONS_IMPLEMENTATION.md` now records the owner's round-2
+  decisions.
+
+### Changed: owner decisions 1–7 applied where finished (2026-11-17)
+- **Decision 7, done.** The Web export leaves out the 37 PixelFX effects that nothing
+  uses yet.
+  - It is driven by their recipe `use`: `tools/assets/web_export_filter.py`, with a CI
+    check.
+  - `index.pck` is now 19.2 MB, down from 29.4 MB. The browser smoke test passes.
+- **Decision 4.** The reported drop figures were reconciled to exact items and steps.
+  The drop audit now re-multiplies all 2,516 selected-drop paths on every run (0
+  mismatches).
+- **Phase B1.** `faithforged_guard` and the five unknown loot items are resolved, the
+  latter as trinkets built by a helper. The reference indexes now hold 1,947 items and
+  all 327 class-kit abilities.
+- **Decision 2: PROPOSED.** `docs/AREA_LEVEL_MAPPING_PROPOSAL.md`
+  (`tools/content/area_level_proposal.py`) covers every area, anchored to the
+  reference zone bands, with conflicts and a save plan.
+- **Decisions 3, 5 and 6: VERIFIED and PROPOSED.** `docs/ADOPTION_DECISIONS_IMPLEMENTATION.md`
+  covers:
+  - the Rift Forge rules and the workbench options;
+  - the 13 slots and the slot mapping;
+  - the 6 qualities, and the per-copy loot quality (90 / 9 / 0.9 / 0.09 / 0.01%,
+    +2 item levels per tier);
+  - Godforged, which is not in the reference, and its options.
+
+### Added: content completeness audit, Phase A (2026-11-17)
+- **New harness `client/tests/harness/ContentAudit.gd`:** reads every item, enemy,
+  drop path and upgrade level through the game's own rules (LootIndex,
+  EnhanceRules, ContentDB) into `data/content_audit.json`.
+- **Generated documents:** `tools/content/render_content_audit.py` and
+  `render_reference_catalog.py` write `docs/DROP_RATE_AUDIT.md` (4,490 drop paths with
+  real chances and rare-drop expectations), `ITEM_DATABASE_CATALOG.md`,
+  `MONSTER_BOSS_DROP_CATALOG.md`, `ENHANCEMENT_BALANCE_AUDIT.md`,
+  `SKILL_DATABASE_CATALOG.md` and `EQUIPMENT_AND_RARITY_CATALOG.md`.
+- **Reference indexes:** `data/reference/` holds text scans of World of ClaudeCraft at
+  `d2b91e08` (abilities; items, mobs and mob loot). They are lower bounds, with their
+  method recorded.
+- **Written by hand:** `docs/CONTENT_COMPLETENESS_AUDIT.md` (findings and the owner
+  decisions blocking Phases B–F), `REFERENCE_TRACEABILITY_MATRIX.md`,
+  `CLASS_AND_COMBAT_BALANCE_AUDIT.md` and `PLAYER_GUIDE_DATA_SPEC.md`.
+- **Correction:** the reference does have an equipment upgrade, the Rift Forge (5
+  steps, essence 2/4/6/8/10, always succeeds, +1 item level). Earlier reports said it
+  had none.
+- **New test** `test_content_completeness.gd`:
+  - every item obtainable;
+  - every enemy placed;
+  - drops sound;
+  - item ids unique.
+- No game value was changed.
+
+### Added: 37 PixelFX effects as a traceable VFX library; effects load on demand (2026-11-17)
+- **37 more effects from pixelfx** (MIT, owner-approved source) at the same pinned commit
+  `a8415968`:
+  - weapon slashes;
+  - arrows and bolts;
+  - fire, ice, lightning, holy, shadow, nature and arcane spells;
+  - stun and sleep markers;
+  - a spawn poof.
+
+  All are listed in `art/pixelfx/effects.json` with a PROPOSED use; none is wired to a
+  skill yet.
+  - Re-rendering left the 25 effects already in the game byte-identical.
+  - Nine candidates were rejected; seven of them draw PixelFX's stock character.
+  - Details: `docs/PIXELFX_VFX.md`.
+- **`Fx.gd` now loads an effect's sheet the first time it plays,** instead of every sheet
+  at the first hit. All 62 sheets would need 131.5 MB of textures; typical play now
+  loads 15.3 MB.
+- `import_pixelfx.py` refuses sheets taller than 4096 px (the WebGL limit).
+- Every PixelFX record now carries:
+  - its source file at the commit;
+  - its copyright, and its Sprite Fusion derivation where it has one;
+  - its modifications, export size, frames and timing;
+  - its proposed use.
+- New test `test_pixelfx_library.gd`: browser texture limits, transparency, timing,
+  8 players' effects at once, and the library being visual only.
+- **Web build grows from 18.2 MB to 29.4 MB.** Whether to ship the unused proposed
+  effects before they are wired is an owner decision.
+
+### Added: LPC licences checked at their original sources; item art research (2026-11-17)
+- **Every LPC part was checked against the pages its credits cite**, and the credits files
+  inside those pages' downloads (`art/provenance/lpc_source_review.json`, with quotes).
+  - 22 of the 25 primary pages were read, and 45 of the 52 cited pages overall.
+  - Result: 43 VERIFIED, 18 RESTRICTED, 6 UNVERIFIED parts.
+  - **All 70 LPC character sheets are RESTRICTED.** The adult bodies and human heads are
+    granted only as CC-BY-SA 3.0 / GPL 3.0 by "LPC Character Bases", although the LPC
+    generator records them as OGA-BY 3.0.
+  - Report: `docs/LPC_LICENCE_VERIFICATION.md`.
+- **The inventory now carries `licence_class` and `release_ready`**:
+  - a composite takes its least clear part's class;
+  - AI art without generation records and the placeholder hats are never release-ready.
+- **New generated report** `docs/ASSET_PROVENANCE_GAPS.md`: the exact AI generation
+  fields the owner must supply. It also lists the 24 placeholder hats (creator and
+  licence UNKNOWN, excluded from release) and the 24 items that show them, with a
+  prepared code-drawn fallback.
+- **Free item art research:** `docs/FREE_ITEM_ART_RESEARCH.md` covers 13 packs read on
+  their own pages, and recommends the CC0 Idylwild packs. Nothing was downloaded into the
+  repository or imported.
+- **New tests:**
+  - `test_visual_replacement.gd`: redrawing a hat keeps the item, stats and save;
+    swapping a class sprite keeps its stats.
+  - `test_provenance.py`: licence classes, release-readiness, and hats never attributed.
+
+### Added: asset provenance inventory and temporary class art (owner's asset directive, 2026-11-17)
+- **`tools/assets/provenance.py`** builds one record per asset or source contribution
+  (346 today) from the records the repository already keeps, into
+  `data/asset_provenance.json`, `docs/asset_provenance.csv`, `docs/ASSET_PROVENANCE.md`,
+  `docs/ASSET_CREDITS.md` and `docs/ASSET_REPLACEMENT_MAP.md`.
+  - Unknown facts are written UNKNOWN.
+  - Commercial use is "Allowed" only for a licence confirmed at its source
+    (`art/provenance/licence_checks.json`).
+  - The owner's AI-painted art (kit, weapons, four enemies) is labelled AI Generated,
+    with generation records to be filled in `art/provenance/generation_records.json`.
+- **CI** (`assets` job) now runs `test_provenance.py` and `provenance.py check`. It fails
+  on duplicate ids, missing files, unrecorded assets, external assets without a
+  licence, share-alike licences, or image paths in gameplay data.
+- **18 temporary LPC class sheets** (`class_<class>_m` and `class_<class>_f`, all nine
+  reference classes), mapped in `client/data/class_visuals.json` as
+  `character.<class>.<male|female>`.
+  - Built only from CC0, OGA-BY and CC-BY parts.
+  - Not used by gameplay yet.
+  - Tested by `test_class_visuals.gd`.
+- Policy, record format, replacement workflow and open owner decisions:
+  `docs/ASSET_PIPELINE_POLICY.md`.
+- `docs/credits/ASSET_CREDITS.*` regenerated. This adds the class parts and refreshes the
+  "Used in" columns, which were stale.
+
+### Added: the Guide, an in-game farming guide (owner's request, 2026-11-16)
+- **N (pad: share) or the Esc menu opens the Guide**, with four tabs: Items, Monsters,
+  Bosses and Maps.
+  - Each tab has search, a filter, a sort and a list, with a page for the chosen entry.
+  - Every name on a page links to its own page (item → who drops it → where they
+    fight → what else drops there), with Back.
+- **Built on `LootIndex`, the rules that pay the drops**, so it cannot disagree with the
+  game.
+  - Chances are the actual chance per kill; a selection weight is never shown as a
+    chance.
+  - `progression.json` `"show_drop_rates"` (default true) shows exact rates, or rarity
+    words worked out from the same chance.
+  - An item with no source reads "Not currently obtainable"; a missing place is never
+    made up.
+- **Indexed**: 305 items, 39 monsters, 24 bosses and 57 maps.
+- `ItemCard.details` can leave out its short "Where to get" list, which the Guide
+  replaces with a linked one.
+- While the player types in a screen's text box, letters are text, not hotkeys.
+- Every drop line says whether it is guaranteed, random or conditional (on a field
+  elite, or a world boss share and kill, with the condition written out). Pity drops
+  say they rise and up to what. The catalog's initial values are marked `*`
+  (`LootIndex.reward_type` / `data_status`).
+- `docs/GODFORGED_IMPACT_REPORT.md`, generated: the 15 Godforged items the five non-raid
+  world bosses pay (none has another source), and what moving them would change. No
+  reward was changed.
+- Performance: every one of the 425 pages opens in about 26 ms. Sort keys are worked out
+  once per list, and LootIndex keeps each enemy's drops.
+- Tests: `test_guide.gd`. `test_ui.gd` lets the Guide keep its four sections, as Settings
+  keeps its tabs. `test_loot_index.gd` adds sources and drops agreeing both ways, the
+  reward types and data status, and the impact report kept in step.
+- Docs: `docs/PLAYER_ITEM_ENCYCLOPEDIA.md`, `docs/UI.md`.
+
+### Added: LootIndex and the generated item and drop database (owner's request, 2026-11-16)
+- **`LootIndex` (`client/sim/`)**: every source of every item, built from the rules that
+  pay it, with the real chance per kill worked out in closed form. Catalog drops also
+  give their conditional steps.
+  - Sources: enemies' own tables, the catalog's tables and boss lists, farming grounds
+    and field elites, world boss tiers and kills, shops and quests.
+  - Enemy kinds: monster, elite, mini-boss, stage boss, world boss, raid world boss.
+  - The index is built once per content, so a full report takes 1.6 s.
+- **`docs/ITEM_DROP_DATABASE.md`**, generated by `client/tests/harness/DropReportRun.gd`:
+  every item with its sources, every enemy's drop matrix by kind, the catalog tables'
+  conditional shares, and an acquisition index. Every item has a source; none is
+  unobtainable.
+- `world_boss.json` marks the three raid world bosses `"raid": true`. This is data only;
+  no reward changed.
+- Tests: `test_loot_index.gd` (the report in step with the data, every drop traceable,
+  chances against their formulas and a seeded run, grade rules, a loot identity for every
+  boss, LootIndex and the item card agreeing).
+- Open decision: all eight world bosses, not only the three raids, give Godforged prizes
+  in the existing data. This is unchanged and recorded in `docs/ITEM_SYSTEM.md` §10.
+
+### Added: the owner's 24 temporary placeholder hats worn on the characters (owner's request, 2026-11-16)
+- **24 TEMPORARY / PLACEHOLDER hats cut from the owner's four magenta sprite sheets** by
+  `tools/assets/import_placeholder_hats.py`. They exist to build and test the appearance
+  system, not as production art.
+  - The sheets hold 24 hats, six each, verified; the first brief said 23.
+  - Each hat is found by its outline, never by equal cells, and each sheet must give
+    exactly 6.
+  - The background is removed with hard edges, and each hat is scaled to the size it is
+    worn at, with a 16x16 icon.
+  - The sources are kept in `art/placeholder/hats/`, and the sprites go to
+    `client/assets/placeholder/hats/`, apart from the production art pipeline.
+  - A fifth sheet was left out by the owner's decision: three of its hats face the wrong
+    way.
+- **A hat replaces what the character wears on its head.** In every frame of every
+  animation the head's top rows are measured from the frame's pixels.
+  - A covering hat hides them (a new shader `hide_rect`) and rests on the brow.
+  - A hood shows the face through its opening.
+  - Headbands, tiaras and the visor sit over the hair.
+  - Each hat mirrors with the body; another hat swaps it, and taking it off brings the
+    head back.
+  - Tested for all five heroes, both ways, on every frame.
+- **Items**: the five existing headgear items keep their ids and wear the officer cap,
+  dragon bandana, crested knight helm, golden lion helm and horned crown. The other 19
+  hats are new items, Common to Legendary, with the Lion King's Crown for bosses only.
+- **Fixed**: the head was measured once per sheet instead of per frame, because every
+  frame shares one atlas RID. It is now measured per frame, and stray pixels are ignored.
+- Every art entry carries `"status": "placeholder"` (or `"final"`), checked on load.
+  Replacing a hat means changing its asset entry; item ids, appearance ids, slots and
+  saves stay as they are (`test_art_is_swapped_by_its_asset_entry_alone`).
+- Tests: `test_hat_art.gd`, plus updates in `test_item_catalog.gd` and
+  `test_item_testing_merchant.gd`.
+
+### Added: item ecosystem, drop tables, equipment looks, Item Testing Merchant (owner's request, 2026-11-16)
+- **37 new items** in `client/data/item_catalog.json`, with stable ids, in 8 categories:
+  enhancement materials, ores and minerals, energy consumables, headgear, outfits, fist
+  weapons, boss materials and special items. They use the six approved grades; none is
+  Godforged.
+- `items.json` and its 249 items are unchanged.
+- Gear stats follow the existing `ItemRules` budgets.
+- Details, ids and rates: `docs/ITEM_SYSTEM.md`.
+- **Drops** (`drop_tables.json`, `DropTables`): rolled after an enemy's own loot table,
+  which is unchanged, on a separate generator, so no fight changes.
+  - Chance, category, grade, item and quantity are separate steps.
+  - Grade weights (monster 75/20/4.5/0.5/0, boss 40/35/20/4.8/0.2) are shares of a
+    successful drop, not chances per kill.
+  - Ordinary monsters never roll Legendary, Godforged or boss-only items. This is
+    enforced in code and content validation.
+  - Named bosses have their own lists: signature materials, and a 0.5% signature
+    Legendary.
+  - World bosses, their arenas, the training dummy and arena rivals roll nothing new.
+- **Enhancement**: stones and catalysts count as Scrap Metal or Refined Alloy at the
+  workbench (`counts_as`). Its costs, odds and limits are unchanged.
+- **Equipment looks**: a worn hat shows on the hero's head **in place of** the
+  character's own headwear.
+  - `EquipmentLooks` keeps `Fighter.appearance`; `EquipmentLayers` draws it.
+  - Each frame the head's top rows are measured, and the hat covers them all: one
+    hat, never two stacked.
+  - Outfits and weapons keep the character's own look (owner's decision). Their
+    appearance ids are kept for later art.
+  - The art is temporary, drawn at runtime by `PlaceholderArt`: 16x16 grade-coloured
+    icons marked with a black and white check, and no image files.
+  - Item id, icon id, appearance id and art asset id are separate, so final art
+    replaces placeholders without touching items or saves.
+- **Item Testing Merchant**: one merchant in Iron City Central, behind
+  `TEST_VENDOR_ENABLED`: the project setting `iron_legacy/test_vendor_enabled`, or the
+  environment variable of that name. It is **on** now and must be turned off for
+  production.
+  - It sells every new item through the cart, in 8 sections, and gear can be tried on
+    in the shop.
+  - The token price is never below what a shop pays back for the item plus one coin,
+    so buying to resell never pays.
+- Arena rivals keep the arena's own gear set: the catalog never changes a loadout.
+- "Where to get" lists the new drops and shows the merchant's real price.
+- `test_main_city.gd` now counts the game's own city NPCs, which include the merchant
+  while it is on.
+- Tests: `test_item_catalog.gd` (11 tests) and `test_item_testing_merchant.gd` (4: the
+  merchant, buying, a hat covering the old headwear, swapping hats, taking off, save and
+  reload).
+
+### Changed: grade colours, smooth arena rivals, auto resumes at once (owner's requests, 2026-11-16)
+- **Grade colours (owner's standard)**: the six grades and their ids are unchanged, with
+  no data migration (249 items, 25 Godforged kept).
+  - Colours: Common white, Uncommon green, Rare blue, **Epic gold** (was purple),
+    **Legendary red** (was orange), Godforged light blue (lightened, kept clearly apart
+    from Rare's blue).
+  - One colour table (`ItemText.RARITY_COLORS`) serves every screen.
+  - Grade checks go by grade order (`ItemText.grade_rank`), not by a list of names.
+    Godforged loot on the street now sparkles and has the tallest light beam, and its
+    pickup is announced like Legendary.
+  - Content validation (`ContentDB._validate_loot_grades`) now refuses an ordinary
+    monster dropping Legendary or Godforged, and any loot table dropping Godforged
+    (a world boss reward only). Tests: `test_grade_standard.gd`.
+- **Arena rivals walk smoothly**: a rival used to step one tick at full speed each
+  decision and then stand still, a stutter.
+  - It now walks every tick between decisions at 1/cadence of full speed (`_drift`),
+    covering the same ground as before, so the arena's pace and class balance are
+    unchanged (`test_no_class_pairing_is_hopeless_in_the_arena` and the personality
+    tests pass as before).
+  - The walk animation slows to match a slow step instead of sliding
+    (`FighterView.MIN_WALK_PACE`).
+  - Tests: `test_arena_integrity.gd`.
+- **Auto resumes at once**: the half-second wait after the player's own input
+  (`MANUAL_HOLD_TICKS`) is gone. Auto plays from the very next tick, so the player can
+  steer and let go, and auto strikes straight away. A blow the player started still
+  plays out. Tests: `test_auto_battle.gd`.
+
 ### Fixed: boss shields are solid barriers that fit the boss (owner's request, 2026-11-16)
 - **A raised shield is now a wall.** It applies to every shielded boss: Director Wiroj,
   the Wiroj Protocol, the Iron Colossus, Subject Zero, the Slag Titan, the Iron

@@ -1,0 +1,114 @@
+{
+  "_comment": "Which temporary art each class uses (docs/ASSET_PIPELINE_POLICY.md). Gameplay names a class id only; this file maps it to a stable visual id and the sprite asset (client/assets/manifest.json id) that currently draws it. Replacing the art changes only 'sprite' and 'status' here, never the class, its stats, skills or saves.",
+  "version": 1,
+  "classes": {
+    "warrior": {
+      "male": {
+        "visual_id": "character.warrior.male",
+        "sprite": "class_warrior_m",
+        "status": "temporary"
+      },
+      "female": {
+        "visual_id": "character.warrior.female",
+        "sprite": "class_warrior_f",
+        "status": "temporary"
+      }
+    },
+    "paladin": {
+      "male": {
+        "visual_id": "character.paladin.male",
+        "sprite": "class_paladin_m",
+        "status": "temporary"
+      },
+      "female": {
+        "visual_id": "character.paladin.female",
+        "sprite": "class_paladin_f",
+        "status": "temporary"
+      }
+    },
+    "hunter": {
+      "male": {
+        "visual_id": "character.hunter.male",
+        "sprite": "class_hunter_m",
+        "status": "temporary"
+      },
+      "female": {
+        "visual_id": "character.hunter.female",
+        "sprite": "class_hunter_f",
+        "status": "temporary"
+      }
+    },
+    "rogue": {
+      "male": {
+        "visual_id": "character.rogue.male",
+        "sprite": "class_rogue_m",
+        "status": "temporary"
+      },
+      "female": {
+        "visual_id": "character.rogue.female",
+        "sprite": "class_rogue_f",
+        "status": "temporary"
+      }
+    },
+    "priest": {
+      "male": {
+        "visual_id": "character.priest.male",
+        "sprite": "class_priest_m",
+        "status": "temporary"
+      },
+      "female": {
+        "visual_id": "character.priest.female",
+        "sprite": "class_priest_f",
+        "status": "temporary"
+      }
+    },
+    "shaman": {
+      "male": {
+        "visual_id": "character.shaman.male",
+        "sprite": "class_shaman_m",
+        "status": "temporary"
+      },
+      "female": {
+        "visual_id": "character.shaman.female",
+        "sprite": "class_shaman_f",
+        "status": "temporary"
+      }
+    },
+    "mage": {
+      "male": {
+        "visual_id": "character.mage.male",
+        "sprite": "class_mage_m",
+        "status": "temporary"
+      },
+      "female": {
+        "visual_id": "character.mage.female",
+        "sprite": "class_mage_f",
+        "status": "temporary"
+      }
+    },
+    "warlock": {
+      "male": {
+        "visual_id": "character.warlock.male",
+        "sprite": "class_warlock_m",
+        "status": "temporary"
+      },
+      "female": {
+        "visual_id": "character.warlock.female",
+        "sprite": "class_warlock_f",
+        "status": "temporary"
+      }
+    },
+    "druid": {
+      "male": {
+        "visual_id": "character.druid.male",
+        "sprite": "class_druid_m",
+        "status": "temporary"
+      },
+      "female": {
+        "visual_id": "character.druid.female",
+        "sprite": "class_druid_f",
+        "status": "temporary"
+      }
+    }
+  }
+}

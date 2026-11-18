@@ -12,8 +12,14 @@ const SHAKE_PIXELS := 3.0
 const SHAKE_FADE := 0.25
 ## What E does at each NPC role, as the prompt over them says ("Talk" if
 ## not listed), and the mark always shown over a role that offers a service.
-const VERBS := {"shop": "Shop", "travel": "Ride", "workbench": "Upgrade", "board": "Read"}
-const MARKS := {"shop": "$", "travel": ">>", "workbench": "+", "board": "?"}
+const VERBS := {
+	"shop": "Shop",
+	"test_shop": "Test items",
+	"travel": "Ride",
+	"workbench": "Upgrade",
+	"board": "Read"
+}
+const MARKS := {"shop": "$", "test_shop": "$", "travel": ">>", "workbench": "+", "board": "?"}
 ## Where landmark signs hang: on the shopfronts, above the marks and names
 ## over the people and things in the street.
 const LANDMARK_Y := 128.0
