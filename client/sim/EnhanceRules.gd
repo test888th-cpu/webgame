@@ -82,9 +82,49 @@ static func problem(profile: PlayerProfile, slot: String, content: ContentDB) ->
 	if profile.money < int(cost["coins"]):
 		return "coins"
 	for item_id: String in cost["items"]:
-		if profile.count(item_id) < int(cost["items"][item_id]):
+		if available(profile, content, item_id) < int(cost["items"][item_id]):
 			return "materials"
 	return ""
+
+
+## How much of workbench material `material` the hero can pay: the material
+## itself and what stands in for it (an item's "counts_as", e.g. a Basic
+## Enhancement Stone counts as one Scrap Metal). Costs, odds and limits are
+## the workbench's own: a stand-in is only another way to pay.
+static func available(profile: PlayerProfile, content: ContentDB, material: String) -> int:
+	var total := profile.count(material)
+	for stand_in: Array in _stand_ins(content, material):
+		total += profile.count(str(stand_in[0])) * int(stand_in[1])
+	return total
+
+
+## Items that count as `material`: [[item id, how many it counts as]], the
+## smallest first, so paying uses the least valuable stand-in first.
+static func _stand_ins(content: ContentDB, material: String) -> Array:
+	var out := []
+	for id: String in content.items:
+		var worth := int(content.items[id].get("counts_as", {}).get(material, 0))
+		if worth > 0:
+			out.append([id, worth])
+	out.sort_custom(func(a: Array, b: Array) -> bool: return a[1] < b[1])
+	return out
+
+
+## Pays `need` of `material`: the material itself first, then stand-ins.
+## A stand-in worth more than what is still owed is used whole (no change).
+static func _pay(profile: PlayerProfile, content: ContentDB, material: String, need: int) -> void:
+	var own := mini(profile.count(material), need)
+	if own > 0:
+		profile.remove_item(material, own)
+	need -= own
+	for stand_in: Array in _stand_ins(content, material):
+		var worth := int(stand_in[1])
+		var used := mini(profile.count(str(stand_in[0])), ceili(float(need) / worth))
+		if used > 0:
+			profile.remove_item(str(stand_in[0]), used)
+		need -= used * worth
+		if need <= 0:
+			return
 
 
 ## One attempt, all or nothing: checks, pays, rolls, applies. Returns
@@ -100,7 +140,7 @@ static func attempt(
 	var odds := chance(profile, slot, content)
 	profile.money -= int(cost["coins"])
 	for material: String in cost["items"]:
-		profile.remove_item(material, int(cost["items"][material]))
+		_pay(profile, content, material, int(cost["items"][material]))
 	profile.enhance_pity.erase(copy)  # an old save's count, never used
 	if rng.randf() < odds:
 		profile.enhance[copy] = level(profile, slot) + 1

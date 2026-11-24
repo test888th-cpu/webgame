@@ -87,6 +87,8 @@ var boss_fx: Dictionary = {}
 ## {"bosses": {boss: {"tier", "level", "skills"}}, "skills": {id: definition}}.
 ## A catalogue of its own, never the heroes' skills.json.
 var boss_skills: Dictionary = {}
+## Reference registries (Rpg* accessors): data only until their gameplay phase.
+var rpg: Dictionary = {}
 var audio: Dictionary = {}
 ## Bundled fonts: {"thai": {"file", "license", ...}}.
 var fonts: Dictionary = {}
@@ -96,6 +98,8 @@ var tutorial: Array = []
 ## what it pays (world_boss.json, see WorldBossRules).
 var world_bosses: Dictionary = {}
 var errors: PackedStringArray = []
+## The item ecosystem on top of items.json (ItemCatalog).
+var catalog: ItemCatalog
 
 
 static func load_all(dir := DATA_DIR) -> ContentDB:
@@ -105,6 +109,7 @@ static func load_all(dir := DATA_DIR) -> ContentDB:
 		db.errors.append("moves.json: " + error)
 	db.enemies = db._section(dir, "enemies.json", "enemies")
 	db.items = db._section(dir, "items.json", "items")
+	ItemCatalog.load_into(db, dir)  # the new items, drops, looks and test merchant
 	db.quests = db._section(dir, "quests.json", "quests")
 	db.shops = db._section(dir, "shops.json", "shops")
 	var area_file := db._read(dir.path_join("areas.json"))
@@ -130,6 +135,8 @@ static func load_all(dir := DATA_DIR) -> ContentDB:
 	db.world_bosses = db._read(dir.path_join("world_boss.json")).get("world_bosses", {})
 	db.boss_fx = db._read(dir.path_join("boss_fx.json"))
 	db.boss_skills = db._read(dir.path_join("boss_skills.json"))
+	# Phase B2 registries (docs/PHASE_B2_PLAN.md): validated, not used by gameplay.
+	db.rpg = RpgRegistryLoader.load_rpg(db._read, dir)
 	db.item_cooldown = int(skill_file.get("item_cooldown", 0))
 	var manifest := db._read(ART_MANIFEST)
 	db.art = manifest.get("assets", {})
@@ -234,6 +241,8 @@ func validate() -> void:
 	for id: String in enemies:
 		_validate_enemy(id, enemies[id])
 	_validate_world_boss()
+	if catalog:
+		errors.append_array(catalog.problems(self))
 	errors.append_array(BossFxRules.problems(self))
 	errors.append_array(BossSkillRules.problems(self))
 	for id: String in items:
@@ -257,6 +266,7 @@ func validate() -> void:
 	errors.append_array(JobRules.problems(self))
 	errors.append_array(ArenaRules.problems(self))
 	errors.append_array(SkillRegistry.problems(self))
+	errors.append_array(RpgRegistryLoader.problems(self))
 	_validate_progression()
 	_validate_weapons()
 	_validate_heroes()
@@ -935,9 +945,8 @@ func _validate_art() -> void:
 	var icons: Dictionary = ui.get("icons", {}).get("regions", {})
 	for id: String in items:
 		var icon := str(items[id].get("icon", ""))
-		_check(
-			icon == "" or icons.has(icon), "items.%s.icon: no icon %s in the UI sheet" % [id, icon]
-		)
+		var known := icons.has(icon) or (catalog != null and catalog.has_placeholder_icon(icon))
+		_check(icon == "" or known, "items.%s.icon: no icon %s" % [id, icon])
 	for sprite: String in wanted:
 		var entry: Dictionary = art.get(sprite, {})
 		_check(
@@ -966,6 +975,16 @@ func _section(dir: String, file: String, key: String) -> Dictionary:
 		errors.append('%s: expected {"%s": {...}}' % [file, key])
 		return {}
 	return section
+
+
+## A registry kept outside the game build (data/registry/), by absolute path; {} if
+## absent (an exported build has no data/registry). The one reader for those
+## registries: RpgRegistryLoader receives it as a Callable, so file access stays
+## in this reviewed loader (test_sim_purity).
+static func read_registry(path: String) -> Dictionary:
+	var text := FileAccess.get_file_as_string(path) if FileAccess.file_exists(path) else ""
+	var data: Variant = JSON.parse_string(text) if text else null
+	return data if data is Dictionary else {}
 
 
 func _read(path: String) -> Dictionary:

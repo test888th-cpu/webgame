@@ -1,0 +1,141 @@
+{
+  "version": 1,
+  "appearances": {
+    "look_body_shirt": {
+      "slot": "body",
+      "asset": "ph_look_body_shirt"
+    },
+    "look_body_jacket": {
+      "slot": "body",
+      "asset": "ph_look_body_jacket"
+    },
+    "look_body_coat": {
+      "slot": "body",
+      "asset": "ph_look_body_coat"
+    },
+    "look_body_robe": {
+      "slot": "body",
+      "asset": "ph_look_body_robe"
+    },
+    "look_body_mantle": {
+      "slot": "body",
+      "asset": "ph_look_body_mantle"
+    },
+    "look_weapon_wrap": {
+      "slot": "weapon",
+      "asset": "ph_look_weapon_wrap"
+    },
+    "look_weapon_plate": {
+      "slot": "weapon",
+      "asset": "ph_look_weapon_plate"
+    },
+    "look_weapon_steel": {
+      "slot": "weapon",
+      "asset": "ph_look_weapon_steel"
+    },
+    "look_weapon_gauntlet": {
+      "slot": "weapon",
+      "asset": "ph_look_weapon_gauntlet"
+    },
+    "look_weapon_fist": {
+      "slot": "weapon",
+      "asset": "ph_look_weapon_fist"
+    },
+    "look_head_arcane_wizard_hat": {
+      "slot": "head",
+      "asset": "hat_arcane_wizard_hat"
+    },
+    "look_head_golden_lion_helm": {
+      "slot": "head",
+      "asset": "hat_golden_lion_helm"
+    },
+    "look_head_sakura_wizard_hat": {
+      "slot": "head",
+      "asset": "hat_sakura_wizard_hat"
+    },
+    "look_head_frost_fur_hood": {
+      "slot": "head",
+      "asset": "hat_frost_fur_hood"
+    },
+    "look_head_dragonscale_hood": {
+      "slot": "head",
+      "asset": "hat_dragonscale_hood"
+    },
+    "look_head_starlight_wizard_hat": {
+      "slot": "head",
+      "asset": "hat_starlight_wizard_hat"
+    },
+    "look_head_lion_king_crown": {
+      "slot": "head",
+      "asset": "hat_lion_king_crown"
+    },
+    "look_head_crystal_tiara": {
+      "slot": "head",
+      "asset": "hat_crystal_tiara"
+    },
+    "look_head_sakura_straw_hat": {
+      "slot": "head",
+      "asset": "hat_sakura_straw_hat"
+    },
+    "look_head_midnight_wizard_hat": {
+      "slot": "head",
+      "asset": "hat_midnight_wizard_hat"
+    },
+    "look_head_glacier_crown": {
+      "slot": "head",
+      "asset": "hat_glacier_crown"
+    },
+    "look_head_emerald_feather_hat": {
+      "slot": "head",
+      "asset": "hat_emerald_feather_hat"
+    },
+    "look_head_horned_crown": {
+      "slot": "head",
+      "asset": "hat_horned_crown"
+    },
+    "look_head_ice_crown": {
+      "slot": "head",
+      "asset": "hat_ice_crown"
+    },
+    "look_head_officer_cap": {
+      "slot": "head",
+      "asset": "hat_officer_cap"
+    },
+    "look_head_phoenix_feather_hat": {
+      "slot": "head",
+      "asset": "hat_phoenix_feather_hat"
+    },
+    "look_head_obsidian_crown": {
+      "slot": "head",
+      "asset": "hat_obsidian_crown"
+    },
+    "look_head_crested_knight_helm": {
+      "slot": "head",
+      "asset": "hat_crested_knight_helm"
+    },
+    "look_head_rising_sun_headband": {
+      "slot": "head",
+      "asset": "hat_rising_sun_headband"
+    },
+    "look_head_jewelled_crown": {
+      "slot": "head",
+      "asset": "hat_jewelled_crown"
+    },
+    "look_head_dragon_bandana": {
+      "slot": "head",
+      "asset": "hat_dragon_bandana"
+    },
+    "look_head_tiger_hood": {
+      "slot": "head",
+      "asset": "hat_tiger_hood"
+    },
+    "look_head_phoenix_tiara": {
+      "slot": "head",
+      "asset": "hat_phoenix_tiara"
+    },
+    "look_head_cyber_visor": {
+      "slot": "head",
+      "asset": "hat_cyber_visor"
+    }
+  }
+}

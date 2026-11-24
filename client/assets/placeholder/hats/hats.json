@@ -1,0 +1,494 @@
+{
+  "arcane_wizard_hat": {
+    "sheet": "art/placeholder/hats/sheet_1.jpg",
+    "place": 1,
+    "box": [
+      55,
+      67,
+      493,
+      322
+    ],
+    "fit": "cover",
+    "size": [
+      32,
+      19
+    ],
+    "anchor": [
+      14,
+      17,
+      10
+    ]
+  },
+  "golden_lion_helm": {
+    "sheet": "art/placeholder/hats/sheet_1.jpg",
+    "place": 2,
+    "box": [
+      580,
+      47,
+      876,
+      337
+    ],
+    "fit": "cover",
+    "size": [
+      28,
+      27
+    ],
+    "anchor": [
+      14,
+      23,
+      12
+    ]
+  },
+  "sakura_wizard_hat": {
+    "sheet": "art/placeholder/hats/sheet_1.jpg",
+    "place": 3,
+    "box": [
+      986,
+      70,
+      1354,
+      320
+    ],
+    "fit": "cover",
+    "size": [
+      32,
+      22
+    ],
+    "anchor": [
+      14,
+      20,
+      12
+    ]
+  },
+  "frost_fur_hood": {
+    "sheet": "art/placeholder/hats/sheet_1.jpg",
+    "place": 4,
+    "box": [
+      115,
+      408,
+      420,
+      712
+    ],
+    "fit": "hood",
+    "size": [
+      28,
+      28
+    ],
+    "anchor": [
+      14,
+      26,
+      14
+    ],
+    "opening": [
+      17,
+      14
+    ]
+  },
+  "dragonscale_hood": {
+    "sheet": "art/placeholder/hats/sheet_1.jpg",
+    "place": 5,
+    "box": [
+      580,
+      412,
+      865,
+      703
+    ],
+    "fit": "hood",
+    "size": [
+      28,
+      29
+    ],
+    "anchor": [
+      14,
+      27,
+      14
+    ],
+    "opening": [
+      19,
+      20
+    ]
+  },
+  "starlight_wizard_hat": {
+    "sheet": "art/placeholder/hats/sheet_1.jpg",
+    "place": 6,
+    "box": [
+      983,
+      422,
+      1358,
+      680
+    ],
+    "fit": "cover",
+    "size": [
+      32,
+      22
+    ],
+    "anchor": [
+      15,
+      20,
+      12
+    ]
+  },
+  "lion_king_crown": {
+    "sheet": "art/placeholder/hats/sheet_2.jpg",
+    "place": 1,
+    "box": [
+      76,
+      79,
+      395,
+      304
+    ],
+    "fit": "cover",
+    "size": [
+      28,
+      20
+    ],
+    "anchor": [
+      14,
+      19,
+      11
+    ]
+  },
+  "crystal_tiara": {
+    "sheet": "art/placeholder/hats/sheet_2.jpg",
+    "place": 2,
+    "box": [
+      555,
+      65,
+      870,
+      300
+    ],
+    "fit": "band",
+    "size": [
+      26,
+      19
+    ],
+    "anchor": [
+      15,
+      13,
+      10
+    ],
+    "row": 7
+  },
+  "sakura_straw_hat": {
+    "sheet": "art/placeholder/hats/sheet_2.jpg",
+    "place": 3,
+    "box": [
+      956,
+      47,
+      1366,
+      325
+    ],
+    "fit": "cover",
+    "size": [
+      34,
+      23
+    ],
+    "anchor": [
+      16,
+      14,
+      9
+    ]
+  },
+  "midnight_wizard_hat": {
+    "sheet": "art/placeholder/hats/sheet_2.jpg",
+    "place": 4,
+    "box": [
+      44,
+      439,
+      427,
+      680
+    ],
+    "fit": "cover",
+    "size": [
+      32,
+      20
+    ],
+    "anchor": [
+      15,
+      18,
+      12
+    ]
+  },
+  "glacier_crown": {
+    "sheet": "art/placeholder/hats/sheet_2.jpg",
+    "place": 5,
+    "box": [
+      552,
+      425,
+      867,
+      684
+    ],
+    "fit": "cover",
+    "size": [
+      27,
+      22
+    ],
+    "anchor": [
+      14,
+      20,
+      14
+    ]
+  },
+  "emerald_feather_hat": {
+    "sheet": "art/placeholder/hats/sheet_2.jpg",
+    "place": 6,
+    "box": [
+      959,
+      469,
+      1372,
+      674
+    ],
+    "fit": "cover",
+    "size": [
+      32,
+      16
+    ],
+    "anchor": [
+      14,
+      14,
+      8
+    ]
+  },
+  "horned_crown": {
+    "sheet": "art/placeholder/hats/sheet_3.jpg",
+    "place": 1,
+    "box": [
+      109,
+      60,
+      395,
+      300
+    ],
+    "fit": "cover",
+    "size": [
+      28,
+      24
+    ],
+    "anchor": [
+      13,
+      23,
+      15
+    ]
+  },
+  "ice_crown": {
+    "sheet": "art/placeholder/hats/sheet_3.jpg",
+    "place": 2,
+    "box": [
+      550,
+      66,
+      837,
+      300
+    ],
+    "fit": "cover",
+    "size": [
+      27,
+      22
+    ],
+    "anchor": [
+      14,
+      20,
+      14
+    ]
+  },
+  "officer_cap": {
+    "sheet": "art/placeholder/hats/sheet_3.jpg",
+    "place": 3,
+    "box": [
+      974,
+      77,
+      1284,
+      283
+    ],
+    "fit": "cover",
+    "size": [
+      30,
+      20
+    ],
+    "anchor": [
+      16,
+      18,
+      10
+    ]
+  },
+  "phoenix_feather_hat": {
+    "sheet": "art/placeholder/hats/sheet_3.jpg",
+    "place": 4,
+    "box": [
+      80,
+      387,
+      441,
+      656
+    ],
+    "fit": "cover",
+    "size": [
+      32,
+      24
+    ],
+    "anchor": [
+      14,
+      22,
+      14
+    ]
+  },
+  "obsidian_crown": {
+    "sheet": "art/placeholder/hats/sheet_3.jpg",
+    "place": 5,
+    "box": [
+      550,
+      421,
+      848,
+      650
+    ],
+    "fit": "cover",
+    "size": [
+      27,
+      21
+    ],
+    "anchor": [
+      14,
+      20,
+      13
+    ]
+  },
+  "crested_knight_helm": {
+    "sheet": "art/placeholder/hats/sheet_3.jpg",
+    "place": 6,
+    "box": [
+      969,
+      398,
+      1284,
+      644
+    ],
+    "fit": "cover",
+    "size": [
+      28,
+      22
+    ],
+    "anchor": [
+      14,
+      19,
+      10
+    ]
+  },
+  "rising_sun_headband": {
+    "sheet": "art/placeholder/hats/sheet_4.jpg",
+    "place": 1,
+    "box": [
+      26,
+      108,
+      475,
+      354
+    ],
+    "fit": "band",
+    "size": [
+      30,
+      16
+    ],
+    "anchor": [
+      16,
+      8,
+      4
+    ],
+    "row": 9
+  },
+  "jewelled_crown": {
+    "sheet": "art/placeholder/hats/sheet_4.jpg",
+    "place": 2,
+    "box": [
+      566,
+      88,
+      915,
+      292
+    ],
+    "fit": "cover",
+    "size": [
+      27,
+      16
+    ],
+    "anchor": [
+      13,
+      15,
+      10
+    ]
+  },
+  "dragon_bandana": {
+    "sheet": "art/placeholder/hats/sheet_4.jpg",
+    "place": 3,
+    "box": [
+      974,
+      70,
+      1367,
+      345
+    ],
+    "fit": "cover",
+    "size": [
+      29,
+      20
+    ],
+    "anchor": [
+      15,
+      12,
+      6
+    ]
+  },
+  "tiger_hood": {
+    "sheet": "art/placeholder/hats/sheet_4.jpg",
+    "place": 4,
+    "box": [
+      115,
+      433,
+      456,
+      679
+    ],
+    "fit": "cover",
+    "size": [
+      28,
+      20
+    ],
+    "anchor": [
+      14,
+      17,
+      10
+    ]
+  },
+  "phoenix_tiara": {
+    "sheet": "art/placeholder/hats/sheet_4.jpg",
+    "place": 5,
+    "box": [
+      498,
+      381,
+      945,
+      676
+    ],
+    "fit": "band",
+    "size": [
+      28,
+      18
+    ],
+    "anchor": [
+      15,
+      14,
+      10
+    ],
+    "row": 7
+  },
+  "cyber_visor": {
+    "sheet": "art/placeholder/hats/sheet_4.jpg",
+    "place": 6,
+    "box": [
+      1002,
+      466,
+      1369,
+      668
+    ],
+    "fit": "band",
+    "size": [
+      27,
+      15
+    ],
+    "anchor": [
+      13,
+      13,
+      6
+    ],
+    "row": 12
+  }
+}

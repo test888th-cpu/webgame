@@ -91,11 +91,16 @@ func test_the_pixelfx_effects_load_and_play() -> void:
 	var content := GameSession.content
 	var imported: Dictionary = content.fx_credits
 	assert_eq(imported.get("license"), "MIT", "MIT, as pixelfx is")
+	# Effects are added to the library the first time they play (Fx._ensure), so a
+	# fresh library holds none until one is asked for.
+	GameSession.fx_library = {}
 	var library := Fx._library(content)
 	var frames: SpriteFrames = library["frames"]
+	assert_eq(frames.get_animation_names().size(), 0, "nothing loaded before an effect plays")
 	var effects: Dictionary = content.fx["effects"]
 	var pixelfx := 0
 	for id: String in effects:
+		assert_true(Fx._ensure(library, content, id), id + ": known")
 		assert_true(frames.has_animation(id), id + ": an animation")
 		assert_eq(frames.get_frame_count(id), int(effects[id]["frames"]), id + ": every frame")
 		if effects[id].has("sheet"):

@@ -1,10 +1,13 @@
 // Serves a Godot web export over HTTP, opens it in headless Chromium, waits
 // for the client's boot marker on the console, then holds real keys and checks
-// that the game plays: title -> new game -> hero creation, movement, a combo on the training
-// dummy, the pause menu, walking to the next area and fighting its enemies
-// (all via the read-only window.ironboundProbe).
+// that the game plays: title -> new game -> name and class (the new character
+// system) -> the street, walking, an auto fight to a kill, the game's screens
+// (Character, Equipment, Bag, Skills, Settings: a setting, taking gear off and the
+// hotbar changed), then, once the game confirms each save, an immediate reload and
+// Continue to the same character with every change kept (all via the read-only
+// window.ironboundProbe). --shots=<dir> saves a screenshot of each screen.
 //
-//   node smoke.ts <export-dir> [--timeout-ms=60000] [--screenshot=path.png]
+//   node smoke.ts <export-dir> [--timeout-ms=60000] [--screenshot=path.png] [--cpu-throttle=6]
 //   node smoke.ts --url=https://example.org/game/ [...]   (a deployed build)
 //
 // Exits non-zero on timeout, uncaught page errors, failed requests, or if
@@ -33,35 +36,38 @@ const timeoutArg = args.find((a) => a.startsWith("--timeout-ms="));
 const timeoutMs = timeoutArg ? Number(timeoutArg.split("=")[1]) : 60_000;
 const screenshot = args.find((a) => a.startsWith("--screenshot="))?.split("=")[1];
 const remoteUrl = args.find((a) => a.startsWith("--url="))?.slice("--url=".length);
-
-interface Foe {
-  x: number;
-  y: number;
-  hp: number;
-  kind: string;
-}
+const shotsDir = args.find((a) => a.startsWith("--shots="))?.slice("--shots=".length);
+// --cpu-throttle=N slows the page's CPU N times (Chrome DevTools emulation), as on a
+// slow phone or a busy CI runner; every wait scales with it.
+const throttleArg = args.find((a) => a.startsWith("--cpu-throttle="));
+const slow = throttleArg ? Math.max(1, Number(throttleArg.split("=")[1])) : 1;
 
 interface Probe {
   scene: string;
-  area: string;
-  menu: string;
-  x: number;
-  y: number;
-  facing: number;
-  hp: number;
-  energy: number;
-  state: string;
-  level: number;
-  money: number;
-  fighting: boolean;
-  enemies: Foe[];
-  hits: number;
-  hero_hits: number;
-  cooldowns: Record<string, number>;
-  weapon?: string;
-  street_weapons?: [number, number][];
-  hero?: string;
+  has_save?: boolean;
+  has_character?: boolean;
   name?: string;
+  class?: string;
+  level?: number;
+  kills?: number;
+  focus?: string;
+  menu?: string;
+  save_requested?: number;
+  save_durable?: number;
+  settings_requested?: number;
+  settings_durable?: number;
+  show_fps?: boolean;
+  equipment?: Record<string, string>;
+  bag?: string[];
+  hotbar?: string[];
+  attack_power?: number;
+  armor?: number;
+  auto?: boolean;
+  area?: string;
+  x?: number;
+  hp?: number;
+  dead?: boolean;
+  monsters?: number;
 }
 
 // A deployed build is tested where it is; an export directory is served
@@ -98,6 +104,10 @@ const browser = await chromium.launch({
 let bootLine = "";
 try {
   const page = await browser.newPage();
+  if (slow > 1) {
+    const cdp = await page.context().newCDPSession(page);
+    await cdp.send("Emulation.setCPUThrottlingRate", { rate: slow });
+  }
   page.on("pageerror", (err) => problems.push(`page error: ${err.message}`));
   page.on("requestfailed", (r) => problems.push(`request failed: ${r.url()}`));
   page.on("response", (r) => {
@@ -133,14 +143,8 @@ try {
     if (!value) throw new Error("window.ironboundProbe was never published");
     return value;
   };
-  const hold = async (key: string, ms: number): Promise<void> => {
-    await page.keyboard.down(key);
-    await page.waitForTimeout(ms);
-    await page.keyboard.up(key);
-  };
-
   const waitFor = async (what: string, ok: (p: Probe) => boolean, ms: number): Promise<Probe> => {
-    const until = Date.now() + ms;
+    const until = Date.now() + ms * slow;
     let last = await probe();
     while (!ok(last)) {
       if (Date.now() > until) throw new Error(`timed out waiting for ${what}: ${JSON.stringify(last)}`);
@@ -148,191 +152,160 @@ try {
     }
     return last;
   };
-  const nearest = (p: Probe): Foe | undefined =>
-    [...p.enemies].sort((a, b) => Math.abs(a.x - p.x) - Math.abs(b.x - p.x))[0];
-  // Steps toward `foe` (lane first, then along the street) and swings once.
-  // The jab reaches 12 px of lane depth and about 40 px along the street.
-  const engage = async (p: Probe, foe: Foe, swing = true): Promise<void> => {
-    if (Math.abs(p.y - foe.y) > 8) {
-      await hold(p.y > foe.y ? "ArrowUp" : "ArrowDown", 60);
-    } else if (Math.abs(foe.x - p.x) > 34) {
-      await hold(foe.x > p.x ? "ArrowRight" : "ArrowLeft", 80);
-    } else {
-      if ((foe.x > p.x ? 1 : -1) !== p.facing) await hold(foe.x > p.x ? "ArrowRight" : "ArrowLeft", 30);
-      if (swing) await page.keyboard.press("KeyJ");
+  // Moves keyboard focus with Tab until the focused control's name matches.
+  const focusOn = async (what: string, ok: (name: string) => boolean): Promise<void> => {
+    for (let i = 0; i < 150; i++) {
+      if (ok((await probe()).focus ?? "")) return;
+      await page.keyboard.press("Tab");
     }
+    throw new Error(`could not reach ${what} with Tab`);
   };
 
-  // Title screen -> New game (focused by default).
+  // A fresh browser: the title offers New game (focused by default).
   await waitFor("the title screen", (p) => p.scene === "title", 10_000);
   await page.keyboard.press("Enter");
-  // Hero creation: pick the second hero with the keyboard, type a name, start.
-  await waitFor("hero creation", (p) => p.scene === "create", 10_000);
-  await page.keyboard.press("ArrowDown");
-  const chosen = await waitFor("the second hero", (p) => p.hero !== undefined && p.hero !== "mika", 3_000);
-  await page.keyboard.press("Enter");
-  await page.keyboard.press("Control+A");
+  // The new character system: type a name, then choose a class.
+  await waitFor("character creation", (p) => p.scene === "rpg" && !p.has_character, 10_000);
+  await focusOn("the name field", (n) => n === "NameEdit");
   await page.keyboard.type("Smoke Test");
-  await waitFor("the typed name", (p) => p.name === "Smoke Test", 3_000);
+  await focusOn("the mage class", (n) => n === "Class_mage");
   await page.keyboard.press("Enter");
-  const start = await waitFor("the game to start", (p) => p.scene === "game", 15_000);
-  if (start.hero !== chosen.hero || start.name !== "Smoke Test") {
-    problems.push(`started as ${start.hero}/${start.name}, expected ${chosen.hero}/Smoke Test`);
+  // Creating the character opens the city: the street, on the new engine.
+  const made = await waitFor("the street", (p) => p.scene === "street", 15_000);
+  if (made.name !== "Smoke Test" || made.class !== "mage" || made.level !== 1) {
+    problems.push(`created ${made.name}/${made.class}/${made.level}, expected Smoke Test/mage/1`);
   }
-  console.log(`new game: ${start.hero} "${start.name}" in ${start.area}, level ${start.level}, ${start.enemies.length} enemy`);
+  console.log(`new character: "${made.name}", ${made.class}, level ${made.level}, in ${made.area}`);
 
-  // Movement.
-  await hold("ArrowRight", 800);
-  const right = await probe();
-  if (!(right.x > start.x + 20)) problems.push(`ArrowRight did not move right: ${start.x} -> ${right.x}`);
-  await hold("KeyW", 500);
-  const up = await probe();
-  if (!(up.y < right.y - 5)) problems.push(`W did not move into the lane: ${right.y} -> ${up.y}`);
-  await hold("ArrowLeft", 300);
-  const left = await probe();
-  if (left.facing !== -1) problems.push(`ArrowLeft did not turn the character (facing ${left.facing})`);
-  console.log(
-    `input: start (${start.x.toFixed(1)}, ${start.y.toFixed(1)}) -> right x=${right.x.toFixed(1)}` +
-      ` -> up y=${up.y.toFixed(1)} -> left facing=${left.facing}`,
-  );
-
-  // Training dummy: line up, then a three-hit combo.
-  const lineUp = async (): Promise<Probe> => {
-    let near = await probe();
-    for (let i = 0; i < 60; i++) {
-      const dummy = nearest(near);
-      if (!dummy || (Math.abs(near.y - dummy.y) <= 3 && dummy.x - near.x <= 26 && near.facing === 1)) break;
-      // Line up without swinging, so the combo below starts on a fresh dummy.
-      if (Math.abs(near.y - dummy.y) > 3) await hold(near.y > dummy.y ? "ArrowUp" : "ArrowDown", 50);
-      else await hold("ArrowRight", 70);
-      near = await probe();
-    }
-    return near;
-  };
-  const before = await lineUp();
-  for (let i = 0; i < 3; i++) {
-    await page.keyboard.press("KeyJ");
-    await page.waitForTimeout(140);
+  // Creation enters the street only once the new character is durable, so a reload
+  // at that very moment must find it (Continue on the title).
+  await page.reload();
+  await page.waitForFunction(() => (window as { ironboundProbe?: unknown }).ironboundProbe, null, {
+    timeout: timeoutMs,
+  });
+  await waitFor("Continue after an immediate reload", (p) => p.scene === "title" && p.has_save === true, timeoutMs);
+  await canvas.first().click();
+  await page.keyboard.press("Enter");
+  const kept = await waitFor("the new character after reload", (p) => p.scene === "street", 15_000);
+  if (kept.name !== "Smoke Test" || kept.class !== "mage") {
+    problems.push(`the new character was not kept: ${kept.name}/${kept.class}`);
   }
-  const fought = await probe();
-  const dummyBefore = nearest(before)?.hp ?? 0;
-  const dummyAfter = nearest(fought)?.hp ?? 0;
-  if (!(fought.hero_hits > before.hero_hits && dummyAfter < dummyBefore)) {
-    problems.push(
-      `attacks did not land on the dummy: hits ${before.hero_hits} -> ${fought.hero_hits}, ` +
-        `dummy hp ${dummyBefore} -> ${dummyAfter}`,
-    );
-  }
-  console.log(`combat: ${fought.hero_hits - before.hero_hits} hit(s), dummy hp ${dummyBefore} -> ${dummyAfter}`);
+  console.log(`created then reloaded at once: "${kept.name}", ${kept.class}`);
 
-  // Hotbar slot 2 (number key) casts the hero's first skill, the one a new
-  // hero has at level 1, which reaches the dummy in front and starts its
-  // cooldown. A skill that grabs (the Grappler's) holds the dummy; the attack
-  // key then throws it, which is the hit.
-  await page.waitForTimeout(900); // the dummy gets back up
-  const preSkill = await lineUp();
-  await page.keyboard.press("Digit2");
-  const cooling = (p: Probe): string[] => Object.keys(p.cooldowns ?? {}).filter((id) => p.cooldowns[id] > 0);
-  const cast = await waitFor("a skill cooldown", (p) => cooling(p).length > 0, 3_000);
-  await page.waitForTimeout(400);
-  await page.keyboard.press("KeyJ");
-  await page.waitForTimeout(600);
-  const afterSkill = await probe();
-  if (!(afterSkill.hero_hits > preSkill.hero_hits)) {
-    problems.push(`the skill did not hit: hits ${preSkill.hero_hits} -> ${afterSkill.hero_hits}`);
-  }
-  const skill = cooling(cast)[0];
-  console.log(`skill: ${skill} cast (cooldown ${cast.cooldowns[skill]} ticks), hits ${preSkill.hero_hits} -> ${afterSkill.hero_hits}`);
+  // Walking: held keys move the character along the street.
+  const before = await probe();
+  await page.keyboard.down("ArrowRight");
+  await page.waitForTimeout(700);
+  await page.keyboard.up("ArrowRight");
+  const walked = await probe();
+  if (!((walked.x ?? 0) > (before.x ?? 0))) problems.push(`walking right did not move: ${before.x} -> ${walked.x}`);
+  console.log(`walk: x ${before.x} -> ${walked.x} in ${walked.area}`);
 
-  // A weapon from the yard: walk onto it, E picks it up, Z swings it.
-  let armed = await probe();
-  const yardWeapon = (armed.street_weapons ?? [])[0];
-  if (!yardWeapon) {
-    problems.push("no weapon lying in the yard");
-  } else {
-    for (let i = 0; i < 160 && !armed.weapon; i++) {
-      const [wx, wy] = (armed.street_weapons ?? [])[0] ?? yardWeapon;
-      const x = armed.x;
-      // Along the street first, then into the lane: lining up in depth first
-      // walked straight back behind whatever had just been gone round (a
-      // weapon lying past a power pole at the top of the lane).
-      // Long steps while far, short ones to line up: 40 ms steps alone used
-      // up the step budget crossing the yard on a slow software renderer.
-      if (Math.abs(armed.x - wx) > 10) {
-        await hold(armed.x < wx ? "ArrowRight" : "ArrowLeft", Math.abs(armed.x - wx) > 60 ? 250 : 40);
-        armed = await probe();
-        // Bodies are solid (the dummy, a crate): go round below or above.
-        if (Math.abs(armed.x - x) < 1) {
-          const y = armed.y;
-          await hold(armed.y < 320 ? "ArrowDown" : "ArrowUp", 300);
-          armed = await probe();
-          if (Math.abs(armed.y - y) < 1) await hold(armed.y < 320 ? "ArrowUp" : "ArrowDown", 400);
-          await hold(armed.x < wx ? "ArrowRight" : "ArrowLeft", 400);
-        }
-      } else if (Math.abs(armed.y - wy) > 6) {
-        // Long steps while far: a 40 ms tap barely moves the hero on a slow
-        // software renderer, so a weapon 25 px down the lane (after going
-        // round the dummy) used up the whole step budget.
-        await hold(armed.y > wy ? "ArrowUp" : "ArrowDown", Math.min(250, Math.max(40, Math.abs(armed.y - wy) * 6)));
-      }
-      else await page.keyboard.press("KeyE");
-      armed = await probe();
-    }
-    if (!armed.weapon) problems.push(`could not pick up the weapon at ${yardWeapon}`);
-    console.log(`weapon: picked up ${armed.weapon || "nothing"} at (${yardWeapon.map((v) => v.toFixed(0)).join(", ")})`);
-  }
-
-  // Pause menu opens and closes.
-  await page.keyboard.press("Escape");
-  await waitFor("the pause menu", (p) => p.menu === "pause", 3_000);
-  await page.keyboard.press("Escape");
-  await waitFor("the pause menu to close", (p) => p.menu === "", 3_000);
-  console.log("pause menu: opened and closed");
-
-  // Walk east into the next area, then into its first fight. Lamp posts, bins,
-  // crates, NPCs and the dummy are solid, so step down or up the lane to get
-  // round whatever stops the hero.
-  const walkEast = async (what: string, done: (p: Probe) => boolean): Promise<Probe> => {
-    const until = Date.now() + 40_000;
-    let p = await probe();
-    let side = "ArrowDown";
-    while (!done(p)) {
-      if (Date.now() > until) throw new Error(`timed out walking east to ${what}, stuck at (${p.x.toFixed(0)}, ${p.y.toFixed(0)}) in ${p.area}`);
-      const x = p.x;
-      await hold("ArrowRight", 300);
-      p = await probe();
-      if (done(p) || p.x > x + 2) continue;
-      if (p.y >= 336) side = "ArrowUp";
-      if (p.y <= 254) side = "ArrowDown";
-      const y = p.y;
-      await hold(side, 250);
-      p = await probe();
-      // Blocked that way too: go round the other side.
-      if (Math.abs(p.y - y) < 1) {
-        side = side === "ArrowDown" ? "ArrowUp" : "ArrowDown";
-        await hold(side, 400);
-        p = await probe();
-      }
-    }
-    return p;
-  };
-  const street = await walkEast("the next area", (p) => p.area !== start.area);
-  const fight = await walkEast("an encounter", (p) => p.fighting && p.enemies.length > 0);
-  if (street.weapon) problems.push(`carried ${street.weapon} into ${street.area}; weapons must stay in their area`);
-  console.log(`travelled: ${start.area} -> ${street.area}; encounter with ${fight.enemies.map((e) => e.kind).join(", ")}`);
-  let state = fight;
+  // Into the first street with monsters, then auto (T) fights until a kill.
+  let street = walked;
   const until = Date.now() + 30_000;
-  while (state.hero_hits - fight.hero_hits < 3 && Date.now() < until && state.hp > 0) {
-    const foe = nearest(state);
-    if (foe) await engage(state, foe);
-    state = await probe();
+  while (street.monsters === 0 && Date.now() < until) {
+    await page.keyboard.down("ArrowRight");
+    await page.waitForTimeout(500);
+    await page.keyboard.up("ArrowRight");
+    street = await probe();
   }
-  if (state.hero_hits - fight.hero_hits < 3) {
-    problems.push(`could not land 3 hits on real enemies (landed ${state.hero_hits - fight.hero_hits}, hero hp ${state.hp})`);
+  if (street.monsters === 0) throw new Error(`no street with monsters reached: ${JSON.stringify(street)}`);
+  await page.keyboard.press("KeyT");
+  const fought = await waitFor("a kill on auto", (p) => (p.kills ?? 0) >= 1 || p.dead === true, 120_000);
+  if ((fought.kills ?? 0) < 1) problems.push(`no kill on auto: ${JSON.stringify(fought)}`);
+  console.log(`street fight in ${fought.area}: kills ${fought.kills}, hp ${fought.hp}, level ${fought.level}`);
+  await page.keyboard.press("KeyT"); // auto off: the screens are used standing still
+  await waitFor("auto off", (p) => p.auto === false, 5_000);
+
+  // The game's own screens. C opens Character; E moves to the next screen.
+  const shot = async (name: string): Promise<void> => {
+    if (shotsDir) await page.screenshot({ path: `${shotsDir}/${name}.png` });
+  };
+  await page.keyboard.press("KeyC");
+  const character = await waitFor("Character", (p) => p.menu === "character", 5_000);
+  await shot("character");
+  for (const name of ["equipment", "bag", "skills", "settings"]) {
+    await page.keyboard.press("KeyE");
+    await waitFor(name, (p) => p.menu === name, 5_000);
+    await shot(name);
   }
+  console.log(`screens: character (attack power ${character.attack_power}), equipment, bag, skills, settings`);
+
+  // A change is durable once the browser store's committed number for its file
+  // reaches the request number seen with the change (DurableSave): that state, or a
+  // newer one, is in IndexedDB. No timer stands in for it.
+  const durable = async (what: string, changed: (p: Probe) => boolean, kind: "save" | "settings"): Promise<Probe> => {
+    const seen = await waitFor(what, changed, 15_000);
+    const asked = (kind === "save" ? seen.save_requested : seen.settings_requested) ?? 0;
+    return waitFor(
+      `${what} durable`,
+      (p) => changed(p) && ((kind === "save" ? p.save_durable : p.settings_durable) ?? 0) >= asked,
+      60_000,
+    );
+  };
+
+  // Settings: a real switch, saved apart from the character.
+  await focusOn("Show frame rate", (n) => n === "show_fps");
+  await page.keyboard.press("Enter");
+  await durable("the setting", (p) => p.show_fps === true, "settings");
+  console.log("settings: show frame rate on, durable");
+
+  // Equipment: take the chest piece off; it goes to the bag.
+  await page.keyboard.press("KeyQ"); // skills
+  await page.keyboard.press("KeyQ"); // bag
+  await page.keyboard.press("KeyQ"); // equipment
+  await waitFor("Equipment", (p) => p.menu === "equipment", 5_000);
+  const armorBefore = (await probe()).armor ?? 0;
+  await focusOn("the chest slot", (n) => n === "Worn_chest");
+  await page.keyboard.press("Enter");
+  await focusOn("Take off", (n) => n === "Unequip");
+  await page.keyboard.press("Enter");
+  const undressed = await durable(
+    "the chest piece in the bag",
+    (p) => !("chest" in (p.equipment ?? {})) && (p.bag ?? []).includes("apprentice_robe"),
+    "save",
+  );
+  if (!((undressed.armor ?? 0) < armorBefore)) problems.push(`armor did not fall: ${armorBefore} -> ${undressed.armor}`);
+  console.log(`equipment: chest off, armor ${armorBefore} -> ${undressed.armor}, durable`);
+
+  // Skills: two hotbar changes in quick succession (slot 4, then slot 5), the
+  // second made while the first may still be committing.
+  await page.keyboard.press("KeyV");
+  await waitFor("Skills", (p) => p.menu === "skills", 5_000);
+  await focusOn("Frost Armor", (n) => n === "Skill_frost_armor");
+  await page.keyboard.press("Enter");
+  await focusOn("slot 4", (n) => n === "Assign_4");
+  await page.keyboard.press("Enter");
+  await waitFor("slot 4", (p) => (p.hotbar ?? [])[2] === "frost_armor", 15_000);
+  await focusOn("slot 5", (n) => n === "Assign_5");
+  await page.keyboard.press("Enter");
+  const assigned = await durable("the hotbar", (p) => (p.hotbar ?? [])[3] === "frost_armor", "save");
+  console.log(`skills: hotbar ${JSON.stringify(assigned.hotbar)}, durable`);
+  await page.keyboard.press("Escape");
+  await waitFor("back to the street", (p) => p.menu === "", 5_000);
+
+  // Reload at once: the confirmed saves must be there (no waiting on a timer).
+  await page.reload();
+  // The reloaded page publishes the probe again once the game has booted.
+  await page.waitForFunction(() => (window as { ironboundProbe?: unknown }).ironboundProbe, null, {
+    timeout: timeoutMs,
+  });
+  await waitFor("the title after reload", (p) => p.scene === "title" && p.has_save === true, timeoutMs);
+  await canvas.first().click();
+  await page.keyboard.press("Enter");
+  const back = await waitFor("the saved character", (p) => p.scene === "street", 15_000);
+  if (back.name !== "Smoke Test" || (back.kills ?? 0) < (fought.kills ?? 0) || back.area !== fought.area) {
+    problems.push(`after reload: ${back.name}, kills ${back.kills}, in ${back.area}`);
+  }
+  if ("chest" in (back.equipment ?? {}) || !(back.bag ?? []).includes("apprentice_robe")) {
+    problems.push(`equipment not kept: ${JSON.stringify(back.equipment)} bag ${JSON.stringify(back.bag)}`);
+  }
+  if ((back.hotbar ?? [])[3] !== "frost_armor") problems.push(`hotbar not kept: ${JSON.stringify(back.hotbar)}`);
+  if (back.show_fps !== true) problems.push("the setting was not kept");
   console.log(
-    `street fight: ${state.hero_hits - fight.hero_hits} hero hit(s), hero hp ${state.hp}, ` +
-      `total hits ${state.hits - fight.hits}, coins ${state.money}`,
+    `continue: "${back.name}", kills ${back.kills}, in ${back.area}, chest in bag, ` +
+      `hotbar ${JSON.stringify(back.hotbar)}, show frame rate ${back.show_fps}`,
   );
   if (screenshot) await page.screenshot({ path: screenshot });
 } catch (err) {

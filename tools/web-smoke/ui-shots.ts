@@ -1,25 +1,34 @@
-// Reproducible UI screenshots of a web export at five window sizes, with the
-// input each is used with, for review and as the UI regression baseline's
-// pictures (the layout itself is checked by client/tests/ui/UiAuditRun.gd):
+// Reproducible UI screenshots of a web export of the production game (title →
+// new character → the street and its screens) at four standard desktop window
+// sizes, played with keyboard and mouse as on PC (the game's platform: Windows PC
+// for Steam):
 //
-//   node ui-shots.ts <export-dir> <out-dir> [--layout=responsive|legacy]
+//   node ui-shots.ts <export-dir> <out-dir>
 //
-//   1280x720  desktop: mouse and keyboard
-//   640x360   phone held sideways: touch (and keyboard for the menus)
-//   360x640, 390x844, 412x915   phones held upright: touch (and keyboard)
+//   1280x720   16:9, the game's 640x360 canvas at 2x
+//   1920x1080  16:9, full HD
+//   1440x900   16:10
+//   1024x768   4:3, a small window
 //
-// At each size: the title, a new game's HUD with its touch controls, Bag,
-// Map, the pause menu, a conversation with Chief Odo, and the phone turned
-// round while playing and while the Bag is open. Input that must work there
-// is checked: the screen keys, a mouse click on the HUD's Bag button
-// (desktop), a touch on the pause button (phones). Screens are read back
-// through the read-only window.ironboundProbe. Every screenshot is also
-// checked for bands of Godot's default clear colour (77, 77, 77), which only
-// show where nothing was drawn.
+// At each size, checked through the read-only window.ironboundProbe: the title;
+// a new character entering the street; the HUD's menu buttons on screen;
+// Character, Equipment, Bag, Skills and Settings opened by their keys and by the
+// screens' row (Q / E), and by mouse (the HUD's buttons and the row's); the Esc
+// menu, and a screen opened from it by mouse; taking gear off and putting it back
+// on, by keyboard and by mouse; a setting switched and switched back, by keyboard
+// and by mouse; windows closed by Esc and by their close button. Every window, its
+// close button and its row of screens must be wholly on screen. Every screenshot is
+// checked for bands of Godot's default clear colour (77, 77, 77) and for a blank
+// (nearly one-colour) frame; any console or page error fails the size.
 //
-// Writes <out>/<size>/NN_<name>.png and <out>/summary.json, and exits
-// non-zero on a page error, input that did not reach the game, or a grey
-// band. It never judges layout beyond that: the Godot audit does.
+// NOT_IMPLEMENTED in the production street, so not run and never counted as a pass
+// (docs/GAME_MIGRATION_REGISTER.md, "Not done"): npc_walk, npc_talk (NPCs are not in
+// the street yet), map_screen (not ported to the new engine).
+// OUT_OF_SCOPE (owner direction: a PC game; no phone, tablet, touch or portrait
+// support is developed or tested): the earlier phone sizes and touch checks.
+//
+// Writes <out>/<size>/NN_<name>.png and <out>/summary.json (each check PASS or FAIL,
+// plus the NOT_IMPLEMENTED and OUT_OF_SCOPE lists) and exits non-zero if any fails.
 import { createServer } from "node:http";
 import { readFile, mkdir, writeFile } from "node:fs/promises";
 import { extname, join, normalize, resolve } from "node:path";
@@ -31,6 +40,8 @@ const BOOT_MARKER = "BOOT_OK";
 const GREY = [77, 77, 77];
 // A run of this many rows mostly grey is a band, not a stray pixel.
 const GREY_BAND_ROWS = 8;
+// A frame whose most common colour covers this share of it is blank.
+const BLANK_SHARE = 0.97;
 
 const MIME: Record<string, string> = {
   ".html": "text/html; charset=utf-8",
@@ -41,74 +52,49 @@ const MIME: Record<string, string> = {
   ".json": "application/json",
 };
 
+type Rect = [number, number, number, number];
+
 interface Probe {
   scene: string;
-  area: string;
-  menu: string;
-  x: number;
-  y: number;
+  menu?: string;
+  focus?: string;
+  has_character?: boolean;
+  equipment?: Record<string, string>;
+  bag?: string[];
+  show_fps?: boolean;
+  ui?: { view: [number, number]; window?: Rect; buttons?: Record<string, Rect>; hud_menu?: Record<string, Rect> };
 }
 
 interface Size {
   name: string;
   width: number;
   height: number;
-  touch: boolean;
 }
 
 const SIZES: Size[] = [
-  { name: "1280x720", width: 1280, height: 720, touch: false },
-  { name: "640x360", width: 640, height: 360, touch: true },
-  { name: "360x640", width: 360, height: 640, touch: true },
-  { name: "390x844", width: 390, height: 844, touch: true },
-  { name: "412x915", width: 412, height: 915, touch: true },
+  { name: "1280x720", width: 1280, height: 720 },
+  { name: "1920x1080", width: 1920, height: 1080 },
+  { name: "1440x900", width: 1440, height: 900 },
+  { name: "1024x768", width: 1024, height: 768 },
 ];
+const SCREENS = ["character", "equipment", "bag", "skills", "settings"];
+const NOT_IMPLEMENTED: Record<string, string> = {
+  npc_walk: "NPCs are not in the production street yet",
+  npc_talk: "NPC conversations are not in the production street yet",
+  map_screen: "the Map screen is not ported to the new engine",
+};
+const OUT_OF_SCOPE: Record<string, string> = {
+  phone_and_touch: "a PC game for Steam: phone sizes (360x640, 390x844, 412x915, 640x360) and touch input are not developed or tested",
+};
 
 const args = process.argv.slice(2);
 const positional = args.filter((a) => !a.startsWith("--"));
 if (positional.length < 2) {
-  console.error("usage: node ui-shots.ts <export-dir> <out-dir> [--layout=responsive|legacy]");
+  console.error("usage: node ui-shots.ts <export-dir> <out-dir>");
   process.exit(2);
 }
 const root = resolve(positional[0]);
 const out = resolve(positional[1]);
-const legacy = args.includes("--layout=legacy");
-
-// Where the pause touch button and the HUD's Bag button are, in CSS px, for
-// a window `w` x `h`. "legacy" is the layout before U1-A (fixed 640x360
-// coordinates, scaled); "responsive" mirrors client/scenes/ui/ScreenLayout.gd.
-// If the game moves them, the tap and click checks fail and say so.
-function pauseAt(w: number, h: number): { x: number; y: number } {
-  if (legacy) {
-    const s = Math.min(w / 640, h / 360);
-    return { x: (303 + 17) * s, y: (4 + 17) * s };
-  }
-  const portrait = h > w;
-  const s = portrait ? Math.min(w / 360, h / 640) : Math.min(w / 640, h / 360);
-  const lw = w / s;
-  const lh = h / s;
-  const t = Math.max(44 / s, 28);
-  if (portrait) {
-    // The 2x2 block between the pads (Bag over Map, AUTO over pause): the
-    // pause button is its lower right cell.
-    const padEnd = 8 + 3 * t + 2 * 4;
-    const right = lw - 8 - (2 * t + 4);
-    const block = 2 * t + 4;
-    const x = (padEnd + right) / 2 - block / 2 + t + 4 + t / 2;
-    const y = lh - 8 - t / 2;
-    return { x: x * s, y: y * s };
-  }
-  // Landscape with touch: the first button of the top-centre row.
-  const row = 5 * t + 4 * 4;
-  return { x: (lw / 2 - row / 2 + t / 2) * s, y: (4 + t / 2) * s };
-}
-
-function bagAt(w: number, h: number): { x: number; y: number } {
-  const s = Math.min(w / 640, h / 360);
-  const lw = w / s;
-  const lh = h / s;
-  return { x: (lw - 6 - 130 + 32) * s, y: (lh - 20 - 10) * s };
-}
 
 // Decodes an 8-bit RGB or RGBA PNG (what Chromium screenshots are) into rows
 // of pixels, with Node's zlib only.
@@ -185,6 +171,25 @@ function greyBands(png: Buffer): { longest: number; rows: number } {
   return { longest, rows };
 }
 
+// The share of the frame taken by its most common colour (sampled every 4 px).
+function commonestShare(png: Buffer): number {
+  const image = decodePng(png);
+  const counts = new Map<number, number>();
+  let total = 0;
+  for (let y = 0; y < image.height; y += 4) {
+    for (let x = 0; x < image.width; x += 4) {
+      const [r, g, b] = image.pixel(x, y);
+      const k = ((r >> 3) << 10) | ((g >> 3) << 5) | (b >> 3);
+      counts.set(k, (counts.get(k) ?? 0) + 1);
+      total++;
+    }
+  }
+  return Math.max(...counts.values()) / total;
+}
+
+const inside = (r: Rect | undefined, view: [number, number]): boolean =>
+  !!r && r[2] > 0 && r[3] > 0 && r[0] >= -0.5 && r[1] >= -0.5 && r[0] + r[2] <= view[0] + 0.5 && r[1] + r[3] <= view[1] + 0.5;
+
 const server = createServer(async (req, res) => {
   const path = normalize(join(root, new URL(req.url ?? "/", "http://x").pathname.replace(/^\/$/, "/index.html")));
   if (!path.startsWith(root)) {
@@ -201,18 +206,16 @@ const server = createServer(async (req, res) => {
 await new Promise<void>((ok) => server.listen(0, "127.0.0.1", ok));
 const url = `http://127.0.0.1:${(server.address() as AddressInfo).port}/index.html`;
 
-const browser = await chromium.launch();
+// A local Chromium may be named (PLAYWRIGHT_CHROMIUM_PATH); CI uses Playwright's own.
+const executablePath = process.env.PLAYWRIGHT_CHROMIUM_PATH || undefined;
+const browser = await chromium.launch({ executablePath });
 const summary: Record<string, unknown>[] = [];
 let failed = false;
 
 for (const size of SIZES) {
   const dir = join(out, size.name);
   await mkdir(dir, { recursive: true });
-  const page: Page = await browser.newPage({
-    viewport: { width: size.width, height: size.height },
-    hasTouch: size.touch,
-    isMobile: size.touch,
-  });
+  const page: Page = await browser.newPage({ viewport: { width: size.width, height: size.height } });
   const problems: string[] = [];
   const checks: Record<string, boolean> = {};
   const shots: Record<string, unknown>[] = [];
@@ -226,141 +229,197 @@ for (const size of SIZES) {
   await page.goto(url);
   await Promise.race([booted, page.waitForTimeout(60_000)]);
   let n = 0;
+  const probe = async (): Promise<Probe | undefined> => {
+    await page.waitForTimeout(150);
+    return page.evaluate(() => (window as { ironboundProbe?: Probe }).ironboundProbe);
+  };
+  const until = async (ok: (p: Probe) => boolean, ms = 5000): Promise<Probe | undefined> => {
+    const end = Date.now() + ms;
+    while (Date.now() < end) {
+      const p = await probe();
+      if (p && ok(p)) return p;
+    }
+    return undefined;
+  };
+  const menuIs = async (want: string, ms = 5000): Promise<boolean> => !!(await until((p) => (p.menu ?? "") === want, ms));
+  const key = async (k: string): Promise<void> => {
+    await page.keyboard.press(k);
+    await page.waitForTimeout(200);
+  };
+  const focusOn = async (name: string): Promise<boolean> => {
+    for (let i = 0; i < 150; i++) {
+      if ((await probe())?.focus === name) return true;
+      await page.keyboard.press("Tab");
+    }
+    return false;
+  };
+  // Click the centre of a canvas-unit rect (the canvas is scaled to the window).
+  const clickRect = async (p: Probe, r: Rect): Promise<void> => {
+    const s = size.width / p.ui!.view[0];
+    await page.mouse.click((r[0] + r[2] / 2) * s, (r[1] + r[3] / 2) * s);
+  };
+  // Click the open window's button `name`; false if it is not there.
+  const click = async (name: string): Promise<boolean> => {
+    const p = await probe();
+    const r = p?.ui?.buttons?.[name];
+    if (!p || !r) return false;
+    await clickRect(p, r);
+    return true;
+  };
+  // A screenshot of the open screen, with the checks every screenshot gets: no grey
+  // band, not blank, and (with a screen open) its window, its close button (the Esc
+  // menu's "Back to the game") and its row of screens wholly on screen.
   const shot = async (name: string): Promise<void> => {
     n += 1;
     const file = `${String(n).padStart(2, "0")}_${name}.png`;
     await page.waitForTimeout(450);
     const png = await page.screenshot({ path: join(dir, file) });
     const grey = greyBands(png);
-    shots.push({ file, grey_rows: grey.rows, longest_grey_band: grey.longest });
-    if (grey.longest >= GREY_BAND_ROWS) problems.push(`${file}: a band of default grey ${grey.longest} rows tall`);
-  };
-  const probe = async (): Promise<Probe | undefined> => {
-    await page.waitForTimeout(150);
-    return page.evaluate(() => (window as { ironboundProbe?: Probe }).ironboundProbe);
-  };
-  const menuIs = async (want: string, ms = 3000): Promise<boolean> => {
-    const until = Date.now() + ms;
-    while (Date.now() < until) {
-      if ((await probe())?.menu === want) return true;
+    const share = commonestShare(png);
+    shots.push({ file, grey_rows: grey.rows, longest_grey_band: grey.longest, commonest_colour_share: share });
+    checks[`${name}_not_blank`] = share < BLANK_SHARE;
+    checks[`${name}_no_grey_band`] = grey.longest < GREY_BAND_ROWS;
+    const p = await probe();
+    if (p?.scene === "street" && p.menu) {
+      const view = p.ui!.view;
+      const b = p.ui?.buttons ?? {};
+      checks[`${name}_window_on_screen`] = inside(p.ui?.window, view);
+      checks[`${name}_close_on_screen`] = inside(p.menu === "pause" ? b.Backtothegame : b.Close, view);
+      if (p.menu !== "pause") {
+        checks[`${name}_screen_row_on_screen`] = SCREENS.every((s) => inside(b[`Nav_${s}`], view));
+      }
     }
-    return false;
-  };
-  const key = async (k: string): Promise<void> => {
-    await page.keyboard.press(k);
-    await page.waitForTimeout(250);
-  };
-  const hold = async (k: string, ms: number): Promise<void> => {
-    await page.keyboard.down(k);
-    await page.waitForTimeout(ms);
-    await page.keyboard.up(k);
-  };
-  // Walks the hero to (x, y) in the street with the arrow keys: along the
-  // open lower lane (y 330, below the training dummy and parked cars), then
-  // up to the spot once level with it.
-  const walkTo = async (x: number, y: number): Promise<boolean> => {
-    const until = Date.now() + 40_000;
-    while (Date.now() < until) {
-      const p = await probe();
-      if (!p) return false;
-      if (Math.abs(p.x - x) <= 14 && Math.abs(p.y - y) <= 10) return true;
-      const laneY = Math.abs(p.x - x) < 40 ? y : 330;
-      if (Math.abs(p.y - laneY) > 8) await hold(p.y > laneY ? "ArrowUp" : "ArrowDown", 120);
-      else await hold(p.x < x ? "ArrowRight" : "ArrowLeft", Math.min(400, Math.abs(p.x - x) * 3));
-    }
-    return false;
   };
 
   await page.waitForTimeout(1500);
+  checks.title = !!(await until((p) => p.scene === "title", 30_000));
   await shot("title");
   await page.locator("canvas").first().click({ position: { x: 2, y: 2 } });
   await key("Enter"); // New game
-  await page.waitForTimeout(1200);
-  await key("Enter"); // the first hero
+  checks.creation = !!(await until((p) => p.scene === "rpg" && p.has_character === false, 15_000));
+  checks.name_field = await focusOn("NameEdit");
   await page.keyboard.type("Shots");
-  await key("Enter"); // into the street
-  await page.waitForTimeout(2500);
-  checks.in_game = (await probe())?.scene !== undefined;
-  if (size.touch) {
-    // A touch first, so the game knows it is played by touch (shows the
-    // touch controls and hides keyboard hints).
-    await page.touchscreen.tap(size.width / 2, size.height / 3);
-    await page.waitForTimeout(300);
-  }
-  await shot("play_hud");
+  checks.class_choice = await focusOn("Class_warrior");
+  await shot("creation");
+  await key("Enter");
+  checks.in_street = !!(await until((p) => p.scene === "street", 60_000));
+  await shot("street_hud");
+  const hud = await probe();
+  checks.hud_menu_buttons = SCREENS.every((s) => inside(hud?.ui?.hud_menu?.[s], hud!.ui!.view));
 
+  // Keyboard: every screen by its key and by the screens' row (E: next, Q: previous).
+  await key("KeyC");
+  checks.key_character = await menuIs("character");
+  await shot("character");
+  for (const name of SCREENS.slice(1)) {
+    await key("KeyE");
+    checks[`key_next_${name}`] = await menuIs(name);
+    await shot(name);
+  }
+  await key("KeyQ");
+  checks.key_previous_skills = await menuIs("skills");
+  await key("Escape");
+  checks.key_escape_closes = await menuIs("");
   await key("KeyB");
   checks.key_bag = await menuIs("bag");
-  await shot("bag");
   await key("KeyB");
-  await key("KeyM");
-  checks.key_map = await menuIs("map");
-  await shot("map");
-  await key("KeyM");
+  checks.key_bag_toggles_off = await menuIs("");
+  await key("KeyV");
+  checks.key_skills = await menuIs("skills");
+  await key("KeyV");
+  checks.key_skills_toggles_off = await menuIs("");
   await key("Escape");
   checks.key_pause = await menuIs("pause");
   await shot("pause");
   await key("Escape");
-  checks.key_close = await menuIs("");
+  checks.key_pause_closes = await menuIs("");
 
-  if (size.touch) {
-    // Keys were just pressed (the menus above), which shows a keyboard
-    // player's screen; a phone player only ever touches, so touch the street
-    // once first, then the pause button.
-    await page.touchscreen.tap(size.width / 2, size.height / 3);
-    await page.waitForTimeout(300);
-    const at = pauseAt(size.width, size.height);
-    await page.touchscreen.tap(at.x, at.y);
-    checks.touch_pause = await menuIs("pause");
-    await shot("touch_pause");
-    if ((await probe())?.menu === "pause") await key("Escape");
-    await menuIs("");
-  } else {
-    const at = bagAt(size.width, size.height);
-    await page.mouse.click(at.x, at.y);
-    checks.mouse_bag = await menuIs("bag");
-    await shot("mouse_bag");
-    await key("Escape");
-    await menuIs("");
-  }
-
-  // Talk to Chief Odo (Depot Yard: x 640, y 262).
-  checks.walk_to_npc = await walkTo(620, 270);
+  // Keyboard: take the chest piece off, then put it back on (Equipment, Bag).
+  await key("KeyC");
   await key("KeyE");
-  checks.npc_talk = await menuIs("quests_npc");
-  await shot("npc_talk");
+  checks.key_equipment = await menuIs("equipment");
+  const worn = (await probe())?.equipment?.chest ?? "";
+  checks.key_chest_selected = (await focusOn("Worn_chest")) && worn !== "";
+  await key("Enter");
+  checks.key_take_off_offered = await focusOn("Unequip");
+  await key("Enter");
+  checks.key_taken_off = !!(await until((p) => !("chest" in (p.equipment ?? {})) && (p.bag ?? []).includes(worn)));
+  await shot("equipment_taken_off");
+  await key("KeyE");
+  checks.key_bag_open = await menuIs("bag");
+  const at = (await probe())?.bag?.lastIndexOf(worn) ?? -1;
+  checks.key_bag_item_selected = await focusOn(`Bag_${at}`);
+  await key("Enter");
+  checks.key_equip_offered = await focusOn("Equip");
+  await shot("bag_item");
+  await key("Enter");
+  checks.key_put_back_on = !!(await until((p) => p.equipment?.chest === worn && !(p.bag ?? []).includes(worn)));
   await key("Escape");
   await menuIs("");
 
-  // Turn the phone (or the window) round while playing, then with the Bag
-  // open, then back.
-  await page.setViewportSize({ width: size.height, height: size.width });
-  await page.waitForTimeout(800);
-  checks.rotated_play = (await probe())?.menu === "";
-  await shot("rotated_play");
-  await key("KeyB");
-  checks.rotated_bag_open = await menuIs("bag");
-  await page.setViewportSize({ width: size.width, height: size.height });
-  await page.waitForTimeout(800);
-  checks.rotated_back_bag = (await probe())?.menu === "bag";
-  await shot("rotated_back_bag");
-  await key("KeyB");
-  checks.rotated_back_play = await menuIs("");
-  await shot("rotated_back_play");
+  // Keyboard: a real setting, on and back.
+  await key("KeyC");
+  for (let i = 0; i < 4; i++) await key("KeyE");
+  checks.key_settings = await menuIs("settings");
+  const fps = (await probe())?.show_fps ?? false;
+  checks.key_setting_focused = await focusOn("show_fps");
+  await key("Enter");
+  checks.key_setting_changed = !!(await until((p) => p.show_fps === !fps));
+  await key("Enter");
+  checks.key_setting_restored = !!(await until((p) => p.show_fps === fps));
+  await key("Escape");
+  await menuIs("");
+
+  // Mouse: the HUD's Character button, then every screen by the screens' row.
+  const street = await probe();
+  checks.mouse_hud_button = false;
+  if (street?.ui?.hud_menu?.character) {
+    await clickRect(street, street.ui.hud_menu.character);
+    checks.mouse_hud_button = await menuIs("character");
+    await shot("mouse_character");
+  }
+  for (const name of SCREENS.slice(1)) {
+    checks[`mouse_row_${name}`] = (await click(`Nav_${name}`)) && (await menuIs(name));
+  }
+  // Mouse: take the chest piece off and put it back on.
+  checks.mouse_row_equipment_again = (await click("Nav_equipment")) && (await menuIs("equipment"));
+  checks.mouse_chest_selected = (await click("Worn_chest")) && !!(await until((p) => !!p.ui?.buttons?.Unequip));
+  checks.mouse_taken_off =
+    (await click("Unequip")) && !!(await until((p) => !("chest" in (p.equipment ?? {})) && (p.bag ?? []).includes(worn)));
+  checks.mouse_row_bag = (await click("Nav_bag")) && (await menuIs("bag"));
+  const slot = (await probe())?.bag?.lastIndexOf(worn) ?? -1;
+  checks.mouse_bag_item_selected = (await click(`Bag_${slot}`)) && !!(await until((p) => !!p.ui?.buttons?.Equip));
+  checks.mouse_put_back_on = (await click("Equip")) && !!(await until((p) => p.equipment?.chest === worn));
+  // Mouse: a real setting, on and back.
+  checks.mouse_row_settings = (await click("Nav_settings")) && (await menuIs("settings"));
+  checks.mouse_setting_changed = (await click("show_fps")) && !!(await until((p) => p.show_fps === !fps));
+  checks.mouse_setting_restored = (await click("show_fps")) && !!(await until((p) => p.show_fps === fps));
+  // Mouse: the close button, then a screen opened from the Esc menu.
+  checks.mouse_close = (await click("Close")) && (await menuIs(""));
+  await key("Escape");
+  checks.mouse_pause_open = await menuIs("pause");
+  checks.mouse_pause_to_skills = (await click("Menu_skills")) && (await menuIs("skills"));
+  checks.mouse_skills_close = (await click("Close")) && (await menuIs(""));
 
   const ok = problems.length === 0 && Object.values(checks).every(Boolean);
   failed ||= !ok;
-  summary.push({ size: size.name, input: size.touch ? "touch" : "mouse", ok, checks, problems, shots });
-  const failedChecks = Object.entries(checks).filter(([, v]) => !v).map(([k]) => k);
+  const pass = Object.entries(checks).filter(([, v]) => v).map(([k]) => k);
+  const fail = Object.entries(checks).filter(([, v]) => !v).map(([k]) => k);
+  summary.push({ size: size.name, input: "keyboard and mouse", ok, pass, fail, problems, shots });
   console.log(
-    `${ok ? "OK  " : "FAIL"} ${size.name}: ${Object.keys(checks).length - failedChecks.length}/${Object.keys(checks).length} checks` +
-      (failedChecks.length ? ` (failed: ${failedChecks.join(", ")})` : "") +
+    `${ok ? "OK  " : "FAIL"} ${size.name}: PASS ${pass.length}, FAIL ${fail.length}` +
+      (fail.length ? ` (${fail.join(", ")})` : "") +
       (problems.length ? ` | ${problems.join("; ")}` : ""),
   );
   await page.close();
 }
 
-await writeFile(join(out, "summary.json"), JSON.stringify(summary, null, 2) + "\n");
+console.log(`NOT_IMPLEMENTED (not run, not counted as passing): ${Object.keys(NOT_IMPLEMENTED).join(", ")}`);
+console.log(`OUT_OF_SCOPE (PC game, not tested): ${Object.keys(OUT_OF_SCOPE).join(", ")}`);
+await writeFile(
+  join(out, "summary.json"),
+  JSON.stringify({ sizes: summary, not_implemented: NOT_IMPLEMENTED, out_of_scope: OUT_OF_SCOPE }, null, 2) + "\n",
+);
 await browser.close();
 server.close();
 process.exit(failed ? 1 : 0);

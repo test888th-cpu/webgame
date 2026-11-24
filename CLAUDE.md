@@ -12,6 +12,26 @@ before changing gameplay or content.
 The owner works **only through cloud sessions and GitHub**. Every check must therefore run
 in GitHub Actions, and instructions for the owner must be browser-dashboard steps.
 
+## Gameplay reference fidelity (non-negotiable, owner rule 2026-11-17)
+
+World of ClaudeCraft (`levy-street/world-of-claudecraft`, pinned at `d2b91e08`) is the
+authoritative reference for every gameplay system. The full rule is in
+`docs/REFERENCE_FIDELITY_RULE.md` and takes priority over conflicting instructions.
+
+- **Read the pinned source** before implementing a rule, and use its values. Never
+  invent stats, rates, levels, formulas, cooldowns, effects or rewards. What cannot be
+  verified is UNKNOWN.
+- **Label every finding** VERIFIED, ADAPTED, PROPOSED or UNKNOWN. An adaptation records
+  the reference id and value, the change, the reason, the impact and test evidence, and
+  is never labelled VERIFIED.
+- **Keep the systems' links consistent and traceable:** class → spec → ability,
+  monster → loot → item, data → Guide. Record the commit and input hashes, and add
+  parity tests.
+- **Keep The Iron Legacy's world and look.** Use original display names with stable
+  ids. No reference branding, and no port of the reference runtime.
+- **No silent deviation:** document the conflict and wait for the owner's approval for
+  rule or progression changes.
+
 ## Pinned versions (change only deliberately, see CONTRIBUTING.md "Upgrades")
 
 - Godot **4.7.2-stable** (`tools/ci/install-godot.sh`, with SHA-512 hashes), Compatibility renderer

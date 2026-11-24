@@ -1,0 +1,58 @@
+{
+  "_comment": "B2 quality registry (VERIFIED). 'tiers' is the item quality union in src/sim/types.ts; 'per_copy' is createLootQuality in src/sim/loot_quality/core.ts: one integer draw in draw_range, each outcome owning 'draws' of it (probability = draws / span), and item_level_bonus = 2 x tier. Data only.",
+  "source": {
+    "repository": "https://github.com/levy-street/world-of-claudecraft",
+    "commit": "d2b91e0884cb269422c28d0b42d2a30a01de130a",
+    "inputs": {
+      "src/sim/loot_quality/core.ts": "acc784a73f7188cbfbfa0919f48b624c29a9c02668a8f571c8be0875db2bc4c3",
+      "src/sim/types.ts": "b1768cdfbe0f629489fbe658bd5ce9c34dbad5541b39cd44c4d8e6c4f16c4090"
+    },
+    "method": "pinned source read with git show (never executed); tools/content/build_reference_registries.py"
+  },
+  "tiers": [
+    "poor",
+    "common",
+    "uncommon",
+    "rare",
+    "epic",
+    "legendary"
+  ],
+  "per_copy": {
+    "draw_range": [
+      0,
+      9999
+    ],
+    "outcomes": [
+      {
+        "tier": 0,
+        "id": "plain",
+        "draws": 9000,
+        "item_level_bonus": 0
+      },
+      {
+        "tier": 1,
+        "id": "tier1",
+        "draws": 900,
+        "item_level_bonus": 2
+      },
+      {
+        "tier": 2,
+        "id": "tier2",
+        "draws": 90,
+        "item_level_bonus": 4
+      },
+      {
+        "tier": 3,
+        "id": "tier3",
+        "draws": 9,
+        "item_level_bonus": 6
+      },
+      {
+        "tier": 4,
+        "id": "tier4",
+        "draws": 1,
+        "item_level_bonus": 8
+      }
+    ]
+  }
+}

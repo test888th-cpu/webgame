@@ -1,0 +1,143 @@
+{
+  "_comment": "B2.2 equipment slot registry. 'reference' is generated from the pinned source (VERIFIED); 'legacy' is hand-written compatibility data (ADAPTED). Not used by gameplay yet.",
+  "source": {
+    "repository": "https://github.com/levy-street/world-of-claudecraft",
+    "commit": "d2b91e0884cb269422c28d0b42d2a30a01de130a",
+    "inputs": {
+      "src/sim/content/spec_primary_stat.ts": "0cb2464506acb70cf65f6c748eeb67ab966f5eefd1e2650f1c8299f6a3a91d3c",
+      "src/sim/content/talent_rows.ts": "0418d548117d678b8884841071eea9e9b1e2eaef27b78662b1e9121a743179b2",
+      "src/sim/content/talents.ts": "e29b4e549459ab8983de16ea3a6b63895432a1cacf5bdfe17abaca20d07c9c64",
+      "src/sim/content/talents_classic.ts": "f0f4eed5b67b460731a297103eecd6ac8cd1e10fdf743df610fbd873555609f2",
+      "src/sim/content/talents_warrior.ts": "f0c63a305cea28d4be82ae21f10bada69aeca43240b774fe89e05a1167315f65",
+      "src/sim/equipment_rules.ts": "2e55c2f5eebf29a0a3b0c0e1e354dc97f800440914bd1feb3a5ca4689e2cca48",
+      "src/sim/types.ts": "b1768cdfbe0f629489fbe658bd5ce9c34dbad5541b39cd44c4d8e6c4f16c4090"
+    },
+    "method": "pinned source read with git show (never executed); tools/content/build_reference_registries.py"
+  },
+  "reference": {
+    "slots": [
+      {
+        "id": "mainhand",
+        "accepts": "mainhand"
+      },
+      {
+        "id": "offhand",
+        "accepts": "offhand"
+      },
+      {
+        "id": "helmet",
+        "accepts": "helmet"
+      },
+      {
+        "id": "neck",
+        "accepts": "neck"
+      },
+      {
+        "id": "shoulder",
+        "accepts": "shoulder"
+      },
+      {
+        "id": "chest",
+        "accepts": "chest"
+      },
+      {
+        "id": "waist",
+        "accepts": "waist"
+      },
+      {
+        "id": "legs",
+        "accepts": "legs"
+      },
+      {
+        "id": "gloves",
+        "accepts": "gloves"
+      },
+      {
+        "id": "feet",
+        "accepts": "feet"
+      },
+      {
+        "id": "ring1",
+        "accepts": "ring"
+      },
+      {
+        "id": "ring2",
+        "accepts": "ring"
+      },
+      {
+        "id": "trinket",
+        "accepts": "trinket"
+      }
+    ],
+    "armor_rank": {
+      "cloth": 0,
+      "leather": 1,
+      "mail": 2
+    },
+    "weapon_groups": {
+      "warrior": [
+        "warrior",
+        "rogue",
+        "hunter",
+        "shaman",
+        "paladin"
+      ],
+      "caster": [
+        "mage",
+        "priest",
+        "warlock",
+        "shaman",
+        "paladin",
+        "druid"
+      ],
+      "rogue": [
+        "rogue",
+        "hunter"
+      ]
+    },
+    "dual_wield": [
+      {
+        "class": "rogue",
+        "spec": null
+      },
+      {
+        "class": "warrior",
+        "spec": "fury"
+      },
+      {
+        "class": "shaman",
+        "spec": "enhancement"
+      }
+    ],
+    "dual_wield_two_hand": [
+      {
+        "class": "warrior",
+        "spec": "fury"
+      }
+    ],
+    "rogue_no_two_hand": true,
+    "ring_order": [
+      "ring1",
+      "ring2"
+    ],
+    "legendary_unique": true
+  },
+  "legacy": {
+    "status": "ADAPTED",
+    "note": "Legacy compatibility only (owner decision 5, 2026-11-17). Not a reference slot. Only items marked legacy may use it; reference items never can. Removed only after every charm and save has an approved migration.",
+    "slots": {
+      "charm": {
+        "accepts": "legacy_charm",
+        "reference_equivalent": null
+      }
+    },
+    "slot_map": {
+      "weapon": "mainhand",
+      "head": "helmet",
+      "body": "chest",
+      "hands": "gloves",
+      "feet": "feet",
+      "charm": "charm"
+    }
+  }
+}

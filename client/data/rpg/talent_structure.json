@@ -1,0 +1,28 @@
+{
+  "_comment": "B2.1 talent structure (VERIFIED). Rows and options per class come with the ability registry (B2 R2).",
+  "source": {
+    "repository": "https://github.com/levy-street/world-of-claudecraft",
+    "commit": "d2b91e0884cb269422c28d0b42d2a30a01de130a",
+    "inputs": {
+      "src/sim/content/spec_primary_stat.ts": "0cb2464506acb70cf65f6c748eeb67ab966f5eefd1e2650f1c8299f6a3a91d3c",
+      "src/sim/content/talent_rows.ts": "0418d548117d678b8884841071eea9e9b1e2eaef27b78662b1e9121a743179b2",
+      "src/sim/content/talents.ts": "e29b4e549459ab8983de16ea3a6b63895432a1cacf5bdfe17abaca20d07c9c64",
+      "src/sim/content/talents_classic.ts": "f0f4eed5b67b460731a297103eecd6ac8cd1e10fdf743df610fbd873555609f2",
+      "src/sim/content/talents_warrior.ts": "f0c63a305cea28d4be82ae21f10bada69aeca43240b774fe89e05a1167315f65",
+      "src/sim/equipment_rules.ts": "2e55c2f5eebf29a0a3b0c0e1e354dc97f800440914bd1feb3a5ca4689e2cca48",
+      "src/sim/types.ts": "b1768cdfbe0f629489fbe658bd5ce9c34dbad5541b39cd44c4d8e6c4f16c4090"
+    },
+    "method": "pinned source read with git show (never executed); tools/content/build_reference_registries.py"
+  },
+  "row_levels": [
+    5,
+    8,
+    11,
+    14,
+    17,
+    20
+  ],
+  "options_per_row": 3,
+  "spec_level": 5,
+  "spec_level_source": "src/sim/content/talents.ts SPEC_UNLOCK_LEVEL = ROW_LEVELS[0]"
+}

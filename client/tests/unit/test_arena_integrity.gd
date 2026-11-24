@@ -457,3 +457,59 @@ func _personality_bout(name: String, seed_value: int) -> Dictionary:
 		"gap": gap,
 		"ticks": ticks,
 	}
+
+
+## Footwork the rival sends over `ticks` against a hero standing still at
+## `gap` along the street: {"walking": ticks walking along the street,
+## "runs": strides walked, "short": walks of under a stride that it broke off
+## itself (a shuffle), "turns": times it turned round}.
+func _footwork(personality: Dictionary, gap: float, ticks: int) -> Dictionary:
+	var db := ContentDB.load_all()
+	var profile := PlayerProfile.new_game(db, "riku")
+	profile.level = 30
+	var zone := ZoneSim.new(db, profile, "pvp_arena", "", 9)
+	var bout := ArenaMatch.new(zone, profile, db, "r30")
+	bout.brain.configure(personality)
+	zone.hero.position = bout.rival.position + Vector2(-gap, 0)
+	var out := {"walking": 0, "runs": 0, "short": 0, "turns": 0}
+	var run := 0
+	var last := 0.0
+	var was := bout.rival.position.x
+	for t in int(db.arena["countdown_ticks"]) + ticks:
+		var started := bout.phase == ArenaMatch.Phase.ACTIVE
+		zone.tick(FighterInput.new())
+		bout.tick([])
+		if not started:
+			was = bout.rival.position.x
+			continue
+		var acting := bout.rival.state != Fighter.State.IDLE
+		# What it walked this tick (the zone runs its brain: read the steps).
+		var move := Vector2(signf(bout.rival.position.x - was), 0) if not acting else Vector2.ZERO
+		was = bout.rival.position.x
+		if move.x != 0.0:
+			out["walking"] += 1
+			run += 1
+			if last != 0.0 and signf(move.x) != signf(last):
+				out["turns"] += 1
+			last = move.x
+		elif run > 0:
+			out["runs"] += 1
+			if run < 4 and not acting:
+				out["short"] += 1
+			run = 0
+	return out
+
+
+func test_the_rival_walks_smoothly_not_a_step_and_a_stop() -> void:
+	# It used to step one tick at full speed each decision and stand between:
+	# a stutter. Now it walks every tick between decisions, never a shuffle.
+	var steps := _footwork({"approach": 1.0}, 260.0, 300)
+	assert_eq(steps["short"], 0, "no one-tick shuffles (%s)" % str(steps))
+	assert_true(steps["walking"] >= 250, "it keeps walking in (%s)" % str(steps))
+	assert_eq(steps["turns"], 0, "and never turns round on the way")
+
+
+func test_a_cautious_rival_moves_in_whole_steps_too() -> void:
+	var steps := _footwork({"approach": 0.3, "spacing": 90.0}, 50.0, 900)
+	assert_true(steps["runs"] >= 2, "it moves (%s)" % str(steps))
+	assert_eq(steps["short"], 0, "never a one-tick shuffle (%s)" % str(steps))

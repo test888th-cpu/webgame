@@ -56,6 +56,10 @@ var dodge_dir := 1
 ## breaks, its moves (input -> move id, used instead of the starters) and its
 ## walk speed multiplier.
 var weapon := ""
+## What its worn gear looks like: {slot: appearance id} (EquipmentLooks). Part
+## of the fighter's state, so every view of it (and, online, every player)
+## draws the same gear.
+var appearance := {}
 var weapon_uses := 0
 var weapon_moveset := {}
 var weapon_speed := 1.0

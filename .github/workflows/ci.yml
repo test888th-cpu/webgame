@@ -56,6 +56,18 @@ jobs:
         run: python3 -m unittest tools/assets/test_pipeline.py -v
       - name: Validate every asset (files, frames, transparency, licences, SpriteFrames up to date)
         run: python3 tools/assets/validate.py
+      - name: Asset provenance inventory (records complete, outputs current, no image files in gameplay data)
+        run: |
+          python3 -m unittest tools/assets/test_provenance.py -v
+          python3 tools/assets/provenance.py check
+          python3 tools/assets/web_export_filter.py check
+      - name: Reference registry tooling (static evaluator tests, matrix generated from the committed registries)
+        run: |
+          python3 -m unittest tools/content/test_ts_eval.py -v
+          python3 -m unittest tools/content/test_reward_models.py -v
+          python3 tools/content/render_monster_matrix.py --check
+          python3 tools/content/build_placement.py --check
+          python3 -c "import json,sys; n=json.load(open('client/data/legal/third_party_notices.json'))['notices'][0]; sys.exit(0 if n['text']==open('LICENSES/World-of-ClaudeCraft-MIT.txt').read() else 'the shipped MIT notice differs from LICENSES/')"
 
   godot-tests:
     name: Godot project opens and tests pass
@@ -208,9 +220,9 @@ jobs:
           npm ci --no-audit --no-fund
           npx playwright install --only-shell chromium
           node smoke.ts ../../build/web --screenshot=../../smoke-screenshot.png
-      # Screenshots of every main screen at the four landscape window sizes,
-      # with mouse, touch and keyboard input checked to reach the game.
-      - name: UI screenshots at four landscape window sizes
+      # Screenshots of every screen of the production game at four desktop window
+      # sizes, with keyboard and mouse input checked to reach the game (PC game).
+      - name: UI screenshots at four desktop window sizes
         working-directory: tools/web-smoke
         run: node ui-shots.ts ../../build/web ../../build/ui-shots
       - name: Upload the UI screenshots

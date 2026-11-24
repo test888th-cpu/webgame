@@ -66,6 +66,11 @@ var low_hp := "steady"
 var stats := {"decisions": 0, "skills": 0, "defends": 0, "punishes": 0}
 ## Guard held until this tick (a guard raised in anticipation).
 var _guard_until := 0
+## The step a decision chose, walked over the ticks to the next decision at
+## 1 / cadence of full speed: the same ground a one-tick step at full speed
+## covered (so the arena's pace and balance are unchanged), but walked
+## smoothly instead of a step and a stop.
+var _drift := Vector2.ZERO
 var _db: ContentDB
 var _gen: RandomNumberGenerator
 var _ticks := 0
@@ -174,14 +179,29 @@ func _rival_free(me: Fighter, foe: Fighter, input: FighterInput) -> void:
 	var dir := 1 if foe.position.x >= me.position.x else -1
 	var mood := _mood(me)
 	if _rival_defend(me, foe, input, dir, float(mood["defend"])):
+		_drift = Vector2.ZERO
 		return
 	if absf(foe.position.y - me.position.y) > 4.0:
+		_drift = Vector2.ZERO
 		input.move = Vector2(0, signf(foe.position.y - me.position.y))
 		return
 	input.face = dir
 	var punish := _rival_whiffed(foe)
 	if _ticks % cadence() != 0 and not punish:
+		input.move = _drift
 		return
+	_drift = Vector2.ZERO
+	_rival_decide(me, foe, input, dir, mood, punish)
+	if not punish and input.move != Vector2.ZERO:
+		# Spread the chosen step over the ticks to the next decision.
+		_drift = input.move / cadence()
+		input.move = _drift
+
+
+## A decision: guard, strike, or the step to take (see _drift).
+func _rival_decide(
+	me: Fighter, foe: Fighter, input: FighterInput, dir: int, mood: Dictionary, punish: bool
+) -> void:
 	stats["decisions"] += 1
 	if not punish and _rival_anticipates(me, foe, float(mood["defend"])):
 		input.guard = true

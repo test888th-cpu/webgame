@@ -139,5 +139,6 @@
         "items": 2.0
       }
     ]
-  }
+  },
+  "show_drop_rates": true
 }

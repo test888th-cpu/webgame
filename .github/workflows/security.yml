@@ -30,6 +30,10 @@ jobs:
           tar -xzf gitleaks.tgz gitleaks
       - name: Scan full history
         run: ./gitleaks git --redact --verbose --exit-code 1 .
+      - name: Allowlist stays narrow (registry hash lines only inside inputs)
+        run: python3 tools/ci/check_registry_hash_lines.py
+      - name: Allowlist regression test (real-looking tokens are still found)
+        run: tools/ci/test-gitleaks-allowlist.sh ./gitleaks
 
   npm-audit:
     name: npm audit (high and critical)

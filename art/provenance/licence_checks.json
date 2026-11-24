@@ -1,0 +1,5 @@
+{
+  "_comment": "Licences confirmed by a person at the asset's original source page (docs/ASSET_PIPELINE_POLICY.md §2). Key: the provenance asset id (e.g. 'lpc.hair.plain'). Fields: result ('VERIFIED_<LICENCE>' or 'REJECTED'), date, by, url (the page read), notes. Only a confirmed check turns 'Commercial use' from Unverified to Allowed.",
+  "version": 1,
+  "checks": {}
+}

@@ -22,6 +22,7 @@ const SCREENS := {
 	"skills": ["Skills", "menu_skills", "V", Vector2(580, 330)],
 	"quests": ["Quests", "menu_quests", "O", Vector2(500, 300)],
 	"map": ["Map", "menu_map", "M", Vector2(600, 318)],
+	"guide": ["Guide", "menu_quests", "N", Vector2(620, 336)],
 	"settings": ["Settings", "menu_settings", "", Vector2(520, 300)],
 }
 const PAUSE_WIDTH := 190.0
@@ -53,6 +54,12 @@ const CONTROLS := [
 	["Map", "M", "Right stick (press)"],
 	["Pause menu", "Esc / P", "Start"],
 ]
+const SAVE_NOTE := "Progress also saves on its own when you change area, shop or hand in a quest."
+## The switches settings_tabs can show, by GameSession.settings key.
+const TOGGLE_NAMES := {
+	"screen_shake": "Screen shake on heavy hits",
+	"show_fps": "Show frame rate",
+}
 const STATE_TAGS := {
 	"active": ["In progress", UiTheme.TEAL],
 	"complete": ["Ready to hand in", UiTheme.ACCENT],
@@ -76,6 +83,8 @@ static func screen(game: Game, name: String) -> Control:
 			page = _quests(game)
 		"map":
 			page = MapTab.build(game)
+		"guide":
+			page = GuideScreen.build(game)
 		_:
 			page = _settings(game)
 	page.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -87,7 +96,7 @@ static func screen(game: Game, name: String) -> Control:
 ## actions. The street does not stop behind it, nor behind any screen.
 static func pause_menu(game: Game) -> Control:
 	var tutorial := not TutorialRules.is_done(game.profile, game.content)
-	var tall := 232.0 + (18.0 if tutorial else 0.0) + (18.0 if Rematch.here(game) >= 0 else 0.0)
+	var tall := 250.0 + (18.0 if tutorial else 0.0) + (18.0 if Rematch.here(game) >= 0 else 0.0)
 	var parts := UiKit.window("Menu", Vector2(PAUSE_WIDTH, tall), "")
 	var body: VBoxContainer = parts["body"]
 	body.add_theme_constant_override("separation", 2)
@@ -227,7 +236,7 @@ static func reward_text(content: ContentDB, quest: Dictionary) -> String:
 	return ",  ".join(parts) if parts else "-"
 
 
-static func _controls() -> Control:
+static func _controls(lines: Array) -> Control:
 	var grid := GridContainer.new()
 	grid.name = "Controls"
 	grid.columns = 3
@@ -235,7 +244,7 @@ static func _controls() -> Control:
 	grid.add_theme_constant_override("v_separation", 3)
 	for heading: String in ["ACTION", "KEYBOARD", "GAMEPAD"]:
 		grid.add_child(UiKit.label(heading, UiTheme.SIZE_CAPTION, UiTheme.TEXT_DIM))
-	for line: Array in CONTROLS:
+	for line: Array in lines:
 		grid.add_child(UiKit.label(line[0], UiTheme.SIZE_BODY))
 		grid.add_child(UiKit.label(line[1], UiTheme.SIZE_BODY, UiTheme.ACCENT))
 		grid.add_child(UiKit.label(line[2], UiTheme.SIZE_BODY, UiTheme.TEAL))
@@ -244,28 +253,38 @@ static func _controls() -> Control:
 
 ## Settings: game options, auto battle and the controls, one tab each.
 static func _settings(_game: Game) -> Control:
+	return settings_tabs(["screen_shake", "show_fps"], CONTROLS, true)
+
+
+## The settings window's tabs, shared with the street (scenes/street): `toggles` are
+## the GameSession.settings switches shown, `controls` the key table, and the auto
+## battle tab only where AutoBattle runs. Extra tabs (`more`: title -> Control) go last.
+static func settings_tabs(
+	toggles: Array, controls: Array, auto_tab: bool, more := {}, note := SAVE_NOTE
+) -> TabContainer:
 	var tabs := TabContainer.new()
 	tabs.name = "Tabs"
 	tabs.get_tab_bar().focus_mode = Control.FOCUS_NONE
 	var game_tab := VBoxContainer.new()
 	game_tab.name = "Game"
 	game_tab.add_theme_constant_override("separation", UiTheme.GAP)
-	game_tab.add_child(_toggle("Screen shake on heavy hits", "screen_shake"))
-	game_tab.add_child(_toggle("Show frame rate", "show_fps"))
+	for key: String in toggles:
+		game_tab.add_child(_toggle(TOGGLE_NAMES[key], key))
 	game_tab.add_child(_volume())
-	game_tab.add_child(
-		UiKit.label(
-			"Progress also saves on its own when you change area, shop or hand in a quest.",
-			UiTheme.SIZE_SMALL,
-			UiTheme.TEXT_FAINT,
-			440
-		)
-	)
+	game_tab.add_child(UiKit.label(note, UiTheme.SIZE_SMALL, UiTheme.TEXT_FAINT, 440))
+	var titles: Array[String] = ["Game"]
 	tabs.add_child(game_tab)
-	tabs.add_child(_auto_options())
-	tabs.add_child(_controls())
-	for i in ["Game", "Auto battle", "Controls"].size():
-		tabs.set_tab_title(i, ["Game", "Auto battle", "Controls"][i])
+	if auto_tab:
+		tabs.add_child(_auto_options())
+		titles.append("Auto battle")
+	tabs.add_child(_controls(controls))
+	titles.append("Controls")
+	for title: String in more:
+		var page: Control = more[title]
+		tabs.add_child(page)
+		titles.append(title)
+	for i in titles.size():
+		tabs.set_tab_title(i, titles[i])
 	tabs.tab_changed.connect(
 		func(_index: int) -> void: UiKit.focus_first(tabs.get_current_tab_control())
 	)
@@ -330,6 +349,7 @@ static func _volume() -> Control:
 
 static func _toggle(text: String, key: String) -> CheckButton:
 	var toggle := CheckButton.new()
+	toggle.name = key
 	toggle.text = text
 	toggle.button_pressed = bool(GameSession.settings.get(key, false))
 	toggle.focus_mode = Control.FOCUS_ALL

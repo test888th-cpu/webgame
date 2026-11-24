@@ -56,6 +56,16 @@ changes the hero's look). `ContentDB` fails if any of these names a missing asse
 | hero_pong | former playable hero (Soldier; off the roster since 2026-11-10, art kept) | buzzcut, trimmed beard, green long sleeves and pants, rim boots | OGA-BY 3.0(+) |
 | hero_riku | playable hero (Boxer) | light skin, plain hair under a code-drawn snapback (white, hot-pink brim, gold badge), hot-pink cardigan (own palette) over a white tee, gold chain, charcoal cuffed pants, white shoes | CC0, OGA-BY 3.0 |
 
+**Temporary class sheets (nine reference classes, male and female).**
+
+- `class_<class>_m` and `class_<class>_f` are placeholders mapped in
+  `client/data/class_visuals.json`.
+- Their attacks use LPC `thrust` and their idle LPC `idle`, because the armour and robe
+  layers have no `combat` or half-slash frames.
+- Details, licences and the replacement workflow:
+  [ASSET_PIPELINE_POLICY.md](ASSET_PIPELINE_POLICY.md). Every asset's provenance:
+  [ASSET_PROVENANCE.md](ASSET_PROVENANCE.md).
+
 Two recipe options restyle LPC parts without inventing frames. A recolour may name
 its own palette, a list of hex colours from darkest to lightest, for colours LPC does
 not offer (Riku's hot pink). `"cap"` turns the top `depth` rows of the hair layer into

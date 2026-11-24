@@ -12,9 +12,15 @@ const SOURCES_SHOWN := 3
 
 ## The card's information, without buttons. `worn_slot` is set when showing
 ## an equipped item (no comparison with itself); `compare` false leaves out
-## the comparison with what is worn (the gallery).
+## the comparison with what is worn (the gallery); `sources` false leaves
+## out the short "Where to get" (the Guide shows its own, with links).
 static func details(
-	content: ContentDB, profile: PlayerProfile, item_id: String, worn_slot := "", compare := true
+	content: ContentDB,
+	profile: PlayerProfile,
+	item_id: String,
+	worn_slot := "",
+	compare := true,
+	sources := true
 ) -> VBoxContainer:
 	var item := content.item(item_id)
 	var box := VBoxContainer.new()
@@ -77,17 +83,17 @@ static func details(
 	)
 	box.add_child(lore)
 	# Where to find more: the farming loop needs a target, not a guess.
-	var sources := content.sources(item_id)
-	if not sources.is_empty() and item.get("type") != "key" and not worn_slot:
+	var found: Array = content.sources(item_id) if sources else []
+	if not found.is_empty() and item.get("type") != "key" and not worn_slot:
 		box.add_child(UiKit.label("WHERE TO GET", UiTheme.SIZE_CAPTION, UiTheme.TEXT_FAINT))
-		for i in mini(sources.size(), SOURCES_SHOWN):
+		for i in mini(found.size(), SOURCES_SHOWN):
 			box.add_child(
-				UiKit.label("  " + str(sources[i]["text"]), UiTheme.SIZE_CAPTION, UiTheme.TEXT_DIM)
+				UiKit.label("  " + str(found[i]["text"]), UiTheme.SIZE_CAPTION, UiTheme.TEXT_DIM)
 			)
-		if sources.size() > SOURCES_SHOWN:
+		if found.size() > SOURCES_SHOWN:
 			box.add_child(
 				UiKit.label(
-					"  and %d more" % (sources.size() - SOURCES_SHOWN),
+					"  and %d more" % (found.size() - SOURCES_SHOWN),
 					UiTheme.SIZE_CAPTION,
 					UiTheme.TEXT_FAINT
 				)
@@ -189,8 +195,10 @@ static func _upgrade_lines(
 	var short := profile.money < int(cost["coins"])
 	for item_id: String in cost["items"]:
 		var need := int(cost["items"][item_id])
-		short = short or profile.count(item_id) < need
-		parts.append("%s %d/%d" % [content.item(item_id)["name"], profile.count(item_id), need])
+		# What can pay it: the material and its stand-ins (enhancement stones).
+		var have := EnhanceRules.available(profile, content, item_id)
+		short = short or have < need
+		parts.append("%s %d/%d" % [content.item(item_id)["name"], have, need])
 	box.add_child(
 		UiKit.label(
 			"  " + ",  ".join(parts),

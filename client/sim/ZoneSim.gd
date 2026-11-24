@@ -85,6 +85,8 @@ var hazards: Array[Dictionary] = []
 ## "height"}. A wall to every fighter not of its team.
 var barriers: Array[Dictionary] = []
 var _boss_mechanics := BossMechanics.new()
+## Rolls the catalog's drops (DropTables) apart from `rng`, so they change no fight.
+var _drop_rng := RandomNumberGenerator.new()
 var _farm := FarmSpawner.new()
 var _next_weapon := 1
 ## Where each fighter stood before this tick's movement.
@@ -124,6 +126,7 @@ func _init(
 	area = content.area(area_id)
 	level = int(area.get("level", 1))
 	rng.seed = seed
+	_drop_rng.seed = hash([seed, "drops"])
 	var width := float(area.get("width", 960))
 	bounds = Rect2(EDGE_MARGIN, LANE_TOP, width - EDGE_MARGIN * 2.0, LANE_DEPTH)
 	arena = bounds
@@ -179,6 +182,7 @@ func refresh_hero() -> void:
 	hero.skills = SkillRules.unlocked(content, profile.hero, profile.level)
 	hero.passives = SkillRules.passives(content, profile.hero, profile.level)
 	hero.combos = ComboRules.unlocked(content, profile.hero, profile.level)
+	EquipmentLooks.apply(hero, profile, content)
 	if duel:
 		duel.apply_hero()
 
@@ -741,6 +745,8 @@ func _defeat(enemy: Fighter, events: Array[ZoneEvent]) -> void:
 		_drop({"kind": "money", "amount": money}, enemy.position)
 	for item_id: String in loot["items"]:
 		_drop({"kind": "item", "item": item_id, "amount": 1}, enemy.position)
+	for drop: Dictionary in DropTables.roll(content, enemy.kind, _drop_rng, area):
+		_drop({"kind": "item", "item": drop["item"], "amount": drop["amount"]}, enemy.position)
 	events.append(
 		ZoneEvent.make(
 			"defeat", {"id": enemy.id, "kind": enemy.kind, "xp": xp, "boss": enemy.id == boss_id}

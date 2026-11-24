@@ -41,6 +41,8 @@ MANIFEST = ROOT / "client" / "assets" / "manifest.json"
 FADED = 0.02
 ## The widest a sheet gets (WebGL takes 4096 everywhere).
 MAX_WIDTH = 2048
+## The tallest (WebGL 1 / WebGL 2 guarantee 4096 px textures).
+MAX_HEIGHT = 4096
 
 
 def rendered_folder(rendered: Path, effect_id: str, spec: dict) -> Path:
@@ -107,6 +109,11 @@ def build(effect_id: str, spec: dict, rendered: Path) -> tuple[Image.Image, dict
     w, h = right - left, bottom - top
     columns = max(1, min(len(kept), MAX_WIDTH // w))
     rows = (len(kept) + columns - 1) // columns
+    if rows * h > MAX_HEIGHT:
+        raise SystemExit(
+            f"{effect_id}: sheet would be {rows * h} px tall (max {MAX_HEIGHT}); "
+            "raise its stride or set an end"
+        )
     sheet = Image.new("RGBA", (columns * w, rows * h), (0, 0, 0, 0))
     for i, image in enumerate(kept):
         sheet.paste(image.crop((left, top, right, bottom)), ((i % columns) * w, (i // columns) * h))

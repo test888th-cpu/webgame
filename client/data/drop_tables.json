@@ -1,0 +1,171 @@
+{
+  "version": 1,
+  "note": "New-item drops (item_catalog.json), rolled after an enemy's own loot table, which is unchanged. Steps: does a drop happen (chance per roll), which category (categories), which grade (grade_weights for the source, among the grades that category has), which item (evenly among the eligible items of that grade), how many (quantity).",
+  "grade_weights": {
+    "monster": {
+      "common": 75,
+      "uncommon": 20,
+      "rare": 4.5,
+      "epic": 0.5,
+      "legendary": 0,
+      "godforged": 0
+    },
+    "boss": {
+      "common": 40,
+      "uncommon": 35,
+      "rare": 20,
+      "epic": 4.8,
+      "legendary": 0.2,
+      "godforged": 0
+    }
+  },
+  "tables": {
+    "street": {
+      "source": "monster",
+      "chance": 0.08,
+      "rolls": 1,
+      "categories": {
+        "enhancement_material": 35,
+        "ore": 40,
+        "consumable": 15,
+        "headgear": 3.4,
+        "outfit": 3.3,
+        "weapon": 3.3
+      },
+      "quantity": {
+        "ore": [
+          1,
+          3
+        ]
+      }
+    },
+    "boss": {
+      "source": "boss",
+      "chance": 1.0,
+      "rolls": 2,
+      "categories": {
+        "enhancement_material": 30,
+        "ore": 30,
+        "consumable": 10,
+        "headgear": 10,
+        "outfit": 10,
+        "weapon": 10
+      },
+      "quantity": {
+        "ore": [
+          1,
+          3
+        ],
+        "enhancement_material": [
+          1,
+          2
+        ]
+      }
+    }
+  },
+  "defaults": {
+    "monster": "street",
+    "boss": "boss"
+  },
+  "enemies": {
+    "training_dummy": ""
+  },
+  "bosses": {
+    "director_wiroj": [
+      {
+        "item": "wiroj_protocol_chip",
+        "chance": 0.25
+      },
+      {
+        "item": "crimson_warlord_helm",
+        "chance": 0.005
+      },
+      {
+        "item": "iron_legacy_relic",
+        "chance": 0.03
+      }
+    ],
+    "furnace_baron": [
+      {
+        "item": "baron_furnace_core",
+        "chance": 0.25
+      },
+      {
+        "item": "crimson_warlord_fists",
+        "chance": 0.005
+      },
+      {
+        "item": "iron_legacy_relic",
+        "chance": 0.03
+      }
+    ],
+    "harbourmaster_chen": [
+      {
+        "item": "chen_anchor_link",
+        "chance": 0.3
+      },
+      {
+        "item": "mineral_azure",
+        "chance": 0.15,
+        "quantity": [
+          1,
+          2
+        ]
+      }
+    ],
+    "unit_k7": [
+      {
+        "item": "k7_reactor_cell",
+        "chance": 0.25
+      },
+      {
+        "item": "mineral_gilded",
+        "chance": 0.1
+      }
+    ],
+    "commander_arthit": [
+      {
+        "item": "crimson_warlord_mantle",
+        "chance": 0.005
+      },
+      {
+        "item": "mineral_gilded",
+        "chance": 0.1
+      },
+      {
+        "item": "iron_legacy_relic",
+        "chance": 0.03
+      }
+    ],
+    "big_sak": [
+      {
+        "item": "mineral_azure",
+        "chance": 0.15
+      }
+    ],
+    "ringmaster": [
+      {
+        "item": "mineral_azure",
+        "chance": 0.15
+      },
+      {
+        "item": "enhance_stone_advanced",
+        "chance": 0.2
+      }
+    ],
+    "subject_twelve": [
+      {
+        "item": "mineral_crimson",
+        "chance": 0.01
+      },
+      {
+        "item": "enhance_catalyst_special",
+        "chance": 0.01
+      },
+      {
+        "item": "founders_crimson_sigil",
+        "chance": 0.002
+      }
+    ]
+  }
+}

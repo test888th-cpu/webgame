@@ -16,7 +16,7 @@ static func spawn(
 ) -> AnimatedSprite2D:
 	var library := _library(content)
 	var frames: SpriteFrames = library["frames"]
-	if not frames.has_animation(id):
+	if not _ensure(library, content, id):
 		push_error("unknown effect " + id)
 		return null
 	var sprite := AnimatedSprite2D.new()
@@ -40,40 +40,52 @@ static func spawn(
 	return sprite
 
 
-static func _library(content: ContentDB) -> Dictionary:
+## The shared library: one SpriteFrames that gains an effect's animation the
+## first time that effect plays, so only the sheets of effects actually used are
+## loaded (the pixelfx library holds dozens of large sheets; loading them all at
+## the first hit would cost the browser build well over 100 MB of textures).
+static func _library(_content: ContentDB) -> Dictionary:
 	if not GameSession.fx_library.is_empty():
 		return GameSession.fx_library
 	var frames := SpriteFrames.new()
 	frames.remove_animation("default")
 	var additive := CanvasItemMaterial.new()
 	additive.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
-	var origins := {}
-	var sheets := {}
-	var effects: Dictionary = content.fx.get("effects", {})
-	for id: String in effects:
-		var effect: Dictionary = effects[id]
-		# A generated effect is one row of the shared sheet; an imported one
-		# (pixelfx) has its own sheet, `columns` frames wide.
-		var path := str(effect.get("sheet", content.fx.get("sheet", "")))
-		if not sheets.has(path):
-			sheets[path] = load(path)
-		var columns := int(effect.get("columns", 0))
-		var top := float(effect.get("y", 0))
-		var size := Vector2(effect["size"][0], effect["size"][1])
-		frames.add_animation(id)
-		# A looping effect (a shield dome) plays until its holder frees it.
-		frames.set_animation_loop(id, bool(effect.get("loop", false)))
-		frames.set_animation_speed(id, float(effect["fps"]))
-		for frame in int(effect["frames"]):
-			var atlas := AtlasTexture.new()
-			atlas.atlas = sheets[path]
-			var cell := (
-				Vector2(frame, 0)
-				if columns <= 0
-				else Vector2(frame % columns, floori(frame / float(columns)))
-			)
-			atlas.region = Rect2(Vector2(cell.x * size.x, top + cell.y * size.y), size)
-			frames.add_frame(id, atlas)
-		origins[id] = Vector2(effect["origin"][0], effect["origin"][1])
-	GameSession.fx_library = {"frames": frames, "origins": origins, "additive": additive}
+	GameSession.fx_library = {"frames": frames, "origins": {}, "additive": additive, "sheets": {}}
 	return GameSession.fx_library
+
+
+## Adds effect `id` to the library if it is not there yet; false if unknown.
+static func _ensure(library: Dictionary, content: ContentDB, id: String) -> bool:
+	var frames: SpriteFrames = library["frames"]
+	if frames.has_animation(id):
+		return true
+	var effects: Dictionary = content.fx.get("effects", {})
+	if not effects.has(id):
+		return false
+	var effect: Dictionary = effects[id]
+	var sheets: Dictionary = library["sheets"]
+	# A generated effect is one row of the shared sheet; an imported one
+	# (pixelfx) has its own sheet, `columns` frames wide.
+	var path := str(effect.get("sheet", content.fx.get("sheet", "")))
+	if not sheets.has(path):
+		sheets[path] = load(path)
+	var columns := int(effect.get("columns", 0))
+	var top := float(effect.get("y", 0))
+	var size := Vector2(effect["size"][0], effect["size"][1])
+	frames.add_animation(id)
+	# A looping effect (a shield dome) plays until its holder frees it.
+	frames.set_animation_loop(id, bool(effect.get("loop", false)))
+	frames.set_animation_speed(id, float(effect["fps"]))
+	for frame in int(effect["frames"]):
+		var atlas := AtlasTexture.new()
+		atlas.atlas = sheets[path]
+		var cell := (
+			Vector2(frame, 0)
+			if columns <= 0
+			else Vector2(frame % columns, floori(frame / float(columns)))
+		)
+		atlas.region = Rect2(Vector2(cell.x * size.x, top + cell.y * size.y), size)
+		frames.add_frame(id, atlas)
+	library["origins"][id] = Vector2(effect["origin"][0], effect["origin"][1])
+	return true

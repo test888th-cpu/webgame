@@ -1,0 +1,2755 @@
+{
+ "_comment": "LPC licence verification at the original sources (docs/LPC_LICENCE_VERIFICATION.md). Classes: VERIFIED (every readable source grants a licence permitting commercial use without share-alike), RESTRICTED (a contribution is granted only under CC-BY-SA or GPL), UNVERIFIED (conflicting or unreadable sources), NOT APPROVED (incompatible). Quotes are from the pages and the credits files inside the downloads offered on them.",
+ "version": 1,
+ "reference": "LPC generator 9bf06be193b053db256b2536824af426de046aa2",
+ "parts": {
+  "lpc.beards.beard.medium": {
+   "classification": "VERIFIED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "ElizaWy",
+   "pages": [
+    {
+     "url": "https://github.com/ElizaWy/LPC/tree/main/Characters/Hair",
+     "result": "read via git",
+     "licences": [
+      "OGA-BY 3.0"
+     ]
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-sit-run-jump-more",
+     "result": "read",
+     "title": "[LPC Expanded] Sit, Run, Jump, & More",
+     "licences": [
+      "OGA-BY 3.0",
+      "OGA-BY 4.0"
+     ],
+     "submitter": "JaidynReiman"
+    }
+   ],
+   "item_evidence": [],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.beards.beard.trimmed": {
+   "classification": "VERIFIED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "ElizaWy",
+   "pages": [
+    {
+     "url": "https://github.com/ElizaWy/LPC/tree/main/Characters/Hair",
+     "result": "read via git",
+     "licences": [
+      "OGA-BY 3.0"
+     ]
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-sit-run-jump-more",
+     "result": "read",
+     "title": "[LPC Expanded] Sit, Run, Jump, & More",
+     "licences": [
+      "OGA-BY 3.0",
+      "OGA-BY 4.0"
+     ],
+     "submitter": "JaidynReiman"
+    }
+   ],
+   "item_evidence": [],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.beards.mustache.walrus": {
+   "classification": "VERIFIED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "ElizaWy",
+   "pages": [
+    {
+     "url": "https://github.com/ElizaWy/LPC/tree/main/Characters/Hair",
+     "result": "read via git",
+     "licences": [
+      "OGA-BY 3.0"
+     ]
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-sit-run-jump-more",
+     "result": "read",
+     "title": "[LPC Expanded] Sit, Run, Jump, & More",
+     "licences": [
+      "OGA-BY 3.0",
+      "OGA-BY 4.0"
+     ],
+     "submitter": "JaidynReiman"
+    }
+   ],
+   "item_evidence": [],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.body.bodies.female": {
+   "classification": "RESTRICTED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "Benjamin K. Smith (BenCreating); bluecarrot16; TheraHedwig; Evert; MuffinElZangano; Durrani; Pierre Vigier (pvigier); ElizaWy; Matthew Krohn (makrohn); Johannes Sjölund (wulax); Stephen Challener (Redshrike)",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles",
+     "result": "read",
+     "title": "Liberated Pixel Cup (LPC) Base Assets (sprites & map tiles)",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0"
+     ],
+     "submitter": "See CREDITS.TXT"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-medieval-fantasy-character-sprites",
+     "result": "read",
+     "title": "[LPC] Medieval fantasy character sprites",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "wulax"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-ladies",
+     "result": "read",
+     "title": "LPC ladies",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "makrohn"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-7-womens-shirts",
+     "result": "read",
+     "title": "[LPC] 7 Women's Shirts",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0"
+     ],
+     "submitter": "Death's Darling"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-jump-expanded",
+     "result": "read",
+     "title": "[LPC] Jump! (expanded)",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "Death's Darling"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-be-seated",
+     "result": "read",
+     "title": "[LPC] Be Seated!",
+     "licences": [
+      "CC-BY 3.0"
+     ],
+     "submitter": "Death's Darling"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-revised-character-basics",
+     "result": "read",
+     "title": "[LPC Revised] Character Basics!",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "Death's Darling"
+    },
+    {
+     "url": "https://gitlab.com/vagabondgame/lpc-characters",
+     "result": "not readable from here (blocked or not a licence page)"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-male-jumping-animation-by-durrani",
+     "result": "read",
+     "title": "[LPC] Male Jumping Animation by Durrani",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "MuffinElZangano"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-runcycle-and-diagonal-walkcycle",
+     "result": "read",
+     "title": "LPC runcycle and diagonal walkcycle.",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "TheraHedwig"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "lpc-character-bases-v3_1.zip CREDITS.txt (download on the source page)",
+     "finding": "SA",
+     "quote": "### Male (adult) body / ### Female (adult) body: 'CC-BY-SA 3.0 / GPL 3.0'; contributions by BenCreating and bluecarrot16 via 'LPC Character Bases - CC-BY-SA 3.0 / GPL 3.0'"
+    },
+    {
+     "source": "https://opengameart.org/content/lpc-7-womens-shirts",
+     "finding": "SA",
+     "quote": "page licences 'CC-BY-SA 3.0, GPL 3.0' (ElizaWy jawline correction in the female body)"
+    },
+    {
+     "source": "lpc_base_assets.zip CREDITS.TXT (download on the source page)",
+     "finding": "PERM",
+     "quote": "'NOTE: These assets by Stephen Challener are also available under the OGA-BY 3.0 License. -Medicine Storm 4/12/2022' (character templates, male_pants)"
+    }
+   ],
+   "note": "As the male body; also ElizaWy's 7 Women's Shirts correction (CC-BY-SA / GPL).",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.body.bodies.male": {
+   "classification": "RESTRICTED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "bluecarrot16; JaidynReiman; Benjamin K. Smith (BenCreating); Evert; Eliza Wyatt (ElizaWy); TheraHedwig; MuffinElZangano; Durrani; Johannes Sjölund (wulax); Stephen Challener (Redshrike)",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles",
+     "result": "read",
+     "title": "Liberated Pixel Cup (LPC) Base Assets (sprites & map tiles)",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0"
+     ],
+     "submitter": "See CREDITS.TXT"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-medieval-fantasy-character-sprites",
+     "result": "read",
+     "title": "[LPC] Medieval fantasy character sprites",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "wulax"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-male-jumping-animation-by-durrani",
+     "result": "read",
+     "title": "[LPC] Male Jumping Animation by Durrani",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "MuffinElZangano"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-runcycle-and-diagonal-walkcycle",
+     "result": "read",
+     "title": "LPC runcycle and diagonal walkcycle.",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "TheraHedwig"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-revised-character-basics",
+     "result": "read",
+     "title": "[LPC Revised] Character Basics!",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "Death's Darling"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-be-seated",
+     "result": "read",
+     "title": "[LPC] Be Seated!",
+     "licences": [
+      "CC-BY 3.0"
+     ],
+     "submitter": "Death's Darling"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-runcycle-for-male-muscular-and-pregnant-character-bases-with-modular-heads",
+     "result": "read",
+     "title": "[LPC] Runcycle for male, muscular and pregnant character bases with modular heads",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "Evert"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-jump-expanded",
+     "result": "read",
+     "title": "[LPC] Jump! (expanded)",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "Death's Darling"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-character-bases",
+     "result": "read",
+     "title": "LPC Character Bases",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0"
+     ],
+     "submitter": "BenCreating"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "lpc-character-bases-v3_1.zip CREDITS.txt (download on the source page)",
+     "finding": "SA",
+     "quote": "### Male (adult) body / ### Female (adult) body: 'CC-BY-SA 3.0 / GPL 3.0'; contributions by BenCreating and bluecarrot16 via 'LPC Character Bases - CC-BY-SA 3.0 / GPL 3.0'"
+    },
+    {
+     "source": "lpc_base_assets.zip CREDITS.TXT (download on the source page)",
+     "finding": "PERM",
+     "quote": "'NOTE: These assets by Stephen Challener are also available under the OGA-BY 3.0 License. -Medicine Storm 4/12/2022' (character templates, male_pants)"
+    }
+   ],
+   "note": "Redshrike's frames are OGA-BY, but BenCreating's and bluecarrot16's contributions are granted only as CC-BY-SA 3.0 / GPL 3.0 at the source. The LPC generator's 'OGA-BY 3.0' record cites this page, which does not support it.",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.cape.solid.bg": {
+   "classification": "RESTRICTED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "Nila122; JaidynReiman",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/lpc-curly-hair-elven-ears-white-cape-with-blue-trim-and-more",
+     "result": "read",
+     "title": "[LPC] Curly Hair, Elven Ears, White Cape with blue trim, and more!",
+     "licences": [
+      "OGA-BY 3.0",
+      "GPL 3.0",
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "JaidynReiman"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-roman-armor",
+     "result": "read",
+     "title": "LPC roman armor",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "GPL 2.0"
+     ],
+     "submitter": "Nila122"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "https://opengameart.org/content/lpc-roman-armor",
+     "finding": "SA",
+     "quote": "page licences 'CC-BY-SA 3.0, GPL 3.0, GPL 2.0'; a second-hand note in the generator and the bases credits says Nila122 agreed to OGA-BY 'wherever possible', but the creator's page does not"
+    },
+    {
+     "source": "lpc-clothing-updates_1.zip CREDITS-clothing-updates.csv (download on the source page)",
+     "finding": "SA",
+     "quote": "this file, with bluecarrot16's v3 adaptation, listed as 'CC-BY-SA 3.0, GPL 3.0'"
+    }
+   ],
+   "note": "cape/solid_behind is CC-BY-SA in the clothing updates.",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.cape.solid.fg": {
+   "classification": "RESTRICTED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "bluecarrot16; JaidynReiman",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/lpc-curly-hair-elven-ears-white-cape-with-blue-trim-and-more",
+     "result": "read",
+     "title": "[LPC] Curly Hair, Elven Ears, White Cape with blue trim, and more!",
+     "licences": [
+      "OGA-BY 3.0",
+      "GPL 3.0",
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "JaidynReiman"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-roman-armor",
+     "result": "read",
+     "title": "LPC roman armor",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "GPL 2.0"
+     ],
+     "submitter": "Nila122"
+    },
+    {
+     "url": "http://opengameart.org/content/lpc-clothing-updates",
+     "result": "read",
+     "title": "[LPC] Clothing Updates",
+     "licences": [
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "bluecarrot16"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "lpc-clothing-updates_1.zip CREDITS-clothing-updates.csv (download on the source page)",
+     "finding": "SA",
+     "quote": "this file, with bluecarrot16's v3 adaptation, listed as 'CC-BY-SA 3.0, GPL 3.0'"
+    }
+   ],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.facial.glasses.glasses": {
+   "classification": "VERIFIED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "ElizaWy",
+   "pages": [
+    {
+     "url": "https://github.com/ElizaWy/LPC/tree/main/Characters/Head%20Accessories",
+     "result": "read via git",
+     "licences": [
+      "OGA-BY 3.0"
+     ]
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-sit-run-jump-more",
+     "result": "read",
+     "title": "[LPC Expanded] Sit, Run, Jump, & More",
+     "licences": [
+      "OGA-BY 3.0",
+      "OGA-BY 4.0"
+     ],
+     "submitter": "JaidynReiman"
+    }
+   ],
+   "item_evidence": [],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.feet.boots.basic": {
+   "classification": "VERIFIED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "JaidynReiman; bluecarrot16; Nila122",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/lpc-clothes-and-hair",
+     "result": "read",
+     "title": "LPC clothes and hair",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "GPL 2.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "Nila122"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-socks-shoes",
+     "result": "read",
+     "title": "[LPC Expanded] Socks & Shoes",
+     "licences": [
+      "GPL 3.0",
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "JaidynReiman"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "https://opengameart.org/content/lpc-expanded-socks-shoes",
+     "finding": "PERM",
+     "quote": "'Shoes (ALL OGA-BY 3.0) Basic Shoes by Wulax'; 'Boots (ALL OGA-BY 3.0)'"
+    }
+   ],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.feet.boots.basic.thin": {
+   "classification": "VERIFIED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "JaidynReiman; bluecarrot16; Nila122",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/lpc-clothes-and-hair",
+     "result": "read",
+     "title": "LPC clothes and hair",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "GPL 2.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "Nila122"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-socks-shoes",
+     "result": "read",
+     "title": "[LPC Expanded] Socks & Shoes",
+     "licences": [
+      "GPL 3.0",
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "JaidynReiman"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "https://opengameart.org/content/lpc-expanded-socks-shoes",
+     "finding": "PERM",
+     "quote": "'Shoes (ALL OGA-BY 3.0) Basic Shoes by Wulax'; 'Boots (ALL OGA-BY 3.0)'"
+    }
+   ],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.feet.boots.fold": {
+   "classification": "VERIFIED",
+   "recorded_licence": "OGA-BY 3.0+",
+   "creators": "JaidynReiman",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/lpc-kimono-relm",
+     "result": "read",
+     "title": "[LPC] Kimono (Relm)",
+     "licences": [
+      "CC-BY 3.0",
+      "OGA-BY 3.0",
+      "OGA-BY 4.0",
+      "CC-BY 4.0",
+      "GPL 3.0"
+     ],
+     "submitter": "JaidynReiman"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-socks-shoes",
+     "result": "read",
+     "title": "[LPC Expanded] Socks & Shoes",
+     "licences": [
+      "GPL 3.0",
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "JaidynReiman"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "https://opengameart.org/content/lpc-expanded-socks-shoes",
+     "finding": "PERM",
+     "quote": "'Shoes (ALL OGA-BY 3.0) Basic Shoes by Wulax'; 'Boots (ALL OGA-BY 3.0)'"
+    }
+   ],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.feet.boots.rimmed": {
+   "classification": "VERIFIED",
+   "recorded_licence": "OGA-BY 3.0+",
+   "creators": "JaidynReiman",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/lpc-kimono-relm",
+     "result": "read",
+     "title": "[LPC] Kimono (Relm)",
+     "licences": [
+      "CC-BY 3.0",
+      "OGA-BY 3.0",
+      "OGA-BY 4.0",
+      "CC-BY 4.0",
+      "GPL 3.0"
+     ],
+     "submitter": "JaidynReiman"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-socks-shoes",
+     "result": "read",
+     "title": "[LPC Expanded] Socks & Shoes",
+     "licences": [
+      "GPL 3.0",
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "JaidynReiman"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "https://opengameart.org/content/lpc-expanded-socks-shoes",
+     "finding": "PERM",
+     "quote": "'Shoes (ALL OGA-BY 3.0) Basic Shoes by Wulax'; 'Boots (ALL OGA-BY 3.0)'"
+    }
+   ],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.feet.shoes": {
+   "classification": "UNVERIFIED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "JaidynReiman; bluecarrot16; Johannes Sjölund (wulax)",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/lpc-medieval-fantasy-character-sprites",
+     "result": "read",
+     "title": "[LPC] Medieval fantasy character sprites",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "wulax"
+    },
+    {
+     "url": "http://opengameart.org/content/lpc-clothing-updates",
+     "result": "read",
+     "title": "[LPC] Clothing Updates",
+     "licences": [
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "bluecarrot16"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-socks-shoes",
+     "result": "read",
+     "title": "[LPC Expanded] Socks & Shoes",
+     "licences": [
+      "GPL 3.0",
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "JaidynReiman"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "lpc-clothing-updates_1.zip CREDITS-clothing-updates.csv (download on the source page)",
+     "finding": "SA",
+     "quote": "this file, with bluecarrot16's v3 adaptation, listed as 'CC-BY-SA 3.0, GPL 3.0'"
+    },
+    {
+     "source": "https://opengameart.org/content/lpc-expanded-socks-shoes",
+     "finding": "PERM",
+     "quote": "'Shoes (ALL OGA-BY 3.0) Basic Shoes by Wulax'; 'Boots (ALL OGA-BY 3.0)'"
+    }
+   ],
+   "note": "Conflict: the clothing updates list bluecarrot16's version as CC-BY-SA / GPL; JaidynReiman's later page says all shoes are OGA-BY 3.0. Needs bluecarrot16's confirmation.",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.feet.shoes.basic.thin": {
+   "classification": "UNVERIFIED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "JaidynReiman; Joe White; Johannes Sjölund (wulax)",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/lpc-medieval-fantasy-character-sprites",
+     "result": "read",
+     "title": "[LPC] Medieval fantasy character sprites",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "wulax"
+    },
+    {
+     "url": "http://opengameart.org/content/lpc-clothing-updates",
+     "result": "read",
+     "title": "[LPC] Clothing Updates",
+     "licences": [
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "bluecarrot16"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-socks-shoes",
+     "result": "read",
+     "title": "[LPC Expanded] Socks & Shoes",
+     "licences": [
+      "GPL 3.0",
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "JaidynReiman"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "lpc-clothing-updates_1.zip CREDITS-clothing-updates.csv (download on the source page)",
+     "finding": "SA",
+     "quote": "this file, with bluecarrot16's v3 adaptation, listed as 'CC-BY-SA 3.0, GPL 3.0'"
+    },
+    {
+     "source": "https://opengameart.org/content/lpc-expanded-socks-shoes",
+     "finding": "PERM",
+     "quote": "'Shoes (ALL OGA-BY 3.0) Basic Shoes by Wulax'; 'Boots (ALL OGA-BY 3.0)'"
+    }
+   ],
+   "note": "Conflict as feet.shoes (Joe White / wulax female shoes).",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.hair.balding": {
+   "classification": "VERIFIED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "ElizaWy",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/lpc-hair",
+     "result": "read",
+     "title": "[LPC] Hair",
+     "licences": [
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "bluecarrot16"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "lpc-hair.zip CREDITS-hair.txt (download on the source page)",
+     "finding": "PERM",
+     "quote": "per-file table: bob 'CC0'; balding, buzzcut, high_ponytail 'OGA-BY 3.0+'; spiked 'CC-BY 4.0'"
+    }
+   ],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.hair.bob": {
+   "classification": "VERIFIED",
+   "recorded_licence": "CC0",
+   "creators": "ElizaWy; bluecarrot16",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/lpc-hair",
+     "result": "read",
+     "title": "[LPC] Hair",
+     "licences": [
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "bluecarrot16"
+    },
+    {
+     "url": "https://github.com/ElizaWy/LPC/blob/main/Characters/Hair",
+     "result": "read via git",
+     "licences": [
+      "OGA-BY 3.0"
+     ]
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-sit-run-jump-more",
+     "result": "read",
+     "title": "[LPC Expanded] Sit, Run, Jump, & More",
+     "licences": [
+      "OGA-BY 3.0",
+      "OGA-BY 4.0"
+     ],
+     "submitter": "JaidynReiman"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "lpc-hair.zip CREDITS-hair.txt (download on the source page)",
+     "finding": "PERM",
+     "quote": "per-file table: bob 'CC0'; balding, buzzcut, high_ponytail 'OGA-BY 3.0+'; spiked 'CC-BY 4.0'"
+    },
+    {
+     "source": "github.com/ElizaWy/LPC @ f07f7f5892e67c932c68f70bb04472f2c64e46bc: README.md and Characters/*/Credits.txt (read with git)",
+     "finding": "PERM",
+     "quote": "'This pack is licensed OGA-BY 3.0 ... even for commercial use, so long as the artists are credited'; folder Credits.txt entries 'LICENSE: OGA-BY 3.0'"
+    }
+   ],
+   "note": "Original CC0; the edits are OGA-BY 3.0, so credit is required in practice.",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.hair.buzzcut": {
+   "classification": "VERIFIED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "ElizaWy",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/lpc-hair",
+     "result": "read",
+     "title": "[LPC] Hair",
+     "licences": [
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "bluecarrot16"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "lpc-hair.zip CREDITS-hair.txt (download on the source page)",
+     "finding": "PERM",
+     "quote": "per-file table: bob 'CC0'; balding, buzzcut, high_ponytail 'OGA-BY 3.0+'; spiked 'CC-BY 4.0'"
+    }
+   ],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.hair.extensions.ponytails.topknot_short": {
+   "classification": "VERIFIED",
+   "recorded_licence": "OGA-BY 3.0+",
+   "creators": "JaidynReiman",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/lpc-1-hairstyle-2-hair-extensions-3-previously-unofficially-released-hairstyles",
+     "result": "read",
+     "title": "[LPC] 1 Hairstyle, 2 Hair Extensions, & 3 Previously Unofficially Released Hairstyles (UPDATE 11/9/24: Added to All Frames w/Animations and Redrawn Topknot!)",
+     "licences": [
+      "CC-BY 3.0",
+      "OGA-BY 3.0",
+      "OGA-BY 4.0",
+      "CC-BY 4.0",
+      "GPL 3.0",
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "JaidynReiman"
+    }
+   ],
+   "item_evidence": [],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.hair.high_ponytail": {
+   "classification": "RESTRICTED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "JaidynReiman; ElizaWy; bluecarrot16",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/lpc-hair",
+     "result": "read",
+     "title": "[LPC] Hair",
+     "licences": [
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "bluecarrot16"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-hair",
+     "result": "read",
+     "title": "[LPC Expanded] Hair",
+     "licences": [
+      "GPL 3.0",
+      "CC-BY-SA 4.0"
+     ],
+     "submitter": "JaidynReiman"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "lpc-hair.zip CREDITS-hair.txt (download on the source page)",
+     "finding": "PERM",
+     "quote": "per-file table: bob 'CC0'; balding, buzzcut, high_ponytail 'OGA-BY 3.0+'; spiked 'CC-BY 4.0'"
+    },
+    {
+     "source": "credits_2.txt (download on https://opengameart.org/content/lpc-expanded-hair)",
+     "finding": "SA",
+     "quote": "'Entire submission is CC-BY-SA 3.0' - JaidynReiman 'Added Climb/Jump/Run/Revised Combat/Sit/Emotes to All Frames for All Hairstyles' with no separate licence stated"
+    }
+   ],
+   "note": "ElizaWy's and bluecarrot16's work is OGA-BY 3.0+; the added frames from [LPC Expanded] Hair have no licence but the submission's CC-BY-SA.",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.hair.parted_side_bangs": {
+   "classification": "VERIFIED",
+   "recorded_licence": "OGA-BY 3.0+",
+   "creators": "JaidynReiman",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/lpc-1-hairstyle-2-hair-extensions-3-previously-unofficially-released-hairstyles",
+     "result": "read",
+     "title": "[LPC] 1 Hairstyle, 2 Hair Extensions, & 3 Previously Unofficially Released Hairstyles (UPDATE 11/9/24: Added to All Frames w/Animations and Redrawn Topknot!)",
+     "licences": [
+      "CC-BY 3.0",
+      "OGA-BY 3.0",
+      "OGA-BY 4.0",
+      "CC-BY 4.0",
+      "GPL 3.0",
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "JaidynReiman"
+    },
+    {
+     "url": "https://github.com/jrconway3/Universal-LPC-spritesheet/commit/46ddcf05a0e43e7aa6ffd47d350eef0eb529ac24",
+     "result": "not readable from here (blocked or not a licence page)"
+    }
+   ],
+   "item_evidence": [],
+   "note": "a cited history link could not be read; the other sources cover the item",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.hair.plain": {
+   "classification": "RESTRICTED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "JaidynReiman; Manuel Riecke (MrBeast); Joe White",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles",
+     "result": "read",
+     "title": "Liberated Pixel Cup (LPC) Base Assets (sprites & map tiles)",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0"
+     ],
+     "submitter": "See CREDITS.TXT"
+    },
+    {
+     "url": "https://opengameart.org/content/ponytail-and-plain-hairstyles",
+     "result": "read",
+     "title": "Ponytail and Plain hairstyles",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "Joe White"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-hair",
+     "result": "read",
+     "title": "[LPC Expanded] Hair",
+     "licences": [
+      "GPL 3.0",
+      "CC-BY-SA 4.0"
+     ],
+     "submitter": "JaidynReiman"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "credits_2.txt (download on https://opengameart.org/content/lpc-expanded-hair)",
+     "finding": "SA",
+     "quote": "'Manuel Riecke (MrBeast): CC-BY-SA 3.0 / GPL 3.0 ... Plain'"
+    }
+   ],
+   "note": "Joe White's updates are OGA-BY, the original by Manuel Riecke is not.",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.hair.spiked": {
+   "classification": "VERIFIED",
+   "recorded_licence": "CC-BY 4.0",
+   "creators": "kcilds/Rocetti/Eredah",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/eredah-rpg-character-base-48x64-ongoing",
+     "result": "read",
+     "title": "Eredah RPG Character Base 48x64 (OnGoing)",
+     "licences": [
+      "CC-BY 4.0"
+     ],
+     "submitter": "kcilds"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-hair",
+     "result": "read",
+     "title": "[LPC] Hair",
+     "licences": [
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "bluecarrot16"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "lpc-hair.zip CREDITS-hair.txt (download on the source page)",
+     "finding": "PERM",
+     "quote": "per-file table: bob 'CC0'; balding, buzzcut, high_ponytail 'OGA-BY 3.0+'; spiked 'CC-BY 4.0'"
+    }
+   ],
+   "note": "CC-BY 4.0: attribution, and no technical restrictions on recipients (DRM platforms).",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.hat.cloth.bandana": {
+   "classification": "VERIFIED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "Matthew Krohn (makrohn); JaidynReiman; Marcel van de Steeg (MadMarcel); JaidynReiman",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/lpc-female-orcogregoblintroll-base-walkcycle",
+     "result": "read",
+     "title": "[LPC] Female Orc/Ogre/Goblin/Troll (base walkcycle)",
+     "licences": [
+      "OGA-BY 3.0"
+     ],
+     "submitter": "madmarcel"
+    },
+    {
+     "url": "https://github.com/makrohn/Universal-LPC-spritesheet/commit/f50007cb47c235d8896cafae7a613f0b6a9a09a8?short_path=02b86d4#diff-02b86d45789a3e3e8e79519c7d17d15c9e6ecc9b4ddecb1bcd8dfbbaef430b75",
+     "result": "not readable from here (blocked or not a licence page)"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-hats-facial-helmets",
+     "result": "read",
+     "title": "[LPC Expanded]: Hats, Facial, Helmets",
+     "licences": [
+      "GPL 3.0",
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "JaidynReiman"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "https://opengameart.org/content/lpc-expanded-hats-facial-helmets",
+     "finding": "PERM",
+     "quote": "'Bandana 1 and 2 (also OGA-BY 3.0)', 'Hood (also OGA-BY 3.0)', 'Feather Cap (also OGA-BY 3.0)' [the former Leather cap], 'Tied Headband (also OGA-BY 3.0)', 'Maximus, Nasal, Pointed (also OGA-BY 3.0, CC-BY 3.0+)', 'Kettle, Legion, Xeon (also OGA-BY 3.0)', 'Starry (Celestial) Wizard (CC-BY 3.0 only)'"
+    }
+   ],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.hat.cloth.hood": {
+   "classification": "VERIFIED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "Johannes Sjölund (wulax); JaidynReiman",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/lpc-medieval-fantasy-character-sprites",
+     "result": "read",
+     "title": "[LPC] Medieval fantasy character sprites",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "wulax"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-hats-facial-helmets",
+     "result": "read",
+     "title": "[LPC Expanded]: Hats, Facial, Helmets",
+     "licences": [
+      "GPL 3.0",
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "JaidynReiman"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "https://opengameart.org/content/lpc-expanded-hats-facial-helmets",
+     "finding": "PERM",
+     "quote": "'Bandana 1 and 2 (also OGA-BY 3.0)', 'Hood (also OGA-BY 3.0)', 'Feather Cap (also OGA-BY 3.0)' [the former Leather cap], 'Tied Headband (also OGA-BY 3.0)', 'Maximus, Nasal, Pointed (also OGA-BY 3.0, CC-BY 3.0+)', 'Kettle, Legion, Xeon (also OGA-BY 3.0)', 'Starry (Celestial) Wizard (CC-BY 3.0 only)'"
+    }
+   ],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.hat.cloth.leather_cap": {
+   "classification": "VERIFIED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "Johannes Sjölund (wulax); Matthew Krohn (Makrohn); JaidynReiman",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/lpc-medieval-fantasy-character-sprites",
+     "result": "read",
+     "title": "[LPC] Medieval fantasy character sprites",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "wulax"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-hats-facial-helmets",
+     "result": "read",
+     "title": "[LPC Expanded]: Hats, Facial, Helmets",
+     "licences": [
+      "GPL 3.0",
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "JaidynReiman"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "https://opengameart.org/content/lpc-expanded-hats-facial-helmets",
+     "finding": "PERM",
+     "quote": "'Bandana 1 and 2 (also OGA-BY 3.0)', 'Hood (also OGA-BY 3.0)', 'Feather Cap (also OGA-BY 3.0)' [the former Leather cap], 'Tied Headband (also OGA-BY 3.0)', 'Maximus, Nasal, Pointed (also OGA-BY 3.0, CC-BY 3.0+)', 'Kettle, Legion, Xeon (also OGA-BY 3.0)', 'Starry (Celestial) Wizard (CC-BY 3.0 only)'"
+    }
+   ],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.hat.headband.thick": {
+   "classification": "UNVERIFIED",
+   "recorded_licence": "OGA-BY 3.0+",
+   "creators": "JaidynReiman",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/lpc-relm-hair-xlong-ponytail",
+     "result": "read",
+     "title": "[LPC] Relm Hair (XLong Ponytail)",
+     "licences": [
+      "CC-BY 3.0",
+      "OGA-BY 3.0",
+      "OGA-BY 4.0",
+      "CC-BY 4.0",
+      "GPL 3.0"
+     ],
+     "submitter": "JaidynReiman"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-hats-facial-helmets",
+     "result": "read",
+     "title": "[LPC Expanded]: Hats, Facial, Helmets",
+     "licences": [
+      "GPL 3.0",
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "JaidynReiman"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "https://opengameart.org/content/lpc-expanded-hats-facial-helmets",
+     "finding": "SA",
+     "quote": "page licences 'GPL 3.0, CC-BY-SA 3.0'; the thick headband is not given its own licence there"
+    }
+   ],
+   "note": "The creator's Relm page offers OGA-BY / CC-BY; his later hats submission is GPL / CC-BY-SA with no item licence for this headband.",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.hat.headband.tied": {
+   "classification": "VERIFIED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "Nila122",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/lpc-lizard-headgear",
+     "result": "read",
+     "title": "LPC Lizard Headgear",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "Nila122"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-hats-facial-helmets",
+     "result": "read",
+     "title": "[LPC Expanded]: Hats, Facial, Helmets",
+     "licences": [
+      "GPL 3.0",
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "JaidynReiman"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "https://opengameart.org/content/lpc-expanded-hats-facial-helmets",
+     "finding": "PERM",
+     "quote": "'Bandana 1 and 2 (also OGA-BY 3.0)', 'Hood (also OGA-BY 3.0)', 'Feather Cap (also OGA-BY 3.0)' [the former Leather cap], 'Tied Headband (also OGA-BY 3.0)', 'Maximus, Nasal, Pointed (also OGA-BY 3.0, CC-BY 3.0+)', 'Kettle, Legion, Xeon (also OGA-BY 3.0)', 'Starry (Celestial) Wizard (CC-BY 3.0 only)'"
+    }
+   ],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.hat.helmet.nasal": {
+   "classification": "VERIFIED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "bluecarrot16",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/lpc-helmets",
+     "result": "read",
+     "title": "[LPC] Helmets",
+     "licences": [
+      "CC-BY 4.0",
+      "CC-BY 3.0",
+      "GPL 3.0",
+      "GPL 2.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "bluecarrot16"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-hats-facial-helmets",
+     "result": "read",
+     "title": "[LPC Expanded]: Hats, Facial, Helmets",
+     "licences": [
+      "GPL 3.0",
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "JaidynReiman"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "https://opengameart.org/content/lpc-expanded-hats-facial-helmets",
+     "finding": "PERM",
+     "quote": "'Bandana 1 and 2 (also OGA-BY 3.0)', 'Hood (also OGA-BY 3.0)', 'Feather Cap (also OGA-BY 3.0)' [the former Leather cap], 'Tied Headband (also OGA-BY 3.0)', 'Maximus, Nasal, Pointed (also OGA-BY 3.0, CC-BY 3.0+)', 'Kettle, Legion, Xeon (also OGA-BY 3.0)', 'Starry (Celestial) Wizard (CC-BY 3.0 only)'"
+    }
+   ],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.hat.helmet.xeon": {
+   "classification": "VERIFIED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "Stephen Challener (Redshrike); JaidynReiman",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/four-characters-my-lpc-entries",
+     "result": "read",
+     "title": "Four characters: My LPC entries",
+     "licences": [
+      "CC-BY 3.0",
+      "CC-BY-SA 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "Redshrike"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-hats-facial-helmets",
+     "result": "read",
+     "title": "[LPC Expanded]: Hats, Facial, Helmets",
+     "licences": [
+      "GPL 3.0",
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "JaidynReiman"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "https://opengameart.org/content/lpc-expanded-hats-facial-helmets",
+     "finding": "PERM",
+     "quote": "'Bandana 1 and 2 (also OGA-BY 3.0)', 'Hood (also OGA-BY 3.0)', 'Feather Cap (also OGA-BY 3.0)' [the former Leather cap], 'Tied Headband (also OGA-BY 3.0)', 'Maximus, Nasal, Pointed (also OGA-BY 3.0, CC-BY 3.0+)', 'Kettle, Legion, Xeon (also OGA-BY 3.0)', 'Starry (Celestial) Wizard (CC-BY 3.0 only)'"
+    }
+   ],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.hat.magic.celestial": {
+   "classification": "VERIFIED",
+   "recorded_licence": "CC-BY 3.0",
+   "creators": "Napsio (Vitruvian Studio); Michael Whitlock (bigbeargames); Tracy",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/lpc-celestial-wizard-hats",
+     "result": "read",
+     "title": "[LPC] Celestial Wizard Hats",
+     "licences": [
+      "CC-BY 3.0"
+     ],
+     "submitter": "bigbeargames"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-hats-facial-helmets",
+     "result": "read",
+     "title": "[LPC Expanded]: Hats, Facial, Helmets",
+     "licences": [
+      "GPL 3.0",
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "JaidynReiman"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "https://opengameart.org/content/lpc-expanded-hats-facial-helmets",
+     "finding": "PERM",
+     "quote": "'Bandana 1 and 2 (also OGA-BY 3.0)', 'Hood (also OGA-BY 3.0)', 'Feather Cap (also OGA-BY 3.0)' [the former Leather cap], 'Tied Headband (also OGA-BY 3.0)', 'Maximus, Nasal, Pointed (also OGA-BY 3.0, CC-BY 3.0+)', 'Kettle, Legion, Xeon (also OGA-BY 3.0)', 'Starry (Celestial) Wizard (CC-BY 3.0 only)'"
+    }
+   ],
+   "note": "CC-BY 3.0: attribution, and no technical restrictions on recipients (DRM platforms).",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.head.heads.human.female": {
+   "classification": "RESTRICTED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "bluecarrot16; Benjamin K. Smith (BenCreating); Stephen Challener (Redshrike)",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/",
+     "result": "page not found"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-character-bases",
+     "result": "read",
+     "title": "LPC Character Bases",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0"
+     ],
+     "submitter": "BenCreating"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "lpc-character-bases-v3_1.zip CREDITS.txt (download on the source page)",
+     "finding": "SA",
+     "quote": "### Human male head / ### Human female head: 'CC-BY-SA 3.0 / GPL 3.0' (BenCreating fixes, bluecarrot16 modular version: CC-BY-SA 3.0 / GPL 3.0)"
+    },
+    {
+     "source": "lpc_base_assets.zip CREDITS.TXT (download on the source page)",
+     "finding": "PERM",
+     "quote": "'NOTE: These assets by Stephen Challener are also available under the OGA-BY 3.0 License. -Medicine Storm 4/12/2022' (character templates, male_pants)"
+    }
+   ],
+   "note": "Same as the bodies; one generator URL is the bare 'https://opengameart.org/content/' (a broken link).",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.head.heads.human.male": {
+   "classification": "RESTRICTED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "bluecarrot16; Benjamin K. Smith (BenCreating); Stephen Challener (Redshrike)",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles",
+     "result": "read",
+     "title": "Liberated Pixel Cup (LPC) Base Assets (sprites & map tiles)",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0"
+     ],
+     "submitter": "See CREDITS.TXT"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-character-bases",
+     "result": "read",
+     "title": "LPC Character Bases",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0"
+     ],
+     "submitter": "BenCreating"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "lpc-character-bases-v3_1.zip CREDITS.txt (download on the source page)",
+     "finding": "SA",
+     "quote": "### Human male head / ### Human female head: 'CC-BY-SA 3.0 / GPL 3.0' (BenCreating fixes, bluecarrot16 modular version: CC-BY-SA 3.0 / GPL 3.0)"
+    },
+    {
+     "source": "lpc_base_assets.zip CREDITS.TXT (download on the source page)",
+     "finding": "PERM",
+     "quote": "'NOTE: These assets by Stephen Challener are also available under the OGA-BY 3.0 License. -Medicine Storm 4/12/2022' (character templates, male_pants)"
+    }
+   ],
+   "note": "Same as the bodies.",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.head.heads.human.male_elderly": {
+   "classification": "VERIFIED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "Benjamin K. Smith (BenCreating); Eliza Wyatt (ElizaWy); Stephen Challener (Redshrike)",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles",
+     "result": "read",
+     "title": "Liberated Pixel Cup (LPC) Base Assets (sprites & map tiles)",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0"
+     ],
+     "submitter": "See CREDITS.TXT"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-revised-elders",
+     "result": "read",
+     "title": "[LPC Revised] Elders",
+     "licences": [
+      "CC-BY 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "Death's Darling"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-character-bases",
+     "result": "read",
+     "title": "LPC Character Bases",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0"
+     ],
+     "submitter": "BenCreating"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "lpc-character-bases-v3_1.zip CREDITS.txt (download on the source page)",
+     "finding": "PERM",
+     "quote": "### Human male/female elderly heads: 'OGA-BY 3.0'"
+    }
+   ],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.head.heads.orc.male": {
+   "classification": "RESTRICTED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "bluecarrot16; Matthew Krohn (makrohn); Stephen Challener (Redshrike); Zi Ye",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/four-characters-my-lpc-entries",
+     "result": "read",
+     "title": "Four characters: My LPC entries",
+     "licences": [
+      "CC-BY 3.0",
+      "CC-BY-SA 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "Redshrike"
+    },
+    {
+     "url": "https://opengameart.org/content/sinbad-the-ogre",
+     "result": "read",
+     "title": "Sinbad the Ogre",
+     "licences": [
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "Zi Ye"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-male-sheets",
+     "result": "read",
+     "title": "LPC Male Sheets",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "makrohn"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-character-bases",
+     "result": "read",
+     "title": "LPC Character Bases",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0"
+     ],
+     "submitter": "BenCreating"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "lpc-character-bases-v3_1.zip CREDITS.txt (download on the source page)",
+     "finding": "SA",
+     "quote": "### Orc male head: 'CC-BY-SA 3.0 / GPL 3.0'; Zi Ye 'Sinbad the Ogre - CC-BY-SA 3.0'"
+    }
+   ],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.legs.armour.plate": {
+   "classification": "RESTRICTED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "bluecarrot16; JaidynReiman; Michael Whitlock (bigbeargames); Matthew Krohn (makrohn); Johannes Sjölund (wulax)",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/lpc-medieval-fantasy-character-sprites",
+     "result": "read",
+     "title": "[LPC] Medieval fantasy character sprites",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "wulax"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "lpc-clothing-updates_1.zip CREDITS-clothing-updates.csv (download on the source page)",
+     "finding": "SA",
+     "quote": "this file, with bluecarrot16's v3 adaptation, listed as 'CC-BY-SA 3.0, GPL 3.0'"
+    }
+   ],
+   "note": "As plate male.",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.legs.cuffed": {
+   "classification": "VERIFIED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "ElizaWy; JaidynReiman; Johannes Sjölund (wulax); Stephen Challener (Redshrike)",
+   "pages": [
+    {
+     "url": "https://github.com/ElizaWy/LPC/tree/main/Characters/Clothing",
+     "result": "read via git",
+     "licences": [
+      "OGA-BY 3.0"
+     ]
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-sit-run-jump-more",
+     "result": "read",
+     "title": "[LPC Expanded] Sit, Run, Jump, & More",
+     "licences": [
+      "OGA-BY 3.0",
+      "OGA-BY 4.0"
+     ],
+     "submitter": "JaidynReiman"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-pants",
+     "result": "read",
+     "title": "[LPC Expanded] Pants",
+     "licences": [
+      "OGA-BY 3.0",
+      "GPL 3.0",
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "JaidynReiman"
+    }
+   ],
+   "item_evidence": [],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.legs.cuffed.male": {
+   "classification": "VERIFIED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "JaidynReiman; ElizaWy; Bluecarrot16; Johannes Sjölund (wulax); Stephen Challener (Redshrike)",
+   "pages": [
+    {
+     "url": "https://github.com/ElizaWy/LPC/tree/main/Characters/Clothing",
+     "result": "read via git",
+     "licences": [
+      "OGA-BY 3.0"
+     ]
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-sit-run-jump-more",
+     "result": "read",
+     "title": "[LPC Expanded] Sit, Run, Jump, & More",
+     "licences": [
+      "OGA-BY 3.0",
+      "OGA-BY 4.0"
+     ],
+     "submitter": "JaidynReiman"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-pants",
+     "result": "read",
+     "title": "[LPC Expanded] Pants",
+     "licences": [
+      "OGA-BY 3.0",
+      "GPL 3.0",
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "JaidynReiman"
+    }
+   ],
+   "item_evidence": [],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.legs.leggings": {
+   "classification": "VERIFIED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "bluecarrot16; ElizaWy; JaidynReiman; Mandi Paugh; William.Thompsonj; Johannes Sjölund (wulax); Stephen Challener (Redshrike)",
+   "pages": [
+    {
+     "url": "http://opengameart.org/content/sara-wizard",
+     "result": "read",
+     "title": "Sara - Wizard",
+     "licences": [
+      "CC-BY 3.0",
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "GPL 2.0"
+     ],
+     "submitter": "Mandi Paugh"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-sara",
+     "result": "read",
+     "title": "[LPC] Sara",
+     "licences": [
+      "CC-BY 4.0",
+      "CC-BY 3.0",
+      "GPL 3.0",
+      "GPL 2.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "William.Thompsonj"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-pants",
+     "result": "read",
+     "title": "[LPC Expanded] Pants",
+     "licences": [
+      "OGA-BY 3.0",
+      "GPL 3.0",
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "JaidynReiman"
+    }
+   ],
+   "item_evidence": [],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.legs.leggings.male": {
+   "classification": "VERIFIED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "bluecarrot16; ElizaWy; JaidynReiman; Mandi Paugh; William.Thompsonj; Johannes Sjölund (wulax); Stephen Challener (Redshrike)",
+   "pages": [
+    {
+     "url": "https://github.com/ElizaWy/LPC/tree/main/Characters/Clothing",
+     "result": "read via git",
+     "licences": [
+      "OGA-BY 3.0"
+     ]
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-pants",
+     "result": "read",
+     "title": "[LPC Expanded] Pants",
+     "licences": [
+      "OGA-BY 3.0",
+      "GPL 3.0",
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "JaidynReiman"
+    }
+   ],
+   "item_evidence": [],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.legs.pants.male": {
+   "classification": "VERIFIED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "bluecarrot16; JaidynReiman; ElizaWy; Matthew Krohn (makrohn); Johannes Sjölund (wulax); Stephen Challener (Redshrike)",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles",
+     "result": "read",
+     "title": "Liberated Pixel Cup (LPC) Base Assets (sprites & map tiles)",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0"
+     ],
+     "submitter": "See CREDITS.TXT"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-medieval-fantasy-character-sprites",
+     "result": "read",
+     "title": "[LPC] Medieval fantasy character sprites",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "wulax"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-pants",
+     "result": "read",
+     "title": "[LPC Expanded] Pants",
+     "licences": [
+      "OGA-BY 3.0",
+      "GPL 3.0",
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "JaidynReiman"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "lpc_base_assets.zip CREDITS.TXT (download on the source page)",
+     "finding": "PERM",
+     "quote": "'NOTE: These assets by Stephen Challener are also available under the OGA-BY 3.0 License. -Medicine Storm 4/12/2022' (character templates, male_pants)"
+    }
+   ],
+   "note": "The base-assets page itself lists CC-BY-SA / GPL, but its download's CREDITS.TXT grants Redshrike's male_pants under OGA-BY 3.0; wulax's and JaidynReiman's pages offer OGA-BY; the clothing updates do not list this file.",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.legs.pants.thin": {
+   "classification": "RESTRICTED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "bluecarrot16; JaidynReiman; ElizaWy; Joe White; Matthew Krohn (makrohn); Johannes Sjölund (wulax); Stephen Challener (Redshrike)",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles",
+     "result": "read",
+     "title": "Liberated Pixel Cup (LPC) Base Assets (sprites & map tiles)",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0"
+     ],
+     "submitter": "See CREDITS.TXT"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-medieval-fantasy-character-sprites",
+     "result": "read",
+     "title": "[LPC] Medieval fantasy character sprites",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "wulax"
+    },
+    {
+     "url": "http://opengameart.org/content/lpc-clothing-updates",
+     "result": "read",
+     "title": "[LPC] Clothing Updates",
+     "licences": [
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "bluecarrot16"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-pants",
+     "result": "read",
+     "title": "[LPC Expanded] Pants",
+     "licences": [
+      "OGA-BY 3.0",
+      "GPL 3.0",
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "JaidynReiman"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "lpc-clothing-updates_1.zip CREDITS-clothing-updates.csv (download on the source page)",
+     "finding": "SA",
+     "quote": "this file, with bluecarrot16's v3 adaptation, listed as 'CC-BY-SA 3.0, GPL 3.0'"
+    }
+   ],
+   "note": "legs/pants/female is GPL / CC-BY-SA in the clothing updates.",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.legs.pants2": {
+   "classification": "VERIFIED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "ElizaWy; JaidynReiman; Johannes Sjölund (wulax); Stephen Challener (Redshrike)",
+   "pages": [
+    {
+     "url": "https://github.com/ElizaWy/LPC/tree/main/Characters/Clothing",
+     "result": "read via git",
+     "licences": [
+      "OGA-BY 3.0"
+     ]
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-sit-run-jump-more",
+     "result": "read",
+     "title": "[LPC Expanded] Sit, Run, Jump, & More",
+     "licences": [
+      "OGA-BY 3.0",
+      "OGA-BY 4.0"
+     ],
+     "submitter": "JaidynReiman"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-pants",
+     "result": "read",
+     "title": "[LPC Expanded] Pants",
+     "licences": [
+      "OGA-BY 3.0",
+      "GPL 3.0",
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "JaidynReiman"
+    }
+   ],
+   "item_evidence": [],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.legs.pants2.male": {
+   "classification": "VERIFIED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "JaidynReiman; ElizaWy; Bluecarrot16; Johannes Sjölund (wulax); Stephen Challener (Redshrike)",
+   "pages": [
+    {
+     "url": "https://github.com/ElizaWy/LPC/tree/main/Characters/Clothing",
+     "result": "read via git",
+     "licences": [
+      "OGA-BY 3.0"
+     ]
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-sit-run-jump-more",
+     "result": "read",
+     "title": "[LPC Expanded] Sit, Run, Jump, & More",
+     "licences": [
+      "OGA-BY 3.0",
+      "OGA-BY 4.0"
+     ],
+     "submitter": "JaidynReiman"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-pants",
+     "result": "read",
+     "title": "[LPC Expanded] Pants",
+     "licences": [
+      "OGA-BY 3.0",
+      "GPL 3.0",
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "JaidynReiman"
+    }
+   ],
+   "item_evidence": [],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.legs.shorts.shorts": {
+   "classification": "VERIFIED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "ElizaWy; JaidynReiman; Johannes Sjölund (wulax); Stephen Challener (Redshrike)",
+   "pages": [
+    {
+     "url": "https://github.com/ElizaWy/LPC/tree/main/Characters/Clothing",
+     "result": "read via git",
+     "licences": [
+      "OGA-BY 3.0"
+     ]
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-sit-run-jump-more",
+     "result": "read",
+     "title": "[LPC Expanded] Sit, Run, Jump, & More",
+     "licences": [
+      "OGA-BY 3.0",
+      "OGA-BY 4.0"
+     ],
+     "submitter": "JaidynReiman"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-pants",
+     "result": "read",
+     "title": "[LPC Expanded] Pants",
+     "licences": [
+      "OGA-BY 3.0",
+      "GPL 3.0",
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "JaidynReiman"
+    }
+   ],
+   "item_evidence": [],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.legs.shorts.shorts.male": {
+   "classification": "VERIFIED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "JaidynReiman; ElizaWy; Bluecarrot16; Johannes Sjölund (wulax); Stephen Challener (Redshrike)",
+   "pages": [
+    {
+     "url": "https://github.com/ElizaWy/LPC/tree/main/Characters/Clothing",
+     "result": "read via git",
+     "licences": [
+      "OGA-BY 3.0"
+     ]
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-pants",
+     "result": "read",
+     "title": "[LPC Expanded] Pants",
+     "licences": [
+      "OGA-BY 3.0",
+      "GPL 3.0",
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "JaidynReiman"
+    }
+   ],
+   "item_evidence": [],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.legs.skirts.plain": {
+   "classification": "RESTRICTED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "bluecarrot16; Pierre Vigier (pvigier); Johannes Sjölund (wulax); Ahmad3366; JaidynReiman",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/lpc-medieval-fantasy-character-sprites",
+     "result": "read",
+     "title": "[LPC] Medieval fantasy character sprites",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "wulax"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "lpc-clothing-updates_1.zip CREDITS-clothing-updates.csv (download on the source page)",
+     "finding": "SA",
+     "quote": "this file, with bluecarrot16's v3 adaptation, listed as 'CC-BY-SA 3.0, GPL 3.0'"
+    }
+   ],
+   "note": "As plate male.",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.neck.amulet.star": {
+   "classification": "UNVERIFIED",
+   "recorded_licence": "CC0",
+   "creators": "bluecarrot16; AntumDeluge; 7Soul",
+   "pages": [
+    {
+     "url": "https://www.deviantart.com/7soul1/art/129892453",
+     "result": "not readable from here (blocked or not a licence page)"
+    },
+    {
+     "url": "https://opengameart.org/content/cc0-jewelry-icons",
+     "result": "read",
+     "title": "CC0 Jewelry Icons",
+     "licences": [
+      "CC0"
+     ],
+     "submitter": "AntumDeluge"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-jewelry",
+     "result": "page not found"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "https://opengameart.org/content/lpc-jewelry",
+     "finding": "MISSING",
+     "quote": "page returns 'Page not found' (2026-11-17); deviantart source not readable from here"
+    }
+   ],
+   "note": "Generator records CC0; the source page could not be read.",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.neck.gem": {
+   "classification": "UNVERIFIED",
+   "recorded_licence": "CC0",
+   "creators": "bluecarrot16",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/lpc-jewelry",
+     "result": "page not found"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "https://opengameart.org/content/lpc-jewelry",
+     "finding": "MISSING",
+     "quote": "page returns 'Page not found' (2026-11-17); deviantart source not readable from here"
+    }
+   ],
+   "note": "Generator records CC0; the source page could not be read.",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.neck.necklace.chain": {
+   "classification": "UNVERIFIED",
+   "recorded_licence": "CC0",
+   "creators": "bluecarrot16",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/lpc-jewelry",
+     "result": "page not found"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "https://opengameart.org/content/lpc-jewelry",
+     "finding": "MISSING",
+     "quote": "page returns 'Page not found' (2026-11-17); deviantart source not readable from here"
+    }
+   ],
+   "note": "Generator records CC0; the source page could not be read.",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.shoulders.mantal": {
+   "classification": "VERIFIED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "bluecarrot16; JaidynReiman",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/lpc-pirates",
+     "result": "read",
+     "title": "[LPC] Pirates",
+     "licences": [
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "bluecarrot16"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "lpc-pirate-v1.1.zip CREDITS-pirate.csv (download on https://opengameart.org/content/lpc-pirates)",
+     "finding": "PERM",
+     "quote": "shoulders/mantal, bluecarrot16, 'OGA-BY 3.0, GPL 3.0'"
+    }
+   ],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.shoulders.mantal.thin": {
+   "classification": "VERIFIED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "bluecarrot16; JaidynReiman",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/lpc-pirates",
+     "result": "read",
+     "title": "[LPC] Pirates",
+     "licences": [
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "bluecarrot16"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "lpc-pirate-v1.1.zip CREDITS-pirate.csv (download on https://opengameart.org/content/lpc-pirates)",
+     "finding": "PERM",
+     "quote": "shoulders/mantal, bluecarrot16, 'OGA-BY 3.0, GPL 3.0'"
+    }
+   ],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.torso.aprons.apron": {
+   "classification": "VERIFIED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "Nila122",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/lpc-aprons",
+     "result": "read",
+     "title": "LPC aprons",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "GPL 2.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "Nila122"
+    }
+   ],
+   "item_evidence": [],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.torso.aprons.overalls": {
+   "classification": "VERIFIED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "ElizaWy; bluecarrot16; JaidynReiman",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/lpc-revised-character-basics",
+     "result": "read",
+     "title": "[LPC Revised] Character Basics!",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "Death's Darling"
+    },
+    {
+     "url": "http://opengameart.org/content/lpc-clothing-updates",
+     "result": "read",
+     "title": "[LPC] Clothing Updates",
+     "licences": [
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "bluecarrot16"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "lpc-clothing-updates_1.zip CREDITS-clothing-updates.csv (download on the source page)",
+     "finding": "PERM",
+     "quote": "torso/aprons/overalls 'OGA-BY 3.0, GPL 3.0'"
+    }
+   ],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.torso.aprons.suspenders": {
+   "classification": "VERIFIED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "ElizaWy; JaidynReiman",
+   "pages": [
+    {
+     "url": "https://github.com/ElizaWy/LPC/tree/main/Characters/Clothing",
+     "result": "read via git",
+     "licences": [
+      "OGA-BY 3.0"
+     ]
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-sit-run-jump-more",
+     "result": "read",
+     "title": "[LPC Expanded] Sit, Run, Jump, & More",
+     "licences": [
+      "OGA-BY 3.0",
+      "OGA-BY 4.0"
+     ],
+     "submitter": "JaidynReiman"
+    }
+   ],
+   "item_evidence": [],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.torso.armour.leather": {
+   "classification": "RESTRICTED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "Johannes Sjölund (wulax); bluecarrot16; JaidynReiman",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/lpc-medieval-fantasy-character-sprites",
+     "result": "read",
+     "title": "[LPC] Medieval fantasy character sprites",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "wulax"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-clothing-updates",
+     "result": "read",
+     "title": "[LPC] Clothing Updates",
+     "licences": [
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "bluecarrot16"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-armor",
+     "result": "page not found"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "lpc-clothing-updates_1.zip CREDITS-clothing-updates.csv (download on the source page)",
+     "finding": "SA",
+     "quote": "this file, with bluecarrot16's v3 adaptation, listed as 'CC-BY-SA 3.0, GPL 3.0'"
+    }
+   ],
+   "note": "As plate male; [LPC Expanded] Armor page not found.",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.torso.armour.leather.female": {
+   "classification": "RESTRICTED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "Michael Whitlock (bigbeargames); Matthew Krohn (makrohn); Johannes Sjölund (wulax); bluecarrot16; JaidynReiman",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/lpc-medieval-fantasy-character-sprites",
+     "result": "read",
+     "title": "[LPC] Medieval fantasy character sprites",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "wulax"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-combat-armor-for-women",
+     "result": "read",
+     "title": "LPC Combat Armor for women",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "makrohn"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-clothing-updates",
+     "result": "read",
+     "title": "[LPC] Clothing Updates",
+     "licences": [
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "bluecarrot16"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-armor",
+     "result": "page not found"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "lpc-clothing-updates_1.zip CREDITS-clothing-updates.csv (download on the source page)",
+     "finding": "SA",
+     "quote": "this file, with bluecarrot16's v3 adaptation, listed as 'CC-BY-SA 3.0, GPL 3.0'"
+    }
+   ],
+   "note": "As plate male; [LPC Expanded] Armor page not found.",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.torso.armour.legion": {
+   "classification": "RESTRICTED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "Napsio (Vitruvian Studio); JaidynReiman; bluecarrot16; Nila122",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/lpc-roman-armor",
+     "result": "read",
+     "title": "LPC roman armor",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "GPL 2.0"
+     ],
+     "submitter": "Nila122"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "https://opengameart.org/content/lpc-roman-armor",
+     "finding": "SA",
+     "quote": "page licences 'CC-BY-SA 3.0, GPL 3.0, GPL 2.0'; a second-hand note in the generator and the bases credits says Nila122 agreed to OGA-BY 'wherever possible', but the creator's page does not"
+    }
+   ],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.torso.armour.plate.female": {
+   "classification": "RESTRICTED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "JaidynReiman; bluecarrot16; Michael Whitlock (bigbeargames); Matthew Krohn (makrohn); Johannes Sjölund (wulax)",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/lpc-medieval-fantasy-character-sprites",
+     "result": "read",
+     "title": "[LPC] Medieval fantasy character sprites",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "wulax"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-combat-armor-for-women",
+     "result": "read",
+     "title": "LPC Combat Armor for women",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "makrohn"
+    },
+    {
+     "url": "http://opengameart.org/content/lpc-clothing-updates",
+     "result": "read",
+     "title": "[LPC] Clothing Updates",
+     "licences": [
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "bluecarrot16"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "lpc-clothing-updates_1.zip CREDITS-clothing-updates.csv (download on the source page)",
+     "finding": "SA",
+     "quote": "this file, with bluecarrot16's v3 adaptation, listed as 'CC-BY-SA 3.0, GPL 3.0'"
+    }
+   ],
+   "note": "As plate male.",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.torso.armour.plate.male": {
+   "classification": "RESTRICTED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "Napsio (Vitruvian Studio); JaidynReiman; bluecarrot16; Michael Whitlock (bigbeargames); Johannes Sjölund (wulax)",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/lpc-medieval-fantasy-character-sprites",
+     "result": "read",
+     "title": "[LPC] Medieval fantasy character sprites",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "wulax"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-combat-armor-for-women",
+     "result": "read",
+     "title": "LPC Combat Armor for women",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "makrohn"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "lpc-clothing-updates_1.zip CREDITS-clothing-updates.csv (download on the source page)",
+     "finding": "SA",
+     "quote": "this file, with bluecarrot16's v3 adaptation, listed as 'CC-BY-SA 3.0, GPL 3.0'"
+    }
+   ],
+   "note": "wulax's own page now offers OGA-BY 3.0, but bluecarrot16's v3 adaptation (still credited in the generator) is CC-BY-SA / GPL.",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.torso.chainmail": {
+   "classification": "VERIFIED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "Johannes Sjölund (wulax); Napsio (Vitruvian Studio); JaidynReiman",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/lpc-medieval-fantasy-character-sprites",
+     "result": "read",
+     "title": "[LPC] Medieval fantasy character sprites",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "wulax"
+    }
+   ],
+   "item_evidence": [],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.torso.clothes.longsleeve.longsleeve2": {
+   "classification": "VERIFIED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "ElizaWy; JaidynReiman; Stephen Challener (Redshrike); Johannes Sjölund (wulax)",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/lpc-revised-character-basics",
+     "result": "read",
+     "title": "[LPC Revised] Character Basics!",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "Death's Darling"
+    },
+    {
+     "url": "https://github.com/ElizaWy/LPC/tree/main/Characters/Clothing",
+     "result": "read via git",
+     "licences": [
+      "OGA-BY 3.0"
+     ]
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-sit-run-jump-more",
+     "result": "read",
+     "title": "[LPC Expanded] Sit, Run, Jump, & More",
+     "licences": [
+      "OGA-BY 3.0",
+      "OGA-BY 4.0"
+     ],
+     "submitter": "JaidynReiman"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-simple-shirts",
+     "result": "read",
+     "title": "[LPC Expanded] Simple Shirts",
+     "licences": [
+      "CC-BY 3.0",
+      "OGA-BY 3.0",
+      "OGA-BY 4.0",
+      "CC-BY 4.0",
+      "GPL 3.0",
+      "CC-BY-SA 4.0",
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "JaidynReiman"
+    }
+   ],
+   "item_evidence": [],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.torso.clothes.longsleeve.longsleeve2_buttoned": {
+   "classification": "VERIFIED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "ElizaWy; JaidynReiman; Stephen Challener (Redshrike); Johannes Sjölund (wulax)",
+   "pages": [
+    {
+     "url": "http://opengameart.org/content/lpc-revised-character-basics",
+     "result": "read",
+     "title": "[LPC Revised] Character Basics!",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "Death's Darling"
+    },
+    {
+     "url": "https://github.com/ElizaWy/LPC/tree/main/Characters/Clothing",
+     "result": "read via git",
+     "licences": [
+      "OGA-BY 3.0"
+     ]
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-sit-run-jump-more",
+     "result": "read",
+     "title": "[LPC Expanded] Sit, Run, Jump, & More",
+     "licences": [
+      "OGA-BY 3.0",
+      "OGA-BY 4.0"
+     ],
+     "submitter": "JaidynReiman"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-simple-shirts",
+     "result": "read",
+     "title": "[LPC Expanded] Simple Shirts",
+     "licences": [
+      "CC-BY 3.0",
+      "OGA-BY 3.0",
+      "OGA-BY 4.0",
+      "CC-BY 4.0",
+      "GPL 3.0",
+      "CC-BY-SA 4.0",
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "JaidynReiman"
+    }
+   ],
+   "item_evidence": [],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.torso.clothes.longsleeve.longsleeve2_cardigan": {
+   "classification": "VERIFIED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "ElizaWy; JaidynReiman; Stephen Challener (Redshrike); Johannes Sjölund (wulax)",
+   "pages": [
+    {
+     "url": "http://opengameart.org/content/lpc-revised-character-basics",
+     "result": "read",
+     "title": "[LPC Revised] Character Basics!",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "Death's Darling"
+    },
+    {
+     "url": "https://github.com/ElizaWy/LPC/tree/main/Characters/Clothing",
+     "result": "read via git",
+     "licences": [
+      "OGA-BY 3.0"
+     ]
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-sit-run-jump-more",
+     "result": "read",
+     "title": "[LPC Expanded] Sit, Run, Jump, & More",
+     "licences": [
+      "OGA-BY 3.0",
+      "OGA-BY 4.0"
+     ],
+     "submitter": "JaidynReiman"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-simple-shirts",
+     "result": "read",
+     "title": "[LPC Expanded] Simple Shirts",
+     "licences": [
+      "CC-BY 3.0",
+      "OGA-BY 3.0",
+      "OGA-BY 4.0",
+      "CC-BY 4.0",
+      "GPL 3.0",
+      "CC-BY-SA 4.0",
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "JaidynReiman"
+    }
+   ],
+   "item_evidence": [],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.torso.clothes.longsleeve.longsleeve2_polo": {
+   "classification": "VERIFIED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "ElizaWy; JaidynReiman; Stephen Challener (Redshrike); Johannes Sjölund (wulax)",
+   "pages": [
+    {
+     "url": "http://opengameart.org/content/lpc-revised-character-basics",
+     "result": "read",
+     "title": "[LPC Revised] Character Basics!",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "Death's Darling"
+    },
+    {
+     "url": "https://github.com/ElizaWy/LPC/tree/main/Characters/Clothing",
+     "result": "read via git",
+     "licences": [
+      "OGA-BY 3.0"
+     ]
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-sit-run-jump-more",
+     "result": "read",
+     "title": "[LPC Expanded] Sit, Run, Jump, & More",
+     "licences": [
+      "OGA-BY 3.0",
+      "OGA-BY 4.0"
+     ],
+     "submitter": "JaidynReiman"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-simple-shirts",
+     "result": "read",
+     "title": "[LPC Expanded] Simple Shirts",
+     "licences": [
+      "CC-BY 3.0",
+      "OGA-BY 3.0",
+      "OGA-BY 4.0",
+      "CC-BY 4.0",
+      "GPL 3.0",
+      "CC-BY-SA 4.0",
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "JaidynReiman"
+    }
+   ],
+   "item_evidence": [],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.torso.clothes.shortsleeve.tshirt": {
+   "classification": "VERIFIED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "ElizaWy; JaidynReiman; Stephen Challener (Redshrike); Johannes Sjölund (wulax)",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/lpc-revised-character-basics",
+     "result": "read",
+     "title": "[LPC Revised] Character Basics!",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "Death's Darling"
+    },
+    {
+     "url": "https://github.com/ElizaWy/LPC/tree/main/Characters/Clothing",
+     "result": "read via git",
+     "licences": [
+      "OGA-BY 3.0"
+     ]
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-sit-run-jump-more",
+     "result": "read",
+     "title": "[LPC Expanded] Sit, Run, Jump, & More",
+     "licences": [
+      "OGA-BY 3.0",
+      "OGA-BY 4.0"
+     ],
+     "submitter": "JaidynReiman"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-simple-shirts",
+     "result": "read",
+     "title": "[LPC Expanded] Simple Shirts",
+     "licences": [
+      "CC-BY 3.0",
+      "OGA-BY 3.0",
+      "OGA-BY 4.0",
+      "CC-BY 4.0",
+      "GPL 3.0",
+      "CC-BY-SA 4.0",
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "JaidynReiman"
+    }
+   ],
+   "item_evidence": [],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.torso.clothes.sleeveless.sleeveless2": {
+   "classification": "VERIFIED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "ElizaWy; JaidynReiman; Stephen Challener (Redshrike); Johannes Sjölund (wulax)",
+   "pages": [
+    {
+     "url": "http://opengameart.org/content/lpc-revised-character-basics",
+     "result": "read",
+     "title": "[LPC Revised] Character Basics!",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "Death's Darling"
+    },
+    {
+     "url": "https://github.com/ElizaWy/LPC/tree/main/Characters/Clothing",
+     "result": "read via git",
+     "licences": [
+      "OGA-BY 3.0"
+     ]
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-sit-run-jump-more",
+     "result": "read",
+     "title": "[LPC Expanded] Sit, Run, Jump, & More",
+     "licences": [
+      "OGA-BY 3.0",
+      "OGA-BY 4.0"
+     ],
+     "submitter": "JaidynReiman"
+    },
+    {
+     "url": "https://opengameart.org/content/lpc-expanded-simple-shirts",
+     "result": "read",
+     "title": "[LPC Expanded] Simple Shirts",
+     "licences": [
+      "CC-BY 3.0",
+      "OGA-BY 3.0",
+      "OGA-BY 4.0",
+      "CC-BY 4.0",
+      "GPL 3.0",
+      "CC-BY-SA 4.0",
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "JaidynReiman"
+    }
+   ],
+   "item_evidence": [],
+   "note": "",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  },
+  "lpc.torso.jacket.tabard": {
+   "classification": "RESTRICTED",
+   "recorded_licence": "OGA-BY 3.0",
+   "creators": "bluecarrot16; Johannes Sjölund (wulax)",
+   "pages": [
+    {
+     "url": "https://opengameart.org/content/lpc-medieval-fantasy-character-sprites",
+     "result": "read",
+     "title": "[LPC] Medieval fantasy character sprites",
+     "licences": [
+      "CC-BY-SA 3.0",
+      "GPL 3.0",
+      "OGA-BY 3.0"
+     ],
+     "submitter": "wulax"
+    },
+    {
+     "url": "http://opengameart.org/content/lpc-clothing-updates",
+     "result": "read",
+     "title": "[LPC] Clothing Updates",
+     "licences": [
+      "CC-BY-SA 3.0"
+     ],
+     "submitter": "bluecarrot16"
+    }
+   ],
+   "item_evidence": [
+    {
+     "source": "lpc-clothing-updates_1.zip CREDITS-clothing-updates.csv (download on the source page)",
+     "finding": "SA",
+     "quote": "this file, with bluecarrot16's v3 adaptation, listed as 'CC-BY-SA 3.0, GPL 3.0'"
+    }
+   ],
+   "note": "As plate male.",
+   "checked": "2026-11-17",
+   "by": "Claude Code session (automated fetch, manual reading)"
+  }
+ }
+}

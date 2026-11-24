@@ -54,6 +54,25 @@ func show_item(content: ContentDB, p_item_id: String, p_count := 1, level := 99)
 	queue_redraw()
 
 
+## Shows a reference item from the runtime pack (the street's screens): its
+## placeholder icon, grade frame and name (RpgItemText).
+func show_reference(content: ContentDB, pack: Dictionary, p_item_id: String, level := 99) -> void:
+	item_id = p_item_id
+	count = 1
+	if item_id == "":
+		icon_texture = null
+		frame_color = UiTheme.BORDER
+		tooltip_text = ""
+		queue_redraw()
+		return
+	var item := RpgPack.item(pack, item_id)
+	icon_texture = UiKit.icon(content, RpgItemText.icon_id(pack, item_id))
+	frame_color = RpgItemText.color(pack, item_id)
+	too_high_level = int(item.get("required_level", 1)) > level
+	tooltip_text = "%s\n%s" % [RpgItemText.name_of(pack, item_id), RpgItemText.kind(pack, item_id)]
+	queue_redraw()
+
+
 func _get_drag_data(_at: Vector2) -> Variant:
 	if drag_data.is_empty() or icon_texture == null:
 		return null
