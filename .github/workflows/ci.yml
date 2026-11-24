@@ -220,9 +220,9 @@ jobs:
           npm ci --no-audit --no-fund
           npx playwright install --only-shell chromium
           node smoke.ts ../../build/web --screenshot=../../smoke-screenshot.png
-      # Screenshots of every main screen at the four landscape window sizes,
-      # with mouse, touch and keyboard input checked to reach the game.
-      - name: UI screenshots at four landscape window sizes
+      # Screenshots of every screen of the production game at four desktop window
+      # sizes, with keyboard and mouse input checked to reach the game (PC game).
+      - name: UI screenshots at four desktop window sizes
         working-directory: tools/web-smoke
         run: node ui-shots.ts ../../build/web ../../build/ui-shots
       - name: Upload the UI screenshots

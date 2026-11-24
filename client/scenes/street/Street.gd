@@ -486,6 +486,9 @@ func probe() -> Dictionary:
 		"class": str(state["class_id"]),
 		"level": int(state["level"]),
 		"kills": int(state.get("kills", 0)),
+		"xp": int(state.get("xp", 0)),
+		"copper": int(state.get("copper", 0)),
+		"loot_waiting": _has_loot(),
 		"hp": int(fight.player["hp"]),
 		"x": float(fight.player["x"]),
 		"dead": bool(fight.player["dead"]),
@@ -506,7 +509,36 @@ func probe() -> Dictionary:
 		"talents": state.get("talents", {}).duplicate(),
 		"attack_power": int(fight.player["attack_power"]),
 		"armor": int(fight.player["armor"]),
+		"ui": _ui_rects(),
 	}
+
+
+## Where the visible controls are, in canvas units (the browser test clicks them
+## and checks nothing is off screen): the visible canvas, the open window and every
+## visible button in it by name, and the HUD's menu buttons.
+func _ui_rects() -> Dictionary:
+	var rect := func(c: Control) -> Array:
+		var r := c.get_global_rect()
+		return [r.position.x, r.position.y, r.size.x, r.size.y]
+	var view := get_viewport().get_visible_rect().size
+	var out := {"view": [view.x, view.y]}
+	if menus.menu != null and is_instance_valid(menus.menu):
+		var frame := menus.menu.find_child("Window", true, false) as Control
+		if frame:
+			out["window"] = rect.call(frame)
+		var buttons := {}
+		for b: Node in menus.menu.find_children("*", "BaseButton", true, false):
+			if (b as Control).is_visible_in_tree():
+				buttons[str(b.name)] = rect.call(b)
+		out["buttons"] = buttons
+	var menu_buttons := {}
+	var bar := hud.get_node_or_null("Root/MenuBar")
+	if bar:
+		for b: Node in bar.get_children():
+			if b is Control and (b as Control).is_visible_in_tree():
+				menu_buttons[str(b.name).trim_prefix("Menu_")] = rect.call(b)
+	out["hud_menu"] = menu_buttons
+	return out
 
 
 func _focus_name() -> String:
