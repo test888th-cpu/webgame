@@ -5,7 +5,9 @@
   (`docs/ASSETS.md`). Never mark an UNVERIFIED asset as VERIFIED.
 - `tools/ci/`: CI scripts. `check-repo.sh` (required files, no secrets) and
   `install-godot.sh` (the pinned Godot with SHA-512 hashes). Pinned versions change only
-  deliberately (CLAUDE.md, CONTRIBUTING.md "Upgrades").
+  deliberately (CLAUDE.md, CONTRIBUTING.md "Upgrades"). `check_registry_hash_lines.py`
+  and `test-gitleaks-allowlist.sh` keep the gitleaks allowlist (`.gitleaks.toml`)
+  narrow; never widen it without re-verifying every finding.
 - `tools/web-smoke/`: the browser smoke test. It reads `window.ironboundProbe`, which
   must stay read-only and show nothing a player cannot already see.
 - Tools never import game rules into another language: they run Godot headless or read

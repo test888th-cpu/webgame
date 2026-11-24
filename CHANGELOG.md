@@ -4,6 +4,16 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Fixed: the secret scan's false positives (2026-11-24)
+- `.gitleaks.toml` keeps every default rule and adds one allowlist, scoped to the
+  discord-api-token and generic-api-key rules, the five reference registry files by
+  exact path, and whole lines of the form `"src/<path>.ts": "<64 hex>"`. All 265
+  findings were verified to be such lines in the files' `inputs` field, each value
+  the SHA-256 of that file at the pinned reference commit.
+- `tools/ci/check_registry_hash_lines.py` fails CI if that line shape appears in those
+  files outside `inputs`. `tools/ci/test-gitleaks-allowlist.sh` proves real-looking
+  Discord, generic and GitHub tokens are still found. Both run in the secret-scan job.
+
 ### Added: the street's game screens on the new engine (2026-11-24, owner order)
 - **Character, Equipment, Bag, Skills and Settings** are each their own screen, in the
   original game's windows (`UiKit.screen`), with a row to switch between them (Q / E),
