@@ -38,8 +38,6 @@ var fx_library := {}
 var placeholder_art := {}
 ## Where everything goes on screen now (ScreenLayout). Set by relayout().
 var layout: ScreenLayout
-## Settings writes confirmed durable (see set_setting).
-var settings_confirmed := 0
 var settings := {
 	"show_fps": false,
 	"screen_shake": true,
@@ -157,14 +155,9 @@ func set_setting(key: String, value: Variant) -> void:
 	if file:
 		file.store_string(JSON.stringify(settings))
 		file.close()
-		_confirm_settings()
-
-
-## Counts settings writes confirmed durable (DurableSave: on the web, once the
-## browser store holds them). Settings are their own file, apart from characters.
-func _confirm_settings() -> void:
-	if await DurableSave.persisted(SETTINGS_PATH):
-		settings_confirmed += 1
+		# Committed to the browser store too (DurableSave); settings are their own
+		# file, apart from characters.
+		DurableSave.request(SETTINGS_PATH)
 
 
 func _load_settings() -> void:

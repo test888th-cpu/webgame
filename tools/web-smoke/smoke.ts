@@ -7,7 +7,7 @@
 // Continue to the same character with every change kept (all via the read-only
 // window.ironboundProbe). --shots=<dir> saves a screenshot of each screen.
 //
-//   node smoke.ts <export-dir> [--timeout-ms=60000] [--screenshot=path.png]
+//   node smoke.ts <export-dir> [--timeout-ms=60000] [--screenshot=path.png] [--cpu-throttle=6]
 //   node smoke.ts --url=https://example.org/game/ [...]   (a deployed build)
 //
 // Exits non-zero on timeout, uncaught page errors, failed requests, or if
@@ -37,6 +37,10 @@ const timeoutMs = timeoutArg ? Number(timeoutArg.split("=")[1]) : 60_000;
 const screenshot = args.find((a) => a.startsWith("--screenshot="))?.split("=")[1];
 const remoteUrl = args.find((a) => a.startsWith("--url="))?.slice("--url=".length);
 const shotsDir = args.find((a) => a.startsWith("--shots="))?.slice("--shots=".length);
+// --cpu-throttle=N slows the page's CPU N times (Chrome DevTools emulation), as on a
+// slow phone or a busy CI runner; every wait scales with it.
+const throttleArg = args.find((a) => a.startsWith("--cpu-throttle="));
+const slow = throttleArg ? Math.max(1, Number(throttleArg.split("=")[1])) : 1;
 
 interface Probe {
   scene: string;
@@ -48,9 +52,10 @@ interface Probe {
   kills?: number;
   focus?: string;
   menu?: string;
-  save?: string;
-  saves?: number;
-  settings_saved?: number;
+  save_requested?: number;
+  save_durable?: number;
+  settings_requested?: number;
+  settings_durable?: number;
   show_fps?: boolean;
   equipment?: Record<string, string>;
   bag?: string[];
@@ -99,6 +104,10 @@ const browser = await chromium.launch({
 let bootLine = "";
 try {
   const page = await browser.newPage();
+  if (slow > 1) {
+    const cdp = await page.context().newCDPSession(page);
+    await cdp.send("Emulation.setCPUThrottlingRate", { rate: slow });
+  }
   page.on("pageerror", (err) => problems.push(`page error: ${err.message}`));
   page.on("requestfailed", (r) => problems.push(`request failed: ${r.url()}`));
   page.on("response", (r) => {
@@ -135,7 +144,7 @@ try {
     return value;
   };
   const waitFor = async (what: string, ok: (p: Probe) => boolean, ms: number): Promise<Probe> => {
-    const until = Date.now() + ms;
+    const until = Date.now() + ms * slow;
     let last = await probe();
     while (!ok(last)) {
       if (Date.now() > until) throw new Error(`timed out waiting for ${what}: ${JSON.stringify(last)}`);
@@ -167,6 +176,21 @@ try {
     problems.push(`created ${made.name}/${made.class}/${made.level}, expected Smoke Test/mage/1`);
   }
   console.log(`new character: "${made.name}", ${made.class}, level ${made.level}, in ${made.area}`);
+
+  // Creation enters the street only once the new character is durable, so a reload
+  // at that very moment must find it (Continue on the title).
+  await page.reload();
+  await page.waitForFunction(() => (window as { ironboundProbe?: unknown }).ironboundProbe, null, {
+    timeout: timeoutMs,
+  });
+  await waitFor("Continue after an immediate reload", (p) => p.scene === "title" && p.has_save === true, timeoutMs);
+  await canvas.first().click();
+  await page.keyboard.press("Enter");
+  const kept = await waitFor("the new character after reload", (p) => p.scene === "street", 15_000);
+  if (kept.name !== "Smoke Test" || kept.class !== "mage") {
+    problems.push(`the new character was not kept: ${kept.name}/${kept.class}`);
+  }
+  console.log(`created then reloaded at once: "${kept.name}", ${kept.class}`);
 
   // Walking: held keys move the character along the street.
   const before = await probe();
@@ -208,14 +232,26 @@ try {
   }
   console.log(`screens: character (attack power ${character.attack_power}), equipment, bag, skills, settings`);
 
+  // A change is durable once the browser store's committed number for its file
+  // reaches the request number seen with the change (DurableSave): that state, or a
+  // newer one, is in IndexedDB. No timer stands in for it.
+  const durable = async (what: string, changed: (p: Probe) => boolean, kind: "save" | "settings"): Promise<Probe> => {
+    const seen = await waitFor(what, changed, 15_000);
+    const asked = (kind === "save" ? seen.save_requested : seen.settings_requested) ?? 0;
+    return waitFor(
+      `${what} durable`,
+      (p) => changed(p) && ((kind === "save" ? p.save_durable : p.settings_durable) ?? 0) >= asked,
+      60_000,
+    );
+  };
+
   // Settings: a real switch, saved apart from the character.
-  const settingsBefore = (await probe()).settings_saved ?? 0;
   await focusOn("Show frame rate", (n) => n === "show_fps");
   await page.keyboard.press("Enter");
-  await waitFor("the setting saved", (p) => p.show_fps === true && (p.settings_saved ?? 0) > settingsBefore, 15_000);
-  console.log("settings: show frame rate on, confirmed saved");
+  await durable("the setting", (p) => p.show_fps === true, "settings");
+  console.log("settings: show frame rate on, durable");
 
-  // Equipment: take the chest piece off; it goes to the bag, and the save is confirmed.
+  // Equipment: take the chest piece off; it goes to the bag.
   await page.keyboard.press("KeyQ"); // skills
   await page.keyboard.press("KeyQ"); // bag
   await page.keyboard.press("KeyQ"); // equipment
@@ -224,30 +260,28 @@ try {
   await focusOn("the chest slot", (n) => n === "Worn_chest");
   await page.keyboard.press("Enter");
   await focusOn("Take off", (n) => n === "Unequip");
-  let savesBefore = (await probe()).saves ?? 0;
   await page.keyboard.press("Enter");
-  const undressed = await waitFor(
+  const undressed = await durable(
     "the chest piece in the bag",
-    (p) => !("chest" in (p.equipment ?? {})) && (p.bag ?? []).includes("apprentice_robe") && p.save === "saved" && (p.saves ?? 0) > savesBefore,
-    15_000,
+    (p) => !("chest" in (p.equipment ?? {})) && (p.bag ?? []).includes("apprentice_robe"),
+    "save",
   );
   if (!((undressed.armor ?? 0) < armorBefore)) problems.push(`armor did not fall: ${armorBefore} -> ${undressed.armor}`);
-  console.log(`equipment: chest off, armor ${armorBefore} -> ${undressed.armor}, saved`);
+  console.log(`equipment: chest off, armor ${armorBefore} -> ${undressed.armor}, durable`);
 
-  // Skills: put the usable ability in hotbar slot 4.
+  // Skills: two hotbar changes in quick succession (slot 4, then slot 5), the
+  // second made while the first may still be committing.
   await page.keyboard.press("KeyV");
   await waitFor("Skills", (p) => p.menu === "skills", 5_000);
   await focusOn("Frost Armor", (n) => n === "Skill_frost_armor");
   await page.keyboard.press("Enter");
   await focusOn("slot 4", (n) => n === "Assign_4");
-  savesBefore = (await probe()).saves ?? 0;
   await page.keyboard.press("Enter");
-  const assigned = await waitFor(
-    "the hotbar saved",
-    (p) => (p.hotbar ?? [])[2] === "frost_armor" && p.save === "saved" && (p.saves ?? 0) > savesBefore,
-    15_000,
-  );
-  console.log(`skills: hotbar ${JSON.stringify(assigned.hotbar)}, saved`);
+  await waitFor("slot 4", (p) => (p.hotbar ?? [])[2] === "frost_armor", 15_000);
+  await focusOn("slot 5", (n) => n === "Assign_5");
+  await page.keyboard.press("Enter");
+  const assigned = await durable("the hotbar", (p) => (p.hotbar ?? [])[3] === "frost_armor", "save");
+  console.log(`skills: hotbar ${JSON.stringify(assigned.hotbar)}, durable`);
   await page.keyboard.press("Escape");
   await waitFor("back to the street", (p) => p.menu === "", 5_000);
 
@@ -267,7 +301,7 @@ try {
   if ("chest" in (back.equipment ?? {}) || !(back.bag ?? []).includes("apprentice_robe")) {
     problems.push(`equipment not kept: ${JSON.stringify(back.equipment)} bag ${JSON.stringify(back.bag)}`);
   }
-  if ((back.hotbar ?? [])[2] !== "frost_armor") problems.push(`hotbar not kept: ${JSON.stringify(back.hotbar)}`);
+  if ((back.hotbar ?? [])[3] !== "frost_armor") problems.push(`hotbar not kept: ${JSON.stringify(back.hotbar)}`);
   if (back.show_fps !== true) problems.push("the setting was not kept");
   console.log(
     `continue: "${back.name}", kills ${back.kills}, in ${back.area}, chest in bag, ` +

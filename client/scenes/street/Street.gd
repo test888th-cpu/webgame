@@ -29,10 +29,6 @@ var area: Dictionary = {}
 var hud: CanvasLayer
 ## The game screens (Character, Equipment, Bag, Skills, Settings, the Esc menu).
 var menus: StreetMenuHost
-## The last save's state for the probe and the menus: "", "saving", "saved" or
-## "failed"; `saves_confirmed` counts saves the browser store confirmed.
-var save_state := ""
-var saves_confirmed := 0
 var px_per_yard := 16.0
 ## Tests turn scene changes off and read where the street would go.
 var navigate := true
@@ -463,18 +459,21 @@ func _save() -> void:
 	save_durably()
 
 
-## Save and wait until it is durable (DurableSave: on the web, until the browser
-## store holds it). Saves run in the order made; a wait for an older one adopts the
-## newer text, so only the latest state is ever reported saved.
-func save_durably() -> bool:
+## Save, then wait until this state, or a newer one, is durable (DurableSave: on
+## the web, a completed IndexedDB commit of it). False only if that has not
+## happened within `seconds`; the commit goes on. Whether the latest state is
+## saved is DurableSave's number for this file, never a flag set here.
+func save_durably(seconds := 60.0) -> bool:
 	_save_timer = 0.0
 	_store()
-	save_state = "saving"
-	var ok: bool = await DurableSave.save_player(state)
-	if ok:
-		saves_confirmed += 1
-	save_state = "saved" if ok else "failed"
-	return ok
+	if not SaveStore.save_player(state):
+		return false
+	var path := _save_path()
+	return await DurableSave.wait_durable(path, DurableSave.request(path), seconds)
+
+
+func _save_path() -> String:
+	return SaveStore.player_folder().path_join(str(state["id"]) + ".json")
 
 
 ## Read-only state for the browser smoke test: what the HUD already shows.
@@ -495,9 +494,10 @@ func probe() -> Dictionary:
 		"target_hp": -1 if target.is_empty() else int(target["hp"]),
 		"menu": menus.menu_name,
 		"focus": _focus_name(),
-		"save": save_state,
-		"saves": saves_confirmed,
-		"settings_saved": GameSession.settings_confirmed,
+		"save_requested": DurableSave.requested_seq(_save_path()),
+		"save_durable": DurableSave.durable_seq(_save_path()),
+		"settings_requested": DurableSave.requested_seq(GameSession.SETTINGS_PATH),
+		"settings_durable": DurableSave.durable_seq(GameSession.SETTINGS_PATH),
 		"show_fps": bool(GameSession.settings.get("show_fps", false)),
 		"spec": str(state.get("spec_id", "")),
 		"equipment": state["equipment"].duplicate(),

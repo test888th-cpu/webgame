@@ -107,10 +107,13 @@ func menu_action(action: String, arg: Variant) -> void:
 		_rebuild()
 		return
 	fight.character_changed()
-	street.save_durably()
 	if action == "save":
-		street.hud.toast("Saved")
+		# "Saved" only once this state (or a newer one) is durable.
+		street.hud.toast("Saving...")
+		var ok: bool = await street.save_durably()
+		street.hud.toast("Saved" if ok else "Still saving: the browser is busy")
 		return
+	street.save_durably()
 	_rebuild()
 
 

@@ -29,6 +29,8 @@ var went_to := ""
 var _name_edit: LineEdit
 var _columns: HBoxContainer
 var _probe_timer := 0.0
+## A new character is being saved: no second one until it is.
+var _saving := false
 
 
 func _ready() -> void:
@@ -152,6 +154,8 @@ func _build_class_choice() -> void:
 
 
 func _create(cls: String) -> void:
+	if _saving:
+		return
 	var name := PlayerProfile.clean_name(_name_edit.text if _name_edit else "")
 	if name.length() < PlayerProfile.NAME_MIN:
 		message = (
@@ -163,12 +167,22 @@ func _create(cls: String) -> void:
 	state["id"] = SaveStore.new_id()
 	state["name"] = name
 	GameSession.character_id = state["id"]
-	# The new character is durable before the street opens.
-	if not await DurableSave.save_player(state):
+	_saving = true
+	# The new character is durable before the street opens. A slow browser store is
+	# waited for (the commit goes on); only a refused write gives up.
+	message = "Saving the new character..."
+	_rebuild()
+	if not SaveStore.save_player(state):
 		state = {}
+		_saving = false
 		message = "Could not save the new character. Try again."
 		_rebuild()
 		return
+	var path := SaveStore.player_folder().path_join(str(state["id"]) + ".json")
+	var seq := DurableSave.request(path)
+	while not await DurableSave.wait_durable(path, seq, 10.0):
+		message = "Still saving the new character (the browser is busy)..."
+		_rebuild()
 	_go(STREET_SCENE)
 
 

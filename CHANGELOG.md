@@ -4,6 +4,23 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Fixed: a save could be reported durable before its own state was (2026-11-24)
+- The browser smoke test on CI found a hotbar change lost on an immediate reload
+  after the game had reported "saved": an older save's commit had set the signal,
+  and commits for one file could land out of order.
+- `DurableSave` now numbers every request. Commits for a file run one at a time,
+  each writing the newest text requested, so the browser store never goes back to
+  an older state. A request is durable only when a commit of that state, or a newer
+  one, completed (`requested_seq` / `durable_seq` / `wait_durable`). A failed commit
+  retries and never counts; a slow store is waited for, never abandoned. One
+  IndexedDB connection is reused for every commit.
+- Save game says "Saved" only once durable. Creating a character waits for its save
+  and cannot be started twice.
+- Tests: `test_durable_save.gd` (out-of-order and failing commits, time-outs, rapid
+  hotbar, gear and bag changes on the street). The smoke test waits for each
+  change's own number before an immediate reload, makes two rapid hotbar changes,
+  and runs under `--cpu-throttle=N`.
+
 ### Fixed: the secret scan's false positives (2026-11-24)
 - `.gitleaks.toml` keeps every default rule and adds one allowlist, scoped to the
   discord-api-token and generic-api-key rules, the five reference registry files by
