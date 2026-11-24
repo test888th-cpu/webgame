@@ -4,6 +4,43 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Added: the street's game screens on the new engine (2026-11-24, owner order)
+- **Character, Equipment, Bag, Skills and Settings** are each their own screen, in the
+  original game's windows (`UiKit.screen`), with a row to switch between them (Q / E),
+  the original Esc menu (screens, Save game, Save and quit to title), and C / B / V.
+  No fight input reaches the street while a screen is open.
+  - Character: the live combat unit's sheet (`RpgCharacter.sheet_of`), XP, the
+    specialization (from `spec_unlock_level`, through `choose_spec`) and the talents
+    chosen.
+  - Equipment: the reference's 13 slots. Take off and equip go through
+    `RpgCharacter.unequip` / `equip`.
+  - Bag: only the copies carried, with details, grade, stats and drop sources. Equip is
+    allowed only when the engine allows it (`RpgCharacter.equip_problem`, the engine's
+    own reason). No item in this build has a use effect, and there is no merchant, so
+    there is no Use or Sell button.
+  - Skills: the whole class spellbook (`RpgSpellbook.book`): usable, known but not in
+    this build, or locked by level, specialization, talent or quest. Each ability shows
+    its reference data. Only usable abilities can go on the hotbar
+    (`RpgSpellbook.assign`), and the hotbar reads the same saved layout. A Talents tab
+    chooses through `choose_talent`.
+  - Settings: the original settings tabs (`GameMenus.settings_tabs`) with the switches
+    that work on the street, the street's controls, and the third-party notices.
+- **Gear keeps its copy.** Equip takes the chosen bag copy, and its loot quality stays
+  with it while worn (`equipment_quality`) and when taken off. Saves keep it, and the
+  hotbar layout.
+- **Saves report completion.** `DurableSave` waits until the browser's IndexedDB store
+  (Godot's IDBFS, `/userfs` / `FILE_DATA`) holds exactly the text written before a save
+  counts as done. A newer save supersedes an older wait. Creating a character and Save
+  and quit wait for it. Settings are confirmed the same way. The browser smoke test
+  reloads right after a confirmed save, with no fixed wait.
+- **Test merchant off for players.** `iron_legacy/test_vendor_enabled=false`, and a
+  release export never enables it.
+- **World of ClaudeCraft MIT notice.** `THIRD_PARTY_NOTICES.md`,
+  `LICENSES/World-of-ClaudeCraft-MIT.txt` (the pinned `LICENSE`, unchanged) and, in the
+  game, `data/legal/third_party_notices.json`, shown in Credits and Settings > Notices.
+- **One set of screens.** The creation screen no longer has its own character sheet. A
+  saved character goes straight to the street.
+
 ### Changed: the game now runs on the new system (2026-11-18, owner order)
 - **Old player data reset.** On first start in each browser, every old hero save
   and roster file is deleted once (`SaveStore.reset_legacy_player_data`, marker

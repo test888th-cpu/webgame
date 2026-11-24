@@ -7,11 +7,15 @@ extends RefCounted
 ## {format: "iron_legacy_reference_slice", version, character: RpgCharacter state}.
 ## Loading validates everything: a save naming an unknown class, spec, talent or item,
 ## an impossible level or a negative balance is refused, never repaired by guessing.
+## The hotbar keeps ability ids only; one no longer usable is shown as an empty slot
+## (RpgSpellbook.hotbar), never cast.
 ## Owner order 2026-11-18 (player data reset): earlier versions (the trial's v1 and v2,
 ## and every PlayerProfile hero save) are test data and are refused, never migrated.
 
 const FORMAT := "iron_legacy_reference_slice"
 const VERSION := 3
+## Ability slots kept from a saved hotbar (InputSetup.HOTBAR_SLOTS less the attack).
+const MAX_HOTBAR := 6
 
 
 static func to_dict(state: Dictionary) -> Dictionary:
@@ -60,6 +64,17 @@ static func _normalise(raw: Dictionary) -> Dictionary:
 	if equipment is Dictionary:
 		for slot: Variant in equipment:
 			state["equipment"][str(slot)] = str(equipment[slot])
+	state["equipment_quality"] = {}
+	var worn_quality: Variant = raw.get("equipment_quality", {})
+	if worn_quality is Dictionary:
+		for slot: Variant in worn_quality:
+			if state["equipment"].has(str(slot)) and worn_quality[slot] is Dictionary:
+				state["equipment_quality"][str(slot)] = _quality(worn_quality[slot])
+	state["hotbar"] = []
+	var bar: Variant = raw.get("hotbar", [])
+	if bar is Array:
+		for id: Variant in bar.slice(0, MAX_HOTBAR):
+			state["hotbar"].append(str(id) if id is String else "")
 	var bags: Variant = raw.get("inventory", [])
 	if bags is Array:
 		for row: Variant in bags:

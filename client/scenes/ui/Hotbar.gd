@@ -68,12 +68,13 @@ func build_rpg(content: ContentDB, fight: RpgEncounter) -> void:
 		_row = HBoxContainer.new()
 		_row.add_theme_constant_override("separation", 3)
 		add_child(_row)
+	# One source with the Skills screen: the saved layout, kept to usable abilities.
 	var keys: Array[String] = ["attack"]
-	for k: Dictionary in fight.known():
-		var doc: Dictionary = fight.pack["abilities"].get(k["id"], {})
-		if str(doc.get("status", "")).begins_with("IMPLEMENTED"):
-			keys.append(str(k["id"]))
-	keys = keys.slice(0, InputSetup.HOTBAR_SLOTS)
+	var bar := RpgSpellbook.hotbar(
+		fight.pack, fight.state, fight.player["mods"], InputSetup.HOTBAR_SLOTS - 1
+	)
+	for id: Variant in bar:
+		keys.append(str(id))
 	if keys == _keys:
 		return
 	_keys = keys
@@ -88,10 +89,15 @@ func build_rpg(content: ContentDB, fight: RpgEncounter) -> void:
 		slot.name = "Slot%d" % (i + 1)
 		slot.key = str(i + 1)
 		var entry := {"type": "attack"} if i == 0 else {"type": "ability", "id": keys[i]}
+		if i > 0 and keys[i] == "":
+			entry = {"type": "empty"}
 		entries.append(entry)
 		var icon := "skill_attack"
 		var tip := "Auto attack (J)"
-		if i > 0:
+		if entry["type"] == "empty":
+			icon = ""
+			tip = "Empty. Fill it from Skills (V)."
+		elif i > 0:
 			var doc: Dictionary = fight.pack["abilities"][keys[i]]
 			var first: Array = doc["def"].get("effects", [])
 			if not first.is_empty():
@@ -101,7 +107,7 @@ func build_rpg(content: ContentDB, fight: RpgEncounter) -> void:
 				% [doc["display_name"], doc["def"].get("cost", 0), doc["def"].get("cooldown", 0)]
 			)
 		slot.kind = "attack" if i == 0 else "skill"
-		slot.icon = UiKit.icon(content, icon)
+		slot.icon = UiKit.icon(content, icon) if icon != "" else null
 		slot.tooltip_text = tip
 		slot.pressed.connect(func() -> void: slot_pressed.emit(i))
 		_row.add_child(slot)

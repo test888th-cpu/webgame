@@ -11,8 +11,10 @@ extends RefCounted
 ## and baseline modifiers (computeTalentModifiers), talents, set bonuses and auras.
 ##
 ## state = {schema, class_id, spec_id ("" before the spec is chosen), level, xp,
-##          copper, equipment {slot: item_id}, inventory [{item_id, count, quality}],
-##          kills}
+##          copper, equipment {slot: item_id}, equipment_quality {slot: quality},
+##          inventory [{item_id, count, quality}], kills, talents, hotbar, ...}
+## A copy keeps its own loot quality (loot_quality/core.ts) in the bags and while
+## worn (equipment_quality), so equipping and taking off never changes the copy.
 
 const SCHEMA := 2
 ## A mainhand that is missing or above level swings as this (entity.ts recalcPlayerStats).
@@ -33,6 +35,8 @@ static func create(content: ContentDB, pack: Dictionary, class_id: String) -> Di
 		"xp": 0,
 		"copper": 0,
 		"equipment": {},
+		"equipment_quality": {},
+		"hotbar": [],
 		"inventory": [],
 		"kills": 0,
 		"talents": {},
@@ -82,7 +86,11 @@ static func choose_spec(
 ## The derived sheet (never stored): the combat unit's own numbers (RpgUnit.recalc,
 ## with the spec and talent modifiers), so the screen and the fight read one pipeline.
 static func sheet(content: ContentDB, pack: Dictionary, state: Dictionary) -> Dictionary:
-	var u := RpgUnit.player(content, pack, state)
+	return sheet_of(RpgUnit.player(content, pack, state))
+
+
+## The same sheet read from a live unit (an RpgEncounter's player, auras included).
+static func sheet_of(u: Dictionary) -> Dictionary:
 	return {
 		"stats": u["stats"],
 		"level": u["level"],
@@ -138,16 +146,27 @@ static func meets_level(item: Dictionary, level: int) -> bool:
 
 
 ## Equip an item from the bags (equipment_rules.ts canEquipItemInSlot and
-## displacedSlotForEquip). "" on success, else the refusal. The item worn there and
-## a displaced other hand return to the bags.
+## displacedSlotForEquip). "" on success, else the refusal, with nothing changed.
+## `index` names the bag copy (its quality goes with it); -1 takes the first copy.
+## The item worn there and a displaced other hand return to the bags as they were.
 static func equip(
-	content: ContentDB, pack: Dictionary, state: Dictionary, item_id: String, slot := ""
+	content: ContentDB,
+	pack: Dictionary,
+	state: Dictionary,
+	item_id: String,
+	slot := "",
+	index := -1
 ) -> String:
 	var item := RpgPack.item(pack, item_id)
 	if item.is_empty():
 		return "Unknown item."
-	var index := _bag_index(state, item_id)
 	if index < 0:
+		index = _bag_index(state, item_id)
+	if (
+		index < 0
+		or index >= state["inventory"].size()
+		or state["inventory"][index]["item_id"] != item_id
+	):
 		return "You do not have that item."
 	var cls := str(state["class_id"])
 	var spec := str(state.get("spec_id", ""))
@@ -158,21 +177,44 @@ static func equip(
 	if not meets_level(item, int(state["level"])):
 		return "You are not high enough level."
 	var displaced := RpgGear.displaced(content, pack, cls, spec, item, slot, state["equipment"])
+	var quality: Variant = state["inventory"][index].get("quality")
 	_take_from_bags(state, index)
 	for s: String in [slot, displaced]:
 		if s != "" and state["equipment"].has(s):
-			add_item(state, str(state["equipment"][s]), 1, null)
-			state["equipment"].erase(s)
+			unequip(state, s)
 	state["equipment"][slot] = item_id
+	if not state.get("equipment_quality") is Dictionary:
+		state["equipment_quality"] = {}
+	if quality != null:
+		state["equipment_quality"][slot] = quality
 	return ""
 
 
+## Why bag copy `index` cannot be equipped ("" when it can): equip() itself, run on a
+## copy of the state, so a screen never disagrees with the engine.
+static func equip_problem(
+	content: ContentDB, pack: Dictionary, state: Dictionary, index: int
+) -> String:
+	if index < 0 or index >= state["inventory"].size():
+		return "You do not have that item."
+	var item_id := str(state["inventory"][index]["item_id"])
+	var kind := str(RpgPack.item(pack, item_id).get("kind"))
+	if kind != "weapon" and kind != "armor":
+		return "This item is not equipment."
+	return equip(content, pack, state.duplicate(true), item_id, "", index)
+
+
+## Take off what is worn in `slot`: the copy, with its quality, goes to the bags.
 static func unequip(state: Dictionary, slot: String) -> String:
 	if not state["equipment"].has(slot):
 		return "Nothing is equipped there."
 	var item_id := str(state["equipment"][slot])
+	var qualities: Variant = state.get("equipment_quality", {})
+	var quality: Variant = qualities.get(slot) if qualities is Dictionary else null
 	state["equipment"].erase(slot)
-	add_item(state, item_id, 1, null)
+	if qualities is Dictionary:
+		qualities.erase(slot)
+	add_item(state, item_id, 1, quality)
 	return ""
 
 

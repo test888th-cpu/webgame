@@ -153,7 +153,21 @@ Every item below is tested in `client/tests/unit/test_rpg_combat_engine.gd`, `te
 - **Respawn and corpse decay** in world time, at the reference's delays (PROD-RESPAWN).
 - **The roster.** 34 reference monsters can fight, up from 20: monsters whose only extra was a quest-gated loot row now qualify, because without quests that row never drops.
 
-### Not done (exact blockers)
+### Done: the game screens (2026-11-24)
+
+- **Five screens, from the original UI.** Character, Equipment, Bag, Skills and Settings are separate screens built from the original windows and widgets (`UiKit.screen`, `ItemSlot`, `StatBar`, `SpriteView`, `GameMenus.settings_tabs`). The code is in `scenes/street/StreetMenus.gd`, `StreetMenuHost.gd`, `StreetCharacterPage.gd`, `StreetGearPage.gd` and `StreetSkillsPage.gd`.
+- **One authority.** The screens hold no copy of player data:
+  - character statistics are the live unit (`RpgUnit.recalc` via `RpgCharacter.sheet_of`);
+  - equipment and inventory are `state.equipment`, `state.equipment_quality` and `state.inventory`, changed only by `RpgCharacter.equip` and `unequip`;
+  - talents and the specialization are `state.talents` and `state.spec_id`, changed only by `choose_talent` and `choose_spec`;
+  - abilities come from `RpgTalents.known`, classified by `RpgSpellbook`;
+  - the hotbar is `state.hotbar`, through `RpgSpellbook`;
+  - settings are `GameSession.settings` (`user://settings.json`).
+
+  After a change, `RpgEncounter.character_changed` refreshes the unit and the street saves (`DurableSave`).
+- **Durable saves.** On the web a save counts as done only when Godot's IndexedDB record holds the written text.
+
+
 
 1. **Bosses and mini-bosses.** The slots are kept on their maps, but the reference boss and elite engine is not ported. Legacy boss scripts are not used.
 2. **Fleeing and mechanics.** 18 humanoid, burrower, mudfin and troll monsters flee at low health (`mob/flee_rules.ts`), and others have `mechanics`. They are not placed until those behaviours run.
@@ -161,6 +175,8 @@ Every item below is tested in `client/tests/unit/test_rpg_combat_engine.gd`, `te
 4. **Legacy code.** `Game.tscn`, `ZoneSim`, `Fighter`, `CharacterCreate` and `PlayerProfile` are no longer reachable from the title. Deleting them, and their tests, is a separate, reviewable change.
 5. **Not ported from the old game yet.** NPCs, shops, quests, the map screen and the arena. Their reference counterparts (vendors, quests) are not in the engine yet.
 6. **Level mapping.** Areas above old level 48 all hold level-20 monsters, because the reference's cap is 20.
+7. **Portrait phones.** The street and its screens are drawn on the landscape 640×360 canvas, scaled to the phone's width, so in portrait they are too small to use. The old game's portrait layout (HUD band and control deck, `GameSession.show_street`) is not applied to the street yet: its camera does not reframe for it. Landscape phones, narrow windows and desktops lay out correctly.
+8. **Item use and selling.** No item in this build's pack has a use effect, and there is no merchant, so the Bag offers only Equip and details. Quest items never drop (no quests).
 
 The text below records the state before this change.
 

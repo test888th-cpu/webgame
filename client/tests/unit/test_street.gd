@@ -85,8 +85,8 @@ func test_a_street_fight_kills_saves_and_respawns() -> void:
 		func(e: Dictionary) -> bool: return e["type"] == "respawn" and e["unit"] == dead_one["id"]
 	)
 	assert_true(not rose.is_empty(), "it rose again (respawn_policy.ts)")
-	street._action("menu")
-	assert_eq(street.get("went_to"), "res://scenes/title/Title.tscn", "the menu leaves")
+	await street.quit_to_title()
+	assert_eq(street.get("went_to"), "res://scenes/title/Title.tscn", "save and quit leaves")
 	var saved := SaveStore.load_player(state["id"], GameSession.content)
 	assert_true(int(saved["kills"]) >= 1, "the kill was saved")
 	assert_eq(saved["area"], "saltmarket", "the area was saved")
@@ -116,6 +116,8 @@ func test_the_street_uses_the_games_own_hud_and_hotbar() -> void:
 	var bar: Hotbar = hud.find_children("Hotbar", "Hotbar", true, false)[0]
 	assert_eq(bar.entries[0]["type"], "attack", "slot 1 is the auto attack")
 	for i in range(1, bar.entries.size()):
+		if bar.entries[i]["type"] != "ability":
+			continue
 		var doc: Dictionary = RpgPack.of(GameSession.content)["abilities"][bar.entries[i]["id"]]
 		assert_true(str(doc["status"]).begins_with("IMPLEMENTED"), "only runnable abilities")
 	var fight: RpgEncounter = street.get("fight")
@@ -142,7 +144,7 @@ func test_the_street_shows_no_removed_mechanics() -> void:
 		assert_true(not gone in hints, gone + ": no hint for a removed mechanic")
 	for button: String in ["Heavy", "Dodge", "Guard", "Item"]:
 		assert_true(not hud.get_node("Root/Touch/" + button).visible, button + ": no touch button")
-	for menu: String in ["quests", "map", "settings"]:
+	for menu: String in ["quests", "map"]:
 		assert_true(not hud.get_node("Root/MenuBar/Menu_" + menu).visible, menu + ": not ported")
 	street.free()
 	_teardown(state)

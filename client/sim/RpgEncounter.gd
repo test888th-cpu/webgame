@@ -190,6 +190,15 @@ func recalc_player() -> void:
 	RpgUnit.recalc(content, pack, player, state)
 
 
+## The character changed out of the engine's own tick (gear, spec, talents chosen on
+## a menu): the talent modifiers, the recalcPlayerStats sheet and the known
+## abilities follow at once, so the screens and the next swing read one unit.
+func character_changed() -> void:
+	RpgUnit.set_talents(content, pack, player, state)
+	recalc_player()
+	_refresh_known()
+
+
 func player_mainhand_is_two_hand() -> bool:
 	var item := RpgPack.item(pack, str(state["equipment"].get("mainhand", "")))
 	return str(item.get("kind")) == "weapon" and str(item.get("hand")) == "twohand"

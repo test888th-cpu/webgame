@@ -14,7 +14,6 @@ extends Node2D
 ## * exits: walking off a street end with an exit enters the next area.
 
 const TITLE_SCENE := "res://scenes/title/Title.tscn"
-const SHEET_SCENE := "res://scenes/reference/ReferenceTrial.tscn"
 const HUD_SCENE := preload("res://scenes/ui/Hud.tscn")
 const LANE_Y := 300.0
 const SAVE_EVERY := 5.0
@@ -28,6 +27,12 @@ var area_id := ""
 var area: Dictionary = {}
 ## The game's own HUD (scenes/ui/Hud.tscn), read from the engine (Hud.attach_rpg).
 var hud: CanvasLayer
+## The game screens (Character, Equipment, Bag, Skills, Settings, the Esc menu).
+var menus: StreetMenuHost
+## The last save's state for the probe and the menus: "", "saving", "saved" or
+## "failed"; `saves_confirmed` counts saves the browser store confirmed.
+var save_state := ""
+var saves_confirmed := 0
 var px_per_yard := 16.0
 ## Tests turn scene changes off and read where the street would go.
 var navigate := true
@@ -60,7 +65,9 @@ func _ready() -> void:
 	add_child(hud)
 	hud.slot_pressed.connect(_slot)
 	hud.auto_pressed.connect(_action.bind("auto"))
-	hud.menu_pressed.connect(func(_menu: String) -> void: _action("character"))
+	hud.menu_pressed.connect(func(screen: String) -> void: menus.open_screen(screen))
+	menus = StreetMenuHost.new(self)
+	add_child(menus)
 	_build_actions()
 	var start := str(state.get("area", ""))
 	if not content.areas.has(start):
@@ -111,7 +118,14 @@ func enter_area(id: String, side: String) -> void:
 	_world.add_child(_camera)
 	_camera.make_current()
 	hud.attach_rpg(fight, state, content)
-	hud.toast("%s: monsters level %s" % [area.get("name", id), _levels_here(id)])
+	var levels := _levels_here(id)
+	hud.toast(
+		(
+			"%s: a safe street" % area.get("name", id)
+			if levels == ""
+			else "%s: monsters level %s" % [area.get("name", id), levels]
+		)
+	)
 	_travel_cooldown = 0.5
 	_save()
 
@@ -119,7 +133,7 @@ func enter_area(id: String, side: String) -> void:
 func _levels_here(id: String) -> String:
 	var rec: Dictionary = content.rpg.get("placement", {}).get("areas", {}).get(id, {})
 	if rec.is_empty() or rec.get("spawns", []).is_empty():
-		return "none (a safe street)"
+		return ""
 	var lo := 99
 	var hi := 0
 	for mid: String in rec["monsters"]:
@@ -181,7 +195,8 @@ func _physics_process(delta: float) -> void:
 	if fight == null:
 		return
 	_travel_cooldown = maxf(0.0, _travel_cooldown - delta)
-	var dir := int(signf(Input.get_axis("move_left", "move_right")))
+	# No walking while a game screen is open (its keys move the focus).
+	var dir := 0 if menus.is_open() else int(signf(Input.get_axis("move_left", "move_right")))
 	if dir != 0 and fight.auto_mode:
 		fight.command({"op": "auto", "on": false})
 	if not fight.auto_mode and fight.outcome == "fighting":
@@ -223,6 +238,9 @@ func _check_exits(dir: int) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if fight == null:
 		return
+	if menus.is_open():
+		_menu_input(event)
+		return
 	for slot in range(1, InputSetup.HOTBAR_SLOTS + 1):
 		if event.is_action_pressed("slot_%d" % slot):
 			_slot(slot - 1)
@@ -232,10 +250,32 @@ func _unhandled_input(event: InputEvent) -> void:
 		_action("auto")
 	elif event.is_action_pressed("interact"):
 		_action("revive" if fight.outcome == "defeat" else "loot")
-	elif event.is_action_pressed("character"):
-		_action("character")
 	elif event.is_action_pressed("pause"):
-		_action("menu")
+		menus.open_pause()
+	else:
+		_screen_key(event)
+
+
+## While a screen is open: Esc closes it, Q / E switch screens, C / B / V toggle
+## theirs; nothing reaches the fight.
+func _menu_input(event: InputEvent) -> void:
+	if event.is_action_pressed("pause") or event.is_action_pressed("ui_cancel"):
+		menus.close_menu()
+	elif event.is_action_pressed("menu_prev"):
+		menus.cycle(-1)
+	elif event.is_action_pressed("menu_next"):
+		menus.cycle(1)
+	else:
+		_screen_key(event)
+	get_viewport().set_input_as_handled()
+
+
+func _screen_key(event: InputEvent) -> void:
+	for screen: String in ["character", "bag", "skills"]:
+		if event.is_action_pressed(screen):
+			menus.open_screen(screen)
+			get_viewport().set_input_as_handled()
+			return
 
 
 ## J: target the nearest monster (unless one is targeted) and start the auto attack.
@@ -263,18 +303,18 @@ func _action(action: String) -> void:
 		"revive":
 			_say(RpgEncounter.revive_at_corpse(content, pack, state))
 			enter_area(area_id, "")
-		"character":
-			_leave(SHEET_SCENE)
-		"menu":
-			_leave(TITLE_SCENE)
 
 
-func _leave(scene: String) -> void:
-	_store()
-	_save()
-	went_to = scene
+## Save and quit: the title opens only once the save is confirmed durable, so a
+## reload right after it finds this state.
+func quit_to_title() -> void:
+	var ok: bool = await save_durably()
+	if not ok:
+		hud.toast("Could not save. Try again.")
+		return
+	went_to = TITLE_SCENE
 	if navigate:
-		get_tree().change_scene_to_file(scene)
+		get_tree().change_scene_to_file(TITLE_SCENE)
 
 
 ## Hotbar slot `index` (0-based): the first is the auto attack, the rest abilities.
@@ -420,9 +460,21 @@ func _store() -> void:
 
 
 func _save() -> void:
+	save_durably()
+
+
+## Save and wait until it is durable (DurableSave: on the web, until the browser
+## store holds it). Saves run in the order made; a wait for an older one adopts the
+## newer text, so only the latest state is ever reported saved.
+func save_durably() -> bool:
 	_save_timer = 0.0
 	_store()
-	SaveStore.save_player(state)
+	save_state = "saving"
+	var ok: bool = await DurableSave.save_player(state)
+	if ok:
+		saves_confirmed += 1
+	save_state = "saved" if ok else "failed"
+	return ok
 
 
 ## Read-only state for the browser smoke test: what the HUD already shows.
@@ -441,4 +493,22 @@ func probe() -> Dictionary:
 		"auto": fight.auto_mode,
 		"monsters": fight.mobs.filter(func(m: Dictionary) -> bool: return not m["dead"]).size(),
 		"target_hp": -1 if target.is_empty() else int(target["hp"]),
+		"menu": menus.menu_name,
+		"focus": _focus_name(),
+		"save": save_state,
+		"saves": saves_confirmed,
+		"settings_saved": GameSession.settings_confirmed,
+		"show_fps": bool(GameSession.settings.get("show_fps", false)),
+		"spec": str(state.get("spec_id", "")),
+		"equipment": state["equipment"].duplicate(),
+		"bag": state["inventory"].map(func(r: Dictionary) -> String: return r["item_id"]),
+		"hotbar": state.get("hotbar", []).duplicate(),
+		"talents": state.get("talents", {}).duplicate(),
+		"attack_power": int(fight.player["attack_power"]),
+		"armor": int(fight.player["armor"]),
 	}
+
+
+func _focus_name() -> String:
+	var owner := get_viewport().gui_get_focus_owner()
+	return str(owner.name) if owner != null else ""

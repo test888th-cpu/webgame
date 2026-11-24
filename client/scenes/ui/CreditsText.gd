@@ -46,6 +46,9 @@ static func build(content: ContentDB) -> String:
 		+ _pixelfx(content)
 		+ _sounds(content)
 		+ _fonts(content)
+		+ "Third-party notices:\n"
+		+ LegalNotices.text()
+		+ "\n\n"
 		+ "Made with the Godot Engine (godotengine.org/license):\n"
 		+ Engine.get_license_text()
 	)

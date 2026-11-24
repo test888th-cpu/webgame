@@ -1,8 +1,11 @@
 // Serves a Godot web export over HTTP, opens it in headless Chromium, waits
 // for the client's boot marker on the console, then holds real keys and checks
 // that the game plays: title -> new game -> name and class (the new character
-// system) -> the street, walking, an auto fight to a kill, then a reload and
-// Continue to the same saved character (all via the read-only window.ironboundProbe).
+// system) -> the street, walking, an auto fight to a kill, the game's screens
+// (Character, Equipment, Bag, Skills, Settings: a setting, taking gear off and the
+// hotbar changed), then, once the game confirms each save, an immediate reload and
+// Continue to the same character with every change kept (all via the read-only
+// window.ironboundProbe). --shots=<dir> saves a screenshot of each screen.
 //
 //   node smoke.ts <export-dir> [--timeout-ms=60000] [--screenshot=path.png]
 //   node smoke.ts --url=https://example.org/game/ [...]   (a deployed build)
@@ -33,6 +36,7 @@ const timeoutArg = args.find((a) => a.startsWith("--timeout-ms="));
 const timeoutMs = timeoutArg ? Number(timeoutArg.split("=")[1]) : 60_000;
 const screenshot = args.find((a) => a.startsWith("--screenshot="))?.split("=")[1];
 const remoteUrl = args.find((a) => a.startsWith("--url="))?.slice("--url=".length);
+const shotsDir = args.find((a) => a.startsWith("--shots="))?.slice("--shots=".length);
 
 interface Probe {
   scene: string;
@@ -43,6 +47,17 @@ interface Probe {
   level?: number;
   kills?: number;
   focus?: string;
+  menu?: string;
+  save?: string;
+  saves?: number;
+  settings_saved?: number;
+  show_fps?: boolean;
+  equipment?: Record<string, string>;
+  bag?: string[];
+  hotbar?: string[];
+  attack_power?: number;
+  armor?: number;
+  auto?: boolean;
   area?: string;
   x?: number;
   hp?: number;
@@ -130,7 +145,7 @@ try {
   };
   // Moves keyboard focus with Tab until the focused control's name matches.
   const focusOn = async (what: string, ok: (name: string) => boolean): Promise<void> => {
-    for (let i = 0; i < 40; i++) {
+    for (let i = 0; i < 150; i++) {
       if (ok((await probe()).focus ?? "")) return;
       await page.keyboard.press("Tab");
     }
@@ -144,12 +159,12 @@ try {
   await waitFor("character creation", (p) => p.scene === "rpg" && !p.has_character, 10_000);
   await focusOn("the name field", (n) => n === "NameEdit");
   await page.keyboard.type("Smoke Test");
-  await focusOn("the warrior class", (n) => n === "Class_warrior");
+  await focusOn("the mage class", (n) => n === "Class_mage");
   await page.keyboard.press("Enter");
   // Creating the character opens the city: the street, on the new engine.
   const made = await waitFor("the street", (p) => p.scene === "street", 15_000);
-  if (made.name !== "Smoke Test" || made.class !== "warrior" || made.level !== 1) {
-    problems.push(`created ${made.name}/${made.class}/${made.level}, expected Smoke Test/warrior/1`);
+  if (made.name !== "Smoke Test" || made.class !== "mage" || made.level !== 1) {
+    problems.push(`created ${made.name}/${made.class}/${made.level}, expected Smoke Test/mage/1`);
   }
   console.log(`new character: "${made.name}", ${made.class}, level ${made.level}, in ${made.area}`);
 
@@ -176,13 +191,67 @@ try {
   const fought = await waitFor("a kill on auto", (p) => (p.kills ?? 0) >= 1 || p.dead === true, 120_000);
   if ((fought.kills ?? 0) < 1) problems.push(`no kill on auto: ${JSON.stringify(fought)}`);
   console.log(`street fight in ${fought.area}: kills ${fought.kills}, hp ${fought.hp}, level ${fought.level}`);
-  await page.keyboard.press("Escape"); // the menu saves and returns to the title
-  await waitFor("the title", (p) => p.scene === "title", 10_000);
-  // The web build writes user:// to IndexedDB asynchronously after each save; a
-  // reload in the same instant would abort that write.
-  await page.waitForTimeout(2_000);
+  await page.keyboard.press("KeyT"); // auto off: the screens are used standing still
+  await waitFor("auto off", (p) => p.auto === false, 5_000);
 
-  // Reload the page: the title offers Continue, and it is the same character.
+  // The game's own screens. C opens Character; E moves to the next screen.
+  const shot = async (name: string): Promise<void> => {
+    if (shotsDir) await page.screenshot({ path: `${shotsDir}/${name}.png` });
+  };
+  await page.keyboard.press("KeyC");
+  const character = await waitFor("Character", (p) => p.menu === "character", 5_000);
+  await shot("character");
+  for (const name of ["equipment", "bag", "skills", "settings"]) {
+    await page.keyboard.press("KeyE");
+    await waitFor(name, (p) => p.menu === name, 5_000);
+    await shot(name);
+  }
+  console.log(`screens: character (attack power ${character.attack_power}), equipment, bag, skills, settings`);
+
+  // Settings: a real switch, saved apart from the character.
+  const settingsBefore = (await probe()).settings_saved ?? 0;
+  await focusOn("Show frame rate", (n) => n === "show_fps");
+  await page.keyboard.press("Enter");
+  await waitFor("the setting saved", (p) => p.show_fps === true && (p.settings_saved ?? 0) > settingsBefore, 15_000);
+  console.log("settings: show frame rate on, confirmed saved");
+
+  // Equipment: take the chest piece off; it goes to the bag, and the save is confirmed.
+  await page.keyboard.press("KeyQ"); // skills
+  await page.keyboard.press("KeyQ"); // bag
+  await page.keyboard.press("KeyQ"); // equipment
+  await waitFor("Equipment", (p) => p.menu === "equipment", 5_000);
+  const armorBefore = (await probe()).armor ?? 0;
+  await focusOn("the chest slot", (n) => n === "Worn_chest");
+  await page.keyboard.press("Enter");
+  await focusOn("Take off", (n) => n === "Unequip");
+  let savesBefore = (await probe()).saves ?? 0;
+  await page.keyboard.press("Enter");
+  const undressed = await waitFor(
+    "the chest piece in the bag",
+    (p) => !("chest" in (p.equipment ?? {})) && (p.bag ?? []).includes("apprentice_robe") && p.save === "saved" && (p.saves ?? 0) > savesBefore,
+    15_000,
+  );
+  if (!((undressed.armor ?? 0) < armorBefore)) problems.push(`armor did not fall: ${armorBefore} -> ${undressed.armor}`);
+  console.log(`equipment: chest off, armor ${armorBefore} -> ${undressed.armor}, saved`);
+
+  // Skills: put the usable ability in hotbar slot 4.
+  await page.keyboard.press("KeyV");
+  await waitFor("Skills", (p) => p.menu === "skills", 5_000);
+  await focusOn("Frost Armor", (n) => n === "Skill_frost_armor");
+  await page.keyboard.press("Enter");
+  await focusOn("slot 4", (n) => n === "Assign_4");
+  savesBefore = (await probe()).saves ?? 0;
+  await page.keyboard.press("Enter");
+  const assigned = await waitFor(
+    "the hotbar saved",
+    (p) => (p.hotbar ?? [])[2] === "frost_armor" && p.save === "saved" && (p.saves ?? 0) > savesBefore,
+    15_000,
+  );
+  console.log(`skills: hotbar ${JSON.stringify(assigned.hotbar)}, saved`);
+  await page.keyboard.press("Escape");
+  await waitFor("back to the street", (p) => p.menu === "", 5_000);
+
+  // Reload at once: the confirmed saves must be there (no waiting on a timer).
   await page.reload();
   // The reloaded page publishes the probe again once the game has booted.
   await page.waitForFunction(() => (window as { ironboundProbe?: unknown }).ironboundProbe, null, {
@@ -195,7 +264,15 @@ try {
   if (back.name !== "Smoke Test" || (back.kills ?? 0) < (fought.kills ?? 0) || back.area !== fought.area) {
     problems.push(`after reload: ${back.name}, kills ${back.kills}, in ${back.area}`);
   }
-  console.log(`continue: "${back.name}", kills ${back.kills}, in ${back.area}`);
+  if ("chest" in (back.equipment ?? {}) || !(back.bag ?? []).includes("apprentice_robe")) {
+    problems.push(`equipment not kept: ${JSON.stringify(back.equipment)} bag ${JSON.stringify(back.bag)}`);
+  }
+  if ((back.hotbar ?? [])[2] !== "frost_armor") problems.push(`hotbar not kept: ${JSON.stringify(back.hotbar)}`);
+  if (back.show_fps !== true) problems.push("the setting was not kept");
+  console.log(
+    `continue: "${back.name}", kills ${back.kills}, in ${back.area}, chest in bag, ` +
+      `hotbar ${JSON.stringify(back.hotbar)}, show frame rate ${back.show_fps}`,
+  );
   if (screenshot) await page.screenshot({ path: screenshot });
 } catch (err) {
   problems.push(String(err));

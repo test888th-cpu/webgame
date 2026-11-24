@@ -5,12 +5,12 @@ extends Control
 ## in SaveStore's player/ store (RpgSave v3); its spec, talents, gear, bags, XP,
 ## death and corpses are the reference's rules.
 ##
-## It is also the character sheet (C in the street): spec, talents, gear, bags and
-## abilities. The fighting is in the street (scenes/street/Street.tscn), where the
-## reference monsters stand on the city's areas.
+## Creation only: the character's screens (Character, Equipment, Bag, Skills,
+## Settings) are the street's (scenes/street, StreetMenus), and a character that
+## exists goes straight to the street.
 ##
-## Presentation only: every rule is in client/sim (RpgCharacter, RpgTalents, RpgGear,
-## RpgSave); this screen sends commands and shows results. Names shown are interim ids.
+## Presentation only: every rule is in client/sim (RpgCharacter, RpgSave); this
+## screen sends commands and shows results. Names shown are interim ids.
 
 const TITLE_SCENE := "res://scenes/title/Title.tscn"
 const STREET_SCENE := "res://scenes/street/Street.tscn"
@@ -43,6 +43,9 @@ func _ready() -> void:
 	state = {}
 	if GameSession.character_id != "":
 		state = SaveStore.load_player(GameSession.character_id, content)
+	if not state.is_empty():
+		_go.call_deferred(STREET_SCENE)
+		return
 	_rebuild()
 
 
@@ -111,12 +114,7 @@ func _rebuild() -> void:
 	_columns = HBoxContainer.new()
 	_columns.add_theme_constant_override("separation", UiTheme.PAD)
 	scroll.add_child(_columns)
-	if state.is_empty():
-		_build_class_choice()
-		return
-	_build_play()
-	_build_character()
-	_build_abilities()
+	_build_class_choice()
 
 
 func _column(title: String) -> VBoxContainer:
@@ -165,187 +163,24 @@ func _create(cls: String) -> void:
 	state["id"] = SaveStore.new_id()
 	state["name"] = name
 	GameSession.character_id = state["id"]
-	_save()
+	# The new character is durable before the street opens.
+	if not await DurableSave.save_player(state):
+		state = {}
+		message = "Could not save the new character. Try again."
+		_rebuild()
+		return
 	_go(STREET_SCENE)
-
-
-# -- character, gear and bags --------------------------------------------------
-
-
-func _build_character() -> void:
-	var col := _column("Character")
-	var sheet := RpgCharacter.sheet(content, pack, state)
-	var unit := RpgUnit.player(content, pack, state)
-	RpgEncounter.restore_vitals(unit, state)
-	var vitals := {"hp": unit["hp"], "resource": unit["resource"]}
-	var spec := str(state["spec_id"])
-	var title := str(state["class_id"]).capitalize() + ("" if spec == "" else " (" + spec + ")")
-	_line(col, "%s, level %d" % [title, state["level"]])
-	var need := RpgProgression.xp_for_level(int(state["level"]))
-	_line(
-		col,
-		"XP %d / %d   Copper %d   Kills %d" % [state["xp"], need, state["copper"], state["kills"]]
-	)
-	_line(col, "Health %d / %d" % [vitals["hp"], sheet["max_hp"]], UiTheme.HP)
-	_line(
-		col,
-		"%s %d / %d" % [sheet["resource"].capitalize(), vitals["resource"], sheet["max_resource"]],
-		UiTheme.EP
-	)
-	var s: Dictionary = sheet["stats"]
-	_line(
-		col,
-		"Str %d Agi %d Sta %d Int %d Spi %d" % [s["str"], s["agi"], s["sta"], s["int"], s["spi"]]
-	)
-	_line(
-		col,
-		(
-			"Armor %d  AP %d  Crit %.1f%%  Dodge %.1f%%"
-			% [sheet["armor"], sheet["attack_power"], sheet["crit"] * 100, sheet["dodge"] * 100]
-		)
-	)
-	var w: Dictionary = sheet["weapon"]
-	_line(col, "Weapon %d-%d, speed %.1f" % [w["min"], w["max"], w["speed"]])
-	if spec == "" and int(state["level"]) >= int(RpgPack.constant(pack, "spec_unlock_level")):
-		for sp: Dictionary in RpgClassRegistry.specs(content, str(state["class_id"])):
-			col.add_child(UiKit.button("Choose " + str(sp["display_name"]), _spec.bind(sp["id"])))
-	col.add_child(UiKit.section("Equipped"))
-	for slot: String in state["equipment"]:
-		var row := HBoxContainer.new()
-		row.add_child(
-			UiKit.label("%s: %s" % [slot, _name(state["equipment"][slot])], UiTheme.SIZE_SMALL)
-		)
-		row.add_child(UiKit.button("Unequip", _unequip.bind(slot)))
-		col.add_child(row)
-	col.add_child(UiKit.section("Bags (%d)" % state["inventory"].size()))
-	for i in state["inventory"].size():
-		var item_id := str(state["inventory"][i]["item_id"])
-		var row := HBoxContainer.new()
-		row.add_child(UiKit.label(_name(item_id), UiTheme.SIZE_SMALL))
-		if RpgPack.item(pack, item_id).get("slot") != null:
-			row.add_child(UiKit.button("Equip", _equip.bind(item_id)))
-		row.add_child(UiKit.button("Sell", _sell.bind(i)))
-		col.add_child(row)
-	col.add_child(UiKit.button("Rest", _rest))
-	col.add_child(UiKit.button("Delete character", _start_over))
-
-
-func _name(item_id: String) -> String:
-	return str(RpgPack.item(pack, item_id).get("display_name", item_id))
-
-
-func _spec(spec_id: String) -> void:
-	message = RpgCharacter.choose_spec(content, pack, state, spec_id)
-	_after_change()
-
-
-func _equip(item_id: String) -> void:
-	message = RpgCharacter.equip(content, pack, state, item_id)
-	_after_change()
-
-
-func _unequip(slot: String) -> void:
-	message = RpgCharacter.unequip(state, slot)
-	_after_change()
-
-
-func _sell(index: int) -> void:
-	message = RpgCharacter.sell(pack, state, index)
-	_after_change()
-
-
-func _rest() -> void:
-	RpgEncounter.wait(content, pack, state, 10.0)
-	message = "Ten seconds out of combat (2-second regen ticks)."
-	_after_change()
-
-
-## Delete this character (its save goes) and go back to the title.
-func _start_over() -> void:
-	SaveStore.delete_player(str(state.get("id", "")))
-	state = {}
-	GameSession.character_id = ""
-	_go(TITLE_SCENE)
-
-
-func _after_change() -> void:
-	_save()
-	_rebuild()
-
-
-# -- abilities -----------------------------------------------------------------
-
-
-func _build_abilities() -> void:
-	var col := _column("Abilities and talents (reference)")
-	var unit := RpgUnit.player(content, pack, state)
-	var known := RpgTalents.known(pack, str(state["class_id"]), int(state["level"]), unit["mods"])
-	var usable := 0
-	for k: Dictionary in known:
-		usable += int(str(pack["abilities"][k["id"]]["status"]).begins_with("IMPLEMENTED"))
-	_line(col, "%d known, %d usable in this build." % [known.size(), usable], UiTheme.TEXT_DIM)
-	for k: Dictionary in known:
-		var doc: Dictionary = pack["abilities"][k["id"]]
-		var ok := str(doc["status"]).begins_with("IMPLEMENTED")
-		_line(
-			col,
-			"%s (rank %d)" % [doc["display_name"], k["rank"]],
-			UiTheme.GOOD if ok else UiTheme.TEXT
-		)
-		if not ok:
-			_line(col, str(doc["reason"]), UiTheme.TEXT_FAINT, UiTheme.SIZE_CAPTION)
-	_build_talents(col)
-
-
-## Talent rows (one option per row, from its level); a choice applies from the next
-## step in the street.
-func _build_talents(col: VBoxContainer) -> void:
-	var chosen: Dictionary = state.get("talents", {})
-	for row: Dictionary in RpgTalents.class_talents(pack, str(state["class_id"]))["rows"]:
-		var lvl := int(row["level"])
-		col.add_child(UiKit.section("Talents, level %d" % lvl))
-		for o: Dictionary in row["options"]:
-			var picked: bool = chosen.get(str(lvl), "") == o["id"]
-			var b := UiKit.button(
-				("* " if picked else "") + str(o["display_name"]),
-				_talent.bind(lvl, o["id"]),
-				int(state["level"]) < lvl
-			)
-			col.add_child(b)
-
-
-func _talent(row_level: int, option_id: String) -> void:
-	message = RpgCharacter.choose_talent(pack, state, row_level, option_id)
-	_after_change()
 
 
 # -- save and leave --------------------------------------------------------------
 
 
-func _save() -> void:
-	if state.is_empty():
-		return
-	if not SaveStore.save_player(state):
-		message = "Could not save."
-
-
-## Back to the street with a character; to the title without one.
+## Back to the title (a character is never half made: it exists once saved).
 func _back() -> void:
-	_save()
-	_go(TITLE_SCENE if state.is_empty() else STREET_SCENE)
+	_go(TITLE_SCENE)
 
 
 func _go(scene: String) -> void:
 	went_to = scene
 	if navigate:
 		get_tree().change_scene_to_file(scene)
-
-
-func _build_play() -> void:
-	var col := _column("Play")
-	var enter := UiKit.button("Enter the city", _back)
-	enter.name = "EnterCity"
-	col.add_child(enter)
-	var where := str(content.area(str(state.get("area", ""))).get("name", "the start"))
-	_line(col, "You stand in %s." % where, UiTheme.TEXT_DIM)
-	UiKit.focus_first(col)

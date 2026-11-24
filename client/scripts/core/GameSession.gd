@@ -38,6 +38,8 @@ var fx_library := {}
 var placeholder_art := {}
 ## Where everything goes on screen now (ScreenLayout). Set by relayout().
 var layout: ScreenLayout
+## Settings writes confirmed durable (see set_setting).
+var settings_confirmed := 0
 var settings := {
 	"show_fps": false,
 	"screen_shake": true,
@@ -60,10 +62,13 @@ var _screen_open := false
 
 
 ## TEST_VENDOR_ENABLED: whether the Item Testing Merchant (test_vendor.json)
-## stands in the city. The environment variable of that name ("1"/"0") wins;
-## otherwise the project setting iron_legacy/test_vendor_enabled. Turn it off
-## for production: the item data stays, only the merchant goes.
+## stands in the city. A developer-only switch: off in project.godot
+## (iron_legacy/test_vendor_enabled=false), and never on in a release export
+## (the "template_release" feature), whatever the setting or environment says.
+## Outside release builds the environment variable ("1"/"0") wins, then the setting.
 static func test_vendor_enabled() -> bool:
+	if OS.has_feature("template_release"):
+		return false
 	var env := OS.get_environment("TEST_VENDOR_ENABLED")
 	if env != "":
 		return env in ["1", "true", "yes"]
@@ -151,6 +156,15 @@ func set_setting(key: String, value: Variant) -> void:
 	var file := FileAccess.open(SETTINGS_PATH, FileAccess.WRITE)
 	if file:
 		file.store_string(JSON.stringify(settings))
+		file.close()
+		_confirm_settings()
+
+
+## Counts settings writes confirmed durable (DurableSave: on the web, once the
+## browser store holds them). Settings are their own file, apart from characters.
+func _confirm_settings() -> void:
+	if await DurableSave.persisted(SETTINGS_PATH):
+		settings_confirmed += 1
 
 
 func _load_settings() -> void:

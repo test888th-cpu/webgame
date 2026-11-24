@@ -1,6 +1,6 @@
 extends TestCase
-## Character creation and the character sheet (scenes/reference/ReferenceTrial.tscn),
-## and the owner-ordered reset of the old player data.
+## Character creation (scenes/reference/ReferenceTrial.tscn) and the owner-ordered
+## reset of the old player data.
 
 const TEST_SAVE := "user://test_reference_trial"
 const SCENE := "res://scenes/reference/ReferenceTrial.tscn"
@@ -8,6 +8,9 @@ const SCENE := "res://scenes/reference/ReferenceTrial.tscn"
 
 func _open() -> Control:
 	var screen: Control = load(SCENE).instantiate()
+	# Off before _ready: a saved character is sent on at once (deferred), and a real
+	# scene change would leave a live street running under the later tests.
+	screen.set("navigate", false)
 	tree.root.add_child(screen)
 	await tree.process_frame
 	await tree.process_frame
@@ -32,7 +35,6 @@ func test_a_named_character_is_created_and_sent_to_the_street() -> void:
 	_clean()
 	GameSession.character_id = ""
 	var screen := await _open()
-	screen.set("navigate", false)
 	_button(screen, "Class_warrior").pressed.emit()
 	await tree.process_frame
 	assert_true(screen.get("state").is_empty(), "no character without a name")
@@ -40,20 +42,18 @@ func test_a_named_character_is_created_and_sent_to_the_street() -> void:
 	assert_true(tree.root.gui_get_focus_owner() != null, "something has focus (the name field)")
 	name_edit.text = "Tester"
 	_button(screen, "Class_warrior").pressed.emit()
-	await tree.process_frame
+	for _i in 5:
+		await tree.process_frame
 	assert_eq(screen.get("went_to"), "res://scenes/street/Street.tscn", "into the city")
 	var listed := SaveStore.players(GameSession.content)
 	assert_eq(listed.size(), 1, "one production character")
 	assert_eq(listed[0]["name"], "Tester", "the name was saved")
 	assert_eq(listed[0]["class_id"], "warrior", "the class was saved")
 	screen.free()
-	# Opened again with that character: the sheet, and Enter the city.
+	# Opened again with that character: straight to the street (one set of screens).
 	var again := await _open()
-	again.set("navigate", false)
-	var enter := _button(again, "EnterCity")
-	assert_true(enter != null, "the sheet offers the city")
-	enter.pressed.emit()
-	assert_eq(again.get("went_to"), "res://scenes/street/Street.tscn", "back to the street")
+	assert_eq(again.get("went_to"), "res://scenes/street/Street.tscn", "no second sheet")
+	assert_true(_button(again, "Class_warrior") == null, "no creation for a made character")
 	again.free()
 	_clean()
 	SaveStore.root = SaveStore.DEFAULT_ROOT

@@ -67,6 +67,7 @@ jobs:
           python3 -m unittest tools/content/test_reward_models.py -v
           python3 tools/content/render_monster_matrix.py --check
           python3 tools/content/build_placement.py --check
+          python3 -c "import json,sys; n=json.load(open('client/data/legal/third_party_notices.json'))['notices'][0]; sys.exit(0 if n['text']==open('LICENSES/World-of-ClaudeCraft-MIT.txt').read() else 'the shipped MIT notice differs from LICENSES/')"
 
   godot-tests:
     name: Godot project opens and tests pass

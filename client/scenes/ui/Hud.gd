@@ -42,7 +42,7 @@ const MENU_BAR := [
 	["settings", "menu_settings", "Settings"],
 ]
 ## The menus the street has (the rest are not ported to the reference rules yet).
-const RPG_MENUS := ["character", "bag", "skills"]
+const RPG_MENUS := ["character", "equipment", "bag", "skills", "settings"]
 const RPG_HIDDEN_TOUCH := ["Heavy", "Dodge", "Guard", "Item"]
 const MENU_BUTTON := Vector2(20, 20)
 ## Degrees a second the AUTO arrows turn while auto battle runs.
@@ -194,6 +194,20 @@ func attach_rpg(p_fight: RpgEncounter, state: Dictionary, p_content: ContentDB) 
 	if _menu_bar == null:
 		_build_menu_bar(get_node("Root"))
 		_auto_spin.texture = UiKit.icon(content, "menu_auto")
+	if not _menu_bar.has_node("Menu_equipment"):
+		# The street's Equipment screen has its own button, after Character.
+		var gear := Button.new()
+		gear.name = "Menu_equipment"
+		gear.icon = UiKit.icon(content, "slot_body")
+		gear.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		gear.tooltip_text = "Equipment"
+		gear.focus_mode = Control.FOCUS_NONE
+		gear.custom_minimum_size = MENU_BUTTON
+		_style_round(gear, false)
+		gear.pressed.connect(menu_pressed.emit.bind("equipment"))
+		_menu_bar.add_child(gear)
+		_menu_bar.move_child(gear, 1)
+		_menu_bar.columns = MENU_BAR.size() + 1
 	_rpg_hints()
 	apply_layout(GameSession.layout)
 
@@ -214,9 +228,9 @@ func _rpg_hints() -> void:
 
 func _rpg_hide_legacy() -> void:
 	if _menu_bar:
-		for entry: Array in MENU_BAR:
-			if not entry[0] in RPG_MENUS:
-				_menu_bar.get_node("Menu_" + str(entry[0])).visible = false
+		for button: Node in _menu_bar.get_children():
+			var screen := str(button.name).trim_prefix("Menu_")
+			(button as Control).visible = screen in RPG_MENUS
 	for button: String in RPG_HIDDEN_TOUCH:
 		_touch.get_node(button).visible = false
 

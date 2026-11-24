@@ -337,7 +337,7 @@ func delete_character(id: String) -> bool:
 
 ## Removes every save under `root` (tests use their own root).
 func delete_all() -> void:
-	for dir: String in [folder().path_join("deleted"), folder()]:
+	for dir: String in [folder().path_join("deleted"), folder(), player_folder()]:
 		if not DirAccess.dir_exists_absolute(dir):
 			continue
 		for file in DirAccess.get_files_at(dir):

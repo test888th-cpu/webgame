@@ -54,4 +54,4 @@ common/physics_ticks_per_second=60
 
 [iron_legacy]
 
-test_vendor_enabled=true
+test_vendor_enabled=false
