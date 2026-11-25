@@ -17,7 +17,6 @@ extends RefCounted
 ## membership and referral gear.
 
 const UNARMED := {"min": 1.0, "max": 2.0, "speed": 2.0}
-const ENRAGE_HASTE_PCT := 0.15
 const SPELL_POWER_PER_INT := 0.5
 
 
@@ -47,6 +46,16 @@ static func player(content: ContentDB, pack: Dictionary, state: Dictionary) -> D
 		"dead": false,
 		"casting": {},
 		"auto_attack": false,
+		"facing": 1.0,
+		"combo_points": 0,
+		"combo_until": 0.0,
+		"overpower_until": -1.0,
+		"queued_on_swing": "",
+		"charge_target": -1,
+		"charge_time": 0.0,
+		"cast_aim": null,
+		"ability_charges": {},
+		"saved_mana": 0.0,
 	}
 	set_talents(content, pack, u, state)
 	recalc(content, pack, u, state)
@@ -87,7 +96,7 @@ static func recalc(content: ContentDB, pack: Dictionary, u: Dictionary, state: D
 		if item.get("stats") is Dictionary:
 			for k: String in RpgCharacter.STAT_KEYS:
 				s[k] = int(s[k]) + int(item["stats"].get(k, 0))
-	var a := _aura_stats(u, s)
+	var a := _aura_stats(pack, u, s)
 	bonus_sp += a["sp"]
 	var m: Dictionary = mods["stats"]
 	for k: String in RpgCharacter.STAT_KEYS:
@@ -111,6 +120,7 @@ static func recalc(content: ContentDB, pack: Dictionary, u: Dictionary, state: D
 		s["int"] = int(RpgTalents.js_round(float(s["int"]) * (1.0 + all + a["int_pct"])))
 	s["agi"] = maxi(0, int(s["agi"]))
 	s["armor"] = int(s["armor"]) + int(s["agi"]) * 2
+	_form_stats(u, s, a, lvl)
 	if float(m["armorFromStrPct"]) != 0.0:
 		s["armor"] += int(RpgTalents.js_round(float(s["str"]) * float(m["armorFromStrPct"])))
 	if float(m["armorPct"]) != 0.0:
@@ -146,6 +156,8 @@ static func recalc(content: ContentDB, pack: Dictionary, u: Dictionary, state: D
 	u["spell_haste"] = haste_frac + a["haste"] + float(mods["global"]["spellHastePct"])
 	u["shared_crit_bonus"] = a["crit"] + float(m["crit"]) + RpgStats.crit_from_rating(crit_rating)
 	u["crit"] = 0.05 + float(s["agi"]) * 0.0005 + float(u["shared_crit_bonus"])
+	if RpgAbilityRules.has_kind(u, "berserker_stance"):
+		u["crit"] = float(u["crit"]) + float(pack["constants"]["berserker_crit_chance"])
 	u["crit_dmg_spell"] = float(mods["global"]["critDmgSpellPct"])
 	u["crit_dmg_phys"] = float(mods["global"]["critDmgPhysPct"])
 	u["crit_dmg_heal"] = float(mods["global"]["critDmgHealPct"])
@@ -153,8 +165,24 @@ static func recalc(content: ContentDB, pack: Dictionary, u: Dictionary, state: D
 	_pools(def, u, s, lvl, mods, a)
 
 
+## recalcPlayerStats' druid forms: Bruin x2.1 armor and 15 + 1.5 Agi attack power;
+## Cat 8 + 2/level attack power and max(2, level/2) Agility; Moonwing x1.5 armor (its
+## Spell Power rides the aura); Sporemender x1.4 armor.
+static func _form_stats(u: Dictionary, s: Dictionary, a: Dictionary, lvl: int) -> void:
+	if RpgAbilityRules.has_kind(u, "form_bear"):
+		s["armor"] = int(RpgTalents.js_round(float(s["armor"]) * 2.1))
+		a["ap"] += 15.0 + RpgTalents.js_round(float(s["agi"]) * 1.5)
+	if RpgAbilityRules.has_kind(u, "form_cat"):
+		a["ap"] += 8.0 + lvl * 2
+		s["agi"] = int(s["agi"]) + maxi(2, int(floorf(lvl / 2.0)))
+	if RpgAbilityRules.has_kind(u, "form_moonkin"):
+		s["armor"] = int(RpgTalents.js_round(float(s["armor"]) * 1.5))
+	if RpgAbilityRules.has_kind(u, "form_sporemender"):
+		s["armor"] = int(RpgTalents.js_round(float(s["armor"]) * RpgDruid.SPOREMENDER_ARMOR_MULT))
+
+
 ## The aura stat kinds recalcPlayerStats reads, in its order; `s` is updated in place.
-static func _aura_stats(u: Dictionary, s: Dictionary) -> Dictionary:
+static func _aura_stats(pack: Dictionary, u: Dictionary, s: Dictionary) -> Dictionary:
 	var out := {
 		"ap": 0.0,
 		"sp": 0.0,
@@ -184,14 +212,14 @@ static func _aura_stats(u: Dictionary, s: Dictionary) -> Dictionary:
 			"buff_allstats":
 				for k: String in ["str", "agi", "sta", "int", "spi"]:
 					s[k] = int(s[k]) + int(v)
-			"buff_spellpower":
+			"buff_spellpower", "form_moonkin":
 				out["sp"] += v
 			"buff_crit", "buff_reckless", "bloodbath":
 				out["crit"] += v
 			"die_by_sword", "buff_dodge":
 				out["dodge"] += v
 			"enrage":
-				out["haste"] += ENRAGE_HASTE_PCT
+				out["haste"] += float(pack["constants"]["enrage_haste_pct"])
 			"buff_maxhp_pct":
 				out["maxhp_pct"] += v
 			"buff_allstats_pct":
@@ -236,6 +264,10 @@ static func _pools(
 		+ int(def["hp_per_level"]) * (lvl - 1)
 		+ RpgStats.hp_from_stamina(s["sta"])
 	)
+	var bear := RpgAbilityRules.has_kind(u, "form_bear")
+	var cat := RpgAbilityRules.has_kind(u, "form_cat")
+	if bear:
+		max_hp = int(RpgTalents.js_round(max_hp * 1.3))
 	if float(mods["stats"]["maxHpPct"]) != 0.0:
 		max_hp = int(RpgTalents.js_round(float(max_hp) * (1.0 + float(mods["stats"]["maxHpPct"]))))
 	if a["maxhp_pct"] != 0.0:
@@ -245,7 +277,25 @@ static func _pools(
 	if u["dead"]:
 		u["hp"] = 0
 	var res_type := str(def["resource"])
-	if res_type == "mana":
+	# Druid forms swap the bar: Bruin rage (starts empty), Cat energy (the parked
+	# pool mid-fight, full out of combat); the mana waits in saved_mana.
+	var form_res := "rage" if bear else ("energy" if cat else "")
+	if u["resource_type"] == "energy" and form_res != "energy" and res_type == "mana":
+		u["parked_energy_deficit"] = 100.0 - clampf(float(u["resource"]), 0.0, 100.0)
+	if form_res != "":
+		if u["resource_type"] == "mana":
+			u["saved_mana"] = float(u["resource"])
+		if u["resource_type"] != form_res:
+			var energy := (
+				100.0
+				- (float(u.get("parked_energy_deficit", 0.0)) if u.get("in_combat", false) else 0.0)
+			)
+			u["parked_energy_deficit"] = 0.0
+			u["resource"] = energy if form_res == "energy" else 0.0
+		u["resource_type"] = form_res
+		u["max_resource"] = 100
+	elif res_type == "mana":
+		var came_from_form: bool = u["resource_type"] != "mana" and u["resource_type"] != ""
 		var mana_frac := (
 			float(u["resource"]) / float(u["max_resource"]) if int(u["max_resource"]) > 0 else 1.0
 		)
@@ -262,7 +312,11 @@ static func _pools(
 				)
 			)
 		)
-		u["resource"] = RpgTalents.js_round(float(u["max_resource"]) * mana_frac)
+		u["resource"] = (
+			minf(float(u.get("saved_mana", 0.0)), float(u["max_resource"]))
+			if came_from_form
+			else RpgTalents.js_round(float(u["max_resource"]) * mana_frac)
+		)
 	else:
 		u["resource_type"] = res_type
 		u["max_resource"] = 100
@@ -302,4 +356,6 @@ static func mob(pack: Dictionary, monster_id: String, level: int, x: float) -> D
 		"dodge": 0.05,
 		"crit": 0.05,
 		"hit_bonus": 0.0,
+		"facing": -1.0,
+		"casting": {},
 	}

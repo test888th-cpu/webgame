@@ -46,6 +46,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build_reference_registries as builder  # noqa: E402
 import reference_content as rc  # noqa: E402
 import ts_eval  # noqa: E402
+import skills_port  # noqa: E402
 
 ROOT = builder.ROOT
 OUT = ROOT / "client" / "data" / "rpg" / "runtime_pack.json"
@@ -116,23 +117,56 @@ CONSTANT_SOURCES = {
     "trash_respawn_seconds": ("src/sim/respawn_policy.ts", "TRASH_RESPAWN_SECONDS"),
     "run_speed": ("src/sim/types.ts", "RUN_SPEED"),
     "min_gcd": ("src/sim/types.ts", "MIN_GCD"),
+    # Class mechanics (docs/SKILLS_PORT.md).
+    "charge_max_duration": ("src/sim/combat/effect_dispatch.ts", "CHARGE_MAX_DURATION"),
+    "charge_speed_mult": ("src/sim/combat/charge_route.ts", "CHARGE_SPEED_MULT"),
+    "fear_break_chance_scale": ("src/sim/combat/effect_dispatch.ts", "FEAR_BREAK_CHANCE_SCALE"),
+    "enrage_dmg_done": ("src/sim/types.ts", "ENRAGE_DMG_DONE"),
+    "battle_trance_duration": ("src/sim/types.ts", "BATTLE_TRANCE_DURATION"),
+    "sudden_death_duration": ("src/sim/combat/auto_attack.ts", "SUDDEN_DEATH_DURATION"),
+    "stance_mastery_battle_crit_dmg": ("src/sim/types.ts", "STANCE_MASTERY_BATTLE_CRIT_DMG"),
+    "stance_mastery_berserker_haste": ("src/sim/types.ts", "STANCE_MASTERY_BERSERKER_HASTE"),
+    "stance_mastery_guarded_hp_pct": ("src/sim/types.ts", "STANCE_MASTERY_GUARDED_HP_PCT"),
+    "stance_mastery_guarded_cut": ("src/sim/types.ts", "STANCE_MASTERY_GUARDED_CUT"),
+    "enrage_haste_pct": ("src/sim/types.ts", "ENRAGE_HASTE_PCT"),
+    "berserker_crit_chance": ("src/sim/types.ts", "BERSERKER_CRIT_CHANCE"),
+    "berserker_crit_damage": ("src/sim/types.ts", "BERSERKER_CRIT_DAMAGE"),
+    "second_wind_threshold": ("src/sim/combat/auras.ts", "SECOND_WIND_THRESHOLD"),
+    "victory_rush_window": ("src/sim/combat/damage.ts", "VICTORY_RUSH_WINDOW"),
+    "pursuit_speed_duration": ("src/sim/combat/damage.ts", "PURSUIT_SPEED_DURATION"),
+    "bloodbath_duration": ("src/sim/combat/damage.ts", "BLOODBATH_DURATION"),
+    "bloodbath_max_stacks": ("src/sim/combat/damage.ts", "BLOODBATH_MAX_STACKS"),
+    "colossal_might_cap_seconds": ("src/sim/combat/casting_lifecycle.ts", "COLOSSAL_MIGHT_CAP_SECONDS"),
+    "colossal_might_cap_window": ("src/sim/combat/casting_lifecycle.ts", "COLOSSAL_MIGHT_CAP_WINDOW"),
+    "aoe_echo_radius": ("src/sim/combat/area_echo.ts", "AOE_ECHO_RADIUS"),
+    "aoe_echo_mult": ("src/sim/combat/area_echo.ts", "AOE_ECHO_MULT"),
+    "aoe_echo_max_targets": ("src/sim/combat/area_echo.ts", "AOE_ECHO_MAX_TARGETS"),
+    "sweep_mult": ("src/sim/combat/area_echo.ts", "SWEEP_MULT"),
+    "combo_point_duration": ("src/sim/sim.ts", "COMBO_POINT_DURATION"),
+    "warlock_fear_damage_budget_pct": ("src/sim/combat/warlock_fear.ts", "WARLOCK_FEAR_DAMAGE_BUDGET_PCT"),
+    "vespers_dot_damage_mult": ("src/sim/combat/priest/vespers.ts", "VESPERS_DOT_DAMAGE_MULT"),
+    "enrage_move_mult": ("src/sim/types.ts", "ENRAGE_MOVE_MULT"),
+    "cat_form_move_mult": ("src/sim/types.ts", "CAT_FORM_MOVE_MULT"),
+    "sporemender_move_speed_mult": ("src/sim/combat/druid_sporemender.ts", "SPOREMENDER_MOVE_SPEED_MULT"),
+    "sunder_armor_pct_per_stack": ("src/sim/types.ts", "SUNDER_ARMOR_PCT_PER_STACK"),
+    "faerie_fire_armor_pct": ("src/sim/types.ts", "FAERIE_FIRE_ARMOR_PCT"),
+    "flee_speed_mult": ("src/sim/flee_speed.ts", "FLEE_SPEED_MULT"),
+    "flee_max_speed": ("src/sim/flee_speed.ts", "FLEE_MAX_SPEED"),
+    "cat_form_swing_speed": ("src/sim/combat/form_swing.ts", "CAT_FORM_SWING_SPEED"),
+    "cat_form_damage_mult": ("src/sim/combat/form_swing.ts", "CAT_FORM_DAMAGE_MULT"),
+    "bear_form_swing_mult": ("src/sim/combat/form_swing.ts", "BEAR_FORM_SWING_MULT"),
+    "bear_form_auto_damage_mult": ("src/sim/combat/form_swing.ts", "BEAR_FORM_AUTO_DAMAGE_MULT"),
+    "bear_form_auto_rage_mult": ("src/sim/combat/form_swing.ts", "BEAR_FORM_AUTO_RAGE_MULT"),
+    "revenge_free_chance": ("src/sim/types.ts", "REVENGE_FREE_CHANCE"),
+    "revenge_free_duration": ("src/sim/types.ts", "REVENGE_FREE_DURATION"),
+    "sated_duration": ("src/sim/combat/haste_burst.ts", "SATED_DURATION"),
+    "overload_cost_mult": ("src/sim/combat/casting_lifecycle.ts", "OVERLOAD_COST_MULT"),
 }
 
-# The effect kinds this runtime executes, each a port of its effect_dispatch.ts arm's
-# general path (client/sim/RpgEffects.gd).
-IMPLEMENTED_EFFECTS = {
-    "weaponStrike", "directDamage", "heal", "hot", "dot", "absorb", "selfBuff", "buffTarget",
-    "gainResource", "stun", "incapacitate", "root", "slow", "aoeDamage",
-}
-# Aura kinds whose every consumer the runtime implements (recalc, damage, regen, AI).
-IMPLEMENTED_AURA_KINDS = {
-    "dot", "hot", "absorb", "stun", "incapacitate", "root", "slow",
-    "buff_ap", "debuff_ap", "buff_armor", "buff_int", "buff_str", "buff_agi", "buff_spi", "buff_sta",
-    "buff_allstats", "buff_spellpower", "buff_crit", "buff_dodge", "buff_maxhp_pct",
-    "buff_allstats_pct", "buff_stats_pct", "buff_int_pct", "buff_sta_pct", "buff_armor_pct",
-    "buff_ap_pct", "buff_dmg_done", "buff_dr", "buff_dr_phys", "die_by_sword", "shield_wall",
-    "buff_spelldmg", "buff_heal_done", "form_shadow", "battle_stance",
-}
+# The effect arms, aura kinds and definition fields this runtime executes, and the
+# reference code it has ported, are the skills port's register (skills_port.py).
+IMPLEMENTED_EFFECTS = set(skills_port.EFFECT_FIELDS)
+IMPLEMENTED_AURA_KINDS = skills_port.AURA_KINDS
 # Reference files whose code changes how a solo fight plays. An ability whose id appears
 # in one of them has behaviour beyond its effect arm's general path. Files outside these
 # (PvP diminishing returns, party threat, Rift, raids, social, tutorials, dev tools,
@@ -142,21 +176,8 @@ BEHAVIOUR_PREFIXES = (
     "src/sim/paladin_devotion.ts", "src/sim/effective_stats.ts", "src/sim/player_motion.ts",
     "src/sim/major_cooldowns.ts", "src/sim/aura_classify.ts", "src/sim/mob/",
 )
-# Mentions audited by hand as not changing the named ability's own behaviour.
-AUDITED_MENTIONS = {
-    ("hammer_of_justice", "src/sim/combat/effect_dispatch.ts"):
-        "effect_dispatch.ts:2388 stun arm: a spellfx cue only",
-    ("entangling_roots", "src/sim/combat/effect_dispatch.ts"):
-        "effect_dispatch.ts:2338 root arm: a spellfx cue only",
-    ("furious_mending", "src/sim/combat/effect_dispatch.ts"):
-        "effect_dispatch.ts:4146 another ability's arm reads this aura; its own buff is generic",
-}
-ALLOWED_DEF_KEYS = {
-    "id", "name", "class", "learnLevel", "cost", "castTime", "cooldown", "range", "school",
-    "requiresTarget", "effects", "ranks", "description", "threat", "specs", "excludeSpecs",
-    "excludeSpecsAtLevel", "specNotes", "offGcd", "projectile", "targetType", "castFx",
-    "projectileFx", "tooltipOmitEffectLines", "scalesWith", "minRange", "exclusiveGroup",
-}
+AUDITED_MENTIONS = skills_port.NOT_BEHAVIOUR
+ALLOWED_DEF_KEYS = skills_port.DEF_KEYS
 
 
 def engine_references(checkout: Path, ids: set[str]) -> dict[str, list[str]]:
@@ -216,30 +237,60 @@ def aura_kinds(d: dict) -> set[str]:
     return out
 
 
+def effect_field_gaps(d: dict) -> list[str]:
+    """Effect fields no ported arm reads, as "type.field"."""
+    out = set()
+    for effs in [d.get("effects") or []] + [r.get("effects") or [] for r in d.get("ranks") or []]:
+        for e in effs:
+            handled = skills_port.EFFECT_FIELDS.get(e["type"])
+            if handled is None:
+                continue
+            out |= {f"{e['type']}.{k}" for k in set(e) - {"type"} - handled}
+    return sorted(out)
+
+
 def classify(aid: str, d: dict, reach: list[str], refs: list[str]) -> tuple[str, str | None]:
     """The runtime status of one ability, with its evidence."""
     if d.get("hiddenFromPlayer"):
         return "NOT_APPLICABLE_TO_PLAYER", "hiddenFromPlayer: retired; abilitiesKnownAt never lists it"
     if not reach:
         return "UNKNOWN", "no acquisition path in class kits, spec signatures, talent grants or action replacements"
-    bespoke = [f for f in refs if (aid, f) not in AUDITED_MENTIONS]
+    bespoke = [f for f in refs if (aid, f) not in AUDITED_MENTIONS and (aid, f) not in skills_port.PORTED]
     if d.get("passive"):
-        return "BLOCKED", "passive: its behaviour lives in engine code " + (", ".join(bespoke) or "(none named)")
+        if aid in skills_port.NEEDS_GROUP:
+            # A passive whose only rule acts between group members: not claimed.
+            return "NEEDS_GROUP", skills_port.NEEDS_GROUP[aid]
+        if bespoke:
+            return "BLOCKED", "passive: its behaviour lives in engine code not ported: " + ", ".join(bespoke)
+        if refs and all((aid, f) in skills_port.PORTED or (aid, f) in AUDITED_MENTIONS for f in refs) \
+                and any((aid, f) in skills_port.PORTED for f in refs):
+            return "IMPLEMENTED_PASSIVE", None
+        if aid in skills_port.PASSIVE_EVIDENCE:
+            return "IMPLEMENTED_PASSIVE", None
+        return "BLOCKED", "passive: its behaviour lives in engine code (none named)"
     if d.get("requiresQuest"):
         return "CONDITION_LOCKED", f"requires quest {d['requiresQuest']} (no reference quest runs in the trial)"
     if bespoke:
         return "BLOCKED", "bespoke engine code not ported: " + ", ".join(bespoke)
-    if not effect_kinds(d):
+    if not effect_kinds(d) and aid not in skills_port.EFFECTLESS_PORTED:
         return "BLOCKED", "no effects: its behaviour is engine code keyed elsewhere"
     missing = sorted(effect_kinds(d) - IMPLEMENTED_EFFECTS)
     if missing:
         return "BLOCKED", "effect handler not implemented: " + ", ".join(missing)
+    gaps = effect_field_gaps(d)
+    if gaps:
+        return "BLOCKED", "effect fields not implemented: " + ", ".join(gaps)
     extra = sorted(set(d) - ALLOWED_DEF_KEYS - {"passive", "hiddenFromPlayer"})
     if extra:
         return "BLOCKED", "ability fields not implemented: " + ", ".join(extra)
     kinds = sorted(aura_kinds(d) - IMPLEMENTED_AURA_KINDS)
     if kinds:
         return "BLOCKED", "aura kind consumers not implemented: " + ", ".join(kinds)
+    need = d.get("requiresAuraKind")
+    if need and need not in skills_port.REQUIRED_AURA_PRODUCERS:
+        return "BLOCKED", f"requires aura {need}, whose producer is not ported"
+    if aid in skills_port.NEEDS_GROUP:
+        return "NEEDS_GROUP", skills_port.NEEDS_GROUP[aid]
     if any("signature" in r for r in reach) and not any("class kit" in r for r in reach):
         return "IMPLEMENTED_SPECIALIZATION", None
     if any("talent" in r for r in reach) and not any("class kit" in r for r in reach):
@@ -317,6 +368,8 @@ def build(checkout: Path) -> dict[Path, str]:
             "audited_mentions": [AUDITED_MENTIONS[(aid, f)] for f in behaviour_refs.get(aid, [])
                                  if (aid, f) in AUDITED_MENTIONS],
             "engine_references": behaviour_refs.get(aid, []),
+            "ported_mentions": [skills_port.PORTED[(aid, f)] for f in behaviour_refs.get(aid, [])
+                                if (aid, f) in skills_port.PORTED],
         }
     status_counts = dict(sorted(Counter(v["status"] for v in ability_index.values()).items()))
 
@@ -444,6 +497,12 @@ def build(checkout: Path) -> dict[Path, str]:
     constants["action_locking_form_kinds"] = [
         k for k in constants["form_aura_kinds"]
         if ts_eval.to_json(ref.call("src/sim/combat/forms.ts", "isActionLockingFormAuraKind", k))]
+    constants["colossal_might_cooldowns"] = sorted(
+        const("src/sim/combat/casting_lifecycle.ts", "COLOSSAL_MIGHT_COOLDOWNS")["$set"])
+    constants["debuff_aura_kinds"] = sorted(const("src/sim/aura_classify.ts", "DEBUFF_AURA_KINDS")["$set"])
+    constants["melee_classes"] = sorted(const("src/sim/types.ts", "MELEE_CLASSES")["$set"])
+    constants["source_independent_group_buffs"] = sorted(
+        const("src/sim/combat/aura_stacking.ts", "SOURCE_INDEPENDENT_GROUP_BUFF_AURA_IDS")["$set"])
     constants["discipline_wand_offense_mult"] = ts_eval.to_json(
         ref.call("src/sim/spec_output_tuning.ts", "disciplineWandOffenseMultiplier"))
     class_info = {}

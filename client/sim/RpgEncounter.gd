@@ -28,6 +28,8 @@ var dt := 0.05
 var time := 0.0
 var tick_count := 0
 var projectiles: Array = []
+## Ground areas in play (RpgGround).
+var ground: Array = []
 var events: Array[Dictionary] = []
 var auto_mode := true
 ## "fighting", "victory" or "defeat".
@@ -43,6 +45,8 @@ var bounds := Vector2(-INF, INF)
 ## resolveRespawnSeconds: the template's own respawnSeconds, else the world's
 ## TRASH_RESPAWN_SECONDS), and the street never ends in "victory".
 var respawn := false
+## The damage the player's last melee swing dealt (meleeSwing's onDealt).
+var last_melee_dealt := 0
 var _known: Array = []
 
 
@@ -174,11 +178,12 @@ func _refresh_known() -> void:
 	_known = RpgTalents.known(pack, str(state["class_id"]), int(state["level"]), player["mods"])
 
 
-## The known-ability entry for an id (abilitiesKnownAt), or {}.
+## The resolved ability as castAbility reads it (ctx.resolvedAbility): the known
+## entry with the cost tail (applyAbilityCostTail) and the class swaps applied.
 func known_entry(ability_id: String) -> Dictionary:
 	for k: Dictionary in _known:
 		if k["id"] == ability_id:
-			return k
+			return RpgAbilityCost.resolve(self, k)
 	return {}
 
 
@@ -194,7 +199,10 @@ func recalc_player() -> void:
 ## a menu): the talent modifiers, the recalcPlayerStats sheet and the known
 ## abilities follow at once, so the screens and the next swing read one unit.
 func character_changed() -> void:
+	var was := str(player.get("spec_id", ""))
 	RpgUnit.set_talents(content, pack, player, state)
+	if str(player["spec_id"]) != was and player["class_id"] == "rogue":
+		RpgRogue.clean_engine_state(self, player)
 	recalc_player()
 	_refresh_known()
 
@@ -257,7 +265,7 @@ func _start_auto_attack() -> String:
 	if mob["dead"]:
 		return SILENT + "target dead"
 	player["auto_attack"] = true
-	var ranged := _ranged_profile()
+	var ranged := RpgWorld.ranged_profile(self)
 	var d := distance()
 	var ranged_fires: bool = (
 		not ranged.is_empty()
@@ -267,11 +275,6 @@ func _start_auto_attack() -> String:
 	if not ranged_fires and d <= player_attack_range(0.0) and player["casting"].is_empty():
 		mob["engaged"] = true
 	return ""
-
-
-func _ranged_profile() -> Dictionary:
-	var r: Variant = pack["classes"][str(state["class_id"])]["ranged"]
-	return r if r is Dictionary else {}
 
 
 # -- the tick ----------------------------------------------------------------------
@@ -285,14 +288,17 @@ func step() -> void:
 	tick_count += 1
 	if auto_mode:
 		_auto()
+	RpgGround.tick(self)
 	_advance_projectiles()
 	if not player["dead"]:
-		_move_player()
+		RpgWarrior.ensure_stance(self, player)
+		RpgMotion.update_player(self)
 		RpgCast.update_casting(self)
-		_player_auto_attack()
+		RpgAutoAttack.update(self)
 		if tick_count % int(pack["constants"]["regen_every_ticks"]) == 0:
 			_regen()
 	_update_timers()
+	RpgRogue.combo_expiry(self, player)
 	RpgCombat.update_auras(self, player)
 	var engaged := false
 	if respawn:
@@ -304,15 +310,6 @@ func step() -> void:
 			RpgCombat.update_auras(self, m)
 			engaged = engaged or bool(m["engaged"])
 	player["in_combat"] = engaged or float(player["combat_timer"]) < 5.0
-
-
-## The player walks the street axis at RUN_SPEED (types.ts, yards per second) while a
-## direction is held, within the street's bounds; not while stunned or rooted.
-func _move_player() -> void:
-	if move_dir == 0 or RpgCombat.is_stunned(player) or RpgCombat.is_rooted(player):
-		return
-	var speed := float(pack["constants"]["run_speed"]) * RpgCombat.move_speed_mult(player)
-	player["x"] = clampf(float(player["x"]) + move_dir * speed * dt, bounds.x, bounds.y)
 
 
 ## Auto-combat: keep the auto attack on and use every executable ability that is
@@ -343,7 +340,7 @@ func _auto() -> void:
 ## same commands a player gives (docs/ADAPTATION_REGISTER.md PROD-AUTO).
 func _auto_walk() -> void:
 	var reach := player_attack_range(0.0)
-	var ranged := _ranged_profile()
+	var ranged := RpgWorld.ranged_profile(self)
 	if not ranged.is_empty():
 		reach = float(ranged["maxRange"])
 	var gap := float(mob["x"]) - float(player["x"])
@@ -351,8 +348,14 @@ func _auto_walk() -> void:
 	command({"op": "move", "dir": dir})
 
 
-## Auto mode does not recast a buff it already holds or a heal at full health.
+## Auto mode does not recast a buff it already holds or a heal at full health, and
+## never switches a stance, form or stealth (a toggle the player chooses).
 func _auto_wants(k: Dictionary) -> bool:
+	var def: Dictionary = k["def"]
+	if RpgAbilityRules.is_toggle_buff(self, def) or def.get("exclusiveGroup") != null:
+		return false
+	if def.get("onNextSwing", false) and str(player.get("queued_on_swing", "")) == k["id"]:
+		return false
 	for eff: Dictionary in k["effects"]:
 		match str(eff["type"]):
 			"selfBuff", "buffTarget", "absorb", "hot":
@@ -380,11 +383,25 @@ func _update_timers() -> void:
 			player["cooldowns"].erase(id)
 		else:
 			player["cooldowns"][id] = v
+	RpgAbilityRules.tick_charges(player, dt)
 
 
 ## updateRegen (every 2 s): mana by Spirit under the five-second rule, energy +20,
 ## focus +10, rage -2 out of combat; health Sta x 0.3 + 2 out of combat.
 func _regen() -> void:
+	# Lifesap (Innervate) restores the live bar unless hard control stills it; a
+	# druid out of Cat Form regains the parked energy at the base tick.
+	if not RpgCombat.is_stunned(player):
+		for a: Dictionary in player["auras"]:
+			if a["kind"] == "resource_sap":
+				player["resource"] = minf(
+					float(player["max_resource"]),
+					float(player["resource"]) + RpgTalents.js_round(float(a["value"]))
+				)
+	if player["resource_type"] != "energy" and float(player.get("parked_energy_deficit", 0.0)) > 0:
+		player["parked_energy_deficit"] = maxf(
+			0.0, float(player["parked_energy_deficit"]) - RpgResources.ENERGY_PER_TICK
+		)
 	match str(player["resource_type"]):
 		"mana":
 			var regen := RpgResources.mana_regen_per_tick(
@@ -397,9 +414,13 @@ func _regen() -> void:
 				float(player["max_resource"]), float(player["resource"]) + regen
 			)
 		"energy":
+			var energy := float(RpgResources.ENERGY_PER_TICK)
+			for a: Dictionary in player["auras"]:
+				if a["kind"] == "buff_energyregen":
+					energy *= 1.0 + float(a["value"])
 			player["resource"] = minf(
 				float(player["max_resource"]),
-				float(player["resource"]) + RpgResources.ENERGY_PER_TICK
+				float(player["resource"]) + RpgTalents.js_round(energy)
 			)
 		"focus":
 			player["resource"] = minf(
@@ -414,201 +435,42 @@ func _regen() -> void:
 	if not player["in_combat"] and int(player["hp"]) < int(player["max_hp"]):
 		var heal := RpgTalents.js_round(float(player["stats"]["sta"]) * 0.3 + 2.0)
 		player["hp"] = mini(int(player["max_hp"]), int(player["hp"]) + int(heal))
-
-
-# -- the player's auto attack (combat/auto_attack.ts tryPlayerSwing) -----------------
-
-
-func _player_auto_attack() -> void:
-	player["swing_timer"] = maxf(0.0, float(player["swing_timer"]) - dt)
-	player["offhand_timer"] = maxf(0.0, float(player["offhand_timer"]) - dt)
-	if not _may_swing():
-		return
-	var d := distance()
-	var ranged := _ranged_profile()
-	if (
-		not ranged.is_empty()
-		and d <= float(ranged["maxRange"])
-		and d >= (0.0 if ranged.get("wand", false) else float(ranged.get("minRange", 0)))
-	):
-		if float(player["swing_timer"]) <= 0.0:
-			var shot := ranged.duplicate()
-			if not ranged.get("wand", false):
-				shot["min"] = player["weapon"]["min"]
-				shot["max"] = player["weapon"]["max"]
-				shot["speed"] = player["weapon"]["speed"]
-			_ranged_swing(shot)
-			player["swing_timer"] = float(shot["speed"]) * _swing_interval_mult(player, "ranged")
-	elif d <= player_attack_range(0.0):
-		_melee_hands()
-
-
-## tryPlayerSwing's gates: auto attack on, not casting, a live target, a timer done,
-## not stunned.
-func _may_swing() -> bool:
-	if not player["auto_attack"] or not player["casting"].is_empty():
-		return false
-	if mob["dead"]:
-		player["auto_attack"] = false
-		return false
-	var dual: bool = player["dual_wielding"]
-	if float(player["swing_timer"]) > 0.0 and (not dual or float(player["offhand_timer"]) > 0.0):
-		return false
-	return not RpgCombat.is_stunned(player)
-
-
-func _melee_hands() -> void:
-	var dual: bool = player["dual_wielding"]
-	var penalty: bool = (
-		dual and not (player["class_id"] == "shaman" and player["spec_id"] == "enhancement")
-	)
-	if float(player["swing_timer"]) <= 0.0:
-		var landed := player_melee(mob, {"hand": "mainhand", "white_dw_penalty": penalty}, "")
-		_warrior_procs(landed)
-		player["swing_timer"] = (
-			float(player["weapon"]["speed"]) * _swing_interval_mult(player, "melee")
+	var second := float(player["mods"]["global"]["secondWindPctPerSec"])
+	var below := float(player["max_hp"]) * float(pack["constants"]["second_wind_threshold"])
+	if second > 0.0 and int(player["hp"]) > 0 and float(player["hp"]) < below:
+		var mend := mini(
+			int(RpgTalents.js_round(float(player["max_hp"]) * second * 2.0)),
+			int(player["max_hp"]) - int(player["hp"])
 		)
-	if dual and float(player["offhand_timer"]) <= 0.0 and not mob["dead"]:
-		var off: Dictionary = player["offhand_weapon"]
-		var landed := player_melee(
-			mob, {"hand": "offhand", "weapon": off, "white_dw_penalty": penalty}, ""
-		)
-		_warrior_procs(landed)
-		player["offhand_timer"] = float(off["speed"]) * _swing_interval_mult(player, "melee")
+		if mend > 0:
+			player["hp"] = int(player["hp"]) + mend
+			log_event({"type": "heal", "target": player["id"], "amount": mend})
 
 
-## swingIntervalMult.
-func _swing_interval_mult(u: Dictionary, channel: String) -> float:
-	var slow := 1.0
-	var haste := float(u.get("ranged_haste" if channel == "ranged" else "melee_haste", 0.0))
-	for a: Dictionary in u["auras"]:
-		if a["kind"] in ["attackspeed", "sanguine"]:
-			slow *= float(a["value"])
-		if a["kind"] == "buff_haste":
-			haste += float(a["value"]) - 1.0
-	return slow / (1.0 + maxf(0.0, haste))
+# -- the player's swings (RpgAutoAttack) ------------------------------------------------
 
 
-## One player melee swing (meleeSwing through RpgSwing, then dealDamage). Returns
-## whether it connected.
+## One player melee swing (meleeSwing). Returns whether it connected;
+## last_melee_dealt holds what it dealt.
 func player_melee(target: Dictionary, opts: Dictionary, ability_name: String) -> bool:
-	var attacker := _swing_view(player)
-	var hit := RpgSwing.player_swing(attacker, _swing_view(target), rng, opts)
-	var connected: bool = hit["result"] == "hit" or hit["result"] == "block"
-	if not connected:
-		log_event(
-			{
-				"type": "damage",
-				"source": player["id"],
-				"target": target["id"],
-				"amount": 0,
-				"kind": hit["result"],
-				"ability": ability_name
-			}
-		)
-		enter_combat(player, target)
-		return false
-	RpgCombat.deal_damage(
-		self,
-		player,
-		target,
-		int(hit["amount"]),
-		hit["crit"],
-		"physical",
-		ability_name,
-		hit["result"]
-	)
-	return true
-
-
-## The fields RpgSwing reads, in its names.
-func _swing_view(u: Dictionary) -> Dictionary:
-	return {
-		"kind": u["kind"],
-		"class_id": u.get("class_id", ""),
-		"spec_id": u.get("spec_id", ""),
-		"level": u["level"],
-		"weapon": u.get("weapon", RpgUnit.UNARMED),
-		"attack_power": u.get("attack_power", 0),
-		"crit": u.get("crit", 0.05),
-		"dodge": u.get("dodge", 0.05),
-		"hit_bonus": u.get("hit_bonus", 0.0),
-		"armor": u.get("armor", 0),
-		"str": u.get("str", 0),
-		"block_chance": u.get("block_chance", 0.0),
-		"block_value": u.get("block_value", 0),
-	}
-
-
-## maybeProcBattleTrance and maybeProcSuddenDeath draw on every connected warrior
-## swing; their auras feed abilities this runtime does not run.
-func _warrior_procs(connected: bool) -> void:
-	if not connected or player["class_id"] != "warrior":
-		return
-	rng.chance(float(RpgPack.swing(pack)["battle_trance_chance"]))
-	if player["spec_id"] == "arms" and not known_entry("sudden_death").is_empty():
-		rng.chance(float(RpgPack.swing(pack)["sudden_death_chance"]))
-
-
-## rangedSwing: a projectile; on arrival one miss draw (swingMissChance), the weapon
-## roll (x0.6 for a bow, as is for a wand) + RAP / 14 x speed, discipline's wand bonus,
-## one crit draw, armor for a bow only.
-func _ranged_swing(shot: Dictionary) -> void:
-	var wand: bool = shot.get("wand", false)
-	var school := str(shot.get("school", "arcane")) if wand else "physical"
-	var label := "Wand" if wand else "Auto Shot"
-	schedule_projectile(
-		func(atk: Dictionary, tgt: Dictionary) -> void:
-			var miss := RpgHitTable.swing_miss_chance(
-				int(atk["level"]), int(tgt["level"]), false, float(atk["hit_bonus"])
-			)
-			if rng.chance(miss):
-				log_event(
-					{
-						"type": "damage",
-						"source": atk["id"],
-						"target": tgt["id"],
-						"amount": 0,
-						"kind": "miss",
-						"ability": label
-					}
-				)
-				enter_combat(atk, tgt)
-				return
-			var roll := rng.range_f(float(shot["min"]), float(shot["max"]))
-			var dmg := (
-				(roll if wand else roll * float(pack["constants"]["ranged_weapon_coeff"]))
-				+ float(atk["ranged_power"]) / 14.0 * float(shot["speed"])
-			)
-			if wand and atk["class_id"] == "priest" and atk["spec_id"] == "discipline":
-				dmg *= float(pack["constants"]["discipline_wand_offense_mult"])
-			var crit_chance := maxf(
-				0.005, float(atk["crit"]) - maxi(0, int(tgt["level"]) - int(atk["level"])) * 0.002
-			)
-			var crit := rng.chance(crit_chance)
-			if crit:
-				dmg *= 2.0 + float(atk["crit_dmg_phys"])
-			if not wand:
-				dmg *= 1.0 - RpgHitTable.armor_reduction(float(tgt["armor"]), int(atk["level"]))
-			RpgCombat.deal_damage(
-				self, atk, tgt, maxi(1, int(floorf(dmg + 0.5))), crit, school, label
-			)
-	)
+	return RpgAutoAttack.melee(self, target, opts, ability_name)
 
 
 # -- projectiles (projectile_travel.ts) ----------------------------------------------
 
 
 ## A bolt from the player at the current target.
-func schedule_projectile(resolve: Callable) -> void:
-	if mob.is_empty():
+## `to` and `from_x` aim a bolt at another target from another point (a bounce).
+func schedule_projectile(resolve: Callable, to := {}, from_x := NAN) -> void:
+	var aim: Dictionary = mob if to.is_empty() else to
+	if aim.is_empty():
 		return
 	(
 		projectiles
 		. append(
 			{
-				"x": float(player["x"]),
-				"target": int(mob["id"]),
+				"x": float(player["x"]) if is_nan(from_x) else from_x,
+				"target": int(aim["id"]),
 				"ttl": float(pack["constants"]["projectile_max_flight"]),
 				"resolve": resolve,
 			}
@@ -655,7 +517,17 @@ func _update_mob(m: Dictionary) -> void:
 	if player["dead"]:
 		return
 	if RpgCombat.is_stunned(m):
+		RpgMotion.controlled_mob(self, m)
 		return
+	if (
+		m["engaged"]
+		and (RpgRogue.has_escape_stealth(player) or RpgHunter.is_feigning_death(player))
+	):
+		m["engaged"] = false
+	if m["engaged"]:
+		var to_player := float(player["x"]) - float(m["x"])
+		if absf(to_player) >= RpgAbilityRules.FACING_HOLD_DIST:
+			m["facing"] = signf(to_player)
 	if not m["engaged"]:
 		_idle_aggro_scan(m)
 		return
@@ -683,6 +555,8 @@ func _idle_aggro_scan(m: Dictionary) -> void:
 	var gap := int(player["level"]) - int(m["level"])
 	if gap >= int(pack["constants"]["trivial_level_gap"]):
 		return
+	if RpgHunter.is_feigning_death(player) or RpgRogue.has_escape_stealth(player):
+		return
 	var radius := maxf(
 		4.0,
 		minf(
@@ -690,6 +564,8 @@ func _idle_aggro_scan(m: Dictionary) -> void:
 			float(m["aggro_radius"]) + (int(m["level"]) - int(player["level"])) * 1.5
 		)
 	)
+	if RpgStealth.is_stealthed(player):
+		radius *= RpgRogue.detection_mult(int(m["level"]), int(player["level"]))
 	if _distance_to(m) < radius:
 		m["engaged"] = true
 
@@ -707,16 +583,21 @@ func _mob_try_swing(m: Dictionary) -> void:
 	if _distance_to(m) > reach or float(m["swing_timer"]) > 0.0:
 		return
 	var hit := RpgSwing.mob_swing(
-		_swing_view(m), _swing_view(player), rng, float(RpgPack.swing(pack)["mob_crit_chance"])
+		RpgWorld.swing_view(self, m),
+		RpgWorld.swing_view(self, player),
+		rng,
+		float(RpgPack.swing(pack)["mob_crit_chance"]),
+		_committed_tank()
 	)
-	m["swing_timer"] = float(m["weapon"]["speed"]) * _swing_interval_mult(m, "melee")
+	m["swing_timer"] = float(m["weapon"]["speed"]) * RpgAutoAttack.swing_interval_mult(m, "melee")
 	if hit["result"] == "hit" or hit["result"] == "block":
-		var was_casting: bool = not player["casting"].is_empty()
+		if hit["result"] == "block":
+			RpgPaladin.on_block(self, player)
 		RpgCombat.deal_damage(
 			self, m, player, int(hit["amount"]), hit["crit"], "physical", "", hit["result"]
 		)
-		if was_casting and not player["dead"]:
-			RpgCast.pushback(player)
+		if not m["dead"]:
+			RpgThorns.react(self, player, m)
 	else:
 		log_event(
 			{
@@ -727,6 +608,52 @@ func _mob_try_swing(m: Dictionary) -> void:
 				"kind": hit["result"]
 			}
 		)
+		if hit["result"] == "dodge" or hit["result"] == "parry":
+			_try_revenge_free()
+
+
+## tryRevengeFree: a dodge or parry may make the next Revenge free (one draw, only
+## for a player who knows Revenge).
+func _try_revenge_free() -> void:
+	if known_entry("revenge").is_empty():
+		return
+	if not rng.chance(float(pack["constants"]["revenge_free_chance"])):
+		return
+	var dur := float(pack["constants"]["revenge_free_duration"])
+	(
+		RpgCombat
+		. apply_aura(
+			self,
+			player,
+			{
+				"id": "revenge_free",
+				"kind": "revenge_free",
+				"remaining": dur,
+				"duration": dur,
+				"value": 0.0,
+				"source_id": player["id"],
+				"school": "physical",
+			}
+		)
+	)
+
+
+## isCommittedTank: a protection warrior or paladin, a feral druid in Bruin Form, an
+## enhancement shaman wearing Rockbiter.
+func _committed_tank() -> bool:
+	var cls := str(player["class_id"])
+	var spec := str(player["spec_id"])
+	if spec == "":
+		return false
+	if (cls == "warrior" and spec == "prot") or (cls == "paladin" and spec == "protection"):
+		return true
+	if cls == "druid" and spec == "feral":
+		return RpgAbilityRules.has_kind(player, "form_bear")
+	if cls == "shaman" and spec == "enhancement":
+		for a: Dictionary in player["auras"]:
+			if a["id"] == "rockbiter_weapon":
+				return true
+	return false
 
 
 # -- combat state, rage, death -------------------------------------------------------
@@ -755,13 +682,23 @@ func rage_aura_mult(u: Dictionary) -> float:
 ## dealDamage's rage from dealing: white physical damage only (rageFromDealing x
 ## autoRagePct x rageGenAuraMult for a warrior).
 func rage_from_dealing(
-	source: Dictionary, amount: int, school: String, ability: String, _crit: bool
+	source: Dictionary, amount: int, school: String, ability: String, crit: bool
 ) -> void:
 	if source["resource_type"] != "rage" or school != "physical" or ability != "":
 		return
 	var gain := RpgResources.rage_from_dealing(amount, int(source["level"]))
 	if source["class_id"] == "warrior":
-		gain *= (1.0 + float(source["mods"]["global"]["autoRagePct"])) * rage_aura_mult(source)
+		var seasoned := 1.0
+		if crit and source["spec_id"] == "arms":
+			var k := known_entry("seasoned_soldier")
+			if not k.is_empty() and k["def"].get("passive", false):
+				seasoned = 1.1
+		gain *= (
+			(1.0 + float(source["mods"]["global"]["autoRagePct"]))
+			* rage_aura_mult(source)
+			* seasoned
+		)
+	gain *= RpgDruid.form_auto_rage_mult(source)
 	source["resource"] = minf(float(source["max_resource"]), float(source["resource"]) + gain)
 
 
@@ -781,12 +718,15 @@ func rage_from_taking(source: Dictionary, target: Dictionary, amount: int) -> vo
 ## A unit's death. The monster's: kill XP then the corpse's loot (damage.ts:1851-1969),
 ## rolled at the killing blow. The player's: defeat.
 func kill(source: Dictionary, target: Dictionary) -> void:
+	RpgPriest.on_death(self, target)
 	target["dead"] = true
 	target["hp"] = 0
 	target["auras"] = []
 	if target["kind"] == "mob":
 		if target == mob:
 			player["auto_attack"] = false
+		if not player["dead"]:
+			RpgKillCredit.on_kill(self, player)
 		_reward(target)
 		var alive := mobs.filter(func(m: Dictionary) -> bool: return not m["dead"])
 		if respawn:
@@ -796,6 +736,9 @@ func kill(source: Dictionary, target: Dictionary) -> void:
 	else:
 		player["casting"] = {}
 		player["auto_attack"] = false
+		player["combo_points"] = 0
+		player["charge_target"] = -1
+		player["leap"] = null
 		outcome = "defeat"
 	log_event(
 		{"type": "death", "unit": target["id"], "by": -1 if source.is_empty() else source["id"]}

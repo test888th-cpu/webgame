@@ -158,7 +158,7 @@ func test_skills_show_the_spellbook_and_fill_the_hotbar() -> void:
 	var usable := ""
 	var blocked := ""
 	for e: Dictionary in book:
-		if e["state"] == "usable" and usable == "":
+		if e["state"] == "usable" and usable == "" and _plain_instant(pack, str(e["id"])):
 			usable = e["id"]
 		if e["state"] == "known_blocked" and blocked == "":
 			blocked = e["id"]
@@ -192,6 +192,21 @@ func test_skills_show_the_spellbook_and_fill_the_hotbar() -> void:
 	street._unhandled_input(key)
 	assert_near(float(fight.player["resource"]), 100.0 - cost, "the key cast the same one")
 	_done(street)
+
+
+## An instant that pays its cost when pressed, with no cast condition of its own
+## (no queued swing, range floor, execute window or required aura).
+func _plain_instant(pack: Dictionary, id: String) -> bool:
+	var def: Dictionary = pack["abilities"][id]["def"]
+	return (
+		float(def["cost"]) > 0.0
+		and float(def["castTime"]) == 0.0
+		and not def.get("onNextSwing", false)
+		and def.get("minRange") == null
+		and def.get("requiresAuraKind") == null
+		and RpgAbilityRules.execute_threshold(def) < 0.0
+		and def.get("channel") == null
+	)
 
 
 func test_talents_only_where_the_engine_allows() -> void:

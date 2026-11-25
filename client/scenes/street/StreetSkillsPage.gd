@@ -9,6 +9,7 @@ extends RefCounted
 
 const STATE_TEXT := {
 	"usable": ["Usable", UiTheme.GOOD],
+	"passive": ["Passive, always on", UiTheme.GOOD],
 	"known_blocked": ["Known, not in this build yet", UiTheme.GOLD],
 	"level": ["Locked by level", UiTheme.TEXT_DIM],
 	"spec": ["Locked by specialization", UiTheme.TEXT_DIM],
@@ -66,11 +67,17 @@ static func _abilities(street: Node) -> Control:
 	right.add_child(
 		UiKit.label(
 			(
-				"%d usable, %d known but not in this build, %d locked."
+				"%d usable, %d passive, %d known but not in this build, %d locked."
 				% [
 					counts.get("usable", 0),
+					counts.get("passive", 0),
 					counts.get("known_blocked", 0),
-					book.size() - counts.get("usable", 0) - counts.get("known_blocked", 0)
+					(
+						book.size()
+						- counts.get("usable", 0)
+						- counts.get("passive", 0)
+						- counts.get("known_blocked", 0)
+					)
 				]
 			),
 			UiTheme.SIZE_CAPTION,
