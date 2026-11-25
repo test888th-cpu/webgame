@@ -59,6 +59,21 @@ jobs:
       - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
           path: site
+      # deploy-pages looks the artifact up by name at once; since 2026-11-24 the run's
+      # artifact list lags the upload, so deploy-pages found none and failed three times
+      # running. Wait (up to 2.5 min) until the run lists it.
+      - name: Wait until the run lists the Pages artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_ARTIFACTS: repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts
+        run: |
+          for attempt in $(seq 1 30); do
+            listed=$(gh api "$RUN_ARTIFACTS?name=github-pages" --jq '.total_count')
+            if [ "$listed" -ge 1 ]; then echo "listed after $attempt check(s)"; exit 0; fi
+            sleep 5
+          done
+          echo "the github-pages artifact was never listed"
+          exit 1
       - id: deployment
         uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
     outputs:

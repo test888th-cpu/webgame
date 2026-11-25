@@ -4,6 +4,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Fixed: the Pages deploy found no artifact (2026-11-25)
+- Since PR #90, `deploy-pages` failed three times in a row: it looked up the run's
+  `github-pages` artifact about half a second after the upload and found none, so
+  the site stayed on the PR #89 build. `pages.yml` now waits (up to 2.5 min) until
+  the run lists the artifact before deploying.
+
 ### Added: class skills ported from the reference (2026-11-24)
 - Ability statuses are computed from the evidence register `tools/content/skills_port.py`
   (see `docs/SKILLS_PORT.md`); an ability is castable only when every reference file
