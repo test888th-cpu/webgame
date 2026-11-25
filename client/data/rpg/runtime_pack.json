@@ -34,6 +34,7 @@
    "engine_references": [
     "src/sim/combat/warlock_talents.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/warlock_talents.ts",
    "status": "BLOCKED"
   },
@@ -64,6 +65,7 @@
    "display_name": "Adrenaline Rush",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": null,
    "status": "IMPLEMENTED_ACTIVE"
   },
@@ -109,8 +111,11 @@
    "engine_references": [
     "src/sim/combat/paladin_aegis.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/paladin_aegis.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgPaladinKit.gd aegis_sync, aegis_tick, aegis_complete, aegis_cleanup"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "aimed_shot": {
    "acquired_by": [
@@ -148,6 +153,7 @@
     "src/sim/combat/hunter_coldsight.ts",
     "src/sim/combat/hunter_shared.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/hunter_coldsight.ts, src/sim/combat/hunter_shared.ts",
    "status": "BLOCKED"
   },
@@ -155,7 +161,9 @@
    "acquired_by": [
     "rogue class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "types.ts: a type-level mention"
+   ],
    "def": {
     "awardsCombo": 1,
     "castTime": 0,
@@ -185,8 +193,12 @@
     "src/sim/combat/rogue_stealth_opener.ts",
     "src/sim/types.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/rogue_engines.ts, src/sim/combat/rogue_stealth_opener.ts, src/sim/types.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgRogue.gd consume_veiled_edge, gloam_detonation",
+    "client/sim/RpgRogue.gd true_stealth_ambush, RpgEffects.gd _weapon_strike"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "ancestor_return": {
    "acquired_by": [
@@ -219,6 +231,7 @@
    "display_name": "Ancestor Return",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "effect handler not implemented: massResurrectGroup",
    "status": "BLOCKED"
   },
@@ -253,6 +266,7 @@
    "display_name": "Arcane Explosion",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": null,
    "status": "IMPLEMENTED_ACTIVE"
   },
@@ -287,8 +301,11 @@
    "engine_references": [
     "src/sim/combat/aura_stacking.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/aura_stacking.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgCombat.gd apply_aura (source-independent group buffs)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "arcane_missiles": {
    "acquired_by": [
@@ -365,6 +382,7 @@
     "src/sim/combat/casting_lifecycle.ts",
     "src/sim/combat/chronomancy.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/casting_lifecycle.ts, src/sim/combat/chronomancy.ts",
    "status": "BLOCKED"
   },
@@ -400,6 +418,7 @@
    "display_name": "Arcane Power",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "no acquisition path in class kits, spec signatures, talent grants or action replacements",
    "status": "UNKNOWN"
   },
@@ -460,6 +479,7 @@
     "src/sim/combat/effect_dispatch.ts",
     "src/sim/combat/hunter_shared.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/effect_dispatch.ts, src/sim/combat/hunter_shared.ts",
    "status": "BLOCKED"
   },
@@ -535,6 +555,7 @@
     "src/sim/combat/ability_resolution.ts",
     "src/sim/combat/chronomancy.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/ability_resolution.ts, src/sim/combat/chronomancy.ts",
    "status": "BLOCKED"
   },
@@ -570,6 +591,7 @@
     "src/sim/combat/necromancy.ts",
     "src/sim/combat/warlock_talents.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/necromancy.ts, src/sim/combat/warlock_talents.ts",
    "status": "BLOCKED"
   },
@@ -605,6 +627,7 @@
     "src/sim/combat/hunter_shared.ts",
     "src/sim/sim.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/hunter_shared.ts, src/sim/sim.ts",
    "status": "BLOCKED"
   },
@@ -668,6 +691,7 @@
     "src/sim/combat/hunter_shared.ts",
     "src/sim/sim.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/hunter_shared.ts, src/sim/sim.ts",
    "status": "BLOCKED"
   },
@@ -702,6 +726,7 @@
    "engine_references": [
     "src/sim/combat/hunter_shared.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/hunter_shared.ts",
    "status": "BLOCKED"
   },
@@ -739,6 +764,7 @@
    "engine_references": [
     "src/sim/combat/aura_stacking.ts"
    ],
+   "ported_mentions": [],
    "reason": "no acquisition path in class kits, spec signatures, talent grants or action replacements",
    "status": "UNKNOWN"
   },
@@ -775,8 +801,12 @@
     "src/sim/combat/aura_stacking.ts",
     "src/sim/combat/paladin_talents.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/aura_stacking.ts, src/sim/combat/paladin_talents.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgCombat.gd apply_aura (source_independent_group_buffs)",
+    "client/sim/RpgPaladinProcs.gd mastered_value"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_TALENT_GRANT"
   },
   "avatar": {
    "acquired_by": [
@@ -813,8 +843,11 @@
    "engine_references": [
     "src/sim/combat/casting_lifecycle.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/casting_lifecycle.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgAbilityRules.gd rage_spend_refund (COLOSSAL_MIGHT_COOLDOWNS)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_TALENT_GRANT"
   },
   "avenging_wrath": {
    "acquired_by": [
@@ -857,8 +890,11 @@
    "engine_references": [
     "src/sim/paladin_devotion.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/paladin_devotion.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgPaladin.gd grant_ability_devotion (doubled), execute_bypassed"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "backstab": {
    "acquired_by": [
@@ -919,8 +955,11 @@
    "engine_references": [
     "src/sim/combat/rogue_engines.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/rogue_engines.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgRogue.gd engine_on_cast (stage + refund)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "barkskin": {
    "acquired_by": [
@@ -954,8 +993,11 @@
    "engine_references": [
     "src/sim/combat/druid_natures_boon.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/druid_natures_boon.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgDruidEngine.gd boon_on_auto_attack (cooldown reset), boon_power"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "bash": {
    "acquired_by": [
@@ -984,8 +1026,9 @@
    "display_name": "Bash",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "ability fields not implemented: requiresForm",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "bastion_rite": {
    "acquired_by": [
@@ -1026,8 +1069,11 @@
    "engine_references": [
     "src/sim/paladin_devotion.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/paladin_devotion.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgPaladin.gd resolve (10 s)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "bastion_sweep": {
    "acquired_by": [
@@ -1070,8 +1116,12 @@
     "src/sim/combat/effect_dispatch.ts",
     "src/sim/paladin_devotion.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/effect_dispatch.ts, src/sim/paladin_devotion.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgEffectsArea.gd _aoe_damage (frontal arc); the rest is spellfx cues",
+    "client/sim/RpgPaladin.gd resolve (x1.3, radius 8), after_ability"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "battle_shout": {
    "acquired_by": [
@@ -1106,14 +1156,20 @@
    "engine_references": [
     "src/sim/combat/aura_stacking.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/aura_stacking.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgCombat.gd apply_aura (source-independent group buffs)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "battle_stance": {
    "acquired_by": [
     "warrior class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "aura_classify.ts:150 the aura UI's mode list",
+    "types.ts:570 the AuraKind union; :13397 rageGenAuraMult (ported in RpgEncounter.rage_aura_mult)"
+   ],
    "def": {
     "castTime": 0,
     "class": "warrior",
@@ -1147,8 +1203,12 @@
     "src/sim/combat/warrior_stances.ts",
     "src/sim/types.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/aura_classify.ts, src/sim/combat/damage.ts, src/sim/combat/warrior_stances.ts, src/sim/types.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgCombat.gd deal_damage (Stance Mastery battle crit)",
+    "client/sim/RpgWarrior.gd ensure_stance"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "beacon_of_light": {
    "acquired_by": [
@@ -1185,6 +1245,7 @@
     "src/sim/combat/paladin_beacon.ts",
     "src/sim/types.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/aura_classify.ts, src/sim/combat/aura_cancel.ts, src/sim/combat/paladin_beacon.ts, src/sim/types.ts",
    "status": "BLOCKED"
   },
@@ -1222,8 +1283,11 @@
    "engine_references": [
     "src/sim/combat/druid_engines.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/druid_engines.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgDruidEngine.gd on_cast (Bruin Rush window); RpgDruidKit.gd finish_charge"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "bear_form": {
    "acquired_by": [
@@ -1256,8 +1320,12 @@
     "src/sim/combat/druid_engines.ts",
     "src/sim/combat/druid_form_entry.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/druid_engines.ts, src/sim/combat/druid_form_entry.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgDruidEngine.gd on_cast (Loping Stride, Wildshift); RpgUnit.gd _form_stats, _pools",
+    "client/sim/RpgDruidKit.gd apply_form_entry"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "bear_trap": {
    "acquired_by": [
@@ -1297,6 +1365,7 @@
    "engine_references": [
     "src/sim/combat/casting_lifecycle.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/casting_lifecycle.ts",
    "status": "BLOCKED"
   },
@@ -1330,8 +1399,9 @@
    "display_name": "Berserk",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "ability fields not implemented: usableInForm",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_TALENT_GRANT"
   },
   "berserker_rage": {
    "acquired_by": [
@@ -1360,6 +1430,7 @@
    "display_name": "Berserker Rage",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": null,
    "status": "IMPLEMENTED_ACTIVE"
   },
@@ -1367,7 +1438,9 @@
    "acquired_by": [
     "warrior class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "aura_classify.ts:151 the aura UI's mode list"
+   ],
    "def": {
     "castTime": 0,
     "class": "warrior",
@@ -1403,8 +1476,15 @@
     "src/sim/entity.ts",
     "src/sim/types.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/aura_classify.ts, src/sim/combat/auras.ts, src/sim/combat/auto_attack.ts, src/sim/combat/warrior_stances.ts, src/sim/entity.ts, src/sim/types.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgCombat.gd update_auras (stat recalc on expiry)",
+    "client/sim/RpgWarrior.gd stance_mastery_haste",
+    "client/sim/RpgWarrior.gd ensure_stance",
+    "client/sim/RpgUnit.gd recalc (BERSERKER_CRIT_CHANCE)",
+    "client/sim/RpgCombat.gd deal_damage (berserkerCritDamage)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "bestial_wrath": {
    "acquired_by": [
@@ -1435,6 +1515,7 @@
    "engine_references": [
     "src/sim/major_cooldowns.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/major_cooldowns.ts",
    "status": "BLOCKED"
   },
@@ -1466,8 +1547,9 @@
    "display_name": "Blade Flurry",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "aura kind consumers not implemented: buff_haste",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_SPECIALIZATION"
   },
   "bladestorm": {
    "acquired_by": [
@@ -1507,8 +1589,11 @@
    "engine_references": [
     "src/sim/combat/casting_lifecycle.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/casting_lifecycle.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgAbilityRules.gd rage_spend_refund (COLOSSAL_MIGHT_COOLDOWNS)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_TALENT_GRANT"
   },
   "blazing_barrier": {
    "acquired_by": [
@@ -1572,8 +1657,12 @@
     "src/sim/combat/casting_lifecycle.ts",
     "src/sim/combat/fire_mage.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/casting_lifecycle.ts, src/sim/combat/fire_mage.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgMage.gd overflowing_power_cdr",
+    "client/sim/RpgMage.gd PERSONAL_BARRIER_IDS (shieldConsumed procs)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "blessing_of_might": {
    "acquired_by": [
@@ -1608,6 +1697,7 @@
    "engine_references": [
     "src/sim/combat/aura_stacking.ts"
    ],
+   "ported_mentions": [],
    "reason": "hiddenFromPlayer: retired; abilitiesKnownAt never lists it",
    "status": "NOT_APPLICABLE_TO_PLAYER"
   },
@@ -1615,7 +1705,16 @@
    "acquired_by": [
     "rogue class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "aura_classify.ts:32 the dispel list (the 'blind' aura kind)",
+    "cc.ts:129 the 'blind' aura kind's miss bonus (a monster affix's aura; Blind applies an incapacitate)",
+    "effect_dispatch.ts:2451 a spellfx cue; :3732 breakControl's 'blind' kind",
+    "trinkets.ts:60 a trinket's cleanse list (no trinkets in this game)",
+    "mob_swing.ts:329 a monster affix's 'blind' aura kind",
+    "temple_tide.ts:103 a monster affix's 'blind' aura kind",
+    "sim.ts:6296 the Ice Block control list's 'blind' kind",
+    "types.ts:621 the AuraKind union"
+   ],
    "def": {
     "castTime": 0,
     "class": "rogue",
@@ -1646,14 +1745,18 @@
     "src/sim/sim.ts",
     "src/sim/types.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/aura_classify.ts, src/sim/combat/cc.ts, src/sim/combat/effect_dispatch.ts, src/sim/combat/trinkets.ts, src/sim/mob/mob_swing.ts, src/sim/mob/trash_kit/temple_tide.ts, src/sim/sim.ts, src/sim/types.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "blink": {
    "acquired_by": [
     "mage class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "frost_mage.ts refundFlitstep: an item-set bonus (no set items in this game)",
+    "trinkets.ts:424 a trinket effect (no trinkets in this game)"
+   ],
    "def": {
     "castTime": 0,
     "class": "mage",
@@ -1680,14 +1783,19 @@
     "src/sim/combat/frost_mage.ts",
     "src/sim/combat/trinkets.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/casting_lifecycle.ts, src/sim/combat/frost_mage.ts, src/sim/combat/trinkets.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgCast.gd cast (blink-through), RpgMage.gd overflowing_power_cdr"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "blizzard": {
    "acquired_by": [
     "mage class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "types.ts:12205 a weather mode named blizzard"
+   ],
    "def": {
     "castTime": 2,
     "class": "mage",
@@ -1725,8 +1833,12 @@
     "src/sim/sim.ts",
     "src/sim/types.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/frost_mage.ts, src/sim/sim.ts, src/sim/types.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgMage.gd frost_channel_pulse",
+    "client/sim/RpgGround.gd pulse (orb CDR)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "bloodhook": {
    "acquired_by": [
@@ -1762,6 +1874,7 @@
     "src/sim/combat/casting_lifecycle.ts",
     "src/sim/combat/hunter_fieldcraft.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/casting_lifecycle.ts, src/sim/combat/hunter_fieldcraft.ts",
    "status": "BLOCKED"
   },
@@ -1796,8 +1909,9 @@
    "display_name": "Bloodlust",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: aoeAllyHaste",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "bloodrage": {
    "acquired_by": [
@@ -1834,8 +1948,9 @@
    "display_name": "Bloodrage",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: selfDamagePctMax",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "bloodthirst": {
    "acquired_by": [
@@ -1880,8 +1995,12 @@
     "src/sim/combat/casting_lifecycle.ts",
     "src/sim/combat/effect_dispatch.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/casting_lifecycle.ts, src/sim/combat/effect_dispatch.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgAbilityRules.gd rage_spend_refund (COLOSSAL_MIGHT_COOLDOWNS)",
+    "client/sim/RpgEffectsArea.gd enrageChance / selfHealPctMax (set bonuses: no sets in this game)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_SPECIALIZATION"
   },
   "bloodtrail_assault": {
    "acquired_by": [
@@ -1917,6 +2036,7 @@
    "engine_references": [
     "src/sim/combat/effect_dispatch.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/effect_dispatch.ts",
    "status": "BLOCKED"
   },
@@ -1951,8 +2071,11 @@
    "engine_references": [
     "src/sim/combat/rogue_engines.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/rogue_engines.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgRogue.gd engine_on_cast (Redline depth)"
+   ],
+   "reason": "an action replacement: available only while its aura holds",
+   "status": "CONDITION_LOCKED"
   },
   "bone_armor": {
    "acquired_by": [
@@ -1984,14 +2107,17 @@
    "display_name": "Bone Armor",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: selfAbsorbPctMax",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "brain_freeze": {
    "acquired_by": [
     "mage class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "types.ts:583 the AuraKind union"
+   ],
    "def": {
     "castTime": 0,
     "class": "mage",
@@ -2015,8 +2141,11 @@
     "src/sim/combat/frost_mage.ts",
     "src/sim/types.ts"
    ],
-   "reason": "passive: its behaviour lives in engine code src/sim/combat/frost_mage.ts, src/sim/types.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgMage.gd after_cast, brain_freeze_override"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_PASSIVE"
   },
   "breachmaker": {
    "acquired_by": [
@@ -2055,8 +2184,9 @@
    "display_name": "Breachmaker",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: debuffTargetSource",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "cat_form": {
    "acquired_by": [
@@ -2089,8 +2219,12 @@
     "src/sim/combat/druid_engines.ts",
     "src/sim/combat/druid_form_entry.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/druid_engines.ts, src/sim/combat/druid_form_entry.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgDruidEngine.gd on_cast (Loping Stride, Pin); RpgDruid.gd bruin_rush_makes_cat_free",
+    "client/sim/RpgDruidKit.gd apply_form_entry, form_entry_pool"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "chain_heal": {
    "acquired_by": [
@@ -2123,8 +2257,9 @@
    "display_name": "Chain Heal",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: chainHeal",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_SPECIALIZATION"
   },
   "chain_lightning": {
    "acquired_by": [
@@ -2165,8 +2300,14 @@
     "src/sim/combat/shaman_thundercall.ts",
     "src/sim/combat/shaman_thundercall_kit.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/effect_dispatch.ts, src/sim/combat/shaman_talents.ts, src/sim/combat/shaman_thundercall.ts, src/sim/combat/shaman_thundercall_kit.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgEffectsArea.gd _chain_damage, RpgShaman.gd after_chain",
+    "client/sim/RpgShamanWar.gd trigger_ward_cycle, cast_time_mult",
+    "client/sim/RpgShaman.gd after_chain, before_effects (Primal Mastery)",
+    "client/sim/RpgShaman.gd roll_overload"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "challenging_roar": {
    "acquired_by": [
@@ -2195,8 +2336,9 @@
    "display_name": "Challenging Roar",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: aoeTaunt",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "chaos_bolt": {
    "acquired_by": [
@@ -2235,6 +2377,7 @@
     "src/sim/combat/destruction.ts",
     "src/sim/combat/warlock_talents.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/destruction.ts, src/sim/combat/warlock_talents.ts",
    "status": "BLOCKED"
   },
@@ -2242,7 +2385,9 @@
    "acquired_by": [
     "warrior class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "types.ts:4398 the AbilityEffect union"
+   ],
    "def": {
     "castTime": 0,
     "class": "warrior",
@@ -2273,14 +2418,20 @@
     "src/sim/combat/effect_dispatch.ts",
     "src/sim/types.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/casting_lifecycle.ts, src/sim/combat/effect_dispatch.ts, src/sim/types.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgCast.gd cast (Can't move! while rooted)",
+    "client/sim/RpgEffectsArea.gd _charge, RpgMotion.gd _advance_charge"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "cheap_shot": {
    "acquired_by": [
     "rogue class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "effect_dispatch.ts:2388 a spellfx cue only"
+   ],
    "def": {
     "awardsCombo": 2,
     "castTime": 0,
@@ -2312,14 +2463,19 @@
     "src/sim/combat/effect_dispatch.ts",
     "src/sim/combat/rogue_engines.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/effect_dispatch.ts, src/sim/combat/rogue_engines.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgRogue.gd engine_on_cast, gloam_detonation, detonator_free_mult"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "choir_of_deliverance": {
    "acquired_by": [
     "priest talent pri_r17_choir_of_deliverance"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "lifecycle.ts: the class-change cleanup (a character's class never changes)"
+   ],
    "def": {
     "castTime": 0,
     "channel": {
@@ -2351,8 +2507,12 @@
     "src/sim/combat/priest/shadow_talents.ts",
     "src/sim/combat/priest/vespers.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/priest/lifecycle.ts, src/sim/combat/priest/shadow_talents.ts, src/sim/combat/priest/vespers.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgPriest.gd resolve (shadow Choir), on_damage",
+    "client/sim/RpgPriest.gd resolve"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_TALENT_GRANT"
   },
   "cinderhide": {
    "acquired_by": [
@@ -2387,6 +2547,7 @@
    "display_name": "Cinderhide",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": null,
    "status": "IMPLEMENTED_ACTIVE"
   },
@@ -2433,14 +2594,20 @@
    "engine_references": [
     "src/sim/combat/druid_engines.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/druid_engines.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgDruidEngine.gd on_landed_strike"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "cleave": {
    "acquired_by": [
     "warrior class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "boss_slams.ts:244 a boss slam kind named 'cleave'",
+    "types.ts:8605 a boss slam kind named 'cleave'"
+   ],
    "def": {
     "castTime": 0,
     "class": "warrior",
@@ -2474,8 +2641,9 @@
     "src/sim/mob/boss_slams.ts",
     "src/sim/types.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/mob/boss_slams.ts, src/sim/types.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "cleaving_blows": {
    "acquired_by": [
@@ -2504,8 +2672,11 @@
    "engine_references": [
     "src/sim/combat/effect_dispatch.ts"
    ],
-   "reason": "passive: its behaviour lives in engine code src/sim/combat/effect_dispatch.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgWarrior.gd before_effects"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_PASSIVE"
   },
   "cloak_of_shadows": {
    "acquired_by": [],
@@ -2533,6 +2704,7 @@
    "display_name": "Cloak Of Shadows",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "no acquisition path in class kits, spec signatures, talent grants or action replacements",
    "status": "UNKNOWN"
   },
@@ -2563,6 +2735,7 @@
    "display_name": "Clockwork Shock Bomb",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "no acquisition path in class kits, spec signatures, talent grants or action replacements",
    "status": "UNKNOWN"
   },
@@ -2595,8 +2768,9 @@
    "display_name": "Cold Blood",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "aura kind consumers not implemented: next_attack_crit",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_SPECIALIZATION"
   },
   "cold_focus": {
    "acquired_by": [
@@ -2629,6 +2803,7 @@
    "engine_references": [
     "src/sim/combat/effect_dispatch.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/effect_dispatch.ts",
    "status": "BLOCKED"
   },
@@ -2665,8 +2840,9 @@
    "display_name": "Cold Snap",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: clearCooldowns",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_TALENT_GRANT"
   },
   "collective_reversal": {
    "acquired_by": [
@@ -2699,6 +2875,7 @@
    "display_name": "Collective Reversal",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "effect handler not implemented: massResurrectGroup",
    "status": "BLOCKED"
   },
@@ -2706,7 +2883,10 @@
    "acquired_by": [
     "mage class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "major_cooldowns.ts the buff bar's offensive list",
+    "types.ts:722 the AuraKind union"
+   ],
    "def": {
     "castTime": 0,
     "class": "mage",
@@ -2739,8 +2919,11 @@
     "src/sim/major_cooldowns.ts",
     "src/sim/types.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/fire_mage.ts, src/sim/major_cooldowns.ts, src/sim/types.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgMage.gd fire_guaranteed_crit, combustion_restokes, note_spell_hit"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "concussive_shot": {
    "acquired_by": [
@@ -2778,6 +2961,7 @@
    "engine_references": [
     "src/sim/combat/hunter_shared.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/hunter_shared.ts",
    "status": "BLOCKED"
   },
@@ -2807,6 +2991,7 @@
    "display_name": "Cone Of Cold",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "no acquisition path in class kits, spec signatures, talent grants or action replacements",
    "status": "UNKNOWN"
   },
@@ -2848,6 +3033,7 @@
     "src/sim/combat/destruction.ts",
     "src/sim/combat/warlock_talents.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/casting_lifecycle.ts, src/sim/combat/destruction.ts, src/sim/combat/warlock_talents.ts",
    "status": "BLOCKED"
   },
@@ -2894,6 +3080,7 @@
    "engine_references": [
     "src/sim/combat/casting_lifecycle.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/casting_lifecycle.ts",
    "status": "BLOCKED"
   },
@@ -2940,6 +3127,7 @@
    "engine_references": [
     "src/sim/combat/casting_lifecycle.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/casting_lifecycle.ts",
    "status": "BLOCKED"
   },
@@ -3018,8 +3206,12 @@
     "src/sim/combat/effect_dispatch.ts",
     "src/sim/paladin_devotion.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/effect_dispatch.ts, src/sim/paladin_devotion.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgPaladin.gd shape_consecration; RpgPaladinProcs.gd consecration_dr",
+    "client/sim/RpgPaladin.gd resolve (x1.3), ground_devotion_on_first_hit"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "corpse_explosion": {
    "acquired_by": [
@@ -3058,6 +3250,7 @@
     "src/sim/combat/necromancy.ts",
     "src/sim/combat/warlock_talents.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/effect_dispatch.ts, src/sim/combat/necromancy.ts, src/sim/combat/warlock_talents.ts",
    "status": "BLOCKED"
   },
@@ -3124,6 +3317,7 @@
    "engine_references": [
     "src/sim/combat/warlock_talents.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/warlock_talents.ts",
    "status": "BLOCKED"
   },
@@ -3155,8 +3349,9 @@
    "display_name": "Counter Shot",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: interrupt",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "counterspell": {
    "acquired_by": [
@@ -3184,8 +3379,9 @@
    "display_name": "Counterspell",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: interrupt",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "courier": {
    "acquired_by": [],
@@ -3209,6 +3405,7 @@
     "src/sim/combat/casting_lifecycle.ts",
     "src/sim/types.ts"
    ],
+   "ported_mentions": [],
    "reason": "no acquisition path in class kits, spec signatures, talent grants or action replacements",
    "status": "UNKNOWN"
   },
@@ -3246,6 +3443,7 @@
    "engine_references": [
     "src/sim/combat/affliction.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/affliction.ts",
    "status": "BLOCKED"
   },
@@ -3281,6 +3479,7 @@
    "display_name": "Crippling Poison",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": null,
    "status": "IMPLEMENTED_ACTIVE"
   },
@@ -3317,6 +3516,7 @@
    "engine_references": [
     "src/sim/combat/affliction.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/affliction.ts",
    "status": "BLOCKED"
   },
@@ -3349,6 +3549,7 @@
    "engine_references": [
     "src/sim/paladin_devotion.ts"
    ],
+   "ported_mentions": [],
    "reason": "hiddenFromPlayer: retired; abilitiesKnownAt never lists it",
    "status": "NOT_APPLICABLE_TO_PLAYER"
   },
@@ -3415,6 +3616,7 @@
    "engine_references": [
     "src/sim/combat/warlock_talents.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/warlock_talents.ts",
    "status": "BLOCKED"
   },
@@ -3443,6 +3645,7 @@
    "display_name": "Curse Of Exhaustion",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "no acquisition path in class kits, spec signatures, talent grants or action replacements",
    "status": "UNKNOWN"
   },
@@ -3478,6 +3681,7 @@
    "engine_references": [
     "src/sim/combat/affliction.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/affliction.ts",
    "status": "BLOCKED"
   },
@@ -3512,8 +3716,9 @@
    "display_name": "Dark Pact",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: selfAbsorbPctMax, selfDamagePctCurrent",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_TALENT_GRANT"
   },
   "dash": {
    "acquired_by": [
@@ -3547,8 +3752,11 @@
    "engine_references": [
     "src/sim/combat/effect_dispatch.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/effect_dispatch.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgEffects.gd _preserves_stealth"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "dawn_devotion": {
    "acquired_by": [
@@ -3582,8 +3790,12 @@
     "src/sim/combat/aura_stacking.ts",
     "src/sim/combat/paladin_support.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/aura_stacking.ts, src/sim/combat/paladin_support.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgCombat.gd apply_aura (source_independent_group_buffs)",
+    "client/sim/RpgPaladin.gd before_effects, strip_devotions"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "dawnfall": {
    "acquired_by": [
@@ -3622,8 +3834,13 @@
     "src/sim/combat/paladin_sun_verdict.ts",
     "src/sim/paladin_devotion.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/paladin_dawn_rhythm.ts, src/sim/combat/paladin_sun_verdict.ts, src/sim/paladin_devotion.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgPaladinProcs.gd dawn_rhythm",
+    "client/sim/RpgEffectsArea.gd _aoe_damage, RpgPaladinKit.gd advance_verdict",
+    "client/sim/RpgPaladin.gd resolve (x1.5, radius 10), after_ability"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "dawns_embrace": {
    "acquired_by": [
@@ -3660,8 +3877,13 @@
     "src/sim/combat/paladin_radiant_resonance.ts",
     "src/sim/paladin_devotion.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/empower_next.ts, src/sim/combat/paladin_radiant_resonance.ts, src/sim/paladin_devotion.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgAbilityRules.gd next_cast_cheap_mult, consume_next_cast_cheap; RpgCast.gd _cost_tail",
+    "client/sim/RpgPaladinProcs.gd resonance_cast_time, reserve_resonance, resonance_cheap",
+    "client/sim/RpgPaladin.gd resolve (x1.35, instant), after_ability"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "deadly_poison": {
    "acquired_by": [
@@ -3697,8 +3919,9 @@
    "display_name": "Deadly Poison",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: imbue",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "death_coil": {
    "acquired_by": [],
@@ -3731,6 +3954,7 @@
    "display_name": "Death Coil",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "hiddenFromPlayer: retired; abilitiesKnownAt never lists it",
    "status": "NOT_APPLICABLE_TO_PLAYER"
   },
@@ -3763,6 +3987,7 @@
    "display_name": "Deep Freeze",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "no acquisition path in class kits, spec signatures, talent grants or action replacements",
    "status": "UNKNOWN"
   },
@@ -3791,14 +4016,18 @@
    "display_name": "Deep Wounds",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "passive: its behaviour lives in engine code (none named)",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_PASSIVE"
   },
   "defensive_stance": {
    "acquired_by": [
     "warrior class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "aura_classify.ts:152 the aura UI's mode list",
+    "types.ts:567 the AuraKind union"
+   ],
    "def": {
     "castTime": 0,
     "class": "warrior",
@@ -3835,8 +4064,14 @@
     "src/sim/combat/warrior_stances.ts",
     "src/sim/types.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/aura_classify.ts, src/sim/combat/damage.ts, src/sim/combat/effect_dispatch.ts, src/sim/combat/toggle_buff.ts, src/sim/combat/warrior_stances.ts, src/sim/types.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgCombat.gd deal_damage (0.9 both ways, guarded cut)",
+    "client/sim/RpgEffects.gd _self_buff (toggle)",
+    "client/sim/RpgAbilityRules.gd is_toggle_buff",
+    "client/sim/RpgWarrior.gd ensure_stance"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "defiant_bellow": {
    "acquired_by": [
@@ -3868,8 +4103,9 @@
    "display_name": "Defiant Bellow",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: aoeTaunt",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "demon_skin": {
    "acquired_by": [
@@ -3931,6 +4167,7 @@
     "src/sim/combat/effect_dispatch.ts",
     "src/sim/combat/warlock_talents.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/damage.ts, src/sim/combat/effect_dispatch.ts, src/sim/combat/warlock_talents.ts",
    "status": "BLOCKED"
   },
@@ -3978,8 +4215,9 @@
    "display_name": "Demoralizing Roar",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: aoeAttackPower",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "demoralizing_shout": {
    "acquired_by": [
@@ -4014,8 +4252,9 @@
    "display_name": "Demoralizing Shout",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: aoeAttackPower",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "desperate_prayer": {
    "acquired_by": [
@@ -4043,8 +4282,9 @@
    "display_name": "Desperate Prayer",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: selfHealPctMax",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_TALENT_GRANT"
   },
   "deterrence": {
    "acquired_by": [],
@@ -4081,6 +4321,7 @@
    "engine_references": [
     "src/sim/aura_classify.ts"
    ],
+   "ported_mentions": [],
    "reason": "no acquisition path in class kits, spec signatures, talent grants or action replacements",
    "status": "UNKNOWN"
   },
@@ -4115,6 +4356,7 @@
    "engine_references": [
     "src/sim/combat/aura_stacking.ts"
    ],
+   "ported_mentions": [],
    "reason": "hiddenFromPlayer: retired; abilitiesKnownAt never lists it",
    "status": "NOT_APPLICABLE_TO_PLAYER"
   },
@@ -4153,8 +4395,13 @@
     "src/sim/combat/paladin_support.ts",
     "src/sim/combat/paladin_talents.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/aura_stacking.ts, src/sim/combat/paladin_support.ts, src/sim/combat/paladin_talents.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgCombat.gd apply_aura (source_independent_group_buffs)",
+    "client/sim/RpgPaladin.gd before_effects, strip_devotions",
+    "client/sim/RpgPaladinProcs.gd mastered_value (RpgCombat.gd buff_dr)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "diabolical_twinstrike": {
    "acquired_by": [
@@ -4183,14 +4430,20 @@
    "engine_references": [
     "src/sim/combat/effect_dispatch.ts"
    ],
-   "reason": "passive: its behaviour lives in engine code src/sim/combat/effect_dispatch.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgWarrior.gd shape_weapon_strike"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_PASSIVE"
   },
   "die_by_sword": {
    "acquired_by": [
     "warrior talent war_row_die_by_the_sword"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "major_cooldowns.ts:66 the buff bar's defensive list",
+    "types.ts:681 the AuraKind union"
+   ],
    "def": {
     "castTime": 0,
     "class": "warrior",
@@ -4224,8 +4477,13 @@
     "src/sim/major_cooldowns.ts",
     "src/sim/types.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/auras.ts, src/sim/combat/damage.ts, src/sim/entity.ts, src/sim/major_cooldowns.ts, src/sim/types.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgCombat.gd update_auras (stat recalc on expiry)",
+    "client/sim/RpgCombat.gd deal_damage (damage reduction)",
+    "client/sim/RpgUnit.gd _aura_stats (dodge)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_TALENT_GRANT"
   },
   "dismiss_pet": {
    "acquired_by": [
@@ -4252,6 +4510,7 @@
    "display_name": "Dismiss Pet",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "effect handler not implemented: dismissPet",
    "status": "BLOCKED"
   },
@@ -4259,7 +4518,10 @@
    "acquired_by": [
     "paladin class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "aura_classify.ts:123 the aura UI's cancel list",
+    "aura_cancel_command.ts: a right-click cancel of the aura; the street has no aura cancel command"
+   ],
    "def": {
     "castTime": 0,
     "class": "paladin",
@@ -4286,8 +4548,12 @@
     "src/sim/combat/casting_lifecycle.ts",
     "src/sim/paladin_devotion.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/aura_classify.ts, src/sim/combat/aura_cancel_command.ts, src/sim/combat/casting_lifecycle.ts, src/sim/paladin_devotion.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgPaladin.gd cast_gate (canActivateDivineAscension)",
+    "client/sim/RpgPaladin.gd run_arm (divineAscension), cast_gate, tick, after_ability"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "divine_protection": {
    "acquired_by": [
@@ -4318,6 +4584,7 @@
    "display_name": "Divine Protection",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": null,
    "status": "IMPLEMENTED_ACTIVE"
   },
@@ -4387,6 +4654,7 @@
    "engine_references": [
     "src/sim/combat/fire_mage.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/fire_mage.ts",
    "status": "BLOCKED"
   },
@@ -4459,6 +4727,7 @@
     "src/sim/combat/damage.ts",
     "src/sim/combat/warlock_talents.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/affliction.ts, src/sim/combat/casting_lifecycle.ts, src/sim/combat/channel_visuals.ts, src/sim/combat/damage.ts, src/sim/combat/warlock_talents.ts",
    "status": "BLOCKED"
   },
@@ -4521,8 +4790,15 @@
     "src/sim/combat/shaman_thundercall.ts",
     "src/sim/combat/shaman_warspirit.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/ability_cooldown_groups.ts, src/sim/combat/effect_dispatch.ts, src/sim/combat/shaman_talents.ts, src/sim/combat/shaman_thundercall.ts, src/sim/combat/shaman_warspirit.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgAbilityRules.gd arm_cooldown (SHAMAN_SHOCKS)",
+    "client/sim/RpgShaman.gd after_direct_damage (vent, jolt)",
+    "client/sim/RpgShamanWar.gd on_cast_completed (Flowing Elements)",
+    "client/sim/RpgShaman.gd thundercall_damage_mult, consume_vent",
+    "client/sim/RpgShamanWar.gd stonebound_jolt (threat only; the street has one player), Stormcast"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "earthbind": {
    "acquired_by": [
@@ -4557,8 +4833,12 @@
     "src/sim/combat/casting_lifecycle.ts",
     "src/sim/combat/effect_dispatch.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/casting_lifecycle.ts, src/sim/combat/effect_dispatch.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgCast.gd _aim_point (SELECTED_HOSTILE_AIM_FALLBACK)",
+    "client/sim/RpgEffectsArea.gd _aoe_root (earthbind_slow)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_TALENT_GRANT"
   },
   "earthquake": {
    "acquired_by": [
@@ -4597,8 +4877,12 @@
     "src/sim/combat/casting_lifecycle.ts",
     "src/sim/combat/shaman_thundercall.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/casting_lifecycle.ts, src/sim/combat/shaman_thundercall.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgCast.gd _aim_point (SELECTED_HOSTILE_AIM_FALLBACK)",
+    "client/sim/RpgShaman.gd thundercall_damage_mult, after_ground_aoe"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "elemental_mastery": {
    "acquired_by": [
@@ -4624,8 +4908,12 @@
     "src/sim/combat/effect_dispatch.ts",
     "src/sim/combat/shaman_thundercall.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/effect_dispatch.ts, src/sim/combat/shaman_thundercall.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgShaman.gd before_effects",
+    "client/sim/RpgShaman.gd before_effects (armPrimalMastery)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_SPECIALIZATION"
   },
   "elemental_trance": {
    "acquired_by": [
@@ -4660,8 +4948,11 @@
    "engine_references": [
     "src/sim/combat/shaman_warspirit.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/shaman_warspirit.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgShamanWar.gd trance_mana (RpgCombat.gd deal_damage)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "emboldening_roar": {
    "acquired_by": [
@@ -4695,14 +4986,23 @@
    "display_name": "Emboldening Roar",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: aoeAllySureCrit",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "enrage": {
    "acquired_by": [
     "druid class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "the warrior's enrage aura kind (the same word), not the druid's Enrage ability",
+    "the warrior's enrage aura kind (the same word), not the druid's Enrage ability",
+    "the warrior's enrage aura kind (the same word), not the druid's Enrage ability",
+    "the warrior's enrage aura kind (the same word), not the druid's Enrage ability",
+    "the warrior's enrage aura kind (the same word), not the druid's Enrage ability",
+    "the warrior's enrage aura kind (the same word), not the druid's Enrage ability",
+    "the warrior's enrage aura kind (the same word), not the druid's Enrage ability"
+   ],
    "def": {
     "castTime": 0,
     "class": "druid",
@@ -4734,14 +5034,17 @@
     "src/sim/player_motion.ts",
     "src/sim/types.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/auras.ts, src/sim/combat/damage.ts, src/sim/combat/effect_dispatch.ts, src/sim/combat/heroic_leap.ts, src/sim/entity.ts, src/sim/player_motion.ts, src/sim/types.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "enrage_passive": {
    "acquired_by": [
     "warrior class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "major_cooldowns.ts:161 the buff bar's art for fury_enrage"
+   ],
    "def": {
     "castTime": 0,
     "class": "warrior",
@@ -4764,8 +5067,9 @@
    "engine_references": [
     "src/sim/major_cooldowns.ts"
    ],
-   "reason": "passive: its behaviour lives in engine code src/sim/major_cooldowns.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_PASSIVE"
   },
   "entangling_roots": {
    "acquired_by": [
@@ -4816,6 +5120,7 @@
    "engine_references": [
     "src/sim/combat/effect_dispatch.ts"
    ],
+   "ported_mentions": [],
    "reason": null,
    "status": "IMPLEMENTED_ACTIVE"
   },
@@ -4823,7 +5128,9 @@
    "acquired_by": [
     "rogue class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "aura_classify.ts:199 the buff bar's defensive list"
+   ],
    "def": {
     "castTime": 0,
     "class": "rogue",
@@ -4850,8 +5157,9 @@
    "engine_references": [
     "src/sim/aura_classify.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/aura_classify.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "evil_eye": {
    "acquired_by": [
@@ -4885,6 +5193,7 @@
    "engine_references": [
     "src/sim/combat/affliction.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/affliction.ts",
    "status": "BLOCKED"
   },
@@ -4959,8 +5268,11 @@
    "engine_references": [
     "src/sim/combat/rogue_engines.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/rogue_engines.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgRogue.gd on_finisher (Redline)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "evocation": {
    "acquired_by": [
@@ -4998,8 +5310,9 @@
    "display_name": "Evocation",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "ability fields not implemented: channel",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_TALENT_GRANT"
   },
   "execute": {
    "acquired_by": [
@@ -5032,8 +5345,12 @@
     "src/sim/combat/empower_next.ts",
     "src/sim/combat/execute_threshold.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/empower_next.ts, src/sim/combat/execute_threshold.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgAbilityRules.gd has_free_cost (Sudden Death)",
+    "client/sim/RpgAbilityRules.gd execute_window_blocks"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "exorcism": {
    "acquired_by": [
@@ -5065,6 +5382,7 @@
    "engine_references": [
     "src/sim/paladin_devotion.ts"
    ],
+   "ported_mentions": [],
    "reason": "hiddenFromPlayer: retired; abilitiesKnownAt never lists it",
    "status": "NOT_APPLICABLE_TO_PLAYER"
   },
@@ -5097,14 +5415,19 @@
    "display_name": "Expose Armor",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: sunder",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "faerie_fire": {
    "acquired_by": [
     "druid class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "aura_classify.ts:27 the aura UI's debuff list",
+    "auras.ts:105 the kinds a friendly NPC rejects; the street has none",
+    "types.ts the AuraKind union and FAERIE_FIRE_ARMOR_PCT (in the pack's constants)"
+   ],
    "def": {
     "castTime": 0,
     "class": "druid",
@@ -5132,8 +5455,12 @@
     "src/sim/effective_stats.ts",
     "src/sim/types.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/aura_classify.ts, src/sim/combat/auras.ts, src/sim/combat/effect_dispatch.ts, src/sim/effective_stats.ts, src/sim/types.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgDruidKit.gd run_arm (faerieFire)",
+    "client/sim/RpgCombat.gd effective_armor (faerie_fire_armor_pct)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "faithforged_guard": {
    "acquired_by": [
@@ -5169,8 +5496,11 @@
    "engine_references": [
     "src/sim/paladin_devotion.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/paladin_devotion.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgPaladin.gd resolve (x1.5); RpgPaladinProcs.gd debt_of_light, pay_debt"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "faultline": {
    "acquired_by": [
@@ -5205,6 +5535,7 @@
    "display_name": "Faultline",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": null,
    "status": "IMPLEMENTED_ACTIVE"
   },
@@ -5242,6 +5573,7 @@
     "src/sim/mob/trash_kit/wildheart_hunt.ts",
     "src/sim/types.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/effect_dispatch.ts, src/sim/combat/warlock_fear.ts, src/sim/mob/locomotion.ts, src/sim/mob/mob_swing.ts, src/sim/mob/trash_kit/wildheart_hunt.ts, src/sim/types.ts",
    "status": "BLOCKED"
   },
@@ -5249,7 +5581,9 @@
    "acquired_by": [
     "druid feral signature"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "major_cooldowns.ts:244 an enemy nameplate's cooldown row (PvP UI)"
+   ],
    "def": {
     "castTime": 0,
     "class": "druid",
@@ -5274,8 +5608,9 @@
    "engine_references": [
     "src/sim/major_cooldowns.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/major_cooldowns.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_SPECIALIZATION"
   },
   "ferocious_bite": {
    "acquired_by": [
@@ -5314,8 +5649,11 @@
    "engine_references": [
     "src/sim/combat/druid_engines.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/druid_engines.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgDruidEngine.gd on_landed_strike (and its Red Harvest replacement)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "fieldcraft_reentry": {
    "acquired_by": [
@@ -5344,7 +5682,8 @@
    "engine_references": [
     "src/sim/combat/hunter_fieldcraft.ts"
    ],
-   "reason": "passive: its behaviour lives in engine code src/sim/combat/hunter_fieldcraft.ts",
+   "ported_mentions": [],
+   "reason": "passive: its behaviour lives in engine code not ported: src/sim/combat/hunter_fieldcraft.ts",
    "status": "BLOCKED"
   },
   "final_edict": {
@@ -5408,14 +5747,21 @@
     "src/sim/combat/paladin_sun_verdict.ts",
     "src/sim/paladin_devotion.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/paladin_dawn_rhythm.ts, src/sim/combat/paladin_sun_verdict.ts, src/sim/paladin_devotion.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgPaladinProcs.gd dawn_rhythm",
+    "client/sim/RpgPaladinKit.gd verdict_mark, advance_verdict",
+    "client/sim/RpgPaladin.gd resolve (_ascension_extra), after_ability"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "fingers_of_frost": {
    "acquired_by": [
     "mage class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "types.ts:582 the AuraKind union"
+   ],
    "def": {
     "castTime": 0,
     "class": "mage",
@@ -5439,8 +5785,11 @@
     "src/sim/combat/frost_mage.ts",
     "src/sim/types.ts"
    ],
-   "reason": "passive: its behaviour lives in engine code src/sim/combat/frost_mage.ts, src/sim/types.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgMage.gd after_cast, frozen_cast"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_PASSIVE"
   },
   "fire_blast": {
    "acquired_by": [
@@ -5504,8 +5853,11 @@
    "engine_references": [
     "src/sim/combat/fire_mage.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/fire_mage.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgMage.gd fire_guaranteed_crit, note_spell_hit, combustion_restokes"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "fireball": {
    "acquired_by": [
@@ -5601,8 +5953,11 @@
    "engine_references": [
     "src/sim/combat/fire_mage.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/fire_mage.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgMage.gd note_spell_hit (Hot Streak builder)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "fireball_form": {
    "acquired_by": [
@@ -5634,7 +5989,8 @@
    "display_name": "Fireball Form",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "ability fields not implemented: requiresOutOfCombat, requiresOutsideInstance",
+   "ported_mentions": [],
+   "reason": "ability fields not implemented: requiresOutsideInstance",
    "status": "BLOCKED"
   },
   "flame_shock": {
@@ -5695,8 +6051,14 @@
     "src/sim/combat/shaman_thundercall_kit.ts",
     "src/sim/combat/shaman_warspirit.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/ability_cooldown_groups.ts, src/sim/combat/shaman_talents.ts, src/sim/combat/shaman_thundercall_kit.ts, src/sim/combat/shaman_warspirit.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgAbilityRules.gd arm_cooldown (SHAMAN_SHOCKS)",
+    "client/sim/RpgShamanWar.gd on_cast_completed (Flowing Elements)",
+    "client/sim/RpgShaman.gd resolve (27 s), on_dot_tick (Magma Surge), magma_burst_crit",
+    "client/sim/RpgShamanWar.gd Stormcast abilities"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "flamestrike": {
    "acquired_by": [
@@ -5733,8 +6095,11 @@
    "engine_references": [
     "src/sim/combat/fire_mage.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/fire_mage.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgMage.gd note_spell_hit (builder and Hot Streak spender)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "flametongue_weapon": {
    "acquired_by": [
@@ -5784,14 +6149,21 @@
     "src/sim/combat/shaman_thundercall.ts",
     "src/sim/combat/shaman_unleash_weapon.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/shaman_talents.ts, src/sim/combat/shaman_thundercall.ts, src/sim/combat/shaman_unleash_weapon.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgShamanWar.gd pyrebrand_bonus_charge",
+    "client/sim/RpgShaman.gd consume_vent (Living Weapon)",
+    "client/sim/RpgShamanKit.gd run_unleash (Pyrebrand)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "flash_heal": {
    "acquired_by": [
     "priest class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "benison_dawnweave.ts: an item-set bonus (no set items in this game)"
+   ],
    "def": {
     "castTime": 1.5,
     "class": "priest",
@@ -5817,8 +6189,9 @@
    "engine_references": [
     "src/sim/combat/priest/benison_dawnweave.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/priest/benison_dawnweave.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "flash_of_light": {
    "acquired_by": [
@@ -5865,6 +6238,7 @@
    "engine_references": [
     "src/sim/paladin_devotion.ts"
    ],
+   "ported_mentions": [],
    "reason": "hiddenFromPlayer: retired; abilitiesKnownAt never lists it",
    "status": "NOT_APPLICABLE_TO_PLAYER"
   },
@@ -5934,8 +6308,11 @@
    "engine_references": [
     "src/sim/combat/frost_mage.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/frost_mage.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgMage.gd after_cast (Winter's Chill), brain_freeze_override / bypasses"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "flurry_of_knives": {
    "acquired_by": [
@@ -5966,8 +6343,9 @@
    "display_name": "Flurry Of Knives",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "ability fields not implemented: awardsCombo",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_TALENT_GRANT"
   },
   "frenzied_regeneration": {
    "acquired_by": [
@@ -6005,8 +6383,9 @@
    "display_name": "Frenzied Regeneration",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "ability fields not implemented: requiresForm",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "frost_armor": {
    "acquired_by": [
@@ -6068,6 +6447,7 @@
    "display_name": "Frost Armor",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": null,
    "status": "IMPLEMENTED_ACTIVE"
   },
@@ -6128,8 +6508,11 @@
    "engine_references": [
     "src/sim/combat/frost_mage.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/frost_mage.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgMage.gd frozen_cast (a mage's root freezes)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "frost_shock": {
    "acquired_by": [
@@ -6167,8 +6550,13 @@
     "src/sim/combat/shaman_talents.ts",
     "src/sim/combat/shaman_warspirit.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/ability_cooldown_groups.ts, src/sim/combat/shaman_talents.ts, src/sim/combat/shaman_warspirit.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgAbilityRules.gd arm_cooldown (SHAMAN_SHOCKS)",
+    "client/sim/RpgShamanWar.gd on_cast_completed (Flowing Elements)",
+    "client/sim/RpgShamanWar.gd Stormcast abilities"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "frost_trap": {
    "acquired_by": [],
@@ -6202,6 +6590,7 @@
    "display_name": "Frost Trap",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "no acquisition path in class kits, spec signatures, talent grants or action replacements",
    "status": "UNKNOWN"
   },
@@ -6295,8 +6684,11 @@
    "engine_references": [
     "src/sim/combat/frost_mage.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/frost_mage.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgMage.gd after_cast (Fingers, Brain Freeze, Icicles)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "frostbrand_weapon": {
    "acquired_by": [],
@@ -6337,6 +6729,7 @@
    "display_name": "Frostbrand Weapon",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "no acquisition path in class kits, spec signatures, talent grants or action replacements",
    "status": "UNKNOWN"
   },
@@ -6374,6 +6767,7 @@
    "engine_references": [
     "src/sim/combat/casting_lifecycle.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/casting_lifecycle.ts",
    "status": "BLOCKED"
   },
@@ -6429,6 +6823,7 @@
    "engine_references": [
     "src/sim/combat/frost_mage.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/frost_mage.ts",
    "status": "BLOCKED"
   },
@@ -6459,7 +6854,8 @@
    "engine_references": [
     "src/sim/combat/necromancy.ts"
    ],
-   "reason": "passive: its behaviour lives in engine code src/sim/combat/necromancy.ts",
+   "ported_mentions": [],
+   "reason": "passive: its behaviour lives in engine code not ported: src/sim/combat/necromancy.ts",
    "status": "BLOCKED"
   },
   "furious_mending": {
@@ -6467,7 +6863,7 @@
     "warrior class kit"
    ],
    "audited_mentions": [
-    "effect_dispatch.ts:4146 another ability's arm reads this aura; its own buff is generic"
+    "effect_dispatch.ts:4146 selfHealPctMax reads this aura (ported in RpgEffectsArea); its own buff is generic"
    ],
    "def": {
     "castTime": 0,
@@ -6499,6 +6895,7 @@
    "engine_references": [
     "src/sim/combat/effect_dispatch.ts"
    ],
+   "ported_mentions": [],
    "reason": null,
    "status": "IMPLEMENTED_ACTIVE"
   },
@@ -6535,8 +6932,12 @@
     "src/sim/combat/effect_dispatch.ts",
     "src/sim/combat/shaman_warspirit.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/effect_dispatch.ts, src/sim/combat/shaman_warspirit.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgShaman.gd imbue_posture",
+    "client/sim/RpgShamanWar.gd apply_posture, advance_cadence"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "garrote": {
    "acquired_by": [
@@ -6595,14 +6996,19 @@
    "engine_references": [
     "src/sim/combat/rogue_engines.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/rogue_engines.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgRogue.gd engine_on_cast, gloam_detonation, detonator_free_mult"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "ghost_wolf": {
    "acquired_by": [
     "shaman class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "aura_classify.ts:163 the aura UI's mode list"
+   ],
    "def": {
     "castTime": 2,
     "class": "shaman",
@@ -6634,8 +7040,16 @@
     "src/sim/combat/toggle_buff.ts",
     "src/sim/sim.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/aura_classify.ts, src/sim/combat/casting_lifecycle.ts, src/sim/combat/damage.ts, src/sim/combat/effect_dispatch.ts, src/sim/combat/shaman_talents.ts, src/sim/combat/toggle_buff.ts, src/sim/sim.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgCast.gd (breakGhostWolf at commit)",
+    "client/sim/RpgCast.gd pushback (ghost_wolf ignores pushback)",
+    "client/sim/RpgEffects.gd _self_buff (toggle, onGhostWolfExited)",
+    "client/sim/RpgShamanWar.gd on_cast_completed, on_ghost_wolf_exited",
+    "client/sim/RpgAbilityRules.gd is_toggle_buff",
+    "client/sim/RpgShaman.gd break_ghost_wolf"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "ghostly_strike": {
    "acquired_by": [],
@@ -6668,6 +7082,7 @@
    "display_name": "Ghostly Strike",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "no acquisition path in class kits, spec signatures, talent grants or action replacements",
    "status": "UNKNOWN"
   },
@@ -6727,6 +7142,7 @@
    "display_name": "Glacial Front",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "effect handler not implemented: empoweredCone",
    "status": "BLOCKED"
   },
@@ -6784,8 +7200,9 @@
    "display_name": "Glacial Spike",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "ability fields not implemented: requiresAuraKind, requiresAuraStacks",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "gouge": {
    "acquired_by": [
@@ -6839,8 +7256,11 @@
    "engine_references": [
     "src/sim/combat/effect_dispatch.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/effect_dispatch.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgEffectsArea.gd incapacitate (resetSwingTimer)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "grace_devotion": {
    "acquired_by": [
@@ -6875,8 +7295,12 @@
     "src/sim/combat/aura_stacking.ts",
     "src/sim/combat/paladin_support.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/aura_stacking.ts, src/sim/combat/paladin_support.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgCombat.gd apply_aura (source_independent_group_buffs)",
+    "client/sim/RpgPaladin.gd before_effects, strip_devotions; RpgCast.gd paladin_mana_mult"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "greater_invisibility": {
    "acquired_by": [
@@ -6911,6 +7335,7 @@
     "src/sim/combat/casting_lifecycle.ts",
     "src/sim/combat/greater_invisibility.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/aura_classify.ts, src/sim/combat/casting_lifecycle.ts, src/sim/combat/greater_invisibility.ts",
    "status": "BLOCKED"
   },
@@ -6945,6 +7370,7 @@
    "display_name": "Grove Awakening",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "effect handler not implemented: massResurrectGroup",
    "status": "BLOCKED"
   },
@@ -6975,8 +7401,9 @@
    "display_name": "Growl",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: taunt",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "guardian_covenant": {
    "acquired_by": [
@@ -7019,8 +7446,11 @@
    "engine_references": [
     "src/sim/paladin_devotion.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/paladin_devotion.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgPaladin.gd resolve (0.3)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "hammer_of_grace": {
    "acquired_by": [
@@ -7086,8 +7516,13 @@
     "src/sim/combat/paladin_solar_reprisal.ts",
     "src/sim/paladin_devotion.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/effect_dispatch.ts, src/sim/combat/paladin_solar_reprisal.ts, src/sim/paladin_devotion.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgEffects.gd _direct_damage (restoreMana, selfHealDamageFrac, Recurring Grace, Radiant Stride)",
+    "client/sim/RpgPaladinProcs.gd cast_overrides, bypasses_cooldown",
+    "client/sim/RpgPaladin.gd after_ability (COMMON_DIRECT_DEVOTION_ABILITIES)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "hammer_of_justice": {
    "acquired_by": [
@@ -7119,6 +7554,7 @@
    "engine_references": [
     "src/sim/combat/effect_dispatch.ts"
    ],
+   "ported_mentions": [],
    "reason": null,
    "status": "IMPLEMENTED_ACTIVE"
   },
@@ -7156,8 +7592,12 @@
     "src/sim/combat/paladin_dawns_wrath.ts",
     "src/sim/paladin_devotion.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/paladin_dawns_wrath.ts, src/sim/paladin_devotion.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgPaladinProcs.gd try_dawns_wrath, cast_overrides, bypasses_cooldown",
+    "client/sim/RpgPaladin.gd resolve (x1.3), execute_bypassed, after_ability"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "hamstring": {
    "acquired_by": [
@@ -7210,6 +7650,7 @@
    "display_name": "Hamstring",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": null,
    "status": "IMPLEMENTED_ACTIVE"
   },
@@ -7242,14 +7683,31 @@
    "display_name": "Hamstring Bite",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: finisherStun",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "heal": {
    "acquired_by": [
     "priest class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "auras.ts: the heal event or effect type name, not the Heal ability",
+    "balgath_trinkets.ts: the heal event or effect type name, not the Heal ability",
+    "casting_lifecycle.ts: the heal event or effect type name, not the Heal ability",
+    "damage.ts: the heal event or effect type name, not the Heal ability",
+    "dual_purpose_target.ts: the heal event or effect type name, not the Heal ability",
+    "effect_dispatch.ts: the heal event or effect type name, not the Heal ability",
+    "form_auto_unshift.ts: the heal event or effect type name, not the Heal ability",
+    "heal.ts: the heal event or effect type name, not the Heal ability",
+    "benison_dawnweave.ts: an item-set bonus (no set items in this game)",
+    "talent_procs.ts: the heal event or effect type name, not the Heal ability",
+    "boss_mechanics.ts: the heal event or effect type name, not the Heal ability",
+    "mob_swing.ts: the heal event or effect type name, not the Heal ability",
+    "paladin_devotion.ts: the heal event or effect type name, not the Heal ability",
+    "sim.ts: the heal event or effect type name, not the Heal ability",
+    "types.ts: the heal event or effect type name, not the Heal ability"
+   ],
    "def": {
     "castTime": 2.5,
     "class": "priest",
@@ -7303,8 +7761,9 @@
     "src/sim/sim.ts",
     "src/sim/types.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/auras.ts, src/sim/combat/balgath_trinkets.ts, src/sim/combat/casting_lifecycle.ts, src/sim/combat/damage.ts, src/sim/combat/dual_purpose_target.ts, src/sim/combat/effect_dispatch.ts, src/sim/combat/form_auto_unshift.ts, src/sim/combat/heal.ts, src/sim/combat/priest/benison_dawnweave.ts, src/sim/combat/talent_procs.ts, src/sim/mob/boss_mechanics.ts, src/sim/mob/mob_swing.ts, src/sim/paladin_devotion.ts, src/sim/sim.ts, src/sim/types.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "healing_stream": {
    "acquired_by": [],
@@ -7333,6 +7792,7 @@
    "display_name": "Healing Stream",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "no acquisition path in class kits, spec signatures, talent grants or action replacements",
    "status": "UNKNOWN"
   },
@@ -7405,14 +7865,20 @@
    "engine_references": [
     "src/sim/combat/druid_engines.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/druid_engines.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgDruidEngine.gd on_cast (Verdance), wildmend_cast_time"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "healing_wave": {
    "acquired_by": [
     "shaman class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "casting_lifecycle.ts:1294/3080 the Stonehearth and Vanguard set bonuses (no set items in this game)",
+    "shaman_stonehearth.ts: the Stonehearth set bonus (no set items in this game)"
+   ],
    "def": {
     "castTime": 1.5,
     "class": "shaman",
@@ -7497,8 +7963,14 @@
     "src/sim/combat/shaman_talents.ts",
     "src/sim/combat/shaman_warspirit.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/casting_lifecycle.ts, src/sim/combat/effect_dispatch.ts, src/sim/combat/shaman_spiritmend.ts, src/sim/combat/shaman_stonehearth.ts, src/sim/combat/shaman_talents.ts, src/sim/combat/shaman_warspirit.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgEffects.gd _heal (RpgShamanKit.gd deposit, ward cycle)",
+    "client/sim/RpgShamanKit.gd deposit",
+    "client/sim/RpgShamanWar.gd trigger_ward_cycle, Flowing Elements",
+    "client/sim/RpgShamanWar.gd Stormcast abilities"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "hemorrhage": {
    "acquired_by": [
@@ -7541,8 +8013,11 @@
    "engine_references": [
     "src/sim/combat/rogue_engines.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/rogue_engines.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgRogue.gd engine_on_cast (Gloam rhythm)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_SPECIALIZATION"
   },
   "heroic_leap": {
    "acquired_by": [
@@ -7577,8 +8052,11 @@
    "engine_references": [
     "src/sim/combat/heroic_leap.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/heroic_leap.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgMotion.gd arm_leap / _advance_leap"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "heroic_strike": {
    "acquired_by": [
@@ -7656,8 +8134,11 @@
    "engine_references": [
     "src/sim/combat/empower_next.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/empower_next.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgAbilityRules.gd has_free_cost / consume_free_cost (Battle Trance)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "hex_of_violence": {
    "acquired_by": [
@@ -7696,6 +8177,7 @@
    "engine_references": [
     "src/sim/combat/affliction.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/affliction.ts",
    "status": "BLOCKED"
   },
@@ -7725,6 +8207,7 @@
    "display_name": "Hibernate",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": null,
    "status": "IMPLEMENTED_ACTIVE"
   },
@@ -7799,8 +8282,14 @@
     "src/sim/combat/paladin_solar_reprisal.ts",
     "src/sim/paladin_devotion.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/empower_next.ts, src/sim/combat/paladin_radiant_resonance.ts, src/sim/combat/paladin_solar_reprisal.ts, src/sim/paladin_devotion.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgAbilityRules.gd consume_next_cast_instant (Radiant Resonance arm)",
+    "client/sim/RpgPaladinProcs.gd consume_resonance_instant",
+    "client/sim/RpgPaladinProcs.gd cast_overrides (instant)",
+    "client/sim/RpgPaladin.gd after_ability (COMMON_DIRECT_DEVOTION_ABILITIES)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "holy_nova": {
    "acquired_by": [
@@ -7862,8 +8351,11 @@
    "engine_references": [
     "src/sim/combat/priest/talents.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/priest/talents.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgPriest.gd on_group_heal (Second Verse)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "holy_shield": {
    "acquired_by": [
@@ -7911,8 +8403,11 @@
    "engine_references": [
     "src/sim/paladin_devotion.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/paladin_devotion.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgPaladin.gd resolve (block 0.4, absorb x1.5, 10 s)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "holy_shock": {
    "acquired_by": [
@@ -7969,6 +8464,7 @@
    "engine_references": [
     "src/sim/paladin_devotion.ts"
    ],
+   "ported_mentions": [],
    "reason": "hiddenFromPlayer: retired; abilitiesKnownAt never lists it",
    "status": "NOT_APPLICABLE_TO_PLAYER"
   },
@@ -8000,6 +8496,7 @@
    "display_name": "Holy Taunt",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "hiddenFromPlayer: retired; abilitiesKnownAt never lists it",
    "status": "NOT_APPLICABLE_TO_PLAYER"
   },
@@ -8030,8 +8527,11 @@
    "engine_references": [
     "src/sim/combat/fire_mage.ts"
    ],
-   "reason": "passive: its behaviour lives in engine code src/sim/combat/fire_mage.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgMage.gd note_spell_hit"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_PASSIVE"
   },
   "hour_of_judgment": {
    "acquired_by": [
@@ -8069,6 +8569,7 @@
    "engine_references": [
     "src/sim/combat/affliction.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/affliction.ts",
    "status": "BLOCKED"
   },
@@ -8101,6 +8602,7 @@
    "engine_references": [
     "src/sim/combat/warlock_fear.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/warlock_fear.ts",
    "status": "BLOCKED"
   },
@@ -8131,7 +8633,8 @@
    "engine_references": [
     "src/sim/combat/hunter_fieldcraft.ts"
    ],
-   "reason": "passive: its behaviour lives in engine code src/sim/combat/hunter_fieldcraft.ts",
+   "ported_mentions": [],
+   "reason": "passive: its behaviour lives in engine code not ported: src/sim/combat/hunter_fieldcraft.ts",
    "status": "BLOCKED"
   },
   "hurricane": {
@@ -8167,8 +8670,9 @@
    "display_name": "Hurricane",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "ability fields not implemented: channel, targetMode",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "hushbrand": {
    "acquired_by": [
@@ -8201,8 +8705,9 @@
    "display_name": "Hushbrand",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: interrupt",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "ice_barrier": {
    "acquired_by": [
@@ -8266,8 +8771,12 @@
     "src/sim/combat/casting_lifecycle.ts",
     "src/sim/combat/fire_mage.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/casting_lifecycle.ts, src/sim/combat/fire_mage.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgMage.gd overflowing_power_cdr",
+    "client/sim/RpgMage.gd PERSONAL_BARRIER_IDS (shieldConsumed procs)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "ice_block": {
    "acquired_by": [
@@ -8303,14 +8812,20 @@
    "engine_references": [
     "src/sim/sim.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/sim.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgMage.gd ice_blocked (RpgCombat.apply_aura)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "ice_floes": {
    "acquired_by": [
     "mage talent mag_r5_ice_floes"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "shaman_talents.ts a shaman talent makes its own ice_floes aura",
+    "types.ts:709 the AuraKind union"
+   ],
    "def": {
     "castTime": 0,
     "class": "mage",
@@ -8339,8 +8854,11 @@
     "src/sim/combat/shaman_talents.ts",
     "src/sim/types.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/empower_next.ts, src/sim/combat/shaman_talents.ts, src/sim/types.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgMage.gd ice_floes_for (RpgCast, RpgMotion)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_TALENT_GRANT"
   },
   "ice_lance": {
    "acquired_by": [
@@ -8401,8 +8919,11 @@
    "engine_references": [
     "src/sim/combat/frost_mage.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/frost_mage.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgMage.gd frozen_cast (Fingers, Winter's Chill, x3)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "icy_veins": {
    "acquired_by": [
@@ -8441,8 +8962,9 @@
    "display_name": "Icy Veins",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "aura kind consumers not implemented: buff_spellhaste, cast_shield",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "ignition": {
    "acquired_by": [
@@ -8469,8 +8991,9 @@
    "display_name": "Ignition",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "passive: its behaviour lives in engine code (none named)",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_PASSIVE"
   },
   "immolate": {
    "acquired_by": [
@@ -8549,6 +9072,7 @@
     "src/sim/combat/destruction.ts",
     "src/sim/combat/warlock_talents.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/destruction.ts, src/sim/combat/warlock_talents.ts",
    "status": "BLOCKED"
   },
@@ -8589,8 +9113,12 @@
     "src/sim/combat/priest/stilled_mind.ts",
     "src/sim/combat/priest/talents.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/priest/stilled_mind.ts, src/sim/combat/priest/talents.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgPriest.gd after_ability (Stilled Mind)",
+    "client/sim/RpgPriest.gd on_cast_completed"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_TALENT_GRANT"
   },
   "innervate": {
    "acquired_by": [
@@ -8621,8 +9149,9 @@
    "display_name": "Innervate",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "ability fields not implemented: usableInForm",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_TALENT_GRANT"
   },
   "insect_swarm": {
    "acquired_by": [
@@ -8652,6 +9181,7 @@
    "display_name": "Insect Swarm",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": null,
    "status": "IMPLEMENTED_ACTIVE"
   },
@@ -8682,8 +9212,9 @@
    "display_name": "Instant Poison",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: imbue",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "intervene": {
    "acquired_by": [
@@ -8750,8 +9281,9 @@
    "display_name": "Intervene",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: charge",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": "a friendly rush: castAbility refuses it on the caster (You must target an ally.), and the street has no party",
+   "status": "NEEDS_GROUP"
   },
   "intimidating_shout": {
    "acquired_by": [
@@ -8782,8 +9314,9 @@
    "display_name": "Intimidating Shout",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: aoeFear",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "iron_resolve": {
    "acquired_by": [
@@ -8816,6 +9349,7 @@
    "display_name": "Iron Resolve",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": null,
    "status": "IMPLEMENTED_ACTIVE"
   },
@@ -8845,14 +9379,17 @@
    "display_name": "Kick",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: interrupt",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "kidney_shot": {
    "acquired_by": [
     "rogue class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "effect_dispatch.ts:1287 a spellfx cue only"
+   ],
    "def": {
     "castTime": 0,
     "class": "rogue",
@@ -8879,8 +9416,11 @@
     "src/sim/combat/casting_lifecycle.ts",
     "src/sim/combat/effect_dispatch.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/casting_lifecycle.ts, src/sim/combat/effect_dispatch.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgRogue.gd low_blow_fallback"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "knockout_blow": {
    "acquired_by": [
@@ -8917,8 +9457,11 @@
    "engine_references": [
     "src/sim/combat/rogue_engines.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/rogue_engines.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgRogue.gd knockout_redline_mult"
+   ],
+   "reason": "an action replacement: available only while its aura holds",
+   "status": "CONDITION_LOCKED"
   },
   "lava_burst": {
    "acquired_by": [
@@ -8969,8 +9512,13 @@
     "src/sim/combat/shaman_thundercall.ts",
     "src/sim/combat/shaman_thundercall_kit.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/effect_dispatch.ts, src/sim/combat/shaman_thundercall.ts, src/sim/combat/shaman_thundercall_kit.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgShaman.gd after_direct_damage",
+    "client/sim/RpgShaman.gd add_thunder_charges",
+    "client/sim/RpgShaman.gd magma_crit_bonus, magma_burst_crit, on_dot_tick"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "lay_on_hands": {
    "acquired_by": [
@@ -9005,14 +9553,21 @@
     "src/sim/combat/effect_dispatch.ts",
     "src/sim/paladin_devotion.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/effect_dispatch.ts, src/sim/paladin_devotion.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgPaladinProcs.gd after_effective (Steady Hands)",
+    "client/sim/RpgPaladin.gd after_ability (COMMON_DIRECT_DEVOTION_ABILITIES)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "lesser_heal": {
    "acquired_by": [
     "priest class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "empower_next.ts: Benison's whisper, an item-set bonus (no set items in this game)",
+    "benison_dawnweave.ts: an item-set bonus (no set items in this game)"
+   ],
    "def": {
     "castTime": 2,
     "class": "priest",
@@ -9077,8 +9632,9 @@
     "src/sim/combat/empower_next.ts",
     "src/sim/combat/priest/benison_dawnweave.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/empower_next.ts, src/sim/combat/priest/benison_dawnweave.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "life_covenant": {
    "acquired_by": [
@@ -9115,8 +9671,11 @@
    "engine_references": [
     "src/sim/paladin_devotion.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/paladin_devotion.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgPaladin.gd resolve (+120 absorb)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "life_tap": {
    "acquired_by": [
@@ -9175,6 +9734,7 @@
    "display_name": "Life Tap",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "effect handler not implemented: lifeTap",
    "status": "BLOCKED"
   },
@@ -9211,8 +9771,12 @@
     "src/sim/combat/shaman_spiritmend.ts",
     "src/sim/combat/shaman_talents.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/shaman_spiritmend.ts, src/sim/combat/shaman_talents.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgShamanKit.gd deposit, run_unleash",
+    "client/sim/RpgShamanKit.gd deposit (Imbue Mastery)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "lightning_bolt": {
    "acquired_by": [
@@ -9289,8 +9853,15 @@
     "src/sim/combat/shaman_thundercall_kit.ts",
     "src/sim/combat/shaman_warspirit.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/effect_dispatch.ts, src/sim/combat/shaman_talents.ts, src/sim/combat/shaman_thundercall.ts, src/sim/combat/shaman_thundercall_kit.ts, src/sim/combat/shaman_warspirit.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgShaman.gd after_direct_damage",
+    "client/sim/RpgShamanWar.gd trigger_ward_cycle, cast_time_mult, on_cast_completed (Flowing Elements)",
+    "client/sim/RpgShaman.gd after_direct_damage (Arc Bolt charges), before_effects (Primal Mastery)",
+    "client/sim/RpgShaman.gd roll_overload",
+    "client/sim/RpgShamanWar.gd advance_cadence (Stormcast), RpgCast.gd stormcast reservation"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "lightning_overload": {
    "acquired_by": [
@@ -9319,8 +9890,11 @@
    "engine_references": [
     "src/sim/combat/shaman_thundercall_kit.ts"
    ],
-   "reason": "passive: its behaviour lives in engine code src/sim/combat/shaman_thundercall_kit.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgShaman.gd roll_overload"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_PASSIVE"
   },
   "lightning_shield": {
    "acquired_by": [
@@ -9389,8 +9963,14 @@
     "src/sim/combat/shaman_warspirit.ts",
     "src/sim/combat/thorns_charge.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/effect_dispatch.ts, src/sim/combat/shaman_talents.ts, src/sim/combat/shaman_warspirit.ts, src/sim/combat/thorns_charge.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgShaman.gd before_effects (onThunderWardActivated)",
+    "client/sim/RpgShamanWar.gd trigger_ward_cycle, on_thunder_ward_activated/retaliated",
+    "client/sim/RpgShamanWar.gd ward_smoothing",
+    "client/sim/RpgThorns.gd react"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "litany_of_guilt": {
    "acquired_by": [
@@ -9458,6 +10038,7 @@
     "src/sim/combat/affliction.ts",
     "src/sim/combat/warlock_talents.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/affliction.ts, src/sim/combat/warlock_talents.ts",
    "status": "BLOCKED"
   },
@@ -9493,8 +10074,12 @@
     "src/sim/combat/druid_engines.ts",
     "src/sim/combat/druid_lunge.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/druid_engines.ts, src/sim/combat/druid_lunge.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgDruidEngine.gd on_cast, on_landed_strike",
+    "client/sim/RpgDruidKit.gd start_lunge, finish_charge"
+   ],
+   "reason": "an action replacement: available only while its aura holds",
+   "status": "CONDITION_LOCKED"
   },
   "maledict_gaze": {
    "acquired_by": [
@@ -9523,7 +10108,8 @@
    "engine_references": [
     "src/sim/combat/affliction.ts"
    ],
-   "reason": "passive: its behaviour lives in engine code src/sim/combat/affliction.ts",
+   "ported_mentions": [],
+   "reason": "passive: its behaviour lives in engine code not ported: src/sim/combat/affliction.ts",
    "status": "BLOCKED"
   },
   "mark_of_the_wild": {
@@ -9558,8 +10144,11 @@
    "engine_references": [
     "src/sim/combat/aura_stacking.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/aura_stacking.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgCombat.gd apply_aura (source_independent_group_buffs)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "marrowbreak": {
    "acquired_by": [
@@ -9607,8 +10196,12 @@
     "src/sim/combat/druid_engines.ts",
     "src/sim/combat/effect_dispatch.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/druid_engines.ts, src/sim/combat/effect_dispatch.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgDruidEngine.gd on_cast, apex_payoff_mult",
+    "client/sim/RpgDruidKit.gd skips_direct_damage, run_arm (druidMarrowbreakGuard)"
+   ],
+   "reason": "an action replacement: available only while its aura holds",
+   "status": "CONDITION_LOCKED"
   },
   "martyrs_aegis": {
    "acquired_by": [
@@ -9639,6 +10232,7 @@
    "display_name": "Martyrs Aegis",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": null,
    "status": "IMPLEMENTED_TALENT_GRANT"
   },
@@ -9675,8 +10269,12 @@
     "src/sim/combat/aura_stacking.ts",
     "src/sim/combat/effect_dispatch.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/aura_stacking.ts, src/sim/combat/effect_dispatch.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgCombat.gd apply_aura (source-independent group buffs)",
+    "client/sim/RpgEffectsArea.gd _aoe_ally_absorb"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_TALENT_GRANT"
   },
   "maul": {
    "acquired_by": [
@@ -9732,8 +10330,11 @@
    "engine_references": [
     "src/sim/combat/druid_engines.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/druid_engines.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgDruidEngine.gd on_landed_strike"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "measured_fury": {
    "acquired_by": [
@@ -9762,8 +10363,11 @@
    "engine_references": [
     "src/sim/combat/ability_resolution.ts"
    ],
-   "reason": "passive: its behaviour lives in engine code src/sim/combat/ability_resolution.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgAbilityCost.gd resolve"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_PASSIVE"
   },
   "measured_shot": {
    "acquired_by": [
@@ -9805,6 +10409,7 @@
     "src/sim/combat/hunter_coldsight.ts",
     "src/sim/combat/hunter_shared.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/hunter_coldsight.ts, src/sim/combat/hunter_shared.ts",
    "status": "BLOCKED"
   },
@@ -9812,7 +10417,11 @@
    "acquired_by": [
     "rogue class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "aura_classify.ts:28 the dispel list",
+    "auras.ts:106 friendly NPCs reject it (no NPCs on the street)",
+    "types.ts:618 the AuraKind union"
+   ],
    "def": {
     "castTime": 0,
     "class": "rogue",
@@ -9846,8 +10455,11 @@
     "src/sim/effective_stats.ts",
     "src/sim/types.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/aura_classify.ts, src/sim/combat/auras.ts, src/sim/effective_stats.ts, src/sim/types.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgCombat.gd effective_armor"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "mend_pet": {
    "acquired_by": [],
@@ -9876,6 +10488,7 @@
    "display_name": "Mend Pet",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "no acquisition path in class kits, spec signatures, talent grants or action replacements",
    "status": "UNKNOWN"
   },
@@ -9914,8 +10527,11 @@
    "engine_references": [
     "src/sim/paladin_devotion.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/paladin_devotion.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgPaladin.gd resolve (guaranteed crit), after_ability"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "metamorphosis": {
    "acquired_by": [
@@ -9970,6 +10586,7 @@
    "display_name": "Metamorphosis",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "effect handler not implemented: empowerUndeadArmy, gainSoulFragments",
    "status": "BLOCKED"
   },
@@ -9977,7 +10594,10 @@
    "acquired_by": [
     "mage class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "boss_starwake.ts:84 a boss sound effect named meteor",
+    "boss_starwake_meteors.ts a boss mechanic's own meteors"
+   ],
    "def": {
     "castTime": 0,
     "class": "mage",
@@ -10012,8 +10632,9 @@
     "src/sim/mob/boss_starwake.ts",
     "src/sim/mob/boss_starwake_meteors.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/mob/boss_starwake.ts, src/sim/mob/boss_starwake_meteors.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "mind_blast": {
    "acquired_by": [
@@ -10071,14 +10692,20 @@
     "src/sim/combat/priest/stilled_mind.ts",
     "src/sim/combat/priest/vespers.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/priest/stilled_mind.ts, src/sim/combat/priest/vespers.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgPriest.gd reserve_stilled_mind",
+    "client/sim/RpgPriest.gd resolve, _vespers_echo"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "mind_flay": {
    "acquired_by": [
     "priest class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "vespers.ts Duskhymn: an item-set bonus (no set items in this game)"
+   ],
    "def": {
     "castTime": 0,
     "channel": {
@@ -10109,7 +10736,10 @@
     "src/sim/combat/priest/periodic_crit.ts",
     "src/sim/combat/priest/vespers.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/priest/periodic_crit.ts, src/sim/combat/priest/vespers.ts",
+   "ported_mentions": [
+    "client/sim/RpgPriest.gd shadow_periodic_hit"
+   ],
+   "reason": "effect handler not implemented: drainTick",
    "status": "BLOCKED"
   },
   "mind_sear": {
@@ -10143,6 +10773,7 @@
    "display_name": "Mind Sear",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "no acquisition path in class kits, spec signatures, talent grants or action replacements",
    "status": "UNKNOWN"
   },
@@ -10195,6 +10826,7 @@
     "src/sim/combat/hunter_shared.ts",
     "src/sim/sim.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/effect_dispatch.ts, src/sim/combat/hunter_fieldcraft.ts, src/sim/combat/hunter_shared.ts, src/sim/sim.ts",
    "status": "BLOCKED"
   },
@@ -10269,6 +10901,7 @@
    "display_name": "Moonfire",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": null,
    "status": "IMPLEMENTED_ACTIVE"
   },
@@ -10302,8 +10935,11 @@
    "engine_references": [
     "src/sim/combat/druid_engines.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/druid_engines.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgDruidEngine.gd on_cast (Moontide needs Moonwing); RpgUnit.gd _form_stats"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_SPECIALIZATION"
   },
   "moonlash": {
    "acquired_by": [
@@ -10340,8 +10976,11 @@
    "engine_references": [
     "src/sim/combat/druid_engines.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/druid_engines.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgDruidEngine.gd on_cast (Moontide spent, Highmoon Tithe), apex_payoff_mult"
+   ],
+   "reason": "an action replacement: available only while its aura holds",
+   "status": "CONDITION_LOCKED"
   },
   "moonseed": {
    "acquired_by": [
@@ -10389,8 +11028,11 @@
    "engine_references": [
     "src/sim/combat/druid_engines.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/druid_engines.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgDruidEngine.gd on_cast (Moontide builder)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "mortal_strike": {
    "acquired_by": [
@@ -10438,8 +11080,13 @@
     "src/sim/combat/effect_dispatch.ts",
     "src/sim/combat/empower_next.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/casting_lifecycle.ts, src/sim/combat/effect_dispatch.ts, src/sim/combat/empower_next.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgAbilityRules.gd rage_spend_refund (COLOSSAL_MIGHT_COOLDOWNS)",
+    "client/sim/RpgWarrior.gd shape_weapon_strike (Overpower charge)",
+    "client/sim/RpgAbilityRules.gd has_free_cost / consume_free_cost (Battle Trance)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_SPECIALIZATION"
   },
   "multi_shot": {
    "acquired_by": [],
@@ -10469,6 +11116,7 @@
    "display_name": "Multi Shot",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "no acquisition path in class kits, spec signatures, talent grants or action replacements",
    "status": "UNKNOWN"
   },
@@ -10501,8 +11149,11 @@
    "engine_references": [
     "src/sim/combat/druid_natures_boon.ts"
    ],
-   "reason": "passive: its behaviour lives in engine code src/sim/combat/druid_natures_boon.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgDruidEngine.gd boon_on_auto_attack, boon_on_cast, boon_on_hot_tick, boon_power"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_PASSIVE"
   },
   "needle_of_fate": {
    "acquired_by": [
@@ -10576,6 +11227,7 @@
     "src/sim/combat/affliction_sentence_queue.ts",
     "src/sim/combat/warlock_talents.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/affliction.ts, src/sim/combat/affliction_sentence_queue.ts, src/sim/combat/warlock_talents.ts",
    "status": "BLOCKED"
   },
@@ -10612,8 +11264,9 @@
    "display_name": "Nightshade Coating",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: imbue",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "oath_chain": {
    "acquired_by": [
@@ -10652,8 +11305,12 @@
     "src/sim/combat/paladin_control.ts",
     "src/sim/paladin_devotion.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/paladin_control.ts, src/sim/paladin_devotion.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgPaladinKit.gd _pull_targets, tick_pull (Shieldvow is a set bonus; no set items in this game)",
+    "client/sim/RpgPaladin.gd resolve (2 targets)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "ossuary_mark": {
    "acquired_by": [
@@ -10690,6 +11347,7 @@
    "engine_references": [
     "src/sim/combat/necromancy.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/necromancy.ts",
    "status": "BLOCKED"
   },
@@ -10727,14 +11385,20 @@
    "engine_references": [
     "src/sim/combat/druid_engines.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/druid_engines.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgDruidEngine.gd overbloom"
+   ],
+   "reason": "an action replacement: available only while its aura holds",
+   "status": "CONDITION_LOCKED"
   },
   "overload": {
    "acquired_by": [
     "mage talent mag_r14_overload"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "major_cooldowns.ts the buff bar's list",
+    "types.ts the AuraKind union"
+   ],
    "def": {
     "castTime": 0,
     "class": "mage",
@@ -10763,8 +11427,11 @@
     "src/sim/major_cooldowns.ts",
     "src/sim/types.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/casting_lifecycle.ts, src/sim/major_cooldowns.ts, src/sim/types.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgMage.gd consume_overload"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_TALENT_GRANT"
   },
   "overpower": {
    "acquired_by": [
@@ -10825,8 +11492,9 @@
    "display_name": "Overpower",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "ability fields not implemented: maxCharges",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "pack_command": {
    "acquired_by": [
@@ -10869,6 +11537,7 @@
     "src/sim/combat/hunter_packlord.ts",
     "src/sim/combat/hunter_shared.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/casting_lifecycle.ts, src/sim/combat/hunter_packlord.ts, src/sim/combat/hunter_shared.ts",
    "status": "BLOCKED"
   },
@@ -10906,6 +11575,7 @@
    "engine_references": [
     "src/sim/combat/hunter_shared.ts"
    ],
+   "ported_mentions": [],
    "reason": "no acquisition path in class kits, spec signatures, talent grants or action replacements",
    "status": "UNKNOWN"
   },
@@ -10941,6 +11611,7 @@
     "src/sim/combat/chronomancy.ts",
     "src/sim/types.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/chronomancy.ts, src/sim/types.ts",
    "status": "BLOCKED"
   },
@@ -10979,8 +11650,9 @@
    "display_name": "Phosphor Flask",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: groundAoE",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "piercing_howl": {
    "acquired_by": [
@@ -11010,8 +11682,9 @@
    "display_name": "Piercing Howl",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: aoeSlow",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_TALENT_GRANT"
   },
   "play_dead": {
    "acquired_by": [
@@ -11042,6 +11715,7 @@
    "engine_references": [
     "src/sim/combat/hunter_play_dead.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/hunter_play_dead.ts",
    "status": "BLOCKED"
   },
@@ -11049,7 +11723,14 @@
    "acquired_by": [
     "mage class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "aura_classify.ts the dispel list",
+    "trinkets.ts a trinket's cleanse list (no trinkets in this game)",
+    "mob_swing.ts:879 a monster hex's polymorph kind",
+    "trash_kit: a monster's polymorph kind",
+    "trash_kit: a monster's polymorph kind",
+    "types.ts:442 the AuraKind union"
+   ],
    "def": {
     "castTime": 1.5,
     "class": "mage",
@@ -11097,8 +11778,16 @@
     "src/sim/sim.ts",
     "src/sim/types.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/aura_classify.ts, src/sim/combat/auras.ts, src/sim/combat/casting_lifecycle.ts, src/sim/combat/cc.ts, src/sim/combat/effect_dispatch.ts, src/sim/combat/trinkets.ts, src/sim/mob/locomotion.ts, src/sim/mob/mob_swing.ts, src/sim/mob/trash_kit/temple_choir.ts, src/sim/mob/trash_kit/wildheart_hunt.ts, src/sim/sim.ts, src/sim/types.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgCombat.gd _tick_periodic (polymorph regrowth)",
+    "client/sim/RpgClassGates.gd target_gate",
+    "client/sim/RpgCombat.gd is_stunned",
+    "client/sim/RpgEffectsArea.gd _polymorph",
+    "client/sim/RpgMotion.gd controlled_mob (wander)",
+    "client/sim/RpgAbilityRules.gd CONTROL_KINDS"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "possess_evil_eye": {
    "acquired_by": [
@@ -11135,6 +11824,7 @@
    "engine_references": [
     "src/sim/combat/affliction.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/affliction.ts",
    "status": "BLOCKED"
   },
@@ -11174,14 +11864,21 @@
    "engine_references": [
     "src/sim/combat/druid_engines.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/druid_engines.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgDruidEngine.gd on_landed_strike"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "power_echo": {
    "acquired_by": [
     "mage talent mag_r14_power_echo"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "shaman_warspirit.ts:354 a shaman engine grants its own power_echo aura",
+    "major_cooldowns.ts the buff bar's list",
+    "types.ts the AuraKind union"
+   ],
    "def": {
     "castTime": 0,
     "class": "mage",
@@ -11211,8 +11908,11 @@
     "src/sim/major_cooldowns.ts",
     "src/sim/types.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/effect_dispatch.ts, src/sim/combat/shaman_warspirit.ts, src/sim/major_cooldowns.ts, src/sim/types.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgEffects.gd _power_echo_damage / _heal echo"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_TALENT_GRANT"
   },
   "power_infusion": {
    "acquired_by": [
@@ -11255,8 +11955,9 @@
    "display_name": "Power Infusion",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "aura kind consumers not implemented: buff_spellhaste",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_TALENT_GRANT"
   },
   "power_word_fortitude": {
    "acquired_by": [
@@ -11290,8 +11991,11 @@
    "engine_references": [
     "src/sim/combat/aura_stacking.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/aura_stacking.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgCombat.gd apply_aura (source-independent group buffs)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "power_word_shield": {
    "acquired_by": [
@@ -11366,14 +12070,20 @@
     "src/sim/combat/priest/doctrine.ts",
     "src/sim/combat/priest/talents.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/priest/doctrine.ts, src/sim/combat/priest/talents.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgPriest.gd after_ability (Doctrine link), _doctrine_convert",
+    "client/sim/RpgPriest.gd after_ability, on_shield_consumed"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "prayer_of_healing": {
    "acquired_by": [
     "priest class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "benison_dawnweave.ts: an item-set bonus (no set items in this game)"
+   ],
    "def": {
     "castTime": 3,
     "class": "priest",
@@ -11418,8 +12128,11 @@
     "src/sim/combat/priest/benison_dawnweave.ts",
     "src/sim/combat/priest/talents.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/priest/benison_dawnweave.ts, src/sim/combat/priest/talents.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgPriest.gd on_group_heal (Living Covenant, Second Verse)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "prayer_of_returning": {
    "acquired_by": [
@@ -11453,6 +12166,7 @@
    "display_name": "Prayer Of Returning",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "effect handler not implemented: massResurrectGroup",
    "status": "BLOCKED"
   },
@@ -11485,6 +12199,7 @@
    "display_name": "Preparation",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "no acquisition path in class kits, spec signatures, talent grants or action replacements",
    "status": "UNKNOWN"
   },
@@ -11517,14 +12232,17 @@
    "display_name": "Presence Of Mind",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "aura kind consumers not implemented: next_cast_instant",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_TALENT_GRANT"
   },
   "primal_exaltation": {
    "acquired_by": [
     "shaman talent sha_r17_earthbind"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "major_cooldowns.ts an enemy nameplate's cooldown row (PvP UI)"
+   ],
    "def": {
     "castTime": 0,
     "class": "shaman",
@@ -11544,8 +12262,11 @@
     "src/sim/combat/effect_dispatch.ts",
     "src/sim/major_cooldowns.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/effect_dispatch.ts, src/sim/major_cooldowns.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgShaman.gd before_effects"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_TALENT_GRANT"
   },
   "primal_reflexes": {
    "acquired_by": [
@@ -11577,14 +12298,17 @@
    "display_name": "Primal Reflexes",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "ability fields not implemented: usableInForm",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "prowl": {
    "acquired_by": [
     "druid class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "stealth_fall.ts: a fall keeps this stealth; the street has no falls"
+   ],
    "def": {
     "castTime": 0,
     "class": "druid",
@@ -11612,8 +12336,9 @@
    "engine_references": [
     "src/sim/combat/stealth_fall.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/stealth_fall.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "psychic_scream": {
    "acquired_by": [
@@ -11642,8 +12367,9 @@
    "display_name": "Psychic Scream",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: aoeFear",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "pummel": {
    "acquired_by": [
@@ -11673,8 +12399,9 @@
    "display_name": "Pummel",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: interrupt",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "pyroblast": {
    "acquired_by": [
@@ -11716,8 +12443,11 @@
    "engine_references": [
     "src/sim/combat/fire_mage.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/fire_mage.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgMage.gd note_spell_hit (builder and Hot Streak spender)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "radiant_chorus": {
    "acquired_by": [
@@ -11753,8 +12483,12 @@
     "src/sim/combat/effect_dispatch.ts",
     "src/sim/paladin_devotion.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/effect_dispatch.ts, src/sim/paladin_devotion.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgEffectsArea.gd _aoe_heal (grant_resonance)",
+    "client/sim/RpgPaladin.gd resolve (x1.2, radius 40), after_ability"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "radiant_devotion": {
    "acquired_by": [
@@ -11788,8 +12522,12 @@
     "src/sim/combat/aura_stacking.ts",
     "src/sim/combat/paladin_support.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/aura_stacking.ts, src/sim/combat/paladin_support.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgCombat.gd apply_aura (source_independent_group_buffs)",
+    "client/sim/RpgPaladin.gd before_effects, strip_devotions"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "raging_gale": {
    "acquired_by": [
@@ -11833,8 +12571,11 @@
    "engine_references": [
     "src/sim/combat/effect_dispatch.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/effect_dispatch.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgWarrior.gd shape_weapon_strike, before_effects"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "rain_of_fire": {
    "acquired_by": [
@@ -11897,6 +12638,7 @@
     "src/sim/combat/warlock_talents.ts",
     "src/sim/sim.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/casting_lifecycle.ts, src/sim/combat/destruction.ts, src/sim/combat/effect_dispatch.ts, src/sim/combat/warlock_meteor_events.ts, src/sim/combat/warlock_talents.ts, src/sim/sim.ts",
    "status": "BLOCKED"
   },
@@ -11931,6 +12673,7 @@
    "display_name": "Raise Bone Mage",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "effect handler not implemented: summonUndead",
    "status": "BLOCKED"
   },
@@ -11964,6 +12707,7 @@
    "display_name": "Raise Graveguard",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "effect handler not implemented: summonUndead",
    "status": "BLOCKED"
   },
@@ -11998,6 +12742,7 @@
    "display_name": "Raise Gravewing",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "effect handler not implemented: summonUndead",
    "status": "BLOCKED"
   },
@@ -12032,6 +12777,7 @@
    "display_name": "Raise Skeletal Warrior",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "effect handler not implemented: summonUndead",
    "status": "BLOCKED"
   },
@@ -12072,8 +12818,9 @@
    "display_name": "Raised Guard",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "ability fields not implemented: maxCharges, requiresShield",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "rake": {
    "acquired_by": [
@@ -12130,8 +12877,11 @@
    "engine_references": [
     "src/sim/combat/druid_engines.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/druid_engines.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgDruidEngine.gd on_landed_strike, on_bleed_tick"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "rallying_cry": {
    "acquired_by": [
@@ -12162,8 +12912,9 @@
    "display_name": "Rallying Cry",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: aoeAllyMaxHp",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "rapid_fire": {
    "acquired_by": [
@@ -12204,6 +12955,7 @@
    "engine_references": [
     "src/sim/combat/hunter_coldsight_read.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/hunter_coldsight_read.ts",
    "status": "BLOCKED"
   },
@@ -12281,6 +13033,7 @@
     "src/sim/combat/hunter_fieldcraft.ts",
     "src/sim/combat/hunter_shared.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/effect_dispatch.ts, src/sim/combat/hunter_fieldcraft.ts, src/sim/combat/hunter_shared.ts",
    "status": "BLOCKED"
   },
@@ -12317,6 +13070,7 @@
     "src/sim/combat/necromancy.ts",
     "src/sim/combat/warlock_talents.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/necromancy.ts, src/sim/combat/warlock_talents.ts",
    "status": "BLOCKED"
   },
@@ -12347,6 +13101,7 @@
    "display_name": "Rebuke",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "hiddenFromPlayer: retired; abilitiesKnownAt never lists it",
    "status": "NOT_APPLICABLE_TO_PLAYER"
   },
@@ -12383,6 +13138,7 @@
    "engine_references": [
     "src/sim/combat/paladin_rite_of_many.ts"
    ],
+   "ported_mentions": [],
    "reason": "requires quest q_rite_of_redemption (no reference quest runs in the trial)",
    "status": "CONDITION_LOCKED"
   },
@@ -12417,8 +13173,11 @@
    "engine_references": [
     "src/sim/combat/casting_lifecycle.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/casting_lifecycle.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgAbilityRules.gd rage_spend_refund (COLOSSAL_MIGHT_COOLDOWNS)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_TALENT_GRANT"
   },
   "red_harvest": {
    "acquired_by": [
@@ -12468,8 +13227,12 @@
     "src/sim/combat/casting_lifecycle.ts",
     "src/sim/combat/effect_dispatch.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/casting_lifecycle.ts, src/sim/combat/effect_dispatch.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgCast.gd apply_ability (castRedHarvest is runEffects)",
+    "client/sim/RpgWarrior.gd before_effects"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "redharvest": {
    "acquired_by": [
@@ -12573,8 +13336,11 @@
    "engine_references": [
     "src/sim/combat/druid_engines.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/druid_engines.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgDruidEngine.gd on_cast (Old Blood spent), apex_payoff_mult"
+   ],
+   "reason": "an action replacement: available only while its aura holds",
+   "status": "CONDITION_LOCKED"
   },
   "regrowth": {
    "acquired_by": [
@@ -12635,8 +13401,12 @@
     "src/sim/combat/druid_engines.ts",
     "src/sim/combat/effect_dispatch.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/druid_engines.ts, src/sim/combat/effect_dispatch.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgDruidEngine.gd on_hot_planted",
+    "client/sim/RpgEffects.gd _hot (closingHealFromDirect); Grovespring is a set bonus (no set items)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "rejuvenation": {
    "acquired_by": [
@@ -12713,8 +13483,14 @@
     "src/sim/combat/druid_spore_burst.ts",
     "src/sim/combat/effect_dispatch.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/druid_engines.ts, src/sim/combat/druid_natures_boon.ts, src/sim/combat/druid_spore_burst.ts, src/sim/combat/effect_dispatch.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgDruidEngine.gd on_hot_planted, replant_sporemending",
+    "client/sim/RpgDruidEngine.gd boon_power, boon_on_auto_attack; RpgCast.gd _scale_natures_boon",
+    "client/sim/RpgDruidKit.gd tick_spore_burst (replant)",
+    "client/sim/RpgDruidKit.gd _consume_aura (Grovespring is a set bonus; no set items)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "renew": {
    "acquired_by": [
@@ -12773,6 +13549,7 @@
    "display_name": "Renew",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": null,
    "status": "IMPLEMENTED_ACTIVE"
   },
@@ -12843,8 +13620,13 @@
     "src/sim/combat/paladin_support.ts",
     "src/sim/combat/paladin_talents.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/aura_stacking.ts, src/sim/combat/paladin_support.ts, src/sim/combat/paladin_talents.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgCombat.gd apply_aura (source_independent_group_buffs)",
+    "client/sim/RpgPaladin.gd before_effects, strip_devotions",
+    "client/sim/RpgPaladinProcs.gd requital, mastered_value; RpgThorns.gd react"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "revenge": {
    "acquired_by": [
@@ -12886,8 +13668,12 @@
     "src/sim/combat/empower_next.ts",
     "src/sim/sim.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/empower_next.ts, src/sim/sim.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgAbilityRules.gd has_free_cost (revenge_free)",
+    "client/sim/RpgEncounter.gd _try_revenge_free"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "revive_pet": {
    "acquired_by": [
@@ -12913,6 +13699,7 @@
    "engine_references": [
     "src/sim/combat/casting_lifecycle.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/casting_lifecycle.ts",
    "status": "BLOCKED"
   },
@@ -12944,8 +13731,9 @@
     "src/sim/combat/threat_modifiers.ts",
     "src/sim/types.ts"
    ],
-   "reason": "passive: its behaviour lives in engine code src/sim/combat/threat_modifiers.ts, src/sim/types.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": "its one rule is a holy threat multiplier (threat_modifiers.ts); threat orders a monster's choice between players and the street has one",
+   "status": "NEEDS_GROUP"
   },
   "rings_of_frost": {
    "acquired_by": [
@@ -12981,7 +13769,8 @@
    "display_name": "Rings Of Frost",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: aoeRoot",
+   "ported_mentions": [],
+   "reason": "effect fields not implemented: aoeRoot.ring",
    "status": "BLOCKED"
   },
   "rip": {
@@ -13019,8 +13808,12 @@
     "src/sim/combat/druid_engines.ts",
     "src/sim/combat/effect_dispatch.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/druid_engines.ts, src/sim/combat/effect_dispatch.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgDruidEngine.gd on_landed_strike, on_bleed_tick",
+    "client/sim/RpgEffects.gd _dot (rip lands a strike)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "rockbiter_weapon": {
    "acquired_by": [
@@ -13084,8 +13877,13 @@
     "src/sim/combat/shaman_warspirit.ts",
     "src/sim/combat/tank_crit_immunity.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/effect_dispatch.ts, src/sim/combat/shaman_warspirit.ts, src/sim/combat/tank_crit_immunity.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgShaman.gd imbue_posture",
+    "client/sim/RpgShamanWar.gd apply_posture",
+    "client/sim/RpgEncounter.gd _committed_tank"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "ruinous_brand": {
    "acquired_by": [
@@ -13122,6 +13920,7 @@
     "src/sim/combat/destruction.ts",
     "src/sim/types.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/aura_classify.ts, src/sim/combat/destruction.ts, src/sim/types.ts",
    "status": "BLOCKED"
   },
@@ -13159,14 +13958,21 @@
     "src/sim/combat/aura_stacking.ts",
     "src/sim/sim.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/aura_stacking.ts, src/sim/sim.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgCombat.gd apply_aura (source-independent group buffs)",
+    "client/sim/RpgGround.gd pulse (allyBuffPct)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_TALENT_GRANT"
   },
   "rupture": {
    "acquired_by": [
     "rogue class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "effect_dispatch.ts:2198 a spellfx cue only",
+    "trash_kit/driver.ts a monster ability also named rupture"
+   ],
    "def": {
     "castTime": 0,
     "class": "rogue",
@@ -13196,8 +14002,9 @@
     "src/sim/combat/effect_dispatch.ts",
     "src/sim/mob/trash_kit/driver.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/effect_dispatch.ts, src/sim/mob/trash_kit/driver.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "sacred_bulwark": {
    "acquired_by": [
@@ -13229,6 +14036,7 @@
    "display_name": "Sacred Bulwark",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "hiddenFromPlayer: retired; abilitiesKnownAt never lists it",
    "status": "NOT_APPLICABLE_TO_PLAYER"
   },
@@ -13264,14 +14072,19 @@
    "engine_references": [
     "src/sim/paladin_devotion.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/paladin_devotion.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgPaladin.gd resolve (+15% cut)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "sacred_form": {
    "acquired_by": [
     "paladin class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "types.ts:755 the AuraKind union"
+   ],
    "def": {
     "castTime": 0,
     "class": "paladin",
@@ -13306,8 +14119,12 @@
     "src/sim/combat/spell_combat.ts",
     "src/sim/types.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/paladin_support.ts, src/sim/combat/spell_combat.ts, src/sim/types.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgPaladin.gd healing_done_mult",
+    "client/sim/RpgCombat.gd spell_crit (value2)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "sacrifice_undead": {
    "acquired_by": [
@@ -13340,6 +14157,7 @@
    "engine_references": [
     "src/sim/combat/necromancy.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/necromancy.ts",
    "status": "BLOCKED"
   },
@@ -13377,6 +14195,7 @@
     "src/sim/combat/auras.ts",
     "src/sim/combat/warlock_talents.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/auras.ts, src/sim/combat/warlock_talents.ts",
    "status": "BLOCKED"
   },
@@ -13412,8 +14231,12 @@
     "src/sim/combat/aura_stacking.ts",
     "src/sim/combat/casting_lifecycle.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/aura_stacking.ts, src/sim/combat/casting_lifecycle.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgCombat.gd apply_aura (source-independent group buffs)",
+    "client/sim/RpgAbilityRules.gd rage_spend_refund (COLOSSAL_MIGHT_COOLDOWNS)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_TALENT_GRANT"
   },
   "sap": {
    "acquired_by": [
@@ -13446,8 +14269,11 @@
    "engine_references": [
     "src/sim/combat/effect_dispatch.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/effect_dispatch.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgEffects.gd _preserves_stealth"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "scatterbolt": {
    "acquired_by": [
@@ -13478,6 +14304,7 @@
    "display_name": "Scatterbolt",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "effect handler not implemented: hunterScatterbolt",
    "status": "BLOCKED"
   },
@@ -13521,8 +14348,11 @@
    "engine_references": [
     "src/sim/combat/fire_mage.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/fire_mage.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgMage.gd fire_guaranteed_crit (execute), note_spell_hit"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "scouring_mercy": {
    "acquired_by": [
@@ -13565,8 +14395,13 @@
     "src/sim/combat/priest/doctrine.ts",
     "src/sim/combat/priest/doctrine_rescue.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/effect_dispatch.ts, src/sim/combat/priest/doctrine.ts, src/sim/combat/priest/doctrine_rescue.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgPriest.gd (doctrineScouringMercyRescue: copies go to other group members; the street has none)",
+    "client/sim/RpgPriest.gd _doctrine_convert",
+    "client/sim/RpgPriest.gd (the rescue copies go to other group members; the street has none)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "scratch": {
    "acquired_by": [
@@ -13613,8 +14448,11 @@
    "engine_references": [
     "src/sim/combat/druid_engines.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/druid_engines.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgDruidEngine.gd on_landed_strike"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "seal_of_righteousness": {
    "acquired_by": [
@@ -13670,6 +14508,7 @@
    "display_name": "Seal Of Righteousness",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "hiddenFromPlayer: retired; abilitiesKnownAt never lists it",
    "status": "NOT_APPLICABLE_TO_PLAYER"
   },
@@ -13707,6 +14546,7 @@
    "engine_references": [
     "src/sim/combat/warlock_talents.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/warlock_talents.ts",
    "status": "BLOCKED"
   },
@@ -13737,8 +14577,11 @@
    "engine_references": [
     "src/sim/combat/damage.ts"
    ],
-   "reason": "passive: its behaviour lives in engine code src/sim/combat/damage.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgEncounter.gd rage_from_dealing"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_PASSIVE"
   },
   "sentence": {
    "acquired_by": [
@@ -13776,6 +14619,7 @@
     "src/sim/combat/warlock_talents.ts",
     "src/sim/types.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/affliction.ts, src/sim/combat/affliction_sentence_queue.ts, src/sim/combat/casting_lifecycle.ts, src/sim/combat/warlock_talents.ts, src/sim/types.ts",
    "status": "BLOCKED"
   },
@@ -13784,7 +14628,9 @@
     "priest class kit",
     "priest holy signature"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "presentation.ts: display ids"
+   ],
    "def": {
     "castTime": 0,
     "class": "priest",
@@ -13815,8 +14661,11 @@
     "src/sim/combat/damage.ts",
     "src/sim/combat/priest/presentation.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/damage.ts, src/sim/combat/priest/presentation.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgCombat.gd _heal_echo"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "serpent_sting": {
    "acquired_by": [
@@ -13878,6 +14727,7 @@
     "src/sim/combat/effect_dispatch.ts",
     "src/sim/combat/hunter_shared.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/effect_dispatch.ts, src/sim/combat/hunter_shared.ts",
    "status": "BLOCKED"
   },
@@ -13962,6 +14812,7 @@
     "src/sim/combat/destruction.ts",
     "src/sim/combat/warlock_talents.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/destruction.ts, src/sim/combat/warlock_talents.ts",
    "status": "BLOCKED"
   },
@@ -13969,7 +14820,9 @@
    "acquired_by": [
     "priest class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "presentation.ts: display ids"
+   ],
    "def": {
     "castTime": 0,
     "class": "priest",
@@ -14028,8 +14881,15 @@
     "src/sim/combat/priest/shadow_talents.ts",
     "src/sim/combat/priest/vespers.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/effect_dispatch.ts, src/sim/combat/priest/dirge_refresh.ts, src/sim/combat/priest/periodic_crit.ts, src/sim/combat/priest/presentation.ts, src/sim/combat/priest/shadow_talents.ts, src/sim/combat/priest/vespers.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgEffects.gd _dot (dirge_sp_mult), RpgPriest.gd apply_dot",
+    "client/sim/RpgPriest.gd apply_dot (refresh carries the timing)",
+    "client/sim/RpgPriest.gd shadow_periodic_hit",
+    "client/sim/RpgPriest.gd _extend_primary_dots",
+    "client/sim/RpgPriest.gd resolve, on_dot_tick, dirge_sp_mult"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "shadowburn": {
    "acquired_by": [
@@ -14069,6 +14929,7 @@
    "engine_references": [
     "src/sim/combat/warlock_talents.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/warlock_talents.ts",
    "status": "BLOCKED"
   },
@@ -14103,6 +14964,7 @@
    "display_name": "Shadowform",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": null,
    "status": "IMPLEMENTED_ACTIVE"
   },
@@ -14136,8 +14998,11 @@
    "engine_references": [
     "src/sim/combat/effect_dispatch.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/effect_dispatch.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgEffects.gd _preserves_stealth, RpgEffectsArea.gd _blink_forward"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_TALENT_GRANT"
   },
   "shatter": {
    "acquired_by": [
@@ -14164,8 +15029,9 @@
    "display_name": "Shatter",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "passive: its behaviour lives in engine code (none named)",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_PASSIVE"
   },
   "shellskin": {
    "acquired_by": [
@@ -14199,6 +15065,7 @@
     "src/sim/combat/casting_lifecycle.ts",
     "src/sim/combat/hunter_shared.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/casting_lifecycle.ts, src/sim/combat/hunter_shared.ts",
    "status": "BLOCKED"
   },
@@ -14240,8 +15107,11 @@
    "engine_references": [
     "src/sim/combat/casting_lifecycle.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/casting_lifecycle.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgAbilityRules.gd rage_spend_refund (COLOSSAL_MIGHT_COOLDOWNS)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_SPECIALIZATION"
   },
   "shrapnel_charge": {
    "acquired_by": [
@@ -14281,6 +15151,7 @@
    "display_name": "Shrapnel Charge",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "effect handler not implemented: hunterShrapnel",
    "status": "BLOCKED"
   },
@@ -14288,7 +15159,14 @@
    "acquired_by": [
     "priest talent pri_r8_silence"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "aura_classify.ts the dispel list",
+    "trinkets.ts a trinket's cleanse list (no trinkets in this game)",
+    "mob_swing.ts a monster affix's silence kind",
+    "kit_nova.ts a monster's silence kind",
+    "sim.ts the Ice Block control list's silence kind",
+    "types.ts the AuraKind union"
+   ],
    "def": {
     "castTime": 0,
     "class": "priest",
@@ -14319,8 +15197,12 @@
     "src/sim/sim.ts",
     "src/sim/types.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/aura_classify.ts, src/sim/combat/cc.ts, src/sim/combat/effect_dispatch.ts, src/sim/combat/trinkets.ts, src/sim/mob/mob_swing.ts, src/sim/mob/trash_kit/kit_nova.ts, src/sim/sim.ts, src/sim/types.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgCast.gd is_silenced",
+    "client/sim/RpgEffectsArea.gd silence arm"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_TALENT_GRANT"
   },
   "sinister_strike": {
    "acquired_by": [
@@ -14395,8 +15277,11 @@
    "engine_references": [
     "src/sim/combat/rogue_engines.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/rogue_engines.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgRogue.gd engine_on_cast (Venom Ritual stage)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "siphon_life": {
    "acquired_by": [],
@@ -14427,6 +15312,7 @@
    "engine_references": [
     "src/sim/combat/warlock_talents.ts"
    ],
+   "ported_mentions": [],
    "reason": "no acquisition path in class kits, spec signatures, talent grants or action replacements",
    "status": "UNKNOWN"
   },
@@ -14456,8 +15342,9 @@
    "display_name": "Skull Bash",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: interrupt",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "slam": {
    "acquired_by": [
@@ -14493,6 +15380,7 @@
    "display_name": "Slam",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": null,
    "status": "IMPLEMENTED_ACTIVE"
   },
@@ -14526,8 +15414,9 @@
    "display_name": "Slice And Dice",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: finisherHaste",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "smite": {
    "acquired_by": [
@@ -14598,8 +15487,11 @@
    "engine_references": [
     "src/sim/combat/priest/doctrine.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/priest/doctrine.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgPriest.gd _doctrine_convert"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "smoke_screen": {
    "acquired_by": [
@@ -14629,6 +15521,7 @@
    "display_name": "Smoke Screen",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": null,
    "status": "IMPLEMENTED_TALENT_GRANT"
   },
@@ -14672,8 +15565,12 @@
     "src/sim/combat/effect_dispatch.ts",
     "src/sim/paladin_devotion.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/effect_dispatch.ts, src/sim/paladin_devotion.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgEffectsArea.gd _aoe_heal (friendlyTargetOnly); the rest is spellfx cues",
+    "client/sim/RpgPaladin.gd resolve (_ascension_extra), after_ability"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "solar_step": {
    "acquired_by": [
@@ -14703,8 +15600,9 @@
    "display_name": "Solar Step",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "aura kind consumers not implemented: buff_speed",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "soul_harvest": {
    "acquired_by": [
@@ -14776,6 +15674,7 @@
    "engine_references": [
     "src/sim/combat/warlock_talents.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/warlock_talents.ts",
    "status": "BLOCKED"
   },
@@ -14838,6 +15737,7 @@
     "src/sim/combat/effect_dispatch.ts",
     "src/sim/combat/necromancy.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/effect_dispatch.ts, src/sim/combat/necromancy.ts",
    "status": "BLOCKED"
   },
@@ -14871,6 +15771,7 @@
     "src/sim/combat/aura_stacking.ts",
     "src/sim/combat/warlock_talents.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/aura_stacking.ts, src/sim/combat/warlock_talents.ts",
    "status": "BLOCKED"
   },
@@ -14901,8 +15802,9 @@
    "display_name": "Spell Lock",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: interrupt",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "spellsteal": {
    "acquired_by": [],
@@ -14930,6 +15832,7 @@
    "display_name": "Spellsteal",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "no acquisition path in class kits, spec signatures, talent grants or action replacements",
    "status": "UNKNOWN"
   },
@@ -14974,6 +15877,7 @@
     "src/sim/combat/priest/spirit_bomb_completion.ts",
     "src/sim/combat/priest/spirit_bomb_residual.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/priest/spirit_bomb.ts, src/sim/combat/priest/spirit_bomb_completion.ts, src/sim/combat/priest/spirit_bomb_residual.ts",
    "status": "BLOCKED"
   },
@@ -15017,8 +15921,13 @@
     "src/sim/combat/druid_natures_boon.ts",
     "src/sim/combat/druid_spore_burst.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/druid_engines.ts, src/sim/combat/druid_natures_boon.ts, src/sim/combat/druid_spore_burst.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgDruidEngine.gd on_cast (a full bank is spent)",
+    "client/sim/RpgDruidEngine.gd boon_on_cast, boon_on_hot_tick; RpgClassHooks.gd resolve_cast_time",
+    "client/sim/RpgDruidKit.gd _plant_spore_burst, tick_spore_burst"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "sporemender_form": {
    "acquired_by": [
@@ -15055,14 +15964,21 @@
     "src/sim/combat/druid_engines.ts",
     "src/sim/combat/druid_sporemender.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/druid_engines.ts, src/sim/combat/druid_sporemender.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgDruidEngine.gd on_cast",
+    "client/sim/RpgDruid.gd sporemender_healing_mult; RpgUnit.gd _form_stats; RpgCombat.gd move speed"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "sprint": {
    "acquired_by": [
     "rogue class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "rogue_engines.ts:147 an item-set combo bonus (no set items in this game)",
+    "trinkets.ts:450 a trinket effect (no trinkets in this game)"
+   ],
    "def": {
     "castTime": 0,
     "class": "rogue",
@@ -15091,8 +16007,11 @@
     "src/sim/combat/rogue_engines.ts",
     "src/sim/combat/trinkets.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/effect_dispatch.ts, src/sim/combat/rogue_engines.ts, src/sim/combat/trinkets.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgEffects.gd _preserves_stealth"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "stampede": {
    "acquired_by": [
@@ -15130,6 +16049,7 @@
    "engine_references": [
     "src/sim/combat/hunter_packlord.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/hunter_packlord.ts",
    "status": "BLOCKED"
   },
@@ -15169,8 +16089,12 @@
     "src/sim/combat/druid_engines.ts",
     "src/sim/combat/druid_natures_boon.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/druid_engines.ts, src/sim/combat/druid_natures_boon.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgDruidEngine.gd on_cast (Moontide builder)",
+    "client/sim/RpgDruidEngine.gd boon_on_cast"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "startle_shot": {
    "acquired_by": [],
@@ -15198,6 +16122,7 @@
    "display_name": "Startle Shot",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "no acquisition path in class kits, spec signatures, talent grants or action replacements",
    "status": "UNKNOWN"
   },
@@ -15205,7 +16130,14 @@
    "acquired_by": [
     "rogue class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "aura_classify.ts:142 the aura UI's mode list",
+    "aura_cancel_command.ts:37 the manual cancel command (the street cancels stealth by pressing it again)",
+    "druid_scratch.ts:60 a druid ability revealing a stealthed target (no stealthed foes on the street)",
+    "greater_invisibility.ts:22 the mage aura's own id check",
+    "stealth_fall.ts falling damage (the street has no falls)",
+    "types.ts:566 the AuraKind union"
+   ],
    "def": {
     "castTime": 0,
     "class": "rogue",
@@ -15248,8 +16180,20 @@
     "src/sim/sim.ts",
     "src/sim/types.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/aura_classify.ts, src/sim/combat/aura_cancel_command.ts, src/sim/combat/auras.ts, src/sim/combat/casting_lifecycle.ts, src/sim/combat/druid_scratch.ts, src/sim/combat/effect_dispatch.ts, src/sim/combat/greater_invisibility.ts, src/sim/combat/rogue_engines.ts, src/sim/combat/rogue_stealth_opener.ts, src/sim/combat/rogue_talents.ts, src/sim/combat/stealth_fall.ts, src/sim/combat/toggle_buff.ts, src/sim/mob/locomotion.ts, src/sim/player_motion.ts, src/sim/sim.ts, src/sim/types.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgStealth.gd is_stealthed (the stealthed cache)",
+    "client/sim/RpgCast.gd cast (requiresStealth), RpgRogue.gd low_blow_fallback",
+    "client/sim/RpgEffects.gd _preserves_stealth / _self_buff (toggle)",
+    "client/sim/RpgRogue.gd gloam_detonation / detonator_free_mult (stealth gates)",
+    "client/sim/RpgRogue.gd true_stealth_ambush",
+    "client/sim/RpgRogue.gd dusk_cost_mult",
+    "client/sim/RpgAbilityRules.gd is_toggle_buff",
+    "client/sim/RpgEncounter.gd _idle_aggro_scan (detection radius)",
+    "client/sim/RpgCombat.gd player_speed_mult",
+    "client/sim/RpgStealth.gd break_stealth"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "stoneward": {
    "acquired_by": [
@@ -15275,8 +16219,11 @@
    "engine_references": [
     "src/sim/combat/effect_dispatch.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/effect_dispatch.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgShaman.gd before_effects, RpgShamanWar.gd apply_stoneward"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_TALENT_GRANT"
   },
   "storm_bolt": {
    "acquired_by": [
@@ -15312,8 +16259,11 @@
    "engine_references": [
     "src/sim/combat/casting_lifecycle.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/casting_lifecycle.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgAbilityRules.gd rage_spend_refund (COLOSSAL_MIGHT_COOLDOWNS)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_TALENT_GRANT"
   },
   "stormstrike": {
    "acquired_by": [
@@ -15343,8 +16293,11 @@
    "engine_references": [
     "src/sim/combat/shaman_warspirit.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/shaman_warspirit.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgShamanWar.gd on_stormcast_consumed (Stormsurge), advance_cadence"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_SPECIALIZATION"
   },
   "stormsurge": {
    "acquired_by": [
@@ -15371,8 +16324,9 @@
    "display_name": "Stormsurge",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "passive: its behaviour lives in engine code (none named)",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_PASSIVE"
   },
   "sudden_death": {
    "acquired_by": [
@@ -15404,8 +16358,14 @@
     "src/sim/combat/execute_threshold.ts",
     "src/sim/types.ts"
    ],
-   "reason": "passive: its behaviour lives in engine code src/sim/combat/auto_attack.ts, src/sim/combat/empower_next.ts, src/sim/combat/execute_threshold.ts, src/sim/types.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgWarrior.gd swing_procs",
+    "client/sim/RpgAbilityRules.gd has_free_cost",
+    "client/sim/RpgAbilityRules.gd execute_window_blocks",
+    "client/sim/RpgPack constants (sudden_death_*)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_PASSIVE"
   },
   "summon_imp": {
    "acquired_by": [
@@ -15472,6 +16432,7 @@
    "display_name": "Summon Imp",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "effect handler not implemented: summonDemon",
    "status": "BLOCKED"
   },
@@ -15514,6 +16475,7 @@
     "src/sim/combat/destruction.ts",
     "src/sim/combat/warlock_talents.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/destruction.ts, src/sim/combat/warlock_talents.ts",
    "status": "BLOCKED"
   },
@@ -15548,6 +16510,7 @@
     "src/sim/combat/priest/presentation.ts",
     "src/sim/combat/priest/vespers.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/casting_lifecycle.ts, src/sim/combat/priest/presentation.ts, src/sim/combat/priest/vespers.ts",
    "status": "BLOCKED"
   },
@@ -15581,6 +16544,7 @@
    "display_name": "Summon Voidwalker",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "effect handler not implemented: summonDemon",
    "status": "BLOCKED"
   },
@@ -15613,6 +16577,7 @@
    "display_name": "Summon Water Elemental",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "effect handler not implemented: summonDemon",
    "status": "BLOCKED"
   },
@@ -15657,8 +16622,11 @@
    "engine_references": [
     "src/sim/combat/paladin_sun_verdict.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/paladin_sun_verdict.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgPaladinKit.gd run_arm (sunGodVerdict), advance_verdict"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "sunder_armor": {
    "acquired_by": [
@@ -15708,8 +16676,9 @@
    "display_name": "Sunder Armor",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: sunder",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "sunlance": {
    "acquired_by": [
@@ -15756,8 +16725,11 @@
    "engine_references": [
     "src/sim/combat/druid_engines.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/druid_engines.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgDruidEngine.gd on_cast (Moontide spent, Highmoon Tithe), apex_payoff_mult"
+   ],
+   "reason": "an action replacement: available only while its aura holds",
+   "status": "CONDITION_LOCKED"
   },
   "sunward_disc": {
    "acquired_by": [
@@ -15809,14 +16781,22 @@
     "src/sim/combat/paladin_solar_reprisal.ts",
     "src/sim/paladin_devotion.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/casting_lifecycle.ts, src/sim/combat/effect_dispatch.ts, src/sim/combat/paladin_solar_reprisal.ts, src/sim/paladin_devotion.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgCast.gd (Solar Reprisal gates); the rest is the disc's spellfx",
+    "client/sim/RpgPaladinKit.gd _sunward_chain",
+    "client/sim/RpgPaladinProcs.gd cast_overrides, makes_free, bypasses_cooldown",
+    "client/sim/RpgPaladin.gd resolve (x1.3, 5 jumps), after_ability"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "sweeping_strikes": {
    "acquired_by": [
     "warrior class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "types.ts:569 the AuraKind union"
+   ],
    "def": {
     "castTime": 0,
     "class": "warrior",
@@ -15847,8 +16827,11 @@
     "src/sim/combat/area_echo.ts",
     "src/sim/types.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/area_echo.ts, src/sim/types.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgAbilityRules.gd replay_damage"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "swiftmend": {
    "acquired_by": [
@@ -15886,8 +16869,9 @@
    "display_name": "Swiftmend",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: consumeAura",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_SPECIALIZATION"
   },
   "swipe": {
    "acquired_by": [
@@ -15923,8 +16907,11 @@
    "engine_references": [
     "src/sim/combat/druid_engines.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/druid_engines.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgDruidEngine.gd on_landed_strike (Cinderbark is a set bonus; no set items)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "tactical_camo": {
    "acquired_by": [
@@ -15959,8 +16946,9 @@
    "display_name": "Tactical Camo",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "ability fields not implemented: requiresOutOfCombat",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "tame_beast": {
    "acquired_by": [
@@ -15988,6 +16976,7 @@
    "display_name": "Tame Beast",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "effect handler not implemented: tamePet",
    "status": "BLOCKED"
   },
@@ -15995,7 +16984,9 @@
    "acquired_by": [
     "warrior class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "types.ts:4417 the AbilityEffect union"
+   ],
    "def": {
     "castTime": 0,
     "class": "warrior",
@@ -16021,8 +17012,12 @@
     "src/sim/combat/effect_dispatch.ts",
     "src/sim/types.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/casting_lifecycle.ts, src/sim/combat/effect_dispatch.ts, src/sim/types.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgClassGates.gd target_gate, RpgCast.gd apply_ability (no resist)",
+    "client/sim/RpgEffectsArea.gd taunt arm"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "temporal_acceleration": {
    "acquired_by": [
@@ -16058,8 +17053,9 @@
    "display_name": "Temporal Acceleration",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: aoeAllyHaste",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "temporal_barrier": {
    "acquired_by": [
@@ -16138,6 +17134,7 @@
     "src/sim/combat/chronomancy.ts",
     "src/sim/combat/fire_mage.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/casting_lifecycle.ts, src/sim/combat/chronomancy.ts, src/sim/combat/fire_mage.ts",
    "status": "BLOCKED"
   },
@@ -16213,6 +17210,7 @@
    "display_name": "Temporal Cascade",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "effect handler not implemented: massTemporalEcho",
    "status": "BLOCKED"
   },
@@ -16305,6 +17303,7 @@
     "src/sim/combat/chronomancy.ts",
     "src/sim/types.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/aura_classify.ts, src/sim/combat/chronomancy.ts, src/sim/types.ts",
    "status": "BLOCKED"
   },
@@ -16351,6 +17350,7 @@
     "src/sim/combat/auras.ts",
     "src/sim/combat/temporal_hourglass.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/aura_stacking.ts, src/sim/combat/auras.ts, src/sim/combat/temporal_hourglass.ts",
    "status": "BLOCKED"
   },
@@ -16423,6 +17423,7 @@
    "display_name": "Temporal Mend",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": null,
    "status": "IMPLEMENTED_SPECIALIZATION"
   },
@@ -16457,6 +17458,7 @@
    "display_name": "Temporal Reversal",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "effect handler not implemented: resurrectAlly",
    "status": "BLOCKED"
   },
@@ -16492,6 +17494,7 @@
    "display_name": "Temporal Rewind",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "effect handler not implemented: rewind",
    "status": "BLOCKED"
   },
@@ -16526,14 +17529,19 @@
    "display_name": "Thieves Chorus",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: aoeAllyHaste",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_TALENT_GRANT"
   },
   "thorns": {
    "acquired_by": [
     "druid class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "paladin_talents.ts:38 Requital reads only the paladin's retribution_aura",
+    "shaman_talents.ts:301 reads only the shaman's lightning_shield",
+    "types.ts the AuraKind union"
+   ],
    "def": {
     "castTime": 0,
     "class": "druid",
@@ -16592,8 +17600,12 @@
     "src/sim/combat/thorns_charge.ts",
     "src/sim/types.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/auras.ts, src/sim/combat/paladin_talents.ts, src/sim/combat/shaman_talents.ts, src/sim/combat/thorns_charge.ts, src/sim/types.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgThorns.gd tick (RpgClassHooks.gd tick_aura)",
+    "client/sim/RpgThorns.gd react"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "thunder_clap": {
    "acquired_by": [
@@ -16675,8 +17687,9 @@
    "display_name": "Thunder Clap",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: aoeAttackSpeed",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "thunder_reservoir": {
    "acquired_by": [
@@ -16703,8 +17716,9 @@
    "display_name": "Thunder Reservoir",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "passive: its behaviour lives in engine code (none named)",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_PASSIVE"
   },
   "thunderstorm": {
    "acquired_by": [
@@ -16746,8 +17760,12 @@
     "src/sim/combat/effect_dispatch.ts",
     "src/sim/combat/shaman_thundercall_kit.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/effect_dispatch.ts, src/sim/combat/shaman_thundercall_kit.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgShaman.gd before_effects (Stormbreak)",
+    "client/sim/RpgShaman.gd before_effects (Stormbreak mana)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "tidecall": {
    "acquired_by": [
@@ -16785,8 +17803,13 @@
     "src/sim/combat/effect_dispatch.ts",
     "src/sim/combat/shaman_spiritmend.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/auras.ts, src/sim/combat/effect_dispatch.ts, src/sim/combat/shaman_spiritmend.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgAbilityRules.gd tick_charges (Primal Exaltation doubles its recharge)",
+    "client/sim/RpgShamanKit.gd deposit",
+    "client/sim/RpgShamanKit.gd deposit (Living Weapon hop needs another ally)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "tigers_fury": {
    "acquired_by": [
@@ -16822,8 +17845,9 @@
    "display_name": "Tigers Fury",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "ability fields not implemented: requiresForm",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "trailbreak": {
    "acquired_by": [
@@ -16854,6 +17878,7 @@
    "engine_references": [
     "src/sim/combat/hunter_shared.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/hunter_shared.ts",
    "status": "BLOCKED"
   },
@@ -16889,8 +17914,9 @@
    "display_name": "Tranquility",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: aoeHeal",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_TALENT_GRANT"
   },
   "travel_form": {
    "acquired_by": [
@@ -16922,8 +17948,11 @@
    "engine_references": [
     "src/sim/combat/druid_engines.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/druid_engines.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgDruidEngine.gd on_cast (breaks roots and slows)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "trueshot_aura": {
    "acquired_by": [],
@@ -16951,6 +17980,7 @@
    "display_name": "Trueshot Aura",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "no acquisition path in class kits, spec signatures, talent grants or action replacements",
    "status": "UNKNOWN"
   },
@@ -16983,8 +18013,9 @@
    "display_name": "Typhoon",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: aoeKnockback",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_TALENT_GRANT"
   },
   "umbral_anchor": {
    "acquired_by": [
@@ -17015,6 +18046,7 @@
    "engine_references": [
     "src/sim/combat/warlock_utility.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/warlock_utility.ts",
    "status": "BLOCKED"
   },
@@ -17052,6 +18084,7 @@
    "engine_references": [
     "src/sim/combat/necromancy.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/necromancy.ts",
    "status": "BLOCKED"
   },
@@ -17092,6 +18125,7 @@
    "engine_references": [
     "src/sim/combat/casting_lifecycle.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/casting_lifecycle.ts",
    "status": "BLOCKED"
   },
@@ -17123,8 +18157,14 @@
     "src/sim/combat/shaman_spiritmend.ts",
     "src/sim/combat/shaman_unleash_weapon.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/casting_lifecycle.ts, src/sim/combat/effect_dispatch.ts, src/sim/combat/shaman_spiritmend.ts, src/sim/combat/shaman_unleash_weapon.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgCast.gd apply_ability (RpgShamanKit.gd unleash_error)",
+    "client/sim/RpgShaman.gd before_effects",
+    "client/sim/RpgShamanKit.gd _unleash_current",
+    "client/sim/RpgShamanKit.gd run_unleash"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "valkyrs_calling": {
    "acquired_by": [
@@ -17163,8 +18203,13 @@
     "src/sim/combat/paladin_valkyrs_calling.ts",
     "src/sim/paladin_devotion.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/effect_dispatch.ts, src/sim/combat/paladin_valkyrs_calling.ts, src/sim/paladin_devotion.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgPaladinKit.gd run_arm (valkyrsCalling)",
+    "client/sim/RpgPaladinKit.gd _arm_valkyr, advance_valkyr (Lightbrand is a set bonus; no set items)",
+    "client/sim/RpgPaladin.gd resolve (x1.5, ascended)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "vampiric_touch": {
    "acquired_by": [
@@ -17204,14 +18249,25 @@
     "src/sim/combat/priest/shadow_talents.ts",
     "src/sim/combat/priest/vampiric_touch.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/auras.ts, src/sim/combat/effect_dispatch.ts, src/sim/combat/priest/periodic_crit.ts, src/sim/combat/priest/shadow_talents.ts, src/sim/combat/priest/vampiric_touch.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgClassHooks.gd on_dot_tick",
+    "client/sim/RpgClassHooks.gd apply_dot",
+    "client/sim/RpgPriest.gd shadow_periodic_hit",
+    "client/sim/RpgPriest.gd _second_verse_tick, _extend_primary_dots",
+    "client/sim/RpgPriest.gd apply_vampiric_touch, heal_vampiric_touch"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "vanish": {
    "acquired_by": [
     "rogue class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "rogue_engines.ts:153 an item-set combo bonus (no set items in this game)",
+    "stealth_fall.ts falling damage (the street has no falls)",
+    "types.ts:5709 an unrelated phase name"
+   ],
    "def": {
     "castTime": 0,
     "class": "rogue",
@@ -17242,14 +18298,20 @@
     "src/sim/combat/stealth_fall.ts",
     "src/sim/types.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/damage.ts, src/sim/combat/effect_dispatch.ts, src/sim/combat/rogue_engines.ts, src/sim/combat/stealth_fall.ts, src/sim/types.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgKillCredit.gd on_kill (onKillVanishReset)",
+    "client/sim/RpgRogue.gd on_stealth_entered (dropSelfFromHostileFocus)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "veilbound_march": {
    "acquired_by": [
     "paladin class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "aura_cancel.ts:46 the right-click cancel exclusions; the street has no aura cancel command"
+   ],
    "def": {
     "castTime": 0,
     "class": "paladin",
@@ -17280,8 +18342,12 @@
     "src/sim/combat/paladin_veilbound_state.ts",
     "src/sim/paladin_devotion.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/aura_cancel.ts, src/sim/combat/paladin_veilbound_state.ts, src/sim/paladin_devotion.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgPaladinKit.gd marching, blocks_aura, after_move",
+    "client/sim/RpgPaladin.gd resolve (ascended)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "veilstep": {
    "acquired_by": [
@@ -17311,8 +18377,11 @@
    "engine_references": [
     "src/sim/combat/priest/talents.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/priest/talents.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgPriest.gd after_ability (Veil Unbound, Processional Grace)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "veilstrike": {
    "acquired_by": [],
@@ -17343,6 +18412,7 @@
     "src/sim/combat/rogue_engines.ts",
     "src/sim/combat/rogue_talents.ts"
    ],
+   "ported_mentions": [],
    "reason": "no acquisition path in class kits, spec signatures, talent grants or action replacements",
    "status": "UNKNOWN"
   },
@@ -17376,8 +18446,11 @@
    "engine_references": [
     "src/sim/combat/rogue_engines.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/rogue_engines.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgRogue.gd engine_on_cast (stage, refund, wound extend)"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "venomrend": {
    "acquired_by": [
@@ -17434,8 +18507,11 @@
    "engine_references": [
     "src/sim/combat/rogue_engines.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/rogue_engines.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgRogue.gd engine_on_cast (wound extended by Venom Dart)"
+   ],
+   "reason": "an action replacement: available only while its aura holds",
+   "status": "CONDITION_LOCKED"
   },
   "vicarious_suffering": {
    "acquired_by": [
@@ -17470,6 +18546,7 @@
    "engine_references": [
     "src/sim/combat/affliction.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/affliction.ts",
    "status": "BLOCKED"
   },
@@ -17477,7 +18554,9 @@
    "acquired_by": [
     "warrior talent war_row_victory_rush"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "types.ts:687 the AuraKind union"
+   ],
    "def": {
     "castTime": 0,
     "class": "warrior",
@@ -17507,8 +18586,11 @@
     "src/sim/combat/damage.ts",
     "src/sim/types.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/damage.ts, src/sim/types.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgWarrior.gd on_kill"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_TALENT_GRANT"
   },
   "void_rupture": {
    "acquired_by": [
@@ -17547,8 +18629,11 @@
    "engine_references": [
     "src/sim/combat/priest/stilled_mind.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/priest/stilled_mind.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgPriest.gd reserve_stilled_mind"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "voidfeast": {
    "acquired_by": [],
@@ -17578,6 +18663,7 @@
    "display_name": "Voidfeast",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "hiddenFromPlayer: retired; abilitiesKnownAt never lists it",
    "status": "NOT_APPLICABLE_TO_PLAYER"
   },
@@ -17616,8 +18702,9 @@
    "display_name": "Volley",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "effect handler not implemented: groundAoE",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "vowkeeper_strike": {
    "acquired_by": [
@@ -17655,14 +18742,20 @@
     "src/sim/combat/effect_dispatch.ts",
     "src/sim/paladin_devotion.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/effect_dispatch.ts, src/sim/paladin_devotion.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgPaladinProcs.gd after_weapon_strike (Solar Reprisal)",
+    "client/sim/RpgPaladin.gd resolve (ascension absorb), after_ability"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "warspirit_cadence": {
    "acquired_by": [
     "shaman class kit"
    ],
-   "audited_mentions": [],
+   "audited_mentions": [
+    "shaman_stonehearth.ts: the Stonehearth set bonus (no set items in this game)"
+   ],
    "def": {
     "castTime": 0,
     "class": "shaman",
@@ -17685,8 +18778,9 @@
    "engine_references": [
     "src/sim/combat/shaman_stonehearth.ts"
    ],
-   "reason": "passive: its behaviour lives in engine code src/sim/combat/shaman_stonehearth.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_PASSIVE"
   },
   "whirlwind": {
    "acquired_by": [
@@ -17728,8 +18822,9 @@
    "display_name": "Whirlwind",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
-   "reason": "aura kind consumers not implemented: aoe_echo",
-   "status": "BLOCKED"
+   "ported_mentions": [],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "wildheart": {
    "acquired_by": [
@@ -17761,6 +18856,7 @@
     "src/sim/combat/effect_dispatch.ts",
     "src/sim/types.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/effect_dispatch.ts, src/sim/types.ts",
    "status": "BLOCKED"
   },
@@ -17795,6 +18891,7 @@
    "display_name": "Wildwake",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "effect handler not implemented: resurrectAlly",
    "status": "BLOCKED"
   },
@@ -17832,6 +18929,7 @@
    "engine_references": [
     "src/sim/combat/hunter_shared.ts"
    ],
+   "ported_mentions": [],
    "reason": "bespoke engine code not ported: src/sim/combat/hunter_shared.ts",
    "status": "BLOCKED"
   },
@@ -17905,8 +19003,12 @@
     "src/sim/combat/druid_engines.ts",
     "src/sim/combat/druid_natures_boon.ts"
    ],
-   "reason": "bespoke engine code not ported: src/sim/combat/druid_engines.ts, src/sim/combat/druid_natures_boon.ts",
-   "status": "BLOCKED"
+   "ported_mentions": [
+    "client/sim/RpgDruidEngine.gd on_cast (Moontide builder)",
+    "client/sim/RpgDruidEngine.gd boon_on_cast"
+   ],
+   "reason": null,
+   "status": "IMPLEMENTED_ACTIVE"
   },
   "wyvern_sting": {
    "acquired_by": [],
@@ -17933,6 +19035,7 @@
    "display_name": "Wyvern Sting",
    "display_name_status": "INTERIM: ability id; original name pending a naming batch",
    "engine_references": [],
+   "ported_mentions": [],
    "reason": "no acquisition path in class kits, spec signatures, talent grants or action replacements",
    "status": "UNKNOWN"
   }
@@ -18424,10 +19527,86 @@
    "form_fireball",
    "form_travel"
   ],
+  "aoe_echo_max_targets": 4,
+  "aoe_echo_mult": 0.4,
+  "aoe_echo_radius": 8,
+  "battle_trance_duration": 10,
+  "bear_form_auto_damage_mult": 0.5,
+  "bear_form_auto_rage_mult": 2,
+  "bear_form_swing_mult": 0.5,
+  "berserker_crit_chance": 0.03,
+  "berserker_crit_damage": 0.03,
+  "bloodbath_duration": 8,
+  "bloodbath_max_stacks": 5,
+  "cat_form_damage_mult": 1.22,
+  "cat_form_move_mult": 1.15,
+  "cat_form_swing_speed": 1,
+  "charge_max_duration": 3,
+  "charge_speed_mult": 3,
+  "colossal_might_cap_seconds": 10,
+  "colossal_might_cap_window": 30,
+  "colossal_might_cooldowns": [
+   "avatar",
+   "bladestorm",
+   "bloodthirst",
+   "mortal_strike",
+   "recklessness",
+   "sanguine_aura",
+   "shield_slam",
+   "storm_bolt"
+  ],
+  "combo_point_duration": 30,
   "corpse_duration": 60,
+  "debuff_aura_kinds": [
+   "affliction_eye",
+   "affliction_eye_secondary",
+   "affliction_violence",
+   "attackspeed",
+   "bleed_vuln",
+   "blind",
+   "cauterize_fatigue",
+   "cheater_mark",
+   "corrode",
+   "cost_tax",
+   "critvuln",
+   "debuff_ap",
+   "disarm",
+   "dot",
+   "duskfire_claim",
+   "expose",
+   "faerie_fire",
+   "forced_move",
+   "heal_absorb",
+   "hex",
+   "incapacitate",
+   "lockout",
+   "melting_acid",
+   "mortal_wound",
+   "necromancy_harvest_mark",
+   "polymorph",
+   "root",
+   "ruinous_brand",
+   "sated",
+   "silence",
+   "slow",
+   "spellvuln",
+   "stun",
+   "sun_verdict",
+   "sunder",
+   "tongues",
+   "vuln_source",
+   "vulnerability"
+  ],
   "discipline_wand_offense_mult": 1.3,
   "elite_xp_mult": 2,
   "elite_xp_mult_ref": "src/sim/combat/damage.ts:1851 (tmpl?.elite ? 2 : 1)",
+  "enrage_dmg_done": 0.07,
+  "enrage_haste_pct": 0.25,
+  "enrage_move_mult": 1.1,
+  "faerie_fire_armor_pct": 0.1,
+  "fear_break_chance_scale": 0.1,
+  "flee_max_speed": 4.55,
+  "flee_speed_mult": 1.4,
   "form_aura_kinds": [
    "form_bear",
    "form_cat",
@@ -18443,39 +19622,96 @@
   "max_aggro_radius": 20,
   "max_level": 20,
   "melee_arc": 2.2,
+  "melee_classes": [
+   "druid",
+   "paladin",
+   "rogue",
+   "shaman",
+   "warrior"
+  ],
   "melee_range": 5,
   "melee_spell_ap_scale": 0.15,
   "min_gcd": 0.75,
   "mob_spell_crit_chance": 0.05,
+  "overload_cost_mult": 1.5,
   "projectile_max_flight": 3,
   "projectile_reach": 0.7,
   "projectile_speed": 26,
+  "pursuit_speed_duration": 6,
   "ranged_spell_ap_scale": 0.15,
   "ranged_weapon_coeff": 0.6,
   "regen_every_ticks": 40,
   "regen_every_ticks_ref": "src/sim/combat/auras.ts:119 tickCount % 40",
   "res_hp_fraction": 0.5,
+  "revenge_free_chance": 0.3,
+  "revenge_free_duration": 10,
   "run_speed": 7,
+  "sated_duration": 600,
+  "second_wind_threshold": 0.35,
   "solo_group_xp_bonus": 1,
+  "source_independent_group_buffs": [
+   "arcane_intellect",
+   "aspect_of_the_wild",
+   "aspect_of_the_wild_ap",
+   "aura_mastery",
+   "battle_shout",
+   "blessing_of_might",
+   "blessing_of_the_dawn",
+   "dawn_devotion",
+   "devotion_aura",
+   "devotion_ward",
+   "emboldening_roar_crit",
+   "grace_devotion",
+   "hunter_pack_rally_haste",
+   "hunter_pack_rally_speed",
+   "hunter_pack_rally_spellhaste",
+   "mark_of_the_wild",
+   "mass_barrier",
+   "natures_fury",
+   "power_word_fortitude",
+   "radiant_devotion",
+   "rallying_cry_dr",
+   "rallying_cry_hp",
+   "retribution_aura",
+   "rune_of_power",
+   "sanguine_aura",
+   "soulwell",
+   "temporal_aegis",
+   "temporal_hourglass",
+   "trueshot_aura_ap"
+  ],
   "spec_unlock_level": 5,
   "spell_aoe_coeff_mult": 0.333,
   "spell_coeff_divisor": 3.5,
   "spell_coeff_max_cast": 3.5,
   "spell_coeff_min_cast": 1.5,
   "spell_dot_coeff_duration": 15,
+  "sporemender_move_speed_mult": 0.8,
+  "stance_mastery_battle_crit_dmg": 0.15,
+  "stance_mastery_berserker_haste": 0.05,
+  "stance_mastery_guarded_cut": 0.15,
+  "stance_mastery_guarded_hp_pct": 0.2,
   "stance_rage_gen": 0.1,
+  "sudden_death_duration": 10,
+  "sunder_armor_pct_per_stack": 0.02,
+  "sweep_mult": 1,
   "tick_rate": 20,
   "trash_respawn_seconds": 60,
-  "trivial_level_gap": 10
+  "trivial_level_gap": 10,
+  "vespers_dot_damage_mult": 1.1,
+  "victory_rush_window": 20,
+  "warlock_fear_damage_budget_pct": 0.08
  },
  "counts": {
   "abilities": 424,
   "ability_status": {
-   "BLOCKED": 365,
-   "CONDITION_LOCKED": 1,
-   "IMPLEMENTED_ACTIVE": 19,
-   "IMPLEMENTED_SPECIALIZATION": 1,
-   "IMPLEMENTED_TALENT_GRANT": 2,
+   "BLOCKED": 107,
+   "CONDITION_LOCKED": 10,
+   "IMPLEMENTED_ACTIVE": 204,
+   "IMPLEMENTED_PASSIVE": 17,
+   "IMPLEMENTED_SPECIALIZATION": 13,
+   "IMPLEMENTED_TALENT_GRANT": 35,
+   "NEEDS_GROUP": 2,
    "NOT_APPLICABLE_TO_PLAYER": 12,
    "UNKNOWN": 24
   },
@@ -18578,7 +19814,10 @@
  },
  "implemented_aura_kinds": [
   "absorb",
+  "aoe_echo",
   "battle_stance",
+  "berserker_stance",
+  "bleed_vuln",
   "buff_agi",
   "buff_allstats",
   "buff_allstats_pct",
@@ -18586,47 +19825,147 @@
   "buff_ap_pct",
   "buff_armor",
   "buff_armor_pct",
+  "buff_aura_mastery",
+  "buff_avatar",
+  "buff_block",
   "buff_crit",
   "buff_dmg_done",
   "buff_dodge",
   "buff_dr",
   "buff_dr_phys",
+  "buff_energyregen",
+  "buff_haste",
   "buff_heal_done",
+  "buff_healing_done",
   "buff_int",
   "buff_int_pct",
+  "buff_mana_grace",
   "buff_maxhp_pct",
+  "buff_reckless",
+  "buff_speed",
   "buff_spelldmg",
+  "buff_spellhaste",
   "buff_spellpower",
   "buff_spi",
   "buff_sta",
   "buff_sta_pct",
   "buff_stats_pct",
   "buff_str",
+  "cast_shield",
+  "combustion",
   "debuff_ap",
+  "defensive_stance",
   "die_by_sword",
   "dot",
+  "faerie_fire",
+  "form_bear",
+  "form_cat",
+  "form_moonkin",
   "form_shadow",
+  "form_sporemender",
+  "form_travel",
+  "heal_echo",
   "hot",
+  "ice_floes",
   "incapacitate",
+  "internal_cd",
+  "melting_acid",
+  "moontide",
+  "mortal_wound",
+  "next_attack_crit",
+  "next_cast_free",
+  "next_cast_instant",
+  "old_blood",
+  "overload",
+  "overpower_charge",
+  "paladin_debt_of_light",
+  "polymorph",
+  "power_echo",
+  "processional_grace",
+  "resource_sap",
   "root",
+  "sacred_form",
   "shield_wall",
   "slow",
-  "stun"
+  "stasis",
+  "stealth",
+  "stun",
+  "sure_crit",
+  "sweeping_strikes",
+  "thorns",
+  "verdance",
+  "vuln_source"
  ],
  "implemented_effects": [
   "absorb",
+  "absorbSpentResource",
+  "aoeAllyAbsorb",
+  "aoeAllyHaste",
+  "aoeAllyMaxHp",
+  "aoeAllySureCrit",
+  "aoeAttackPower",
+  "aoeAttackSpeed",
   "aoeDamage",
+  "aoeFear",
+  "aoeHeal",
+  "aoeKnockback",
+  "aoeRoot",
+  "aoeSlow",
+  "aoeTaunt",
+  "applyDebuff",
+  "blinkForward",
+  "breakControl",
   "buffTarget",
+  "chainDamage",
+  "chainHeal",
+  "charge",
+  "cleanseSelf",
+  "clearCooldowns",
+  "consumeAura",
+  "consumeDot",
+  "debuffTargetSource",
   "directDamage",
+  "divineAscension",
   "dot",
+  "druidMarrowbreakGuard",
+  "druidOverbloom",
+  "enrageChance",
+  "extendDot",
+  "faerieFire",
+  "feralCharge",
+  "finisherDamage",
+  "finisherHaste",
+  "finisherStun",
   "gainResource",
+  "grantDevotion",
+  "groundAoE",
   "heal",
   "hot",
+  "imbue",
   "incapacitate",
+  "interrupt",
+  "paladinAegis",
+  "partyMeleeBuff",
+  "polymorph",
+  "pullTarget",
+  "repositionToAim",
   "root",
+  "selfAbsorbPctMax",
   "selfBuff",
+  "selfDamagePctCurrent",
+  "selfDamagePctMax",
+  "selfHealPctMax",
+  "silence",
   "slow",
+  "sporeBurst",
   "stun",
+  "sunGodVerdict",
+  "sunder",
+  "taunt",
+  "threatPulse",
+  "valkyrsCalling",
+  "veilboundMarch",
+  "weaponDamage",
   "weaponStrike"
  ],
  "items": {
@@ -19444,12 +20783,24 @@
  "source": {
   "commit": "d2b91e0884cb269422c28d0b42d2a30a01de130a",
   "inputs": {
+   "src/sim/aura_classify.ts": "3072e6a34a4ba67decb7b1c5fdfdb6654a9b20d0741ad4bb13aa1378eab55a06",
    "src/sim/boss_ring_gap.ts": "18be9905d872864dda1532b086656745783226b7ff7feeeedd1d07f6bb1c6aae",
+   "src/sim/combat/area_echo.ts": "2b20633d982d0a78a2c8a435551043670aedb5e6681f0023119c1bdc14dbee42",
+   "src/sim/combat/aura_stacking.ts": "ddcc73da005433d07024e6a7caa03aeef4457b038c0d732cd46db60295215346",
+   "src/sim/combat/auras.ts": "8cec221efbee2427500f2596729c6c6e1e5bc8e767d8b2615e72a20247481c85",
    "src/sim/combat/auto_attack.ts": "267cc5b3975ae3cdbddadaafedb892e7eba57da1ccfea907d2e75c5dac1f9915",
+   "src/sim/combat/casting_lifecycle.ts": "675250036464a552e0ab68115c9d00a83009f0b4f4977b32a5bc45f0650276d5",
+   "src/sim/combat/charge_route.ts": "0280c6ae8d13e847a9bcfd44bbc729bf1e8ecaa426bdbbc441e22e349ded0153",
    "src/sim/combat/damage.ts": "402c71e4305ce4e01a954765a6321a5106843e73a1b1ae2c104c04e1bccbe544",
+   "src/sim/combat/druid_sporemender.ts": "33f0a0a137023af2e945a3b0f1b78fa1dae5400bbcb203a40517816b55969781",
+   "src/sim/combat/effect_dispatch.ts": "48ddb2dee21235318436d2deabe408783f4c1401336cb71c53f262b8be417ae6",
+   "src/sim/combat/form_swing.ts": "bf5bd22bd751424962ce92829788e0f5834e57c7959a0c61aa2ec18f8b3074a1",
    "src/sim/combat/forms.ts": "c474590a69f63bb04bebd89413ceeecf189892d18632da029aacfde1888d2d91",
+   "src/sim/combat/haste_burst.ts": "6f9e2fc89caa65703ec4b465952ee934a44b50ac4f390fe9943008c538343c54",
    "src/sim/combat/player_attack_reach.ts": "5af00ee6eba40fecb955df720b08ba0ef3e9bc256825ef25c1d10d6c5315f63c",
+   "src/sim/combat/priest/vespers.ts": "71733686bb0247f25dafc9a2b2642d7b07698b02c452c6f062c91bc60e35bf38",
    "src/sim/combat/shield_block.ts": "1bab4f5076e52c6ac3f5123c9c388f5a785ee4b68ad5301effd6d43105689978",
+   "src/sim/combat/warlock_fear.ts": "a4bf235ef3eb50cfddd51125a54840e1686a4fbb078148c8eb50390e1b72a213",
    "src/sim/content/amberfall.ts": "d33e5059804589f561bf81af892399a29d4c09da505271b497efebcf7b5f76ab",
    "src/sim/content/apex_patterns.ts": "e518649e0a8d21a885c8b5582ec4b4cc3107d77ffd52221ebb0897d924304d3a",
    "src/sim/content/buddy_mobs.ts": "5975ce35e8755761ffebff654fd2a60636f9a9dea89e33900e562d15f77b9cd7",
@@ -19557,6 +20908,7 @@
    "src/sim/encounters/gravewyrm_sanctum/ids.ts": "c5f7138183cfa476aab79d5ad0c27d2fba7d50cc5d7bfa78862aa35284fc0920",
    "src/sim/encounters/wildheart_basin/ids.ts": "af2d7243f566dbb4c199b068a57145041b69af2391aa66e7e610b1ebda0a8b52",
    "src/sim/fenbridge_touchup.ts": "8f7a5c7e527d0057afc89c54b68b4c3ecde50a781c50ecfe5debae4133e287cd",
+   "src/sim/flee_speed.ts": "3fe4efe453d603b59bb1a70fb18a9113158ed87c60b9738b80e2830d14cd2caf",
    "src/sim/ignivar_arena.ts": "c4cc4448d9d4a963b234cded847b655a276bf832cf8339f7cdd110410612a546",
    "src/sim/ignivar_raid_ids.ts": "b2e5b308cc087dbb2b59d28d137cef84af7fecd806d98c47572fc666f8145a93",
    "src/sim/item_budget.ts": "eb9be673efae75a182ea209f34bdd1a408941bd9bc9ec61cd7142901b0945855",
@@ -19578,6 +20930,7 @@
    "src/sim/professions/cadence.ts": "e7a8349ff2cd1fa1851d97cec681cae8340d29021e6018dfd54a576353c590f3",
    "src/sim/projectile_travel.ts": "484651ac8e0d5871c30d89d93ca1c9dd941bb8ed230f55819fa936ab62f03d1a",
    "src/sim/respawn_policy.ts": "e47e7ebdea1f6d1b938e3e6308946db40159b8efb10f1cb535de3550ee19e0f9",
+   "src/sim/sim.ts": "6fc4dc2ce9e62c64efdb43923b722d7d02e5e07c0cb101ad45c5418fe3d4b652",
    "src/sim/spec_output_tuning.ts": "650a8cffb42f3db432d0c638845f238ea37c169be04fb9ab8ab99b04bc556a7b",
    "src/sim/spell_scaling.ts": "a16468852a1e5bad075db372643b3698e1d1368f84eb9b0ac35536b021cf864a",
    "src/sim/spirit.ts": "8a86b39039211eea80eecc847983388dbeb1c808a14af416a97d17aabcf62fc2",

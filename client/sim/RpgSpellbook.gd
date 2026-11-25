@@ -8,6 +8,7 @@ extends RefCounted
 ##
 ## Each entry: {id, state, reason, status}. state is one of:
 ##   "usable"        known and its effects run in this engine (IMPLEMENTED_*)
+##   "passive"       a known passive whose behaviour runs in this engine: always on
 ##   "known_blocked" known, but its source execution path is not ported (BLOCKED,
 ##                   UNKNOWN, CONDITION_LOCKED): shown, never castable
 ##   "level"         learnLevel above the character's level
@@ -17,6 +18,7 @@ extends RefCounted
 ##   "hidden"        hiddenFromPlayer, or not for players
 
 const USABLE := "usable"
+const PASSIVE := "passive"
 
 
 ## Every ability of the class (its kit, and every talent grant), in spellbook order.
@@ -57,7 +59,9 @@ static func _entry(
 	var e := {"id": id, "status": status, "state": "", "reason": ""}
 	if known.has(id):
 		e["state"] = USABLE if status.begins_with("IMPLEMENTED") else "known_blocked"
-		e["reason"] = "" if e["state"] == USABLE else str(doc.get("reason", status))
+		if e["state"] == USABLE and def.get("passive", false):
+			e["state"] = PASSIVE
+		e["reason"] = "" if e["state"] in [USABLE, PASSIVE] else str(doc.get("reason", status))
 		e["known"] = known[id]
 		return e
 	if def.get("hiddenFromPlayer", false) or status == "NOT_APPLICABLE_TO_PLAYER":
@@ -85,6 +89,8 @@ static func _entry(
 static func usable_ids(pack: Dictionary, cls: String, level: int, mods: Dictionary) -> Array:
 	var out: Array = []
 	for k: Dictionary in RpgTalents.known(pack, cls, level, mods):
+		if k["def"].get("passive", false):
+			continue
 		if str(pack["abilities"][k["id"]]["status"]).begins_with("IMPLEMENTED"):
 			out.append(str(k["id"]))
 	return out

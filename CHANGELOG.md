@@ -4,6 +4,29 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follo
 
 ## [Unreleased]
 
+### Fixed: the Pages deploy found no artifact (2026-11-25)
+- Since PR #90, `deploy-pages` failed three times in a row: it looked up the run's
+  `github-pages` artifact about half a second after the upload and found none, so
+  the site stayed on the PR #89 build. `pages.yml` now waits (up to 2.5 min) until
+  the run lists the artifact before deploying.
+
+### Added: class skills ported from the reference (2026-11-24)
+- Ability statuses are computed from the evidence register `tools/content/skills_port.py`
+  (see `docs/SKILLS_PORT.md`); an ability is castable only when every reference file
+  that names it is ported or audited as not changing its behaviour.
+- Implemented now, out of the playable skills per class: warrior 51/54, paladin 38/41,
+  rogue 32/39, priest 24/29, shaman 29/32, mage 38/61, druid 49/57, hunter 4/45,
+  warlock 4/54. The rest are listed with their reasons in the runtime pack.
+- New class modules in `client/sim/`: paladin (Devotion, Divine Ascension, Solar
+  Reprisal, Dawn's Wrath, Radiant Resonance, Debt of Light, Oath Chain, Sun God's
+  Verdict, Valkyr's Calling, Veilbound March, Aegis), druid (forms swap the resource
+  bar and stats, Moontide/Old Blood/Verdance engines, Nature's Boon, Spore Burst,
+  form entry, Lunge, Bruin Rush), shaman (Thunder Charges, Warspirit cadence and
+  Stormcast, Mending Current, Unleash Weapon, shared shock cooldown, talents), and
+  shared rules (thorns, chain damage, cast-completion cost tail).
+- Tests: `test_skills_paladin.gd`, `test_skills_druid.gd`, `test_skills_shaman.gd`;
+  the every-ability tests now meet form and Devotion gates the way play does.
+
 ### Fixed: a save could be reported durable before its own state was (2026-11-24)
 - The browser smoke test on CI found a hotbar change lost on an immediate reload
   after the game had reported "saved": an older save's commit had set the signal,

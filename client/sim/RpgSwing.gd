@@ -28,6 +28,7 @@ static func player_swing(
 	var miss := RpgHitTable.swing_miss_chance(
 		a_level, t_level, false, float(attacker.get("hit_bonus", 0.0))
 	)
+	miss += float(opts.get("miss_bonus", 0.0))
 	if opts.get("white_dw_penalty", false):
 		miss += RpgDamage.DUAL_WIELD_WHITE_MISS_PENALTY
 	var dodge := 0.0
@@ -49,7 +50,7 @@ static func player_swing(
 		return _avoided("parry")
 	var weapon: Dictionary = opts.get("weapon", attacker["weapon"])
 	var hand := str(opts.get("hand", ""))
-	var roll_mult := 1.0
+	var roll_mult := float(opts.get("roll_mult", 1.0))
 	var ap_speed := float(attacker["weapon"]["speed"])
 	if hand == "":
 		if opts.get("normalized", false):
@@ -59,6 +60,8 @@ static func player_swing(
 	elif hand == "offhand":
 		roll_mult = RpgDamage.OFFHAND_AUTO_ATTACK_DMG_MULT
 		ap_speed = float(weapon["speed"])
+	if opts.has("ap_speed") and not (hand == "" and opts.get("normalized", false)):
+		ap_speed = float(opts["ap_speed"])
 	var dmg := (
 		(
 			(
@@ -66,15 +69,17 @@ static func player_swing(
 				+ float(attacker.get("attack_power", 0)) / RpgDamage.AP_PER_DPS * ap_speed
 			)
 			* float(opts.get("weapon_mult", 1.0))
+			* float(opts.get("form_mult", 1.0))
 		)
 		+ float(opts.get("bonus", 0.0))
 	)
 	var crit_chance := RpgHitTable.crit_vs(
 		float(attacker.get("crit", 0.0)), a_level, t_level, float(opts.get("crit_bonus", 0.0))
 	)
-	var crit := rng.chance(crit_chance)
+	var crit := rng.chance(1.0 if opts.get("crit_forced", false) else crit_chance)
+	crit = crit or opts.get("force_crit", false)
 	if crit:
-		dmg *= RpgDamage.PHYSICAL_CRIT_MULT
+		dmg *= RpgDamage.PHYSICAL_CRIT_MULT + float(attacker.get("crit_dmg_phys", 0.0))
 	dmg *= 1.0 - RpgHitTable.armor_reduction(float(target.get("armor", 0)), a_level)
 	var blocked := block > 0.0 and roll < miss + dodge + parry + block
 	if blocked:
@@ -84,7 +89,7 @@ static func player_swing(
 
 ## A hostile mob's swing at a player (sim.ts mobSwing).
 static func mob_swing(
-	mob: Dictionary, target: Dictionary, rng: RpgRng, mob_crit := 0.05
+	mob: Dictionary, target: Dictionary, rng: RpgRng, mob_crit := 0.05, crit_immune := false
 ) -> Dictionary:
 	var m_level := int(mob["level"])
 	var t_level := int(target["level"])
@@ -106,9 +111,9 @@ static func mob_swing(
 		rng.range_f(float(weapon["min"]), float(weapon["max"]))
 		+ float(mob.get("attack_power", 0)) / RpgDamage.AP_PER_DPS * float(weapon["speed"])
 	)
-	# The roll is drawn even for a tank who never suffers it (tank crit immunity is
-	# a committed-tank spec rule; the slice applies no spec rule and lets it land).
-	var crit := rng.chance(mob_crit)
+	# The roll is drawn even for a committed tank who never suffers it
+	# (tank_crit_immunity.ts isCritImmuneTank).
+	var crit := rng.chance(mob_crit) and not crit_immune
 	if crit:
 		dmg *= 2.0
 	dmg *= (
@@ -149,8 +154,13 @@ static func melee_defense(defender: Dictionary) -> Dictionary:
 	if cls == "warrior":
 		parry = maxf(0.0, 0.05 + float(defender.get("str", 0)) * 0.0005)
 	var block := 0.0
-	if float(defender.get("block_value", 0)) > 0 and float(defender.get("block_chance", 0)) > 0:
-		block = minf(1.0, float(defender["block_chance"]))
+	var bonus := 0.0
+	for a: Dictionary in defender.get("auras", []):
+		if a["kind"] == "buff_block":
+			bonus += float(a["value"])
+	var chance := float(defender.get("block_chance", 0)) + bonus
+	if float(defender.get("block_value", 0)) > 0 and chance > 0:
+		block = minf(1.0, chance)
 	return {"parry": parry, "block": block}
 
 

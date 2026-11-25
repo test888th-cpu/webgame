@@ -72,8 +72,11 @@ func test_every_class_fights_with_its_own_basic_attack() -> void:
 	for cls: String in CLASSES:
 		var state := _char(cls)
 		var f := _fight(state)
+		# The basic attack alone (auto would also cast the class's spells).
+		f.command({"op": "auto", "on": false})
+		f.command({"op": "attack"})
 		var outcome := f.run(20 * 600)
-		assert_eq(outcome, "victory", cls + ": wins a level-1 fight on auto")
+		assert_eq(outcome, "victory", cls + ": wins a level-1 fight with its basic attack")
 		var labels := _attack_labels(f)
 		var ranged: Variant = _pack()["classes"][cls]["ranged"]
 		if ranged == null:
@@ -276,31 +279,108 @@ func test_every_implemented_ability_does_what_its_effects_say() -> void:
 		var doc: Dictionary = _pack()["abilities"][id]
 		if not str(doc["status"]).begins_with("IMPLEMENTED"):
 			continue
+		if doc["def"].get("passive", false):
+			tested += 1  # always-on rules, exercised in test_skills_port.gd
+			continue
 		var state := _knower(id)
-		var f := _fight(state, "thicket_boar", 7, 4.0)
+		var min_range: Variant = doc["def"].get("minRange")
+		var dist := 4.0 if min_range == null else float(min_range) + 1.0
+		var f := _fight(state, "thicket_boar", 7, dist)
 		f.command({"op": "auto", "on": false})
 		var entry := f.known_entry(id)
 		assert_true(not entry.is_empty(), id + ": known by its character")
 		if entry.is_empty():
 			continue
+		_meet_the_gates(f, doc["def"])
+		# The gates (stealth, a form) can change what the button resolves to.
+		entry = f.known_entry(id)
+		f.player["gcd"] = 0.0
 		f.player["resource"] = float(f.player["max_resource"])
 		f.player["hp"] = int(f.player["max_hp"]) / 2
 		var res_before := float(f.player["resource"])
+		var max_before := float(f.player["max_resource"])
 		var mob_hp := int(f.mob["hp"])
 		assert_eq(f.command({"op": "cast", "ability": id}), "", id + ": cast accepted")
-		for _i in 80:
+		for _i in 200:
 			if not f.player["casting"].is_empty() or not f.projectiles.is_empty() or _i < 2:
 				f.step()
 		var gained := false
 		for e: Dictionary in entry["effects"]:
 			gained = gained or e["type"] == "gainResource"
-		if float(entry["cost"]) > 0.0 and not gained:
+		# Raising maximum mana keeps the mana fraction (recalcPlayerStats), so a
+		# buff that raises it can refill what it cost.
+		var raised := float(f.player["max_resource"]) > max_before
+		if float(entry["cost"]) > 0.0 and not gained and not raised:
 			assert_true(float(f.player["resource"]) < res_before, id + ": cost paid")
-		if float(entry["cooldown"]) > 0.0:
+		if float(entry["cooldown"]) > 0.0 and int(entry.get("bonusCharges", 0)) > 0:
+			var charges: Dictionary = f.player["ability_charges"].get(id, {})
+			assert_true(
+				int(charges.get("charges", 99)) < int(charges.get("max", 0)),
+				id + ": a charge spent"
+			)
+		elif float(entry["cooldown"]) > 0.0:
 			assert_true(f.player["cooldowns"].has(id), id + ": on cooldown")
 		_assert_effects(f, id, entry, mob_hp)
 		tested += 1
 	assert_eq(tested, _implemented_count(), "every implemented ability exercised")
+
+
+## The cast's own conditions, met the way play meets them (the form first, as a
+## shift breaks stealth): the target inside an
+## execute window, and the aura an ability requires (a kill's Victor's Surge).
+func _meet_the_gates(f: RpgEncounter, def: Dictionary) -> void:
+	# A form ability is pressed in its form (the form's own button puts it on).
+	var forms := RpgForms.required_forms(def)
+	if not forms.is_empty():
+		var form_id := "bear_form" if forms[0] == "bear" else "cat_form"
+		f.player["gcd"] = 0.0
+		f.player["resource"] = float(f.player["max_resource"])
+		assert_eq(f.command({"op": "cast", "ability": form_id}), "", str(def["id"]) + ": its form")
+		f.player["cooldowns"].clear()
+	if def.get("spendsCombo", false):
+		f.player["combo_points"] = 5
+		f.player["combo_until"] = 999.0
+	if def.get("requiresStealth", false):
+		RpgEffects.apply_full(f, f.player, "stealth", "stealth", INF, 1.0, f.player, def)
+	for e: Dictionary in def["effects"]:
+		if e.get("requiresBehind", false):
+			f.player["weapon"]["dagger"] = true
+			f.mob["facing"] = signf(float(f.mob["x"]) - float(f.player["x"]))
+	var t := RpgAbilityRules.execute_threshold(def)
+	if t >= 0.0:
+		f.mob["hp"] = maxi(1, int(int(f.mob["max_hp"]) * t * 0.5))
+	# Unleash Weapon unleashes the worn enchant (shaman_unleash_weapon.ts).
+	if def["id"] == "unleash_weapon":
+		RpgEffects.apply_full(
+			f, f.player, "flametongue_weapon", "imbue", 1800.0, 8.0, f.player, def
+		)
+	# Divine Ascension spends a full Devotion bank (paladin_devotion.ts).
+	if def["id"] == "divine_ascension":
+		f.player["paladin_devotion"] = {
+			"value": RpgPaladin.MAX_DEVOTION,
+			"ascension_charges": 0,
+			"ascension_remaining": 0.0,
+			"out_of_combat_time": 0.0,
+			"block_icd": 0.0,
+		}
+	if def.get("requiresAuraKind") != null:
+		(
+			RpgCombat
+			. apply_aura(
+				f,
+				f.player,
+				{
+					"id": str(def["requiresAuraKind"]),
+					"kind": str(def["requiresAuraKind"]),
+					"remaining": 20.0,
+					"duration": 20.0,
+					"value": 0.0,
+					"source_id": f.player["id"],
+					"school": "physical",
+					"stacks": int(def.get("requiresAuraStacks", 1)),
+				}
+			)
+		)
 
 
 func _implemented_count() -> int:
@@ -334,13 +414,23 @@ func _assert_effects(f: RpgEncounter, id: String, entry: Dictionary, mob_hp: int
 				assert_true(
 					_has_aura(f.mob, id) or avoided or f.mob["dead"], id + ": aura on the target"
 				)
-			"hot", "absorb", "selfBuff", "buffTarget":
+			"hot", "absorb", "selfBuff":
 				var own := (
 					_has_aura(f.player, id) or _has_aura(f.player, str(eff.get("auraId", id)))
 				)
-				assert_true(own, id + ": aura on the caster")
+				# A resisted spell runs none of its effects (applyAbility).
+				assert_true(own or avoided, id + ": aura on the caster")
+			"buffTarget":
+				var on := _has_aura(f.player, id) or _has_aura(f.mob, id) or avoided
+				assert_true(on or f.mob["dead"], id + ": aura on its target")
 			"heal":
-				assert_true(int(f.player["hp"]) > int(f.player["max_hp"]) / 2, id + ": healed")
+				var half := int(f.player["max_hp"]) / 2
+				if entry["def"].get("targetType") == "any":
+					# Cast at a monster, a dual-purpose spell deals its damage and skips the
+					# heal (effect_dispatch.ts heal arm: a hostile target breaks it).
+					assert_true(int(f.player["hp"]) <= half, id + ": no heal on a monster")
+				else:
+					assert_true(int(f.player["hp"]) > half, id + ": healed")
 			"gainResource":
 				assert_true(float(f.player["resource"]) > 0.0, id + ": resource gained")
 
